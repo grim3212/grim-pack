@@ -15,6 +15,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
+import net.minecraft.potion.Potion;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
@@ -43,6 +44,14 @@ public class CuisineItems implements IPartItems {
 	public static Item chocolate_ball;
 	public static Item wrapper;
 
+	public static Item bread_slice;
+	public static Item cheese_burger;
+	public static Item hot_cheese;
+
+	public static Item eggs_mixed;
+	public static Item eggs_unmixed;
+	public static Item eggs_cooked;
+
 	// Recipe lists
 	public static IRecipe cocoaRecipe;
 	public static List<IRecipe> sodas;
@@ -50,6 +59,8 @@ public class CuisineItems implements IPartItems {
 	public static List<IRecipe> health;
 	public static List<IRecipe> food;
 	public static List<IRecipe> candy;
+	public static List<IRecipe> eggs;
+	public static List<IRecipe> sandwiches;
 	public static List<IRecipe> cheeseRecipe = new ArrayList<IRecipe>();
 	public static List<IRecipe> choc = new ArrayList<IRecipe>();
 
@@ -63,7 +74,7 @@ public class CuisineItems implements IPartItems {
 		bandage = (new ItemHealthPack(3)).setUnlocalizedName("bandage").setMaxStackSize(16).setCreativeTab(GrimCuisine.INSTANCE.getCreativeTab());
 		healthpack_super = (new ItemHealthPack(12)).setUnlocalizedName("healthpack_super").setMaxStackSize(4).setCreativeTab(GrimCuisine.INSTANCE.getCreativeTab());
 		healthpack = (new ItemHealthPack(5)).setUnlocalizedName("healthpack").setMaxStackSize(4).setCreativeTab(GrimCuisine.INSTANCE.getCreativeTab());
-		milk_bowl = (new ItemBowlMilk()).setUnlocalizedName("milk_bowl").setCreativeTab(GrimCuisine.INSTANCE.getCreativeTab());
+		milk_bowl = (new Item()).setMaxStackSize(1).setUnlocalizedName("milk_bowl").setCreativeTab(GrimCuisine.INSTANCE.getCreativeTab());
 		cheese = (new ItemFood(3, 0.6F, false)).setUnlocalizedName("cheese").setCreativeTab(GrimCuisine.INSTANCE.getCreativeTab());
 		butter = (new ItemFood(2, 0.4F, false)).setUnlocalizedName("butter").setCreativeTab(GrimCuisine.INSTANCE.getCreativeTab());
 		cocoa_fruit = (new ItemCocoaFruit()).setUnlocalizedName("cocoa_fruit").setCreativeTab(GrimCuisine.INSTANCE.getCreativeTab());
@@ -74,6 +85,12 @@ public class CuisineItems implements IPartItems {
 		chocolate_bar = (new ItemFood(3, 0.8F, false)).setUnlocalizedName("chocolate_bar").setCreativeTab(GrimCuisine.INSTANCE.getCreativeTab());
 		chocolate_bar_wrapped = (new ItemFood(5, 0.8F, false)).setUnlocalizedName("chocolate_bar_wrapped").setCreativeTab(GrimCuisine.INSTANCE.getCreativeTab());
 		chocolate_ball = (new ItemFood(2, 0.2F, false)).setUnlocalizedName("chocolate_ball").setCreativeTab(GrimCuisine.INSTANCE.getCreativeTab());
+		bread_slice = (new ItemFood(2, 0.4F, false)).setUnlocalizedName("bread_slice").setCreativeTab(GrimCuisine.INSTANCE.getCreativeTab());
+		cheese_burger = (new ItemFood(12, 0.95F, false)).setUnlocalizedName("cheese_burger").setCreativeTab(GrimCuisine.INSTANCE.getCreativeTab());
+		hot_cheese = (new ItemFood(8, 0.75F, false)).setUnlocalizedName("hot_cheese").setCreativeTab(GrimCuisine.INSTANCE.getCreativeTab());
+		eggs_mixed = (new ItemFood(4, 0.4F, false)).setPotionEffect(Potion.hunger.id, 30, 0, 0.3F).setUnlocalizedName("eggs_mixed").setCreativeTab(GrimCuisine.INSTANCE.getCreativeTab());
+		eggs_unmixed = (new ItemFood(2, 0.1F, false)).setPotionEffect(Potion.hunger.id, 30, 0, 0.3F).setUnlocalizedName("eggs_unmixed").setCreativeTab(GrimCuisine.INSTANCE.getCreativeTab());
+		eggs_cooked = (new ItemFood(10, 0.8F, false)).setUnlocalizedName("eggs_cooked").setCreativeTab(GrimCuisine.INSTANCE.getCreativeTab());
 
 		GameRegistry.registerItem(soda, "soda");
 		GameRegistry.registerItem(dragon_fruit, "dragon_fruit");
@@ -94,6 +111,12 @@ public class CuisineItems implements IPartItems {
 		GameRegistry.registerItem(chocolate_bar_wrapped, "chocolate_bar_wrapped");
 		GameRegistry.registerItem(chocolate_ball, "chocolate_ball");
 		GameRegistry.registerItem(chocolate_bowl_hot, "chocolate_bowl_hot");
+		GameRegistry.registerItem(bread_slice, "bread_slice");
+		GameRegistry.registerItem(cheese_burger, "cheese_burger");
+		GameRegistry.registerItem(hot_cheese, "hot_cheese");
+		GameRegistry.registerItem(eggs_mixed, "eggs_mixed");
+		GameRegistry.registerItem(eggs_unmixed, "eggs_unmixed");
+		GameRegistry.registerItem(eggs_cooked, "eggs_cooked");
 	}
 
 	@Override
@@ -101,6 +124,7 @@ public class CuisineItems implements IPartItems {
 		OreDictionary.registerOre("bowlMilk", milk_bowl);
 
 		GameRegistry.addSmelting(chocolate_bowl, new ItemStack(chocolate_bowl_hot), 0.3F);
+		GameRegistry.addSmelting(eggs_mixed, new ItemStack(eggs_cooked), 0.35F);
 
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(soda, 1, 1), new Object[] { " X ", "X X", "XXX", 'X', "paneGlass" }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(soda, 1, 3), new Object[] { " X ", "X0X", " X ", 'X', "ingotIron", '0', Items.flint }));
@@ -145,6 +169,16 @@ public class CuisineItems implements IPartItems {
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(cocoa_dust, 2), new Object[] { "X", 'X', cocoa_fruit }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(chocolate_bowl), new Object[] { " X ", "XAX", " B ", 'X', cocoa_dust, 'A', Items.sugar, 'B', "bowlMilk" }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(chocolate_ball, 2), new Object[] { "X", 'X', chocolate_bowl_hot }));
+
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(bread_slice, 2), new Object[] { new ItemStack(Items.bread) }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(cheese_burger, 1), new Object[] { " C ", "AOA", " C ", 'C', bread_slice, 'A', cheese, 'O', Items.cooked_porkchop }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(hot_cheese, 1), new Object[] { " C ", "AAA", " C ", 'C', bread_slice, 'A', cheese }));
+		sandwiches = RecipeHelper.getLatestIRecipes(3);
+
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(eggs_unmixed, 1), new Object[] { "XIX", " M ", 'X', Items.egg, 'I', butter, 'M', Items.bowl }));
+		// TODO: Add a mixer that takes durability when crafted with
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(eggs_mixed, 1), new Object[] { new ItemStack(eggs_unmixed) }));
+		eggs = RecipeHelper.getLatestIRecipes(2);
 	}
 
 	@Override
@@ -167,6 +201,12 @@ public class CuisineItems implements IPartItems {
 		RenderHelper.renderItem(chocolate_bar_wrapped);
 		RenderHelper.renderItem(chocolate_ball);
 		RenderHelper.renderItem(wrapper);
+		RenderHelper.renderItem(bread_slice);
+		RenderHelper.renderItem(cheese_burger);
+		RenderHelper.renderItem(hot_cheese);
+		RenderHelper.renderItem(eggs_unmixed);
+		RenderHelper.renderItem(eggs_mixed);
+		RenderHelper.renderItem(eggs_cooked);
 		RenderHelper.renderVariant(soda, ItemSodaBottle.sodaTypes.clone());
 	}
 }

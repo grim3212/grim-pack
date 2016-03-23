@@ -64,6 +64,12 @@ tile.butter_churn.name=Butter Churn
 item.cheese.name=Cheese
 item.butter.name=Butter
 item.milk_bowl.name=Bowl of Milk
+item.eggs_cooked.name=Cooked Eggs
+item.eggs_unmixed.name=Unmixed Eggs
+item.eggs_mixed.name=Mixed Eggs
+item.bread_slice.name=Bread Slice
+item.hot_cheese.name=Hot Cheese Sandwich
+item.cheese_burger.name=Cheese Burger
 
 #Instruction Manual
 grim.manual.grimcuisine.subsection.info=Getting Started
@@ -74,11 +80,17 @@ grim.manual.grimcuisine.subsection.info.page.bowl.title=Bowl of Milk
 grim.manual.grimcuisine.subsection.butter=Butter
 grim.manual.grimcuisine.subsection.butter.page.churn=The butter churn is very simple to use. Simply right click it with a bowl of milk in your hand and then punch to get cheese back out. Then eat cheese!
 grim.manual.grimcuisine.subsection.butter.page.churn.title=Butter Churn Recipe
+grim.manual.grimcuisine.subsection.butter.page.eggs=Using butter you will also be able to create some eggs which heal quite a bit back and are very filling. You will first have to crack and mix your eggs.
+grim.manual.grimcuisine.subsection.butter.page.eggs.title=Making Eggs
+grim.manual.grimcuisine.subsection.butter.page.cooked=Once mixed you can heat up your eggs and get them ready to eat. You don't want to be eating raw eggs.
+grim.manual.grimcuisine.subsection.butter.page.cooked.title=Cooking Eggs
 grim.manual.grimcuisine.subsection.cheese=Cheese
 grim.manual.grimcuisine.subsection.cheese.page.maker=The cheese maker is slightly more complex than the butter churn. Right click with a bowl of milk in your hand and the texture on top should change to a milky color. Wait for it to turn to a yellowish orange and then punch it and you get a block of cheese.
 grim.manual.grimcuisine.subsection.cheese.page.maker.title=Cheese Maker Recipe
 grim.manual.grimcuisine.subsection.cheese.page.block=The block of cheese that you got from using the cheese maker can then be changed into 9 cheese pieces or vice versa.
 grim.manual.grimcuisine.subsection.cheese.page.block.title=Cheesey
+grim.manual.grimcuisine.subsection.cheese.page.sandwiches=Using cheese you will be able to craft some yummy sandwiches. You can create bread slices used to create a filling cheese burger or a cheese sandwich.
+grim.manual.grimcuisine.subsection.cheese.page.sandwiches.title=Sandwiches
 #================= END Dairy Craft =================#
 
 #================= Chocolate =================#
