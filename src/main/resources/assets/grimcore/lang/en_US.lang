@@ -1,0 +1,15 @@
+#Item/Block
+item.instruction_manual.name=Instruction Manual
+
+#Creative Tabe
+grim.creative.grimcore=Grim Core
+
+#Instruction Manual
+grim.manual.title=Grim Instruction Manual
+grim.manual.shapeless=Shapeless Recipe
+grim.manual.oredictionary=Ore Dictionary
+grim.manual.header=Click on a mod to learn more about it.
+grim.manual.grimcore.modinfo=This is the base mod that all of Grim's Mods require. This mod only implements 1 item and that is the item you are using.
+grim.manual.grimcore.subsection.im=Instruction Manual
+grim.manual.grimcore.subsection.im.page.instructionmanual=The instruction manual is used to get all kinds of information about other mods by Grim3212. Every mod by Grim has a section in the Instruction Manual.
+grim.manual.grimcore.subsection.im.page.instructionmanual.title=Recipe
