@@ -1,0 +1,7 @@
+{
+	"parent": "block/cube_top",
+	"textures": {
+		"top": "grimcuisine:blocks/cheese_maker_top",
+		"side": "blocks/furnace_side"
+	}
+}

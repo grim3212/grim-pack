@@ -1,0 +1,6 @@
+{
+    "parent": "block/cross",
+    "textures": {
+        "cross": "grimcuisine:blocks/cocoa_tree_Sapling"
+    }
+}

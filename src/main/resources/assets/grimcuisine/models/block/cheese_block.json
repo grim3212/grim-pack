@@ -1,0 +1,22 @@
+{
+
+"textures": {
+        "particle": "grimcuisine:blocks/cheese_block",
+        "all": "grimcuisine:blocks/cheese_block"
+    },
+
+"elements": [ 
+		{
+	    "from": [ 1, 0, 1 ],
+	    "to": [ 15, 8, 15 ],
+	    "faces": {
+	        "down":  { "uv": [ 16, 16, 0, 0 ], "texture": "#all" },
+	        "up":    { "uv": [ 0, 0, 16, 16 ], "texture": "#all" },
+	        "north": { "uv": [ 0, 10, 16, 16 ], "texture": "#all" },
+	        "south": { "uv": [ 0, 10, 16, 16 ], "texture": "#all" },
+	        "west":  { "uv": [ 0, 10, 16, 16 ], "texture": "#all" },
+	        "east":  { "uv": [ 0, 10, 16, 16 ], "texture": "#all" }
+	    }
+	}
+]
+}

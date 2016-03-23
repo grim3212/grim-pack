@@ -1,0 +1,129 @@
+grim.creative.grimcuisine=Grim Cuisine
+grim.manual.grimcuisine.modinfo=Adds many different types of food and health regeneration options.
+
+#================= SODA =================#
+#Items
+item.soda.apple.name=Apple Soda
+item.soda.bottle.name=Soda Bottle
+item.soda.slurm.name=Slurm
+item.soda.co2.name=Co2
+item.soda.golden_apple.name=Golden Apple Soda
+item.soda.spiked_orange.name=Spiked Orange Soda
+item.soda.root_beer.name=Root Beer
+item.soda.cream_orange.name=Orange Cream Soda
+item.soda.diamond.name=Diamond Soda
+item.soda.orange.name=Orange Soda
+item.soda.cocoa.name=Cocoa Soda
+item.soda.carbonated_water.name=Carbonated Water
+item.soda.mushroom.name=Mushroom Soda
+
+#Instruction Manual
+grim.manual.grimcuisine.subsection.carbon=Carbonated Water
+grim.manual.grimcuisine.subsection.carbon.page.carbon=To get started creating any of the Soda types you will need to get carbonated water. You first need to get a Soda Bottle then Co2 and then you will have what you need to create Carbonated Water.
+grim.manual.grimcuisine.subsection.carbon.page.carbon.title=Recipes
+grim.manual.grimcuisine.subsection.soda=Soda
+grim.manual.grimcuisine.subsection.soda.page.types=Their are several different Soda types added which all heal you different amounts. The types available are Slurm-1.5H, Apple-5H, Golden Apple-10H, Cocoa-8H, Root Beer-2.5H, Diamond-10H, Mushroom-2.5H, Orange-4H, Orange Cream-4H, and Spiked Orange which hurts who drinks it.
+grim.manual.grimcuisine.subsection.soda.page.types.title=Types
+#================= END SODA =================#
+
+#================= Dragon Fruit =================#
+#Items
+item.dragon_fruit.name=Dragon Fruit
+
+#Instruction Manual
+grim.manual.grimcuisine.subsection.dragonfruit=Dragon Fruit
+grim.manual.grimcuisine.subsection.dragonfruit.page.dragonfruit.title=Dragon Fruit
+grim.manual.grimcuisine.subsection.dragonfruit.page.dragonfruit=Cacti now have a chance of dropping a new type of food which is Dragon Fruit and it replenishes 2 hunger.
+#================= END Dragon Fruit =================#
+
+#================= Health Pack =================#
+#Items
+item.powered_sweets.name=Super Sugar Sweets
+item.powered_sugar.name=Super Sugar
+item.sweets.name=Sugar Sweets
+item.bandage.name=Bandage
+item.healthpack_super.name=Super Health Pack
+item.healthpack.name=Health Pack
+
+#Instruction Manual
+grim.manual.grimcuisine.subsection.food=Sweets
+grim.manual.grimcuisine.subsection.food.page.sweets=This mod adds in two new food types, Sugar Sweets and Super Sugar Sweets. The regular sweets replenish one hunger while the super sweets replenish 3. Just be careful you don't eat too much sugar.
+grim.manual.grimcuisine.subsection.food.page.sweets.title=Recipes
+grim.manual.grimcuisine.subsection.health=Health Regeneration
+grim.manual.grimcuisine.subsection.health.page.recipes=This mod also adds in 3 new items that will heal your hearts directly. The Bandage, Health Pack, and Super Health Pack which requires the Super Sugar from the previous sub-section. These can come in handy in battles because you won't have to wait for you hearts to slowly regenerate.
+grim.manual.grimcuisine.subsection.health.page.recipes.title=Recipes
+#================= END Health Pack =================#
+
+#================= Dairy Craft =================#
+#Blocks
+tile.cheese_block.name=Cheese Block
+tile.cheese_maker.name=Cheese Maker
+tile.butter_churn.name=Butter Churn
+
+#Items
+item.cheese.name=Cheese
+item.butter.name=Butter
+item.milk_bowl.name=Bowl of Milk
+
+#Instruction Manual
+grim.manual.grimcuisine.subsection.info=Getting Started
+grim.manual.grimcuisine.subsection.info.page.info=This mod adds more food options to your game with the ability to craft butter and cheese (shown below). Using the butter churn which is an instant change and the cheese maker which has different stages (shown below). To get started you will need a bowl of milk (next page).
+grim.manual.grimcuisine.subsection.info.page.info.title=Info
+grim.manual.grimcuisine.subsection.info.page.bowl=You will need a bowl of milk to move on to any other parts of this mod. You can use the one that this mod adds or the one that chocolate mod adds but both share the same recipe so no matter what either bowl should work interchangeably with each other.
+grim.manual.grimcuisine.subsection.info.page.bowl.title=Bowl of Milk
+grim.manual.grimcuisine.subsection.butter=Butter
+grim.manual.grimcuisine.subsection.butter.page.churn=The butter churn is very simple to use. Simply right click it with a bowl of milk in your hand and then punch to get cheese back out. Then eat cheese!
+grim.manual.grimcuisine.subsection.butter.page.churn.title=Butter Churn Recipe
+grim.manual.grimcuisine.subsection.cheese=Cheese
+grim.manual.grimcuisine.subsection.cheese.page.maker=The cheese maker is slightly more complex than the butter churn. Right click with a bowl of milk in your hand and the texture on top should change to a milky color. Wait for it to turn to a yellowish orange and then punch it and you get a block of cheese.
+grim.manual.grimcuisine.subsection.cheese.page.maker.title=Cheese Maker Recipe
+grim.manual.grimcuisine.subsection.cheese.page.block=The block of cheese that you got from using the cheese maker can then be changed into 9 cheese pieces or vice versa.
+grim.manual.grimcuisine.subsection.cheese.page.block.title=Cheesey
+#================= END Dairy Craft =================#
+
+#================= Chocolate =================#
+#Blocks
+tile.cocoa_block.name=Cocoa Fruit
+tile.cocoa_tree_sapling.name=Cocoa Sapling
+tile.chocolate_bar_mould.name=Chocolate Bar Mould
+tile.chocolate_cake.name=Chocolate Cake
+tile.chocolate_block.name=Chocolate Block
+
+#Items
+item.cocoa_fruit.name=Cocoa Fruit
+item.cocoa_dust.name=Cocoa Powder
+item.wrapper.name=Candy Wrapper
+item.chocolate_bowl.name=Bowl of Chocolate Milk
+item.chocolate_bar.name=Chocolate Bar
+item.chocolate_bar_wrapped.name=Wrapped Chocolate Bar
+item.chocolate_ball.name=Chocolate Ball
+item.milk_bowl.name=Bowl of Milk
+item.chocolate_bowl_hot.name=Bowl of Hot Chocolate Milk
+
+#Instruction Manual
+grim.manual.grimcuisine.subsection.cocoa=Cocoa
+grim.manual.grimcuisine.subsection.cocoa.page.tree=A new type of tree, the cocoa tree, will generate in your minecraft world and can have cocoa fruit hanging down from it which is needed to craft some later things. You can also replant the cocoa fruit to generate some new cocoa trees.
+grim.manual.grimcuisine.subsection.cocoa.page.tree.title=Cocoa Tree
+grim.manual.grimcuisine.subsection.cocoa.page.fruit=Using the cocoa fruit you can then create some cocoa dust.
+grim.manual.grimcuisine.subsection.cocoa.page.fruit.title=Cocoa Dust
+grim.manual.grimcuisine.subsection.cocoa.page.dye=Using cocoa dust you can also turn them into cocoa beans from vanilla by combining two of them.
+grim.manual.grimcuisine.subsection.cocoa.page.dye.title=Dye
+grim.manual.grimcuisine.subsection.bowlchoc=Chocolate
+grim.manual.grimcuisine.subsection.bowlchoc.page.bowlmilk=You will need to craft a bowl of milk if you would like to get to the chocolatey treats later on. You can also use the bowl of milk from Dairy Craft as a substitute for the recipes here and you can use this bowl of milk to be used on the blocks of Dairy Craft.
+grim.manual.grimcuisine.subsection.bowlchoc.page.bowlmilk.title=Milk Bowl
+grim.manual.grimcuisine.subsection.bowlchoc.page.bowlChoc=You can now create a bowl of chocolate milk. This will need to be heated up to be used. 
+grim.manual.grimcuisine.subsection.bowlchoc.page.bowlChoc.title=Chocolate Bowl
+grim.manual.grimcuisine.subsection.bowlchoc.page.bowlChocHot=To heat up the chocolate milk it will need to be put in a furnace. Now that it is heated up it will be able to be used in the chocolate mould and also in some other recipes.
+grim.manual.grimcuisine.subsection.bowlchoc.page.bowlChocHot.title=Hot Chocolate Bowl
+grim.manual.grimcuisine.subsection.bowlchoc.page.chocBall=Using the bowl of hot chocolate milk we now create balls of chocolate which can be eaten.
+grim.manual.grimcuisine.subsection.bowlchoc.page.chocBall.title=Balls
+grim.manual.grimcuisine.subsection.bowlchoc.page.cake=Using the chocolate balls and any form of milk you can create chocolate cakes which are quite delicious.
+grim.manual.grimcuisine.subsection.bowlchoc.page.cake.title=Cake
+grim.manual.grimcuisine.subsection.choco=Candy
+grim.manual.grimcuisine.subsection.choco.page.mould=To get started in crafting some chocolate bars you will need to make a chocolate mould. It is pretty easy to craft and all you need to do to start the chocolate bar process is right click on it with a bowl of hot chocolate milk. Once the chocolate is hardened give it a punch and get your chocolate bars. If ice or snow is under the mould then the process will be two times faster.
+grim.manual.grimcuisine.subsection.choco.page.mould.title=Chocolate Mould
+grim.manual.grimcuisine.subsection.choco.page.bars=The chocolate bars that you just created can be eaten or you can craft them to store a lot of them at once or if you would like them back you get 9 back from storage.
+grim.manual.grimcuisine.subsection.choco.page.bars.title=Storage
+grim.manual.grimcuisine.subsection.choco.page.candy=To craft a legitimate candy bar you will need to craft a wrapper first. THen using that wrapper and a regular chocolate bar you can create a wrapped chocolate bar. Using the power of a wrapper this can be eaten and is a better food then plain chocolate bars.
+grim.manual.grimcuisine.subsection.choco.page.candy.title=Bars
+#================= END Chocolate =================#

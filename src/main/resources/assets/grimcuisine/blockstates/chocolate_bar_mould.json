@@ -1,0 +1,20 @@
+{
+	"variants": {
+		"stage=0": { "model": "grimcuisine:chocolate_bar_mould" },
+        "stage=1": { "model": "grimcuisine:chocolate_bar_mould_cooking" },
+        "stage=2": { "model": "grimcuisine:chocolate_bar_mould_cooking" },
+        "stage=3": { "model": "grimcuisine:chocolate_bar_mould_cooking" },
+        "stage=4": { "model": "grimcuisine:chocolate_bar_mould_cooking" },
+        "stage=5": { "model": "grimcuisine:chocolate_bar_mould_cooking" },
+        "stage=6": { "model": "grimcuisine:chocolate_bar_mould_cooking" },
+        "stage=7": { "model": "grimcuisine:chocolate_bar_mould_cooking" },
+        "stage=8": { "model": "grimcuisine:chocolate_bar_mould_cooking" },
+        "stage=9": { "model": "grimcuisine:chocolate_bar_mould_cooking" },
+        "stage=10": { "model": "grimcuisine:chocolate_bar_mould_cooking" },
+        "stage=11": { "model": "grimcuisine:chocolate_bar_mould_cooking" },
+        "stage=12": { "model": "grimcuisine:chocolate_bar_mould_cooking" },
+        "stage=13": { "model": "grimcuisine:chocolate_bar_mould_cooking" },
+        "stage=14": { "model": "grimcuisine:chocolate_bar_mould_cooking" },
+        "stage=15": { "model": "grimcuisine:chocolate_bar_mould_done" }
+	}
+}

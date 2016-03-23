@@ -1,0 +1,6 @@
+{
+	"variants": {
+		"active=0": { "model": "grimcuisine:butter_churn" },
+        "active=1": { "model": "grimcuisine:butter_churn" }
+	}
+}
