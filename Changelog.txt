@@ -1,0 +1,17 @@
+CHANGELOG
+==============
+
+Combine mods into larger parts
+Update to 1.8.9
+Add new functionality to recipe pages in the manual
+Will now tell you if a recipe is shapeless or if the ingredients use
+the ore dictionary.
+Change the way to register subsections. Now uses ManualRegistry
+Each part uses their own config.
+Each part now contains there items in a Item class that implements IPartItems
+and the same goes for blocks.
+Remove references and get rid of a lot of bloat.
+Each part gets their own creative tab now.
+Cuisine add in pies, eggs, and burgers.
+Change the way cocoa trees work with bonemeal to be more like vanilla
+Add in knife and mixer to be used in recipes

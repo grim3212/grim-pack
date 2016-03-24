@@ -4,7 +4,6 @@ import com.grim3212.mc.core.config.GrimConfig;
 import com.grim3212.mc.core.manual.ManualRegistry;
 import com.grim3212.mc.core.manual.ModSection;
 import com.grim3212.mc.core.proxy.CommonProxy;
-import com.grim3212.mc.core.util.Constants;
 
 import net.minecraft.item.Item;
 import net.minecraftforge.common.MinecraftForge;
@@ -19,7 +18,10 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public abstract class GrimPart {
 
-	@SidedProxy(clientSide = Constants.CLIENT_PROXY, serverSide = Constants.COMMON_PROXY)
+	public static final String CLIENT_PROXY = "com.grim3212.mc.core.proxy.ClientProxy";
+	public static final String COMMON_PROXY = "com.grim3212.mc.core.proxy.CommonProxy";
+
+	@SidedProxy(clientSide = CLIENT_PROXY, serverSide = COMMON_PROXY)
 	public static CommonProxy proxy;
 
 	private String modid;
@@ -29,6 +31,7 @@ public abstract class GrimPart {
 	private GrimPartCreativeTab creativeTab;
 	private ModSection modSection;
 	private IPartItems[] items;
+	private IPartEntities[] entities;
 
 	public GrimPart(String modid, String name, String version) {
 		this.modid = modid;
@@ -36,8 +39,13 @@ public abstract class GrimPart {
 		this.version = version;
 		this.config = setConfig();
 		this.items = setItemParts();
+		this.entities = setEntities();
 		this.creativeTab = new GrimPartCreativeTab(this);
 		ManualRegistry.registerMod(modSection = new ModSection(getName(), getModid()));
+	}
+
+	protected IPartEntities[] setEntities() {
+		return null;
 	}
 
 	protected abstract IPartItems[] setItemParts();
@@ -87,6 +95,14 @@ public abstract class GrimPart {
 	 *            event
 	 */
 	public void init(FMLInitializationEvent event) {
+		if (this.entities != null) {
+			for (int i = 0; i < this.entities.length; i++) {
+				this.entities[i].initEntities();
+
+				if (event.getSide().isClient())
+					this.entities[i].renderEntities();
+			}
+		}
 	}
 
 	/**

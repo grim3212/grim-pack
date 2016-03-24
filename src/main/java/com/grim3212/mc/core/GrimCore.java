@@ -41,7 +41,7 @@ public class GrimCore extends GrimPart {
 		super.preInit(event);
 		ModMetadata data = event.getModMetadata();
 		data.description = "The core module that all of grims mods require.";
-		data.url = "http://mods.grim3212.com/mc/" + "my-mods/grim3212-core/";
+		data.url = "http://mods.grim3212.com/mc/" + "my-mods/grim-core/";
 		data.credits = "Thanks to all the mod authors of mods that I have updated. Thanks to the Forge team and everyone who has helped contribute or request mods.";
 
 		// Register GUI handler for the Instruction Manual
