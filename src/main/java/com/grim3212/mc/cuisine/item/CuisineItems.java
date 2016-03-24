@@ -43,14 +43,24 @@ public class CuisineItems implements IPartItems {
 	public static Item chocolate_bar_wrapped;
 	public static Item chocolate_ball;
 	public static Item wrapper;
-
 	public static Item bread_slice;
 	public static Item cheese_burger;
 	public static Item hot_cheese;
-
 	public static Item eggs_mixed;
 	public static Item eggs_unmixed;
 	public static Item eggs_cooked;
+	
+	public static Item dough;
+	public static Item pan;
+	public static Item pumpkin_slice;
+	public static Item raw_empty_pie;
+	public static Item raw_apple_pie;
+	public static Item raw_chocolate_pie;
+	public static Item raw_pork_pie;
+	public static Item raw_melon_pie;
+	
+	//TODO: Add in another way to get the pumpkin pie
+	public static Item raw_pumpkin_pie;
 
 	// Recipe lists
 	public static IRecipe cocoaRecipe;
