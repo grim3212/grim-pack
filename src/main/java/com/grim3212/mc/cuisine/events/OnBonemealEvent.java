@@ -13,7 +13,10 @@ public class OnBonemealEvent {
 	public void onUseBonemeal(BonemealEvent event) {
 		if (event.block == CuisineBlocks.cocoa_tree_sapling.getDefaultState()) {
 			if (!event.world.isRemote) {
-				((BlockCocoaSapling) CuisineBlocks.cocoa_tree_sapling).generateTree(event.world, event.pos, event.block, event.world.rand);
+				// Spawn grow particles
+				event.world.playAuxSFX(2005, event.pos, 0);
+				// Try and grow tree
+				((BlockCocoaSapling) CuisineBlocks.cocoa_tree_sapling).grow(event.world, event.world.rand, event.pos, event.block);
 				event.setResult(Result.ALLOW);
 			}
 		}

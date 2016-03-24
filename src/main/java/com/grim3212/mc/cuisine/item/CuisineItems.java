@@ -49,7 +49,8 @@ public class CuisineItems implements IPartItems {
 	public static Item eggs_mixed;
 	public static Item eggs_unmixed;
 	public static Item eggs_cooked;
-	
+	public static Item knife;
+	public static Item mixer;
 	public static Item dough;
 	public static Item pan;
 	public static Item pumpkin_slice;
@@ -58,8 +59,8 @@ public class CuisineItems implements IPartItems {
 	public static Item raw_chocolate_pie;
 	public static Item raw_pork_pie;
 	public static Item raw_melon_pie;
-	
-	//TODO: Add in another way to get the pumpkin pie
+
+	// TODO: Add in another way to get the pumpkin pie
 	public static Item raw_pumpkin_pie;
 
 	// Recipe lists
@@ -101,6 +102,17 @@ public class CuisineItems implements IPartItems {
 		eggs_mixed = (new ItemFood(4, 0.4F, false)).setPotionEffect(Potion.hunger.id, 30, 0, 0.3F).setUnlocalizedName("eggs_mixed").setCreativeTab(GrimCuisine.INSTANCE.getCreativeTab());
 		eggs_unmixed = (new ItemFood(2, 0.1F, false)).setPotionEffect(Potion.hunger.id, 30, 0, 0.3F).setUnlocalizedName("eggs_unmixed").setCreativeTab(GrimCuisine.INSTANCE.getCreativeTab());
 		eggs_cooked = (new ItemFood(10, 0.8F, false)).setUnlocalizedName("eggs_cooked").setCreativeTab(GrimCuisine.INSTANCE.getCreativeTab());
+		knife = (new ItemDamage(63)).setUnlocalizedName("knife").setCreativeTab(GrimCuisine.INSTANCE.getCreativeTab());
+		mixer = (new ItemDamage(63)).setUnlocalizedName("mixer").setCreativeTab(GrimCuisine.INSTANCE.getCreativeTab());
+		dough = (new Item()).setMaxStackSize(16).setUnlocalizedName("dough").setCreativeTab(GrimCuisine.INSTANCE.getCreativeTab());
+		pan = (new Item()).setMaxStackSize(16).setUnlocalizedName("pan").setCreativeTab(GrimCuisine.INSTANCE.getCreativeTab());
+		pumpkin_slice = (new ItemFood(1, 0.2f, false)).setUnlocalizedName("pumpkin_slice").setCreativeTab(GrimCuisine.INSTANCE.getCreativeTab());
+		raw_empty_pie = (new ItemFood(2, 0.3f, false)).setPotionEffect(Potion.hunger.id, 30, 0, 0.1F).setUnlocalizedName("raw_empty_pie").setCreativeTab(GrimCuisine.INSTANCE.getCreativeTab());
+		raw_pumpkin_pie = (new ItemFood(2, 0.3f, false)).setPotionEffect(Potion.hunger.id, 30, 0, 0.1F).setUnlocalizedName("raw_pumpkin_pie").setCreativeTab(GrimCuisine.INSTANCE.getCreativeTab());
+		raw_apple_pie = (new ItemFood(2, 0.3f, false)).setPotionEffect(Potion.hunger.id, 30, 0, 0.1F).setUnlocalizedName("raw_apple_pie").setCreativeTab(GrimCuisine.INSTANCE.getCreativeTab());
+		raw_pork_pie = (new ItemFood(2, 0.3f, false)).setPotionEffect(Potion.hunger.id, 30, 0, 0.1F).setUnlocalizedName("raw_pork_pie").setCreativeTab(GrimCuisine.INSTANCE.getCreativeTab());
+		raw_melon_pie = (new ItemFood(2, 0.3f, false)).setPotionEffect(Potion.hunger.id, 30, 0, 0.1F).setUnlocalizedName("raw_melon_pie").setCreativeTab(GrimCuisine.INSTANCE.getCreativeTab());
+		raw_chocolate_pie = (new ItemFood(2, 0.3f, false)).setPotionEffect(Potion.hunger.id, 30, 0, 0.1F).setUnlocalizedName("raw_chocolate_pie").setCreativeTab(GrimCuisine.INSTANCE.getCreativeTab());
 
 		GameRegistry.registerItem(soda, "soda");
 		GameRegistry.registerItem(dragon_fruit, "dragon_fruit");
@@ -127,6 +139,17 @@ public class CuisineItems implements IPartItems {
 		GameRegistry.registerItem(eggs_mixed, "eggs_mixed");
 		GameRegistry.registerItem(eggs_unmixed, "eggs_unmixed");
 		GameRegistry.registerItem(eggs_cooked, "eggs_cooked");
+		GameRegistry.registerItem(dough, "dough");
+		GameRegistry.registerItem(pan, "pan");
+		GameRegistry.registerItem(mixer, "mixer");
+		GameRegistry.registerItem(knife, "knife");
+		GameRegistry.registerItem(pumpkin_slice, "pumpkin_slice");
+		GameRegistry.registerItem(raw_empty_pie, "raw_empty_pie");
+		GameRegistry.registerItem(raw_chocolate_pie, "raw_chocolate_pie");
+		GameRegistry.registerItem(raw_apple_pie, "raw_apple_pie");
+		GameRegistry.registerItem(raw_pumpkin_pie, "raw_pumpkin_pie");
+		GameRegistry.registerItem(raw_melon_pie, "raw_melon_pie");
+		GameRegistry.registerItem(raw_pork_pie, "raw_pork_pie");
 	}
 
 	@Override
@@ -186,9 +209,21 @@ public class CuisineItems implements IPartItems {
 		sandwiches = RecipeHelper.getLatestIRecipes(3);
 
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(eggs_unmixed, 1), new Object[] { "XIX", " M ", 'X', Items.egg, 'I', butter, 'M', Items.bowl }));
-		// TODO: Add a mixer that takes durability when crafted with
-		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(eggs_mixed, 1), new Object[] { new ItemStack(eggs_unmixed) }));
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(eggs_mixed, 1), new Object[] { eggs_unmixed, new ItemStack(mixer, 1, OreDictionary.WILDCARD_VALUE) }));
 		eggs = RecipeHelper.getLatestIRecipes(2);
+
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(knife, 1), new Object[] { "X  ", " W ", "  W", 'X', "plankWood", 'W', "ingotIron" }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(mixer, 1), new Object[] { "X  ", " XX", " X ", 'X', "ingotIron" }));
+
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(dough, 2), new Object[] { Items.milk_bucket, "cropWheat", "cropWheat", Items.egg }));
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(pumpkin_slice, 6), new Object[] { Blocks.pumpkin, new ItemStack(knife, 1, OreDictionary.WILDCARD_VALUE) }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(pan, 1), new Object[] { "X X", " X ", 'X', Blocks.stone }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(raw_empty_pie, 1), new Object[] { "X", "M", 'X', dough, 'M', pan }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(raw_apple_pie, 1), new Object[] { " X ", "MMM", " Y ", 'X', dough, 'M', Items.apple, 'Y', raw_empty_pie }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(raw_chocolate_pie, 1), new Object[] { " X ", "MMM", " Y ", 'X', dough, 'M', chocolate_ball, 'Y', raw_empty_pie }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(raw_pork_pie, 1), new Object[] { " X ", "MMM", " Y ", 'X', dough, 'M', Items.porkchop, 'Y', raw_empty_pie }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(raw_melon_pie, 1), new Object[] { " X ", "MMM", " Y ", 'X', dough, 'M', Items.melon, 'Y', raw_empty_pie }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(raw_pumpkin_pie, 1), new Object[] { " X ", "MMM", " Y ", 'X', dough, 'M', pumpkin_slice, 'Y', raw_empty_pie }));
 	}
 
 	@Override
@@ -217,6 +252,17 @@ public class CuisineItems implements IPartItems {
 		RenderHelper.renderItem(eggs_unmixed);
 		RenderHelper.renderItem(eggs_mixed);
 		RenderHelper.renderItem(eggs_cooked);
+		RenderHelper.renderItem(pan);
+		RenderHelper.renderItem(dough);
+		RenderHelper.renderItem(knife);
+		RenderHelper.renderItem(mixer);
+		RenderHelper.renderItem(raw_empty_pie);
+		RenderHelper.renderItem(raw_apple_pie);
+		RenderHelper.renderItem(raw_chocolate_pie);
+		RenderHelper.renderItem(raw_pork_pie);
+		RenderHelper.renderItem(raw_pumpkin_pie);
+		RenderHelper.renderItem(raw_melon_pie);
+		RenderHelper.renderItem(pumpkin_slice);
 		RenderHelper.renderVariant(soda, ItemSodaBottle.sodaTypes.clone());
 	}
 }

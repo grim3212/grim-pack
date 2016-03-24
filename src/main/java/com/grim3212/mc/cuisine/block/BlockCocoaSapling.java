@@ -42,13 +42,14 @@ public class BlockCocoaSapling extends BlockBush implements IGrowable {
 			super.updateTick(worldIn, pos, state, rand);
 
 			if (worldIn.getLightFromNeighbors(pos.up()) >= 9 && rand.nextInt(7) == 0) {
-				this.growMarked(worldIn, pos, state, rand);
+				this.grow(worldIn, rand, pos, state);
 			}
 		}
 	}
 
-	public void growMarked(World world, BlockPos pos, IBlockState state, Random rand) {
-		if (((Integer) state.getValue(STAGE)) == 0) {
+	@Override
+	public void grow(World world, Random rand, BlockPos pos, IBlockState state) {
+		if (((Integer) state.getValue(STAGE)).intValue() == 0) {
 			world.setBlockState(pos, state.cycleProperty(STAGE), 4);
 		} else {
 			this.generateTree(world, pos, state, rand);
@@ -91,10 +92,5 @@ public class BlockCocoaSapling extends BlockBush implements IGrowable {
 	@Override
 	public boolean canUseBonemeal(World worldIn, Random rand, BlockPos pos, IBlockState state) {
 		return (double) worldIn.rand.nextFloat() < 0.45D;
-	}
-
-	@Override
-	public void grow(World worldIn, Random rand, BlockPos pos, IBlockState state) {
-		this.growMarked(worldIn, pos, state, rand);
 	}
 }

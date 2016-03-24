@@ -5,14 +5,14 @@ import net.minecraft.item.Item;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 
-public class BlockChocolateCake extends BlockCake {
+public class BlockPie extends BlockCake {
 
-	protected BlockChocolateCake() {
+	public BlockPie() {
 		super();
 	}
 
 	@Override
 	public Item getItem(World worldIn, BlockPos pos) {
-		return Item.getItemFromBlock(CuisineBlocks.chocolate_cake);
+		return Item.getItemFromBlock(this);
 	}
 }

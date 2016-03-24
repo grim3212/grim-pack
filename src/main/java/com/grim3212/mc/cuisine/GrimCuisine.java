@@ -45,7 +45,7 @@ public class GrimCuisine extends GrimPart {
 		super.preInit(event);
 		ModMetadata data = event.getModMetadata();
 		data.description = "Grim Cuisine provides many different food sources and health regeneration options.";
-		data.url = "http://mods.grim3212.com/mc/" + "my-mods/grim3212-cuisine/";
+		data.url = "http://mods.grim3212.com/mc/" + "my-mods/grim-cuisine/";
 		data.credits = "Thanks to the follwoing authors. Leesgowest, LFalch, mattop101, Nandonalt.";
 
 		MinecraftForge.EVENT_BUS.register(new DropEvent());
@@ -65,6 +65,8 @@ public class GrimCuisine extends GrimPart {
 
 	@Override
 	protected void setupManualPages(ModSection modSection) {
+		// TODO: Reorganize all of the manual pages to work together with each
+		// other
 		ManualRegistry.addSection("carbon", modSection).addSubSectionPages(new PageCrafting("carbon", CuisineItems.carbon, 25));
 		ManualRegistry.addSection("soda", modSection).addSubSectionPages(new PageCrafting("types", CuisineItems.sodas, 15));
 		ManualRegistry.addSection("dragonfruit", modSection).addSubSectionPages(new PageImageText("dragonfruit", "dragonFruitPage.png"));

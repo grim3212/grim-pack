@@ -26,6 +26,11 @@ public class CuisineBlocks implements IPartItems {
 	public static Block chocolate_bar_mould;
 	public static Block chocolate_cake;
 	public static Block chocolate_block;
+	public static Block apple_pie;
+	public static Block melon_pie;
+	public static Block pumpkin_pie;
+	public static Block chocolate_pie;
+	public static Block pork_pie;
 
 	public static List<IRecipe> cakes;
 
@@ -39,6 +44,11 @@ public class CuisineBlocks implements IPartItems {
 		chocolate_bar_mould = (new BlockCBarMould()).setHardness(1.0F).setStepSound(Block.soundTypeStone).setUnlocalizedName("chocolate_bar_mould").setCreativeTab(GrimCuisine.INSTANCE.getCreativeTab());
 		chocolate_cake = (new BlockChocolateCake()).setHardness(0.5F).setStepSound(Block.soundTypeCloth).setUnlocalizedName("chocolate_cake").setCreativeTab(GrimCuisine.INSTANCE.getCreativeTab());
 		chocolate_block = (new Block(Material.cake)).setHardness(0.5F).setStepSound(Block.soundTypeCloth).setUnlocalizedName("chocolate_block").setCreativeTab(GrimCuisine.INSTANCE.getCreativeTab());
+		apple_pie = (new BlockPie()).setHardness(0.5f).setStepSound(Block.soundTypeCloth).setUnlocalizedName("apple_pie").setCreativeTab(GrimCuisine.INSTANCE.getCreativeTab());
+		melon_pie = (new BlockPie()).setHardness(0.5f).setStepSound(Block.soundTypeCloth).setUnlocalizedName("melon_pie").setCreativeTab(GrimCuisine.INSTANCE.getCreativeTab());
+		pumpkin_pie = (new BlockPie()).setHardness(0.5f).setStepSound(Block.soundTypeCloth).setUnlocalizedName("pumpkin_pie").setCreativeTab(GrimCuisine.INSTANCE.getCreativeTab());
+		chocolate_pie = (new BlockPie()).setHardness(0.5f).setStepSound(Block.soundTypeCloth).setUnlocalizedName("chocolate_pie").setCreativeTab(GrimCuisine.INSTANCE.getCreativeTab());
+		pork_pie = (new BlockPie()).setHardness(0.5f).setStepSound(Block.soundTypeCloth).setUnlocalizedName("pork_pie").setCreativeTab(GrimCuisine.INSTANCE.getCreativeTab());
 
 		GameRegistry.registerBlock(butter_churn, "butter_churn");
 		GameRegistry.registerBlock(cheese_block, "cheese_block");
@@ -48,10 +58,21 @@ public class CuisineBlocks implements IPartItems {
 		GameRegistry.registerBlock(cocoa_tree_sapling, "cocoa_tree_sapling");
 		GameRegistry.registerBlock(chocolate_cake, "chocolate_cake");
 		GameRegistry.registerBlock(chocolate_block, "chocolate_block");
+		GameRegistry.registerBlock(apple_pie, "apple_pie");
+		GameRegistry.registerBlock(melon_pie, "melon_pie");
+		GameRegistry.registerBlock(pumpkin_pie, "pumpkin_pie");
+		GameRegistry.registerBlock(chocolate_pie, "chocolate_pie");
+		GameRegistry.registerBlock(pork_pie, "pork_pie");
 	}
 
 	@Override
 	public void addRecipes() {
+		GameRegistry.addSmelting(CuisineItems.raw_apple_pie, new ItemStack(apple_pie), 0.35f);
+		GameRegistry.addSmelting(CuisineItems.raw_pork_pie, new ItemStack(pork_pie), 0.35f);
+		GameRegistry.addSmelting(CuisineItems.raw_chocolate_pie, new ItemStack(chocolate_pie), 0.35f);
+		GameRegistry.addSmelting(CuisineItems.raw_pumpkin_pie, new ItemStack(pumpkin_pie), 0.35f);
+		GameRegistry.addSmelting(CuisineItems.raw_melon_pie, new ItemStack(melon_pie), 0.35f);
+
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(cheese_maker, 1), new Object[] { "X X", "XIX", "XXX", 'X', "cobblestone", 'I', Items.bucket }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(butter_churn, 1), new Object[] { "XIX", "XIX", "XXX", 'X', "plankWood", 'I', "stickWood" }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(cheese_block, 1), new Object[] { "CCC", "CCC", "CCC", 'C', CuisineItems.cheese }));
@@ -77,6 +98,11 @@ public class CuisineBlocks implements IPartItems {
 		RenderHelper.renderBlock(chocolate_bar_mould);
 		RenderHelper.renderBlock(chocolate_cake);
 		RenderHelper.renderBlock(chocolate_block);
+		RenderHelper.renderBlock(apple_pie);
+		RenderHelper.renderBlock(melon_pie);
+		RenderHelper.renderBlock(pumpkin_pie);
+		RenderHelper.renderBlock(chocolate_pie);
+		RenderHelper.renderBlock(pork_pie);
 	}
 
 }

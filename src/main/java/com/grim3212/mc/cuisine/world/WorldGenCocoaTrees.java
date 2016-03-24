@@ -16,6 +16,8 @@ public class WorldGenCocoaTrees extends WorldGenerator {
 	public WorldGenCocoaTrees() {
 	}
 
+	// TODO: Generate Cocoa trees better
+	// The cocoa pods make everything weird
 	public boolean generate(World world, Random random, BlockPos pos) {
 		int l = random.nextInt(3) + 4;
 		boolean flag = true;
