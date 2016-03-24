@@ -1,0 +1,14 @@
+#================= OTHER =================#
+grim.creative.grimdecor=Grim Decor
+
+#================= BLOCKS =================#
+tile.calendar.name=Calendar
+
+#================= ITEMS =================#
+
+
+#================= INSTRUCTION MANUAL =================#
+grim.manual.grimdecor.modinfo=Adds in many different decorative items and blocks to spice up your Minecraft world.
+grim.manual.grimdecor.subsection.calendar=Calendar
+grim.manual.grimdecor.subsection.calendar.page.calendar=Using some paper you can craft the calendar which will tell you the date and day of the week in your Minecraft world and you can hang it on the wall.
+grim.manual.grimdecor.subsection.calendar.page.calendar.title=Crafting
