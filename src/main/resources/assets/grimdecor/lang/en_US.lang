@@ -3,6 +3,7 @@ grim.creative.grimdecor=Grim Decor
 
 #================= BLOCKS =================#
 tile.calendar.name=Calendar
+tile.wall_clock.name=Wall Clock
 
 #================= ITEMS =================#
 
@@ -12,3 +13,6 @@ grim.manual.grimdecor.modinfo=Adds in many different decorative items and blocks
 grim.manual.grimdecor.subsection.calendar=Calendar
 grim.manual.grimdecor.subsection.calendar.page.calendar=Using some paper you can craft the calendar which will tell you the date and day of the week in your Minecraft world and you can hang it on the wall.
 grim.manual.grimdecor.subsection.calendar.page.calendar.title=Crafting
+grim.manual.grimdecor.subsection.wall=Wall Clock
+grim.manual.grimdecor.subsection.wall.page.clock=The Wall Clock is a block that works the same as a clock and displays the same type of texture as the clock too.
+grim.manual.grimdecor.subsection.wall.page.clock.title=Recipe

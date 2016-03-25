@@ -7,11 +7,12 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class CalendarModel extends ModelBase {
+	
 	public ModelRenderer calBoard;
 
 	public CalendarModel() {
 		calBoard = new ModelRenderer(this, "CalenderModel");
-		calBoard.addBox(-6F, -18F, -1F, 12, 20, 2, 0.0F);
+		calBoard.addBox(-6F, -18F, 0F, 12, 20, 2, 0.0F);
 	}
 
 	public void renderCalendar() {

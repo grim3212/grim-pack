@@ -1,6 +1,6 @@
 {
     "parent": "grimcore:item/item",
     "textures": {
-        "layer0": "grimdecor:items/calendar"
+    	"layer0": "grimdecor:items/wall_clock"
     }
 }

@@ -7,7 +7,6 @@ import com.grim3212.mc.decor.tile.TileEntityCalendar;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyDirection;
 import net.minecraft.block.state.BlockState;
 import net.minecraft.block.state.IBlockState;
@@ -51,7 +50,7 @@ public class BlockCalendar extends BlockContainer {
 		float f1 = 0.935F;
 		float f2 = 0.25F;
 		float f3 = 0.75F;
-		float f4 = 0.125F;
+		float f4 = 0.065F;
 		setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
 
 		EnumFacing enumFacing = (EnumFacing) worldIn.getBlockState(pos).getValue(FACING);
@@ -143,7 +142,7 @@ public class BlockCalendar extends BlockContainer {
 
 	@Override
 	protected BlockState createBlockState() {
-		return new BlockState(this, new IProperty[] { FACING });
+		return new BlockState(this, FACING);
 	}
 
 	@Override

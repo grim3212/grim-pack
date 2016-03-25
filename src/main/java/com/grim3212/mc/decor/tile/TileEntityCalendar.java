@@ -15,4 +15,9 @@ public class TileEntityCalendar extends TileEntity {
 	public void readFromNBT(NBTTagCompound par1NBTTagCompound) {
 		super.readFromNBT(par1NBTTagCompound);
 	}
+	
+	@Override
+	public boolean canRenderBreaking() {
+		return true;
+	}
 }

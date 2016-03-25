@@ -64,6 +64,7 @@ public class GrimDecor extends GrimPart {
 	@Override
 	protected void setupManualPages(ModSection modSection) {
 		ManualRegistry.addSection("calendar", modSection).addSubSectionPages(new PageCrafting("calendar", new ItemStack(DecorBlocks.calendar)));
+		ManualRegistry.addSection("wall", modSection).addSubSectionPages(new PageCrafting("clock", DecorBlocks.clocks, 20));
 	}
 
 	@Override

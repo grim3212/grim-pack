@@ -10,7 +10,8 @@ public class DecorTileEntities implements IPartEntities {
 
 	@Override
 	public void initEntities() {
-		GameRegistry.registerTileEntity(TileEntityCalendar.class, "Calendar");
+		GameRegistry.registerTileEntity(TileEntityCalendar.class, "calendar");
+		GameRegistry.registerTileEntity(TileEntityWallClock.class, "wall_clock");
 	}
 
 	@Override
