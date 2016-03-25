@@ -7,17 +7,14 @@ public class TileEntityCalendar extends TileEntity {
 
 	public TileEntityCalendar() {
 	}
-
-	public void writeToNBT(NBTTagCompound par1NBTTagCompound) {
-		super.writeToNBT(par1NBTTagCompound);
-	}
-
-	public void readFromNBT(NBTTagCompound par1NBTTagCompound) {
-		super.readFromNBT(par1NBTTagCompound);
+	
+	@Override
+	public void writeToNBT(NBTTagCompound compound) {
+		super.writeToNBT(compound);
 	}
 	
 	@Override
-	public boolean canRenderBreaking() {
-		return true;
+	public void readFromNBT(NBTTagCompound compound) {
+		super.readFromNBT(compound);
 	}
 }

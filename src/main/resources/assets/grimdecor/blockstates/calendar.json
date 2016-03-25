@@ -1,8 +1,8 @@
 {
     "variants": {
-        "facing=north": { "model": "grimdecor:calendar" },
-        "facing=east":  { "model": "grimdecor:calendar", "y": 90 },
-        "facing=south": { "model": "grimdecor:calendar", "y": 180 },
-        "facing=west":  { "model": "grimdecor:calendar", "y": 270 }
+        "facing=north": { "model": "grimdecor:calendar", "y": 180 },
+        "facing=east":  { "model": "grimdecor:calendar", "y": 270 },
+        "facing=south": { "model": "grimdecor:calendar" },
+        "facing=west":  { "model": "grimdecor:calendar", "y": 90 }
     }
 }

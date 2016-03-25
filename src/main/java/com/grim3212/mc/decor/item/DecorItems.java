@@ -1,4 +1,4 @@
-package com.grim3212.mc.decor;
+package com.grim3212.mc.decor.item;
 
 import com.grim3212.mc.core.part.IPartItems;
 

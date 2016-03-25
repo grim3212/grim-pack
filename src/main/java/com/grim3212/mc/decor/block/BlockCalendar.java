@@ -5,7 +5,7 @@ import java.util.Iterator;
 import com.grim3212.mc.decor.tile.TileEntityCalendar;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockContainer;
+import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyDirection;
 import net.minecraft.block.state.BlockState;
@@ -21,7 +21,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class BlockCalendar extends BlockContainer {
+public class BlockCalendar extends Block implements ITileEntityProvider {
 
 	public static final PropertyDirection FACING = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
 
@@ -46,7 +46,7 @@ public class BlockCalendar extends BlockContainer {
 
 	@Override
 	public void setBlockBoundsBasedOnState(IBlockAccess worldIn, BlockPos pos) {
-		float f = 0.11F;
+		float f = 0.13F;
 		float f1 = 0.935F;
 		float f2 = 0.25F;
 		float f3 = 0.75F;
@@ -89,12 +89,12 @@ public class BlockCalendar extends BlockContainer {
 		return true;
 	}
 
+	@Override
 	public IBlockState onBlockPlaced(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer) {
 		if (facing.getAxis().isHorizontal() && this.canBlockStay(worldIn, pos, facing)) {
 			return this.getDefaultState().withProperty(FACING, facing);
 		} else {
-			@SuppressWarnings("rawtypes")
-			Iterator iterator = EnumFacing.Plane.HORIZONTAL.iterator();
+			Iterator<EnumFacing> iterator = EnumFacing.Plane.HORIZONTAL.iterator();
 			EnumFacing enumfacing1;
 
 			do {
@@ -109,6 +109,7 @@ public class BlockCalendar extends BlockContainer {
 		}
 	}
 
+	@Override
 	@SideOnly(Side.CLIENT)
 	public EnumWorldBlockLayer getBlockLayer() {
 		return EnumWorldBlockLayer.CUTOUT;

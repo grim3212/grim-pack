@@ -1,6 +1,6 @@
 package com.grim3212.mc.decor.config;
 
-import com.grim3212.mc.decor.item.GrimDecor;
+import com.grim3212.mc.decor.GrimDecor;
 
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraftforge.common.config.ConfigElement;

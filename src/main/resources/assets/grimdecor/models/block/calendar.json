@@ -1,20 +1,20 @@
 {
-	"textures": {
-        "texture": "grimdecor:blocks/calendar",
-		"particle": "grimdecor:blocks/calendar"
-    },
-	"elements": [ 
-	{
-		"from": [ 4, 1, 0 ],
-		"to": [ 12, 15, 2 ],
-		"faces": {
-			"down":  { "uv": [ 12, 2, 4, 0 ], "texture": "#texture" },
-			"up":    { "uv": [ 4, 0, 12, 2 ], "texture": "#texture" },
-			"north": { "uv": [ 4, 1, 12, 15 ], "texture": "#texture", "cullface": "north" },
-			"south": { "uv": [ 4, 1, 12, 15 ], "texture": "#texture" },
-			"west":  { "uv": [ 0, 1, 2, 15 ], "texture": "#texture" },
-			"east":  { "uv": [ 14, 1, 16, 15 ], "texture": "#texture" }
-		}
-	}
-	]
+"textures": {
+    "particle": "grimdecor:blocks/calendar",
+    "texture": "grimdecor:blocks/calendar"
+},
+"elements": [ 
+{
+    "from": [ 4, 2, 0 ],
+    "to": [ 12, 15, 1 ],
+    "faces": {
+        "down":  { "uv": [ 12, 2, 4, 0 ], "texture": "#texture" },
+        "up":    { "uv": [ 4, 0, 12, 2 ], "texture": "#texture" },
+        "north": { "uv": [ 0, 0, 4, 16 ], "texture": "#texture", "cullface": "north" },
+        "south": { "uv": [ 2.5, 0, 13.5, 16 ], "texture": "#texture" },
+        "west":  { "uv": [ 0, 1, 2, 15 ], "texture": "#texture" },
+        "east":  { "uv": [ 14, 1, 16, 15 ], "texture": "#texture" }
+    }
+}
+]
 }

@@ -5,7 +5,7 @@ import java.util.List;
 import com.grim3212.mc.core.client.RenderHelper;
 import com.grim3212.mc.core.part.IPartItems;
 import com.grim3212.mc.core.util.RecipeHelper;
-import com.grim3212.mc.decor.item.GrimDecor;
+import com.grim3212.mc.decor.GrimDecor;
 
 import net.minecraft.block.Block;
 import net.minecraft.init.Items;

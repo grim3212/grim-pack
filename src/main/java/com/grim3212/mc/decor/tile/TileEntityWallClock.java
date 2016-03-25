@@ -1,11 +1,6 @@
 package com.grim3212.mc.decor.tile;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.NetworkManager;
-import net.minecraft.network.Packet;
-import net.minecraft.network.play.INetHandlerPlayClient;
-import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.MathHelper;
@@ -17,37 +12,8 @@ public class TileEntityWallClock extends TileEntity implements ITickable {
 	public TileEntityWallClock() {
 	}
 
-	@Override
-	public void writeToNBT(NBTTagCompound compound) {
-		super.writeToNBT(compound);
-		compound.setInteger("time", this.time);
-	}
-
-	@Override
-	public void readFromNBT(NBTTagCompound compound) {
-		super.readFromNBT(compound);
-		this.time = compound.getInteger("time");
-	}
-
-	@Override
-	public Packet<INetHandlerPlayClient> getDescriptionPacket() {
-		NBTTagCompound nbtTagCompound = new NBTTagCompound();
-		writeToNBT(nbtTagCompound);
-		int metadata = getBlockMetadata();
-		return new S35PacketUpdateTileEntity(this.pos, metadata, nbtTagCompound);
-	}
-
-	@Override
-	public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity pkt) {
-		readFromNBT(pkt.getNbtCompound());
-	}
-
 	public int getTime() {
 		return time;
-	}
-
-	public void setTime(int blockID) {
-		this.time = blockID;
 	}
 
 	private double field_94239_h;

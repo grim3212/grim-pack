@@ -1,4 +1,4 @@
-package com.grim3212.mc.decor.item;
+package com.grim3212.mc.decor;
 
 import com.grim3212.mc.core.config.GrimConfig;
 import com.grim3212.mc.core.manual.ManualRegistry;
@@ -7,9 +7,9 @@ import com.grim3212.mc.core.manual.pages.PageCrafting;
 import com.grim3212.mc.core.part.GrimPart;
 import com.grim3212.mc.core.part.IPartEntities;
 import com.grim3212.mc.core.part.IPartItems;
-import com.grim3212.mc.decor.DecorItems;
 import com.grim3212.mc.decor.block.DecorBlocks;
 import com.grim3212.mc.decor.config.DecorConfig;
+import com.grim3212.mc.decor.item.DecorItems;
 import com.grim3212.mc.decor.tile.DecorTileEntities;
 
 import net.minecraft.item.Item;
