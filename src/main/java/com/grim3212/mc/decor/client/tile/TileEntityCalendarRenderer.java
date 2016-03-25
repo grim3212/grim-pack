@@ -17,13 +17,6 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class TileEntityCalendarRenderer extends TileEntitySpecialRenderer<TileEntityCalendar> {
 
-	private CalendarModel calModel;
-	public static final ResourceLocation RESOURCELOCATION = new ResourceLocation(GrimDecor.modID, "textures/blocks/calendar.png");
-
-	public TileEntityCalendarRenderer() {
-		calModel = new CalendarModel();
-	}
-
 	@Override
 	public void renderTileEntityAt(TileEntityCalendar te, double x, double y, double z, float partialTicks, int destroyStage) {
 		GlStateManager.pushMatrix();
@@ -52,15 +45,7 @@ public class TileEntityCalendarRenderer extends TileEntitySpecialRenderer<TileEn
 			GlStateManager.scale(4.0F, 2.0F, 1.0F);
 			GlStateManager.translate(0.0625F, 0.0625F, 0.0625F);
 			GlStateManager.matrixMode(5888);
-		} else {
-			bindTexture(RESOURCELOCATION);
 		}
-
-		GlStateManager.enableRescaleNormal();
-		GlStateManager.pushMatrix();
-		GlStateManager.scale(f1, -f1, -f1);
-		calModel.renderCalendar();
-		GlStateManager.popMatrix();
 
 		float f3 = 0.01666667F * f1;
 		GlStateManager.translate(0.0F, 0.2F * f1, 0.01F * f1);
