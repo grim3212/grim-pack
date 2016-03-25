@@ -17,4 +17,6 @@ Change the way cocoa trees work with bonemeal to be more like vanilla
 Add in knife and mixer to be used in recipes
 Add calendar back in and add it to support breaking animations
 Update unlisted properties to fix some issues
-Slight tweak on calendar model
+Slight tweak on calendar model and now uses a TESR only for the text
+Add wall clock and make it based of block models instead of a TESR
+Change the RenderHelper to allow for item forge blockstates

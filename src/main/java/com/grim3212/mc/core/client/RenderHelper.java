@@ -4,7 +4,6 @@ import net.minecraft.block.Block;
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.item.Item;
 import net.minecraftforge.client.model.ModelLoader;
-import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -12,11 +11,9 @@ public class RenderHelper {
 
 	@SideOnly(Side.CLIENT)
 	public static void renderBlockWithMetaInInventory(Block block, int meta) {
-		String modid = Loader.instance().activeModContainer().getModId();
-
 		Item item = Item.getItemFromBlock(block);
 		for (int i = 0; i < meta; i++)
-			ModelLoader.setCustomModelResourceLocation(item, i, new ModelResourceLocation(modid + ":" + item.getUnlocalizedName().substring(5), "inventory"));
+			ModelLoader.setCustomModelResourceLocation(item, i, new ModelResourceLocation(item.getRegistryName(), "inventory"));
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -32,16 +29,36 @@ public class RenderHelper {
 	 */
 	@SideOnly(Side.CLIENT)
 	public static void renderItem(Item item) {
-		ModelLoader.setCustomModelResourceLocation(item, 0, new ModelResourceLocation(Loader.instance().activeModContainer().getModId() + ":" + item.getUnlocalizedName().substring(5), "inventory"));
+		ModelLoader.setCustomModelResourceLocation(item, 0, new ModelResourceLocation(item.getRegistryName(), "inventory"));
 	}
 
+	/**
+	 * Uses the forge single blockstate for variants
+	 * 
+	 * @param item
+	 *            With variants
+	 * @param variants
+	 *            The different variant names
+	 */
 	@SideOnly(Side.CLIENT)
-	public static void renderVariant(Item item, String[] variants) {
-		String modID = Loader.instance().activeModContainer().getModId();
-
+	public static void renderVariantForge(Item item, String[] variants) {
 		for (int i = 0; i < variants.length; i++) {
-			ModelResourceLocation modelLoc = new ModelResourceLocation(modID + ":" + item.getUnlocalizedName().substring(5) + "_" + variants[i], "inventory");
-			ModelLoader.setCustomModelResourceLocation(item, i, modelLoc);
+			ModelLoader.setCustomModelResourceLocation(item, i, new ModelResourceLocation(item.getRegistryName(), variants[i]));
+		}
+	}
+
+	/**
+	 * Uses the vanilla item states with one for each for each variant
+	 * 
+	 * @param item
+	 *            With variants
+	 * @param variants
+	 *            The different variant names
+	 */
+	@SideOnly(Side.CLIENT)
+	public static void renderVariantVanilla(Item item, String[] variants) {
+		for (int i = 0; i < variants.length; i++) {
+			ModelLoader.setCustomModelResourceLocation(item, i, new ModelResourceLocation(item.getRegistryName() + "_" + variants[i], "inventory"));
 		}
 	}
 }
