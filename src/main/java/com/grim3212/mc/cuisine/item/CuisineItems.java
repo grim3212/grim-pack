@@ -263,6 +263,6 @@ public class CuisineItems implements IPartItems {
 		RenderHelper.renderItem(raw_pumpkin_pie);
 		RenderHelper.renderItem(raw_melon_pie);
 		RenderHelper.renderItem(pumpkin_slice);
-		RenderHelper.renderVariant(soda, ItemSodaBottle.sodaTypes.clone());
+		RenderHelper.renderVariantForge(soda, ItemSodaBottle.sodaTypes);
 	}
 }
