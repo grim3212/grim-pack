@@ -51,7 +51,6 @@ public class DecorBlocks implements IPartItems {
 		RenderHelper.renderBlock(calendar);
 		RenderHelper.renderBlock(wall_clock);
 		RenderHelper.renderBlock(light_bulb);
-		RenderHelper.renderInventory(light_bulb, "light_bulb");
 	}
 
 }

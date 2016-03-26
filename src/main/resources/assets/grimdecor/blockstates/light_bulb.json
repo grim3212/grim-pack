@@ -1,7 +1,7 @@
 {
 	"forge_marker": 1,
     "defaults": {
-		"transform": "forge:default-item",
+		"transform": "forge:default-block",
         "model": "tallgrass"
     },
     "variants": {
@@ -16,6 +16,13 @@
                     "cross": "grimdecor:blocks/unlit_bulb"
                 }
             }
-        }
+        },
+		"inventory": [{
+			"transform": "forge:default-block",
+			"model": "grimdecor:light_bulb",
+			"textures": {
+                "layer0": "grimdecor:blocks/unlit_bulb"
+            }
+		}]
     }
 }
