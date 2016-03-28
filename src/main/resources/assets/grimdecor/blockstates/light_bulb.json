@@ -18,11 +18,11 @@
             }
         },
 		"inventory": [{
-			"transform": "forge:default-block",
-			"model": "grimdecor:light_bulb",
+			"model": "builtin/generated",
+			"transform": "forge:default-item",
 			"textures": {
-                "layer0": "grimdecor:blocks/unlit_bulb"
-            }
+				"layer0": "grimdecor:blocks/unlit_bulb"
+			}
 		}]
     }
 }

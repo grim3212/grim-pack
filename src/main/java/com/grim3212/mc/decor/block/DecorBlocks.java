@@ -50,7 +50,7 @@ public class DecorBlocks implements IPartItems {
 	public void renderItems() {
 		RenderHelper.renderBlock(calendar);
 		RenderHelper.renderBlock(wall_clock);
-		RenderHelper.renderBlock(light_bulb);
+		RenderHelper.renderBlockWithMetaInInventory(light_bulb, 2);
 	}
 
 }
