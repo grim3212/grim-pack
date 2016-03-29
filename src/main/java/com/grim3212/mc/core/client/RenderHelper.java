@@ -7,16 +7,15 @@ import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+@SideOnly(Side.CLIENT)
 public class RenderHelper {
 
-	@SideOnly(Side.CLIENT)
 	public static void renderBlockWithMetaInInventory(Block block, int meta) {
 		Item item = Item.getItemFromBlock(block);
 		for (int i = 0; i < meta; i++)
 			ModelLoader.setCustomModelResourceLocation(item, i, new ModelResourceLocation(item.getRegistryName(), "inventory"));
 	}
 
-	@SideOnly(Side.CLIENT)
 	public static void renderBlock(Block block) {
 		renderItem(Item.getItemFromBlock(block));
 	}
@@ -27,7 +26,6 @@ public class RenderHelper {
 	 * @param item
 	 *            to render
 	 */
-	@SideOnly(Side.CLIENT)
 	public static void renderItem(Item item) {
 		ModelLoader.setCustomModelResourceLocation(item, 0, new ModelResourceLocation(item.getRegistryName(), "inventory"));
 	}
@@ -40,7 +38,6 @@ public class RenderHelper {
 	 * @param variants
 	 *            The different variant names
 	 */
-	@SideOnly(Side.CLIENT)
 	public static void renderVariantForge(Item item, String[] variants) {
 		for (int i = 0; i < variants.length; i++) {
 			ModelLoader.setCustomModelResourceLocation(item, i, new ModelResourceLocation(item.getRegistryName(), variants[i]));
@@ -55,7 +52,6 @@ public class RenderHelper {
 	 * @param variants
 	 *            The different variant names
 	 */
-	@SideOnly(Side.CLIENT)
 	public static void renderVariantVanilla(Item item, String[] variants) {
 		for (int i = 0; i < variants.length; i++) {
 			ModelLoader.setCustomModelResourceLocation(item, i, new ModelResourceLocation(item.getRegistryName() + "_" + variants[i], "inventory"));
