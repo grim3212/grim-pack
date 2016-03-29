@@ -1,0 +1,6 @@
+{
+    "parent": "grim3212core:item/item",
+    "textures": {
+        "layer0": "frames:items/frame_wood"
+    }
+}

@@ -4,9 +4,12 @@ grim.creative.grimdecor=Grim Decor
 #================= BLOCKS =================#
 tile.calendar.name=Calendar
 tile.wall_clock.name=Wall Clock
+tile.light_bulb.name=Light Bulb
 
 #================= ITEMS =================#
-
+item.glass_shard.name=Glass Shard
+item.frame_iron.name=Iron Frames
+item.frame_wood.name=Wooden Frames
 
 #================= INSTRUCTION MANUAL =================#
 grim.manual.grimdecor.modinfo=Adds in many different decorative items and blocks to spice up your Minecraft world.
@@ -16,3 +19,11 @@ grim.manual.grimdecor.subsection.calendar.page.calendar.title=Crafting
 grim.manual.grimdecor.subsection.wall=Wall Clock
 grim.manual.grimdecor.subsection.wall.page.clock=The Wall Clock is a block that works the same as a clock and displays the same type of texture as the clock too.
 grim.manual.grimdecor.subsection.wall.page.clock.title=Recipe
+grim.manual.grimdecor.subsection.lights=Light Bulbs
+grim.manual.grimdecor.subsection.lights.page.recipes=Light Bulbs are used to light up your world. They can be controlled by redstone and are placed underneath blocks. When broken you recieve glass shards which can be crafted back into glass.
+grim.manual.grimdecor.subsection.lights.page.recipes.title=Recipes
+grim.manual.grimdecor.subsection.frames=Frames
+grim.manual.grimdecor.subsection.frames.page.frames=The frames added in are wooden and iron. Once crafted right click to place on a wall to place them and right click them with another frame in your hand to switch between display types.  
+grim.manual.grimdecor.subsection.frames.page.frames.title=Recipes
+grim.manual.grimdecor.subsection.frames.page.info=The frames can also have the block they are placed on be removed and they will stay there. Their is a config option if the wooden frames can burn and also one for dying frames. To dye a frame you just need to right click with a dye in your hand on them. To break frames use an axe for wooden and a pickaxe for the iron.
+grim.manual.grimdecor.subsection.frames.page.info.title=More Info

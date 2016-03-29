@@ -1,8 +1,4 @@
 {
-"textures": {
-    "particle": "grimdecor:blocks/calendar",
-    "texture": "grimdecor:blocks/calendar"
-},
 "elements": [ 
 {
     "from": [ 4, 2, 0 ],

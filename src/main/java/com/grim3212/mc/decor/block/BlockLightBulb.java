@@ -18,6 +18,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumWorldBlockLayer;
 import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
 public class BlockLightBulb extends BlockBreakable {
@@ -113,5 +114,14 @@ public class BlockLightBulb extends BlockBreakable {
 	@Override
 	public ItemStack getPickBlock(MovingObjectPosition target, World world, BlockPos pos) {
 		return new ItemStack(DecorBlocks.light_bulb, 1, 0);
+	}
+
+	@Override
+	public int getLightValue(IBlockAccess world, BlockPos pos) {
+		IBlockState block = world.getBlockState(pos);
+		if (block.getBlock() == this) {
+			return block.getValue(ACTIVE) ? 15 : 0;
+		}
+		return 0;
 	}
 }
