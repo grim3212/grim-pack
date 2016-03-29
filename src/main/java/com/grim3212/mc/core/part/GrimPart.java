@@ -31,7 +31,8 @@ public abstract class GrimPart {
 	private GrimPartCreativeTab creativeTab;
 	private ModSection modSection;
 	private IPartItems[] items;
-	private IPartEntities[] entities;
+	private IPartTileEntities tileentities;
+	private IPartEntities entities;
 
 	public GrimPart(String modid, String name, String version) {
 		this.modid = modid;
@@ -40,11 +41,16 @@ public abstract class GrimPart {
 		this.config = setConfig();
 		this.items = setItemParts();
 		this.entities = setEntities();
+		this.tileentities = setTileEntities();
 		this.creativeTab = new GrimPartCreativeTab(this);
 		ManualRegistry.registerMod(modSection = new ModSection(getName(), getModid()));
 	}
 
-	protected IPartEntities[] setEntities() {
+	protected IPartEntities setEntities() {
+		return null;
+	}
+
+	protected IPartTileEntities setTileEntities() {
 		return null;
 	}
 
@@ -84,6 +90,13 @@ public abstract class GrimPart {
 			}
 		}
 
+		if (this.entities != null) {
+			this.entities.initEntities();
+
+			if (event.getSide().isClient())
+				this.entities.renderEntities();
+		}
+
 		if (event.getSide().isClient())
 			setupManualPages(modSection);
 	}
@@ -95,13 +108,11 @@ public abstract class GrimPart {
 	 *            event
 	 */
 	public void init(FMLInitializationEvent event) {
-		if (this.entities != null) {
-			for (int i = 0; i < this.entities.length; i++) {
-				this.entities[i].initEntities();
+		if (this.tileentities != null) {
+			this.tileentities.initTileEntities();
 
-				if (event.getSide().isClient())
-					this.entities[i].renderEntities();
-			}
+			if (event.getSide().isClient())
+				this.tileentities.renderTileEntities();
 		}
 	}
 
