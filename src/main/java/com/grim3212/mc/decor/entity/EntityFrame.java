@@ -7,8 +7,8 @@ import com.grim3212.mc.core.network.PacketDispatcher;
 import com.grim3212.mc.core.util.WorldHelper;
 import com.grim3212.mc.decor.config.DecorConfig;
 import com.grim3212.mc.decor.item.DecorItems;
-import com.grim3212.mc.decor.network.MessageFrame;
-import com.grim3212.mc.decor.network.MessageFrameDye;
+import com.grim3212.mc.decor.network.FrameDyeMessage;
+import com.grim3212.mc.decor.network.FrameUpdateMessage;
 import com.grim3212.mc.decor.util.EnumFrame;
 
 import io.netty.buffer.ByteBuf;
@@ -81,6 +81,13 @@ public class EntityFrame extends EntityHanging implements IEntityAdditionalSpawn
 		setDirection(direction);
 		setResistance(this.material);
 	}
+	
+//	@Override
+//	protected void entityInit() {
+//		this.getDataWatcher().addObjectByDataType(8, 2);
+//		this.getDataWatcher().addObjectByDataType(9, 2);
+//		this.getDataWatcher().addObjectByDataType(10, 2);
+//	}
 
 	@Override
 	public boolean interactFirst(EntityPlayer entityplayer) {
@@ -137,7 +144,8 @@ public class EntityFrame extends EntityHanging implements IEntityAdditionalSpawn
 		setDirection(this.direction);
 
 		if (this.worldObj.isRemote)
-			PacketDispatcher.sendToServer(new MessageFrame(this.getEntityId(), this.frames.id));
+			PacketDispatcher.sendToServer(new FrameUpdateMessage(this.getEntityId(), this.frames.id));
+
 		if (!this.worldObj.isRemote)
 			playFrameSound();
 
@@ -180,15 +188,14 @@ public class EntityFrame extends EntityHanging implements IEntityAdditionalSpawn
 		this.blue = newblue;
 		this.isBurnt = burn;
 
-		if (this.worldObj.isRemote) {
-			PacketDispatcher.sendToServer(new MessageFrameDye(this.getEntityId(), color, burn));
-		}
 		if (!this.worldObj.isRemote) {
 			if (burn) {
 				playBurnSound();
 			} else {
 				playFrameSound();
 			}
+		} else {
+			PacketDispatcher.sendToServer(new FrameDyeMessage(this.getEntityId(), color, burn));
 		}
 
 		return true;
@@ -587,7 +594,6 @@ public class EntityFrame extends EntityHanging implements IEntityAdditionalSpawn
 	}
 
 	@Override
-	public void onBroken(Entity p_110128_1_) {
-
+	public void onBroken(Entity entity) {
 	}
 }

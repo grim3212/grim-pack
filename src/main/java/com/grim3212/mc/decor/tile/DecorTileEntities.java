@@ -5,6 +5,8 @@ import com.grim3212.mc.decor.client.tile.TileEntityCalendarRenderer;
 
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class DecorTileEntities implements IPartTileEntities {
 
@@ -15,8 +17,8 @@ public class DecorTileEntities implements IPartTileEntities {
 	}
 
 	@Override
+	@SideOnly(Side.CLIENT)
 	public void renderTileEntities() {
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityCalendar.class, new TileEntityCalendarRenderer());
 	}
-
 }

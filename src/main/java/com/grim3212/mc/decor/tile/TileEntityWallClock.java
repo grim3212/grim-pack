@@ -1,6 +1,5 @@
 package com.grim3212.mc.decor.tile;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.MathHelper;
@@ -21,14 +20,13 @@ public class TileEntityWallClock extends TileEntity implements ITickable {
 
 	@Override
 	public void update() {
-		Minecraft minecraft = Minecraft.getMinecraft();
 		double d0 = 0.0D;
 
-		if (minecraft.theWorld != null && minecraft.thePlayer != null) {
-			float f = minecraft.theWorld.getCelestialAngle(1.0F);
+		if (getWorld() != null) {
+			float f = getWorld().getCelestialAngle(1.0F);
 			d0 = (double) f;
 
-			if (!minecraft.theWorld.provider.isSurfaceWorld()) {
+			if (!getWorld().provider.isSurfaceWorld()) {
 				d0 = Math.random();
 			}
 		}

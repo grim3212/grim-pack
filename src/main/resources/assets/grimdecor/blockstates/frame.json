@@ -2,14 +2,10 @@
     "forge_marker": 1,
     "defaults": {
 		"transform": "forge:default-item",
+		"model": "forge:item-layer"
     },
     "variants": {
-		"inventory": [{
-			"model": "builtin/generated",
-			"transform": "forge:default-item",
-			"textures": {
-				"layer0": "grimdecor:items/calendar"
-			}
-		}]
+		"iron": [{ "textures": { "layer0": "grimdecor:items/frame_iron" }}],
+        "wood": [{ "textures": { "layer0": "grimdecor:items/frame_wood" }}]
     }
 }

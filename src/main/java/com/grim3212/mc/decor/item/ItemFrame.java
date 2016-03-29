@@ -15,7 +15,6 @@ import net.minecraft.world.World;
 public class ItemFrame extends Item {
 
 	public ItemFrame() {
-		super();
 		setMaxDamage(0);
 		setHasSubtypes(true);
 	}

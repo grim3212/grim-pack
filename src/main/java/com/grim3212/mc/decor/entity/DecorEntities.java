@@ -6,6 +6,8 @@ import com.grim3212.mc.decor.client.entity.RenderFrame.FrameFactory;
 
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class DecorEntities implements IPartEntities {
 
@@ -15,6 +17,7 @@ public class DecorEntities implements IPartEntities {
 	}
 
 	@Override
+	@SideOnly(Side.CLIENT)
 	public void renderEntities() {
 		RenderingRegistry.registerEntityRenderingHandler(EntityFrame.class, new FrameFactory());
 	}
