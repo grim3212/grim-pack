@@ -3,12 +3,9 @@ package com.grim3212.mc.decor.entity;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.grim3212.mc.core.network.PacketDispatcher;
 import com.grim3212.mc.core.util.WorldHelper;
 import com.grim3212.mc.decor.config.DecorConfig;
 import com.grim3212.mc.decor.item.DecorItems;
-import com.grim3212.mc.decor.network.FrameDyeMessage;
-import com.grim3212.mc.decor.network.FrameUpdateMessage;
 import com.grim3212.mc.decor.util.EnumFrame;
 
 import io.netty.buffer.ByteBuf;
@@ -37,13 +34,8 @@ public class EntityFrame extends EntityHanging implements IEntityAdditionalSpawn
 	public int xPosition;
 	public int yPosition;
 	public int zPosition;
-	public int red = 256;
-	public int green = 256;
-	public int blue = 256;
 	public int material = 0;
-	public boolean isBurnt = false;
 	public float resistance = 0.0F;
-	public EnumFrame frames;
 	public AxisAlignedBB setupboundingBox = new AxisAlignedBB(0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D);
 	public AxisAlignedBB fireboundingBox = new AxisAlignedBB(0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D);
 	public static final int[] colorValues = { 1973019, 11743532, 3887386, 5320730, 2437522, 8073150, 2651799, 8816262, 4408131, 14188952, 4312372, 14602026, 6719955, 12801229, 15435844, 16777215 };
@@ -61,13 +53,14 @@ public class EntityFrame extends EntityHanging implements IEntityAdditionalSpawn
 		this.pos = pos;
 		this.material = material;
 
+		// TODO: Simplify this logic
 		ArrayList<EnumFrame> arraylist = new ArrayList<EnumFrame>();
 		EnumFrame[] aenumframes = EnumFrame.values();
 		int i1 = aenumframes.length;
 
 		for (int j1 = 0; j1 < i1; j1++) {
 			EnumFrame enumframes = aenumframes[j1];
-			this.frames = enumframes;
+			this.getDataWatcher().updateObject(8, enumframes.id);
 			setDirection(direction);
 			if (onValidSurface()) {
 				arraylist.add(enumframes);
@@ -75,19 +68,21 @@ public class EntityFrame extends EntityHanging implements IEntityAdditionalSpawn
 		}
 
 		if (arraylist.size() > 0) {
-			this.frames = ((EnumFrame) arraylist.get(0));
+			this.getDataWatcher().updateObject(8, ((EnumFrame) arraylist.get(0)).id);
 		}
 
 		setDirection(direction);
 		setResistance(this.material);
 	}
-	
-//	@Override
-//	protected void entityInit() {
-//		this.getDataWatcher().addObjectByDataType(8, 2);
-//		this.getDataWatcher().addObjectByDataType(9, 2);
-//		this.getDataWatcher().addObjectByDataType(10, 2);
-//	}
+
+	@Override
+	protected void entityInit() {
+		this.getDataWatcher().addObject(8, 1);
+		this.getDataWatcher().addObject(9, 256);
+		this.getDataWatcher().addObject(10, 256);
+		this.getDataWatcher().addObject(11, 256);
+		this.getDataWatcher().addObject(12, (byte) 0);
+	}
 
 	@Override
 	public boolean interactFirst(EntityPlayer entityplayer) {
@@ -114,14 +109,15 @@ public class EntityFrame extends EntityHanging implements IEntityAdditionalSpawn
 		int lOldFrame = 0;
 		int lNewFrame = 0;
 
-		int lOldID = this.frames.id;
+		int lOldID = this.getFrameID();
 
+		// TODO: Simplify this logic
 		ArrayList<EnumFrame> arraylist = new ArrayList<EnumFrame>();
 		EnumFrame[] aenumframes = EnumFrame.values();
 		int i1 = aenumframes.length;
 		for (int j1 = 0; j1 < i1; j1++) {
 			EnumFrame enumframes = aenumframes[j1];
-			this.frames = enumframes;
+			this.getDataWatcher().updateObject(8, enumframes.id);
 			setDirection(this.direction);
 			if (onValidSurface()) {
 				arraylist.add(enumframes);
@@ -138,38 +134,13 @@ public class EntityFrame extends EntityHanging implements IEntityAdditionalSpawn
 		}
 
 		if (arraylist.size() > 0) {
-			this.frames = ((EnumFrame) arraylist.get(lNewFrame));
+			this.getDataWatcher().updateObject(8, ((EnumFrame) arraylist.get(lNewFrame)).id);
 		}
 
 		setDirection(this.direction);
 
-		if (this.worldObj.isRemote)
-			PacketDispatcher.sendToServer(new FrameUpdateMessage(this.getEntityId(), this.frames.id));
-
 		if (!this.worldObj.isRemote)
 			playFrameSound();
-
-		return true;
-	}
-
-	public boolean updateFrame(int id) {
-		EnumFrame[] aenumframes = EnumFrame.values();
-		int i = aenumframes.length;
-		for (int j = 0; j < i; j++) {
-			EnumFrame enumframes = aenumframes[j];
-			if (enumframes.id == id) {
-				this.frames = enumframes;
-				break;
-			}
-		}
-
-		if (this.frames == null) {
-			this.frames = EnumFrame.frame_01;
-		}
-
-		if (!this.worldObj.isRemote) {
-			playFrameSound();
-		}
 
 		return true;
 	}
@@ -179,14 +150,14 @@ public class EntityFrame extends EntityHanging implements IEntityAdditionalSpawn
 		int newgreen = (colorValues[color] & 0xFF00) >> 8;
 		int newblue = colorValues[color] & 0xFF;
 
-		if ((newred == this.red) && (newgreen == this.green) && (newblue == this.blue)) {
+		if ((newred == this.getFrameColor()[0]) && (newgreen == this.getFrameColor()[1]) && (newblue == this.getFrameColor()[2])) {
 			return false;
 		}
 
-		this.red = newred;
-		this.green = newgreen;
-		this.blue = newblue;
-		this.isBurnt = burn;
+		this.getDataWatcher().updateObject(9, newred);
+		this.getDataWatcher().updateObject(10, newgreen);
+		this.getDataWatcher().updateObject(11, newblue);
+		this.getDataWatcher().updateObject(12, burn ? (byte) 1 : (byte) 0);
 
 		if (!this.worldObj.isRemote) {
 			if (burn) {
@@ -194,8 +165,6 @@ public class EntityFrame extends EntityHanging implements IEntityAdditionalSpawn
 			} else {
 				playFrameSound();
 			}
-		} else {
-			PacketDispatcher.sendToServer(new FrameDyeMessage(this.getEntityId(), color, burn));
 		}
 
 		return true;
@@ -220,9 +189,11 @@ public class EntityFrame extends EntityHanging implements IEntityAdditionalSpawn
 
 		this.prevRotationYaw = (this.rotationYaw = direction * 90);
 
-		float sizeX = this.frames.sizeX;
-		float sizeY = this.frames.sizeY;
-		float sizeZ = this.frames.sizeX;
+		EnumFrame currentFrame = getCurrentFrame();
+
+		float sizeX = currentFrame.sizeX;
+		float sizeY = currentFrame.sizeY;
+		float sizeZ = currentFrame.sizeX;
 		float width = 0.5F;
 
 		if ((direction != 0) && (direction != 2)) {
@@ -240,22 +211,22 @@ public class EntityFrame extends EntityHanging implements IEntityAdditionalSpawn
 		float yPos = this.yPosition + 0.5F;
 		float zPos = this.zPosition + 0.5F;
 
-		yPos += sizeOffset(this.frames.sizeY);
+		yPos += sizeOffset(currentFrame.sizeY);
 		if (direction == 0) {
 			zPos -= width + 0.5F;
-			xPos -= sizeOffset(this.frames.sizeX);
+			xPos -= sizeOffset(currentFrame.sizeX);
 		}
 		if (direction == 1) {
 			xPos -= width + 0.5F;
-			zPos += sizeOffset(this.frames.sizeX);
+			zPos += sizeOffset(currentFrame.sizeX);
 		}
 		if (direction == 2) {
 			zPos += width + 0.5F;
-			xPos += sizeOffset(this.frames.sizeX);
+			xPos += sizeOffset(currentFrame.sizeX);
 		}
 		if (direction == 3) {
 			xPos += width + 0.5F;
-			zPos -= sizeOffset(this.frames.sizeX);
+			zPos -= sizeOffset(currentFrame.sizeX);
 		}
 
 		setPosition(xPos, yPos, zPos);
@@ -293,11 +264,15 @@ public class EntityFrame extends EntityHanging implements IEntityAdditionalSpawn
 	public void onUpdate() {
 		if ((this.material == 0) && (DecorConfig.burnFrames)) {
 			if (WorldHelper.isAABBInMaterial(worldObj, this.fireboundingBox.contract(0.001D, 0.001D, 0.001D), Material.fire)) {
-				if (!this.isBurnt) {
+				if (!this.getBurned()) {
 					dyeFrame(8, true);
 				}
 			}
 		}
+	}
+
+	public EnumFrame getCurrentFrame() {
+		return EnumFrame.getFrameById(this.getDataWatcher().getWatchableObjectInt(8));
 	}
 
 	@Override
@@ -306,8 +281,10 @@ public class EntityFrame extends EntityHanging implements IEntityAdditionalSpawn
 			return false;
 		}
 
-		int sizeX = this.frames.sizeX / 16;
-		int sizeY = this.frames.sizeY / 16;
+		EnumFrame currentFrame = getCurrentFrame();
+
+		int sizeX = currentFrame.sizeX / 16;
+		int sizeY = currentFrame.sizeY / 16;
 		int x = this.xPosition;
 		int y = this.yPosition;
 		int z = this.zPosition;
@@ -321,19 +298,19 @@ public class EntityFrame extends EntityHanging implements IEntityAdditionalSpawn
 		}
 
 		if (this.direction == 0) {
-			x = MathHelper.floor_double(this.posX - this.frames.sizeX / 32.0F);
+			x = MathHelper.floor_double(this.posX - currentFrame.sizeX / 32.0F);
 		}
 		if (this.direction == 1) {
-			z = MathHelper.floor_double(this.posZ - this.frames.sizeX / 32.0F);
+			z = MathHelper.floor_double(this.posZ - currentFrame.sizeX / 32.0F);
 		}
 		if (this.direction == 2) {
-			x = MathHelper.floor_double(this.posX - this.frames.sizeX / 32.0F);
+			x = MathHelper.floor_double(this.posX - currentFrame.sizeX / 32.0F);
 		}
 		if (this.direction == 3) {
-			z = MathHelper.floor_double(this.posZ - this.frames.sizeX / 32.0F);
+			z = MathHelper.floor_double(this.posZ - currentFrame.sizeX / 32.0F);
 		}
 
-		y = MathHelper.floor_double(this.posY - this.frames.sizeY / 32.0F);
+		y = MathHelper.floor_double(this.posY - currentFrame.sizeY / 32.0F);
 
 		if (onWall) {
 			for (int xOffset = 0; xOffset < sizeX; xOffset++) {
@@ -353,7 +330,7 @@ public class EntityFrame extends EntityHanging implements IEntityAdditionalSpawn
 
 		}
 
-		if (this.frames.isCollidable) {
+		if (currentFrame.isCollidable) {
 			List<Entity> list = this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.getEntityBoundingBox());
 			for (int l1 = 0; l1 < list.size(); l1++) {
 				if ((list.get(l1) instanceof EntityFrame)) {
@@ -375,7 +352,7 @@ public class EntityFrame extends EntityHanging implements IEntityAdditionalSpawn
 
 	@Override
 	public AxisAlignedBB getCollisionBoundingBox() {
-		if (this.frames.isCollidable) {
+		if (getCurrentFrame().isCollidable) {
 			return getEntityBoundingBox();
 		}
 		return null;
@@ -470,6 +447,18 @@ public class EntityFrame extends EntityHanging implements IEntityAdditionalSpawn
 		}
 	}
 
+	public int getFrameID() {
+		return this.getDataWatcher().getWatchableObjectInt(8);
+	}
+
+	public int[] getFrameColor() {
+		return new int[] { this.getDataWatcher().getWatchableObjectInt(9), this.getDataWatcher().getWatchableObjectInt(10), this.getDataWatcher().getWatchableObjectInt(11) };
+	}
+
+	public boolean getBurned() {
+		return this.getDataWatcher().getWatchableObjectByte(12) == (byte) 1;
+	}
+
 	public void playBurnSound() {
 		this.worldObj.playSoundEffect(this.posX + 0.5D, this.posY + 0.5D, this.posZ + 0.5D, "fire.fire", 1.0F, 1.0F);
 	}
@@ -477,15 +466,17 @@ public class EntityFrame extends EntityHanging implements IEntityAdditionalSpawn
 	@Override
 	public void writeEntityToNBT(NBTTagCompound nbttagcompound) {
 		nbttagcompound.setByte("Dir", (byte) this.direction);
-		nbttagcompound.setInteger("Motive", this.frames.id);
+		nbttagcompound.setInteger("Motive", this.getFrameID());
 		nbttagcompound.setInteger("TileX", this.xPosition);
 		nbttagcompound.setInteger("TileY", this.yPosition);
 		nbttagcompound.setInteger("TileZ", this.zPosition);
-		nbttagcompound.setInteger("Red", this.red);
-		nbttagcompound.setInteger("Green", this.green);
-		nbttagcompound.setInteger("Blue", this.blue);
+
+		int[] color = getFrameColor();
+		nbttagcompound.setInteger("Red", color[0]);
+		nbttagcompound.setInteger("Green", color[1]);
+		nbttagcompound.setInteger("Blue", color[2]);
 		nbttagcompound.setInteger("Material", this.material);
-		nbttagcompound.setBoolean("Burnt", this.isBurnt);
+		nbttagcompound.setBoolean("Burnt", getBurned());
 	}
 
 	@Override
@@ -496,46 +487,29 @@ public class EntityFrame extends EntityHanging implements IEntityAdditionalSpawn
 		this.zPosition = nbttagcompound.getInteger("TileZ");
 
 		this.pos = new BlockPos(xPosition, yPosition, zPosition);
-
-		this.red = nbttagcompound.getInteger("Red");
-		this.green = nbttagcompound.getInteger("Green");
-		this.blue = nbttagcompound.getInteger("Blue");
+		this.getDataWatcher().updateObject(9, nbttagcompound.getInteger("Red"));
+		this.getDataWatcher().updateObject(10, nbttagcompound.getInteger("Green"));
+		this.getDataWatcher().updateObject(11, nbttagcompound.getInteger("Blue"));
 		this.material = nbttagcompound.getInteger("Material");
-		int id = nbttagcompound.getInteger("Motive");
-		this.isBurnt = nbttagcompound.getBoolean("Burnt");
+		this.getDataWatcher().updateObject(8, nbttagcompound.getInteger("Motive"));
+		this.getDataWatcher().updateObject(12, nbttagcompound.getBoolean("Burnt") ? (byte) 1 : (byte) 0);
 
+		// TODO: Simplify this logic
 		EnumFrame[] aenumframes = EnumFrame.values();
 		int i = aenumframes.length;
 		for (int j = 0; j < i; j++) {
 			EnumFrame enumframes = aenumframes[j];
-			if (enumframes.id == id) {
-				this.frames = enumframes;
+			if (enumframes.id == getFrameID()) {
+				this.getDataWatcher().updateObject(8, enumframes.id);
 				break;
 			}
-		}
-
-		if (this.frames == null) {
-			this.frames = EnumFrame.frame_01;
 		}
 
 		setDirection(this.direction);
 		setResistance(this.material);
 	}
 
-	public void moveEntity(double x, double y, double z) {
-		if ((!this.worldObj.isRemote) && (!this.isDead) && (x * x + y * y + z * z > 0.0D)) {
-			setDead();
-			this.worldObj.spawnEntityInWorld(new EntityItem(this.worldObj, this.posX, this.posY, this.posZ, new ItemStack(DecorItems.frame, 1, this.material)));
-		}
-	}
-
-	public void addVelocity(double x, double y, double z) {
-		if ((!this.worldObj.isRemote) && (!this.isDead) && (x * x + y * y + z * z > 0.0D)) {
-			setDead();
-			this.worldObj.spawnEntityInWorld(new EntityItem(this.worldObj, this.posX, this.posY, this.posZ, new ItemStack(DecorItems.frame, 1, this.material)));
-		}
-	}
-
+	@Override
 	public void writeSpawnData(ByteBuf data) {
 		data.writeInt(this.direction);
 		data.writeInt(this.xPosition);
@@ -543,14 +517,16 @@ public class EntityFrame extends EntityHanging implements IEntityAdditionalSpawn
 		data.writeInt(this.zPosition);
 		data.writeInt(this.material);
 
-		data.writeInt(this.frames.id);
+		data.writeInt(this.getFrameID());
 
-		data.writeInt(this.red);
-		data.writeInt(this.green);
-		data.writeInt(this.blue);
-		data.writeBoolean(this.isBurnt);
+		int[] color = getFrameColor();
+		data.writeInt(color[0]);
+		data.writeInt(color[1]);
+		data.writeInt(color[2]);
+		data.writeBoolean(this.getBurned());
 	}
 
+	@Override
 	public void readSpawnData(ByteBuf data) {
 		this.direction = data.readInt();
 		this.xPosition = data.readInt();
@@ -558,29 +534,42 @@ public class EntityFrame extends EntityHanging implements IEntityAdditionalSpawn
 		this.zPosition = data.readInt();
 		this.pos = new BlockPos(xPosition, yPosition, zPosition);
 		this.material = data.readInt();
-		int id = data.readInt();
+		this.getDataWatcher().updateObject(8, data.readInt());
 
+		// TODO: Simplify this logic
 		EnumFrame[] aenumframes = EnumFrame.values();
 		int i = aenumframes.length;
 		for (int j = 0; j < i; j++) {
 			EnumFrame enumframes = aenumframes[j];
-			if (enumframes.id == id) {
-				this.frames = enumframes;
+			if (enumframes.id == this.getFrameID()) {
+				this.getDataWatcher().updateObject(8, enumframes.id);
 				break;
 			}
-		}
-
-		if (this.frames == null) {
-			this.frames = EnumFrame.frame_01;
 		}
 
 		setDirection(this.direction);
 		setResistance(this.material);
 
-		this.red = data.readInt();
-		this.green = data.readInt();
-		this.blue = data.readInt();
-		this.isBurnt = data.readBoolean();
+		this.getDataWatcher().updateObject(9, data.readInt());
+		this.getDataWatcher().updateObject(10, data.readInt());
+		this.getDataWatcher().updateObject(11, data.readInt());
+		this.getDataWatcher().updateObject(12, data.readBoolean() ? (byte) 1 : (byte) 0);
+	}
+
+	@Override
+	public void moveEntity(double x, double y, double z) {
+		if ((!this.worldObj.isRemote) && (!this.isDead) && (x * x + y * y + z * z > 0.0D)) {
+			setDead();
+			this.worldObj.spawnEntityInWorld(new EntityItem(this.worldObj, this.posX, this.posY, this.posZ, new ItemStack(DecorItems.frame, 1, this.material)));
+		}
+	}
+
+	@Override
+	public void addVelocity(double x, double y, double z) {
+		if ((!this.worldObj.isRemote) && (!this.isDead) && (x * x + y * y + z * z > 0.0D)) {
+			setDead();
+			this.worldObj.spawnEntityInWorld(new EntityItem(this.worldObj, this.posX, this.posY, this.posZ, new ItemStack(DecorItems.frame, 1, this.material)));
+		}
 	}
 
 	@Override

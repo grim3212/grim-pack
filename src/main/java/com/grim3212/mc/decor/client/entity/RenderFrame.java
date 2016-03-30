@@ -33,7 +33,7 @@ public class RenderFrame extends Render<EntityFrame> {
 		GlStateManager.rotate(entityYaw, 0f, 1f, 0f);
 		GlStateManager.enableRescaleNormal();
 		this.bindEntityTexture(entity);
-		EnumFrame var10 = entity.frames;
+		EnumFrame var10 = entity.getCurrentFrame();
 		renderBeams(entity, var10);
 		GlStateManager.disableRescaleNormal();
 		GlStateManager.popMatrix();
@@ -72,39 +72,39 @@ public class RenderFrame extends Render<EntityFrame> {
 			float var23 = (1.0F - var20) * var21;
 			float var25 = 0.0F;
 
-			// No idea what this is doing
+			// TODO: Is this even doing anything?
 			this.setLightmap(entity, frame.sizeX, frame.sizeY);
 
 			renderer.begin(7, DefaultVertexFormats.POSITION_TEX_COLOR_NORMAL);
-			renderer.pos(var3 + var5[var10].x1, var4 + var5[var10].y1, var11).tex(var13, var22).color(entity.red / 256.0F, entity.green / 256.0F, entity.blue / 256.0F, 1.0f).normal(0.0F, 0.0F, -1.0F).endVertex();
-			renderer.pos(var3 + var5[var10].x2, var4 + var5[var10].y2, var11).tex(var13, var23).color(entity.red / 256.0F, entity.green / 256.0F, entity.blue / 256.0F, 1.0f).normal(0.0F, 0.0F, -1.0F).endVertex();
-			renderer.pos(var3 + var5[var10].x3, var4 + var5[var10].y3, var11).tex(var14, var21).color(entity.red / 256.0F, entity.green / 256.0F, entity.blue / 256.0F, 1.0f).normal(0.0F, 0.0F, -1.0F).endVertex();
-			renderer.pos(var3 + var5[var10].x4, var4 + var5[var10].y4, var11).tex(var14, var25).color(entity.red / 256.0F, entity.green / 256.0F, entity.blue / 256.0F, 1.0f).normal(0.0F, 0.0F, -1.0F).endVertex();
+			renderer.pos(var3 + var5[var10].x1, var4 + var5[var10].y1, var11).tex(var13, var22).color(entity.getFrameColor()[0] / 256.0F, entity.getFrameColor()[1] / 256.0F, entity.getFrameColor()[2] / 256.0F, 1.0f).normal(0.0F, 0.0F, -1.0F).endVertex();
+			renderer.pos(var3 + var5[var10].x2, var4 + var5[var10].y2, var11).tex(var13, var23).color(entity.getFrameColor()[0] / 256.0F, entity.getFrameColor()[1] / 256.0F, entity.getFrameColor()[2] / 256.0F, 1.0f).normal(0.0F, 0.0F, -1.0F).endVertex();
+			renderer.pos(var3 + var5[var10].x3, var4 + var5[var10].y3, var11).tex(var14, var21).color(entity.getFrameColor()[0] / 256.0F, entity.getFrameColor()[1] / 256.0F, entity.getFrameColor()[2] / 256.0F, 1.0f).normal(0.0F, 0.0F, -1.0F).endVertex();
+			renderer.pos(var3 + var5[var10].x4, var4 + var5[var10].y4, var11).tex(var14, var25).color(entity.getFrameColor()[0] / 256.0F, entity.getFrameColor()[1] / 256.0F, entity.getFrameColor()[2] / 256.0F, 1.0f).normal(0.0F, 0.0F, -1.0F).endVertex();
 
-			renderer.pos(var3 + var5[var10].x4, var4 + var5[var10].y4, var12).tex(var14, var25).color(entity.red / 256.0F, entity.green / 256.0F, entity.blue / 256.0F, 1.0f).normal(0.0F, 0.0F, 1.0F).endVertex();
-			renderer.pos(var3 + var5[var10].x3, var4 + var5[var10].y3, var12).tex(var14, var21).color(entity.red / 256.0F, entity.green / 256.0F, entity.blue / 256.0F, 1.0f).normal(0.0F, 0.0F, 1.0F).endVertex();
-			renderer.pos(var3 + var5[var10].x2, var4 + var5[var10].y2, var12).tex(var13, var23).color(entity.red / 256.0F, entity.green / 256.0F, entity.blue / 256.0F, 1.0f).normal(0.0F, 0.0F, 1.0F).endVertex();
-			renderer.pos(var3 + var5[var10].x1, var4 + var5[var10].y1, var12).tex(var13, var22).color(entity.red / 256.0F, entity.green / 256.0F, entity.blue / 256.0F, 1.0f).normal(0.0F, 0.0F, 1.0F).endVertex();
+			renderer.pos(var3 + var5[var10].x4, var4 + var5[var10].y4, var12).tex(var14, var25).color(entity.getFrameColor()[0] / 256.0F, entity.getFrameColor()[1] / 256.0F, entity.getFrameColor()[2] / 256.0F, 1.0f).normal(0.0F, 0.0F, 1.0F).endVertex();
+			renderer.pos(var3 + var5[var10].x3, var4 + var5[var10].y3, var12).tex(var14, var21).color(entity.getFrameColor()[0] / 256.0F, entity.getFrameColor()[1] / 256.0F, entity.getFrameColor()[2] / 256.0F, 1.0f).normal(0.0F, 0.0F, 1.0F).endVertex();
+			renderer.pos(var3 + var5[var10].x2, var4 + var5[var10].y2, var12).tex(var13, var23).color(entity.getFrameColor()[0] / 256.0F, entity.getFrameColor()[1] / 256.0F, entity.getFrameColor()[2] / 256.0F, 1.0f).normal(0.0F, 0.0F, 1.0F).endVertex();
+			renderer.pos(var3 + var5[var10].x1, var4 + var5[var10].y1, var12).tex(var13, var22).color(entity.getFrameColor()[0] / 256.0F, entity.getFrameColor()[1] / 256.0F, entity.getFrameColor()[2] / 256.0F, 1.0f).normal(0.0F, 0.0F, 1.0F).endVertex();
 
-			renderer.pos(var3 + var5[var10].x2, var4 + var5[var10].y2, var11).tex(var15, var25).color(entity.red / 256.0F, entity.green / 256.0F, entity.blue / 256.0F, 1.0f).normal(0.0F, -1.0F, 0.0F).endVertex();
-			renderer.pos(var3 + var5[var10].x1, var4 + var5[var10].y1, var11).tex(var15, var21).color(entity.red / 256.0F, entity.green / 256.0F, entity.blue / 256.0F, 1.0f).normal(0.0F, -1.0F, 0.0F).endVertex();
-			renderer.pos(var3 + var5[var10].x1, var4 + var5[var10].y1, var12).tex(var13, var21).color(entity.red / 256.0F, entity.green / 256.0F, entity.blue / 256.0F, 1.0f).normal(0.0F, -1.0F, 0.0F).endVertex();
-			renderer.pos(var3 + var5[var10].x2, var4 + var5[var10].y2, var12).tex(var13, var25).color(entity.red / 256.0F, entity.green / 256.0F, entity.blue / 256.0F, 1.0f).normal(0.0F, -1.0F, 0.0F).endVertex();
+			renderer.pos(var3 + var5[var10].x2, var4 + var5[var10].y2, var11).tex(var15, var25).color(entity.getFrameColor()[0] / 256.0F, entity.getFrameColor()[1] / 256.0F, entity.getFrameColor()[2] / 256.0F, 1.0f).normal(0.0F, -1.0F, 0.0F).endVertex();
+			renderer.pos(var3 + var5[var10].x1, var4 + var5[var10].y1, var11).tex(var15, var21).color(entity.getFrameColor()[0] / 256.0F, entity.getFrameColor()[1] / 256.0F, entity.getFrameColor()[2] / 256.0F, 1.0f).normal(0.0F, -1.0F, 0.0F).endVertex();
+			renderer.pos(var3 + var5[var10].x1, var4 + var5[var10].y1, var12).tex(var13, var21).color(entity.getFrameColor()[0] / 256.0F, entity.getFrameColor()[1] / 256.0F, entity.getFrameColor()[2] / 256.0F, 1.0f).normal(0.0F, -1.0F, 0.0F).endVertex();
+			renderer.pos(var3 + var5[var10].x2, var4 + var5[var10].y2, var12).tex(var13, var25).color(entity.getFrameColor()[0] / 256.0F, entity.getFrameColor()[1] / 256.0F, entity.getFrameColor()[2] / 256.0F, 1.0f).normal(0.0F, -1.0F, 0.0F).endVertex();
 
-			renderer.pos(var3 + var5[var10].x3, var4 + var5[var10].y3, var11).tex(var15, var21 / 3.0F).color(entity.red / 256.0F, entity.green / 256.0F, entity.blue / 256.0F, 1.0f).normal(0.0F, -1.0F, 0.0F).endVertex();
-			renderer.pos(var3 + var5[var10].x2, var4 + var5[var10].y2, var11).tex(var15, var25).color(entity.red / 256.0F, entity.green / 256.0F, entity.blue / 256.0F, 1.0f).normal(0.0F, -1.0F, 0.0F).endVertex();
-			renderer.pos(var3 + var5[var10].x2, var4 + var5[var10].y2, var12).tex(var13, var25).color(entity.red / 256.0F, entity.green / 256.0F, entity.blue / 256.0F, 1.0f).normal(0.0F, -1.0F, 0.0F).endVertex();
-			renderer.pos(var3 + var5[var10].x3, var4 + var5[var10].y3, var12).tex(var13, var21 / 3.0F).color(entity.red / 256.0F, entity.green / 256.0F, entity.blue / 256.0F, 1.0f).normal(0.0F, -1.0F, 0.0F).endVertex();
+			renderer.pos(var3 + var5[var10].x3, var4 + var5[var10].y3, var11).tex(var15, var21 / 3.0F).color(entity.getFrameColor()[0] / 256.0F, entity.getFrameColor()[1] / 256.0F, entity.getFrameColor()[2] / 256.0F, 1.0f).normal(0.0F, -1.0F, 0.0F).endVertex();
+			renderer.pos(var3 + var5[var10].x2, var4 + var5[var10].y2, var11).tex(var15, var25).color(entity.getFrameColor()[0] / 256.0F, entity.getFrameColor()[1] / 256.0F, entity.getFrameColor()[2] / 256.0F, 1.0f).normal(0.0F, -1.0F, 0.0F).endVertex();
+			renderer.pos(var3 + var5[var10].x2, var4 + var5[var10].y2, var12).tex(var13, var25).color(entity.getFrameColor()[0] / 256.0F, entity.getFrameColor()[1] / 256.0F, entity.getFrameColor()[2] / 256.0F, 1.0f).normal(0.0F, -1.0F, 0.0F).endVertex();
+			renderer.pos(var3 + var5[var10].x3, var4 + var5[var10].y3, var12).tex(var13, var21 / 3.0F).color(entity.getFrameColor()[0] / 256.0F, entity.getFrameColor()[1] / 256.0F, entity.getFrameColor()[2] / 256.0F, 1.0f).normal(0.0F, -1.0F, 0.0F).endVertex();
 
-			renderer.pos(var3 + var5[var10].x4, var4 + var5[var10].y4, var11).tex(var15, var25).color(entity.red / 256.0F, entity.green / 256.0F, entity.blue / 256.0F, 1.0f).normal(0.0F, -1.0F, 0.0F).endVertex();
-			renderer.pos(var3 + var5[var10].x3, var4 + var5[var10].y3, var11).tex(var15, var21).color(entity.red / 256.0F, entity.green / 256.0F, entity.blue / 256.0F, 1.0f).normal(0.0F, -1.0F, 0.0F).endVertex();
-			renderer.pos(var3 + var5[var10].x3, var4 + var5[var10].y3, var12).tex(var13, var21).color(entity.red / 256.0F, entity.green / 256.0F, entity.blue / 256.0F, 1.0f).normal(0.0F, -1.0F, 0.0F).endVertex();
-			renderer.pos(var3 + var5[var10].x4, var4 + var5[var10].y4, var12).tex(var13, var25).color(entity.red / 256.0F, entity.green / 256.0F, entity.blue / 256.0F, 1.0f).normal(0.0F, -1.0F, 0.0F).endVertex();
+			renderer.pos(var3 + var5[var10].x4, var4 + var5[var10].y4, var11).tex(var15, var25).color(entity.getFrameColor()[0] / 256.0F, entity.getFrameColor()[1] / 256.0F, entity.getFrameColor()[2] / 256.0F, 1.0f).normal(0.0F, -1.0F, 0.0F).endVertex();
+			renderer.pos(var3 + var5[var10].x3, var4 + var5[var10].y3, var11).tex(var15, var21).color(entity.getFrameColor()[0] / 256.0F, entity.getFrameColor()[1] / 256.0F, entity.getFrameColor()[2] / 256.0F, 1.0f).normal(0.0F, -1.0F, 0.0F).endVertex();
+			renderer.pos(var3 + var5[var10].x3, var4 + var5[var10].y3, var12).tex(var13, var21).color(entity.getFrameColor()[0] / 256.0F, entity.getFrameColor()[1] / 256.0F, entity.getFrameColor()[2] / 256.0F, 1.0f).normal(0.0F, -1.0F, 0.0F).endVertex();
+			renderer.pos(var3 + var5[var10].x4, var4 + var5[var10].y4, var12).tex(var13, var25).color(entity.getFrameColor()[0] / 256.0F, entity.getFrameColor()[1] / 256.0F, entity.getFrameColor()[2] / 256.0F, 1.0f).normal(0.0F, -1.0F, 0.0F).endVertex();
 
-			renderer.pos(var3 + var5[var10].x1, var4 + var5[var10].y1, var11).tex(var15, var21 / 3.0F).color(entity.red / 256.0F, entity.green / 256.0F, entity.blue / 256.0F, 1.0f).normal(0.0F, -1.0F, 0.0F).endVertex();
-			renderer.pos(var3 + var5[var10].x4, var4 + var5[var10].y4, var11).tex(var15, var25).color(entity.red / 256.0F, entity.green / 256.0F, entity.blue / 256.0F, 1.0f).normal(0.0F, -1.0F, 0.0F).endVertex();
-			renderer.pos(var3 + var5[var10].x4, var4 + var5[var10].y4, var12).tex(var13, var25).color(entity.red / 256.0F, entity.green / 256.0F, entity.blue / 256.0F, 1.0f).normal(0.0F, -1.0F, 0.0F).endVertex();
-			renderer.pos(var3 + var5[var10].x1, var4 + var5[var10].y1, var12).tex(var13, var21 / 3.0F).color(entity.red / 256.0F, entity.green / 256.0F, entity.blue / 256.0F, 1.0f).normal(0.0F, -1.0F, 0.0F).endVertex();
+			renderer.pos(var3 + var5[var10].x1, var4 + var5[var10].y1, var11).tex(var15, var21 / 3.0F).color(entity.getFrameColor()[0] / 256.0F, entity.getFrameColor()[1] / 256.0F, entity.getFrameColor()[2] / 256.0F, 1.0f).normal(0.0F, -1.0F, 0.0F).endVertex();
+			renderer.pos(var3 + var5[var10].x4, var4 + var5[var10].y4, var11).tex(var15, var25).color(entity.getFrameColor()[0] / 256.0F, entity.getFrameColor()[1] / 256.0F, entity.getFrameColor()[2] / 256.0F, 1.0f).normal(0.0F, -1.0F, 0.0F).endVertex();
+			renderer.pos(var3 + var5[var10].x4, var4 + var5[var10].y4, var12).tex(var13, var25).color(entity.getFrameColor()[0] / 256.0F, entity.getFrameColor()[1] / 256.0F, entity.getFrameColor()[2] / 256.0F, 1.0f).normal(0.0F, -1.0F, 0.0F).endVertex();
+			renderer.pos(var3 + var5[var10].x1, var4 + var5[var10].y1, var12).tex(var13, var21 / 3.0F).color(entity.getFrameColor()[0] / 256.0F, entity.getFrameColor()[1] / 256.0F, entity.getFrameColor()[2] / 256.0F, 1.0f).normal(0.0F, -1.0F, 0.0F).endVertex();
 
 			tess.draw();
 		}

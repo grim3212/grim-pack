@@ -4,7 +4,6 @@ import com.grim3212.mc.core.config.GrimConfig;
 import com.grim3212.mc.core.manual.ManualRegistry;
 import com.grim3212.mc.core.manual.ModSection;
 import com.grim3212.mc.core.manual.pages.PageCrafting;
-import com.grim3212.mc.core.network.PacketDispatcher;
 import com.grim3212.mc.core.part.GrimPart;
 import com.grim3212.mc.core.part.IPartEntities;
 import com.grim3212.mc.core.part.IPartItems;
@@ -13,8 +12,6 @@ import com.grim3212.mc.decor.block.DecorBlocks;
 import com.grim3212.mc.decor.config.DecorConfig;
 import com.grim3212.mc.decor.entity.DecorEntities;
 import com.grim3212.mc.decor.item.DecorItems;
-import com.grim3212.mc.decor.network.FrameDyeMessage;
-import com.grim3212.mc.decor.network.FrameUpdateMessage;
 import com.grim3212.mc.decor.tile.DecorTileEntities;
 
 import net.minecraft.item.Item;
@@ -48,10 +45,6 @@ public class GrimDecor extends GrimPart {
 		data.description = "Grim Decor provides many different ways to decorate your Minecraft world.";
 		data.url = "http://mods.grim3212.com/mc/" + "my-mods/grim-decor/";
 		data.credits = "Thanks to the following authors.";
-
-		// Register client messages
-		PacketDispatcher.registerMessage(FrameUpdateMessage.class);
-		PacketDispatcher.registerMessage(FrameDyeMessage.class);
 	}
 
 	@Override
