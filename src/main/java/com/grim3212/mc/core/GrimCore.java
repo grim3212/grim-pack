@@ -1,5 +1,8 @@
 package com.grim3212.mc.core;
 
+import java.io.IOException;
+import java.util.List;
+
 import com.grim3212.mc.core.client.CoreGuiHandler;
 import com.grim3212.mc.core.config.CoreConfig;
 import com.grim3212.mc.core.config.GrimConfig;
@@ -8,6 +11,7 @@ import com.grim3212.mc.core.manual.ManualRegistry;
 import com.grim3212.mc.core.manual.ModSection;
 import com.grim3212.mc.core.manual.event.LoginEvent;
 import com.grim3212.mc.core.manual.pages.PageCrafting;
+import com.grim3212.mc.core.modules.AnnotationFinder;
 import com.grim3212.mc.core.part.GrimPart;
 import com.grim3212.mc.core.part.IPartItems;
 
@@ -31,8 +35,24 @@ public class GrimCore extends GrimPart {
 	public static final String modName = "Grim Core";
 	public static final String modVersion = "1.0.0";
 
+	static {
+		List<Class> annotated;
+		try {
+			annotated = AnnotationFinder.getAnnotatedClasses("com.grim3212.mc", Mod.class);
+			for (int i = 0; i < annotated.size(); i++) {
+				System.out.println(annotated.get(i).getName());
+			}
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	public GrimCore() {
 		super(GrimCore.modID, GrimCore.modName, GrimCore.modVersion);
+
+		
 	}
 
 	@Override
