@@ -8,7 +8,6 @@ import com.grim3212.mc.core.manual.ManualRegistry;
 import com.grim3212.mc.core.manual.ModSection;
 import com.grim3212.mc.core.manual.event.LoginEvent;
 import com.grim3212.mc.core.manual.pages.PageCrafting;
-import com.grim3212.mc.core.modules.ModuleLoader;
 import com.grim3212.mc.core.part.GrimPart;
 import com.grim3212.mc.core.part.IPartItems;
 
@@ -36,9 +35,6 @@ public class GrimCore extends GrimPart {
 
 	public GrimCore() {
 		super(GrimCore.modID, GrimCore.modName, GrimCore.modVersion);
-
-		// Find and put all of the loaded modules into a list
-		ModuleLoader.loadModules(this);
 	}
 
 	@Override
@@ -55,8 +51,6 @@ public class GrimCore extends GrimPart {
 
 		// Register LoginEvent for receiving the Instruction Manual
 		MinecraftForge.EVENT_BUS.register(new LoginEvent());
-
-		ModuleLoader.preInit(event);
 	}
 
 	@Override
