@@ -27,84 +27,81 @@ public class RenderFrame extends Render<EntityFrame> {
 	}
 
 	@Override
-	public void doRender(EntityFrame entity, double x, double y, double z, float entityYaw, float partialTicks) {
+	public void doRender(EntityFrame frame, double x, double y, double z, float entityYaw, float partialTicks) {
 		GlStateManager.pushMatrix();
 		GlStateManager.translate(x, y, z);
 		GlStateManager.rotate(entityYaw, 0f, 1f, 0f);
 		GlStateManager.enableRescaleNormal();
-		this.bindEntityTexture(entity);
-		EnumFrame var10 = entity.getCurrentFrame();
-		renderBeams(entity, var10);
+		this.bindEntityTexture(frame);
+		renderBeams(frame, frame.getCurrentFrame());
 		GlStateManager.disableRescaleNormal();
 		GlStateManager.popMatrix();
 	}
 
 	private void renderBeams(EntityFrame entity, EnumFrame frame) {
 		GlStateManager.scale(frame.sizeX / 256.0F + 0.001F, frame.sizeY / 256.0F + 0.001F, 0.0625F);
-		float var3 = -8.0F;
-		float var4 = -8.0F;
-		EnumFrameRender[] var5 = EnumFrameRender.values();
+		float xPos = -8.0F;
+		float yPos = -8.0F;
 
 		WorldRenderer renderer = Tessellator.getInstance().getWorldRenderer();
 		Tessellator tess = Tessellator.getInstance();
-		int[] var7 = frame.planks;
-		int var8 = var7.length;
+		int[] planks = frame.planks;
+		EnumFrameRender[] renderFrames = EnumFrameRender.values();
 
-		for (int var9 = 0; var9 < var8; var9++) {
-			int var10 = var7[var9];
-			float var11 = var5[var10].zFront;
-			float var12 = var5[var10].zBack;
-			float var13 = 0.5F * entity.material;
-			float var14 = 0.5F * (entity.material + var5[var10].texSize);
-			float var15 = 0.5F * (entity.material + 0.5F);
+		for (int i = 0; i < planks.length; i++) {
+			int currentPlank = planks[i];
+			float zFront = renderFrames[currentPlank].zFront;
+			float zBack = renderFrames[currentPlank].zBack;
+			float u1 = 0.5F * entity.material;
+			float u2 = 0.5F * (entity.material + renderFrames[currentPlank].texSize);
+			float u3 = 0.5F * (entity.material + 0.5F);
 
 			if (!frame.isCollidable) {
-				var15 = 0.5F * (entity.material + 1.0F);
+				u3 = 0.5F * (entity.material + 1.0F);
 			}
 
-			float var16 = frame.sizeX / 16.0F;
-			float var17 = frame.sizeY / 16.0F;
-			float var18 = (float) Math.sqrt(Math.pow((var5[var10].x2 - var5[var10].x1) * var16, 2.0D) + Math.pow((var5[var10].y2 - var5[var10].y1) * var17, 2.0D));
-			float var19 = (float) Math.sqrt(Math.pow((var5[var10].x4 - var5[var10].x3) * var16, 2.0D) + Math.pow((var5[var10].y4 - var5[var10].y3) * var17, 2.0D));
-			float var20 = (var19 - var18) / (var19 * 2.0F);
-			float var21 = var19 / 32.0F;
-			float var22 = var20 * var21;
-			float var23 = (1.0F - var20) * var21;
-			float var25 = 0.0F;
+			float sizeX = frame.sizeX / 16.0F;
+			float sizeY = frame.sizeY / 16.0F;
+			float f1 = (float) Math.sqrt(Math.pow((renderFrames[currentPlank].x2 - renderFrames[currentPlank].x1) * sizeX, 2.0D) + Math.pow((renderFrames[currentPlank].y2 - renderFrames[currentPlank].y1) * sizeY, 2.0D));
+			float f2 = (float) Math.sqrt(Math.pow((renderFrames[currentPlank].x4 - renderFrames[currentPlank].x3) * sizeX, 2.0D) + Math.pow((renderFrames[currentPlank].y4 - renderFrames[currentPlank].y3) * sizeY, 2.0D));
+			float f3 = (f2 - f1) / (f2 * 2.0F);
+			float v1 = f2 / 32.0F;
+			float v2 = f3 * v1;
+			float v3 = (1.0F - f3) * v1;
 
 			// TODO: Is this even doing anything?
 			this.setLightmap(entity, frame.sizeX, frame.sizeY);
 
 			renderer.begin(7, DefaultVertexFormats.POSITION_TEX_COLOR_NORMAL);
-			renderer.pos(var3 + var5[var10].x1, var4 + var5[var10].y1, var11).tex(var13, var22).color(entity.getFrameColor()[0] / 256.0F, entity.getFrameColor()[1] / 256.0F, entity.getFrameColor()[2] / 256.0F, 1.0f).normal(0.0F, 0.0F, -1.0F).endVertex();
-			renderer.pos(var3 + var5[var10].x2, var4 + var5[var10].y2, var11).tex(var13, var23).color(entity.getFrameColor()[0] / 256.0F, entity.getFrameColor()[1] / 256.0F, entity.getFrameColor()[2] / 256.0F, 1.0f).normal(0.0F, 0.0F, -1.0F).endVertex();
-			renderer.pos(var3 + var5[var10].x3, var4 + var5[var10].y3, var11).tex(var14, var21).color(entity.getFrameColor()[0] / 256.0F, entity.getFrameColor()[1] / 256.0F, entity.getFrameColor()[2] / 256.0F, 1.0f).normal(0.0F, 0.0F, -1.0F).endVertex();
-			renderer.pos(var3 + var5[var10].x4, var4 + var5[var10].y4, var11).tex(var14, var25).color(entity.getFrameColor()[0] / 256.0F, entity.getFrameColor()[1] / 256.0F, entity.getFrameColor()[2] / 256.0F, 1.0f).normal(0.0F, 0.0F, -1.0F).endVertex();
+			renderer.pos(xPos + renderFrames[currentPlank].x1, yPos + renderFrames[currentPlank].y1, zFront).tex(u1, v2).color(entity.getFrameColor()[0] / 256.0F, entity.getFrameColor()[1] / 256.0F, entity.getFrameColor()[2] / 256.0F, 1.0f).normal(0.0F, 0.0F, -1.0F).endVertex();
+			renderer.pos(xPos + renderFrames[currentPlank].x2, yPos + renderFrames[currentPlank].y2, zFront).tex(u1, v3).color(entity.getFrameColor()[0] / 256.0F, entity.getFrameColor()[1] / 256.0F, entity.getFrameColor()[2] / 256.0F, 1.0f).normal(0.0F, 0.0F, -1.0F).endVertex();
+			renderer.pos(xPos + renderFrames[currentPlank].x3, yPos + renderFrames[currentPlank].y3, zFront).tex(u2, v1).color(entity.getFrameColor()[0] / 256.0F, entity.getFrameColor()[1] / 256.0F, entity.getFrameColor()[2] / 256.0F, 1.0f).normal(0.0F, 0.0F, -1.0F).endVertex();
+			renderer.pos(xPos + renderFrames[currentPlank].x4, yPos + renderFrames[currentPlank].y4, zFront).tex(u2, 0F).color(entity.getFrameColor()[0] / 256.0F, entity.getFrameColor()[1] / 256.0F, entity.getFrameColor()[2] / 256.0F, 1.0f).normal(0.0F, 0.0F, -1.0F).endVertex();
 
-			renderer.pos(var3 + var5[var10].x4, var4 + var5[var10].y4, var12).tex(var14, var25).color(entity.getFrameColor()[0] / 256.0F, entity.getFrameColor()[1] / 256.0F, entity.getFrameColor()[2] / 256.0F, 1.0f).normal(0.0F, 0.0F, 1.0F).endVertex();
-			renderer.pos(var3 + var5[var10].x3, var4 + var5[var10].y3, var12).tex(var14, var21).color(entity.getFrameColor()[0] / 256.0F, entity.getFrameColor()[1] / 256.0F, entity.getFrameColor()[2] / 256.0F, 1.0f).normal(0.0F, 0.0F, 1.0F).endVertex();
-			renderer.pos(var3 + var5[var10].x2, var4 + var5[var10].y2, var12).tex(var13, var23).color(entity.getFrameColor()[0] / 256.0F, entity.getFrameColor()[1] / 256.0F, entity.getFrameColor()[2] / 256.0F, 1.0f).normal(0.0F, 0.0F, 1.0F).endVertex();
-			renderer.pos(var3 + var5[var10].x1, var4 + var5[var10].y1, var12).tex(var13, var22).color(entity.getFrameColor()[0] / 256.0F, entity.getFrameColor()[1] / 256.0F, entity.getFrameColor()[2] / 256.0F, 1.0f).normal(0.0F, 0.0F, 1.0F).endVertex();
+			renderer.pos(xPos + renderFrames[currentPlank].x4, yPos + renderFrames[currentPlank].y4, zBack).tex(u2, 0F).color(entity.getFrameColor()[0] / 256.0F, entity.getFrameColor()[1] / 256.0F, entity.getFrameColor()[2] / 256.0F, 1.0f).normal(0.0F, 0.0F, 1.0F).endVertex();
+			renderer.pos(xPos + renderFrames[currentPlank].x3, yPos + renderFrames[currentPlank].y3, zBack).tex(u2, v1).color(entity.getFrameColor()[0] / 256.0F, entity.getFrameColor()[1] / 256.0F, entity.getFrameColor()[2] / 256.0F, 1.0f).normal(0.0F, 0.0F, 1.0F).endVertex();
+			renderer.pos(xPos + renderFrames[currentPlank].x2, yPos + renderFrames[currentPlank].y2, zBack).tex(u1, v3).color(entity.getFrameColor()[0] / 256.0F, entity.getFrameColor()[1] / 256.0F, entity.getFrameColor()[2] / 256.0F, 1.0f).normal(0.0F, 0.0F, 1.0F).endVertex();
+			renderer.pos(xPos + renderFrames[currentPlank].x1, yPos + renderFrames[currentPlank].y1, zBack).tex(u1, v2).color(entity.getFrameColor()[0] / 256.0F, entity.getFrameColor()[1] / 256.0F, entity.getFrameColor()[2] / 256.0F, 1.0f).normal(0.0F, 0.0F, 1.0F).endVertex();
 
-			renderer.pos(var3 + var5[var10].x2, var4 + var5[var10].y2, var11).tex(var15, var25).color(entity.getFrameColor()[0] / 256.0F, entity.getFrameColor()[1] / 256.0F, entity.getFrameColor()[2] / 256.0F, 1.0f).normal(0.0F, -1.0F, 0.0F).endVertex();
-			renderer.pos(var3 + var5[var10].x1, var4 + var5[var10].y1, var11).tex(var15, var21).color(entity.getFrameColor()[0] / 256.0F, entity.getFrameColor()[1] / 256.0F, entity.getFrameColor()[2] / 256.0F, 1.0f).normal(0.0F, -1.0F, 0.0F).endVertex();
-			renderer.pos(var3 + var5[var10].x1, var4 + var5[var10].y1, var12).tex(var13, var21).color(entity.getFrameColor()[0] / 256.0F, entity.getFrameColor()[1] / 256.0F, entity.getFrameColor()[2] / 256.0F, 1.0f).normal(0.0F, -1.0F, 0.0F).endVertex();
-			renderer.pos(var3 + var5[var10].x2, var4 + var5[var10].y2, var12).tex(var13, var25).color(entity.getFrameColor()[0] / 256.0F, entity.getFrameColor()[1] / 256.0F, entity.getFrameColor()[2] / 256.0F, 1.0f).normal(0.0F, -1.0F, 0.0F).endVertex();
+			renderer.pos(xPos + renderFrames[currentPlank].x2, yPos + renderFrames[currentPlank].y2, zFront).tex(u3, 0F).color(entity.getFrameColor()[0] / 256.0F, entity.getFrameColor()[1] / 256.0F, entity.getFrameColor()[2] / 256.0F, 1.0f).normal(0.0F, -1.0F, 0.0F).endVertex();
+			renderer.pos(xPos + renderFrames[currentPlank].x1, yPos + renderFrames[currentPlank].y1, zFront).tex(u3, v1).color(entity.getFrameColor()[0] / 256.0F, entity.getFrameColor()[1] / 256.0F, entity.getFrameColor()[2] / 256.0F, 1.0f).normal(0.0F, -1.0F, 0.0F).endVertex();
+			renderer.pos(xPos + renderFrames[currentPlank].x1, yPos + renderFrames[currentPlank].y1, zBack).tex(u1, v1).color(entity.getFrameColor()[0] / 256.0F, entity.getFrameColor()[1] / 256.0F, entity.getFrameColor()[2] / 256.0F, 1.0f).normal(0.0F, -1.0F, 0.0F).endVertex();
+			renderer.pos(xPos + renderFrames[currentPlank].x2, yPos + renderFrames[currentPlank].y2, zBack).tex(u1, 0F).color(entity.getFrameColor()[0] / 256.0F, entity.getFrameColor()[1] / 256.0F, entity.getFrameColor()[2] / 256.0F, 1.0f).normal(0.0F, -1.0F, 0.0F).endVertex();
 
-			renderer.pos(var3 + var5[var10].x3, var4 + var5[var10].y3, var11).tex(var15, var21 / 3.0F).color(entity.getFrameColor()[0] / 256.0F, entity.getFrameColor()[1] / 256.0F, entity.getFrameColor()[2] / 256.0F, 1.0f).normal(0.0F, -1.0F, 0.0F).endVertex();
-			renderer.pos(var3 + var5[var10].x2, var4 + var5[var10].y2, var11).tex(var15, var25).color(entity.getFrameColor()[0] / 256.0F, entity.getFrameColor()[1] / 256.0F, entity.getFrameColor()[2] / 256.0F, 1.0f).normal(0.0F, -1.0F, 0.0F).endVertex();
-			renderer.pos(var3 + var5[var10].x2, var4 + var5[var10].y2, var12).tex(var13, var25).color(entity.getFrameColor()[0] / 256.0F, entity.getFrameColor()[1] / 256.0F, entity.getFrameColor()[2] / 256.0F, 1.0f).normal(0.0F, -1.0F, 0.0F).endVertex();
-			renderer.pos(var3 + var5[var10].x3, var4 + var5[var10].y3, var12).tex(var13, var21 / 3.0F).color(entity.getFrameColor()[0] / 256.0F, entity.getFrameColor()[1] / 256.0F, entity.getFrameColor()[2] / 256.0F, 1.0f).normal(0.0F, -1.0F, 0.0F).endVertex();
+			renderer.pos(xPos + renderFrames[currentPlank].x3, yPos + renderFrames[currentPlank].y3, zFront).tex(u3, v1 / 3.0F).color(entity.getFrameColor()[0] / 256.0F, entity.getFrameColor()[1] / 256.0F, entity.getFrameColor()[2] / 256.0F, 1.0f).normal(0.0F, -1.0F, 0.0F).endVertex();
+			renderer.pos(xPos + renderFrames[currentPlank].x2, yPos + renderFrames[currentPlank].y2, zFront).tex(u3, 0F).color(entity.getFrameColor()[0] / 256.0F, entity.getFrameColor()[1] / 256.0F, entity.getFrameColor()[2] / 256.0F, 1.0f).normal(0.0F, -1.0F, 0.0F).endVertex();
+			renderer.pos(xPos + renderFrames[currentPlank].x2, yPos + renderFrames[currentPlank].y2, zBack).tex(u1, 0F).color(entity.getFrameColor()[0] / 256.0F, entity.getFrameColor()[1] / 256.0F, entity.getFrameColor()[2] / 256.0F, 1.0f).normal(0.0F, -1.0F, 0.0F).endVertex();
+			renderer.pos(xPos + renderFrames[currentPlank].x3, yPos + renderFrames[currentPlank].y3, zBack).tex(u1, v1 / 3.0F).color(entity.getFrameColor()[0] / 256.0F, entity.getFrameColor()[1] / 256.0F, entity.getFrameColor()[2] / 256.0F, 1.0f).normal(0.0F, -1.0F, 0.0F).endVertex();
 
-			renderer.pos(var3 + var5[var10].x4, var4 + var5[var10].y4, var11).tex(var15, var25).color(entity.getFrameColor()[0] / 256.0F, entity.getFrameColor()[1] / 256.0F, entity.getFrameColor()[2] / 256.0F, 1.0f).normal(0.0F, -1.0F, 0.0F).endVertex();
-			renderer.pos(var3 + var5[var10].x3, var4 + var5[var10].y3, var11).tex(var15, var21).color(entity.getFrameColor()[0] / 256.0F, entity.getFrameColor()[1] / 256.0F, entity.getFrameColor()[2] / 256.0F, 1.0f).normal(0.0F, -1.0F, 0.0F).endVertex();
-			renderer.pos(var3 + var5[var10].x3, var4 + var5[var10].y3, var12).tex(var13, var21).color(entity.getFrameColor()[0] / 256.0F, entity.getFrameColor()[1] / 256.0F, entity.getFrameColor()[2] / 256.0F, 1.0f).normal(0.0F, -1.0F, 0.0F).endVertex();
-			renderer.pos(var3 + var5[var10].x4, var4 + var5[var10].y4, var12).tex(var13, var25).color(entity.getFrameColor()[0] / 256.0F, entity.getFrameColor()[1] / 256.0F, entity.getFrameColor()[2] / 256.0F, 1.0f).normal(0.0F, -1.0F, 0.0F).endVertex();
+			renderer.pos(xPos + renderFrames[currentPlank].x4, yPos + renderFrames[currentPlank].y4, zFront).tex(u3, 0F).color(entity.getFrameColor()[0] / 256.0F, entity.getFrameColor()[1] / 256.0F, entity.getFrameColor()[2] / 256.0F, 1.0f).normal(0.0F, -1.0F, 0.0F).endVertex();
+			renderer.pos(xPos + renderFrames[currentPlank].x3, yPos + renderFrames[currentPlank].y3, zFront).tex(u3, v1).color(entity.getFrameColor()[0] / 256.0F, entity.getFrameColor()[1] / 256.0F, entity.getFrameColor()[2] / 256.0F, 1.0f).normal(0.0F, -1.0F, 0.0F).endVertex();
+			renderer.pos(xPos + renderFrames[currentPlank].x3, yPos + renderFrames[currentPlank].y3, zBack).tex(u1, v1).color(entity.getFrameColor()[0] / 256.0F, entity.getFrameColor()[1] / 256.0F, entity.getFrameColor()[2] / 256.0F, 1.0f).normal(0.0F, -1.0F, 0.0F).endVertex();
+			renderer.pos(xPos + renderFrames[currentPlank].x4, yPos + renderFrames[currentPlank].y4, zBack).tex(u1, 0F).color(entity.getFrameColor()[0] / 256.0F, entity.getFrameColor()[1] / 256.0F, entity.getFrameColor()[2] / 256.0F, 1.0f).normal(0.0F, -1.0F, 0.0F).endVertex();
 
-			renderer.pos(var3 + var5[var10].x1, var4 + var5[var10].y1, var11).tex(var15, var21 / 3.0F).color(entity.getFrameColor()[0] / 256.0F, entity.getFrameColor()[1] / 256.0F, entity.getFrameColor()[2] / 256.0F, 1.0f).normal(0.0F, -1.0F, 0.0F).endVertex();
-			renderer.pos(var3 + var5[var10].x4, var4 + var5[var10].y4, var11).tex(var15, var25).color(entity.getFrameColor()[0] / 256.0F, entity.getFrameColor()[1] / 256.0F, entity.getFrameColor()[2] / 256.0F, 1.0f).normal(0.0F, -1.0F, 0.0F).endVertex();
-			renderer.pos(var3 + var5[var10].x4, var4 + var5[var10].y4, var12).tex(var13, var25).color(entity.getFrameColor()[0] / 256.0F, entity.getFrameColor()[1] / 256.0F, entity.getFrameColor()[2] / 256.0F, 1.0f).normal(0.0F, -1.0F, 0.0F).endVertex();
-			renderer.pos(var3 + var5[var10].x1, var4 + var5[var10].y1, var12).tex(var13, var21 / 3.0F).color(entity.getFrameColor()[0] / 256.0F, entity.getFrameColor()[1] / 256.0F, entity.getFrameColor()[2] / 256.0F, 1.0f).normal(0.0F, -1.0F, 0.0F).endVertex();
+			renderer.pos(xPos + renderFrames[currentPlank].x1, yPos + renderFrames[currentPlank].y1, zFront).tex(u3, v1 / 3.0F).color(entity.getFrameColor()[0] / 256.0F, entity.getFrameColor()[1] / 256.0F, entity.getFrameColor()[2] / 256.0F, 1.0f).normal(0.0F, -1.0F, 0.0F).endVertex();
+			renderer.pos(xPos + renderFrames[currentPlank].x4, yPos + renderFrames[currentPlank].y4, zFront).tex(u3, 0F).color(entity.getFrameColor()[0] / 256.0F, entity.getFrameColor()[1] / 256.0F, entity.getFrameColor()[2] / 256.0F, 1.0f).normal(0.0F, -1.0F, 0.0F).endVertex();
+			renderer.pos(xPos + renderFrames[currentPlank].x4, yPos + renderFrames[currentPlank].y4, zBack).tex(u1, 0F).color(entity.getFrameColor()[0] / 256.0F, entity.getFrameColor()[1] / 256.0F, entity.getFrameColor()[2] / 256.0F, 1.0f).normal(0.0F, -1.0F, 0.0F).endVertex();
+			renderer.pos(xPos + renderFrames[currentPlank].x1, yPos + renderFrames[currentPlank].y1, zBack).tex(u1, v1 / 3.0F).color(entity.getFrameColor()[0] / 256.0F, entity.getFrameColor()[1] / 256.0F, entity.getFrameColor()[2] / 256.0F, 1.0f).normal(0.0F, -1.0F, 0.0F).endVertex();
 
 			tess.draw();
 		}

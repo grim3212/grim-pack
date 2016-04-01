@@ -1,6 +1,5 @@
 package com.grim3212.mc.decor.entity;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.grim3212.mc.core.util.WorldHelper;
@@ -53,25 +52,17 @@ public class EntityFrame extends EntityHanging implements IEntityAdditionalSpawn
 		this.pos = pos;
 		this.material = material;
 
-		// TODO: Simplify this logic
-		ArrayList<EnumFrame> arraylist = new ArrayList<EnumFrame>();
-		EnumFrame[] aenumframes = EnumFrame.values();
-		int i1 = aenumframes.length;
-
-		for (int j1 = 0; j1 < i1; j1++) {
-			EnumFrame enumframes = aenumframes[j1];
-			this.getDataWatcher().updateObject(8, enumframes.id);
-			setDirection(direction);
+		for (int i = 0; i < EnumFrame.values().length; i++) {
+			EnumFrame tryFrame = EnumFrame.values()[i];
+			this.getDataWatcher().updateObject(8, tryFrame.id);
+			setDirectionAndSize(direction);
 			if (onValidSurface()) {
-				arraylist.add(enumframes);
+				// For the first valid direction update the frame and you don't
+				// need to search anymore
+				break;
 			}
 		}
 
-		if (arraylist.size() > 0) {
-			this.getDataWatcher().updateObject(8, ((EnumFrame) arraylist.get(0)).id);
-		}
-
-		setDirection(direction);
 		setResistance(this.material);
 	}
 
@@ -105,39 +96,31 @@ public class EntityFrame extends EntityHanging implements IEntityAdditionalSpawn
 	}
 
 	public boolean updateFrame() {
-		int lCounter = 0;
-		int lOldFrame = 0;
-		int lNewFrame = 0;
+		boolean foundOld = false;
+		boolean looking = true;
+		int oldFrameID = this.getFrameID();
 
-		int lOldID = this.getFrameID();
-
-		// TODO: Simplify this logic
-		ArrayList<EnumFrame> arraylist = new ArrayList<EnumFrame>();
-		EnumFrame[] aenumframes = EnumFrame.values();
-		int i1 = aenumframes.length;
-		for (int j1 = 0; j1 < i1; j1++) {
-			EnumFrame enumframes = aenumframes[j1];
-			this.getDataWatcher().updateObject(8, enumframes.id);
-			setDirection(this.direction);
-			if (onValidSurface()) {
-				arraylist.add(enumframes);
-				if (enumframes.id == lOldID) {
-					lOldFrame = lCounter;
+		// Wrapped in a while to account for if the the next valid frame is at
+		// the beginning of the EnumFrame values
+		while (looking) {
+			for (int i = 0; i < EnumFrame.values().length; i++) {
+				EnumFrame tryFrame = EnumFrame.values()[i];
+				this.getDataWatcher().updateObject(8, tryFrame.id);
+				setDirectionAndSize(this.direction);
+				if (onValidSurface()) {
+					if (foundOld) {
+						// The next valid frame we stop looking for the next
+						// frame to use
+						looking = false;
+						break;
+					} else {
+						if (tryFrame.id == oldFrameID) {
+							foundOld = true;
+						}
+					}
 				}
-				lCounter++;
 			}
 		}
-
-		lNewFrame = lOldFrame + 1;
-		if (lNewFrame >= arraylist.size()) {
-			lNewFrame = 0;
-		}
-
-		if (arraylist.size() > 0) {
-			this.getDataWatcher().updateObject(8, ((EnumFrame) arraylist.get(lNewFrame)).id);
-		}
-
-		setDirection(this.direction);
 
 		if (!this.worldObj.isRemote)
 			playFrameSound();
@@ -184,7 +167,7 @@ public class EntityFrame extends EntityHanging implements IEntityAdditionalSpawn
 		}
 	}
 
-	public void setDirection(int direction) {
+	public void setDirectionAndSize(int direction) {
 		this.direction = direction;
 
 		this.prevRotationYaw = (this.rotationYaw = direction * 90);
@@ -494,18 +477,7 @@ public class EntityFrame extends EntityHanging implements IEntityAdditionalSpawn
 		this.getDataWatcher().updateObject(8, nbttagcompound.getInteger("Motive"));
 		this.getDataWatcher().updateObject(12, nbttagcompound.getBoolean("Burnt") ? (byte) 1 : (byte) 0);
 
-		// TODO: Simplify this logic
-		EnumFrame[] aenumframes = EnumFrame.values();
-		int i = aenumframes.length;
-		for (int j = 0; j < i; j++) {
-			EnumFrame enumframes = aenumframes[j];
-			if (enumframes.id == getFrameID()) {
-				this.getDataWatcher().updateObject(8, enumframes.id);
-				break;
-			}
-		}
-
-		setDirection(this.direction);
+		setDirectionAndSize(this.direction);
 		setResistance(this.material);
 	}
 
@@ -536,18 +508,7 @@ public class EntityFrame extends EntityHanging implements IEntityAdditionalSpawn
 		this.material = data.readInt();
 		this.getDataWatcher().updateObject(8, data.readInt());
 
-		// TODO: Simplify this logic
-		EnumFrame[] aenumframes = EnumFrame.values();
-		int i = aenumframes.length;
-		for (int j = 0; j < i; j++) {
-			EnumFrame enumframes = aenumframes[j];
-			if (enumframes.id == this.getFrameID()) {
-				this.getDataWatcher().updateObject(8, enumframes.id);
-				break;
-			}
-		}
-
-		setDirection(this.direction);
+		setDirectionAndSize(this.direction);
 		setResistance(this.material);
 
 		this.getDataWatcher().updateObject(9, data.readInt());
