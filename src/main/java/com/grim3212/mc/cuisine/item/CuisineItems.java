@@ -59,8 +59,6 @@ public class CuisineItems implements IPartItems {
 	public static Item raw_chocolate_pie;
 	public static Item raw_pork_pie;
 	public static Item raw_melon_pie;
-
-	// TODO: Add in another way to get the pumpkin pie
 	public static Item raw_pumpkin_pie;
 
 	// Recipe lists
