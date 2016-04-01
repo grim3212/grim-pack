@@ -10,12 +10,32 @@ import java.lang.annotation.Target;
 public @interface GrimModule {
 
 	String id();
-	
+
 	String name();
-	
+
 	String version();
-	
-	String[] requiredModules();
-	
-	String[] requiredMods();
+
+	String[] requiredModules() default {};
+
+	String[] requiredMods() default {};
+
+	@Retention(RetentionPolicy.RUNTIME)
+	@Target({ ElementType.FIELD })
+	public @interface CreativeItem {
+	}
+
+	@Retention(RetentionPolicy.RUNTIME)
+	@Target({ ElementType.METHOD })
+	public @interface PreInit {
+	}
+
+	@Retention(RetentionPolicy.RUNTIME)
+	@Target({ ElementType.METHOD })
+	public @interface Init {
+	}
+
+	@Retention(RetentionPolicy.RUNTIME)
+	@Target({ ElementType.METHOD })
+	public @interface PostInit {
+	}
 }

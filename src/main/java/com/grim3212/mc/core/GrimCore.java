@@ -1,8 +1,5 @@
 package com.grim3212.mc.core;
 
-import java.io.IOException;
-import java.util.List;
-
 import com.grim3212.mc.core.client.CoreGuiHandler;
 import com.grim3212.mc.core.config.CoreConfig;
 import com.grim3212.mc.core.config.GrimConfig;
@@ -11,7 +8,7 @@ import com.grim3212.mc.core.manual.ManualRegistry;
 import com.grim3212.mc.core.manual.ModSection;
 import com.grim3212.mc.core.manual.event.LoginEvent;
 import com.grim3212.mc.core.manual.pages.PageCrafting;
-import com.grim3212.mc.core.modules.AnnotationFinder;
+import com.grim3212.mc.core.modules.ModuleLoader;
 import com.grim3212.mc.core.part.GrimPart;
 import com.grim3212.mc.core.part.IPartItems;
 
@@ -22,6 +19,8 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.Mod.Instance;
 import net.minecraftforge.fml.common.ModMetadata;
+import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 
@@ -35,24 +34,11 @@ public class GrimCore extends GrimPart {
 	public static final String modName = "Grim Core";
 	public static final String modVersion = "1.0.0";
 
-	static {
-		List<Class> annotated;
-		try {
-			annotated = AnnotationFinder.getAnnotatedClasses("com.grim3212.mc", Mod.class);
-			for (int i = 0; i < annotated.size(); i++) {
-				System.out.println(annotated.get(i).getName());
-			}
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-	
 	public GrimCore() {
 		super(GrimCore.modID, GrimCore.modName, GrimCore.modVersion);
 
-		
+		// Find and put all of the loaded modules into a list
+		ModuleLoader.loadModules(this);
 	}
 
 	@Override
@@ -69,6 +55,20 @@ public class GrimCore extends GrimPart {
 
 		// Register LoginEvent for receiving the Instruction Manual
 		MinecraftForge.EVENT_BUS.register(new LoginEvent());
+
+		ModuleLoader.preInit(event);
+	}
+
+	@Override
+	@EventHandler
+	public void init(FMLInitializationEvent event) {
+		super.init(event);
+	}
+
+	@Override
+	@EventHandler
+	public void postInit(FMLPostInitializationEvent event) {
+		super.postInit(event);
 	}
 
 	@Override
