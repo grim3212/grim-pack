@@ -1,7 +1,6 @@
 package com.grim3212.mc.core.item;
 
 import com.grim3212.mc.core.GrimCore;
-import com.grim3212.mc.core.client.RenderHelper;
 import com.grim3212.mc.core.manual.ItemManual;
 import com.grim3212.mc.core.part.IPartItems;
 
@@ -24,11 +23,6 @@ public class CoreItems implements IPartItems {
 	@Override
 	public void addRecipes() {
 		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(instruction_manual), new Object[] { Items.book, "dyeBlack", "dyeBrown" }));
-	}
-
-	@Override
-	public void renderItems() {
-		RenderHelper.renderItem(instruction_manual);
 	}
 
 }

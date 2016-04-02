@@ -9,7 +9,7 @@ import com.grim3212.mc.core.manual.ModSection;
 import com.grim3212.mc.core.manual.event.LoginEvent;
 import com.grim3212.mc.core.manual.pages.PageCrafting;
 import com.grim3212.mc.core.part.GrimPart;
-import com.grim3212.mc.core.part.IPartItems;
+import com.grim3212.mc.core.proxy.CommonProxy;
 
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -18,8 +18,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.Mod.Instance;
 import net.minecraftforge.fml.common.ModMetadata;
-import net.minecraftforge.fml.common.event.FMLInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
+import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 
@@ -29,12 +28,16 @@ public class GrimCore extends GrimPart {
 	@Instance(GrimCore.modID)
 	public static GrimCore INSTANCE;
 
+	@SidedProxy(clientSide = "com.grim3212.mc.core.proxy.ClientProxy", serverSide = COMMON_PROXY)
+	public static CommonProxy proxy;
+
 	public static final String modID = "grimcore";
 	public static final String modName = "Grim Core";
 	public static final String modVersion = "1.0.0";
 
 	public GrimCore() {
 		super(GrimCore.modID, GrimCore.modName, GrimCore.modVersion);
+		addItem(new CoreItems());
 	}
 
 	@Override
@@ -51,18 +54,8 @@ public class GrimCore extends GrimPart {
 
 		// Register LoginEvent for receiving the Instruction Manual
 		MinecraftForge.EVENT_BUS.register(new LoginEvent());
-	}
 
-	@Override
-	@EventHandler
-	public void init(FMLInitializationEvent event) {
-		super.init(event);
-	}
-
-	@Override
-	@EventHandler
-	public void postInit(FMLPostInitializationEvent event) {
-		super.postInit(event);
+		proxy.registerModels();
 	}
 
 	@Override
@@ -78,10 +71,5 @@ public class GrimCore extends GrimPart {
 	@Override
 	protected void setupManualPages(ModSection modSection) {
 		ManualRegistry.addSection("im", modSection).addSubSectionPages(new PageCrafting("instructionmanual", new ItemStack(CoreItems.instruction_manual)));
-	}
-
-	@Override
-	protected IPartItems[] setItemParts() {
-		return new IPartItems[] { new CoreItems() };
 	}
 }

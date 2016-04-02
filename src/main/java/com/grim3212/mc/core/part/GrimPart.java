@@ -1,16 +1,18 @@
 package com.grim3212.mc.core.part;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.grim3212.mc.core.config.GrimConfig;
 import com.grim3212.mc.core.manual.ManualRegistry;
 import com.grim3212.mc.core.manual.ModSection;
-import com.grim3212.mc.core.proxy.CommonProxy;
+import com.grim3212.mc.core.part.IPartEntities.IPartTileEntities;
 
 import net.minecraft.item.Item;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fml.client.event.ConfigChangedEvent.OnConfigChangedEvent;
 import net.minecraftforge.fml.common.ModMetadata;
-import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
@@ -18,11 +20,9 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public abstract class GrimPart {
 
-	public static final String CLIENT_PROXY = "com.grim3212.mc.core.proxy.ClientProxy";
 	public static final String COMMON_PROXY = "com.grim3212.mc.core.proxy.CommonProxy";
 
-	@SidedProxy(clientSide = CLIENT_PROXY, serverSide = COMMON_PROXY)
-	public static CommonProxy proxy;
+	public static final List<GrimPart> loadedParts = new ArrayList<GrimPart>();
 
 	private String modid;
 	private String name;
@@ -30,31 +30,34 @@ public abstract class GrimPart {
 	private GrimConfig config;
 	private GrimPartCreativeTab creativeTab;
 	private ModSection modSection;
-	private IPartItems[] items;
-	private IPartTileEntities tileentities;
-	private IPartEntities entities;
+	private List<IPartItems> items;
+	private List<IPartEntities> entities;
+	private List<IPartTileEntities> tileentities;
 
 	public GrimPart(String modid, String name, String version) {
 		this.modid = modid;
 		this.name = name;
 		this.version = version;
 		this.config = setConfig();
-		this.items = setItemParts();
-		this.entities = setEntities();
-		this.tileentities = setTileEntities();
 		this.creativeTab = new GrimPartCreativeTab(this);
 		ManualRegistry.registerMod(modSection = new ModSection(getName(), getModid()));
+		loadedParts.add(this);
+		this.items = new ArrayList<IPartItems>();
+		this.entities = new ArrayList<IPartEntities>();
+		this.tileentities = new ArrayList<IPartTileEntities>();
 	}
 
-	protected IPartEntities setEntities() {
-		return null;
+	public void addEntity(IPartEntities entity) {
+		this.entities.add(entity);
 	}
 
-	protected IPartTileEntities setTileEntities() {
-		return null;
+	public void addItem(IPartItems item) {
+		this.items.add(item);
 	}
 
-	protected abstract IPartItems[] setItemParts();
+	public void addTileEntity(IPartTileEntities te) {
+		this.tileentities.add(te);
+	}
 
 	/**
 	 * Make sure to add @EventHandler when overridden as well as call super
@@ -71,30 +74,22 @@ public abstract class GrimPart {
 		data.name = getName();
 		data.authorList.add("Grim3212");
 		data.logoFile = "assets/" + getModid() + "/" + getModid() + ".png";
+		data.url = "http://mods.grim3212.com/mc/my-mods/" + getModid();
 
 		MinecraftForge.EVENT_BUS.register(this);
 
-		if (this.items != null) {
-			// Initialize all items and blocks first
-			for (int i = 0; i < this.items.length; i++) {
-				this.items[i].initItems();
-			}
-
-			// Then render and create recipes
-			for (int i = 0; i < this.items.length; i++) {
-				this.items[i].addRecipes();
-
-				if (event.getSide().isClient()) {
-					this.items[i].renderItems();
-				}
-			}
+		// Initialize all items and blocks first
+		for (int i = 0; i < this.items.size(); i++) {
+			this.items.get(i).initItems();
 		}
 
-		if (this.entities != null) {
-			this.entities.initEntities();
+		// Then render and create recipes
+		for (int i = 0; i < this.items.size(); i++) {
+			this.items.get(i).addRecipes();
+		}
 
-			if (event.getSide().isClient())
-				this.entities.renderEntities();
+		for (int i = 0; i < this.entities.size(); i++) {
+			this.entities.get(i).initEntities();
 		}
 
 		if (event.getSide().isClient())
@@ -108,11 +103,8 @@ public abstract class GrimPart {
 	 *            event
 	 */
 	public void init(FMLInitializationEvent event) {
-		if (this.tileentities != null) {
-			this.tileentities.initTileEntities();
-
-			if (event.getSide().isClient())
-				this.tileentities.renderTileEntities();
+		for (int i = 0; i < this.tileentities.size(); i++) {
+			this.tileentities.get(i).initTileEntities();
 		}
 	}
 

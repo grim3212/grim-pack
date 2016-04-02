@@ -21,4 +21,8 @@ public class CommonProxy {
 		return ctx.getServerHandler().playerEntity.getServerForPlayer();
 	}
 
+	public void registerModels() {
+		
+	}
+
 }
