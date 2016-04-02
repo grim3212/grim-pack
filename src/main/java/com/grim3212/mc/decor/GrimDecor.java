@@ -5,9 +5,7 @@ import com.grim3212.mc.core.manual.ManualRegistry;
 import com.grim3212.mc.core.manual.ModSection;
 import com.grim3212.mc.core.manual.pages.PageCrafting;
 import com.grim3212.mc.core.part.GrimPart;
-import com.grim3212.mc.core.part.IPartEntities;
-import com.grim3212.mc.core.part.IPartItems;
-import com.grim3212.mc.core.part.IPartTileEntities;
+import com.grim3212.mc.core.proxy.CommonProxy;
 import com.grim3212.mc.decor.block.DecorBlocks;
 import com.grim3212.mc.decor.config.DecorConfig;
 import com.grim3212.mc.decor.entity.DecorEntities;
@@ -20,6 +18,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.Mod.Instance;
 import net.minecraftforge.fml.common.ModMetadata;
+import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
@@ -28,6 +27,9 @@ public class GrimDecor extends GrimPart {
 
 	@Instance(GrimDecor.modID)
 	public static GrimDecor INSTANCE;
+	
+	@SidedProxy(clientSide = "com.grim3212.mc.decor.proxy.DecorClientProxy", serverSide = COMMON_PROXY)
+	public static CommonProxy proxy;
 
 	public static final String modID = "grimdecor";
 	public static final String modName = "Grim Decor";
@@ -35,6 +37,10 @@ public class GrimDecor extends GrimPart {
 
 	public GrimDecor() {
 		super(GrimDecor.modID, GrimDecor.modName, GrimDecor.modVersion);
+		addItem(new DecorBlocks());
+		addItem(new DecorItems());
+		addEntity(new DecorEntities());
+		addTileEntity(new DecorTileEntities());
 	}
 
 	@Override
@@ -43,8 +49,9 @@ public class GrimDecor extends GrimPart {
 		super.preInit(event);
 		ModMetadata data = event.getModMetadata();
 		data.description = "Grim Decor provides many different ways to decorate your Minecraft world.";
-		data.url = "http://mods.grim3212.com/mc/" + "my-mods/grim-decor/";
 		data.credits = "Thanks to the following authors.";
+		
+		proxy.registerModels();
 	}
 
 	@Override
@@ -69,20 +76,4 @@ public class GrimDecor extends GrimPart {
 		ManualRegistry.addSection("wall", modSection).addSubSectionPages(new PageCrafting("clock", DecorBlocks.clocks, 20));
 		ManualRegistry.addSection("lights", modSection).addSubSectionPages(new PageCrafting("recipes", DecorBlocks.lights, 25));
 	}
-
-	@Override
-	protected IPartItems[] setItemParts() {
-		return new IPartItems[] { new DecorBlocks(), new DecorItems() };
-	}
-
-	@Override
-	protected IPartEntities setEntities() {
-		return new DecorEntities();
-	}
-
-	@Override
-	protected IPartTileEntities setTileEntities() {
-		return new DecorTileEntities();
-	}
-
 }

@@ -17,7 +17,10 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
+@SideOnly(Side.CLIENT)
 public class RenderFrame extends Render<EntityFrame> {
 
 	private static final ResourceLocation framesTexture = new ResourceLocation(GrimDecor.modID, "textures/entities/framesTexture.png");

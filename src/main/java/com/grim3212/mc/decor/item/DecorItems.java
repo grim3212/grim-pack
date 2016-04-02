@@ -2,7 +2,6 @@ package com.grim3212.mc.decor.item;
 
 import java.util.List;
 
-import com.grim3212.mc.core.client.RenderHelper;
 import com.grim3212.mc.core.part.IPartItems;
 import com.grim3212.mc.core.util.RecipeHelper;
 import com.grim3212.mc.decor.GrimDecor;
@@ -13,8 +12,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraftforge.fml.common.registry.GameRegistry;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 
 public class DecorItems implements IPartItems {
@@ -41,13 +38,6 @@ public class DecorItems implements IPartItems {
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(frame, 2, 0), new Object[] { "  #", " # ", "#  ", '#', "plankWood" }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(frame, 2, 1), new Object[] { "  #", " # ", "#  ", '#', "ingotIron" }));
 		frames = RecipeHelper.getLatestIRecipes(2);
-	}
-
-	@Override
-	@SideOnly(Side.CLIENT)
-	public void renderItems() {
-		RenderHelper.renderItem(glass_shard);
-		RenderHelper.renderVariantForge(frame, new String[] { "wood", "iron" });
 	}
 
 }

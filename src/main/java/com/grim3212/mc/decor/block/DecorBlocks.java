@@ -3,7 +3,6 @@ package com.grim3212.mc.decor.block;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.grim3212.mc.core.client.RenderHelper;
 import com.grim3212.mc.core.part.IPartItems;
 import com.grim3212.mc.core.util.RecipeHelper;
 import com.grim3212.mc.decor.GrimDecor;
@@ -14,8 +13,6 @@ import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraftforge.fml.common.registry.GameRegistry;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
 
@@ -49,14 +46,6 @@ public class DecorBlocks implements IPartItems {
 
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(light_bulb, 1, 0), new Object[] { "###", "#$#", " ! ", '#', "blockGlass", '$', Blocks.redstone_torch, '!', "ingotIron" }));
 		lights.add(RecipeHelper.getLatestIRecipe());
-	}
-
-	@Override
-	@SideOnly(Side.CLIENT)
-	public void renderItems() {
-		RenderHelper.renderBlock(calendar);
-		RenderHelper.renderBlock(wall_clock);
-		RenderHelper.renderBlockWithMetaInInventory(light_bulb, 2);
 	}
 
 }
