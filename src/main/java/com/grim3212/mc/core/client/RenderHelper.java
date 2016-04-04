@@ -1,6 +1,7 @@
 package com.grim3212.mc.core.client;
 
 import net.minecraft.block.Block;
+import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.item.Item;
 import net.minecraftforge.client.model.ModelLoader;
@@ -9,6 +10,10 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class RenderHelper {
+
+	public static void setBrightness(WorldRenderer renderer, int brightness) {
+		renderer.putBrightness4(brightness, brightness, brightness, brightness);
+	}
 
 	public static void renderBlockWithMetaInInventory(Block block, int meta) {
 		Item item = Item.getItemFromBlock(block);
