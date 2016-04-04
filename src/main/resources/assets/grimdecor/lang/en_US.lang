@@ -10,6 +10,7 @@ tile.light_bulb.name=Light Bulb
 item.glass_shard.name=Glass Shard
 item.frame_iron.name=Iron Frames
 item.frame_wood.name=Wooden Frames
+item.wallpaper.name=Wallpaper
 
 #================= INSTRUCTION MANUAL =================#
 grim.manual.grimdecor.modinfo=Adds in many different decorative items and blocks to spice up your Minecraft world.
@@ -27,3 +28,8 @@ grim.manual.grimdecor.subsection.frames.page.frames=The frames added in are wood
 grim.manual.grimdecor.subsection.frames.page.frames.title=Recipes
 grim.manual.grimdecor.subsection.frames.page.info=The frames can also have the block they are placed on be removed and they will stay there. Their is a config option if the wooden frames can burn and also one for dying frames. To dye a frame you just need to right click with a dye in your hand on them. To break frames use an axe for wooden and a pickaxe for the iron.
 grim.manual.grimdecor.subsection.frames.page.info.title=More Info
+grim.manual.grimdecor.subsection.wallpaper=Wallpaper
+grim.manual.grimdecor.subsection.wallpaper.page.info=Wallpaper gives you many options to decorate your home with. By default you have 24 options but it is configurable so you can add your own. You also can change the width of the wallpaper too.<br>Other than just the default wallpaper you can also dye them by right clicking on a placed wallpaper with dye, if you would like to clear the wallpaper use Bonemeal.<br>Dying wallpaper is configurable and so is the option if wallpaper can catch on fire which if on fire will char the wallpaper and its surrounding paper which can then be cleaned with Bonemeal.
+grim.manual.grimdecor.subsection.wallpaper.page.info.title=Information
+grim.manual.grimdecor.subsection.wallpaper.page.recipe=To place wallpaper just right click on a wall with a wallpaper item. Right click on it again and it will cycle through the available options. When placed next to other wallpaper it will take on the texture of the surrounding wallpaper.
+grim.manual.grimdecor.subsection.wallpaper.page.recipe.title=Recipe

@@ -27,8 +27,8 @@ public class GrimDecor extends GrimPart {
 
 	@Instance(GrimDecor.modID)
 	public static GrimDecor INSTANCE;
-	
-	@SidedProxy(clientSide = "com.grim3212.mc.decor.proxy.DecorClientProxy", serverSide = COMMON_PROXY)
+
+	@SidedProxy(clientSide = "com.grim3212.mc.decor.DecorClientProxy", serverSide = COMMON_PROXY)
 	public static CommonProxy proxy;
 
 	public static final String modID = "grimdecor";
@@ -50,7 +50,7 @@ public class GrimDecor extends GrimPart {
 		ModMetadata data = event.getModMetadata();
 		data.description = "Grim Decor provides many different ways to decorate your Minecraft world.";
 		data.credits = "Thanks to the following authors.";
-		
+
 		proxy.registerModels();
 	}
 

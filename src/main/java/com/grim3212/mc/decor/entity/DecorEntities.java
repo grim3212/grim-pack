@@ -10,6 +10,7 @@ public class DecorEntities implements IPartEntities {
 	@Override
 	public void initEntities() {
 		EntityRegistry.registerModEntity(EntityFrame.class, "Frames", 1, GrimDecor.INSTANCE, 250, 2147483647, false);
+		EntityRegistry.registerModEntity(EntityWallpaper.class, "Wallpaper", 2, GrimDecor.INSTANCE, 250, 2147483647, false);
 	}
 
 }
