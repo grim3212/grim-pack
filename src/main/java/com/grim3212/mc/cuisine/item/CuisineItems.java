@@ -3,7 +3,6 @@ package com.grim3212.mc.cuisine.item;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.grim3212.mc.core.client.RenderHelper;
 import com.grim3212.mc.core.part.IPartItems;
 import com.grim3212.mc.core.util.RecipeHelper;
 import com.grim3212.mc.cuisine.GrimCuisine;
@@ -222,45 +221,5 @@ public class CuisineItems implements IPartItems {
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(raw_pork_pie, 1), new Object[] { " X ", "MMM", " Y ", 'X', dough, 'M', Items.porkchop, 'Y', raw_empty_pie }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(raw_melon_pie, 1), new Object[] { " X ", "MMM", " Y ", 'X', dough, 'M', Items.melon, 'Y', raw_empty_pie }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(raw_pumpkin_pie, 1), new Object[] { " X ", "MMM", " Y ", 'X', dough, 'M', pumpkin_slice, 'Y', raw_empty_pie }));
-	}
-
-	@Override
-	public void renderItems() {
-		RenderHelper.renderItem(powered_sweets);
-		RenderHelper.renderItem(powered_sugar);
-		RenderHelper.renderItem(sweets);
-		RenderHelper.renderItem(bandage);
-		RenderHelper.renderItem(healthpack_super);
-		RenderHelper.renderItem(healthpack);
-		RenderHelper.renderItem(dragon_fruit);
-		RenderHelper.renderItem(butter);
-		RenderHelper.renderItem(cheese);
-		RenderHelper.renderItem(milk_bowl);
-		RenderHelper.renderItem(cocoa_fruit);
-		RenderHelper.renderItem(cocoa_dust);
-		RenderHelper.renderItem(chocolate_bowl);
-		RenderHelper.renderItem(chocolate_bowl_hot);
-		RenderHelper.renderItem(chocolate_bar);
-		RenderHelper.renderItem(chocolate_bar_wrapped);
-		RenderHelper.renderItem(chocolate_ball);
-		RenderHelper.renderItem(wrapper);
-		RenderHelper.renderItem(bread_slice);
-		RenderHelper.renderItem(cheese_burger);
-		RenderHelper.renderItem(hot_cheese);
-		RenderHelper.renderItem(eggs_unmixed);
-		RenderHelper.renderItem(eggs_mixed);
-		RenderHelper.renderItem(eggs_cooked);
-		RenderHelper.renderItem(pan);
-		RenderHelper.renderItem(dough);
-		RenderHelper.renderItem(knife);
-		RenderHelper.renderItem(mixer);
-		RenderHelper.renderItem(raw_empty_pie);
-		RenderHelper.renderItem(raw_apple_pie);
-		RenderHelper.renderItem(raw_chocolate_pie);
-		RenderHelper.renderItem(raw_pork_pie);
-		RenderHelper.renderItem(raw_pumpkin_pie);
-		RenderHelper.renderItem(raw_melon_pie);
-		RenderHelper.renderItem(pumpkin_slice);
-		RenderHelper.renderVariantForge(soda, ItemSodaBottle.sodaTypes);
 	}
 }

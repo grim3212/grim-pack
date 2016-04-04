@@ -2,7 +2,6 @@ package com.grim3212.mc.cuisine.block;
 
 import java.util.List;
 
-import com.grim3212.mc.core.client.RenderHelper;
 import com.grim3212.mc.core.part.IPartItems;
 import com.grim3212.mc.core.util.RecipeHelper;
 import com.grim3212.mc.cuisine.GrimCuisine;
@@ -87,22 +86,4 @@ public class CuisineBlocks implements IPartItems {
 
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(chocolate_bar_mould, 1), new Object[] { " I ", " I ", "XXX", 'X', "cobblestone", 'I', "stone" }));
 	}
-
-	@Override
-	public void renderItems() {
-		RenderHelper.renderBlock(cheese_block);
-		RenderHelper.renderBlock(butter_churn);
-		RenderHelper.renderBlock(cheese_maker);
-		RenderHelper.renderBlock(cocoa_block);
-		RenderHelper.renderBlock(cocoa_tree_sapling);
-		RenderHelper.renderBlock(chocolate_bar_mould);
-		RenderHelper.renderBlock(chocolate_cake);
-		RenderHelper.renderBlock(chocolate_block);
-		RenderHelper.renderBlock(apple_pie);
-		RenderHelper.renderBlock(melon_pie);
-		RenderHelper.renderBlock(pumpkin_pie);
-		RenderHelper.renderBlock(chocolate_pie);
-		RenderHelper.renderBlock(pork_pie);
-	}
-
 }

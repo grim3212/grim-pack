@@ -7,7 +7,6 @@ import com.grim3212.mc.core.manual.pages.PageCrafting;
 import com.grim3212.mc.core.manual.pages.PageFurnace;
 import com.grim3212.mc.core.manual.pages.PageImageText;
 import com.grim3212.mc.core.part.GrimPart;
-import com.grim3212.mc.core.part.IPartItems;
 import com.grim3212.mc.cuisine.block.CuisineBlocks;
 import com.grim3212.mc.cuisine.config.CuisineConfig;
 import com.grim3212.mc.cuisine.events.DropEvent;
@@ -37,6 +36,8 @@ public class GrimCuisine extends GrimPart {
 
 	public GrimCuisine() {
 		super(GrimCuisine.modID, GrimCuisine.modName, GrimCuisine.modVersion);
+		addItem(new CuisineBlocks());
+		addItem(new CuisineItems());
 	}
 
 	@Override
@@ -79,10 +80,5 @@ public class GrimCuisine extends GrimPart {
 		ManualRegistry.addSection("bowlchoc", modSection).addSubSectionPages(new PageCrafting("bowlmilk", new ItemStack(CuisineItems.milk_bowl)), new PageCrafting("bowlChoc", new ItemStack(CuisineItems.chocolate_bowl)), new PageFurnace("bowlChocHot", new ItemStack(CuisineItems.chocolate_bowl)), new PageCrafting("chocBall", new ItemStack(CuisineItems.chocolate_ball)), new PageCrafting("cake", CuisineBlocks.cakes, 25));
 		ManualRegistry.addSection("choco", modSection).addSubSectionPages(new PageCrafting("mould", new ItemStack(CuisineBlocks.chocolate_bar_mould)), new PageCrafting("bars", CuisineItems.choc, 25), new PageCrafting("candy", CuisineItems.candy, 25));
 
-	}
-
-	@Override
-	protected IPartItems[] setItemParts() {
-		return new IPartItems[] { new CuisineBlocks(), new CuisineItems() };
 	}
 }
