@@ -1,7 +1,6 @@
 package com.grim3212.mc.core.client;
 
 import net.minecraft.block.Block;
-import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.client.renderer.vertex.VertexFormat;
 import net.minecraft.client.resources.model.ModelResourceLocation;
@@ -12,7 +11,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class RenderHelper {
-	
+
 	public static final VertexFormat POSITION_TEX_COLOR_LIGHTMAP_NORMAL = (new VertexFormat()).addElement(DefaultVertexFormats.POSITION_3F).addElement(DefaultVertexFormats.TEX_2F).addElement(DefaultVertexFormats.COLOR_4UB).addElement(DefaultVertexFormats.TEX_2S).addElement(DefaultVertexFormats.NORMAL_3B).addElement(DefaultVertexFormats.PADDING_1B);
 
 	public static void renderBlockWithMetaInInventory(Block block, int meta) {
@@ -46,6 +45,20 @@ public class RenderHelper {
 	public static void renderVariantForge(Item item, String[] variants) {
 		for (int i = 0; i < variants.length; i++) {
 			ModelLoader.setCustomModelResourceLocation(item, i, new ModelResourceLocation(item.getRegistryName(), variants[i]));
+		}
+	}
+	
+	/**
+	 * Uses the forge single blockstate for variants
+	 * 
+	 * @param item
+	 *            With variants
+	 * @param variants
+	 *            The different variant names
+	 */
+	public static void renderVariantForge(Block item, String[] variants) {
+		for (int i = 0; i < variants.length; i++) {
+			ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(item), i, new ModelResourceLocation(item.getRegistryName(), variants[i]));
 		}
 	}
 
