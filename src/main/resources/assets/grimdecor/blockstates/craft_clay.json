@@ -1,0 +1,26 @@
+{
+	"forge_marker": 1,
+    "defaults": {
+		"transform": "forge:default-block",
+        "model": "cross"
+    },
+    "variants": {
+		"cycle": { 
+			"0": { "textures": { "cross": "grimdecor:blocks/craft_clay_0" } },
+			"1": { "textures": { "cross": "grimdecor:blocks/craft_clay_1" } },
+			"2": { "textures": { "cross": "grimdecor:blocks/craft_clay_2" } },
+			"3": { "textures": { "cross": "grimdecor:blocks/craft_clay_3" } },
+			"4": { "textures": { "cross": "grimdecor:blocks/craft_clay_4" } },
+			"5": { "textures": { "cross": "grimdecor:blocks/craft_clay_5" } },
+			"6": { "textures": { "cross": "grimdecor:blocks/craft_clay_6" } },
+			"7": { "textures": { "cross": "grimdecor:blocks/craft_clay_7" } }
+		},
+		"inventory": [{
+			"model": "builtin/generated",
+			"transform": "forge:default-item",
+			"textures": {
+				"layer0": "grimdecor:blocks/craft_clay_0"
+			}
+		}]
+    }
+}

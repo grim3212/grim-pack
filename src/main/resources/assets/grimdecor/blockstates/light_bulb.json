@@ -2,7 +2,7 @@
 	"forge_marker": 1,
     "defaults": {
 		"transform": "forge:default-block",
-        "model": "tallgrass"
+        "model": "cross"
     },
     "variants": {
         "active": {

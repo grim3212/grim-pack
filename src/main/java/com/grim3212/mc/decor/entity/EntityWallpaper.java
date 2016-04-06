@@ -63,12 +63,12 @@ public class EntityWallpaper extends EntityHanging implements IEntityAdditionalS
 		for (int i = 0; i < entities.size(); i++) {
 			if ((entities.get(i) instanceof EntityWallpaper)) {
 				EntityWallpaper entWallpaper = (EntityWallpaper) entities.get(i);
-				this.getDataWatcher().updateObject(8, entWallpaper.getFrameID());
+				this.getDataWatcher().updateObject(8, entWallpaper.getWallpaperID());
 
 				if ((DecorConfig.copyDye) && (!entWallpaper.getBurned())) {
-					this.getDataWatcher().updateObject(9, entWallpaper.getFrameColor()[0]);
-					this.getDataWatcher().updateObject(10, entWallpaper.getFrameColor()[1]);
-					this.getDataWatcher().updateObject(11, entWallpaper.getFrameColor()[2]);
+					this.getDataWatcher().updateObject(9, entWallpaper.getWallpaperColor()[0]);
+					this.getDataWatcher().updateObject(10, entWallpaper.getWallpaperColor()[1]);
+					this.getDataWatcher().updateObject(11, entWallpaper.getWallpaperColor()[2]);
 				}
 			}
 		}
@@ -112,7 +112,7 @@ public class EntityWallpaper extends EntityHanging implements IEntityAdditionalS
 	}
 
 	public boolean updateWallpaper() {
-		int newWallpaper = this.getFrameID() + 1;
+		int newWallpaper = this.getWallpaperID() + 1;
 
 		if (newWallpaper >= DecorConfig.numWallpapers) {
 			newWallpaper = 0;
@@ -303,11 +303,11 @@ public class EntityWallpaper extends EntityHanging implements IEntityAdditionalS
 		return true;
 	}
 
-	public int getFrameID() {
+	public int getWallpaperID() {
 		return this.getDataWatcher().getWatchableObjectInt(8);
 	}
 
-	public int[] getFrameColor() {
+	public int[] getWallpaperColor() {
 		return new int[] { this.getDataWatcher().getWatchableObjectInt(9), this.getDataWatcher().getWatchableObjectInt(10), this.getDataWatcher().getWatchableObjectInt(11) };
 	}
 
@@ -325,13 +325,13 @@ public class EntityWallpaper extends EntityHanging implements IEntityAdditionalS
 
 	public void writeEntityToNBT(NBTTagCompound nbt) {
 		nbt.setByte("Dir", (byte) this.direction);
-		nbt.setInteger("Motive", this.getFrameID());
+		nbt.setInteger("Motive", this.getWallpaperID());
 		nbt.setInteger("TileX", this.xPosition);
 		nbt.setInteger("TileY", this.yPosition);
 		nbt.setInteger("TileZ", this.zPosition);
-		nbt.setInteger("Red", this.getFrameColor()[0]);
-		nbt.setInteger("Green", this.getFrameColor()[1]);
-		nbt.setInteger("Blue", this.getFrameColor()[2]);
+		nbt.setInteger("Red", this.getWallpaperColor()[0]);
+		nbt.setInteger("Green", this.getWallpaperColor()[1]);
+		nbt.setInteger("Blue", this.getWallpaperColor()[2]);
 		nbt.setBoolean("Burnt", this.getBurned());
 	}
 
@@ -369,11 +369,11 @@ public class EntityWallpaper extends EntityHanging implements IEntityAdditionalS
 		buf.writeInt(this.xPosition);
 		buf.writeInt(this.yPosition);
 		buf.writeInt(this.zPosition);
-		buf.writeInt(this.getFrameID());
+		buf.writeInt(this.getWallpaperID());
 		buf.writeInt(this.direction);
-		buf.writeInt(this.getFrameColor()[0]);
-		buf.writeInt(this.getFrameColor()[1]);
-		buf.writeInt(this.getFrameColor()[2]);
+		buf.writeInt(this.getWallpaperColor()[0]);
+		buf.writeInt(this.getWallpaperColor()[1]);
+		buf.writeInt(this.getWallpaperColor()[2]);
 		buf.writeBoolean(this.getBurned());
 	}
 
@@ -389,7 +389,7 @@ public class EntityWallpaper extends EntityHanging implements IEntityAdditionalS
 		this.getDataWatcher().updateObject(9, buf.readInt());
 		this.getDataWatcher().updateObject(10, buf.readInt());
 		this.getDataWatcher().updateObject(11, buf.readInt());
-		this.getDataWatcher().updateObject(8, buf.readBoolean() ? (byte) 1 : (byte) 0);
+		this.getDataWatcher().updateObject(12, buf.readBoolean() ? (byte) 1 : (byte) 0);
 	}
 
 	@Override

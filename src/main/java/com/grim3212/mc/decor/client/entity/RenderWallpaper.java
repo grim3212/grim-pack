@@ -90,15 +90,15 @@ public class RenderWallpaper extends Render<EntityWallpaper> {
 		float maxY = 16.0F;
 		float maxZ = DecorConfig.widthWallpaper;
 
-		float minU = entitywallpaper.getFrameID() / 16 / 16.0F;
-		float minV = entitywallpaper.getFrameID() % 16 / 16.0F;
+		float minU = entitywallpaper.getWallpaperID() / 16 / 16.0F;
+		float minV = entitywallpaper.getWallpaperID() % 16 / 16.0F;
 
 		float maxUV = 0.0625F;
 		float sideUV = 0.00195313F;
 
-		float red = entitywallpaper.getFrameColor()[0] / 256.0F;
-		float green = entitywallpaper.getFrameColor()[1] / 256.0F;
-		float blue = entitywallpaper.getFrameColor()[2] / 256.0F;
+		float red = entitywallpaper.getWallpaperColor()[0] / 256.0F;
+		float green = entitywallpaper.getWallpaperColor()[1] / 256.0F;
+		float blue = entitywallpaper.getWallpaperColor()[2] / 256.0F;
 
 		renderer.begin(GL11.GL_QUADS, RenderHelper.POSITION_TEX_COLOR_LIGHTMAP_NORMAL);
 		if (Minecraft.isAmbientOcclusionEnabled()) {
