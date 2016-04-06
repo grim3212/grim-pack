@@ -1,19 +1,19 @@
 package com.grim3212.mc.decor.client.entity;
 
+import org.lwjgl.opengl.GL11;
+
+import com.grim3212.mc.core.client.RenderHelper;
 import com.grim3212.mc.decor.GrimDecor;
 import com.grim3212.mc.decor.entity.EntityFrame;
 import com.grim3212.mc.decor.util.EnumFrame;
 import com.grim3212.mc.decor.util.EnumFrameRender;
 
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
-import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.BlockPos;
-import net.minecraft.util.EnumFacing;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
@@ -35,8 +35,10 @@ public class RenderFrame extends Render<EntityFrame> {
 		GlStateManager.translate(x, y, z);
 		GlStateManager.rotate(entityYaw, 0f, 1f, 0f);
 		GlStateManager.enableRescaleNormal();
+
 		this.bindEntityTexture(frame);
 		renderBeams(frame, frame.getCurrentFrame());
+
 		GlStateManager.disableRescaleNormal();
 		GlStateManager.popMatrix();
 	}
@@ -50,6 +52,10 @@ public class RenderFrame extends Render<EntityFrame> {
 		Tessellator tess = Tessellator.getInstance();
 		int[] planks = frame.planks;
 		EnumFrameRender[] renderFrames = EnumFrameRender.values();
+		BlockPos pos = new BlockPos(MathHelper.floor_double(entity.posX), MathHelper.floor_double(entity.posY), MathHelper.floor_double(entity.posZ));
+		int light = this.renderManager.worldObj.getCombinedLight(pos, 0);
+		int j = light >> 16 & 65535;
+		int k = light & 65535;
 
 		for (int i = 0; i < planks.length; i++) {
 			int currentPlank = planks[i];
@@ -72,71 +78,39 @@ public class RenderFrame extends Render<EntityFrame> {
 			float v2 = f3 * v1;
 			float v3 = (1.0F - f3) * v1;
 
-			// TODO: Update this to use the way brightness works in RenderWallpaper
-			this.setLightmap(entity, frame.sizeX, frame.sizeY);
+			renderer.begin(GL11.GL_QUADS, RenderHelper.POSITION_TEX_COLOR_LIGHTMAP_NORMAL);
+			renderer.pos(xPos + renderFrames[currentPlank].x1, yPos + renderFrames[currentPlank].y1, zFront).tex(u1, v2).color(entity.getFrameColor()[0] / 256.0F, entity.getFrameColor()[1] / 256.0F, entity.getFrameColor()[2] / 256.0F, 1.0f).lightmap(j, k).normal(0.0F, 0.0F, -1.0F).endVertex();
+			renderer.pos(xPos + renderFrames[currentPlank].x2, yPos + renderFrames[currentPlank].y2, zFront).tex(u1, v3).color(entity.getFrameColor()[0] / 256.0F, entity.getFrameColor()[1] / 256.0F, entity.getFrameColor()[2] / 256.0F, 1.0f).lightmap(j, k).normal(0.0F, 0.0F, -1.0F).endVertex();
+			renderer.pos(xPos + renderFrames[currentPlank].x3, yPos + renderFrames[currentPlank].y3, zFront).tex(u2, v1).color(entity.getFrameColor()[0] / 256.0F, entity.getFrameColor()[1] / 256.0F, entity.getFrameColor()[2] / 256.0F, 1.0f).lightmap(j, k).normal(0.0F, 0.0F, -1.0F).endVertex();
+			renderer.pos(xPos + renderFrames[currentPlank].x4, yPos + renderFrames[currentPlank].y4, zFront).tex(u2, 0F).color(entity.getFrameColor()[0] / 256.0F, entity.getFrameColor()[1] / 256.0F, entity.getFrameColor()[2] / 256.0F, 1.0f).lightmap(j, k).normal(0.0F, 0.0F, -1.0F).endVertex();
 
-			renderer.begin(7, DefaultVertexFormats.POSITION_TEX_COLOR_NORMAL);
-			renderer.pos(xPos + renderFrames[currentPlank].x1, yPos + renderFrames[currentPlank].y1, zFront).tex(u1, v2).color(entity.getFrameColor()[0] / 256.0F, entity.getFrameColor()[1] / 256.0F, entity.getFrameColor()[2] / 256.0F, 1.0f).normal(0.0F, 0.0F, -1.0F).endVertex();
-			renderer.pos(xPos + renderFrames[currentPlank].x2, yPos + renderFrames[currentPlank].y2, zFront).tex(u1, v3).color(entity.getFrameColor()[0] / 256.0F, entity.getFrameColor()[1] / 256.0F, entity.getFrameColor()[2] / 256.0F, 1.0f).normal(0.0F, 0.0F, -1.0F).endVertex();
-			renderer.pos(xPos + renderFrames[currentPlank].x3, yPos + renderFrames[currentPlank].y3, zFront).tex(u2, v1).color(entity.getFrameColor()[0] / 256.0F, entity.getFrameColor()[1] / 256.0F, entity.getFrameColor()[2] / 256.0F, 1.0f).normal(0.0F, 0.0F, -1.0F).endVertex();
-			renderer.pos(xPos + renderFrames[currentPlank].x4, yPos + renderFrames[currentPlank].y4, zFront).tex(u2, 0F).color(entity.getFrameColor()[0] / 256.0F, entity.getFrameColor()[1] / 256.0F, entity.getFrameColor()[2] / 256.0F, 1.0f).normal(0.0F, 0.0F, -1.0F).endVertex();
+			renderer.pos(xPos + renderFrames[currentPlank].x4, yPos + renderFrames[currentPlank].y4, zBack).tex(u2, 0F).color(entity.getFrameColor()[0] / 256.0F, entity.getFrameColor()[1] / 256.0F, entity.getFrameColor()[2] / 256.0F, 1.0f).lightmap(j, k).normal(0.0F, 0.0F, 1.0F).endVertex();
+			renderer.pos(xPos + renderFrames[currentPlank].x3, yPos + renderFrames[currentPlank].y3, zBack).tex(u2, v1).color(entity.getFrameColor()[0] / 256.0F, entity.getFrameColor()[1] / 256.0F, entity.getFrameColor()[2] / 256.0F, 1.0f).lightmap(j, k).normal(0.0F, 0.0F, 1.0F).endVertex();
+			renderer.pos(xPos + renderFrames[currentPlank].x2, yPos + renderFrames[currentPlank].y2, zBack).tex(u1, v3).color(entity.getFrameColor()[0] / 256.0F, entity.getFrameColor()[1] / 256.0F, entity.getFrameColor()[2] / 256.0F, 1.0f).lightmap(j, k).normal(0.0F, 0.0F, 1.0F).endVertex();
+			renderer.pos(xPos + renderFrames[currentPlank].x1, yPos + renderFrames[currentPlank].y1, zBack).tex(u1, v2).color(entity.getFrameColor()[0] / 256.0F, entity.getFrameColor()[1] / 256.0F, entity.getFrameColor()[2] / 256.0F, 1.0f).lightmap(j, k).normal(0.0F, 0.0F, 1.0F).endVertex();
 
-			renderer.pos(xPos + renderFrames[currentPlank].x4, yPos + renderFrames[currentPlank].y4, zBack).tex(u2, 0F).color(entity.getFrameColor()[0] / 256.0F, entity.getFrameColor()[1] / 256.0F, entity.getFrameColor()[2] / 256.0F, 1.0f).normal(0.0F, 0.0F, 1.0F).endVertex();
-			renderer.pos(xPos + renderFrames[currentPlank].x3, yPos + renderFrames[currentPlank].y3, zBack).tex(u2, v1).color(entity.getFrameColor()[0] / 256.0F, entity.getFrameColor()[1] / 256.0F, entity.getFrameColor()[2] / 256.0F, 1.0f).normal(0.0F, 0.0F, 1.0F).endVertex();
-			renderer.pos(xPos + renderFrames[currentPlank].x2, yPos + renderFrames[currentPlank].y2, zBack).tex(u1, v3).color(entity.getFrameColor()[0] / 256.0F, entity.getFrameColor()[1] / 256.0F, entity.getFrameColor()[2] / 256.0F, 1.0f).normal(0.0F, 0.0F, 1.0F).endVertex();
-			renderer.pos(xPos + renderFrames[currentPlank].x1, yPos + renderFrames[currentPlank].y1, zBack).tex(u1, v2).color(entity.getFrameColor()[0] / 256.0F, entity.getFrameColor()[1] / 256.0F, entity.getFrameColor()[2] / 256.0F, 1.0f).normal(0.0F, 0.0F, 1.0F).endVertex();
+			renderer.pos(xPos + renderFrames[currentPlank].x2, yPos + renderFrames[currentPlank].y2, zFront).tex(u3, 0F).color(entity.getFrameColor()[0] / 256.0F, entity.getFrameColor()[1] / 256.0F, entity.getFrameColor()[2] / 256.0F, 1.0f).lightmap(j, k).normal(0.0F, -1.0F, 0.0F).endVertex();
+			renderer.pos(xPos + renderFrames[currentPlank].x1, yPos + renderFrames[currentPlank].y1, zFront).tex(u3, v1).color(entity.getFrameColor()[0] / 256.0F, entity.getFrameColor()[1] / 256.0F, entity.getFrameColor()[2] / 256.0F, 1.0f).lightmap(j, k).normal(0.0F, -1.0F, 0.0F).endVertex();
+			renderer.pos(xPos + renderFrames[currentPlank].x1, yPos + renderFrames[currentPlank].y1, zBack).tex(u1, v1).color(entity.getFrameColor()[0] / 256.0F, entity.getFrameColor()[1] / 256.0F, entity.getFrameColor()[2] / 256.0F, 1.0f).lightmap(j, k).normal(0.0F, -1.0F, 0.0F).endVertex();
+			renderer.pos(xPos + renderFrames[currentPlank].x2, yPos + renderFrames[currentPlank].y2, zBack).tex(u1, 0F).color(entity.getFrameColor()[0] / 256.0F, entity.getFrameColor()[1] / 256.0F, entity.getFrameColor()[2] / 256.0F, 1.0f).lightmap(j, k).normal(0.0F, -1.0F, 0.0F).endVertex();
 
-			renderer.pos(xPos + renderFrames[currentPlank].x2, yPos + renderFrames[currentPlank].y2, zFront).tex(u3, 0F).color(entity.getFrameColor()[0] / 256.0F, entity.getFrameColor()[1] / 256.0F, entity.getFrameColor()[2] / 256.0F, 1.0f).normal(0.0F, -1.0F, 0.0F).endVertex();
-			renderer.pos(xPos + renderFrames[currentPlank].x1, yPos + renderFrames[currentPlank].y1, zFront).tex(u3, v1).color(entity.getFrameColor()[0] / 256.0F, entity.getFrameColor()[1] / 256.0F, entity.getFrameColor()[2] / 256.0F, 1.0f).normal(0.0F, -1.0F, 0.0F).endVertex();
-			renderer.pos(xPos + renderFrames[currentPlank].x1, yPos + renderFrames[currentPlank].y1, zBack).tex(u1, v1).color(entity.getFrameColor()[0] / 256.0F, entity.getFrameColor()[1] / 256.0F, entity.getFrameColor()[2] / 256.0F, 1.0f).normal(0.0F, -1.0F, 0.0F).endVertex();
-			renderer.pos(xPos + renderFrames[currentPlank].x2, yPos + renderFrames[currentPlank].y2, zBack).tex(u1, 0F).color(entity.getFrameColor()[0] / 256.0F, entity.getFrameColor()[1] / 256.0F, entity.getFrameColor()[2] / 256.0F, 1.0f).normal(0.0F, -1.0F, 0.0F).endVertex();
+			renderer.pos(xPos + renderFrames[currentPlank].x3, yPos + renderFrames[currentPlank].y3, zFront).tex(u3, v1 / 3.0F).color(entity.getFrameColor()[0] / 256.0F, entity.getFrameColor()[1] / 256.0F, entity.getFrameColor()[2] / 256.0F, 1.0f).lightmap(j, k).normal(0.0F, -1.0F, 0.0F).endVertex();
+			renderer.pos(xPos + renderFrames[currentPlank].x2, yPos + renderFrames[currentPlank].y2, zFront).tex(u3, 0F).color(entity.getFrameColor()[0] / 256.0F, entity.getFrameColor()[1] / 256.0F, entity.getFrameColor()[2] / 256.0F, 1.0f).lightmap(j, k).normal(0.0F, -1.0F, 0.0F).endVertex();
+			renderer.pos(xPos + renderFrames[currentPlank].x2, yPos + renderFrames[currentPlank].y2, zBack).tex(u1, 0F).color(entity.getFrameColor()[0] / 256.0F, entity.getFrameColor()[1] / 256.0F, entity.getFrameColor()[2] / 256.0F, 1.0f).lightmap(j, k).normal(0.0F, -1.0F, 0.0F).endVertex();
+			renderer.pos(xPos + renderFrames[currentPlank].x3, yPos + renderFrames[currentPlank].y3, zBack).tex(u1, v1 / 3.0F).color(entity.getFrameColor()[0] / 256.0F, entity.getFrameColor()[1] / 256.0F, entity.getFrameColor()[2] / 256.0F, 1.0f).lightmap(j, k).normal(0.0F, -1.0F, 0.0F).endVertex();
 
-			renderer.pos(xPos + renderFrames[currentPlank].x3, yPos + renderFrames[currentPlank].y3, zFront).tex(u3, v1 / 3.0F).color(entity.getFrameColor()[0] / 256.0F, entity.getFrameColor()[1] / 256.0F, entity.getFrameColor()[2] / 256.0F, 1.0f).normal(0.0F, -1.0F, 0.0F).endVertex();
-			renderer.pos(xPos + renderFrames[currentPlank].x2, yPos + renderFrames[currentPlank].y2, zFront).tex(u3, 0F).color(entity.getFrameColor()[0] / 256.0F, entity.getFrameColor()[1] / 256.0F, entity.getFrameColor()[2] / 256.0F, 1.0f).normal(0.0F, -1.0F, 0.0F).endVertex();
-			renderer.pos(xPos + renderFrames[currentPlank].x2, yPos + renderFrames[currentPlank].y2, zBack).tex(u1, 0F).color(entity.getFrameColor()[0] / 256.0F, entity.getFrameColor()[1] / 256.0F, entity.getFrameColor()[2] / 256.0F, 1.0f).normal(0.0F, -1.0F, 0.0F).endVertex();
-			renderer.pos(xPos + renderFrames[currentPlank].x3, yPos + renderFrames[currentPlank].y3, zBack).tex(u1, v1 / 3.0F).color(entity.getFrameColor()[0] / 256.0F, entity.getFrameColor()[1] / 256.0F, entity.getFrameColor()[2] / 256.0F, 1.0f).normal(0.0F, -1.0F, 0.0F).endVertex();
+			renderer.pos(xPos + renderFrames[currentPlank].x4, yPos + renderFrames[currentPlank].y4, zFront).tex(u3, 0F).color(entity.getFrameColor()[0] / 256.0F, entity.getFrameColor()[1] / 256.0F, entity.getFrameColor()[2] / 256.0F, 1.0f).lightmap(j, k).normal(0.0F, -1.0F, 0.0F).endVertex();
+			renderer.pos(xPos + renderFrames[currentPlank].x3, yPos + renderFrames[currentPlank].y3, zFront).tex(u3, v1).color(entity.getFrameColor()[0] / 256.0F, entity.getFrameColor()[1] / 256.0F, entity.getFrameColor()[2] / 256.0F, 1.0f).lightmap(j, k).normal(0.0F, -1.0F, 0.0F).endVertex();
+			renderer.pos(xPos + renderFrames[currentPlank].x3, yPos + renderFrames[currentPlank].y3, zBack).tex(u1, v1).color(entity.getFrameColor()[0] / 256.0F, entity.getFrameColor()[1] / 256.0F, entity.getFrameColor()[2] / 256.0F, 1.0f).lightmap(j, k).normal(0.0F, -1.0F, 0.0F).endVertex();
+			renderer.pos(xPos + renderFrames[currentPlank].x4, yPos + renderFrames[currentPlank].y4, zBack).tex(u1, 0F).color(entity.getFrameColor()[0] / 256.0F, entity.getFrameColor()[1] / 256.0F, entity.getFrameColor()[2] / 256.0F, 1.0f).lightmap(j, k).normal(0.0F, -1.0F, 0.0F).endVertex();
 
-			renderer.pos(xPos + renderFrames[currentPlank].x4, yPos + renderFrames[currentPlank].y4, zFront).tex(u3, 0F).color(entity.getFrameColor()[0] / 256.0F, entity.getFrameColor()[1] / 256.0F, entity.getFrameColor()[2] / 256.0F, 1.0f).normal(0.0F, -1.0F, 0.0F).endVertex();
-			renderer.pos(xPos + renderFrames[currentPlank].x3, yPos + renderFrames[currentPlank].y3, zFront).tex(u3, v1).color(entity.getFrameColor()[0] / 256.0F, entity.getFrameColor()[1] / 256.0F, entity.getFrameColor()[2] / 256.0F, 1.0f).normal(0.0F, -1.0F, 0.0F).endVertex();
-			renderer.pos(xPos + renderFrames[currentPlank].x3, yPos + renderFrames[currentPlank].y3, zBack).tex(u1, v1).color(entity.getFrameColor()[0] / 256.0F, entity.getFrameColor()[1] / 256.0F, entity.getFrameColor()[2] / 256.0F, 1.0f).normal(0.0F, -1.0F, 0.0F).endVertex();
-			renderer.pos(xPos + renderFrames[currentPlank].x4, yPos + renderFrames[currentPlank].y4, zBack).tex(u1, 0F).color(entity.getFrameColor()[0] / 256.0F, entity.getFrameColor()[1] / 256.0F, entity.getFrameColor()[2] / 256.0F, 1.0f).normal(0.0F, -1.0F, 0.0F).endVertex();
-
-			renderer.pos(xPos + renderFrames[currentPlank].x1, yPos + renderFrames[currentPlank].y1, zFront).tex(u3, v1 / 3.0F).color(entity.getFrameColor()[0] / 256.0F, entity.getFrameColor()[1] / 256.0F, entity.getFrameColor()[2] / 256.0F, 1.0f).normal(0.0F, -1.0F, 0.0F).endVertex();
-			renderer.pos(xPos + renderFrames[currentPlank].x4, yPos + renderFrames[currentPlank].y4, zFront).tex(u3, 0F).color(entity.getFrameColor()[0] / 256.0F, entity.getFrameColor()[1] / 256.0F, entity.getFrameColor()[2] / 256.0F, 1.0f).normal(0.0F, -1.0F, 0.0F).endVertex();
-			renderer.pos(xPos + renderFrames[currentPlank].x4, yPos + renderFrames[currentPlank].y4, zBack).tex(u1, 0F).color(entity.getFrameColor()[0] / 256.0F, entity.getFrameColor()[1] / 256.0F, entity.getFrameColor()[2] / 256.0F, 1.0f).normal(0.0F, -1.0F, 0.0F).endVertex();
-			renderer.pos(xPos + renderFrames[currentPlank].x1, yPos + renderFrames[currentPlank].y1, zBack).tex(u1, v1 / 3.0F).color(entity.getFrameColor()[0] / 256.0F, entity.getFrameColor()[1] / 256.0F, entity.getFrameColor()[2] / 256.0F, 1.0f).normal(0.0F, -1.0F, 0.0F).endVertex();
+			renderer.pos(xPos + renderFrames[currentPlank].x1, yPos + renderFrames[currentPlank].y1, zFront).tex(u3, v1 / 3.0F).color(entity.getFrameColor()[0] / 256.0F, entity.getFrameColor()[1] / 256.0F, entity.getFrameColor()[2] / 256.0F, 1.0f).lightmap(j, k).normal(0.0F, -1.0F, 0.0F).endVertex();
+			renderer.pos(xPos + renderFrames[currentPlank].x4, yPos + renderFrames[currentPlank].y4, zFront).tex(u3, 0F).color(entity.getFrameColor()[0] / 256.0F, entity.getFrameColor()[1] / 256.0F, entity.getFrameColor()[2] / 256.0F, 1.0f).lightmap(j, k).normal(0.0F, -1.0F, 0.0F).endVertex();
+			renderer.pos(xPos + renderFrames[currentPlank].x4, yPos + renderFrames[currentPlank].y4, zBack).tex(u1, 0F).color(entity.getFrameColor()[0] / 256.0F, entity.getFrameColor()[1] / 256.0F, entity.getFrameColor()[2] / 256.0F, 1.0f).lightmap(j, k).normal(0.0F, -1.0F, 0.0F).endVertex();
+			renderer.pos(xPos + renderFrames[currentPlank].x1, yPos + renderFrames[currentPlank].y1, zBack).tex(u1, v1 / 3.0F).color(entity.getFrameColor()[0] / 256.0F, entity.getFrameColor()[1] / 256.0F, entity.getFrameColor()[2] / 256.0F, 1.0f).lightmap(j, k).normal(0.0F, -1.0F, 0.0F).endVertex();
 
 			tess.draw();
 		}
-	}
-
-	private void setLightmap(EntityFrame frame, float f1, float f2) {
-		int i = MathHelper.floor_double(frame.posX);
-		int j = MathHelper.floor_double(frame.posY + (double) (f2 / 16.0F));
-		int k = MathHelper.floor_double(frame.posZ);
-		EnumFacing enumfacing = frame.facingDirection;
-
-		if (enumfacing == EnumFacing.NORTH) {
-			i = MathHelper.floor_double(frame.posX + (double) (f1 / 16.0F));
-		}
-
-		if (enumfacing == EnumFacing.WEST) {
-			k = MathHelper.floor_double(frame.posZ - (double) (f1 / 16.0F));
-		}
-
-		if (enumfacing == EnumFacing.SOUTH) {
-			i = MathHelper.floor_double(frame.posX - (double) (f1 / 16.0F));
-		}
-
-		if (enumfacing == EnumFacing.EAST) {
-			k = MathHelper.floor_double(frame.posZ + (double) (f1 / 16.0F));
-		}
-
-		int l = this.renderManager.worldObj.getCombinedLight(new BlockPos(i, j, k), 0);
-		int i1 = l % 65536;
-		int j1 = l / 65536;
-		OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, (float) i1, (float) j1);
-		GlStateManager.color(1.0F, 1.0F, 1.0F);
 	}
 
 	@Override
