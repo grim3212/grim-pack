@@ -2,6 +2,7 @@ package com.grim3212.mc.decor.client.entity;
 
 import org.lwjgl.opengl.GL11;
 
+import com.grim3212.mc.core.client.RenderHelper;
 import com.grim3212.mc.decor.GrimDecor;
 import com.grim3212.mc.decor.config.DecorConfig;
 import com.grim3212.mc.decor.entity.EntityWallpaper;
@@ -12,7 +13,6 @@ import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
-import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
@@ -60,12 +60,14 @@ public class RenderWallpaper extends Render<EntityWallpaper> {
 		GlStateManager.enableRescaleNormal();
 		GlStateManager.shadeModel(7425);
 		GlStateManager.disableLighting();
+		net.minecraft.client.renderer.RenderHelper.disableStandardItemLighting();
 
 		this.bindEntityTexture(entitywallpaper);
 		renderWallpaper(entitywallpaper);
 
 		GlStateManager.shadeModel(7424);
 		GlStateManager.enableLighting();
+		net.minecraft.client.renderer.RenderHelper.enableStandardItemLighting();
 		GlStateManager.disableRescaleNormal();
 		GlStateManager.popMatrix();
 	}
@@ -98,168 +100,159 @@ public class RenderWallpaper extends Render<EntityWallpaper> {
 		float green = entitywallpaper.getFrameColor()[1] / 256.0F;
 		float blue = entitywallpaper.getFrameColor()[2] / 256.0F;
 
-		GlStateManager.pushAttrib();
-		GlStateManager.pushMatrix();
-
-		renderer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX_COLOR_NORMAL);
+		renderer.begin(GL11.GL_QUADS, RenderHelper.POSITION_TEX_COLOR_LIGHTMAP_NORMAL);
 		if (Minecraft.isAmbientOcclusionEnabled()) {
 			renderWithAmbientOcclusion(new BlockPos(x, y, z), red, green, blue, entitywallpaper.direction);
 
 			if (entitywallpaper.direction == 0) {
-				renderer.pos(minX, minY, minZ).tex(minU + maxUV, minV + maxUV).color(this.colorRedTopRight, this.colorGreenTopRight, this.colorBlueTopRight, 1.0f).normal(0.0F, 0.0F, 1.0F).endVertex();
-				renderer.pos(minX, maxY, minZ).tex(minU + maxUV, minV).color(this.colorRedTopLeft, this.colorGreenTopLeft, this.colorBlueTopLeft, 1.0f).normal(0.0F, 0.0F, 1.0F).endVertex();
-				renderer.pos(maxX, maxY, minZ).tex(minU, minV).color(this.colorRedBottomLeft, this.colorGreenBottomLeft, this.colorBlueBottomLeft, 1.0f).normal(0.0F, 0.0F, 1.0F).endVertex();
-				renderer.pos(maxX, minY, minZ).tex(minU, minV + maxUV).color(this.colorRedBottomRight, this.colorGreenBottomRight, this.colorBlueBottomRight, 1.0f).normal(0.0F, 0.0F, 1.0F).endVertex();
+				renderer.pos(minX, minY, minZ).tex(minU + maxUV, minV + maxUV).color(this.colorRedTopRight, this.colorGreenTopRight, this.colorBlueTopRight, 1.0f).lightmap(0, this.brightnessTopRight).normal(0.0F, 0.0F, 1.0F).endVertex();
+				renderer.pos(minX, maxY, minZ).tex(minU + maxUV, minV).color(this.colorRedTopLeft, this.colorGreenTopLeft, this.colorBlueTopLeft, 1.0f).lightmap(0, this.brightnessTopLeft).normal(0.0F, 0.0F, 1.0F).endVertex();
+				renderer.pos(maxX, maxY, minZ).tex(minU, minV).color(this.colorRedBottomLeft, this.colorGreenBottomLeft, this.colorBlueBottomLeft, 1.0f).lightmap(0, this.brightnessBottomLeft).normal(0.0F, 0.0F, 1.0F).endVertex();
+				renderer.pos(maxX, minY, minZ).tex(minU, minV + maxUV).color(this.colorRedBottomRight, this.colorGreenBottomRight, this.colorBlueBottomRight, 1.0f).lightmap(0, this.brightnessBottomRight).normal(0.0F, 0.0F, 1.0F).endVertex();
 			} else if (entitywallpaper.direction == 2) {
-				renderer.pos(minX, minY, minZ).tex(minU + maxUV, minV + maxUV).color(this.colorRedBottomRight, this.colorGreenBottomRight, this.colorBlueBottomRight, 1.0f).normal(0.0F, 0.0F, 1.0F).endVertex();
-				renderer.pos(minX, maxY, minZ).tex(minU + maxUV, minV).color(this.colorRedTopRight, this.colorGreenTopRight, this.colorBlueTopRight, 1.0f).normal(0.0F, 0.0F, 1.0F).endVertex();
-				renderer.pos(maxX, maxY, minZ).tex(minU, minV).color(this.colorRedTopLeft, this.colorGreenTopLeft, this.colorBlueTopLeft, 1.0f).normal(0.0F, 0.0F, 1.0F).endVertex();
-				renderer.pos(maxX, minY, minZ).tex(minU, minV + maxUV).color(this.colorRedBottomLeft, this.colorGreenBottomLeft, this.colorBlueBottomLeft, 1.0f).normal(0.0F, 0.0F, 1.0F).endVertex();
+				renderer.pos(minX, minY, minZ).tex(minU + maxUV, minV + maxUV).color(this.colorRedBottomRight, this.colorGreenBottomRight, this.colorBlueBottomRight, 1.0f).lightmap(0, this.brightnessBottomRight).normal(0.0F, 0.0F, 1.0F).endVertex();
+				renderer.pos(minX, maxY, minZ).tex(minU + maxUV, minV).color(this.colorRedTopRight, this.colorGreenTopRight, this.colorBlueTopRight, 1.0f).lightmap(0, this.brightnessTopRight).normal(0.0F, 0.0F, 1.0F).endVertex();
+				renderer.pos(maxX, maxY, minZ).tex(minU, minV).color(this.colorRedTopLeft, this.colorGreenTopLeft, this.colorBlueTopLeft, 1.0f).lightmap(0, this.brightnessTopLeft).normal(0.0F, 0.0F, 1.0F).endVertex();
+				renderer.pos(maxX, minY, minZ).tex(minU, minV + maxUV).color(this.colorRedBottomLeft, this.colorGreenBottomLeft, this.colorBlueBottomLeft, 1.0f).lightmap(0, this.brightnessBottomLeft).normal(0.0F, 0.0F, 1.0F).endVertex();
 			} else if (entitywallpaper.direction == 1) {
-				renderer.pos(minX, minY, minZ).tex(minU + maxUV, minV + maxUV).color(this.colorRedTopRight, this.colorGreenTopRight, this.colorBlueTopRight, 1.0f).normal(0.0F, 0.0F, 1.0F).endVertex();
-				renderer.pos(minX, maxY, minZ).tex(minU + maxUV, minV).color(this.colorRedTopLeft, this.colorGreenTopLeft, this.colorBlueTopLeft, 1.0f).normal(0.0F, 0.0F, 1.0F).endVertex();
-				renderer.pos(maxX, maxY, minZ).tex(minU, minV).color(this.colorRedBottomLeft, this.colorGreenBottomLeft, this.colorBlueBottomLeft, 1.0f).normal(0.0F, 0.0F, 1.0F).endVertex();
-				renderer.pos(maxX, minY, minZ).tex(minU, minV + maxUV).color(this.colorRedBottomRight, this.colorGreenBottomRight, this.colorBlueBottomRight, 1.0f).normal(0.0F, 0.0F, 1.0F).endVertex();
+				renderer.pos(minX, minY, minZ).tex(minU + maxUV, minV + maxUV).color(this.colorRedTopRight, this.colorGreenTopRight, this.colorBlueTopRight, 1.0f).lightmap(0, this.brightnessTopRight).normal(0.0F, 0.0F, 1.0F).endVertex();
+				renderer.pos(minX, maxY, minZ).tex(minU + maxUV, minV).color(this.colorRedTopLeft, this.colorGreenTopLeft, this.colorBlueTopLeft, 1.0f).lightmap(0, this.brightnessTopLeft).normal(0.0F, 0.0F, 1.0F).endVertex();
+				renderer.pos(maxX, maxY, minZ).tex(minU, minV).color(this.colorRedBottomLeft, this.colorGreenBottomLeft, this.colorBlueBottomLeft, 1.0f).lightmap(0, this.brightnessBottomLeft).normal(0.0F, 0.0F, 1.0F).endVertex();
+				renderer.pos(maxX, minY, minZ).tex(minU, minV + maxUV).color(this.colorRedBottomRight, this.colorGreenBottomRight, this.colorBlueBottomRight, 1.0f).lightmap(0, this.brightnessBottomRight).normal(0.0F, 0.0F, 1.0F).endVertex();
 			} else if (entitywallpaper.direction == 3) {
-				renderer.pos(minX, minY, minZ).tex(minU + maxUV, minV + maxUV).color(this.colorRedBottomLeft, this.colorGreenBottomLeft, this.colorBlueBottomLeft, 1.0f).normal(0.0F, 0.0F, 1.0F).endVertex();
-				renderer.pos(minX, maxY, minZ).tex(minU + maxUV, minV).color(this.colorRedBottomRight, this.colorGreenBottomRight, this.colorBlueBottomRight, 1.0f).normal(0.0F, 0.0F, 1.0F).endVertex();
-				renderer.pos(maxX, maxY, minZ).tex(minU, minV).color(this.colorRedTopRight, this.colorGreenTopRight, this.colorBlueTopRight, 1.0f).normal(0.0F, 0.0F, 1.0F).endVertex();
-				renderer.pos(maxX, minY, minZ).tex(minU, minV + maxUV).color(this.colorRedTopLeft, this.colorGreenTopLeft, this.colorBlueTopLeft, 1.0f).normal(0.0F, 0.0F, 1.0F).endVertex();
+				renderer.pos(minX, minY, minZ).tex(minU + maxUV, minV + maxUV).color(this.colorRedBottomLeft, this.colorGreenBottomLeft, this.colorBlueBottomLeft, 1.0f).lightmap(0, this.brightnessBottomLeft).normal(0.0F, 0.0F, 1.0F).endVertex();
+				renderer.pos(minX, maxY, minZ).tex(minU + maxUV, minV).color(this.colorRedBottomRight, this.colorGreenBottomRight, this.colorBlueBottomRight, 1.0f).lightmap(0, this.brightnessBottomRight).normal(0.0F, 0.0F, 1.0F).endVertex();
+				renderer.pos(maxX, maxY, minZ).tex(minU, minV).color(this.colorRedTopRight, this.colorGreenTopRight, this.colorBlueTopRight, 1.0f).normal(0.0F, 0.0F, 1.0F).lightmap(0, this.brightnessTopRight).endVertex();
+				renderer.pos(maxX, minY, minZ).tex(minU, minV + maxUV).color(this.colorRedTopLeft, this.colorGreenTopLeft, this.colorBlueTopLeft, 1.0f).normal(0.0F, 0.0F, 1.0F).lightmap(0, this.brightnessTopLeft).endVertex();
 			}
 
 			if (!entitywallpaper.isBlockLeft) {
 				if (entitywallpaper.direction == 0) {
-					renderer.pos(minX, maxY, maxZ).tex(minU + maxUV, minV).color(this.colorRedTopLeft, this.colorGreenTopLeft, this.colorBlueTopLeft, 1.0f).normal(-1.0F, 0.0F, 0.0F).endVertex();
-					renderer.pos(minX, maxY, minZ).tex(minU + maxUV, minV).color(this.colorRedTopLeft, this.colorGreenTopLeft, this.colorBlueTopLeft, 1.0f).normal(-1.0F, 0.0F, 0.0F).endVertex();
-					renderer.pos(minX, minY, minZ).tex(minU + maxUV - sideUV, minV + maxUV).color(this.colorRedTopRight, this.colorGreenTopRight, this.colorBlueTopRight, 1.0f).normal(-1.0F, 0.0F, 0.0F).endVertex();
-					renderer.pos(minX, minY, maxZ).tex(minU + maxUV - sideUV, minV + maxUV).color(this.colorRedTopRight, this.colorGreenTopRight, this.colorBlueTopRight, 1.0f).normal(-1.0F, 0.0F, 0.0F).endVertex();
+					renderer.pos(minX, maxY, maxZ).tex(minU + maxUV, minV).color(this.colorRedTopLeft, this.colorGreenTopLeft, this.colorBlueTopLeft, 1.0f).lightmap(0, this.brightnessTopLeft).normal(-1.0F, 0.0F, 0.0F).endVertex();
+					renderer.pos(minX, maxY, minZ).tex(minU + maxUV, minV).color(this.colorRedTopLeft, this.colorGreenTopLeft, this.colorBlueTopLeft, 1.0f).lightmap(0, this.brightnessTopLeft).normal(-1.0F, 0.0F, 0.0F).endVertex();
+					renderer.pos(minX, minY, minZ).tex(minU + maxUV - sideUV, minV + maxUV).color(this.colorRedTopRight, this.colorGreenTopRight, this.colorBlueTopRight, 1.0f).lightmap(0, this.brightnessTopRight).normal(-1.0F, 0.0F, 0.0F).endVertex();
+					renderer.pos(minX, minY, maxZ).tex(minU + maxUV - sideUV, minV + maxUV).color(this.colorRedTopRight, this.colorGreenTopRight, this.colorBlueTopRight, 1.0f).lightmap(0, this.brightnessTopRight).normal(-1.0F, 0.0F, 0.0F).endVertex();
 				} else if (entitywallpaper.direction == 2) {
-					renderer.pos(minX, maxY, maxZ).tex(minU + maxUV, minV).color(this.colorRedTopRight, this.colorGreenTopRight, this.colorBlueTopRight, 1.0f).normal(-1.0F, 0.0F, 0.0F).endVertex();
-					renderer.pos(minX, maxY, minZ).tex(minU + maxUV, minV).color(this.colorRedTopRight, this.colorGreenTopRight, this.colorBlueTopRight, 1.0f).normal(-1.0F, 0.0F, 0.0F).endVertex();
-					renderer.pos(minX, minY, minZ).tex(minU + maxUV - sideUV, minV + maxUV).color(this.colorRedBottomRight, this.colorGreenBottomRight, this.colorBlueBottomRight, 1.0f).normal(-1.0F, 0.0F, 0.0F).endVertex();
-					renderer.pos(minX, minY, maxZ).tex(minU + maxUV - sideUV, minV + maxUV).color(this.colorRedBottomRight, this.colorGreenBottomRight, this.colorBlueBottomRight, 1.0f).normal(-1.0F, 0.0F, 0.0F).endVertex();
+					renderer.pos(minX, maxY, maxZ).tex(minU + maxUV, minV).color(this.colorRedTopRight, this.colorGreenTopRight, this.colorBlueTopRight, 1.0f).lightmap(0, this.brightnessTopRight).normal(-1.0F, 0.0F, 0.0F).endVertex();
+					renderer.pos(minX, maxY, minZ).tex(minU + maxUV, minV).color(this.colorRedTopRight, this.colorGreenTopRight, this.colorBlueTopRight, 1.0f).lightmap(0, this.brightnessTopRight).normal(-1.0F, 0.0F, 0.0F).endVertex();
+					renderer.pos(minX, minY, minZ).tex(minU + maxUV - sideUV, minV + maxUV).color(this.colorRedBottomRight, this.colorGreenBottomRight, this.colorBlueBottomRight, 1.0f).lightmap(0, this.brightnessBottomRight).normal(-1.0F, 0.0F, 0.0F).endVertex();
+					renderer.pos(minX, minY, maxZ).tex(minU + maxUV - sideUV, minV + maxUV).color(this.colorRedBottomRight, this.colorGreenBottomRight, this.colorBlueBottomRight, 1.0f).lightmap(0, this.brightnessBottomRight).normal(-1.0F, 0.0F, 0.0F).endVertex();
 				} else if (entitywallpaper.direction == 1) {
-					renderer.pos(minX, maxY, maxZ).tex(minU + maxUV, minV).color(this.colorRedTopLeft, this.colorGreenTopLeft, this.colorBlueTopLeft, 1.0f).normal(-1.0F, 0.0F, 0.0F).endVertex();
-					renderer.pos(minX, maxY, minZ).tex(minU + maxUV, minV).color(this.colorRedTopLeft, this.colorGreenTopLeft, this.colorBlueTopLeft, 1.0f).normal(-1.0F, 0.0F, 0.0F).endVertex();
-					renderer.pos(minX, minY, minZ).tex(minU + maxUV - sideUV, minV + maxUV).color(this.colorRedTopRight, this.colorGreenTopRight, this.colorBlueTopRight, 1.0f).normal(-1.0F, 0.0F, 0.0F).endVertex();
-					renderer.pos(minX, minY, maxZ).tex(minU + maxUV - sideUV, minV + maxUV).color(this.colorRedTopRight, this.colorGreenTopRight, this.colorBlueTopRight, 1.0f).normal(-1.0F, 0.0F, 0.0F).endVertex();
+					renderer.pos(minX, maxY, maxZ).tex(minU + maxUV, minV).color(this.colorRedTopLeft, this.colorGreenTopLeft, this.colorBlueTopLeft, 1.0f).lightmap(0, this.brightnessTopLeft).normal(-1.0F, 0.0F, 0.0F).endVertex();
+					renderer.pos(minX, maxY, minZ).tex(minU + maxUV, minV).color(this.colorRedTopLeft, this.colorGreenTopLeft, this.colorBlueTopLeft, 1.0f).lightmap(0, this.brightnessTopLeft).normal(-1.0F, 0.0F, 0.0F).endVertex();
+					renderer.pos(minX, minY, minZ).tex(minU + maxUV - sideUV, minV + maxUV).color(this.colorRedTopRight, this.colorGreenTopRight, this.colorBlueTopRight, 1.0f).lightmap(0, this.brightnessTopRight).normal(-1.0F, 0.0F, 0.0F).endVertex();
+					renderer.pos(minX, minY, maxZ).tex(minU + maxUV - sideUV, minV + maxUV).color(this.colorRedTopRight, this.colorGreenTopRight, this.colorBlueTopRight, 1.0f).lightmap(0, this.brightnessTopRight).normal(-1.0F, 0.0F, 0.0F).endVertex();
 				} else if (entitywallpaper.direction == 3) {
-					renderer.pos(minX, maxY, maxZ).tex(minU + maxUV, minV).color(this.colorRedBottomRight, this.colorGreenBottomRight, this.colorBlueBottomRight, 1.0f).normal(-1.0F, 0.0F, 0.0F).endVertex();
-					renderer.pos(minX, maxY, minZ).tex(minU + maxUV, minV).color(this.colorRedBottomRight, this.colorGreenBottomRight, this.colorBlueBottomRight, 1.0f).normal(-1.0F, 0.0F, 0.0F).endVertex();
-					renderer.pos(minX, minY, minZ).tex(minU + maxUV - sideUV, minV + maxUV).color(this.colorRedBottomLeft, this.colorGreenBottomLeft, this.colorBlueBottomLeft, 1.0f).normal(-1.0F, 0.0F, 0.0F).endVertex();
-					renderer.pos(minX, minY, maxZ).tex(minU + maxUV - sideUV, minV + maxUV).color(this.colorRedBottomLeft, this.colorGreenBottomLeft, this.colorBlueBottomLeft, 1.0f).normal(-1.0F, 0.0F, 0.0F).endVertex();
+					renderer.pos(minX, maxY, maxZ).tex(minU + maxUV, minV).color(this.colorRedBottomRight, this.colorGreenBottomRight, this.colorBlueBottomRight, 1.0f).lightmap(0, this.brightnessBottomRight).normal(-1.0F, 0.0F, 0.0F).endVertex();
+					renderer.pos(minX, maxY, minZ).tex(minU + maxUV, minV).color(this.colorRedBottomRight, this.colorGreenBottomRight, this.colorBlueBottomRight, 1.0f).lightmap(0, this.brightnessBottomRight).normal(-1.0F, 0.0F, 0.0F).endVertex();
+					renderer.pos(minX, minY, minZ).tex(minU + maxUV - sideUV, minV + maxUV).color(this.colorRedBottomLeft, this.colorGreenBottomLeft, this.colorBlueBottomLeft, 1.0f).lightmap(0, this.brightnessBottomLeft).normal(-1.0F, 0.0F, 0.0F).endVertex();
+					renderer.pos(minX, minY, maxZ).tex(minU + maxUV - sideUV, minV + maxUV).color(this.colorRedBottomLeft, this.colorGreenBottomLeft, this.colorBlueBottomLeft, 1.0f).lightmap(0, this.brightnessBottomLeft).normal(-1.0F, 0.0F, 0.0F).endVertex();
 				}
 			}
 			if (!entitywallpaper.isBlockUp) {
 				if (entitywallpaper.direction == 0) {
-					renderer.pos(minX, maxY, minZ).tex(minU + maxUV, minV).color(this.colorRedTopLeft, this.colorGreenTopLeft, this.colorBlueTopLeft, 1.0f).normal(0.0F, 1.0F, 0.0F).endVertex();
-					renderer.pos(minX, maxY, maxZ).tex(minU + maxUV, minV + sideUV).color(this.colorRedTopLeft, this.colorGreenTopLeft, this.colorBlueTopLeft, 1.0f).normal(0.0F, 1.0F, 0.0F).endVertex();
-					renderer.pos(maxX, maxY, maxZ).tex(minU, minV + sideUV).color(this.colorRedBottomLeft, this.colorGreenBottomLeft, this.colorBlueBottomLeft, 1.0f).normal(0.0F, 1.0F, 0.0F).endVertex();
-					renderer.pos(maxX, maxY, minZ).tex(minU, minV).color(this.colorRedBottomLeft, this.colorGreenBottomLeft, this.colorBlueBottomLeft, 1.0f).normal(0.0F, 1.0F, 0.0F).endVertex();
+					renderer.pos(minX, maxY, minZ).tex(minU + maxUV, minV).color(this.colorRedTopLeft, this.colorGreenTopLeft, this.colorBlueTopLeft, 1.0f).lightmap(0, this.brightnessTopLeft).normal(0.0F, 1.0F, 0.0F).endVertex();
+					renderer.pos(minX, maxY, maxZ).tex(minU + maxUV, minV + sideUV).color(this.colorRedTopLeft, this.colorGreenTopLeft, this.colorBlueTopLeft, 1.0f).lightmap(0, this.brightnessTopLeft).normal(0.0F, 1.0F, 0.0F).endVertex();
+					renderer.pos(maxX, maxY, maxZ).tex(minU, minV + sideUV).color(this.colorRedBottomLeft, this.colorGreenBottomLeft, this.colorBlueBottomLeft, 1.0f).lightmap(0, this.brightnessBottomLeft).normal(0.0F, 1.0F, 0.0F).endVertex();
+					renderer.pos(maxX, maxY, minZ).tex(minU, minV).color(this.colorRedBottomLeft, this.colorGreenBottomLeft, this.colorBlueBottomLeft, 1.0f).lightmap(0, this.brightnessBottomLeft).normal(0.0F, 1.0F, 0.0F).endVertex();
 				} else if (entitywallpaper.direction == 2) {
-					renderer.pos(maxX, maxY, maxZ).tex(minU, minV + sideUV).color(this.colorRedTopLeft, this.colorGreenTopLeft, this.colorBlueTopLeft, 1.0f).normal(0.0F, 1.0F, 0.0F).endVertex();
-					renderer.pos(maxX, maxY, minZ).tex(minU, minV).color(this.colorRedTopLeft, this.colorGreenTopLeft, this.colorBlueTopLeft, 1.0f).normal(0.0F, 1.0F, 0.0F).endVertex();
-					renderer.pos(minX, maxY, minZ).tex(minU + maxUV, minV).color(this.colorRedTopRight, this.colorGreenTopRight, this.colorBlueTopRight, 1.0f).normal(0.0F, 1.0F, 0.0F).endVertex();
-					renderer.pos(minX, maxY, maxZ).tex(minU + maxUV, minV + sideUV).color(this.colorRedTopRight, this.colorGreenTopRight, this.colorBlueTopRight, 1.0f).normal(0.0F, 1.0F, 0.0F).endVertex();
+					renderer.pos(maxX, maxY, maxZ).tex(minU, minV + sideUV).color(this.colorRedTopLeft, this.colorGreenTopLeft, this.colorBlueTopLeft, 1.0f).lightmap(0, this.brightnessTopLeft).normal(0.0F, 1.0F, 0.0F).endVertex();
+					renderer.pos(maxX, maxY, minZ).tex(minU, minV).color(this.colorRedTopLeft, this.colorGreenTopLeft, this.colorBlueTopLeft, 1.0f).lightmap(0, this.brightnessTopLeft).normal(0.0F, 1.0F, 0.0F).endVertex();
+					renderer.pos(minX, maxY, minZ).tex(minU + maxUV, minV).color(this.colorRedTopRight, this.colorGreenTopRight, this.colorBlueTopRight, 1.0f).lightmap(0, this.brightnessTopRight).normal(0.0F, 1.0F, 0.0F).endVertex();
+					renderer.pos(minX, maxY, maxZ).tex(minU + maxUV, minV + sideUV).color(this.colorRedTopRight, this.colorGreenTopRight, this.colorBlueTopRight, 1.0f).lightmap(0, this.brightnessTopRight).normal(0.0F, 1.0F, 0.0F).endVertex();
 				} else if (entitywallpaper.direction == 1) {
-					renderer.pos(maxX, maxY, maxZ).tex(minU, minV + sideUV).color(this.colorRedBottomLeft, this.colorGreenBottomLeft, this.colorBlueBottomLeft, 1.0f).normal(0.0F, 1.0F, 0.0F).endVertex();
-					renderer.pos(maxX, maxY, minZ).tex(minU, minV).color(this.colorRedBottomLeft, this.colorGreenBottomLeft, this.colorBlueBottomLeft, 1.0f).normal(0.0F, 1.0F, 0.0F).endVertex();
-					renderer.pos(minX, maxY, minZ).tex(minU + maxUV, minV).color(this.colorRedTopLeft, this.colorGreenTopLeft, this.colorBlueTopLeft, 1.0f).normal(0.0F, 1.0F, 0.0F).endVertex();
-					renderer.pos(minX, maxY, maxZ).tex(minU + maxUV, minV + sideUV).color(this.colorRedTopLeft, this.colorGreenTopLeft, this.colorBlueTopLeft, 1.0f).normal(0.0F, 1.0F, 0.0F).endVertex();
+					renderer.pos(maxX, maxY, maxZ).tex(minU, minV + sideUV).color(this.colorRedBottomLeft, this.colorGreenBottomLeft, this.colorBlueBottomLeft, 1.0f).lightmap(0, this.brightnessBottomLeft).normal(0.0F, 1.0F, 0.0F).endVertex();
+					renderer.pos(maxX, maxY, minZ).tex(minU, minV).color(this.colorRedBottomLeft, this.colorGreenBottomLeft, this.colorBlueBottomLeft, 1.0f).lightmap(0, this.brightnessBottomLeft).normal(0.0F, 1.0F, 0.0F).endVertex();
+					renderer.pos(minX, maxY, minZ).tex(minU + maxUV, minV).color(this.colorRedTopLeft, this.colorGreenTopLeft, this.colorBlueTopLeft, 1.0f).lightmap(0, this.brightnessTopLeft).normal(0.0F, 1.0F, 0.0F).endVertex();
+					renderer.pos(minX, maxY, maxZ).tex(minU + maxUV, minV + sideUV).color(this.colorRedTopLeft, this.colorGreenTopLeft, this.colorBlueTopLeft, 1.0f).lightmap(0, this.brightnessTopLeft).normal(0.0F, 1.0F, 0.0F).endVertex();
 				} else if (entitywallpaper.direction == 3) {
-					renderer.pos(maxX, maxY, maxZ).tex(minU, minV + sideUV).color(this.colorRedTopRight, this.colorGreenTopRight, this.colorBlueTopRight, 1.0f).normal(0.0F, 1.0F, 0.0F).endVertex();
-					renderer.pos(maxX, maxY, minZ).tex(minU, minV).color(this.colorRedTopRight, this.colorGreenTopRight, this.colorBlueTopRight, 1.0f).normal(0.0F, 1.0F, 0.0F).endVertex();
-					renderer.pos(minX, maxY, minZ).tex(minU + maxUV, minV).color(this.colorRedBottomRight, this.colorGreenBottomRight, this.colorBlueBottomRight, 1.0f).normal(0.0F, 1.0F, 0.0F).endVertex();
-					renderer.pos(minX, maxY, maxZ).tex(minU + maxUV, minV + sideUV).color(this.colorRedBottomRight, this.colorGreenBottomRight, this.colorBlueBottomRight, 1.0f).normal(0.0F, 1.0F, 0.0F).endVertex();
+					renderer.pos(maxX, maxY, maxZ).tex(minU, minV + sideUV).color(this.colorRedTopRight, this.colorGreenTopRight, this.colorBlueTopRight, 1.0f).lightmap(0, this.brightnessTopRight).normal(0.0F, 1.0F, 0.0F).endVertex();
+					renderer.pos(maxX, maxY, minZ).tex(minU, minV).color(this.colorRedTopRight, this.colorGreenTopRight, this.colorBlueTopRight, 1.0f).lightmap(0, this.brightnessTopRight).normal(0.0F, 1.0F, 0.0F).endVertex();
+					renderer.pos(minX, maxY, minZ).tex(minU + maxUV, minV).color(this.colorRedBottomRight, this.colorGreenBottomRight, this.colorBlueBottomRight, 1.0f).lightmap(0, this.brightnessBottomRight).normal(0.0F, 1.0F, 0.0F).endVertex();
+					renderer.pos(minX, maxY, maxZ).tex(minU + maxUV, minV + sideUV).color(this.colorRedBottomRight, this.colorGreenBottomRight, this.colorBlueBottomRight, 1.0f).lightmap(0, this.brightnessBottomRight).normal(0.0F, 1.0F, 0.0F).endVertex();
 				}
 			}
 			if (!entitywallpaper.isBlockRight) {
 				if (entitywallpaper.direction == 0) {
-					renderer.pos(maxX, minY, maxZ).tex(minU + sideUV, minV + maxUV).color(this.colorRedBottomRight, this.colorGreenBottomRight, this.colorBlueBottomRight, 1.0f).normal(1.0F, 0.0F, 0.0F).endVertex();
-					renderer.pos(maxX, minY, minZ).tex(minU, minV + maxUV).color(this.colorRedBottomRight, this.colorGreenBottomRight, this.colorBlueBottomRight, 1.0f).normal(1.0F, 0.0F, 0.0F).endVertex();
-					renderer.pos(maxX, maxY, minZ).tex(minU, minV).color(this.colorRedBottomLeft, this.colorGreenBottomLeft, this.colorBlueBottomLeft, 1.0f).normal(1.0F, 0.0F, 0.0F).endVertex();
-					renderer.pos(maxX, maxY, maxZ).tex(minU + sideUV, minV).color(this.colorRedBottomLeft, this.colorGreenBottomLeft, this.colorBlueBottomLeft, 1.0f).normal(1.0F, 0.0F, 0.0F).endVertex();
+					renderer.pos(maxX, minY, maxZ).tex(minU + sideUV, minV + maxUV).color(this.colorRedBottomRight, this.colorGreenBottomRight, this.colorBlueBottomRight, 1.0f).lightmap(0, this.brightnessBottomRight).normal(1.0F, 0.0F, 0.0F).endVertex();
+					renderer.pos(maxX, minY, minZ).tex(minU, minV + maxUV).color(this.colorRedBottomRight, this.colorGreenBottomRight, this.colorBlueBottomRight, 1.0f).lightmap(0, this.brightnessBottomRight).normal(1.0F, 0.0F, 0.0F).endVertex();
+					renderer.pos(maxX, maxY, minZ).tex(minU, minV).color(this.colorRedBottomLeft, this.colorGreenBottomLeft, this.colorBlueBottomLeft, 1.0f).lightmap(0, this.brightnessBottomLeft).normal(1.0F, 0.0F, 0.0F).endVertex();
+					renderer.pos(maxX, maxY, maxZ).tex(minU + sideUV, minV).color(this.colorRedBottomLeft, this.colorGreenBottomLeft, this.colorBlueBottomLeft, 1.0f).lightmap(0, this.brightnessBottomLeft).normal(1.0F, 0.0F, 0.0F).endVertex();
 				} else if (entitywallpaper.direction == 2) {
-					renderer.pos(maxX, minY, maxZ).tex(minU + sideUV, minV + maxUV).color(this.colorRedBottomLeft, this.colorGreenBottomLeft, this.colorBlueBottomLeft, 1.0f).normal(1.0F, 0.0F, 0.0F).endVertex();
-					renderer.pos(maxX, minY, minZ).tex(minU, minV + maxUV).color(this.colorRedBottomLeft, this.colorGreenBottomLeft, this.colorBlueBottomLeft, 1.0f).normal(1.0F, 0.0F, 0.0F).endVertex();
-					renderer.pos(maxX, maxY, minZ).tex(minU, minV).color(this.colorRedTopLeft, this.colorGreenTopLeft, this.colorBlueTopLeft, 1.0f).normal(1.0F, 0.0F, 0.0F).endVertex();
-					renderer.pos(maxX, maxY, maxZ).tex(minU + sideUV, minV).color(this.colorRedTopLeft, this.colorGreenTopLeft, this.colorBlueTopLeft, 1.0f).normal(1.0F, 0.0F, 0.0F).endVertex();
+					renderer.pos(maxX, minY, maxZ).tex(minU + sideUV, minV + maxUV).color(this.colorRedBottomLeft, this.colorGreenBottomLeft, this.colorBlueBottomLeft, 1.0f).lightmap(0, this.brightnessBottomLeft).normal(1.0F, 0.0F, 0.0F).endVertex();
+					renderer.pos(maxX, minY, minZ).tex(minU, minV + maxUV).color(this.colorRedBottomLeft, this.colorGreenBottomLeft, this.colorBlueBottomLeft, 1.0f).lightmap(0, this.brightnessBottomLeft).normal(1.0F, 0.0F, 0.0F).endVertex();
+					renderer.pos(maxX, maxY, minZ).tex(minU, minV).color(this.colorRedTopLeft, this.colorGreenTopLeft, this.colorBlueTopLeft, 1.0f).lightmap(0, this.brightnessTopLeft).normal(1.0F, 0.0F, 0.0F).endVertex();
+					renderer.pos(maxX, maxY, maxZ).tex(minU + sideUV, minV).color(this.colorRedTopLeft, this.colorGreenTopLeft, this.colorBlueTopLeft, 1.0f).lightmap(0, this.brightnessTopLeft).normal(1.0F, 0.0F, 0.0F).endVertex();
 				} else if (entitywallpaper.direction == 1) {
-					renderer.pos(maxX, minY, maxZ).tex(minU + sideUV, minV + maxUV).color(this.colorRedBottomRight, this.colorGreenBottomRight, this.colorBlueBottomRight, 1.0f).normal(1.0F, 0.0F, 0.0F).endVertex();
-					renderer.pos(maxX, minY, minZ).tex(minU, minV + maxUV).color(this.colorRedBottomRight, this.colorGreenBottomRight, this.colorBlueBottomRight, 1.0f).normal(1.0F, 0.0F, 0.0F).endVertex();
-					renderer.pos(maxX, maxY, minZ).tex(minU, minV).color(this.colorRedBottomLeft, this.colorGreenBottomLeft, this.colorBlueBottomLeft, 1.0f).normal(1.0F, 0.0F, 0.0F).endVertex();
-					renderer.pos(maxX, maxY, maxZ).tex(minU + sideUV, minV).color(this.colorRedBottomLeft, this.colorGreenBottomLeft, this.colorBlueBottomLeft, 1.0f).normal(1.0F, 0.0F, 0.0F).endVertex();
+					renderer.pos(maxX, minY, maxZ).tex(minU + sideUV, minV + maxUV).color(this.colorRedBottomRight, this.colorGreenBottomRight, this.colorBlueBottomRight, 1.0f).lightmap(0, this.brightnessBottomRight).normal(1.0F, 0.0F, 0.0F).endVertex();
+					renderer.pos(maxX, minY, minZ).tex(minU, minV + maxUV).color(this.colorRedBottomRight, this.colorGreenBottomRight, this.colorBlueBottomRight, 1.0f).lightmap(0, this.brightnessBottomRight).normal(1.0F, 0.0F, 0.0F).endVertex();
+					renderer.pos(maxX, maxY, minZ).tex(minU, minV).color(this.colorRedBottomLeft, this.colorGreenBottomLeft, this.colorBlueBottomLeft, 1.0f).lightmap(0, this.brightnessBottomLeft).normal(1.0F, 0.0F, 0.0F).endVertex();
+					renderer.pos(maxX, maxY, maxZ).tex(minU + sideUV, minV).color(this.colorRedBottomLeft, this.colorGreenBottomLeft, this.colorBlueBottomLeft, 1.0f).lightmap(0, this.brightnessBottomLeft).normal(1.0F, 0.0F, 0.0F).endVertex();
 				} else if (entitywallpaper.direction == 3) {
-					renderer.pos(maxX, minY, maxZ).tex(minU + sideUV, minV + maxUV).color(this.colorRedTopLeft, this.colorGreenTopLeft, this.colorBlueTopLeft, 1.0f).normal(1.0F, 0.0F, 0.0F).endVertex();
-					renderer.pos(maxX, minY, minZ).tex(minU, minV + maxUV).color(this.colorRedTopLeft, this.colorGreenTopLeft, this.colorBlueTopLeft, 1.0f).normal(1.0F, 0.0F, 0.0F).endVertex();
-					renderer.pos(maxX, maxY, minZ).tex(minU, minV).color(this.colorRedTopRight, this.colorGreenTopRight, this.colorBlueTopRight, 1.0f).normal(1.0F, 0.0F, 0.0F).endVertex();
-					renderer.pos(maxX, maxY, maxZ).tex(minU + sideUV, minV).color(this.colorRedTopRight, this.colorGreenTopRight, this.colorBlueTopRight, 1.0f).normal(1.0F, 0.0F, 0.0F).endVertex();
+					renderer.pos(maxX, minY, maxZ).tex(minU + sideUV, minV + maxUV).color(this.colorRedTopLeft, this.colorGreenTopLeft, this.colorBlueTopLeft, 1.0f).lightmap(0, this.brightnessTopLeft).normal(1.0F, 0.0F, 0.0F).endVertex();
+					renderer.pos(maxX, minY, minZ).tex(minU, minV + maxUV).color(this.colorRedTopLeft, this.colorGreenTopLeft, this.colorBlueTopLeft, 1.0f).lightmap(0, this.brightnessTopLeft).normal(1.0F, 0.0F, 0.0F).endVertex();
+					renderer.pos(maxX, maxY, minZ).tex(minU, minV).color(this.colorRedTopRight, this.colorGreenTopRight, this.colorBlueTopRight, 1.0f).lightmap(0, this.brightnessTopRight).normal(1.0F, 0.0F, 0.0F).endVertex();
+					renderer.pos(maxX, maxY, maxZ).tex(minU + sideUV, minV).color(this.colorRedTopRight, this.colorGreenTopRight, this.colorBlueTopRight, 1.0f).lightmap(0, this.brightnessTopRight).normal(1.0F, 0.0F, 0.0F).endVertex();
 				}
 			}
 			if (!entitywallpaper.isBlockDown) {
 				if (entitywallpaper.direction == 0) {
-					renderer.pos(minX, minY, maxZ).tex(minU + maxUV, minV + maxUV - sideUV).color(this.colorRedTopRight, this.colorGreenTopRight, this.colorBlueTopRight, 1.0f).normal(0.0F, -1.0F, 0.0F).endVertex();
-					renderer.pos(minX, minY, minZ).tex(minU + maxUV, minV + maxUV).color(this.colorRedTopRight, this.colorGreenTopRight, this.colorBlueTopRight, 1.0f).normal(0.0F, -1.0F, 0.0F).endVertex();
-					renderer.pos(maxX, minY, minZ).tex(minU, minV + maxUV).color(this.colorRedBottomRight, this.colorGreenBottomRight, this.colorBlueBottomRight, 1.0f).normal(0.0F, -1.0F, 0.0F).endVertex();
-					renderer.pos(maxX, minY, maxZ).tex(minU, minV + maxUV - sideUV).color(this.colorRedBottomRight, this.colorGreenBottomRight, this.colorBlueBottomRight, 1.0f).normal(0.0F, -1.0F, 0.0F).endVertex();
+					renderer.pos(minX, minY, maxZ).tex(minU + maxUV, minV + maxUV - sideUV).color(this.colorRedTopRight, this.colorGreenTopRight, this.colorBlueTopRight, 1.0f).lightmap(0, this.brightnessTopRight).normal(0.0F, -1.0F, 0.0F).endVertex();
+					renderer.pos(minX, minY, minZ).tex(minU + maxUV, minV + maxUV).color(this.colorRedTopRight, this.colorGreenTopRight, this.colorBlueTopRight, 1.0f).lightmap(0, this.brightnessTopRight).normal(0.0F, -1.0F, 0.0F).endVertex();
+					renderer.pos(maxX, minY, minZ).tex(minU, minV + maxUV).color(this.colorRedBottomRight, this.colorGreenBottomRight, this.colorBlueBottomRight, 1.0f).lightmap(0, this.brightnessBottomRight).normal(0.0F, -1.0F, 0.0F).endVertex();
+					renderer.pos(maxX, minY, maxZ).tex(minU, minV + maxUV - sideUV).color(this.colorRedBottomRight, this.colorGreenBottomRight, this.colorBlueBottomRight, 1.0f).lightmap(0, this.brightnessBottomRight).normal(0.0F, -1.0F, 0.0F).endVertex();
 				} else if (entitywallpaper.direction == 2) {
-					renderer.pos(minX, minY, maxZ).tex(minU + maxUV, minV + maxUV - sideUV).color(this.colorRedBottomRight, this.colorGreenBottomRight, this.colorBlueBottomRight, 1.0f).normal(0.0F, -1.0F, 0.0F).endVertex();
-					renderer.pos(minX, minY, minZ).tex(minU + maxUV, minV + maxUV).color(this.colorRedBottomRight, this.colorGreenBottomRight, this.colorBlueBottomRight, 1.0f).normal(0.0F, -1.0F, 0.0F).endVertex();
-					renderer.pos(maxX, minY, minZ).tex(minU, minV + maxUV).color(this.colorRedBottomLeft, this.colorGreenBottomLeft, this.colorBlueBottomLeft, 1.0f).normal(0.0F, -1.0F, 0.0F).endVertex();
-					renderer.pos(maxX, minY, maxZ).tex(minU, minV + maxUV - sideUV).color(this.colorRedBottomLeft, this.colorGreenBottomLeft, this.colorBlueBottomLeft, 1.0f).normal(0.0F, -1.0F, 0.0F).endVertex();
+					renderer.pos(minX, minY, maxZ).tex(minU + maxUV, minV + maxUV - sideUV).color(this.colorRedBottomRight, this.colorGreenBottomRight, this.colorBlueBottomRight, 1.0f).lightmap(0, this.brightnessBottomRight).normal(0.0F, -1.0F, 0.0F).endVertex();
+					renderer.pos(minX, minY, minZ).tex(minU + maxUV, minV + maxUV).color(this.colorRedBottomRight, this.colorGreenBottomRight, this.colorBlueBottomRight, 1.0f).lightmap(0, this.brightnessBottomRight).normal(0.0F, -1.0F, 0.0F).endVertex();
+					renderer.pos(maxX, minY, minZ).tex(minU, minV + maxUV).color(this.colorRedBottomLeft, this.colorGreenBottomLeft, this.colorBlueBottomLeft, 1.0f).lightmap(0, this.brightnessBottomLeft).normal(0.0F, -1.0F, 0.0F).endVertex();
+					renderer.pos(maxX, minY, maxZ).tex(minU, minV + maxUV - sideUV).color(this.colorRedBottomLeft, this.colorGreenBottomLeft, this.colorBlueBottomLeft, 1.0f).lightmap(0, this.brightnessBottomLeft).normal(0.0F, -1.0F, 0.0F).endVertex();
 				} else if (entitywallpaper.direction == 1) {
-					renderer.pos(minX, minY, maxZ).tex(minU + maxUV, minV + maxUV - sideUV).color(this.colorRedTopRight, this.colorGreenTopRight, this.colorBlueTopRight, 1.0f).normal(0.0F, -1.0F, 0.0F).endVertex();
-					renderer.pos(minX, minY, minZ).tex(minU + maxUV, minV + maxUV).color(this.colorRedTopRight, this.colorGreenTopRight, this.colorBlueTopRight, 1.0f).normal(0.0F, -1.0F, 0.0F).endVertex();
-					renderer.pos(maxX, minY, minZ).tex(minU, minV + maxUV).color(this.colorRedBottomRight, this.colorGreenBottomRight, this.colorBlueBottomRight, 1.0f).normal(0.0F, -1.0F, 0.0F).endVertex();
-					renderer.pos(maxX, minY, maxZ).tex(minU, minV + maxUV - sideUV).color(this.colorRedBottomRight, this.colorGreenBottomRight, this.colorBlueBottomRight, 1.0f).normal(0.0F, -1.0F, 0.0F).endVertex();
+					renderer.pos(minX, minY, maxZ).tex(minU + maxUV, minV + maxUV - sideUV).color(this.colorRedTopRight, this.colorGreenTopRight, this.colorBlueTopRight, 1.0f).lightmap(0, this.brightnessTopRight).normal(0.0F, -1.0F, 0.0F).endVertex();
+					renderer.pos(minX, minY, minZ).tex(minU + maxUV, minV + maxUV).color(this.colorRedTopRight, this.colorGreenTopRight, this.colorBlueTopRight, 1.0f).lightmap(0, this.brightnessTopRight).normal(0.0F, -1.0F, 0.0F).endVertex();
+					renderer.pos(maxX, minY, minZ).tex(minU, minV + maxUV).color(this.colorRedBottomRight, this.colorGreenBottomRight, this.colorBlueBottomRight, 1.0f).lightmap(0, this.brightnessBottomRight).normal(0.0F, -1.0F, 0.0F).endVertex();
+					renderer.pos(maxX, minY, maxZ).tex(minU, minV + maxUV - sideUV).color(this.colorRedBottomRight, this.colorGreenBottomRight, this.colorBlueBottomRight, 1.0f).lightmap(0, this.brightnessBottomRight).normal(0.0F, -1.0F, 0.0F).endVertex();
 				} else if (entitywallpaper.direction == 3) {
-					renderer.pos(minX, minY, maxZ).tex(minU + maxUV, minV + maxUV - sideUV).color(this.colorRedBottomLeft, this.colorGreenBottomLeft, this.colorBlueBottomLeft, 1.0f).normal(0.0F, -1.0F, 0.0F).endVertex();
-					renderer.pos(minX, minY, minZ).tex(minU + maxUV, minV + maxUV).color(this.colorRedBottomLeft, this.colorGreenBottomLeft, this.colorBlueBottomLeft, 1.0f).normal(0.0F, -1.0F, 0.0F).endVertex();
-					renderer.pos(maxX, minY, minZ).tex(minU, minV + maxUV).color(this.colorRedTopLeft, this.colorGreenTopLeft, this.colorBlueTopLeft, 1.0f).normal(0.0F, -1.0F, 0.0F).endVertex();
-					renderer.pos(maxX, minY, maxZ).tex(minU, minV + maxUV - sideUV).color(this.colorRedTopLeft, this.colorGreenTopLeft, this.colorBlueTopLeft, 1.0f).normal(0.0F, -1.0F, 0.0F).endVertex();
+					renderer.pos(minX, minY, maxZ).tex(minU + maxUV, minV + maxUV - sideUV).color(this.colorRedBottomLeft, this.colorGreenBottomLeft, this.colorBlueBottomLeft, 1.0f).lightmap(0, this.brightnessBottomLeft).normal(0.0F, -1.0F, 0.0F).endVertex();
+					renderer.pos(minX, minY, minZ).tex(minU + maxUV, minV + maxUV).color(this.colorRedBottomLeft, this.colorGreenBottomLeft, this.colorBlueBottomLeft, 1.0f).lightmap(0, this.brightnessBottomLeft).normal(0.0F, -1.0F, 0.0F).endVertex();
+					renderer.pos(maxX, minY, minZ).tex(minU, minV + maxUV).color(this.colorRedTopLeft, this.colorGreenTopLeft, this.colorBlueTopLeft, 1.0f).lightmap(0, this.brightnessTopLeft).normal(0.0F, -1.0F, 0.0F).endVertex();
+					renderer.pos(maxX, minY, maxZ).tex(minU, minV + maxUV - sideUV).color(this.colorRedTopLeft, this.colorGreenTopLeft, this.colorBlueTopLeft, 1.0f).lightmap(0, this.brightnessTopLeft).normal(0.0F, -1.0F, 0.0F).endVertex();
 				}
 			}
 		} else {
 			BlockPos pos = new BlockPos(x, y, z);
 			float blockLight = this.renderManager.worldObj.getLightBrightness(pos);
-			GL11.glColor3f(blockLight * red, blockLight * green, blockLight * blue);
 
-			// renderer.setBrightness(getMixedBrightnessForBlock(pos));
-
-			renderer.pos(minX, minY, minZ).tex(minU + maxUV, minV + maxUV).color(blockLight * red, blockLight * green, blockLight * blue, 1.0f).normal(0.0F, 0.0F, -1.0F).endVertex();
-			renderer.pos(minX, maxY, minZ).tex(minU + maxUV, minV).color(blockLight * red, blockLight * green, blockLight * blue, 1.0f).normal(0.0F, 0.0F, -1.0F).endVertex();
-			renderer.pos(maxX, maxY, minZ).tex(minU, minV).color(blockLight * red, blockLight * green, blockLight * blue, 1.0f).normal(0.0F, 0.0F, -1.0F).endVertex();
-			renderer.pos(maxX, minY, minZ).tex(minU, minV + maxUV).color(blockLight * red, blockLight * green, blockLight * blue, 1.0f).normal(0.0F, 0.0F, -1.0F).endVertex();
+			renderer.pos(minX, minY, minZ).tex(minU + maxUV, minV + maxUV).color(blockLight * red, blockLight * green, blockLight * blue, 1.0f).lightmap(0, getMixedBrightnessForBlock(pos)).normal(0.0F, 0.0F, -1.0F).endVertex();
+			renderer.pos(minX, maxY, minZ).tex(minU + maxUV, minV).color(blockLight * red, blockLight * green, blockLight * blue, 1.0f).lightmap(0, getMixedBrightnessForBlock(pos)).normal(0.0F, 0.0F, -1.0F).endVertex();
+			renderer.pos(maxX, maxY, minZ).tex(minU, minV).color(blockLight * red, blockLight * green, blockLight * blue, 1.0f).lightmap(0, getMixedBrightnessForBlock(pos)).normal(0.0F, 0.0F, -1.0F).endVertex();
+			renderer.pos(maxX, minY, minZ).tex(minU, minV + maxUV).color(blockLight * red, blockLight * green, blockLight * blue, 1.0f).lightmap(0, getMixedBrightnessForBlock(pos)).normal(0.0F, 0.0F, -1.0F).endVertex();
 
 			if (!entitywallpaper.isBlockLeft) {
-				renderer.pos(minX, maxY, minZ).tex(minU + maxUV, minV).color(blockLight * red, blockLight * green, blockLight * blue, 1.0f).normal(-1.0F, 0.0F, 0.0F).endVertex();
-				renderer.pos(minX, minY, minZ).tex(minU + maxUV - sideUV, minV + maxUV).color(blockLight * red, blockLight * green, blockLight * blue, 1.0f).normal(-1.0F, 0.0F, 0.0F).endVertex();
-				renderer.pos(minX, minY, maxZ).tex(minU + maxUV - sideUV, minV + maxUV).color(blockLight * red, blockLight * green, blockLight * blue, 1.0f).normal(-1.0F, 0.0F, 0.0F).endVertex();
-				renderer.pos(minX, maxY, maxZ).tex(minU + maxUV, minV).color(blockLight * red, blockLight * green, blockLight * blue, 1.0f).normal(-1.0F, 0.0F, 0.0F).endVertex();
+				renderer.pos(minX, maxY, minZ).tex(minU + maxUV, minV).color(blockLight * red, blockLight * green, blockLight * blue, 1.0f).lightmap(0, getMixedBrightnessForBlock(pos)).normal(-1.0F, 0.0F, 0.0F).endVertex();
+				renderer.pos(minX, minY, minZ).tex(minU + maxUV - sideUV, minV + maxUV).color(blockLight * red, blockLight * green, blockLight * blue, 1.0f).lightmap(0, getMixedBrightnessForBlock(pos)).normal(-1.0F, 0.0F, 0.0F).endVertex();
+				renderer.pos(minX, minY, maxZ).tex(minU + maxUV - sideUV, minV + maxUV).color(blockLight * red, blockLight * green, blockLight * blue, 1.0f).lightmap(0, getMixedBrightnessForBlock(pos)).normal(-1.0F, 0.0F, 0.0F).endVertex();
+				renderer.pos(minX, maxY, maxZ).tex(minU + maxUV, minV).color(blockLight * red, blockLight * green, blockLight * blue, 1.0f).lightmap(0, getMixedBrightnessForBlock(pos)).normal(-1.0F, 0.0F, 0.0F).endVertex();
 			}
 			if (!entitywallpaper.isBlockUp) {
-				renderer.pos(maxX, maxY, minZ).tex(minU, minV).color(blockLight * red, blockLight * green, blockLight * blue, 1.0f).normal(0.0F, 1.0F, 0.0F).endVertex();
-				renderer.pos(minX, maxY, minZ).tex(minU + maxUV, minV).color(blockLight * red, blockLight * green, blockLight * blue, 1.0f).normal(0.0F, 1.0F, 0.0F).endVertex();
-				renderer.pos(minX, maxY, maxZ).tex(minU + maxUV, minV + sideUV).color(blockLight * red, blockLight * green, blockLight * blue, 1.0f).normal(0.0F, 1.0F, 0.0F).endVertex();
-				renderer.pos(maxX, maxY, maxZ).tex(minU, minV + sideUV).color(blockLight * red, blockLight * green, blockLight * blue, 1.0f).normal(0.0F, 1.0F, 0.0F).endVertex();
+				renderer.pos(maxX, maxY, minZ).tex(minU, minV).color(blockLight * red, blockLight * green, blockLight * blue, 1.0f).lightmap(0, getMixedBrightnessForBlock(pos)).normal(0.0F, 1.0F, 0.0F).endVertex();
+				renderer.pos(minX, maxY, minZ).tex(minU + maxUV, minV).color(blockLight * red, blockLight * green, blockLight * blue, 1.0f).lightmap(0, getMixedBrightnessForBlock(pos)).normal(0.0F, 1.0F, 0.0F).endVertex();
+				renderer.pos(minX, maxY, maxZ).tex(minU + maxUV, minV + sideUV).color(blockLight * red, blockLight * green, blockLight * blue, 1.0f).lightmap(0, getMixedBrightnessForBlock(pos)).normal(0.0F, 1.0F, 0.0F).endVertex();
+				renderer.pos(maxX, maxY, maxZ).tex(minU, minV + sideUV).color(blockLight * red, blockLight * green, blockLight * blue, 1.0f).lightmap(0, getMixedBrightnessForBlock(pos)).normal(0.0F, 1.0F, 0.0F).endVertex();
 			}
 			if (!entitywallpaper.isBlockRight) {
-				renderer.pos(maxX, minY, minZ).tex(minU, minV + maxUV).color(blockLight * red, blockLight * green, blockLight * blue, 1.0f).normal(1.0F, 0.0F, 0.0F).endVertex();
-				renderer.pos(maxX, maxY, minZ).tex(minU, minV).color(blockLight * red, blockLight * green, blockLight * blue, 1.0f).normal(1.0F, 0.0F, 0.0F).endVertex();
-				renderer.pos(maxX, maxY, maxZ).tex(minU + sideUV, minV).color(blockLight * red, blockLight * green, blockLight * blue, 1.0f).normal(1.0F, 0.0F, 0.0F).endVertex();
-				renderer.pos(maxX, minY, maxZ).tex(minU + sideUV, minV + maxUV).color(blockLight * red, blockLight * green, blockLight * blue, 1.0f).normal(1.0F, 0.0F, 0.0F).endVertex();
+				renderer.pos(maxX, minY, minZ).tex(minU, minV + maxUV).color(blockLight * red, blockLight * green, blockLight * blue, 1.0f).lightmap(0, getMixedBrightnessForBlock(pos)).normal(1.0F, 0.0F, 0.0F).endVertex();
+				renderer.pos(maxX, maxY, minZ).tex(minU, minV).color(blockLight * red, blockLight * green, blockLight * blue, 1.0f).lightmap(0, getMixedBrightnessForBlock(pos)).normal(1.0F, 0.0F, 0.0F).endVertex();
+				renderer.pos(maxX, maxY, maxZ).tex(minU + sideUV, minV).color(blockLight * red, blockLight * green, blockLight * blue, 1.0f).lightmap(0, getMixedBrightnessForBlock(pos)).normal(1.0F, 0.0F, 0.0F).endVertex();
+				renderer.pos(maxX, minY, maxZ).tex(minU + sideUV, minV + maxUV).color(blockLight * red, blockLight * green, blockLight * blue, 1.0f).lightmap(0, getMixedBrightnessForBlock(pos)).normal(1.0F, 0.0F, 0.0F).endVertex();
 			}
 			if (!entitywallpaper.isBlockDown) {
-				renderer.pos(minX, minY, minZ).tex(minU + maxUV, minV + maxUV).color(blockLight * red, blockLight * green, blockLight * blue, 1.0f).normal(0.0F, -1.0F, 0.0F).endVertex();
-				renderer.pos(maxX, minY, minZ).tex(minU, minV + maxUV).color(blockLight * red, blockLight * green, blockLight * blue, 1.0f).normal(0.0F, -1.0F, 0.0F).endVertex();
-				renderer.pos(maxX, minY, maxZ).tex(minU, minV + maxUV - sideUV).color(blockLight * red, blockLight * green, blockLight * blue, 1.0f).normal(0.0F, -1.0F, 0.0F).endVertex();
-				renderer.pos(minX, minY, maxZ).tex(minU + maxUV, minV + maxUV - sideUV).color(blockLight * red, blockLight * green, blockLight * blue, 1.0f).normal(0.0F, -1.0F, 0.0F).endVertex();
+				renderer.pos(minX, minY, minZ).tex(minU + maxUV, minV + maxUV).color(blockLight * red, blockLight * green, blockLight * blue, 1.0f).lightmap(0, getMixedBrightnessForBlock(pos)).normal(0.0F, -1.0F, 0.0F).endVertex();
+				renderer.pos(maxX, minY, minZ).tex(minU, minV + maxUV).color(blockLight * red, blockLight * green, blockLight * blue, 1.0f).lightmap(0, getMixedBrightnessForBlock(pos)).normal(0.0F, -1.0F, 0.0F).endVertex();
+				renderer.pos(maxX, minY, maxZ).tex(minU, minV + maxUV - sideUV).color(blockLight * red, blockLight * green, blockLight * blue, 1.0f).lightmap(0, getMixedBrightnessForBlock(pos)).normal(0.0F, -1.0F, 0.0F).endVertex();
+				renderer.pos(minX, minY, maxZ).tex(minU + maxUV, minV + maxUV - sideUV).color(blockLight * red, blockLight * green, blockLight * blue, 1.0f).lightmap(0, getMixedBrightnessForBlock(pos)).normal(0.0F, -1.0F, 0.0F).endVertex();
 			}
 		}
 		tessellator.draw();
-
-		GlStateManager.popAttrib();
-		GlStateManager.popMatrix();
 	}
 
 	public boolean renderWithAmbientOcclusion(BlockPos pos, float red, float green, float blue, int direction) {

@@ -72,7 +72,7 @@ public class RenderFrame extends Render<EntityFrame> {
 			float v2 = f3 * v1;
 			float v3 = (1.0F - f3) * v1;
 
-			// TODO: Is this even doing anything?
+			// TODO: Update this to use the way brightness works in RenderWallpaper
 			this.setLightmap(entity, frame.sizeX, frame.sizeY);
 
 			renderer.begin(7, DefaultVertexFormats.POSITION_TEX_COLOR_NORMAL);
