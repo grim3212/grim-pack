@@ -2,6 +2,8 @@ package com.grim3212.mc.core.client;
 
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.WorldRenderer;
+import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+import net.minecraft.client.renderer.vertex.VertexFormat;
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.item.Item;
 import net.minecraftforge.client.model.ModelLoader;
@@ -10,10 +12,8 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class RenderHelper {
-
-	public static void setBrightness(WorldRenderer renderer, int brightness) {
-		renderer.putBrightness4(brightness, brightness, brightness, brightness);
-	}
+	
+	public static final VertexFormat POSITION_TEX_COLOR_LIGHTMAP_NORMAL = (new VertexFormat()).addElement(DefaultVertexFormats.POSITION_3F).addElement(DefaultVertexFormats.TEX_2F).addElement(DefaultVertexFormats.COLOR_4UB).addElement(DefaultVertexFormats.TEX_2S).addElement(DefaultVertexFormats.NORMAL_3B).addElement(DefaultVertexFormats.PADDING_1B);
 
 	public static void renderBlockWithMetaInInventory(Block block, int meta) {
 		Item item = Item.getItemFromBlock(block);
