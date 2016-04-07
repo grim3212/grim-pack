@@ -23,6 +23,9 @@ tile.chair.name=Chair
 tile.wall.name=Wall
 tile.fence.name=Fence
 tile.fence_gate.name=Fence Gate
+tile.lamp_post_bottom.name=Lamp Post Bottom
+tile.lamp_post_middle.name=Lamp Post Middle
+tile.lamp_post_top.name=Lamp Post Top
 
 #================= ITEMS =================#
 item.glass_shard.name=Glass Shard
@@ -31,6 +34,7 @@ item.frame_wood.name=Wooden Frames
 item.wallpaper.name=Wallpaper
 item.unfired_pot.name=Uncooked Planter Pot
 item.unfired_craft.name=Uncooked Clay Decorations
+item.lamp_item.name=Lamp Post
 
 #================= INSTRUCTION MANUAL =================#
 grim.manual.grimdecor.modinfo=Adds in many different decorative items and blocks to spice up your Minecraft world.
@@ -89,3 +93,6 @@ grim.manual.grimdecor.subsection.other.page.wall=Walls are basically counters bu
 grim.manual.grimdecor.subsection.other.page.wall.title=Walls
 grim.manual.grimdecor.subsection.other.page.chimney=Chimneys are a nice block for decorating houses and even emit smoke.
 grim.manual.grimdecor.subsection.other.page.chimney.title=Chimneys
+grim3212.manual.lampposts.subsection.lamps=Lamp Posts
+grim3212.manual.lampposts.subsection.lamps.page.recipes=Lamp Post are crafted like so and once placed form a 3 block high structure. Only the top block emits light.
+grim3212.manual.lampposts.subsection.lamps.page.recipes.title=Recipes

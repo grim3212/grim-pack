@@ -22,6 +22,7 @@ public class DecorItems implements IPartItems {
 	public static Item wallpaper;
 	public static Item unfired_craft;
 	public static Item unfired_pot;
+	public static Item lamp_item;
 
 	public static List<IRecipe> frames;
 
@@ -32,7 +33,9 @@ public class DecorItems implements IPartItems {
 		wallpaper = new ItemWallpaper().setUnlocalizedName("wallpaper").setCreativeTab(GrimDecor.INSTANCE.getCreativeTab());
 		unfired_pot = (new Item()).setUnlocalizedName("unfired_pot").setCreativeTab(GrimDecor.INSTANCE.getCreativeTab());
 		unfired_craft = (new Item()).setUnlocalizedName("unfired_craft").setCreativeTab(GrimDecor.INSTANCE.getCreativeTab());
+		lamp_item = new ItemLampPost().setUnlocalizedName("lamp_item").setCreativeTab(GrimDecor.INSTANCE.getCreativeTab());
 		
+		GameRegistry.registerItem(lamp_item, "lamp_item");
 		GameRegistry.registerItem(glass_shard, "glass_shard");
 		GameRegistry.registerItem(frame, "frame");
 		GameRegistry.registerItem(wallpaper, "wallpaper");

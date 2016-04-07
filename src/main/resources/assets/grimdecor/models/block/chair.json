@@ -1,0 +1,54 @@
+{
+"__comment": "Designed by Grim3212 with BDcraft Cubik PRO 0.92 Beta - http://bdcraft.net",
+"elements": [ 
+{
+    "__comment": "back",
+    "from": [ 0, 0, 0 ],
+    "to": [ 16, 16, 3 ],
+    "faces": {
+        "down":  { "uv": [ 16, 3, 0, 0 ], "texture": "#texture", "tintindex": 0, "cullface": "down" },
+        "up":    { "uv": [ 0, 0, 16, 3 ], "texture": "#texture", "tintindex": 0, "cullface": "up" },
+        "north": { "uv": [ 0, 0, 16, 16 ], "texture": "#texture", "tintindex": 0, "cullface": "north" },
+        "south": { "uv": [ 0, 0, 16, 16 ], "texture": "#texture", "tintindex": 0 },
+        "west":  { "uv": [ 0, 0, 3, 16 ], "texture": "#texture", "tintindex": 0, "cullface": "west" },
+        "east":  { "uv": [ 13, 0, 16, 16 ], "texture": "#texture", "tintindex": 0, "cullface": "east" }
+    }
+},
+{
+    "__comment": "seat",
+    "from": [ 0, 5, 3 ],
+    "to": [ 16, 8, 16 ],
+    "faces": {
+        "down":  { "uv": [ 16, 16, 0, 3 ], "texture": "#texture", "tintindex": 0 },
+        "up":    { "uv": [ 0, 3, 16, 16 ], "texture": "#texture", "tintindex": 0 },
+        "south": { "uv": [ 0, 8, 16, 11 ], "texture": "#texture", "tintindex": 0, "cullface": "south" },
+        "west":  { "uv": [ 3, 8, 16, 11 ], "texture": "#texture", "tintindex": 0, "cullface": "west" },
+        "east":  { "uv": [ 0, 8, 13, 11 ], "texture": "#texture", "tintindex": 0, "cullface": "east" }
+    }
+},
+{
+    "__comment": "leg1",
+    "from": [ 13, 0, 13 ],
+    "to": [ 16, 5, 16 ],
+    "faces": {
+        "down":  { "uv": [ 3, 16, 0, 13 ], "texture": "#texture", "tintindex": 0, "cullface": "down" },
+        "north": { "uv": [ 0, 11, 3, 16 ], "texture": "#texture", "tintindex": 0 },
+        "south": { "uv": [ 13, 11, 16, 16 ], "texture": "#texture", "tintindex": 0, "cullface": "south" },
+        "west":  { "uv": [ 13, 11, 16, 16 ], "texture": "#texture", "tintindex": 0 },
+        "east":  { "uv": [ 0, 11, 3, 16 ], "texture": "#texture", "tintindex": 0, "cullface": "east" }
+    }
+},
+{
+    "__comment": "leg2",
+    "from": [ 0, 0, 13 ],
+    "to": [ 3, 5, 16 ],
+    "faces": {
+        "down":  { "uv": [ 16, 16, 13, 13 ], "texture": "#texture", "tintindex": 0, "cullface": "down" },
+        "north": { "uv": [ 13, 11, 16, 16 ], "texture": "#texture", "tintindex": 0 },
+        "south": { "uv": [ 0, 11, 3, 16 ], "texture": "#texture", "tintindex": 0, "cullface": "south" },
+        "west":  { "uv": [ 13, 11, 16, 16 ], "texture": "#texture", "tintindex": 0, "cullface": "west" },
+        "east":  { "uv": [ 0, 11, 3, 16 ], "texture": "#texture", "tintindex": 0 }
+    }
+}
+]
+}

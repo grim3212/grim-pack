@@ -10,5 +10,6 @@ public class DecorTileEntities implements IPartTileEntities {
 	public void initTileEntities() {
 		GameRegistry.registerTileEntity(TileEntityCalendar.class, "calendar");
 		GameRegistry.registerTileEntity(TileEntityWallClock.class, "wall_clock");
+		GameRegistry.registerTileEntity(TileEntityTextured.class, "texture_block");
 	}
 }

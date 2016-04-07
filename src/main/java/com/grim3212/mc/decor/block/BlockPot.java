@@ -43,18 +43,6 @@ public class BlockPot extends Block {
 			return true;
 		}
 
-		// This is to make Reeds work...
-		BlockPos newPos = pos.down();
-		if (world.getBlockState(newPos).getBlock() == DecorBlocks.pot) {
-			int top = world.getBlockState(newPos).getValue(TOP);
-			if ((top == 0 || top == 1) && plantType == EnumPlantType.Beach && plant == Blocks.reeds.getDefaultState() && !this.isStool(world, newPos)) {
-				boolean hasWater = (world.getBlockState(newPos.east()).getBlock().getMaterial() == Material.water || world.getBlockState(newPos.west()).getBlock().getMaterial() == Material.water || world.getBlockState(newPos.north()).getBlock().getMaterial() == Material.water || world.getBlockState(newPos.south()).getBlock().getMaterial() == Material.water);
-				return hasWater;
-			}
-		}
-		
-		//TODO: FIX REEDS
-
 		if (world.getBlockState(pos).getBlock() == DecorBlocks.pot) {
 			int top = world.getBlockState(pos).getValue(TOP);
 			switch (top) {
@@ -63,8 +51,8 @@ public class BlockPot extends Block {
 					return true;
 				}
 
-				if (plantType == EnumPlantType.Beach && plant != Blocks.reeds.getDefaultState() && !this.isStool(world, pos)) {
-					boolean hasWater = (world.getBlockState(newPos.east()).getBlock().getMaterial() == Material.water || world.getBlockState(newPos.west()).getBlock().getMaterial() == Material.water || world.getBlockState(newPos.north()).getBlock().getMaterial() == Material.water || world.getBlockState(newPos.south()).getBlock().getMaterial() == Material.water);
+				if (plantType == EnumPlantType.Beach && !this.isStool(world, pos)) {
+					boolean hasWater = (world.getBlockState(pos.east()).getBlock().getMaterial() == Material.water || world.getBlockState(pos.west()).getBlock().getMaterial() == Material.water || world.getBlockState(pos.north()).getBlock().getMaterial() == Material.water || world.getBlockState(pos.south()).getBlock().getMaterial() == Material.water);
 					return hasWater;
 				}
 				break;
@@ -72,8 +60,8 @@ public class BlockPot extends Block {
 				if ((plantType == EnumPlantType.Desert && !this.isStool(world, pos)) || (plantType == EnumPlantType.Desert && plant.getBlock() == Blocks.deadbush)) {
 					return true;
 				}
-				if (plantType == EnumPlantType.Beach && plant != Blocks.reeds.getDefaultState() && !this.isStool(world, pos)) {
-					boolean hasWater = (world.getBlockState(newPos.east()).getBlock().getMaterial() == Material.water || world.getBlockState(newPos.west()).getBlock().getMaterial() == Material.water || world.getBlockState(newPos.north()).getBlock().getMaterial() == Material.water || world.getBlockState(newPos.south()).getBlock().getMaterial() == Material.water);
+				if (plantType == EnumPlantType.Beach && !this.isStool(world, pos)) {
+					boolean hasWater = (world.getBlockState(pos.east()).getBlock().getMaterial() == Material.water || world.getBlockState(pos.west()).getBlock().getMaterial() == Material.water || world.getBlockState(pos.north()).getBlock().getMaterial() == Material.water || world.getBlockState(pos.south()).getBlock().getMaterial() == Material.water);
 					return hasWater;
 				}
 				break;
@@ -184,8 +172,6 @@ public class BlockPot extends Block {
 	}
 
 	private boolean isStool(IBlockAccess worldIn, BlockPos pos) {
-		// Block block = worldIn.getBlockState(pos.down()).getBlock();
-		// return block == FancyPack.stool;
-		return false;
+		return worldIn.getBlockState(pos.down()).getBlock() == DecorBlocks.stool;
 	}
 }

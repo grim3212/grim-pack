@@ -6,12 +6,14 @@ import com.grim3212.mc.decor.block.BlockLantern.EnumLanternType;
 import com.grim3212.mc.decor.block.DecorBlocks;
 import com.grim3212.mc.decor.client.entity.RenderFrame.FrameFactory;
 import com.grim3212.mc.decor.client.entity.RenderWallpaper.WallpaperFactory;
+import com.grim3212.mc.decor.client.event.ModelEvent;
 import com.grim3212.mc.decor.client.tile.TileEntityCalendarRenderer;
 import com.grim3212.mc.decor.entity.EntityFrame;
 import com.grim3212.mc.decor.entity.EntityWallpaper;
 import com.grim3212.mc.decor.item.DecorItems;
 import com.grim3212.mc.decor.tile.TileEntityCalendar;
 
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 
@@ -19,6 +21,22 @@ public class DecorClientProxy extends ClientProxy {
 
 	@Override
 	public void registerModels() {
+		MinecraftForge.EVENT_BUS.register(new ModelEvent());
+		ModelEvent.renderCustomModel(DecorBlocks.lamp_post_top, "inventory", "normal");
+		ModelEvent.renderCustomModel(DecorBlocks.lamp_post_middle, "inventory", "normal");
+		ModelEvent.renderCustomModel(DecorBlocks.lamp_post_bottom, "inventory", "normal");
+		ModelEvent.renderCustomModel(DecorItems.lamp_item, "inventory");	
+		ModelEvent.renderCustomModel(DecorBlocks.stool, "inventory", "up=false", "up=true");
+		ModelEvent.renderCustomModel(DecorBlocks.counter, "inventory", "normal");
+		ModelEvent.renderCustomModel(DecorBlocks.chair, "inventory", "facing=north", "facing=south", "facing=west", "facing=east");
+		ModelEvent.renderCustomModel(DecorBlocks.wall, "inventory", "facing=north", "facing=south", "facing=west", "facing=east");
+		ModelEvent.renderCustomModel(DecorBlocks.fence, "inventory", "east=false,north=false,south=false,west=false", "east=false,north=true,south=false,west=false", "east=true,north=false,south=false,west=false", "east=false,north=false,south=true,west=false", "east=false,north=false,south=false,west=true", "east=true,north=true,south=false,west=false", "east=true,north=false,south=true,west=false", "east=false,north=false,south=true,west=true", "east=false,north=true,south=false,west=true", "east=false,north=true,south=true,west=false", "east=true,north=false,south=false,west=true",
+				"east=true,north=true,south=true,west=false", "east=true,north=false,south=true,west=true", "east=false,north=true,south=true,west=true", "east=true,north=true,south=false,west=true", "east=true,north=true,south=true,west=true");
+		ModelEvent.renderCustomModel(DecorBlocks.fence_gate, "inventory", "facing=south,open=false,powered=false", "facing=west,open=false,powered=false", "facing=north,open=false,powered=false", "facing=east,open=false,powered=false", "facing=south,open=true,powered=false", "facing=west,open=true,powered=false", "facing=north,open=true,powered=false", "facing=east,open=true,powered=false", "facing=south,open=false,powered=true", "facing=west,open=false,powered=true", "facing=north,open=false,powered=true", "facing=east,open=false,powered=true", "facing=south,open=true,powered=true",
+				"facing=west,open=true,powered=true", "facing=north,open=true,powered=true", "facing=east,open=true,powered=true");
+		ModelEvent.renderCustomModel(DecorBlocks.table, "inventory", "east=false,north=false,south=false,west=false", "east=false,north=true,south=false,west=false", "east=true,north=false,south=false,west=false", "east=false,north=false,south=true,west=false", "east=false,north=false,south=false,west=true", "east=true,north=true,south=false,west=false", "east=true,north=false,south=true,west=false", "east=false,north=false,south=true,west=true", "east=false,north=true,south=false,west=true", "east=false,north=true,south=true,west=false", "east=true,north=false,south=false,west=true",
+				"east=true,north=true,south=true,west=false", "east=true,north=false,south=true,west=true", "east=false,north=true,south=true,west=true", "east=true,north=true,south=false,west=true", "east=true,north=true,south=true,west=true");
+
 		// ITEMS
 		RenderHelper.renderItem(DecorItems.glass_shard);
 		RenderHelper.renderItem(DecorItems.wallpaper);

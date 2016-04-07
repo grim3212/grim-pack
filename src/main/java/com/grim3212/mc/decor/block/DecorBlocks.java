@@ -1,17 +1,23 @@
 package com.grim3212.mc.decor.block;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 import com.grim3212.mc.core.part.IPartItems;
+import com.grim3212.mc.core.util.NBTHelper;
 import com.grim3212.mc.core.util.RecipeHelper;
 import com.grim3212.mc.decor.GrimDecor;
+import com.grim3212.mc.decor.item.DecorItems;
+import com.grim3212.mc.decor.item.ItemFurniture;
 import com.grim3212.mc.decor.item.ItemLantern;
+import com.grim3212.mc.decor.util.BlockHelper;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraftforge.fml.common.registry.GameRegistry;
@@ -31,6 +37,16 @@ public class DecorBlocks implements IPartItems {
 	public static Block fancy_stone;
 	public static Block craft_clay;
 	public static Block craft_bone;
+	public static Block counter;
+	public static Block stool;
+	public static Block chair;
+	public static Block wall;
+	public static Block table;
+	public static Block fence;
+	public static Block fence_gate;
+	public static Block lamp_post_bottom;
+	public static Block lamp_post_middle;
+	public static Block lamp_post_top;
 
 	public static IRecipe mossy;
 	public static List<IRecipe> stone;
@@ -52,10 +68,30 @@ public class DecorBlocks implements IPartItems {
 		pot = (new BlockPot()).setHardness(0.5F).setResistance(10F).setUnlocalizedName("pot").setCreativeTab(GrimDecor.INSTANCE.getCreativeTab());
 		craft_clay = (new BlockCraftClay()).setUnlocalizedName("craft_clay").setCreativeTab(GrimDecor.INSTANCE.getCreativeTab());
 		craft_bone = (new BlockCraftBone()).setUnlocalizedName("craft_bone").setCreativeTab(GrimDecor.INSTANCE.getCreativeTab());
+		counter = (new BlockCounter()).setUnlocalizedName("counter");
+		stool = (new BlockStool()).setUnlocalizedName("stool");
+		chair = (new BlockChair()).setUnlocalizedName("chair");
+		wall = (new BlockWall()).setUnlocalizedName("wall");
+		fence = (new BlockFence()).setUnlocalizedName("fence");
+		fence_gate = (new BlockFenceGate()).setUnlocalizedName("fence_gate");
+		table = (new BlockTable()).setUnlocalizedName("table");
+		lamp_post_bottom = (new BlockLampPost(false)).setUnlocalizedName("lamp_post_bottom");
+		lamp_post_middle = (new BlockLampPost(false)).setUnlocalizedName("lamp_post_middle");
+		lamp_post_top = new BlockLampPost(true).setUnlocalizedName("lamp_post_top");
 
 		GameRegistry.registerBlock(calendar, "calendar");
 		GameRegistry.registerBlock(wall_clock, "wall_clock");
 		GameRegistry.registerBlock(light_bulb, "light_bulb");
+		GameRegistry.registerBlock(table, ItemFurniture.class, "table");
+		GameRegistry.registerBlock(counter, ItemFurniture.class, "counter");
+		GameRegistry.registerBlock(stool, ItemFurniture.class, "stool");
+		GameRegistry.registerBlock(chair, ItemFurniture.class, "chair");
+		GameRegistry.registerBlock(wall, ItemFurniture.class, "wall");
+		GameRegistry.registerBlock(fence, ItemFurniture.class, "fence");
+		GameRegistry.registerBlock(lamp_post_bottom, "lamp_post_bottom");
+		GameRegistry.registerBlock(lamp_post_middle, "lamp_post_middle");
+		GameRegistry.registerBlock(lamp_post_top, "lamp_post_top");
+		GameRegistry.registerBlock(fence_gate, ItemFurniture.class, "fence_gate");
 		GameRegistry.registerBlock(lantern, ItemLantern.class, "lantern");
 		GameRegistry.registerBlock(road, "road");
 		GameRegistry.registerBlock(fancy_stone, "fancy_stone");
@@ -96,6 +132,39 @@ public class DecorBlocks implements IPartItems {
 		chains = RecipeHelper.getLatestIRecipes(2);
 
 		GameRegistry.addSmelting(Blocks.gravel, new ItemStack(road, 1), 0.15F);
+
+		addFurnitureRecipe(stool, 4, "###", "I I");
+		addFurnitureRecipe(counter, 4, "###", " I ");
+		addFurnitureRecipe(table, 4, "###", "I I", "I I");
+		addFurnitureRecipe(chair, 4, "#  ", "###", "I I");
+		addFurnitureRecipe(wall, 4, "#", "#", "#");
+		addFurnitureRecipe(fence, 4, "###", "#I#");
+		addFurnitureRecipe(fence_gate, 4, "I#I", "III");
+		addFurnitureRecipe(DecorItems.lamp_item, 1, "#G#", "###", " # ");
+	}
+	
+	private void addFurnitureRecipe(Block furnType, int amount, String... pattern){
+		addFurnitureRecipe(Item.getItemFromBlock(furnType), amount, pattern);
 	}
 
+	private void addFurnitureRecipe(Item furnType, int amount, String... pattern) {
+		LinkedHashMap<Block, Integer> loadedBlocks = BlockHelper.getBlocks();
+		Block[] blocks = loadedBlocks.keySet().toArray(new Block[loadedBlocks.keySet().size()]);
+
+		for (int i = 0; i < blocks.length; i++) {
+			if (loadedBlocks.get(blocks[i]) == 0) {
+				ItemStack stack = new ItemStack(furnType, amount);
+				NBTHelper.setInteger(stack, "blockID", Block.getIdFromBlock(blocks[i]));
+				NBTHelper.setInteger(stack, "blockMeta", 0);
+				GameRegistry.addRecipe(new ShapedOreRecipe(stack, new Object[] { pattern, '#', new ItemStack(blocks[i], 1, 0), 'I', "stickWood", 'G', "glowstone" }));
+			} else {
+				for (int j = 0; j < loadedBlocks.get(blocks[i]); j++) {
+					ItemStack stack = new ItemStack(furnType, amount);
+					NBTHelper.setInteger(stack, "blockID", Block.getIdFromBlock(blocks[i]));
+					NBTHelper.setInteger(stack, "blockMeta", j);
+					GameRegistry.addRecipe(new ShapedOreRecipe(stack, new Object[] { pattern, '#', new ItemStack(blocks[i], 1, j), 'I', "stickWood", 'G', "glowstone" }));
+				}
+			}
+		}
+	}
 }

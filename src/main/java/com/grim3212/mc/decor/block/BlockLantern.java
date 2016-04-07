@@ -9,7 +9,6 @@ import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockState;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.AxisAlignedBB;
@@ -24,7 +23,6 @@ public class BlockLantern extends Block {
 
 	protected BlockLantern() {
 		super(Material.circuits);
-		setTickRandomly(true);
 		this.setDefaultState(this.blockState.getBaseState().withProperty(VARIANT, EnumLanternType.PAPER));
 	}
 
@@ -38,11 +36,6 @@ public class BlockLantern extends Block {
 		for (int i = 0; i < EnumLanternType.values().length; i++) {
 			list.add(new ItemStack(item, 1, i));
 		}
-	}
-
-	@Override
-	public boolean canPlaceBlockAt(World worldIn, BlockPos pos) {
-		return worldIn.getBlockState(pos).getBlock() == Blocks.air;
 	}
 
 	@Override
@@ -111,16 +104,16 @@ public class BlockLantern extends Block {
 				META_LOOKUP[colour.getMetadata()] = colour;
 			}
 		}
-		
+
 		public static String[] names() {
 			EnumLanternType[] types = values();
-		    String[] names = new String[types.length];
+			String[] names = new String[types.length];
 
-		    for (int i = 0; i < types.length; i++) {
-		        names[i] = types[i].getName();
-		    }
+			for (int i = 0; i < types.length; i++) {
+				names[i] = types[i].getName();
+			}
 
-		    return names;
+			return names;
 		}
 	}
 }

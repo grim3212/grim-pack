@@ -13,6 +13,8 @@ public class DecorConfig extends GrimConfig {
 	public static boolean burnWallpaper;
 	public static float widthWallpaper;
 	public static int numWallpapers;
+	public static boolean useAllBlocks;
+	public static String[] decorationBlocks;
 
 	@Override
 	public void syncConfig() {
@@ -23,7 +25,8 @@ public class DecorConfig extends GrimConfig {
 		burnWallpaper = config.get(Configuration.CATEGORY_GENERAL, "BurnWallpaper", true).getBoolean();
 		widthWallpaper = (float) config.get(Configuration.CATEGORY_GENERAL, "WallpaperWidth", 1.0D).getDouble();
 		numWallpapers = config.get(Configuration.CATEGORY_GENERAL, "NumWallpapers", 24).getInt();
-
+		useAllBlocks = config.get(Configuration.CATEGORY_GENERAL, "UseAllBlocks", true).getBoolean();
+		decorationBlocks = config.get(Configuration.CATEGORY_GENERAL, "DecorationBlocks", new String[] { "mossy_cobblestone", "diamond_ore" }).getStringList();
 
 		super.syncConfig();
 	}
