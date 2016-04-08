@@ -22,6 +22,8 @@ public class ClientProxy extends CommonProxy {
 
 	@Override
 	public void registerModels() {
+		// ModelLoaderRegistry.registerLoader(new MergedModelLoader());
+
 		RenderHelper.renderItem(CoreItems.instruction_manual);
 	}
 }
