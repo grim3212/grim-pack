@@ -25,7 +25,7 @@ public class ModelEvent {
 	@SubscribeEvent
 	public void onModelBake(ModelBakeEvent event) {
 		TextureAtlasSprite particle = Minecraft.getMinecraft().getTextureMapBlocks().getAtlasSprite("minecraft:blocks/portal");
-
+		
 		Iterator<Entry<Item, String[]>> itr = renderStates.entrySet().iterator();
 
 		while (itr.hasNext()) {

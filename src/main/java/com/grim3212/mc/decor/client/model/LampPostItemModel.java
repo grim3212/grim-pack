@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.grim3212.mc.core.client.RenderHelper;
 import com.grim3212.mc.core.util.NBTHelper;
 
 import net.minecraft.block.Block;
@@ -16,7 +15,6 @@ import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.block.model.ItemCameraTransforms;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.model.IBakedModel;
-import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.client.resources.model.SimpleBakedModel;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
@@ -51,13 +49,13 @@ public class LampPostItemModel extends SimpleBakedModel implements ISmartItemMod
 			TextureAtlasSprite blockTexture = blockModel.getTexture(blockState);
 
 			if (Block.getBlockById(blockID) == Blocks.grass) {
-				this.cache.put(key, RenderHelper.mergeModels(blockModel.getModelManager().getModel(new ModelResourceLocation("lampposts:lamp_item_lamp", "inventory")), new TexturedBuilder(this, Minecraft.getMinecraft().getTextureMapBlocks().getAtlasSprite("minecraft:blocks/grass_top")).makeBakedModel()));
+				this.cache.put(key, new TexturedBuilder(this, Minecraft.getMinecraft().getTextureMapBlocks().getAtlasSprite("minecraft:blocks/grass_top")).makeBakedModel());
 			} else if (Block.getBlockById(blockID) == Blocks.dirt && blockMeta == 2) {
-				this.cache.put(key, RenderHelper.mergeModels(blockModel.getModelManager().getModel(new ModelResourceLocation("lampposts:lamp_item_lamp", "inventory")), new TexturedBuilder(this, Minecraft.getMinecraft().getTextureMapBlocks().getAtlasSprite("minecraft:blocks/dirt_podzol_top")).makeBakedModel()));
+				this.cache.put(key, new TexturedBuilder(this, Minecraft.getMinecraft().getTextureMapBlocks().getAtlasSprite("minecraft:blocks/dirt_podzol_top")).makeBakedModel());
 			} else if (Block.getBlockById(blockID) == Blocks.mycelium) {
-				this.cache.put(key, RenderHelper.mergeModels(blockModel.getModelManager().getModel(new ModelResourceLocation("lampposts:lamp_item_lamp", "inventory")), new TexturedBuilder(this, Minecraft.getMinecraft().getTextureMapBlocks().getAtlasSprite("minecraft:blocks/mycelium_top")).makeBakedModel()));
+				this.cache.put(key, new TexturedBuilder(this, Minecraft.getMinecraft().getTextureMapBlocks().getAtlasSprite("minecraft:blocks/mycelium_top")).makeBakedModel());
 			} else {
-				this.cache.put(key, RenderHelper.mergeModels(blockModel.getModelManager().getModel(new ModelResourceLocation("lampposts:lamp_item_lamp", "inventory")), new TexturedBuilder(this, blockTexture).makeBakedModel()));
+				this.cache.put(key, new TexturedBuilder(this, blockTexture).makeBakedModel());
 			}
 		}
 

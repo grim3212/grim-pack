@@ -51,6 +51,7 @@ public class TexturedBuilder {
 
 		while (iterator.hasNext()) {
 			BakedQuad bakedquad = (BakedQuad) iterator.next();
+
 			TextureAtlasSprite sprite = blockTexture;
 			this.addGeneralQuad(new BreakingFour(bakedquad, sprite));
 		}

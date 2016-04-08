@@ -58,27 +58,25 @@ public class LampPostModel extends SimpleBakedModel implements ISmartBlockModel 
 
 			if (Block.getBlockById(blockID) == Blocks.grass) {
 				if (block == DecorBlocks.lamp_post_top) {
-					this.cache.put(key, RenderHelper.mergeModels(blockModel.getModelManager().getModel(new ModelResourceLocation("lampposts:lamp_post_top_lamp", "inventory")), new TexturedBuilder(this, Minecraft.getMinecraft().getTextureMapBlocks().getAtlasSprite("minecraft:blocks/grass_top")).makeBakedModel()));
-				} else {
+					this.cache.put(key, RenderHelper.mergeModels(blockModel.getModelManager().getModel(new ModelResourceLocation("grimdecor:calendar", "inventory")), new TexturedBuilder(this, Minecraft.getMinecraft().getTextureMapBlocks().getAtlasSprite("minecraft:blocks/grass_top")).makeBakedModel()));
+				} else
 					this.cache.put(key, new TexturedBuilder(this, Minecraft.getMinecraft().getTextureMapBlocks().getAtlasSprite("minecraft:blocks/grass_top")).makeBakedModel());
-				}
 			} else if (Block.getBlockById(blockID) == Blocks.dirt && blockMeta == 2) {
-				if (block == DecorBlocks.lamp_post_top) {
-					this.cache.put(key, RenderHelper.mergeModels(blockModel.getModelManager().getModel(new ModelResourceLocation("lampposts:lamp_post_top_lamp", "inventory")), new TexturedBuilder(this, Minecraft.getMinecraft().getTextureMapBlocks().getAtlasSprite("minecraft:blocks/dirt_podzol_top")).makeBakedModel()));
-				} else {
+				if (block == DecorBlocks.lamp_post_top)
+					this.cache.put(key, RenderHelper.mergeModels(blockModel.getModelManager().getModel(new ModelResourceLocation("grimdecor:calendar", "inventory")), new TexturedBuilder(this, Minecraft.getMinecraft().getTextureMapBlocks().getAtlasSprite("minecraft:blocks/dirt_podzol_top")).makeBakedModel()));
+				else
 					this.cache.put(key, new TexturedBuilder(this, Minecraft.getMinecraft().getTextureMapBlocks().getAtlasSprite("minecraft:blocks/dirt_podzol_top")).makeBakedModel());
-				}
 			} else if (Block.getBlockById(blockID) == Blocks.mycelium) {
-				if (block == DecorBlocks.lamp_post_top) {
-					this.cache.put(key, RenderHelper.mergeModels(blockModel.getModelManager().getModel(new ModelResourceLocation("lampposts:lamp_post_top_lamp", "inventory")), new TexturedBuilder(this, Minecraft.getMinecraft().getTextureMapBlocks().getAtlasSprite("minecraft:blocks/mycelium_top")).makeBakedModel()));
-				} else {
+				if (block == DecorBlocks.lamp_post_top)
+					this.cache.put(key, RenderHelper.mergeModels(blockModel.getModelManager().getModel(new ModelResourceLocation("grimdecor:calendar", "inventory")), new TexturedBuilder(this, Minecraft.getMinecraft().getTextureMapBlocks().getAtlasSprite("minecraft:blocks/mycelium_top")).makeBakedModel()));
+				else
 					this.cache.put(key, new TexturedBuilder(this, Minecraft.getMinecraft().getTextureMapBlocks().getAtlasSprite("minecraft:blocks/mycelium_top")).makeBakedModel());
-				}
 			} else {
 				if (block == DecorBlocks.lamp_post_top) {
-					this.cache.put(key, RenderHelper.mergeModels(blockModel.getModelManager().getModel(new ModelResourceLocation("lampposts:lamp_post_top_lamp", "inventory")), new TexturedBuilder(this, blockTexture).makeBakedModel()));
+					this.cache.put(key, RenderHelper.mergeModels(blockModel.getModelManager().getModel(new ModelResourceLocation("grimdecor:calendar", "inventory")), new TexturedBuilder(this, blockTexture).makeBakedModel()));
 				} else {
 					this.cache.put(key, new TexturedBuilder(this, blockTexture).makeBakedModel());
+
 				}
 			}
 		}

@@ -34,7 +34,7 @@ public class DecorItems implements IPartItems {
 		unfired_pot = (new Item()).setUnlocalizedName("unfired_pot").setCreativeTab(GrimDecor.INSTANCE.getCreativeTab());
 		unfired_craft = (new Item()).setUnlocalizedName("unfired_craft").setCreativeTab(GrimDecor.INSTANCE.getCreativeTab());
 		lamp_item = new ItemLampPost().setUnlocalizedName("lamp_item").setCreativeTab(GrimDecor.INSTANCE.getCreativeTab());
-		
+
 		GameRegistry.registerItem(lamp_item, "lamp_item");
 		GameRegistry.registerItem(glass_shard, "glass_shard");
 		GameRegistry.registerItem(frame, "frame");
@@ -51,13 +51,13 @@ public class DecorItems implements IPartItems {
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(frame, 2, 0), new Object[] { "  #", " # ", "#  ", '#', "plankWood" }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(frame, 2, 1), new Object[] { "  #", " # ", "#  ", '#', "ingotIron" }));
 		frames = RecipeHelper.getLatestIRecipes(2);
-		
+
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(wallpaper, 6), new Object[] { "#A", "#A", "#A", '#', Items.paper, 'A', Blocks.wool }));
-		
+
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(unfired_pot, 1), new Object[] { "# #", "###", '#', Items.clay_ball }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(unfired_craft, 1), new Object[] { " # ", "###", "###", '#', Items.clay_ball }));
 		DecorBlocks.crafts.addAll(RecipeHelper.getLatestIRecipes(2));
-		
+
 		GameRegistry.addSmelting(unfired_craft, new ItemStack(DecorBlocks.craft_clay, 1), 0.35F);
 		GameRegistry.addSmelting(unfired_pot, new ItemStack(DecorBlocks.pot, 1), 0.35F);
 	}
