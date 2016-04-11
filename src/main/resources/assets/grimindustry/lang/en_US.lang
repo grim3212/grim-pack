@@ -1,0 +1,13 @@
+#================= OTHER =================#
+grim.creative.grimindustry=Grim Industry
+
+#================= BLOCKS =================#
+tile.togglerack.name=Toggle Rack
+
+#================= ITEMS =================#
+
+#================= INSTRUCTION MANUAL =================#
+grim.manual.grimindustry.modinfo=Adds a bunch of tech stuff.
+grim.manual.grimindustry.subsection.toggle=Toggle Rack
+grim.manual.grimindustry.subsection.toggle.page.recipe=The Toggle Rack block when powered by redstone spawns fire above the block and when powered indirectly too.
+grim.manual.grimindustry.subsection.toggle.page.recipe.title=Recipe
