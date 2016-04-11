@@ -3,10 +3,12 @@ package com.grim3212.mc.core.part;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.grim3212.mc.core.GrimCore;
 import com.grim3212.mc.core.config.GrimConfig;
 import com.grim3212.mc.core.manual.ManualRegistry;
 import com.grim3212.mc.core.manual.ModSection;
 import com.grim3212.mc.core.part.IPartEntities.IPartTileEntities;
+import com.grim3212.mc.core.util.GrimLog;
 
 import net.minecraft.item.Item;
 import net.minecraftforge.common.MinecraftForge;
@@ -35,6 +37,8 @@ public abstract class GrimPart {
 	private List<IPartTileEntities> tileentities;
 
 	public GrimPart(String modid, String name, String version) {
+		GrimLog.info(GrimCore.modName, "Registered Grim Part: { " + name + " }");
+
 		this.modid = modid;
 		this.name = name;
 		this.version = version;

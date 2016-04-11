@@ -10,11 +10,14 @@ import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.client.renderer.vertex.VertexFormat;
 import net.minecraft.client.resources.model.IBakedModel;
+import net.minecraft.client.resources.model.ModelBakery;
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.client.resources.model.SimpleBakedModel;
 import net.minecraft.item.Item;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.ModelLoader;
+import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -83,6 +86,23 @@ public class RenderHelper {
 		for (int i = 0; i < variants.length; i++) {
 			ModelLoader.setCustomModelResourceLocation(item, i, new ModelResourceLocation(item.getRegistryName() + "_" + variants[i], "inventory"));
 		}
+	}
+
+	public static void registerExtraModel(Block item, String model) {
+		registerExtraModel(Item.getItemFromBlock(item), model);
+	}
+
+	public static void registerExtraModel(Item item, String model) {
+		ModelBakery.registerItemVariants(item, new ResourceLocation(Loader.instance().activeModContainer().getModId() + ":" + model));
+	}
+
+	public static void registerExtraModels(Block item, String... models) {
+		registerExtraModels(Item.getItemFromBlock(item), models);
+	}
+
+	public static void registerExtraModels(Item item, String... models) {
+		for (String model : models)
+			ModelBakery.registerItemVariants(item, new ResourceLocation(Loader.instance().activeModContainer().getModId() + ":" + model));
 	}
 
 	/**
