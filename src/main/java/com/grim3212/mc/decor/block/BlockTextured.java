@@ -35,6 +35,8 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.property.ExtendedBlockState;
 import net.minecraftforge.common.property.IExtendedBlockState;
 import net.minecraftforge.common.property.IUnlistedProperty;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public abstract class BlockTextured extends Block implements ITileEntityProvider {
 
@@ -235,6 +237,7 @@ public abstract class BlockTextured extends Block implements ITileEntityProvider
 	}
 
 	@Override
+	@SideOnly(Side.CLIENT)
 	public boolean addHitEffects(World worldObj, MovingObjectPosition target, EffectRenderer effectRenderer) {
 		TileEntityTextured tileentity = (TileEntityTextured) worldObj.getTileEntity(target.getBlockPos());
 
@@ -293,10 +296,8 @@ public abstract class BlockTextured extends Block implements ITileEntityProvider
 	@Override
 	public boolean addDestroyEffects(World world, BlockPos pos, EffectRenderer effectRenderer) {
 		TileEntityTextured tileentity = (TileEntityTextured) world.getTileEntity(pos);
-
 		effectRenderer.clearEffects(world);
 		effectRenderer.addBlockDestroyEffects(pos, Block.getBlockById(tileentity.getBlockID()).getStateFromMeta(tileentity.getBlockMeta()));
-
 		world.getBlockState(pos).getBlock().setStepSound(Block.getBlockById(tileentity.getBlockID()).getStateFromMeta(tileentity.getBlockMeta()).getBlock().stepSound);
 
 		return true;

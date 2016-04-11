@@ -9,7 +9,9 @@ import com.grim3212.mc.core.util.NBTHelper;
 import com.grim3212.mc.core.util.RecipeHelper;
 import com.grim3212.mc.decor.GrimDecor;
 import com.grim3212.mc.decor.item.DecorItems;
+import com.grim3212.mc.decor.item.ItemFireplaceBase;
 import com.grim3212.mc.decor.item.ItemFurniture;
+import com.grim3212.mc.decor.item.ItemGrill;
 import com.grim3212.mc.decor.item.ItemLantern;
 import com.grim3212.mc.decor.util.BlockHelper;
 
@@ -47,6 +49,12 @@ public class DecorBlocks implements IPartItems {
 	public static Block lamp_post_bottom;
 	public static Block lamp_post_middle;
 	public static Block lamp_post_top;
+	public static Block fireplace;
+	public static Block firering;
+	public static Block firepit;
+	public static Block chimney;
+	public static Block stove;
+	public static Block grill;
 
 	public static IRecipe mossy;
 	public static List<IRecipe> stone;
@@ -78,10 +86,22 @@ public class DecorBlocks implements IPartItems {
 		lamp_post_bottom = (new BlockLampPost(false)).setUnlocalizedName("lamp_post_bottom");
 		lamp_post_middle = (new BlockLampPost(false)).setUnlocalizedName("lamp_post_middle");
 		lamp_post_top = new BlockLampPost(true).setUnlocalizedName("lamp_post_top");
+		fireplace = new BlockFireplace().setUnlocalizedName("fireplace");
+		firering = new BlockFirering().setUnlocalizedName("firering");
+		firepit = new BlockFirepit().setUnlocalizedName("firepit");
+		chimney = new BlockChimney().setUnlocalizedName("chimney");
+		stove = new BlockStove().setUnlocalizedName("stove");
+		grill = new BlockGrill().setUnlocalizedName("grill");
 
 		GameRegistry.registerBlock(calendar, "calendar");
 		GameRegistry.registerBlock(wall_clock, "wall_clock");
 		GameRegistry.registerBlock(light_bulb, "light_bulb");
+		GameRegistry.registerBlock(fireplace, ItemFireplaceBase.class, "fireplace");
+		GameRegistry.registerBlock(firering, ItemFireplaceBase.class, "firering");
+		GameRegistry.registerBlock(firepit, ItemFireplaceBase.class, "firepit");
+		GameRegistry.registerBlock(chimney, ItemFireplaceBase.class, "chimney");
+		GameRegistry.registerBlock(stove, ItemFireplaceBase.class, "stove");
+		GameRegistry.registerBlock(grill, ItemGrill.class, "grill");
 		GameRegistry.registerBlock(table, ItemFurniture.class, "table");
 		GameRegistry.registerBlock(counter, ItemFurniture.class, "counter");
 		GameRegistry.registerBlock(stool, ItemFurniture.class, "stool");
@@ -133,36 +153,57 @@ public class DecorBlocks implements IPartItems {
 
 		GameRegistry.addSmelting(Blocks.gravel, new ItemStack(road, 1), 0.15F);
 
-		addFurnitureRecipe(stool, 4, "###", "I I");
-		addFurnitureRecipe(counter, 4, "###", " I ");
-		addFurnitureRecipe(table, 4, "###", "I I", "I I");
-		addFurnitureRecipe(chair, 4, "#  ", "###", "I I");
+		addFurnitureRecipe(stool, 4, "###", "S S");
+		addFurnitureRecipe(counter, 4, "###", " S ");
+		addFurnitureRecipe(table, 4, "###", "S S", "S S");
+		addFurnitureRecipe(chair, 4, "#  ", "###", "S S");
 		addFurnitureRecipe(wall, 4, "#", "#", "#");
-		addFurnitureRecipe(fence, 4, "###", "#I#");
-		addFurnitureRecipe(fence_gate, 4, "I#I", "III");
+		addFurnitureRecipe(fence, 4, "###", "#S#");
+		addFurnitureRecipe(fence_gate, 4, "S#S", "SSS");
 		addFurnitureRecipe(DecorItems.lamp_item, 1, "#G#", "###", " # ");
+		addFurnitureRecipe(fireplace, true, 1, "###", "#P#", "###");
+		addFurnitureRecipe(chimney, true, 6, "# #", "# #", "#I#");
+		addFurnitureRecipe(firepit, true, 1, " I ", "#P#", "###");
+		addFurnitureRecipe(firering, true, 1, " # ", "#P#", " # ");
+		addFurnitureRecipe(stove, true, 1, "###", "BPB", "###");
+		addFurnitureRecipe(grill, true, 1, "#C#", "###", " # ");
+		addFurnitureRecipe(grill, true, 1, "#H#", "###", " # ");
 	}
-	
-	private void addFurnitureRecipe(Block furnType, int amount, String... pattern){
+
+	private void addFurnitureRecipe(Block furnType, int amount, String... pattern) {
 		addFurnitureRecipe(Item.getItemFromBlock(furnType), amount, pattern);
 	}
 
 	private void addFurnitureRecipe(Item furnType, int amount, String... pattern) {
+		addFurnitureRecipe(furnType, false, amount, pattern);
+	}
+
+	private void addFurnitureRecipe(Block furnType, boolean skip, int amount, String... pattern) {
+		addFurnitureRecipe(Item.getItemFromBlock(furnType), skip, amount, pattern);
+	}
+
+	private void addFurnitureRecipe(Item furnType, boolean skip, int amount, String... pattern) {
 		LinkedHashMap<Block, Integer> loadedBlocks = BlockHelper.getBlocks();
 		Block[] blocks = loadedBlocks.keySet().toArray(new Block[loadedBlocks.keySet().size()]);
 
 		for (int i = 0; i < blocks.length; i++) {
+			if (skip) {
+				if (blocks[i].getMaterial() == Material.wood || blocks[i].getMaterial() == Material.cloth || blocks[i].getMaterial() == Material.gourd || blocks[i].getMaterial() == Material.ice || blocks[i].getMaterial() == Material.glass || blocks[i].getMaterial() == Material.packedIce || blocks[i].getMaterial() == Material.sponge || blocks[i].getMaterial() == Material.grass || blocks[i].getMaterial() == Material.ground) {
+					continue;
+				}
+			}
+
 			if (loadedBlocks.get(blocks[i]) == 0) {
 				ItemStack stack = new ItemStack(furnType, amount);
 				NBTHelper.setInteger(stack, "blockID", Block.getIdFromBlock(blocks[i]));
 				NBTHelper.setInteger(stack, "blockMeta", 0);
-				GameRegistry.addRecipe(new ShapedOreRecipe(stack, new Object[] { pattern, '#', new ItemStack(blocks[i], 1, 0), 'I', "stickWood", 'G', "glowstone" }));
+				GameRegistry.addRecipe(new ShapedOreRecipe(stack, new Object[] { pattern, '#', new ItemStack(blocks[i], 1, 0), 'S', "stickWood", 'G', "glowstone", 'P', "plankWood", 'I', "ingotIron", 'C', Items.coal, 'H', new ItemStack(Items.coal, 1, 1), 'B', Blocks.iron_bars }));
 			} else {
 				for (int j = 0; j < loadedBlocks.get(blocks[i]); j++) {
 					ItemStack stack = new ItemStack(furnType, amount);
 					NBTHelper.setInteger(stack, "blockID", Block.getIdFromBlock(blocks[i]));
 					NBTHelper.setInteger(stack, "blockMeta", j);
-					GameRegistry.addRecipe(new ShapedOreRecipe(stack, new Object[] { pattern, '#', new ItemStack(blocks[i], 1, j), 'I', "stickWood", 'G', "glowstone" }));
+					GameRegistry.addRecipe(new ShapedOreRecipe(stack, new Object[] { pattern, '#', new ItemStack(blocks[i], 1, j), 'S', "stickWood", 'G', "glowstone", 'P', "plankWood", 'I', "ingotIron", 'C', Items.coal, 'H', new ItemStack(Items.coal, 1, 1), 'B', Blocks.iron_bars }));
 				}
 			}
 		}

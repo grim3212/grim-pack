@@ -3,15 +3,20 @@ package com.grim3212.mc.decor.block;
 import java.util.List;
 import java.util.Random;
 
+import com.grim3212.mc.core.util.NBTHelper;
 import com.grim3212.mc.decor.item.DecorItems;
+import com.grim3212.mc.decor.tile.TileEntityTextured;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.BlockPos;
+import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
@@ -49,6 +54,18 @@ public class BlockLampPost extends BlockTextured {
 		} else {
 			this.setBlockBounds(0.125F, 0.0F, 0.125F, 0.875F, 0.685F, 0.875F);
 		}
+	}
+
+	@Override
+	public ItemStack getPickBlock(MovingObjectPosition target, World world, BlockPos pos, EntityPlayer player) {
+		TileEntity te = world.getTileEntity(pos);
+		if (te instanceof TileEntityTextured) {
+			ItemStack itemstack = new ItemStack(DecorItems.lamp_item, 1);
+			NBTHelper.setInteger(itemstack, "blockID", ((TileEntityTextured) te).getBlockID());
+			NBTHelper.setInteger(itemstack, "blockMeta", ((TileEntityTextured) te).getBlockMeta());
+			return itemstack;
+		}
+		return super.getPickBlock(target, world, pos, player);
 	}
 
 	@Override

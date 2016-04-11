@@ -1,0 +1,15 @@
+{
+"__comment": "Designed by Grim3212 with BDcraft Cubik PRO 0.93 Beta - http://bdcraft.net",
+"textures": {
+		"top": "grimdecor:blocks/chimney_top"
+	},
+"elements": [ 
+{
+    "from": [ 0, 0, 0 ],
+    "to": [ 16, 16, 16 ],
+    "faces": {
+        "up":    { "uv": [ 0, 0, 16, 16 ], "texture": "#top", "cullface": "up" }
+    }
+}
+]
+}

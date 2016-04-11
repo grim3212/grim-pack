@@ -1,5 +1,14 @@
 #================= OTHER =================#
 grim.creative.grimdecor=Grim Decor
+#Configuration#
+fireplace.cfg.recipes=Grill Recipes
+fireplace.cfg.recipes.tooltip=Use this to add new grill recipes. To add a new recipe end the last one with a ';' then write out the [RawItemName] separated by a '>' then write out the [CookedItemName]. For mod items make sure to add the modID with a colon ':' and the then the item name. Do not end with a ';' or it may cause issues. Example: clay_ball>brick;chocolate:chocolate_ball>chocolate:chocolate_bar
+fireplace.cfg.EnableFirepitNet=Enable Firepit Net
+fireplace.cfg.InfiniteGrillFuel=Infinite Grill Fuel
+fireplace.cfg.IsFireParticles=Is Fire Particles
+fireplace.cfg.EnableFirepitNet.tooltip=True if you want the firepit to have the metal net around it.
+fireplace.cfg.InfiniteGrillFuel.tooltip=True if you want the grill to have infinite fuel.
+fireplace.cfg.IsFireParticles.tooltip=When False the fire when blocks are active are actual fire if true this uses particles instead.
 
 #================= BLOCKS =================#
 tile.calendar.name=Calendar
@@ -26,6 +35,12 @@ tile.fence_gate.name=Fence Gate
 tile.lamp_post_bottom.name=Lamp Post Bottom
 tile.lamp_post_middle.name=Lamp Post Middle
 tile.lamp_post_top.name=Lamp Post Top
+tile.fireplace.name=Fireplace
+tile.chimney.name=Chimney
+tile.firepit.name=Firepit
+tile.firering.name=Firering
+tile.stove.name=Stove
+tile.grill.name=Grill
 
 #================= ITEMS =================#
 item.glass_shard.name=Glass Shard
@@ -93,6 +108,24 @@ grim.manual.grimdecor.subsection.other.page.wall=Walls are basically counters bu
 grim.manual.grimdecor.subsection.other.page.wall.title=Walls
 grim.manual.grimdecor.subsection.other.page.chimney=Chimneys are a nice block for decorating houses and even emit smoke.
 grim.manual.grimdecor.subsection.other.page.chimney.title=Chimneys
-grim3212.manual.lampposts.subsection.lamps=Lamp Posts
-grim3212.manual.lampposts.subsection.lamps.page.recipes=Lamp Post are crafted like so and once placed form a 3 block high structure. Only the top block emits light.
-grim3212.manual.lampposts.subsection.lamps.page.recipes.title=Recipes
+grim.manual.grimdecor.subsection.lamps=Lamp Posts
+grim.manual.grimdecor.subsection.lamps.page.recipes=Lamp Post are crafted like so and once placed form a 3 block high structure. Only the top block emits light.
+grim.manual.grimdecor.subsection.lamps.page.recipes.title=Recipes
+grim.manual.grimdecor.subsection.fireplace=Fireplaces
+grim.manual.grimdecor.subsection.fireplace.page.fireplace=One block added by this mod is Fireplaces. Fireplaces are purely aesthetic and when right clicked with Flint and Steel burns and provides light, punch to put it out. Chimneys produce smoke when on top of a lit fireplace. Fireplaces also re-orient their corner posts when multiple are placed next to each other.
+grim.manual.grimdecor.subsection.fireplace.page.fireplace.title=Recipe
+grim.manual.grimdecor.subsection.stove=Stoves
+grim.manual.grimdecor.subsection.stove.page.stove=Stoves are also added which is another aesthetic block and when right clicked with Flint and Steel the block lights up with fire and you can punch it to put it out. Chimneys produce smoke when on top of a lit stove.
+grim.manual.grimdecor.subsection.stove.page.stove.title=Recipe
+grim.manual.grimdecor.subsection.firepit=Firepits
+grim.manual.grimdecor.subsection.firepit.page.firepit=Firepits are also added which is another aesthetic block and when right clicked with Flint and Steel the block lights up with fire and you can punch it to put it out. Chimneys do not produce smoke when on top of a lit Firepit. Firepits also have a config option for turning on or off the steel net around them.
+grim.manual.grimdecor.subsection.firepit.page.firepit.title=Recipe
+grim.manual.grimdecor.subsection.firering=Firerings
+grim.manual.grimdecor.subsection.firering.page.firering=Firerings are also added which is another aesthetic block and when right clicked with Flint and Steel the block lights up with fire and you can punch it to put it out. Chimneys do not produce smoke when on top of a lit Firering.
+grim.manual.grimdecor.subsection.firering.page.firering.title=Recipe
+grim.manual.grimdecor.subsection.grill=Grills
+grim.manual.grimdecor.subsection.grill.page.grill=Grills are added which are a block to help you cook various items like food. You will first need to add coal or charcoal into the fuel slot then light the grill with Flint and Steel and then place in the food you want to cook. Each slot can only hold one at a time. The grill also has a config option to have infinite fuel and a config option where you can input your own grill recipes explained there. 
+grim.manual.grimdecor.subsection.grill.page.grill.title=Recipe
+grim.manual.grimdecor.subsection.chimney=Chimneys
+grim.manual.grimdecor.subsection.chimney.page.chimney=Chimneys are another aesthetic block which produces smoke when placed on top of either a Fireplace or Stove and can be stacked on top of each other. 
+grim.manual.grimdecor.subsection.chimney.page.chimney.title=Recipe

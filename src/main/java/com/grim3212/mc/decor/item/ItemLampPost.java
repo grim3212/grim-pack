@@ -9,7 +9,10 @@ import com.grim3212.mc.decor.tile.TileEntityTextured;
 import com.grim3212.mc.decor.util.BlockHelper;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockSnow;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
@@ -29,15 +32,32 @@ public class ItemLampPost extends Item {
 
 	@Override
 	public boolean onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ) {
-		if (worldIn.getBlockState(pos.up()).getBlock() == Blocks.air && worldIn.getBlockState(pos.up(2)).getBlock() == Blocks.air && worldIn.getBlockState(pos.up(3)).getBlock() == Blocks.air) {
+		IBlockState iblockstate = worldIn.getBlockState(pos);
+		Block block = iblockstate.getBlock();
 
-			worldIn.setBlockState(pos.up(), DecorBlocks.lamp_post_bottom.getDefaultState(), 2);
-			worldIn.setBlockState(pos.up(2), DecorBlocks.lamp_post_middle.getDefaultState(), 2);
-			worldIn.setBlockState(pos.up(3), DecorBlocks.lamp_post_top.getDefaultState(), 2);
+		if (block == Blocks.snow_layer && ((Integer) iblockstate.getValue(BlockSnow.LAYERS)).intValue() < 1) {
+			side = EnumFacing.UP;
+		} else if (!block.isReplaceable(worldIn, pos)) {
+			pos = pos.offset(side);
+		}
 
-			TileEntity te_bottom = worldIn.getTileEntity(pos.up());
-			TileEntity te_middle = worldIn.getTileEntity(pos.up(2));
-			TileEntity te_top = worldIn.getTileEntity(pos.up(3));
+		if (stack.stackSize == 0) {
+			return false;
+		} else if (!playerIn.canPlayerEdit(pos, side, stack)) {
+			return false;
+		} else if (pos.getY() == 255 && DecorBlocks.lamp_post_bottom.getMaterial().isSolid()) {
+			return false;
+		} else if (worldIn.canBlockBePlaced(DecorBlocks.lamp_post_bottom, pos, false, side, (Entity) null, stack) && worldIn.canBlockBePlaced(DecorBlocks.lamp_post_middle, pos.up(), false, side, (Entity) null, stack) && worldIn.canBlockBePlaced(DecorBlocks.lamp_post_top, pos.up(2), false, side, (Entity) null, stack)) {
+
+			worldIn.setBlockState(pos, DecorBlocks.lamp_post_bottom.getDefaultState());
+			worldIn.setBlockState(pos.up(), DecorBlocks.lamp_post_middle.getDefaultState());
+			worldIn.setBlockState(pos.up(2), DecorBlocks.lamp_post_top.getDefaultState());
+
+			--stack.stackSize;
+
+			TileEntity te_bottom = worldIn.getTileEntity(pos);
+			TileEntity te_middle = worldIn.getTileEntity(pos.up());
+			TileEntity te_top = worldIn.getTileEntity(pos.up(2));
 
 			Block blockType = Block.getBlockById(NBTHelper.getInt(stack, "blockID"));
 			if (te_bottom instanceof TileEntityTextured && te_middle instanceof TileEntityTextured && te_top instanceof TileEntityTextured) {
@@ -52,9 +72,14 @@ public class ItemLampPost extends Item {
 
 				worldIn.playSoundEffect((double) ((float) pos.getX() + 0.5F), (double) ((float) pos.getY() + 0.5F), (double) ((float) pos.getZ() + 0.5F), blockType.stepSound.getPlaceSound(), (blockType.stepSound.getVolume() + 1.0F) / 2.0F, blockType.stepSound.getFrequency() * 0.8F);
 			}
-		}
 
-		return false;
+			worldIn.getBlockState(pos).getBlock().setStepSound(blockType.stepSound);
+
+			return true;
+
+		} else {
+			return false;
+		}
 	}
 
 	@Override
@@ -87,5 +112,14 @@ public class ItemLampPost extends Item {
 	@Override
 	public String getItemStackDisplayName(ItemStack stack) {
 		return StatCollector.translateToLocal(new ItemStack(Block.getBlockById(NBTHelper.getInt(stack, "blockID")), 1, NBTHelper.getInt(stack, "blockMeta")).getDisplayName()) + " " + StatCollector.translateToLocal(DecorItems.lamp_item.getUnlocalizedName() + ".name");
+	}
+
+	@Override
+	public int getColorFromItemStack(ItemStack stack, int renderPass) {
+		int blockID = NBTHelper.getInt(stack, "blockID");
+		if (stack != null && stack.hasTagCompound()) {
+			return Block.getBlockById(blockID).getBlockColor();
+		}
+		return 16777215;
 	}
 }

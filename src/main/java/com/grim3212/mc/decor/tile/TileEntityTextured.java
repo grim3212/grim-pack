@@ -12,8 +12,8 @@ import net.minecraft.world.World;
 
 public class TileEntityTextured extends TileEntity {
 
-	private int blockID = 0;
-	private int blockMeta = 0;
+	protected int blockID = 0;
+	protected int blockMeta = 0;
 
 	public TileEntityTextured() {
 	}
