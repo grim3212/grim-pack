@@ -7,6 +7,7 @@ import com.grim3212.mc.core.manual.pages.PageCrafting;
 import com.grim3212.mc.core.manual.pages.PageFurnace;
 import com.grim3212.mc.core.manual.pages.PageImageText;
 import com.grim3212.mc.core.part.GrimPart;
+import com.grim3212.mc.core.proxy.CommonProxy;
 import com.grim3212.mc.cuisine.block.CuisineBlocks;
 import com.grim3212.mc.cuisine.config.CuisineConfig;
 import com.grim3212.mc.cuisine.events.DropEvent;
@@ -21,11 +22,15 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.Mod.Instance;
 import net.minecraftforge.fml.common.ModMetadata;
+import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
 @Mod(modid = GrimCuisine.modID, name = GrimCuisine.modName, version = GrimCuisine.modVersion, dependencies = "required-after:grimcore", guiFactory = "com.grim3212.mc.cuisine.config.ConfigGuiFactory")
 public class GrimCuisine extends GrimPart {
+
+	@SidedProxy(clientSide = "com.grim3212.mc.cuisine.CuisineClientProxy", serverSide = COMMON_PROXY)
+	public static CommonProxy proxy;
 
 	@Instance(GrimCuisine.modID)
 	public static GrimCuisine INSTANCE;
@@ -52,6 +57,8 @@ public class GrimCuisine extends GrimPart {
 		MinecraftForge.EVENT_BUS.register(new DropEvent());
 		MinecraftForge.EVENT_BUS.register(new OnBonemealEvent());
 		GameRegistry.registerWorldGenerator(new CuisineGenerate(), 25);
+
+		proxy.registerModels();
 	}
 
 	@Override
