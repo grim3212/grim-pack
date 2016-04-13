@@ -56,5 +56,12 @@
         "east":  { "uv": [ 3, 6, 13, 7.875 ], "texture": "#texture", "tintindex": 0 }
     }
 }
-]
+],
+"display": {
+    "thirdperson": {
+		"rotation": [ 10, -45, 170 ],
+		"translation": [ 0, 1.5, -2.75 ],
+		"scale": [ 0.375, 0.375, 0.375 ]
+	}
+}
 }

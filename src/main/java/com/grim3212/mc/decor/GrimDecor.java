@@ -38,9 +38,7 @@ public class GrimDecor extends GrimPart {
 	public static final String modName = "Grim Decor";
 	public static final String modVersion = "1.0.0";
 
-	// TODO: Fix models on server in hand
-	// make fireplaces work when removing and lighting fires on servers
-
+	// TODO: make fireplaces work when removing and lighting fires on servers
 	// Just fix a bunch of server only issues
 
 	public GrimDecor() {

@@ -42,7 +42,7 @@ public class ModelEvent {
 			for (String state : entry.getValue()) {
 				String name = entry.getKey().getUnlocalizedName().substring(5);
 				IFlexibleBakedModel model = (IFlexibleBakedModel) event.modelRegistry.getObject(new ModelResourceLocation(GrimDecor.modID + ":" + name, state));
-
+				
 				// Add all of the currently known Builders
 				if (allowedFurniture.contains(entry.getKey()))
 					event.modelRegistry.putObject(new ModelResourceLocation(GrimDecor.modID + ":" + name, state), new FurnitureBuilder(model, particle).makeBakedModel());

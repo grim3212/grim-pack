@@ -50,5 +50,22 @@
         "east":  { "uv": [ 0, 11, 3, 16 ], "texture": "#texture", "tintindex": 0 }
     }
 }
-]
+],
+"display": {
+    "thirdperson": {
+		"rotation": [ 10, -45, 170 ],
+		"translation": [ 0, 1.5, -2.75 ],
+		"scale": [ 0.375, 0.375, 0.375 ]
+	},
+    "head": {
+        "rotation": [ 0, 0, 0 ],
+        "translation": [ 0, 4.4, 0 ],
+        "scale": [ 1, 1, 1 ]
+    },
+    "gui": {
+        "rotation": [ 0, 180, 0 ],
+        "translation": [ 0, 0, 0 ],
+        "scale": [ 1, 1, 1 ]
+    }
+}
 }
