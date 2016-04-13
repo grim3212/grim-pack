@@ -1,0 +1,20 @@
+{
+	"forge_marker": 1,
+    "defaults": {
+		"transform": "forge:default-block",
+        "model": "cube",
+		"textures": {
+			"particle": "grimindustry:blocks/diamond_side",
+			"down": "grimindustry:blocks/diamond_bottom",
+			"up": "grimindustry:blocks/diamond_top",
+			"north": "grimindustry:blocks/diamond_side",
+			"east": "grimindustry:blocks/diamond_side",
+			"south": "grimindustry:blocks/diamond_side",
+			"west": "grimindustry:blocks/diamond_side"
+		}
+    },
+    "variants": {
+        "normal": [{}],
+		"inventory": [{}]
+    }
+}
