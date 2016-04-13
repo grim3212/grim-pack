@@ -36,6 +36,21 @@ public abstract class TexturedBuilder {
 		this.addGeneralBreakingFours(model, blockTexture);
 	}
 
+	private TexturedBuilder(boolean ao, boolean gui3d, ItemCameraTransforms cam) {
+		this.builderGeneralQuads = Lists.newArrayList();
+		this.builderFaceQuads = Lists.newArrayListWithCapacity(6);
+		EnumFacing[] aenumfacing = EnumFacing.values();
+		int i = aenumfacing.length;
+
+		for (int j = 0; j < i; ++j) {
+			this.builderFaceQuads.add(Lists.<BakedQuad> newArrayList());
+		}
+
+		this.builderAmbientOcclusion = ao;
+		this.builderGui3d = gui3d;
+		this.builderCameraTransforms = cam;
+	}
+
 	private void addFaceBreakingFours(IBakedModel model, TextureAtlasSprite blockTexture, EnumFacing facing) {
 		Iterator<BakedQuad> iterator = model.getFaceQuads(facing).iterator();
 
@@ -55,21 +70,6 @@ public abstract class TexturedBuilder {
 			TextureAtlasSprite sprite = blockTexture;
 			this.addGeneralQuad(new BreakingFour(bakedquad, sprite));
 		}
-	}
-
-	private TexturedBuilder(boolean ao, boolean gui3d, ItemCameraTransforms cam) {
-		this.builderGeneralQuads = Lists.newArrayList();
-		this.builderFaceQuads = Lists.newArrayListWithCapacity(6);
-		EnumFacing[] aenumfacing = EnumFacing.values();
-		int i = aenumfacing.length;
-
-		for (int j = 0; j < i; ++j) {
-			this.builderFaceQuads.add(Lists.<BakedQuad> newArrayList());
-		}
-
-		this.builderAmbientOcclusion = ao;
-		this.builderGui3d = gui3d;
-		this.builderCameraTransforms = cam;
 	}
 
 	public TexturedBuilder addFaceQuad(EnumFacing facing, BakedQuad bakedQuad) {
