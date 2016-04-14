@@ -1,8 +1,9 @@
 package com.grim3212.mc.decor.tile;
 
-import com.grim3212.mc.decor.GrimDecor;
+import com.grim3212.mc.core.network.PacketDispatcher;
 import com.grim3212.mc.decor.block.container.ContainerGrill;
 import com.grim3212.mc.decor.config.DecorConfig;
+import com.grim3212.mc.decor.network.MessageExtinguish;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -21,10 +22,7 @@ import net.minecraft.network.Packet;
 import net.minecraft.network.play.INetHandlerPlayClient;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntityLockable;
-import net.minecraft.util.BlockPos;
 import net.minecraft.util.ITickable;
-import net.minecraft.world.EnumSkyBlock;
-import net.minecraft.world.World;
 
 public class TileEntityGrill extends TileEntityLockable implements ITickable, IInventory {
 
@@ -125,13 +123,11 @@ public class TileEntityGrill extends TileEntityLockable implements ITickable, II
 		}
 
 		if ((this.grillCoal <= 0) && (isActive()) && this.nextUpdate == 50) {
-			GrimDecor.proxy.produceSmoke(worldObj, pos, 0.5D, 1.0D, 0.5D, 3, true);
-			worldObj.playSoundEffect(pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D, "random.fizz", 1.0F, worldObj.rand.nextFloat() * 0.4F + 0.8F);
-			setActive(false);
-			if (worldObj.isRemote) {
-				worldObj.markBlockForUpdate(pos);
+			if (!worldObj.isRemote) {
+				PacketDispatcher.sendToDimension(new MessageExtinguish(pos), worldObj.provider.getDimensionId());
+				setActive(false);
 			}
-			worldObj.checkLightFor(EnumSkyBlock.BLOCK, pos);
+			worldObj.playSoundEffect(pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D, "random.fizz", 1.0F, worldObj.rand.nextFloat() * 0.4F + 0.8F);
 		}
 
 		if (isGrillBurning()) {
@@ -325,15 +321,6 @@ public class TileEntityGrill extends TileEntityLockable implements ITickable, II
 		readFromNBT(pkt.getNbtCompound());
 	}
 
-	@Override
-	public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newState) {
-		if (oldState.getBlock() == newState.getBlock()) {
-			return false;
-		} else {
-			return true;
-		}
-	}
-
 	public int getBlockID() {
 		return blockID;
 	}
@@ -356,6 +343,10 @@ public class TileEntityGrill extends TileEntityLockable implements ITickable, II
 
 	public void setActive(boolean active) {
 		this.active = active;
+		worldObj.markBlockForUpdate(getPos());
+		worldObj.notifyNeighborsOfStateChange(getPos(), blockType);
+		worldObj.notifyLightSet(getPos());
+		worldObj.checkLight(getPos());
 	}
 
 	public int getLightValue() {

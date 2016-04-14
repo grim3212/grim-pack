@@ -52,21 +52,8 @@ public class BlockFireplaceBase extends BlockTextured {
 				if (!worldIn.isRemote) {
 					PacketDispatcher.sendToDimension(new MessageExtinguish(pos), playerIn.dimension);
 					tef.setActive(false);
-					PacketDispatcher.sendToDimension(new MessageUpdateFireplace(pos, false), playerIn.dimension);
 				}
 				worldIn.playSoundEffect(pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D, "random.fizz", 1.0F, worldIn.rand.nextFloat() * 0.4F + 0.8F);
-			}
-		}
-	}
-
-	@Override
-	public void onNeighborBlockChange(World worldIn, BlockPos pos, IBlockState state, Block neighborBlock) {
-		TileEntityFireplace tef = (TileEntityFireplace) worldIn.getTileEntity(pos);
-		if (worldIn.getBlockState(pos).getBlock() != DecorBlocks.chimney) {
-			if (tef.isActive()) {
-				worldIn.markBlockForUpdate(pos);
-				worldIn.notifyNeighborsOfStateChange(pos, this);
-				worldIn.checkLight(pos);
 			}
 		}
 	}
@@ -84,8 +71,8 @@ public class BlockFireplaceBase extends BlockTextured {
 				if (!tef.isActive()) {
 					stack.damageItem(1, playerIn);
 					worldIn.playSoundEffect(pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D, "fire.ignite", 1.0F, worldIn.rand.nextFloat() * 0.4F + 0.8F);
-					tef.setActive(true);
 					PacketDispatcher.sendToDimension(new MessageUpdateFireplace(pos, true), playerIn.dimension);
+					tef.setActive(true);
 				}
 
 				return true;

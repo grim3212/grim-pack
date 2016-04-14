@@ -5,11 +5,14 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Random;
 
+import com.grim3212.mc.core.network.PacketDispatcher;
 import com.grim3212.mc.core.property.UnlistedPropertyBoolean;
 import com.grim3212.mc.core.property.UnlistedPropertyInteger;
 import com.grim3212.mc.core.util.NBTHelper;
 import com.grim3212.mc.decor.GrimDecor;
 import com.grim3212.mc.decor.config.DecorConfig;
+import com.grim3212.mc.decor.network.MessageExtinguish;
+import com.grim3212.mc.decor.network.MessageUpdateFireplace;
 import com.grim3212.mc.decor.tile.TileEntityGrill;
 import com.grim3212.mc.decor.util.BlockHelper;
 
@@ -35,7 +38,6 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.EnumWorldBlockLayer;
 import net.minecraft.util.MovingObjectPosition;
-import net.minecraft.world.EnumSkyBlock;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
@@ -89,19 +91,19 @@ public class BlockGrill extends BlockContainer {
 	public void onBlockClicked(World worldIn, BlockPos pos, EntityPlayer playerIn) {
 		TileEntityGrill tef = (TileEntityGrill) worldIn.getTileEntity(pos);
 		if (tef.isActive()) {
-			GrimDecor.proxy.produceSmoke(worldIn, pos, 0.5D, 1.0D, 0.5D, 3, true);
-			worldIn.playSoundEffect(pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D, "random.fizz", 1.0F, worldIn.rand.nextFloat() * 0.4F + 0.8F);
-			tef.setActive(false);
-			if (worldIn.isRemote) {
-				worldIn.markBlockForUpdate(pos);
+			if (!worldIn.isRemote) {
+				PacketDispatcher.sendToDimension(new MessageExtinguish(pos), playerIn.dimension);
+				tef.setActive(false);
 			}
-			worldIn.setTileEntity(pos, tef);
-			worldIn.checkLightFor(EnumSkyBlock.BLOCK, pos);
+			worldIn.playSoundEffect(pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D, "random.fizz", 1.0F, worldIn.rand.nextFloat() * 0.4F + 0.8F);
 		}
 	}
 
 	@Override
 	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumFacing side, float hitX, float hitY, float hitZ) {
+		if (worldIn.isRemote)
+			return true;
+
 		TileEntityGrill tef = (TileEntityGrill) worldIn.getTileEntity(pos);
 		ItemStack stack = playerIn.inventory.getStackInSlot(playerIn.inventory.currentItem);
 
@@ -109,11 +111,8 @@ public class BlockGrill extends BlockContainer {
 			if (!tef.isActive()) {
 				stack.damageItem(1, playerIn);
 				worldIn.playSoundEffect(pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D, "fire.ignite", 1.0F, worldIn.rand.nextFloat() * 0.4F + 0.8F);
+				PacketDispatcher.sendToDimension(new MessageUpdateFireplace(pos, true), playerIn.dimension);
 				tef.setActive(true);
-				if (worldIn.isRemote) {
-					worldIn.markBlockForUpdate(pos);
-				}
-				worldIn.checkLightFor(EnumSkyBlock.BLOCK, pos);
 			}
 			return true;
 		}

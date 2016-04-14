@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import com.grim3212.mc.core.network.AbstractMessage.AbstractClientMessage;
 import com.grim3212.mc.decor.tile.TileEntityFireplace;
+import com.grim3212.mc.decor.tile.TileEntityGrill;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.network.PacketBuffer;
@@ -41,6 +42,9 @@ public class MessageUpdateFireplace extends AbstractClientMessage<MessageUpdateF
 		TileEntity te = player.worldObj.getTileEntity(pos);
 		if (te instanceof TileEntityFireplace) {
 			TileEntityFireplace tef = (TileEntityFireplace) te;
+			tef.setActive(active);
+		} else if (te instanceof TileEntityGrill) {
+			TileEntityGrill tef = (TileEntityGrill) te;
 			tef.setActive(active);
 		}
 	}
