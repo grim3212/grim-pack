@@ -103,10 +103,7 @@ public class BlockSensor extends Block implements ITileEntityProvider {
 
 	@Override
 	public int getStrongPower(IBlockAccess worldIn, BlockPos pos, IBlockState state, EnumFacing side) {
-		if ((Boolean) state.getValue(ACTIVE))
-			return 15;
-		else
-			return 0;
+		return 0;
 	}
 
 	@Override

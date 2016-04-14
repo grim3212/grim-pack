@@ -1,55 +1,33 @@
 {
-	"variants": {
-		"active=false,facing=north": { "model": "sensors:iron_sensor" },
-		"active=false,facing=south": { "model": "sensors:iron_sensor", "y": 180 },
-		"active=false,facing=east": { "model": "sensors:iron_sensor", "y": 90 },
-		"active=false,facing=west": { "model": "sensors:iron_sensor", "y": 270 },
-		"active=false,facing=up": { "model": "sensors:iron_sensor_up" },
-		"active=false,facing=down": { "model": "sensors:iron_sensor_up", "x": 180 },
-		
-		"active=true,facing=north": { "model": "sensors:iron_sensor_active" },
-		"active=true,facing=south": { "model": "sensors:iron_sensor_active", "y": 180 },
-		"active=true,facing=east": { "model": "sensors:iron_sensor_active", "y": 90 },
-		"active=true,facing=west": { "model": "sensors:iron_sensor_active", "y": 270 },
-		"active=true,facing=up": { "model": "sensors:iron_sensor_active_up" },
-		"active=true,facing=down": { "model": "sensors:iron_sensor_active_up", "x": 180 }
-	}
-}
-{
 	"forge_marker": 1,
     "defaults": {
 		"transform": "forge:default-block",
-        "model": "cube",
+        "model": "grimindustry:sensor",
 		"textures": {
-			"down": "grimindustry:blocks/iron_sensor_side",
-			"up": "grimindustry:blocks/iron_sensor_side",
-			"north": "grimindustry:blocks/iron_sensor_off",
-			"south": "grimindustry:blocks/iron_sensor_side",
-			"west": "grimindustry:blocks/iron_sensor_side",
-			"east": "grimindustry:blocks/iron_sensor_side",
-			"particle": "grimindustry:blocks/iron_sensor_side"
+			"side": "grimindustry:blocks/iron_sensor_side",
+			"active": "grimindustry:blocks/iron_sensor_off"
 		}
     },
 	"variants": {
 		"active": { 
 			"false": {
 				"textures": {
-					"cross": "grimindustry:blocks/spike"
+					"active": "grimindustry:blocks/iron_sensor_off"
 				}
 			},
 			"true": {
 				"textures": {
-					"cross": "grimindustry:blocks/spike_active"
+					"active": "grimindustry:blocks/iron_sensor_on"
 				}
 			}
-		}
+		},
 		"facing": { 
-			"north": { "x": 90 },
-			"south": { "x": 90, "y": 180 },
-			"east": { "x": 90, "y": 90 },
-			"west": { "x": 90, "y": 270 },
-			"up": {},
-			"down": { "x": 180 }
+			"north": { },
+			"south": { "y": 180 },
+			"east": { "y": 90 },
+			"west": { "y": 270 },
+			"up": { "model": "grimindustry:sensor_up" },
+			"down": { "model": "grimindustry:sensor_up", "x": 180 }
 		},
 		"inventory": [{ }]
 	}

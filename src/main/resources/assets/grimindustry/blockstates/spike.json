@@ -16,7 +16,7 @@
 					"cross": "grimindustry:blocks/spike_active"
 				}
 			}
-		}
+		},
 		"facing": { 
 			"north": { "x": 90 },
 			"south": { "x": 90, "y": 180 },

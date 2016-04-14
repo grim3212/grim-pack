@@ -10,6 +10,7 @@ import com.grim3212.mc.industry.block.IndustryBlocks;
 import com.grim3212.mc.industry.client.gui.GuiHandler;
 import com.grim3212.mc.industry.config.IndustryConfig;
 import com.grim3212.mc.industry.item.IndustryItems;
+import com.grim3212.mc.industry.tile.IndustryTileEntities;
 
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -18,6 +19,7 @@ import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.Mod.Instance;
 import net.minecraftforge.fml.common.ModMetadata;
 import net.minecraftforge.fml.common.SidedProxy;
+import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 
@@ -38,6 +40,7 @@ public class GrimIndustry extends GrimPart {
 		super(GrimIndustry.modID, GrimIndustry.modName, GrimIndustry.modVersion);
 		addItem(new IndustryBlocks());
 		addItem(new IndustryItems());
+		addTileEntity(new IndustryTileEntities());
 	}
 
 	@Override
@@ -52,6 +55,12 @@ public class GrimIndustry extends GrimPart {
 		NetworkRegistry.INSTANCE.registerGuiHandler(INSTANCE, new GuiHandler());
 
 		proxy.registerModels();
+	}
+	
+	@Override
+	@EventHandler
+	public void init(FMLInitializationEvent event) {
+		super.init(event);
 	}
 
 	@Override
