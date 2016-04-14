@@ -1,9 +1,6 @@
 package com.grim3212.mc.decor.tile;
 
-import com.grim3212.mc.decor.GrimDecor;
-
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.world.EnumSkyBlock;
 
 public class TileEntityFireplace extends TileEntityTextured {
 
@@ -30,16 +27,13 @@ public class TileEntityFireplace extends TileEntityTextured {
 
 	public void setActive(boolean active) {
 		this.active = active;
+		worldObj.markBlockForUpdate(getPos());
+		worldObj.notifyNeighborsOfStateChange(getPos(), blockType);
+		worldObj.notifyLightSet(getPos());
+		worldObj.checkLight(getPos());
 	}
 
 	public int getLightValue() {
 		return isActive() ? 15 : 0;
-	}
-
-	public void extinguish() {
-		GrimDecor.proxy.produceSmoke(worldObj, pos, 0.5D, 0.3D, 0.5D, 3, true);
-		worldObj.playSoundEffect(pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D, "random.fizz", 1.0F, worldObj.rand.nextFloat() * 0.4F + 0.8F);
-		worldObj.checkLightFor(EnumSkyBlock.BLOCK, pos);
-		this.active = false;
 	}
 }

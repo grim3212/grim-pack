@@ -52,7 +52,7 @@ public class BlockFireplace extends BlockFireplaceBase {
 				smokeheight++;
 			}
 
-			GrimDecor.proxy.produceSmoke(worldIn, pos, 0.5D, 0.0D, 0.5D, 1, true);
+			GrimDecor.proxy.produceSmoke(worldIn, pos.up(smokeheight), 0.5D, 0.0D, 0.5D, 1, true);
 		}
 	}
 

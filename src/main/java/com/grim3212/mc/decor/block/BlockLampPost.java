@@ -122,4 +122,29 @@ public class BlockLampPost extends BlockTextured {
 	public Item getItem(World worldIn, BlockPos pos) {
 		return DecorItems.lamp_item;
 	}
+	
+	@Override
+	public void dropBlockAsItemWithChance(World worldIn, BlockPos pos, IBlockState state, float chance, int fortune) {
+		TileEntity tileentity = worldIn.getTileEntity(pos);
+		ItemStack itemstack = new ItemStack(DecorItems.lamp_item, 1);
+		if (tileentity instanceof TileEntityTextured) {
+			NBTHelper.setInteger(itemstack, "blockID", ((TileEntityTextured) tileentity).getBlockID());
+			NBTHelper.setInteger(itemstack, "blockMeta", ((TileEntityTextured) tileentity).getBlockMeta());
+			spawnAsEntity(worldIn, pos, itemstack);
+		} else {
+			super.dropBlockAsItemWithChance(worldIn, pos, state, chance, fortune);
+		}
+	}
+
+	@Override
+	public void harvestBlock(World worldIn, EntityPlayer player, BlockPos pos, IBlockState state, TileEntity te) {
+		if (te instanceof TileEntityTextured) {
+			ItemStack itemstack = new ItemStack(DecorItems.lamp_item, 1);
+			NBTHelper.setInteger(itemstack, "blockID", ((TileEntityTextured) te).getBlockID());
+			NBTHelper.setInteger(itemstack, "blockMeta", ((TileEntityTextured) te).getBlockMeta());
+			spawnAsEntity(worldIn, pos, itemstack);
+		} else {
+			super.harvestBlock(worldIn, player, pos, state, te);
+		}
+	}
 }
