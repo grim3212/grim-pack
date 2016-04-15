@@ -1,4 +1,4 @@
-package com.grim3212.mc.core.client;
+package com.grim3212.mc.core.client.gui;
 
 import com.grim3212.mc.core.manual.gui.GuiManualIndex;
 

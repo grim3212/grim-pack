@@ -1,6 +1,6 @@
 package com.grim3212.mc.core;
 
-import com.grim3212.mc.core.client.CoreGuiHandler;
+import com.grim3212.mc.core.client.gui.CoreGuiHandler;
 import com.grim3212.mc.core.config.CoreConfig;
 import com.grim3212.mc.core.config.GrimConfig;
 import com.grim3212.mc.core.item.CoreItems;
