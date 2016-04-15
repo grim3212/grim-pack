@@ -1,7 +1,7 @@
 package com.grim3212.mc.industry.block;
 
 import com.grim3212.mc.industry.GrimIndustry;
-import com.grim3212.mc.industry.client.gui.GuiHandler;
+import com.grim3212.mc.industry.client.gui.IndustryGuiHandler;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -22,7 +22,7 @@ public class BlockDiamondWorkbench extends Block {
 		if (worldIn.isRemote)
 			return true;
 
-		playerIn.openGui(GrimIndustry.INSTANCE, GuiHandler.diamondGUI, worldIn, pos.getX(), pos.getY(), pos.getZ());
+		playerIn.openGui(GrimIndustry.INSTANCE, IndustryGuiHandler.diamondGUI, worldIn, pos.getX(), pos.getY(), pos.getZ());
 		return true;
 	}
 }

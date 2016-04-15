@@ -9,6 +9,8 @@ public class IndustryTileEntities implements IPartTileEntities {
 	@Override
 	public void initTileEntities() {
 		GameRegistry.registerTileEntity(TileEntitySensor.class, "sensors");
+		GameRegistry.registerTileEntity(TileEntityGravity.class, "gravity");
+		GameRegistry.registerTileEntity(TileEntityDGravity.class, "directional_gravity");
 	}
 
 }

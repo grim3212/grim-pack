@@ -1,4 +1,4 @@
-package com.grim3212.mc.industry.block.container;
+package com.grim3212.mc.industry.inventory;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;

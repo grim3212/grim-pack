@@ -1,14 +1,14 @@
 package com.grim3212.mc.industry.client.gui;
 
-import com.grim3212.mc.industry.block.container.ContainerDiamondWorkbench;
-import com.grim3212.mc.industry.block.container.ContainerIronWorkbench;
+import com.grim3212.mc.industry.inventory.ContainerDiamondWorkbench;
+import com.grim3212.mc.industry.inventory.ContainerIronWorkbench;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.IGuiHandler;
 
-public class GuiHandler implements IGuiHandler {
+public class IndustryGuiHandler implements IGuiHandler {
 
 	public static final int ironGUI = 1;
 	public static final int diamondGUI = 2;

@@ -2,7 +2,7 @@ package com.grim3212.mc.industry.client.gui;
 
 import org.lwjgl.opengl.GL11;
 
-import com.grim3212.mc.industry.block.container.ContainerDiamondWorkbench;
+import com.grim3212.mc.industry.inventory.ContainerDiamondWorkbench;
 
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.EntityPlayer;

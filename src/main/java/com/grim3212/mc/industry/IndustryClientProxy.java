@@ -11,6 +11,20 @@ public class IndustryClientProxy extends ClientProxy {
 	public void registerModels() {
 		// ITEMS
 		RenderHelper.renderItem(IndustryItems.water_bowl);
+		RenderHelper.renderItem(IndustryItems.gravity_boots);
+		RenderHelper.renderItem(IndustryItems.graphite);
+		RenderHelper.renderItem(IndustryItems.graphite_rod);
+		RenderHelper.renderItem(IndustryItems.anti_radiation_boots);
+		RenderHelper.renderItem(IndustryItems.anti_radiation_legs);
+		RenderHelper.renderItem(IndustryItems.anti_radiation_chest);
+		RenderHelper.renderItem(IndustryItems.anti_radiation_helmet);
+		RenderHelper.renderItem(IndustryItems.iron_parts);
+		RenderHelper.renderItem(IndustryItems.plutonium_ingot);
+		RenderHelper.renderItem(IndustryItems.reactor_core);
+		RenderHelper.renderItem(IndustryItems.reactor_core_case);
+		RenderHelper.renderItem(IndustryItems.refined_plutonium);
+		RenderHelper.renderItem(IndustryItems.refined_uranium);
+		RenderHelper.renderItem(IndustryItems.uranium_ingot);
 
 		// BLOCKS
 		RenderHelper.renderBlock(IndustryBlocks.togglerack);
@@ -25,6 +39,17 @@ public class IndustryClientProxy extends ClientProxy {
 		RenderHelper.renderBlock(IndustryBlocks.stone_sensor);
 		RenderHelper.renderBlock(IndustryBlocks.iron_sensor);
 		RenderHelper.renderBlock(IndustryBlocks.netherrack_sensor);
+		RenderHelper.renderBlock(IndustryBlocks.attractor);
+		RenderHelper.renderBlock(IndustryBlocks.repulsor);
+		RenderHelper.renderBlock(IndustryBlocks.gravitor);
+		RenderHelper.renderBlock(IndustryBlocks.direction_attractor);
+		RenderHelper.renderBlock(IndustryBlocks.direction_repulsor);
+		RenderHelper.renderBlock(IndustryBlocks.direction_gravitor);
+		RenderHelper.renderBlock(IndustryBlocks.bomb_shell);
+		RenderHelper.renderBlock(IndustryBlocks.c4);
+		RenderHelper.renderBlock(IndustryBlocks.reactor);
+		RenderHelper.renderBlock(IndustryBlocks.nuclear_bomb);
+		RenderHelper.renderBlock(IndustryBlocks.uranium_ore);
 	}
 
 }
