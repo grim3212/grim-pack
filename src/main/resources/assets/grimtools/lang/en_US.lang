@@ -1,0 +1,35 @@
+#================= OTHER =================#
+grim.creative.grimtools=Grim Tools
+
+#================= BLOCKS =================#
+
+#================= ITEMS =================#
+item.portable_workbench.name=Portable Workbench
+item.backpack_leather.name=Leather Backpack
+item.backpack_black.name=Black Backpack
+item.backpack_red.name=Red Backpack
+item.backpack_green.name=Green Backpack
+item.backpack_brown.name=Brown Backpack
+item.backpack_blue.name=Blue Backpack
+item.backpack_purple.name=Purple Backpack
+item.backpack_cyan.name=Cyan Backpack
+item.backpack_silver.name=Silver Backpack
+item.backpack_gray.name=Gray Backpack
+item.backpack_pink.name=Pink Backpack
+item.backpack_lime.name=Lime Backpack
+item.backpack_yellow.name=Yellow Backpack
+item.backpack_light_blue.name=Light Blue Backpack
+item.backpack_magenta.name=Magenta Backpack
+item.backpack_orange.name=Orange Backpack
+item.backpack_white.name=White Backpack
+
+#================= INSTRUCTION MANUAL =================#
+grim.manual.grimtools.modinfo=Adds a bunch of weapons and useful tools.
+grim.manual.grimtools.subsection.backpacks=Backpacks
+grim.manual.grimtools.subsection.backpacks.page.backpacks=You can craft backpacks which have 18 slots to store items. Also you cannot put backpacks into backpacks to make an infinite amount of space.
+grim.manual.grimtools.subsection.backpacks.page.backpacks.title=Recipe
+grim.manual.grimtools.subsection.backpacks.page.colors=You can also dye backpacks with any dyes and they will save your items. If you no longer wan them dyed you can use a bucket of water to wash them back to the default leather look.
+grim.manual.grimtools.subsection.backpacks.page.colors.title=Dying
+grim.manual.grimtools.subsection.portable=Portable Workbench
+grim.manual.grimtools.subsection.portable.page.portableworkbench=You use the portable workbench just like a regular workbench except you can take it with you and use it while in your inventory.
+grim.manual.grimtools.subsection.portable.page.portableworkbench.title=Recipe

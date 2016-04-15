@@ -1,0 +1,9 @@
+{
+    "parent": "grimcore:item/item",
+    "textures": {
+        "layer0": "grimtools:items/backpack_white",
+        "layer1": "grimtools:items/backpack_outline"
+    }
+}
+
+

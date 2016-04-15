@@ -1,0 +1,25 @@
+#================= OTHER =================#
+
+#================= BLOCKS =================#
+
+#================= ITEMS =================#
+item.portable_workbench.name=Переносной верстак
+item.backpack_leather.name=Кожаный рюкзак
+item.backpack_black.name=Чёрный рюкзак
+item.backpack_red.name=Красный рюкзак
+item.backpack_green.name=Зелёный рюкзак
+item.backpack_brown.name=Коричневый рюкзак
+item.backpack_blue.name=Синий рюкзак
+item.backpack_purple.name=Фиолетовый рюкзак
+item.backpack_cyan.name=Голубой рюкзак
+item.backpack_silver.name=Серебряный рюкзак
+item.backpack_gray.name=Серый рюкзак
+item.backpack_pink.name=Розовый рюкзак
+item.backpack_lime.name=Лаймовый рюкзак
+item.backpack_yellow.name=Жёлтый рюкзак
+item.backpack_light_blue.name=Светло-синий рюкзак
+item.backpack_magenta.name=Пурпурный рюкзак
+item.backpack_orange.name=Оранжевый рюкзак
+item.backpack_white.name=Белый рюкзак
+
+#================= INSTRUCTION MANUAL =================#
