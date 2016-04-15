@@ -1,8 +1,8 @@
 package com.grim3212.mc.decor.tile;
 
 import com.grim3212.mc.core.network.PacketDispatcher;
-import com.grim3212.mc.decor.block.container.ContainerGrill;
 import com.grim3212.mc.decor.config.DecorConfig;
+import com.grim3212.mc.decor.inventory.ContainerGrill;
 import com.grim3212.mc.decor.network.MessageExtinguish;
 
 import net.minecraft.block.Block;

@@ -1,6 +1,6 @@
 package com.grim3212.mc.decor.client.gui;
 
-import com.grim3212.mc.decor.block.container.ContainerGrill;
+import com.grim3212.mc.decor.inventory.ContainerGrill;
 import com.grim3212.mc.decor.tile.TileEntityGrill;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -9,7 +9,7 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.IGuiHandler;
 
-public class GuiHandler implements IGuiHandler {
+public class DecorGuiHandler implements IGuiHandler {
 
 	@Override
 	public Object getServerGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {

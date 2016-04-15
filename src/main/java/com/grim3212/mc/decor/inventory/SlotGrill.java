@@ -1,4 +1,4 @@
-package com.grim3212.mc.decor.block.container;
+package com.grim3212.mc.decor.inventory;
 
 import com.grim3212.mc.decor.config.DecorConfig;
 

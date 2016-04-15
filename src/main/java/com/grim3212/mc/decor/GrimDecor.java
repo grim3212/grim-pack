@@ -7,7 +7,7 @@ import com.grim3212.mc.core.manual.pages.PageCrafting;
 import com.grim3212.mc.core.network.PacketDispatcher;
 import com.grim3212.mc.core.part.GrimPart;
 import com.grim3212.mc.decor.block.DecorBlocks;
-import com.grim3212.mc.decor.client.gui.GuiHandler;
+import com.grim3212.mc.decor.client.gui.DecorGuiHandler;
 import com.grim3212.mc.decor.config.DecorConfig;
 import com.grim3212.mc.decor.entity.DecorEntities;
 import com.grim3212.mc.decor.item.DecorItems;
@@ -58,7 +58,7 @@ public class GrimDecor extends GrimPart {
 		data.description = "Grim Decor provides many different ways to decorate your Minecraft world.";
 		data.credits = "Thanks to the following authors.";
 
-		NetworkRegistry.INSTANCE.registerGuiHandler(INSTANCE, new GuiHandler());
+		NetworkRegistry.INSTANCE.registerGuiHandler(INSTANCE, new DecorGuiHandler());
 
 		PacketDispatcher.registerMessage(MessageExtinguish.class);
 		PacketDispatcher.registerMessage(MessageUpdateFireplace.class);

@@ -6,7 +6,7 @@ import org.lwjgl.util.glu.GLU;
 import com.grim3212.mc.core.util.NBTHelper;
 import com.grim3212.mc.decor.GrimDecor;
 import com.grim3212.mc.decor.block.DecorBlocks;
-import com.grim3212.mc.decor.block.container.ContainerGrill;
+import com.grim3212.mc.decor.inventory.ContainerGrill;
 import com.grim3212.mc.decor.tile.TileEntityGrill;
 
 import net.minecraft.client.Minecraft;
