@@ -21,17 +21,20 @@ import net.minecraft.client.particle.EffectRenderer;
 import net.minecraft.client.particle.EntityDiggingFX;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.EnumWorldBlockLayer;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldServer;
 import net.minecraftforge.common.property.ExtendedBlockState;
 import net.minecraftforge.common.property.IExtendedBlockState;
 import net.minecraftforge.common.property.IUnlistedProperty;
@@ -300,6 +303,16 @@ public abstract class BlockTextured extends Block implements ITileEntityProvider
 		effectRenderer.addBlockDestroyEffects(pos, Block.getBlockById(tileentity.getBlockID()).getStateFromMeta(tileentity.getBlockMeta()));
 		world.getBlockState(pos).getBlock().setStepSound(Block.getBlockById(tileentity.getBlockID()).getStateFromMeta(tileentity.getBlockMeta()).getBlock().stepSound);
 
+		return true;
+	}
+
+	@Override
+	public boolean addLandingEffects(WorldServer worldObj, BlockPos blockPosition, IBlockState iblockstate, EntityLivingBase entity, int numberOfParticles) {
+		TileEntity tileentity = (TileEntity) worldObj.getTileEntity(blockPosition);
+		if (tileentity instanceof TileEntityTextured) {
+			TileEntityTextured te = (TileEntityTextured) tileentity;
+			((WorldServer) worldObj).spawnParticle(EnumParticleTypes.BLOCK_DUST, entity.posX, entity.posY, entity.posZ, numberOfParticles, 0.0D, 0.0D, 0.0D, 0.15000000596046448D, new int[] { Block.getStateId(Block.getBlockById(te.getBlockID()).getStateFromMeta(te.getBlockMeta())) });
+		}
 		return true;
 	}
 }

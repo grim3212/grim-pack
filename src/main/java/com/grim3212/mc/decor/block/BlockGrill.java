@@ -26,6 +26,7 @@ import net.minecraft.client.particle.EffectRenderer;
 import net.minecraft.client.particle.EntityDiggingFX;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
@@ -41,6 +42,7 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldServer;
 import net.minecraftforge.common.property.ExtendedBlockState;
 import net.minecraftforge.common.property.IExtendedBlockState;
 import net.minecraftforge.common.property.IUnlistedProperty;
@@ -397,6 +399,16 @@ public class BlockGrill extends BlockContainer {
 		effectRenderer.clearEffects(world);
 		effectRenderer.addBlockDestroyEffects(pos, Block.getBlockById(tileentity.getBlockID()).getStateFromMeta(tileentity.getBlockMeta()));
 		world.getBlockState(pos).getBlock().setStepSound(Block.getBlockById(tileentity.getBlockID()).getStateFromMeta(tileentity.getBlockMeta()).getBlock().stepSound);
+		return true;
+	}
+
+	@Override
+	public boolean addLandingEffects(WorldServer worldObj, BlockPos blockPosition, IBlockState iblockstate, EntityLivingBase entity, int numberOfParticles) {
+		TileEntity tileentity = (TileEntity) worldObj.getTileEntity(blockPosition);
+		if (tileentity instanceof TileEntityGrill) {
+			TileEntityGrill te = (TileEntityGrill) tileentity;
+			((WorldServer) worldObj).spawnParticle(EnumParticleTypes.BLOCK_DUST, entity.posX, entity.posY, entity.posZ, numberOfParticles, 0.0D, 0.0D, 0.0D, 0.15000000596046448D, new int[] { Block.getStateId(Block.getBlockById(te.getBlockID()).getStateFromMeta(te.getBlockMeta())) });
+		}
 		return true;
 	}
 }
