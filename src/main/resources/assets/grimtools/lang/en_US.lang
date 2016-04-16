@@ -2,6 +2,8 @@
 grim.creative.grimtools=Grim Tools
 
 #================= BLOCKS =================#
+tile.black_diamond_ore.name=Black Diamond Ore
+tile.black_diamond_block.name=Black Block of Diamond
 
 #================= ITEMS =================#
 item.portable_workbench.name=Portable Workbench
@@ -22,6 +24,23 @@ item.backpack_light_blue.name=Light Blue Backpack
 item.backpack_magenta.name=Magenta Backpack
 item.backpack_orange.name=Orange Backpack
 item.backpack_white.name=White Backpack
+item.loaded_knife.name=Loaded Ballistic Knife
+item.unloaded_knife.name=Empty Ballistic Knife
+item.ammo_part.name=Ballistic Knife Blade
+item.button_part.name=Trigger
+item.spring_part.name=Spring
+item.casing_part.name=Metal Casing
+item.rod_part.name=Metal Rod
+item.black_diamond.name=Black Diamond
+item.black_diamond_boots.name=Black Boots
+item.black_diamond_leggings.name=Black Leggings
+item.black_diamond_chestplate.name=Black Plate
+item.black_diamond_helmet.name=Black Helmet
+item.black_diamond_sword.name=Black Sword
+item.black_diamond_hoe.name=Black Hoe
+item.black_diamond_axe.name=Black Axe
+item.black_diamond_shovel.name=Black Shovel
+item.black_diamond_pickaxe.name=Black Pickaxe
 
 #================= INSTRUCTION MANUAL =================#
 grim.manual.grimtools.modinfo=Adds a bunch of weapons and useful tools.
@@ -33,3 +52,30 @@ grim.manual.grimtools.subsection.backpacks.page.colors.title=Dying
 grim.manual.grimtools.subsection.portable=Portable Workbench
 grim.manual.grimtools.subsection.portable.page.portableworkbench=You use the portable workbench just like a regular workbench except you can take it with you and use it while in your inventory.
 grim.manual.grimtools.subsection.portable.page.portableworkbench.title=Recipe
+grim.manual.grimtools.subsection.parts=Parts
+grim.manual.grimtools.subsection.parts.page.part1=The casing part is needed to craft an empty ballistic knife and holds all of the other parts inside of the case.
+grim.manual.grimtools.subsection.parts.page.part1.title=Casing Recipe
+grim.manual.grimtools.subsection.parts.page.part2=The spring part is needed to craft an empty ballistic knife and is used to push the blade out.
+grim.manual.grimtools.subsection.parts.page.part2.title=Spring Recipe
+grim.manual.grimtools.subsection.parts.page.part3=The button part is needed to craft an empty ballistic knife and used to trigger the spring.
+grim.manual.grimtools.subsection.parts.page.part3.title=Button Recipe
+grim.manual.grimtools.subsection.parts.page.part4=The rod part is needed to craft the knives used for the ballistic knife.
+grim.manual.grimtools.subsection.parts.page.part4.title=Rod Recipe
+grim.manual.grimtools.subsection.ballistic=Ballistic Knife
+grim.manual.grimtools.subsection.ballistic.page.ballistic=You combine all parts from the previous sub-section to create the Empty Ballistic Knife.
+grim.manual.grimtools.subsection.ballistic.page.ballistic.title=Recipe
+grim.manual.grimtools.subsection.ballistic.page.knives=You create the knives separately and to load the Ballistic Knife simply right click with it in your hand while knives are in your inventory.
+grim.manual.grimtools.subsection.ballistic.page.knives.title=Knife Recipe
+grim.manual.grimtools.subsection.black=Black Diamond
+grim.manual.grimtools.subsection.black.page.blackore=Black Diamond ore can be found deep in the ground and spawns in a cluster about the size of diamond but far less common.
+grim.manual.grimtools.subsection.black.page.blackore.title=Ore
+grim.manual.grimtools.subsection.black.page.cookOre=Once you have found and mined some black diamond to get the actually gem from the ore you need to smelt the ore.
+grim.manual.grimtools.subsection.black.page.cookOre.title=Smelting
+grim.manual.grimtools.subsection.black.page.craftblack=If you need some black diamond you can also craft it by combining a diamond and some obsidian. With 9 black diamonds you can also store them into a block of black diamond.
+grim.manual.grimtools.subsection.black.page.craftblack.title=Crafting
+grim.manual.grimtools.subsection.tools=Tools
+grim.manual.grimtools.subsection.tools.page.tools=Using black diamonds you can craft a full tool set, all of which are better then diamond tools.
+grim.manual.grimtools.subsection.tools.page.tools.title=Crafting
+grim.manual.grimtools.subsection.armor=Armor
+grim.manual.grimtools.subsection.armor.page.armor=Along with the full tool set you can also craft a full set of armor from black diamonds.
+grim.manual.grimtools.subsection.armor.page.armor.title=Crafting

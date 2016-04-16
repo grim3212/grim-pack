@@ -1,0 +1,6 @@
+{
+    "parent": "grimcore:item/item",
+    "textures": {
+        "layer0": "grimtools:items/black_diamond_hoe"
+    }
+}
