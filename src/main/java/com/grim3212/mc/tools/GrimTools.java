@@ -13,10 +13,12 @@ import com.grim3212.mc.tools.client.gui.ToolsGuiHandler;
 import com.grim3212.mc.tools.config.ToolsConfig;
 import com.grim3212.mc.tools.entity.ToolsEntities;
 import com.grim3212.mc.tools.items.ToolsItems;
+import com.grim3212.mc.tools.util.MilkingEvent;
 import com.grim3212.mc.tools.world.ToolsGenerate;
 
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.Mod.Instance;
@@ -56,6 +58,7 @@ public class GrimTools extends GrimPart {
 		data.credits = "Thanks to the following authors. Leesgowest, LFalch, mattop101, Nandonalt.";
 
 		NetworkRegistry.INSTANCE.registerGuiHandler(INSTANCE, new ToolsGuiHandler());
+		MinecraftForge.EVENT_BUS.register(new MilkingEvent());
 
 		GameRegistry.registerWorldGenerator(new ToolsGenerate(), 25);
 

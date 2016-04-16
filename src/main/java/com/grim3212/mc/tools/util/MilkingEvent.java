@@ -1,13 +1,12 @@
 package com.grim3212.mc.tools.util;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
 
 import com.google.common.collect.Lists;
 import com.grim3212.mc.core.util.NBTHelper;
 import com.grim3212.mc.tools.items.ItemBetterBucket;
-import com.grim3212.mc.tools.items.ItemBucketExtended;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -20,7 +19,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class MilkingEvent {
 
-	public static List<Set<Class<? extends Entity>>> levels = Lists.newArrayList();
+	public static List<List<Class<? extends Entity>>> levels = Lists.newArrayList();
 
 	static {
 		addMilkable(0, EntityCow.class);
@@ -39,8 +38,11 @@ public class MilkingEvent {
 	 * @return True if adding was a success and it wasn't a duplicate
 	 */
 	public static boolean addMilkable(int level, Class<? extends Entity> milkable) {
-		if (levels.get(level) == null)
-			levels.add(level, new TreeSet<Class<? extends Entity>>());
+		if (levels.size() <= level)
+			levels.add(level, new ArrayList<Class<? extends Entity>>());
+
+		if (Collections.frequency(levels.get(level), milkable) > 1)
+			return false;
 
 		return levels.get(level).add(milkable);
 	}
@@ -49,22 +51,19 @@ public class MilkingEvent {
 	public void interact(EntityInteractEvent event) {
 		if (event.entityPlayer.getHeldItem() != null && event.target instanceof EntityLivingBase) {
 			if (event.entityPlayer.getHeldItem().getItem() instanceof ItemBetterBucket) {
-				ItemBetterBucket bucket = (ItemBetterBucket) event.entityPlayer.getHeldItem().getItem();
+				ItemStack stack = event.entityPlayer.getHeldItem();
+				ItemBetterBucket bucket = (ItemBetterBucket) stack.getItem();
 				int milkingLevel = bucket.milkingLevel;
-				
-				
-				for(int i = 0; i < milkingLevel; i++){
-					
-				}
-				
-				for (int i = 0; i < entities.length; i++) {
-					if (event.target.getClass() == entities[i]) {
-						if (ItemBucketExtended.isEmptyOrContains(bucket, "milk")) {
-							if (NBTHelper.getInt(bucket, "amount") != ((ItemBucketExtended) bucket.getItem()).getMaxAmount()) {
-								int amount = NBTHelper.getInt(bucket, "amount");
-								NBTHelper.setInteger(bucket, "amount", ++amount);
-								NBTHelper.setString(bucket, "stored", "milk");
-								setHasMilked(true);
+
+				for (int i = 0; i < milkingLevel; i++) {
+					for (int j = 0; j < levels.get(milkingLevel).size(); j++) {
+						if (levels.get(milkingLevel).contains(event.target.getClass())) {
+							if (ItemBetterBucket.isEmptyOrContains(stack, "milk")) {
+								if (NBTHelper.getInt(stack, "Amount") < bucket.maxCapacity) {
+									int amount = NBTHelper.getInt(stack, "Amount");
+									NBTHelper.setInteger(stack, "Amount", ++amount);
+									NBTHelper.setString(stack, "FluidName", "milk");
+								}
 							}
 						}
 					}

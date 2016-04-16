@@ -1,5 +1,7 @@
 #================= OTHER =================#
 grim.creative.grimtools=Grim Tools
+tooltip.buckets.empty=Empty
+tooltip.buckets.contains=Contains
 
 #================= BLOCKS =================#
 tile.black_diamond_ore.name=Black Diamond Ore
@@ -41,6 +43,11 @@ item.black_diamond_hoe.name=Black Hoe
 item.black_diamond_axe.name=Black Axe
 item.black_diamond_shovel.name=Black Shovel
 item.black_diamond_pickaxe.name=Black Pickaxe
+item.wooden_bucket.name=Wooden Bucket
+item.stone_bucket.name=Stone Bucket
+item.golden_bucket.name=Golden Bucket
+item.diamond_bucket.name=Diamond Bucket
+item.obsidian_bucket.name=Obsidian Bucket
 
 #================= INSTRUCTION MANUAL =================#
 grim.manual.grimtools.modinfo=Adds a bunch of weapons and useful tools.
@@ -79,3 +86,21 @@ grim.manual.grimtools.subsection.tools.page.tools.title=Crafting
 grim.manual.grimtools.subsection.armor=Armor
 grim.manual.grimtools.subsection.armor.page.armor=Along with the full tool set you can also craft a full set of armor from black diamonds.
 grim.manual.grimtools.subsection.armor.page.armor.title=Crafting
+grim.manual.grimtools.subsection.wood=Wood Bucket
+grim.manual.grimtools.subsection.wood.page.recipe=Use sticks to craft a wooden bucket. This bucket can pick up only water and milk cows. When used to place back down it turns into 3 sticks as well as when crafting a cake.
+grim.manual.grimtools.subsection.wood.page.recipe.title=Recipe / Info
+grim.manual.grimtools.subsection.stone=Stone Bucket
+grim.manual.grimtools.subsection.stone.page.recipe=Use cobblestone to craft a stone bucket. This bucket can pick up water, lava and milk cows but when used it is turned back into 3 cobblestone.
+grim.manual.grimtools.subsection.stone.page.recipe.title=Recipe / Info
+grim.manual.grimtools.subsection.gold=Gold Bucket
+grim.manual.grimtools.subsection.gold.page.recipe=Use gold ingots to craft a gold bucket. This bucket can pick up water, lava and milk cows. This bucket does not break when used and can also store up to 4 buckets of the liquid stored.
+grim.manual.grimtools.subsection.gold.page.recipe.title=Recipe / Info
+grim.manual.grimtools.subsection.diamond=Diamond Bucket
+grim.manual.grimtools.subsection.diamond.page.recipe=Use diamonds to craft a diamond bucket. This bucket can pick up water, lava and milk both cows and sheep. This bucket does not break when used and can store up to 16 buckets of the liquid stored.
+grim.manual.grimtools.subsection.diamond.page.recipe.title=Recipe / Info
+grim.manual.grimtools.subsection.obsidian=Obsidian Bucket
+grim.manual.grimtools.subsection.obsidian.page.recipe=Use obsidian to craft a obsidian bucket. This bucket can pick up water, lava, and fire. It can also milk cows, sheep, and pigs. This bucket does not break when used and can store up to 32 buckets of the type of blocks stored. You can also use this bucket to place water in the Nether.
+grim.manual.grimtools.subsection.obsidian.page.recipe.title=Recipe / Info
+grim.manual.grimtools.subsection.milk=Milk Buckets
+grim.manual.grimtools.subsection.milk.page.recipe=Milk buckets can be crafted in any combination of buckets to create cake. You can also drink milk buckets to clear potion effects. Milk buckets do stack and will react accordingly to drinking and when crafted. 
+grim.manual.grimtools.subsection.milk.page.recipe.title=Recipes / Info
