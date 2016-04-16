@@ -3,6 +3,9 @@ grim.creative.grimtools=Grim Tools
 tooltip.buckets.empty=Empty
 tooltip.buckets.contains=Contains
 
+#Used for bucket display names
+tile.milk.name=Milk
+
 #================= BLOCKS =================#
 tile.black_diamond_ore.name=Black Diamond Ore
 tile.black_diamond_block.name=Black Block of Diamond

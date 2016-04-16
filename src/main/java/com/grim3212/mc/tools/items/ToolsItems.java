@@ -19,7 +19,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
 import net.minecraft.item.crafting.CraftingManager;
 import net.minecraft.item.crafting.IRecipe;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.util.EnumHelper;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.RecipeSorter;
@@ -107,12 +106,12 @@ public class ToolsItems implements IPartItems {
 		GameRegistry.registerItem(black_diamond_shovel, "black_diamond_shovel");
 		GameRegistry.registerItem(black_diamond_pickaxe, "black_diamond_pickaxe");
 		GameRegistry.registerItem(black_diamond, "black_diamond");
-		
-//		MinecraftForge.EVENT_BUS.register(wooden_bucket);
-//		MinecraftForge.EVENT_BUS.register(stone_bucket);
-//		MinecraftForge.EVENT_BUS.register(golden_bucket);
-//		MinecraftForge.EVENT_BUS.register(diamond_bucket);
-//		MinecraftForge.EVENT_BUS.register(obsidian_bucket);
+
+		// MinecraftForge.EVENT_BUS.register(wooden_bucket);
+		// MinecraftForge.EVENT_BUS.register(stone_bucket);
+		// MinecraftForge.EVENT_BUS.register(golden_bucket);
+		// MinecraftForge.EVENT_BUS.register(diamond_bucket);
+		// MinecraftForge.EVENT_BUS.register(obsidian_bucket);
 	}
 
 	public static List<IRecipe> blackTools;
