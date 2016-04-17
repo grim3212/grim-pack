@@ -6,6 +6,7 @@ import com.grim3212.mc.core.manual.ModSection;
 import com.grim3212.mc.core.manual.pages.PageCrafting;
 import com.grim3212.mc.core.manual.pages.PageFurnace;
 import com.grim3212.mc.core.manual.pages.PageImageText;
+import com.grim3212.mc.core.network.PacketDispatcher;
 import com.grim3212.mc.core.part.GrimPart;
 import com.grim3212.mc.core.proxy.CommonProxy;
 import com.grim3212.mc.tools.blocks.ToolsBlocks;
@@ -13,6 +14,7 @@ import com.grim3212.mc.tools.client.gui.ToolsGuiHandler;
 import com.grim3212.mc.tools.config.ToolsConfig;
 import com.grim3212.mc.tools.entity.ToolsEntities;
 import com.grim3212.mc.tools.items.ToolsItems;
+import com.grim3212.mc.tools.network.MessageMilkEvent;
 import com.grim3212.mc.tools.util.MilkingEvent;
 import com.grim3212.mc.tools.world.ToolsGenerate;
 
@@ -57,6 +59,7 @@ public class GrimTools extends GrimPart {
 		data.url = "http://mods.grim3212.com/mc/" + "my-mods/grim-tools/";
 		data.credits = "Thanks to the following authors. Leesgowest, LFalch, mattop101, Nandonalt.";
 
+		PacketDispatcher.registerMessage(MessageMilkEvent.class);
 		NetworkRegistry.INSTANCE.registerGuiHandler(INSTANCE, new ToolsGuiHandler());
 		MinecraftForge.EVENT_BUS.register(new MilkingEvent());
 

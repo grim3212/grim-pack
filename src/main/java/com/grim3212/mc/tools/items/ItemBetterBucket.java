@@ -16,7 +16,6 @@ import net.minecraft.init.Items;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.stats.StatList;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumParticleTypes;
@@ -31,7 +30,6 @@ import net.minecraftforge.fluids.IFluidBlock;
 import net.minecraftforge.fluids.IFluidContainerItem;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import net.minecraftforge.items.ItemHandlerHelper;
 
 /**
  * A universal bucket that can hold any liquid
@@ -80,7 +78,7 @@ public class ItemBetterBucket extends Item implements IFluidContainerItem {
 
 	@Override
 	public void addInformation(ItemStack stack, EntityPlayer playerIn, List<String> tooltip, boolean advanced) {
-		if (NBTHelper.getInt(stack, "Amount") == 0) {
+		if (NBTHelper.getInt(stack, "Amount") <= 0) {
 			tooltip.add(StatCollector.translateToLocal("tooltip.buckets.empty"));
 		} else {
 			tooltip.add(StatCollector.translateToLocal("tooltip.buckets.contains") + ": " + NBTHelper.getInt(stack, "Amount") + "/" + maxCapacity);
@@ -128,7 +126,7 @@ public class ItemBetterBucket extends Item implements IFluidContainerItem {
 		if (fluidStack == null) {
 			if (NBTHelper.getString(stack, "FluidName").equals("fire")) {
 				return unloc.replaceFirst("\\s", " " + Blocks.fire.getLocalizedName() + " ");
-			}else if(NBTHelper.getString(stack, "FluidName").equals("milk")){
+			} else if (NBTHelper.getString(stack, "FluidName").equals("milk")) {
 				return unloc.replaceFirst("\\s", " " + StatCollector.translateToLocal("tile.milk.name") + " ");
 			}
 
@@ -147,31 +145,39 @@ public class ItemBetterBucket extends Item implements IFluidContainerItem {
 	 */
 	@Override
 	public ItemStack onItemRightClick(ItemStack itemstack, World world, EntityPlayer player) {
-		boolean canContainMore = NBTHelper.getInt(itemstack, "Amount") < this.maxCapacity;
-		FluidStack fluidStack = getFluid(itemstack);
+		boolean canContainMore = NBTHelper.getInt(itemstack, "Amount") < maxCapacity;
 
 		// clicked on a block?
 		MovingObjectPosition mop = this.getMovingObjectPositionFromPlayer(world, player, canContainMore);
-		if (mop != null && mop.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK) {
+		if (mop == null) {
+			// Check to see if you should drink milk
+			if (NBTHelper.getString(itemstack, "FluidName").equals("milk")) {
+				player.setItemInUse(itemstack, this.getMaxItemUseDuration(itemstack));
+				return itemstack;
+			}
+		} else if (mop.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK) {
 			BlockPos clickPos = mop.getBlockPos();
 
-			if (fluidStack == null) {
+			if (canContainMore) {
 				IBlockState state = world.getBlockState(clickPos);
-				// Note that water and lava are NOT an instance of IFluidBlock!
-				// They are
-				// therefore not handled by this code!
+
 				if (state.getBlock() instanceof IFluidBlock) {
 					IFluidBlock fluidBlock = (IFluidBlock) state.getBlock();
 					if (fluidBlock.canDrain(world, clickPos)) {
 						FluidStack drained = fluidBlock.drain(world, clickPos, false);
 						// check if it fits exactly
-						if (drained != null && drained.amount == maxCapacity) {
+						if (drained != null && drained.amount % FluidContainerRegistry.BUCKET_VOLUME == 0) {
 							// check if the container accepts it
 							ItemStack filledBucket = new ItemStack(this);
 							int filled = this.fill(filledBucket, drained, false);
 							if (filled == drained.amount) {
 								// actually transfer the fluid
 								drained = fluidBlock.drain(world, clickPos, true);
+
+								if (player.capabilities.isCreativeMode) {
+									return itemstack;
+								}
+
 								this.fill(filledBucket, drained, true);
 
 								return filledBucket;
@@ -181,11 +187,9 @@ public class ItemBetterBucket extends Item implements IFluidContainerItem {
 				} else {
 
 					if (!world.isBlockModifiable(player, clickPos)) {
-
 						return itemstack;
 					}
 					if (!player.canPlayerEdit(clickPos.offset(mop.sideHit), mop.sideHit, itemstack)) {
-
 						return itemstack;
 					}
 
@@ -193,57 +197,105 @@ public class ItemBetterBucket extends Item implements IFluidContainerItem {
 					if (material == Material.water && ((Integer) state.getValue(BlockLiquid.LEVEL)).intValue() == 0) {
 						world.setBlockToAir(clickPos);
 						player.triggerAchievement(StatList.objectUseStats[Item.getIdFromItem(this)]);
-						ItemStack filledStack = new ItemStack(this);
-						this.fill(filledStack, new FluidStack(FluidRegistry.WATER, FluidContainerRegistry.BUCKET_VOLUME), true);
-						return filledStack;
+
+						if (player.capabilities.isCreativeMode) {
+							return itemstack;
+						}
+
+						FluidStack fluidStack = new FluidStack(FluidRegistry.WATER, FluidContainerRegistry.BUCKET_VOLUME);
+
+						if (this.fill(itemstack, fluidStack, false) == fluidStack.amount) {
+							this.fill(itemstack, fluidStack, true);
+							return itemstack;
+						}
 					}
 
 					if (material == Material.lava && ((Integer) state.getValue(BlockLiquid.LEVEL)).intValue() == 0) {
 						world.setBlockToAir(clickPos);
 						player.triggerAchievement(StatList.objectUseStats[Item.getIdFromItem(this)]);
-						ItemStack filledStack = new ItemStack(this);
-						this.fill(filledStack, new FluidStack(FluidRegistry.LAVA, FluidContainerRegistry.BUCKET_VOLUME), true);
-						return filledStack;
+
+						if (player.capabilities.isCreativeMode) {
+							return itemstack;
+						}
+
+						FluidStack fluidStack = new FluidStack(FluidRegistry.LAVA, FluidContainerRegistry.BUCKET_VOLUME);
+
+						if (this.fill(itemstack, fluidStack, false) == fluidStack.amount) {
+							this.fill(itemstack, fluidStack, true);
+							return itemstack;
+						}
 					}
 
 					// New Pos to account for Fire
 					BlockPos firePos = mop.getBlockPos().offset(mop.sideHit);
 					if (world.getBlockState(firePos).getBlock() == Blocks.fire && isEmptyOrContains(itemstack, "fire") && this.pickupFire) {
 						world.setBlockToAir(firePos);
-						ItemStack filledStack = new ItemStack(this);
-						NBTHelper.setString(filledStack, "FluidName", "fire");
-						NBTHelper.setInteger(filledStack, "Amount", NBTHelper.getInt(itemstack, "Amount") + 1);
-						return filledStack;
-					}
-				}
-			} else if (world.isBlockModifiable(player, clickPos)) {
-				// the block adjacent to the side we clicked on
-				BlockPos targetPos = clickPos.offset(mop.sideHit);
 
-				// can the player place there?
-				if (player.canPlayerEdit(targetPos, mop.sideHit, itemstack)) {
-					// try placing liquid
-					if (this.tryPlaceFluid(fluidStack.getFluid().getBlock(), world, targetPos) && !player.capabilities.isCreativeMode) {
-						// success!
-						player.triggerAchievement(StatList.objectUseStats[Item.getIdFromItem(this)]);
+						if (player.capabilities.isCreativeMode) {
+							return itemstack;
+						}
 
-						itemstack.stackSize--;
-						ItemStack emptyStack = empty != null ? empty.copy() : new ItemStack(this);
-
-						// check whether we replace the item or add the empty
-						// one to the inventory
-						if (itemstack.stackSize <= 0) {
-							return emptyStack;
-						} else {
-							// add empty bucket to player inventory
-							ItemHandlerHelper.giveItemToPlayer(player, emptyStack);
+						if (isEmptyOrContains(itemstack, "fire")) {
+							NBTHelper.setString(itemstack, "FluidName", "fire");
+							NBTHelper.setInteger(itemstack, "Amount", NBTHelper.getInt(itemstack, "Amount") + FluidContainerRegistry.BUCKET_VOLUME);
 							return itemstack;
 						}
 					}
 				}
 			}
-		}
 
+			if (world.isBlockModifiable(player, clickPos)) {
+
+				if (NBTHelper.getString(itemstack, "FluidName").equals("milk")) {
+					player.setItemInUse(itemstack, this.getMaxItemUseDuration(itemstack));
+					return itemstack;
+				} else {
+
+					// the block adjacent to the side we clicked on
+					BlockPos targetPos = clickPos.offset(mop.sideHit);
+					// can the player place there?
+					if (player.canPlayerEdit(targetPos, mop.sideHit, itemstack)) {
+						int amount = NBTHelper.getInt(itemstack, "Amount");
+						if (amount >= FluidContainerRegistry.BUCKET_VOLUME) {
+							FluidStack fluidStack = getFluid(itemstack);
+
+							// try placing liquid
+							if (fluidStack != null) {
+								if (this.tryPlaceFluid(fluidStack.getFluid().getBlock(), world, targetPos) && !player.capabilities.isCreativeMode) {
+									// success!
+									player.triggerAchievement(StatList.objectUseStats[Item.getIdFromItem(this)]);
+
+									NBTHelper.setInteger(itemstack, "Amount", amount - FluidContainerRegistry.BUCKET_VOLUME);
+
+									// check whether we replace the item or add
+									// the
+									// empty
+									// one to the inventory
+									if ((amount - FluidContainerRegistry.BUCKET_VOLUME) <= 0) {
+										return empty.copy();
+									}
+								}
+							} else if (NBTHelper.getString(itemstack, "FluidName").equals("fire")) {
+								if (this.tryPlaceFluid(Blocks.fire, world, targetPos) && !player.capabilities.isCreativeMode) {
+									// success!
+									player.triggerAchievement(StatList.objectUseStats[Item.getIdFromItem(this)]);
+
+									NBTHelper.setInteger(itemstack, "Amount", amount - FluidContainerRegistry.BUCKET_VOLUME);
+
+									// check whether we replace the item or add
+									// the
+									// empty
+									// one to the inventory
+									if ((amount - FluidContainerRegistry.BUCKET_VOLUME) <= 0) {
+										return empty.copy();
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
 		// couldn't place liquid there2
 		return itemstack;
 	}
@@ -295,12 +347,6 @@ public class ItemBetterBucket extends Item implements IFluidContainerItem {
 		return true;
 	}
 
-	public static ItemStack getFilledBucket(ItemBetterBucket item, Fluid fluid) {
-		ItemStack stack = new ItemStack(item);
-		item.fill(stack, new FluidStack(fluid, item.maxCapacity), true);
-		return stack;
-	}
-
 	@Override
 	public ItemStack onItemUseFinish(ItemStack stack, World worldIn, EntityPlayer playerIn) {
 		// Everything in here is only used for milk buckets and what happens
@@ -309,8 +355,8 @@ public class ItemBetterBucket extends Item implements IFluidContainerItem {
 		if (!playerIn.capabilities.isCreativeMode) {
 			// Set amount and type, if empty
 			int amount = NBTHelper.getInt(stack, "Amount");
-			NBTHelper.setInteger(stack, "Amount", --amount);
-			if (amount == 0) {
+			NBTHelper.setInteger(stack, "Amount", amount - FluidContainerRegistry.BUCKET_VOLUME);
+			if (amount <= 0) {
 				NBTHelper.setString(stack, "FluidName", "empty");
 			}
 		}
@@ -323,13 +369,8 @@ public class ItemBetterBucket extends Item implements IFluidContainerItem {
 		playerIn.triggerAchievement(StatList.objectUseStats[Item.getIdFromItem(this)]);
 
 		// Another check if the amount equals 0
-		if (NBTHelper.getInt(stack, "amount") == 0) {
-			ItemStack returned = empty.copy();
-			if (returned.getItem() instanceof ItemBetterBucket) {
-				NBTHelper.setInteger(stack, "Amount", 0);
-				NBTHelper.setString(returned, "FluidName", "empty");
-			}
-			return returned;
+		if (NBTHelper.getInt(stack, "Amount") <= 0) {
+			return empty.copy();
 		} else {
 			return stack;
 		}
@@ -337,7 +378,7 @@ public class ItemBetterBucket extends Item implements IFluidContainerItem {
 
 	@Override
 	public boolean hasContainerItem(ItemStack stack) {
-		return NBTHelper.getInt(stack, "Amount") != 0;
+		return NBTHelper.getInt(stack, "Amount") >= FluidContainerRegistry.BUCKET_VOLUME;
 	}
 
 	@Override
@@ -360,8 +401,8 @@ public class ItemBetterBucket extends Item implements IFluidContainerItem {
 	@Override
 	public ItemStack getContainerItem(ItemStack itemStack) {
 		int amount = NBTHelper.getInt(itemStack, "Amount");
-		NBTHelper.setInteger(itemStack, "Amount", --amount);
-		if (amount == 0) {
+		NBTHelper.setInteger(itemStack, "Amount", amount - FluidContainerRegistry.BUCKET_VOLUME);
+		if (amount <= 0) {
 			return empty;
 		} else {
 			return itemStack;
@@ -371,7 +412,7 @@ public class ItemBetterBucket extends Item implements IFluidContainerItem {
 	@Override
 	public boolean showDurabilityBar(ItemStack stack) {
 		// Don't show if the bucket is empty
-		if (NBTHelper.getInt(stack, "Amount") == 0)
+		if (NBTHelper.getInt(stack, "Amount") <= 0)
 			return false;
 		return true;
 	}
@@ -403,37 +444,35 @@ public class ItemBetterBucket extends Item implements IFluidContainerItem {
 		}
 
 		// can only fill exact capacity
-		if (resource == null || resource.amount != maxCapacity) {
+		if (resource == null || resource.amount % FluidContainerRegistry.BUCKET_VOLUME != 0) {
 			return 0;
 		}
 
 		// fill the container
 		if (doFill) {
-			NBTTagCompound tag = container.getTagCompound();
-			if (tag == null) {
-				tag = new NBTTagCompound();
+			NBTHelper.setString(container, "FluidName", FluidRegistry.getFluidName(resource.getFluid()));
+			NBTHelper.setInteger(container, "Amount", NBTHelper.getInt(container, "Amount") + resource.amount);
+		} else {
+			if (!isEmptyOrContains(container, FluidRegistry.getFluidName(resource.getFluid()))) {
+				return 0;
 			}
-			resource.writeToNBT(tag);
-			container.setTagCompound(tag);
 		}
-		return maxCapacity;
+		return resource.amount;
 	}
 
 	@Override
 	public FluidStack drain(ItemStack container, int maxDrain, boolean doDrain) {
-		// can only drain everything at once
-		if (maxDrain < maxCapacity) {
+		if (maxDrain % FluidContainerRegistry.BUCKET_VOLUME != 0 || maxDrain > maxCapacity) {
 			return null;
 		}
 
 		FluidStack fluidStack = getFluid(container);
 		if (doDrain && fluidStack != null) {
-			if (empty != null) {
-				container.setItem(empty.getItem());
+			int amount = NBTHelper.getInt(container, "Amount");
+			NBTHelper.setInteger(container, "Amount", amount - FluidContainerRegistry.BUCKET_VOLUME);
+
+			if (NBTHelper.getInt(container, "Amount") <= 0) {
 				container.setTagCompound(empty.getTagCompound());
-				container.setItemDamage(empty.getItemDamage());
-			} else {
-				container.stackSize = 0;
 			}
 		}
 
