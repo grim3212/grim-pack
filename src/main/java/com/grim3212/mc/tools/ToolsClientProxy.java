@@ -4,6 +4,7 @@ import com.grim3212.mc.core.client.RenderHelper;
 import com.grim3212.mc.core.proxy.ClientProxy;
 import com.grim3212.mc.tools.blocks.ToolsBlocks;
 import com.grim3212.mc.tools.client.entity.RenderBallisticKnife.BallisticKnifeFactory;
+import com.grim3212.mc.tools.client.event.ModelEvent;
 import com.grim3212.mc.tools.client.model.BetterBucketModel;
 import com.grim3212.mc.tools.entity.EntityBallisticKnife;
 import com.grim3212.mc.tools.items.ToolsItems;
@@ -16,12 +17,17 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.client.model.ModelLoaderRegistry;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 
 public class ToolsClientProxy extends ClientProxy {
 
 	@Override
 	public void registerModels() {
+		MinecraftForge.EVENT_BUS.register(new ModelEvent());
+
+		RenderHelper.registerExtraModels(ToolsItems.wooden_bucket, "overlay_fire", "overlay_milk");
+
 		// Register custom model
 		ModelLoaderRegistry.registerLoader(BetterBucketModel.LoaderDynBucket.instance);
 
@@ -50,17 +56,17 @@ public class ToolsClientProxy extends ClientProxy {
 		RenderHelper.renderItem(ToolsItems.black_diamond_shovel);
 		RenderHelper.renderItem(ToolsItems.black_diamond_pickaxe);
 
-		setBucketModelDefinition(ToolsItems.wooden_bucket);
-		setBucketModelDefinition(ToolsItems.stone_bucket);
-		setBucketModelDefinition(ToolsItems.golden_bucket);
-		setBucketModelDefinition(ToolsItems.diamond_bucket);
-		setBucketModelDefinition(ToolsItems.obsidian_bucket);
+		setBucketModelDefinition(ToolsItems.wooden_bucket, false);
+		setBucketModelDefinition(ToolsItems.stone_bucket, false);
+		setBucketModelDefinition(ToolsItems.golden_bucket, false);
+		setBucketModelDefinition(ToolsItems.diamond_bucket, false);
+		setBucketModelDefinition(ToolsItems.obsidian_bucket, true);
 
 		// ENTITYS
 		RenderingRegistry.registerEntityRenderingHandler(EntityBallisticKnife.class, new BallisticKnifeFactory());
 	}
 
-	public void setBucketModelDefinition(Item item) {
+	public void setBucketModelDefinition(Item item, boolean pickupFire) {
 		final ModelResourceLocation LOCATION = new ModelResourceLocation(new ResourceLocation(GrimTools.modID, item.getUnlocalizedName().substring(5)), "inventory");
 
 		ModelLoader.setCustomMeshDefinition(item, new ItemMeshDefinition() {

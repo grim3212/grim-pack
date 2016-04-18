@@ -15,9 +15,12 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Maps;
+import com.grim3212.mc.core.client.RenderHelper;
+import com.grim3212.mc.core.util.NBTHelper;
 import com.grim3212.mc.tools.GrimTools;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.BlockModelShapes;
 import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.block.model.ItemCameraTransforms;
 import net.minecraft.client.renderer.block.model.ItemCameraTransforms.TransformType;
@@ -25,6 +28,7 @@ import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.vertex.VertexFormat;
 import net.minecraft.client.resources.IResourceManager;
 import net.minecraft.client.resources.model.IBakedModel;
+import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
@@ -98,7 +102,6 @@ public class BetterBucketModel implements IModel, IModelCustomData<BetterBucketM
 
 	@Override
 	public IFlexibleBakedModel bake(IModelState state, VertexFormat format, Function<ResourceLocation, TextureAtlasSprite> bakedTextureGetter) {
-
 		ImmutableMap<TransformType, TRSRTransformation> transformMap = IPerspectiveAwareModel.MapWrapper.getTransforms(state);
 
 		// if the fluid is a gas wi manipulate the initial state to be rotated
@@ -120,12 +123,14 @@ public class BetterBucketModel implements IModel, IModelCustomData<BetterBucketM
 			IFlexibleBakedModel model = (new ItemLayerModel(ImmutableList.of(baseLocation))).bake(state, format, bakedTextureGetter);
 			builder.addAll(model.getGeneralQuads());
 		}
+
 		if (liquidLocation != null && fluidSprite != null) {
 			TextureAtlasSprite liquid = bakedTextureGetter.apply(liquidLocation);
 			// build liquid layer (inside)
 			builder.addAll(ItemTextureQuadConverter.convertTexture(format, transform, liquid, fluidSprite, NORTH_Z_FLUID, EnumFacing.NORTH, fluid.getColor()));
 			builder.addAll(ItemTextureQuadConverter.convertTexture(format, transform, liquid, fluidSprite, SOUTH_Z_FLUID, EnumFacing.SOUTH, fluid.getColor()));
 		}
+
 		if (coverLocation != null) {
 			// cover (the actual item around the other two)
 			TextureAtlasSprite base = bakedTextureGetter.apply(coverLocation);
@@ -133,7 +138,7 @@ public class BetterBucketModel implements IModel, IModelCustomData<BetterBucketM
 			builder.add(ItemTextureQuadConverter.genQuad(format, transform, 0, 0, 16, 16, SOUTH_Z_BASE, base, EnumFacing.SOUTH, 0xffffffff));
 		}
 
-		return new BakedBetterBucket(this, builder.build(), fluidSprite, format, Maps.immutableEnumMap(transformMap), Maps.<String, IFlexibleBakedModel> newHashMap());
+		return new BakedBetterBucket(this, builder.build(), fluidSprite, format, Maps.immutableEnumMap(transformMap), Maps.<String, IBakedModel> newHashMap());
 	}
 
 	@Override
@@ -219,14 +224,10 @@ public class BetterBucketModel implements IModel, IModelCustomData<BetterBucketM
 	protected static class BakedBetterBucket extends ItemLayerModel.BakedModel implements ISmartItemModel, IPerspectiveAwareModel {
 
 		private final BetterBucketModel parent;
-		private final Map<String, IFlexibleBakedModel> cache; // contains all
-																// the baked
-																// models since
-																// they'll never
-																// change
+		private final Map<String, IBakedModel> cache;
 		private final ImmutableMap<TransformType, TRSRTransformation> transforms;
 
-		public BakedBetterBucket(BetterBucketModel parent, ImmutableList<BakedQuad> quads, TextureAtlasSprite particle, VertexFormat format, ImmutableMap<ItemCameraTransforms.TransformType, TRSRTransformation> transforms, Map<String, IFlexibleBakedModel> cache) {
+		public BakedBetterBucket(BetterBucketModel parent, ImmutableList<BakedQuad> quads, TextureAtlasSprite particle, VertexFormat format, ImmutableMap<ItemCameraTransforms.TransformType, TRSRTransformation> transforms, Map<String, IBakedModel> cache) {
 			super(quads, particle, format);
 			this.parent = parent;
 			this.transforms = transforms;
@@ -244,6 +245,16 @@ public class BetterBucketModel implements IModel, IModelCustomData<BetterBucketM
 
 			// not a fluid item apparently
 			if (fluidStack == null) {
+				if (NBTHelper.getString(stack, "FluidName").equals("fire") || NBTHelper.getString(stack, "FluidName").equals("milk")) {
+					String name = NBTHelper.getString(stack, "FluidName");
+					if (!cache.containsKey(name)) {
+						BlockModelShapes blockModel = Minecraft.getMinecraft().getBlockRendererDispatcher().getBlockModelShapes();
+						IBakedModel bakedModel = RenderHelper.mergeModels(this, blockModel.getModelManager().getModel(new ModelResourceLocation("grimtools:overlay_" + name, "inventory")));
+						cache.put(name, bakedModel);
+						return bakedModel;
+					}
+				}
+
 				// empty bucket
 				return this;
 			}
