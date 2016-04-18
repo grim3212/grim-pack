@@ -41,6 +41,7 @@ public class ItemBetterBucket extends Item implements IFluidContainerItem {
 	public final float maxPickupTemp;
 	public final boolean pickupFire;
 	public final int milkingLevel;
+	private boolean milkPause = false;
 
 	public static List<String> extraPickups = new ArrayList<String>();
 
@@ -139,6 +140,10 @@ public class ItemBetterBucket extends Item implements IFluidContainerItem {
 		return unloc.replaceFirst("\\s", " " + fluidStack.getLocalizedName() + " ");
 	}
 
+	public void pauseForMilk() {
+		milkPause = true;
+	}
+
 	/**
 	 * Called whenever this item is equipped and the right mouse button is
 	 * pressed. Args: itemStack, world, entityPlayer
@@ -146,6 +151,11 @@ public class ItemBetterBucket extends Item implements IFluidContainerItem {
 	@Override
 	public ItemStack onItemRightClick(ItemStack itemstack, World world, EntityPlayer player) {
 		boolean canContainMore = NBTHelper.getInt(itemstack, "Amount") < maxCapacity;
+
+		if (milkPause) {
+			milkPause = false;
+			return itemstack;
+		}
 
 		// clicked on a block?
 		MovingObjectPosition mop = this.getMovingObjectPositionFromPlayer(world, player, canContainMore);
@@ -246,13 +256,19 @@ public class ItemBetterBucket extends Item implements IFluidContainerItem {
 
 			if (world.isBlockModifiable(player, clickPos)) {
 
+				mop = this.getMovingObjectPositionFromPlayer(world, player, false);
+				// Null check
+				if (mop == null) {
+					return itemstack;
+				}
+
+				BlockPos targetPos = mop.getBlockPos().offset(mop.sideHit);
+
 				if (NBTHelper.getString(itemstack, "FluidName").equals("milk")) {
 					player.setItemInUse(itemstack, this.getMaxItemUseDuration(itemstack));
 					return itemstack;
 				} else {
 
-					// the block adjacent to the side we clicked on
-					BlockPos targetPos = clickPos.offset(mop.sideHit);
 					// can the player place there?
 					if (player.canPlayerEdit(targetPos, mop.sideHit, itemstack)) {
 						int amount = NBTHelper.getInt(itemstack, "Amount");

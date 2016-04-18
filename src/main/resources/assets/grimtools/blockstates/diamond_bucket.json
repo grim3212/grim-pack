@@ -1,0 +1,18 @@
+{
+  "forge_marker": 1,
+  "variants": {
+    "inventory": {
+      "model": "forge:forgebucket",
+      "textures": {
+        "base": "grimtools:items/diamond_bucket",
+        "fluid": "grimtools:items/bucket_fluid",
+        "cover": "grimtools:items/diamond_bucket_covered"
+      },
+      "transform": "forge:default-item",
+      "custom": {
+        "fluid": "water",
+        "flipGas": true
+      }
+    }
+  }
+}
