@@ -15,12 +15,10 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Maps;
-import com.grim3212.mc.core.client.RenderHelper;
 import com.grim3212.mc.core.util.NBTHelper;
 import com.grim3212.mc.tools.GrimTools;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.BlockModelShapes;
 import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.block.model.ItemCameraTransforms;
 import net.minecraft.client.renderer.block.model.ItemCameraTransforms.TransformType;
@@ -28,7 +26,6 @@ import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.vertex.VertexFormat;
 import net.minecraft.client.resources.IResourceManager;
 import net.minecraft.client.resources.model.IBakedModel;
-import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
@@ -66,20 +63,24 @@ public class BetterBucketModel implements IModel, IModelCustomData<BetterBucketM
 	protected final ResourceLocation baseLocation;
 	protected final ResourceLocation liquidLocation;
 	protected final ResourceLocation coverLocation;
+	protected final static ResourceLocation overlayMilkLocation = new ResourceLocation(GrimTools.modID, "items/overlay_milk");
+	protected final static ResourceLocation overlayFireLocation = new ResourceLocation(GrimTools.modID, "items/overlay_fire");
 
 	protected final Fluid fluid;
 	protected final boolean flipGas;
+	protected final String customName;
 
 	public BetterBucketModel() {
-		this(null, null, null, null, false);
+		this(null, null, null, null, false, "");
 	}
 
-	public BetterBucketModel(ResourceLocation baseLocation, ResourceLocation liquidLocation, ResourceLocation coverLocation, Fluid fluid, boolean flipGas) {
+	public BetterBucketModel(ResourceLocation baseLocation, ResourceLocation liquidLocation, ResourceLocation coverLocation, Fluid fluid, boolean flipGas, String customName) {
 		this.baseLocation = baseLocation;
 		this.liquidLocation = liquidLocation;
 		this.coverLocation = coverLocation;
 		this.fluid = fluid;
 		this.flipGas = flipGas;
+		this.customName = customName;
 	}
 
 	@Override
@@ -97,8 +98,8 @@ public class BetterBucketModel implements IModel, IModelCustomData<BetterBucketM
 		if (coverLocation != null)
 			builder.add(coverLocation);
 
-		builder.add(new ResourceLocation(GrimTools.modID, "textures/blocks/overlay_fire"));
-		builder.add(new ResourceLocation(GrimTools.modID, "textures/blocks/overlay_milk"));
+		builder.add(overlayMilkLocation);
+		builder.add(overlayFireLocation);
 
 		return builder.build();
 	}
@@ -127,18 +128,30 @@ public class BetterBucketModel implements IModel, IModelCustomData<BetterBucketM
 			builder.addAll(model.getGeneralQuads());
 		}
 
-		if (liquidLocation != null && fluidSprite != null) {
-			TextureAtlasSprite liquid = bakedTextureGetter.apply(liquidLocation);
-			// build liquid layer (inside)
-			builder.addAll(ItemTextureQuadConverter.convertTexture(format, transform, liquid, fluidSprite, NORTH_Z_FLUID, EnumFacing.NORTH, fluid.getColor()));
-			builder.addAll(ItemTextureQuadConverter.convertTexture(format, transform, liquid, fluidSprite, SOUTH_Z_FLUID, EnumFacing.SOUTH, fluid.getColor()));
-		}
+		if (customName.isEmpty()) {
+			if (liquidLocation != null && fluidSprite != null) {
+				TextureAtlasSprite liquid = bakedTextureGetter.apply(liquidLocation);
+				// build liquid layer (inside)
+				builder.addAll(ItemTextureQuadConverter.convertTexture(format, transform, liquid, fluidSprite, NORTH_Z_FLUID, EnumFacing.NORTH, fluid.getColor()));
+				builder.addAll(ItemTextureQuadConverter.convertTexture(format, transform, liquid, fluidSprite, SOUTH_Z_FLUID, EnumFacing.SOUTH, fluid.getColor()));
+			}
 
-		if (coverLocation != null) {
-			// cover (the actual item around the other two)
-			TextureAtlasSprite base = bakedTextureGetter.apply(coverLocation);
-			builder.add(ItemTextureQuadConverter.genQuad(format, transform, 0, 0, 16, 16, NORTH_Z_BASE, base, EnumFacing.NORTH, 0xffffffff));
-			builder.add(ItemTextureQuadConverter.genQuad(format, transform, 0, 0, 16, 16, SOUTH_Z_BASE, base, EnumFacing.SOUTH, 0xffffffff));
+			if (coverLocation != null) {
+				// cover (the actual item around the other two)
+				TextureAtlasSprite base = bakedTextureGetter.apply(coverLocation);
+				builder.add(ItemTextureQuadConverter.genQuad(format, transform, 0, 0, 16, 16, NORTH_Z_BASE, base, EnumFacing.NORTH, 0xffffffff));
+				builder.add(ItemTextureQuadConverter.genQuad(format, transform, 0, 0, 16, 16, SOUTH_Z_BASE, base, EnumFacing.SOUTH, 0xffffffff));
+			}
+		} else {
+			if (customName.equals("fire")) {
+				TextureAtlasSprite base = bakedTextureGetter.apply(overlayFireLocation);
+				builder.add(ItemTextureQuadConverter.genQuad(format, transform, 0, 0, 16, 16, NORTH_Z_BASE, base, EnumFacing.NORTH, 0xffffffff));
+				builder.add(ItemTextureQuadConverter.genQuad(format, transform, 0, 0, 16, 16, SOUTH_Z_BASE, base, EnumFacing.SOUTH, 0xffffffff));
+			} else if (customName.equals("milk")) {
+				TextureAtlasSprite base = bakedTextureGetter.apply(overlayMilkLocation);
+				builder.add(ItemTextureQuadConverter.genQuad(format, transform, 0, 0, 16, 16, NORTH_Z_BASE, base, EnumFacing.NORTH, 0xffffffff));
+				builder.add(ItemTextureQuadConverter.genQuad(format, transform, 0, 0, 16, 16, SOUTH_Z_BASE, base, EnumFacing.SOUTH, 0xffffffff));
+			}
 		}
 
 		return new BakedBetterBucket(this, builder.build(), fluidSprite, format, Maps.immutableEnumMap(transformMap), Maps.<String, IBakedModel> newHashMap());
@@ -159,10 +172,15 @@ public class BetterBucketModel implements IModel, IModelCustomData<BetterBucketM
 	@Override
 	public IModel process(ImmutableMap<String, String> customData) {
 		String fluidName = customData.get("fluid");
+		String custom = "";
 		Fluid fluid = FluidRegistry.getFluid(fluidName);
 
-		if (fluid == null)
+		if (fluid == null) {
 			fluid = this.fluid;
+
+			if (fluidName.equals("milk") || fluidName.equals("fire"))
+				custom = fluidName;
+		}
 
 		boolean flip = flipGas;
 		if (customData.containsKey("flipGas")) {
@@ -176,7 +194,7 @@ public class BetterBucketModel implements IModel, IModelCustomData<BetterBucketM
 		}
 
 		// create new model with correct liquid
-		return new BetterBucketModel(baseLocation, liquidLocation, coverLocation, fluid, flip);
+		return new BetterBucketModel(baseLocation, liquidLocation, coverLocation, fluid, flip, custom);
 	}
 
 	/**
@@ -189,7 +207,6 @@ public class BetterBucketModel implements IModel, IModelCustomData<BetterBucketM
 	 */
 	@Override
 	public IModel retexture(ImmutableMap<String, String> textures) {
-
 		ResourceLocation base = baseLocation;
 		ResourceLocation liquid = liquidLocation;
 		ResourceLocation cover = coverLocation;
@@ -201,7 +218,7 @@ public class BetterBucketModel implements IModel, IModelCustomData<BetterBucketM
 		if (textures.containsKey("cover"))
 			cover = new ResourceLocation(textures.get("cover"));
 
-		return new BetterBucketModel(base, liquid, cover, fluid, flipGas);
+		return new BetterBucketModel(base, liquid, cover, fluid, flipGas, customName);
 	}
 
 	public enum LoaderDynBucket implements ICustomModelLoader {
@@ -251,35 +268,43 @@ public class BetterBucketModel implements IModel, IModelCustomData<BetterBucketM
 				if (NBTHelper.getString(stack, "FluidName").equals("fire") || NBTHelper.getString(stack, "FluidName").equals("milk")) {
 					String name = NBTHelper.getString(stack, "FluidName");
 					if (!cache.containsKey(name)) {
-						BlockModelShapes blockModel = Minecraft.getMinecraft().getBlockRendererDispatcher().getBlockModelShapes();
-						IBakedModel bakedModel = RenderHelper.mergeModels(this, blockModel.getModelManager().getModel(new ModelResourceLocation("grimtools:overlay_" + name, "inventory")));
+						IModel model = parent.process(ImmutableMap.of("fluid", name));
+						Function<ResourceLocation, TextureAtlasSprite> textureGetter;
+						textureGetter = new Function<ResourceLocation, TextureAtlasSprite>() {
+							public TextureAtlasSprite apply(ResourceLocation location) {
+								return Minecraft.getMinecraft().getTextureMapBlocks().getAtlasSprite(location.toString());
+							}
+						};
+
+						IFlexibleBakedModel bakedModel = model.bake(new SimpleModelState(transforms), this.getFormat(), textureGetter);
 						cache.put(name, bakedModel);
 						return bakedModel;
 					}
+				} else {
+					// empty bucket
+					return this;
 				}
+			} else {
 
-				// empty bucket
-				return this;
+				Fluid fluid = fluidStack.getFluid();
+				String name = fluid.getName();
+
+				if (!cache.containsKey(name)) {
+					IModel model = parent.process(ImmutableMap.of("fluid", name));
+					Function<ResourceLocation, TextureAtlasSprite> textureGetter;
+					textureGetter = new Function<ResourceLocation, TextureAtlasSprite>() {
+						public TextureAtlasSprite apply(ResourceLocation location) {
+							return Minecraft.getMinecraft().getTextureMapBlocks().getAtlasSprite(location.toString());
+						}
+					};
+
+					IFlexibleBakedModel bakedModel = model.bake(new SimpleModelState(transforms), this.getFormat(), textureGetter);
+					cache.put(name, bakedModel);
+					return bakedModel;
+				}
 			}
 
-			Fluid fluid = fluidStack.getFluid();
-			String name = fluid.getName();
-
-			if (!cache.containsKey(name)) {
-				IModel model = parent.process(ImmutableMap.of("fluid", name));
-				Function<ResourceLocation, TextureAtlasSprite> textureGetter;
-				textureGetter = new Function<ResourceLocation, TextureAtlasSprite>() {
-					public TextureAtlasSprite apply(ResourceLocation location) {
-						return Minecraft.getMinecraft().getTextureMapBlocks().getAtlasSprite(location.toString());
-					}
-				};
-
-				IFlexibleBakedModel bakedModel = model.bake(new SimpleModelState(transforms), this.getFormat(), textureGetter);
-				cache.put(name, bakedModel);
-				return bakedModel;
-			}
-
-			return cache.get(name);
+			return cache.get(NBTHelper.getString(stack, "FluidName"));
 		}
 
 		@Override

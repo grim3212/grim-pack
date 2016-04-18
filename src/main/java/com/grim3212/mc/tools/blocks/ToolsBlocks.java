@@ -9,7 +9,6 @@ import com.grim3212.mc.tools.items.ToolsItems;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraftforge.fml.common.registry.GameRegistry;
@@ -35,7 +34,7 @@ public class ToolsBlocks implements IPartItems {
 	public void addRecipes() {
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(black_diamond_block, 1), new Object[] { "###", "###", "###", '#', ToolsItems.black_diamond }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ToolsItems.black_diamond, 9), new Object[] { "#", '#', black_diamond_block }));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ToolsItems.black_diamond, 1), new Object[] { " X ", "X#X", " X ", 'X', Blocks.obsidian, '#', "gemDiamond" }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ToolsItems.black_diamond, 1), new Object[] { " X ", "X#X", " X ", 'X', "obsidian", '#', "gemDiamond" }));
 		black = RecipeHelper.getLatestIRecipes(3);
 
 		GameRegistry.addSmelting(black_diamond_ore, new ItemStack(ToolsItems.black_diamond, 1), 1.0F);

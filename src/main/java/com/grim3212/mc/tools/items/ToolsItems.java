@@ -6,6 +6,7 @@ import com.grim3212.mc.core.part.IPartItems;
 import com.grim3212.mc.core.util.RecipeHelper;
 import com.grim3212.mc.tools.GrimTools;
 import com.grim3212.mc.tools.util.BackpackRecipeHandler;
+import com.grim3212.mc.tools.util.BucketRecipeHandler;
 
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -76,8 +77,8 @@ public class ToolsItems implements IPartItems {
 		black_diamond_axe = (new AxeItem(blackdiamond)).setUnlocalizedName("black_diamond_axe").setCreativeTab(GrimTools.INSTANCE.getCreativeTab());
 		black_diamond_shovel = (new ItemSpade(blackdiamond)).setUnlocalizedName("black_diamond_shovel").setCreativeTab(GrimTools.INSTANCE.getCreativeTab());
 		black_diamond_pickaxe = (new PickaxeItem(blackdiamond)).setUnlocalizedName("black_diamond_pickaxe").setCreativeTab(GrimTools.INSTANCE.getCreativeTab());
-		wooden_bucket = new ItemBetterBucket(1, 0, 1000f).setUnlocalizedName("wooden_bucket").setCreativeTab(GrimTools.INSTANCE.getCreativeTab());
-		stone_bucket = new ItemBetterBucket(1, 0).setUnlocalizedName("stone_bucket").setCreativeTab(GrimTools.INSTANCE.getCreativeTab());
+		wooden_bucket = new ItemBetterBucket(1, 0, 1000f, new ItemStack(Items.stick, 3)).setUnlocalizedName("wooden_bucket").setCreativeTab(GrimTools.INSTANCE.getCreativeTab());
+		stone_bucket = new ItemBetterBucket(1, 0, new ItemStack(Blocks.cobblestone, 3)).setUnlocalizedName("stone_bucket").setCreativeTab(GrimTools.INSTANCE.getCreativeTab());
 		golden_bucket = new ItemBetterBucket(4, 0).setUnlocalizedName("golden_bucket").setCreativeTab(GrimTools.INSTANCE.getCreativeTab());
 		diamond_bucket = new ItemBetterBucket(16, 1).setUnlocalizedName("diamond_bucket").setCreativeTab(GrimTools.INSTANCE.getCreativeTab());
 		obsidian_bucket = new ItemBetterBucket(32, 2, true).setUnlocalizedName("obsidian_bucket").setCreativeTab(GrimTools.INSTANCE.getCreativeTab());
@@ -106,12 +107,6 @@ public class ToolsItems implements IPartItems {
 		GameRegistry.registerItem(black_diamond_shovel, "black_diamond_shovel");
 		GameRegistry.registerItem(black_diamond_pickaxe, "black_diamond_pickaxe");
 		GameRegistry.registerItem(black_diamond, "black_diamond");
-
-		// MinecraftForge.EVENT_BUS.register(wooden_bucket);
-		// MinecraftForge.EVENT_BUS.register(stone_bucket);
-		// MinecraftForge.EVENT_BUS.register(golden_bucket);
-		// MinecraftForge.EVENT_BUS.register(diamond_bucket);
-		// MinecraftForge.EVENT_BUS.register(obsidian_bucket);
 	}
 
 	public static List<IRecipe> blackTools;
@@ -119,15 +114,17 @@ public class ToolsItems implements IPartItems {
 
 	@Override
 	public void addRecipes() {
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(backpack, 1), new Object[] { "LLS", "LIS", "LLL", 'L', Items.leather, 'S', Items.string, 'I', "ingotIron" }));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(portable_workbench, 1), new Object[] { "III", "IWI", "III", 'W', Blocks.crafting_table, 'I', "ingotIron" }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(backpack, 1), new Object[] { "LLS", "LIS", "LLL", 'L', "leather", 'S', "string", 'I', "ingotIron" }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(portable_workbench, 1), new Object[] { "III", "IWI", "III", 'W', "workbench", 'I', "ingotIron" }));
 
 		CraftingManager.getInstance().getRecipeList().add(new BackpackRecipeHandler());
 		RecipeSorter.register("Backpack_Recipes", BackpackRecipeHandler.class, Category.SHAPELESS, "after:grim3212core");
+		CraftingManager.getInstance().getRecipeList().add(new BucketRecipeHandler());
+		RecipeSorter.register("Milk_Bucket_Recipes", BucketRecipeHandler.class, Category.SHAPED, "after:grim3212core");
 
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ammo_part, 1), new Object[] { "#  ", " # ", "  !", '#', "ingotIron", '!', rod_part }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(casing_part, 1), new Object[] { "# ", " #", '#', Items.flint }));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(spring_part, 1), new Object[] { "#  ", " ! ", "  #", '#', "ingotIron", '!', Items.string }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(spring_part, 1), new Object[] { "#  ", " ! ", "  #", '#', "ingotIron", '!', "string" }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(button_part, 1), new Object[] { " # ", "#!#", " # ", '#', "dustRedstone", '!', Blocks.stone_button }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(unloaded_knife, 1), new Object[] { " #", "! ", " @", '#', button_part, '!', spring_part, '@', casing_part }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(rod_part, 1), new Object[] { "#", "#", '#', "ingotIron" }));
@@ -144,6 +141,12 @@ public class ToolsItems implements IPartItems {
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(black_diamond_leggings, 1), new Object[] { "###", "# #", "# #", '#', black_diamond }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(black_diamond_boots, 1), new Object[] { "# #", "# #", '#', black_diamond }));
 		blackArmor = RecipeHelper.getLatestIRecipes(4);
+
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(wooden_bucket, 1), new Object[] { "# #", " # ", '#', "plankWood" }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(stone_bucket, 1), new Object[] { "# #", " # ", '#', "stone" }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(golden_bucket, 1), new Object[] { "# #", " # ", '#', "ingotGold" }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(diamond_bucket, 1), new Object[] { "# #", " # ", '#', "gemDiamond" }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(obsidian_bucket, 1), new Object[] { "# #", " # ", '#', "obsidian" }));
 	}
 
 }

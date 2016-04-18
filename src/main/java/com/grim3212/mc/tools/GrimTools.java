@@ -12,8 +12,8 @@ import com.grim3212.mc.tools.blocks.ToolsBlocks;
 import com.grim3212.mc.tools.client.gui.ToolsGuiHandler;
 import com.grim3212.mc.tools.config.ToolsConfig;
 import com.grim3212.mc.tools.entity.ToolsEntities;
+import com.grim3212.mc.tools.event.MilkingEvent;
 import com.grim3212.mc.tools.items.ToolsItems;
-import com.grim3212.mc.tools.util.MilkingEvent;
 import com.grim3212.mc.tools.world.ToolsGenerate;
 
 import net.minecraft.item.Item;

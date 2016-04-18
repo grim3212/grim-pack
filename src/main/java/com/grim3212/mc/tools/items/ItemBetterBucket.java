@@ -42,6 +42,7 @@ public class ItemBetterBucket extends Item implements IFluidContainerItem {
 	public final boolean pickupFire;
 	public final int milkingLevel;
 	private boolean milkPause = false;
+	private ItemStack onBroken = null;
 
 	public static List<String> extraPickups = new ArrayList<String>();
 
@@ -52,11 +53,16 @@ public class ItemBetterBucket extends Item implements IFluidContainerItem {
 	}
 
 	public ItemBetterBucket(int maxCapacity, int milkingLevel) {
-		this(maxCapacity, milkingLevel, 5000f);
+		this(maxCapacity, milkingLevel, 5000f, null);
 	}
 
-	public ItemBetterBucket(int maxCapacity, int milkingLevel, float maxPickupTemp) {
+	public ItemBetterBucket(int maxCapacity, int milkingLevel, ItemStack stack) {
+		this(maxCapacity, milkingLevel, 5000f, stack);
+	}
+
+	public ItemBetterBucket(int maxCapacity, int milkingLevel, float maxPickupTemp, ItemStack stack) {
 		this(maxCapacity, milkingLevel, maxPickupTemp, false);
+		setOnBroken(stack);
 	}
 
 	public ItemBetterBucket(int maxCapacity, int milkingLevel, boolean pickupFire) {
@@ -75,6 +81,11 @@ public class ItemBetterBucket extends Item implements IFluidContainerItem {
 		this.maxPickupTemp = maxPickupTemp;
 		this.pickupFire = pickupFire;
 		this.milkingLevel = milkingLevel;
+	}
+
+	public Item setOnBroken(ItemStack onBroken) {
+		this.onBroken = onBroken;
+		return this;
 	}
 
 	@Override
@@ -177,20 +188,23 @@ public class ItemBetterBucket extends Item implements IFluidContainerItem {
 						FluidStack drained = fluidBlock.drain(world, clickPos, false);
 						// check if it fits exactly
 						if (drained != null && drained.amount % FluidContainerRegistry.BUCKET_VOLUME == 0) {
-							// check if the container accepts it
-							ItemStack filledBucket = new ItemStack(this);
-							int filled = this.fill(filledBucket, drained, false);
-							if (filled == drained.amount) {
-								// actually transfer the fluid
-								drained = fluidBlock.drain(world, clickPos, true);
+							// Check to make sure the temperature isn't too hot
+							if (this.maxPickupTemp >= drained.getFluid().getTemperature()) {
+								// check if the container accepts it
+								ItemStack filledBucket = new ItemStack(this);
+								int filled = this.fill(filledBucket, drained, false);
+								if (filled == drained.amount) {
+									// actually transfer the fluid
+									drained = fluidBlock.drain(world, clickPos, true);
 
-								if (player.capabilities.isCreativeMode) {
-									return itemstack;
+									if (player.capabilities.isCreativeMode) {
+										return itemstack;
+									}
+
+									this.fill(filledBucket, drained, true);
+
+									return filledBucket;
 								}
-
-								this.fill(filledBucket, drained, true);
-
-								return filledBucket;
 							}
 						}
 					}
@@ -205,34 +219,38 @@ public class ItemBetterBucket extends Item implements IFluidContainerItem {
 
 					Material material = state.getBlock().getMaterial();
 					if (material == Material.water && ((Integer) state.getValue(BlockLiquid.LEVEL)).intValue() == 0) {
-						world.setBlockToAir(clickPos);
-						player.triggerAchievement(StatList.objectUseStats[Item.getIdFromItem(this)]);
+						if (this.maxPickupTemp >= FluidRegistry.WATER.getTemperature()) {
+							world.setBlockToAir(clickPos);
+							player.triggerAchievement(StatList.objectUseStats[Item.getIdFromItem(this)]);
 
-						if (player.capabilities.isCreativeMode) {
-							return itemstack;
-						}
+							if (player.capabilities.isCreativeMode) {
+								return itemstack;
+							}
 
-						FluidStack fluidStack = new FluidStack(FluidRegistry.WATER, FluidContainerRegistry.BUCKET_VOLUME);
+							FluidStack fluidStack = new FluidStack(FluidRegistry.WATER, FluidContainerRegistry.BUCKET_VOLUME);
 
-						if (this.fill(itemstack, fluidStack, false) == fluidStack.amount) {
-							this.fill(itemstack, fluidStack, true);
-							return itemstack;
+							if (this.fill(itemstack, fluidStack, false) == fluidStack.amount) {
+								this.fill(itemstack, fluidStack, true);
+								return itemstack;
+							}
 						}
 					}
 
 					if (material == Material.lava && ((Integer) state.getValue(BlockLiquid.LEVEL)).intValue() == 0) {
-						world.setBlockToAir(clickPos);
-						player.triggerAchievement(StatList.objectUseStats[Item.getIdFromItem(this)]);
+						if (this.maxPickupTemp >= FluidRegistry.LAVA.getTemperature()) {
+							world.setBlockToAir(clickPos);
+							player.triggerAchievement(StatList.objectUseStats[Item.getIdFromItem(this)]);
 
-						if (player.capabilities.isCreativeMode) {
-							return itemstack;
-						}
+							if (player.capabilities.isCreativeMode) {
+								return itemstack;
+							}
 
-						FluidStack fluidStack = new FluidStack(FluidRegistry.LAVA, FluidContainerRegistry.BUCKET_VOLUME);
+							FluidStack fluidStack = new FluidStack(FluidRegistry.LAVA, FluidContainerRegistry.BUCKET_VOLUME);
 
-						if (this.fill(itemstack, fluidStack, false) == fluidStack.amount) {
-							this.fill(itemstack, fluidStack, true);
-							return itemstack;
+							if (this.fill(itemstack, fluidStack, false) == fluidStack.amount) {
+								this.fill(itemstack, fluidStack, true);
+								return itemstack;
+							}
 						}
 					}
 
@@ -280,30 +298,20 @@ public class ItemBetterBucket extends Item implements IFluidContainerItem {
 								if (this.tryPlaceFluid(fluidStack.getFluid().getBlock(), world, targetPos) && !player.capabilities.isCreativeMode) {
 									// success!
 									player.triggerAchievement(StatList.objectUseStats[Item.getIdFromItem(this)]);
-
 									NBTHelper.setInteger(itemstack, "Amount", amount - FluidContainerRegistry.BUCKET_VOLUME);
 
-									// check whether we replace the item or add
-									// the
-									// empty
-									// one to the inventory
 									if ((amount - FluidContainerRegistry.BUCKET_VOLUME) <= 0) {
-										return empty.copy();
+										return tryBreakBucket();
 									}
 								}
 							} else if (NBTHelper.getString(itemstack, "FluidName").equals("fire")) {
 								if (this.tryPlaceFluid(Blocks.fire, world, targetPos) && !player.capabilities.isCreativeMode) {
 									// success!
 									player.triggerAchievement(StatList.objectUseStats[Item.getIdFromItem(this)]);
-
 									NBTHelper.setInteger(itemstack, "Amount", amount - FluidContainerRegistry.BUCKET_VOLUME);
 
-									// check whether we replace the item or add
-									// the
-									// empty
-									// one to the inventory
 									if ((amount - FluidContainerRegistry.BUCKET_VOLUME) <= 0) {
-										return empty.copy();
+										return tryBreakBucket();
 									}
 								}
 							}
@@ -314,6 +322,14 @@ public class ItemBetterBucket extends Item implements IFluidContainerItem {
 		}
 		// couldn't place liquid there2
 		return itemstack;
+	}
+
+	public ItemStack tryBreakBucket() {
+		if (this.onBroken != null) {
+			return this.onBroken.copy();
+		} else {
+			return this.empty.copy();
+		}
 	}
 
 	/**
@@ -367,7 +383,6 @@ public class ItemBetterBucket extends Item implements IFluidContainerItem {
 	public ItemStack onItemUseFinish(ItemStack stack, World worldIn, EntityPlayer playerIn) {
 		// Everything in here is only used for milk buckets and what happens
 		// when you are finished drinking them
-
 		if (!playerIn.capabilities.isCreativeMode) {
 			// Set amount and type, if empty
 			int amount = NBTHelper.getInt(stack, "Amount");
@@ -386,7 +401,7 @@ public class ItemBetterBucket extends Item implements IFluidContainerItem {
 
 		// Another check if the amount equals 0
 		if (NBTHelper.getInt(stack, "Amount") <= 0) {
-			return empty.copy();
+			return this.tryBreakBucket();
 		} else {
 			return stack;
 		}
@@ -418,8 +433,8 @@ public class ItemBetterBucket extends Item implements IFluidContainerItem {
 	public ItemStack getContainerItem(ItemStack itemStack) {
 		int amount = NBTHelper.getInt(itemStack, "Amount");
 		NBTHelper.setInteger(itemStack, "Amount", amount - FluidContainerRegistry.BUCKET_VOLUME);
-		if (amount <= 0) {
-			return empty;
+		if (amount - FluidContainerRegistry.BUCKET_VOLUME <= 0) {
+			return this.tryBreakBucket();
 		} else {
 			return itemStack;
 		}

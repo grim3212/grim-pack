@@ -1,4 +1,4 @@
-package com.grim3212.mc.tools.util;
+package com.grim3212.mc.tools.event;
 
 import java.util.ArrayList;
 import java.util.Collections;
