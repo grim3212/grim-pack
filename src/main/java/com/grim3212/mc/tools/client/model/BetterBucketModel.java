@@ -97,6 +97,9 @@ public class BetterBucketModel implements IModel, IModelCustomData<BetterBucketM
 		if (coverLocation != null)
 			builder.add(coverLocation);
 
+		builder.add(new ResourceLocation(GrimTools.modID, "textures/blocks/overlay_fire"));
+		builder.add(new ResourceLocation(GrimTools.modID, "textures/blocks/overlay_milk"));
+
 		return builder.build();
 	}
 
