@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.grim3212.mc.core.util.NBTHelper;
 
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.EnumAction;
@@ -35,13 +36,16 @@ public class ItemBetterMilkBucket extends Item implements IFluidContainerItem {
 	}
 
 	@Override
-	public void addInformation(ItemStack stack, EntityPlayer playerIn, List<String> tooltip, boolean advanced) {
-		tooltip.add(StatCollector.translateToLocal("tooltip.buckets.contains") + ": " + NBTHelper.getInt(stack, "Amount") + "/" + parent.maxCapacity);
+	public void getSubItems(Item itemIn, CreativeTabs tab, List<ItemStack> subItems) {
+		ItemStack stack = new ItemStack(this);
+		NBTHelper.setString(stack, "FluidName", "milk");
+		NBTHelper.setInteger(stack, "Amount", parent.maxCapacity);
+		subItems.add(stack);
 	}
 
 	@Override
-	public String getItemStackDisplayName(ItemStack stack) {
-		return super.getItemStackDisplayName(stack).replaceFirst("\\s", " " + StatCollector.translateToLocal("tile.milk.name") + " ");
+	public void addInformation(ItemStack stack, EntityPlayer playerIn, List<String> tooltip, boolean advanced) {
+		tooltip.add(StatCollector.translateToLocal("tooltip.buckets.contains") + ": " + NBTHelper.getInt(stack, "Amount") + "/" + parent.maxCapacity);
 	}
 
 	@Override

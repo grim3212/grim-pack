@@ -3,9 +3,6 @@ grim.creative.grimtools=Grim Tools
 tooltip.buckets.empty=Empty
 tooltip.buckets.contains=Contains
 
-#Used for bucket display names
-tile.milk.name=Milk
-
 #================= BLOCKS =================#
 tile.black_diamond_ore.name=Black Diamond Ore
 tile.black_diamond_block.name=Black Block of Diamond
@@ -51,6 +48,11 @@ item.stone_bucket.name=Stone Bucket
 item.golden_bucket.name=Golden Bucket
 item.diamond_bucket.name=Diamond Bucket
 item.obsidian_bucket.name=Obsidian Bucket
+item.wooden_milk_bucket.name=Wooden Milk Bucket
+item.stone_milk_bucket.name=Stone Milk Bucket
+item.golden_milk_bucket.name=Golden Milk Bucket
+item.diamond_milk_bucket.name=Diamond Milk Bucket
+item.obsidian_milk_bucket.name=Obsidian Milk Bucket
 
 #================= INSTRUCTION MANUAL =================#
 grim.manual.grimtools.modinfo=Adds a bunch of weapons and useful tools.

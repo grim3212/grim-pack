@@ -29,9 +29,6 @@ import net.minecraftforge.fluids.IFluidContainerItem;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-//TODO: Possibly change this to only work for everything but milk buckets 
-// that way I can oredict milk buckets and be able to replace all recipes that use milk in it
-//to be able to use any of these buckets
 public class ItemBetterBucket extends Item implements IFluidContainerItem {
 
 	public final int maxCapacity;
@@ -39,33 +36,39 @@ public class ItemBetterBucket extends Item implements IFluidContainerItem {
 	public final float maxPickupTemp;
 	public final boolean pickupFire;
 	public final int milkingLevel;
-	public final Item milkBucket;
 	private ItemStack onBroken = null;
+	private boolean milkPause = false;
+	public final BucketType bucketType;
+
+	public enum BucketType {
+		wood, stone, gold, diamond, obsidian
+	}
 
 	public static List<String> extraPickups = new ArrayList<String>();
 
 	static {
 		extraPickups.add("fire");
+		extraPickups.add("milk");
 	}
 
-	public ItemBetterBucket(int maxCapacity, int milkingLevel, Item milkBucket) {
-		this(maxCapacity, milkingLevel, 5000f, null, milkBucket);
+	public ItemBetterBucket(int maxCapacity, int milkingLevel, BucketType bucketType) {
+		this(maxCapacity, milkingLevel, 5000f, null, bucketType);
 	}
 
-	public ItemBetterBucket(int maxCapacity, int milkingLevel, ItemStack stack, Item milkBucket) {
-		this(maxCapacity, milkingLevel, 5000f, stack, milkBucket);
+	public ItemBetterBucket(int maxCapacity, int milkingLevel, ItemStack stack, BucketType bucketType) {
+		this(maxCapacity, milkingLevel, 5000f, stack, bucketType);
 	}
 
-	public ItemBetterBucket(int maxCapacity, int milkingLevel, float maxPickupTemp, ItemStack stack, Item milkBucket) {
-		this(maxCapacity, milkingLevel, maxPickupTemp, false, milkBucket);
+	public ItemBetterBucket(int maxCapacity, int milkingLevel, float maxPickupTemp, ItemStack stack, BucketType bucketType) {
+		this(maxCapacity, milkingLevel, maxPickupTemp, false, bucketType);
 		setOnBroken(stack);
 	}
 
-	public ItemBetterBucket(int maxCapacity, int milkingLevel, boolean pickupFire, Item milkBucket) {
-		this(maxCapacity, milkingLevel, 5000f, pickupFire, milkBucket);
+	public ItemBetterBucket(int maxCapacity, int milkingLevel, boolean pickupFire, BucketType bucketType) {
+		this(maxCapacity, milkingLevel, 5000f, pickupFire, bucketType);
 	}
 
-	public ItemBetterBucket(int maxCapacity, int milkingLevel, float maxPickupTemp, boolean pickupFire, Item milkBucket) {
+	public ItemBetterBucket(int maxCapacity, int milkingLevel, float maxPickupTemp, boolean pickupFire, BucketType bucketType) {
 		this.maxCapacity = FluidContainerRegistry.BUCKET_VOLUME * maxCapacity;
 
 		ItemStack stack = new ItemStack(this);
@@ -77,12 +80,16 @@ public class ItemBetterBucket extends Item implements IFluidContainerItem {
 		this.maxPickupTemp = maxPickupTemp;
 		this.pickupFire = pickupFire;
 		this.milkingLevel = milkingLevel;
-		this.milkBucket = milkBucket;
+		this.bucketType = bucketType;
 	}
 
 	public Item setOnBroken(ItemStack onBroken) {
 		this.onBroken = onBroken;
 		return this;
+	}
+
+	public void pauseForMilk() {
+		milkPause = true;
 	}
 
 	@Override
@@ -117,19 +124,20 @@ public class ItemBetterBucket extends Item implements IFluidContainerItem {
 
 		// Non-Fluid pickups
 		for (String other : extraPickups) {
-			if (!other.equals("fire")) {
-				ItemStack stack = new ItemStack(this);
-				NBTHelper.setString(stack, "FluidName", other);
-				NBTHelper.setInteger(stack, "Amount", maxCapacity);
-				subItems.add(stack);
-			} else {
-				if (this.pickupFire) {
+			if (!other.equals("milk"))
+				if (!other.equals("fire")) {
 					ItemStack stack = new ItemStack(this);
 					NBTHelper.setString(stack, "FluidName", other);
 					NBTHelper.setInteger(stack, "Amount", maxCapacity);
 					subItems.add(stack);
+				} else {
+					if (this.pickupFire) {
+						ItemStack stack = new ItemStack(this);
+						NBTHelper.setString(stack, "FluidName", other);
+						NBTHelper.setInteger(stack, "Amount", maxCapacity);
+						subItems.add(stack);
+					}
 				}
-			}
 		}
 	}
 
@@ -160,9 +168,16 @@ public class ItemBetterBucket extends Item implements IFluidContainerItem {
 	public ItemStack onItemRightClick(ItemStack itemstack, World world, EntityPlayer player) {
 		boolean canContainMore = NBTHelper.getInt(itemstack, "Amount") < maxCapacity;
 
+		if (milkPause) {
+			milkPause = false;
+			return itemstack;
+		}
+
 		// clicked on a block?
 		MovingObjectPosition mop = this.getMovingObjectPositionFromPlayer(world, player, canContainMore);
-		if (mop.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK) {
+		if (mop == null) {
+			return itemstack;
+		} else if (mop.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK) {
 			BlockPos clickPos = mop.getBlockPos();
 
 			if (canContainMore) {

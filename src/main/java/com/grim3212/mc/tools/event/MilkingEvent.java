@@ -8,6 +8,7 @@ import com.google.common.collect.Lists;
 import com.grim3212.mc.core.util.NBTHelper;
 import com.grim3212.mc.tools.items.ItemBetterBucket;
 import com.grim3212.mc.tools.items.ItemBetterMilkBucket;
+import com.grim3212.mc.tools.items.ToolsItems;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -89,10 +90,30 @@ public class MilkingEvent {
 										if (NBTHelper.getInt(stack, "Amount") < bucket.maxCapacity) {
 											int amount = NBTHelper.getInt(stack, "Amount");
 
-											ItemStack milkBucket = new ItemStack(bucket.milkBucket);
-											NBTHelper.setInteger(stack, "Amount", amount + FluidContainerRegistry.BUCKET_VOLUME);
-											NBTHelper.setString(stack, "FluidName", "milk");
+											ItemStack milkBucket = null;
+											switch (bucket.bucketType) {
+											case diamond:
+												milkBucket = new ItemStack(ToolsItems.diamond_milk_bucket);
+												break;
+											case gold:
+												milkBucket = new ItemStack(ToolsItems.golden_milk_bucket);
+												break;
+											case obsidian:
+												milkBucket = new ItemStack(ToolsItems.obsidian_milk_bucket);
+												break;
+											case stone:
+												milkBucket = new ItemStack(ToolsItems.stone_milk_bucket);
+												break;
+											case wood:
+												milkBucket = new ItemStack(ToolsItems.wooden_milk_bucket);
+												break;
+
+											}
+											NBTHelper.setInteger(milkBucket, "Amount", amount + FluidContainerRegistry.BUCKET_VOLUME);
+											NBTHelper.setString(milkBucket, "FluidName", "milk");
 											event.entityPlayer.inventory.setInventorySlotContents(event.entityPlayer.inventory.currentItem, milkBucket);
+
+											bucket.pauseForMilk();
 										}
 									}
 								}

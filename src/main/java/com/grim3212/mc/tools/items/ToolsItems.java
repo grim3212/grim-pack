@@ -3,8 +3,10 @@ package com.grim3212.mc.tools.items;
 import java.util.List;
 
 import com.grim3212.mc.core.part.IPartItems;
+import com.grim3212.mc.core.util.OreDictionaryHelper;
 import com.grim3212.mc.core.util.RecipeHelper;
 import com.grim3212.mc.tools.GrimTools;
+import com.grim3212.mc.tools.items.ItemBetterBucket.BucketType;
 import com.grim3212.mc.tools.util.BackpackRecipeHandler;
 
 import net.minecraft.init.Blocks;
@@ -21,6 +23,7 @@ import net.minecraft.item.crafting.CraftingManager;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraftforge.common.util.EnumHelper;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.RecipeSorter;
 import net.minecraftforge.oredict.RecipeSorter.Category;
 import net.minecraftforge.oredict.ShapedOreRecipe;
@@ -82,11 +85,11 @@ public class ToolsItems implements IPartItems {
 		black_diamond_axe = (new AxeItem(blackdiamond)).setUnlocalizedName("black_diamond_axe").setCreativeTab(GrimTools.INSTANCE.getCreativeTab());
 		black_diamond_shovel = (new ItemSpade(blackdiamond)).setUnlocalizedName("black_diamond_shovel").setCreativeTab(GrimTools.INSTANCE.getCreativeTab());
 		black_diamond_pickaxe = (new PickaxeItem(blackdiamond)).setUnlocalizedName("black_diamond_pickaxe").setCreativeTab(GrimTools.INSTANCE.getCreativeTab());
-		wooden_bucket = new ItemBetterBucket(1, 0, 1000f, new ItemStack(Items.stick, 3), wooden_milk_bucket).setUnlocalizedName("wooden_bucket").setCreativeTab(GrimTools.INSTANCE.getCreativeTab());
-		stone_bucket = new ItemBetterBucket(1, 0, new ItemStack(Blocks.cobblestone, 3), stone_milk_bucket).setUnlocalizedName("stone_bucket").setCreativeTab(GrimTools.INSTANCE.getCreativeTab());
-		golden_bucket = new ItemBetterBucket(4, 0, golden_milk_bucket).setUnlocalizedName("golden_bucket").setCreativeTab(GrimTools.INSTANCE.getCreativeTab());
-		diamond_bucket = new ItemBetterBucket(16, 1, diamond_milk_bucket).setUnlocalizedName("diamond_bucket").setCreativeTab(GrimTools.INSTANCE.getCreativeTab());
-		obsidian_bucket = new ItemBetterBucket(32, 2, true, obsidian_milk_bucket).setUnlocalizedName("obsidian_bucket").setCreativeTab(GrimTools.INSTANCE.getCreativeTab());
+		wooden_bucket = new ItemBetterBucket(1, 0, 1000f, new ItemStack(Items.stick, 3), BucketType.wood).setUnlocalizedName("wooden_bucket").setCreativeTab(GrimTools.INSTANCE.getCreativeTab());
+		stone_bucket = new ItemBetterBucket(1, 0, new ItemStack(Blocks.cobblestone, 3), BucketType.stone).setUnlocalizedName("stone_bucket").setCreativeTab(GrimTools.INSTANCE.getCreativeTab());
+		golden_bucket = new ItemBetterBucket(4, 0, BucketType.gold).setUnlocalizedName("golden_bucket").setCreativeTab(GrimTools.INSTANCE.getCreativeTab());
+		diamond_bucket = new ItemBetterBucket(16, 1, BucketType.diamond).setUnlocalizedName("diamond_bucket").setCreativeTab(GrimTools.INSTANCE.getCreativeTab());
+		obsidian_bucket = new ItemBetterBucket(32, 2, true, BucketType.obsidian).setUnlocalizedName("obsidian_bucket").setCreativeTab(GrimTools.INSTANCE.getCreativeTab());
 
 		wooden_milk_bucket = new ItemBetterMilkBucket((ItemBetterBucket) wooden_bucket).setUnlocalizedName("wooden_milk_bucket").setCreativeTab(GrimTools.INSTANCE.getCreativeTab());
 		stone_milk_bucket = new ItemBetterMilkBucket((ItemBetterBucket) stone_bucket).setUnlocalizedName("stone_milk_bucket").setCreativeTab(GrimTools.INSTANCE.getCreativeTab());
@@ -130,6 +133,15 @@ public class ToolsItems implements IPartItems {
 
 	@Override
 	public void addRecipes() {
+		OreDictionary.registerOre("bucketMilk", wooden_milk_bucket);
+		OreDictionary.registerOre("bucketMilk", stone_milk_bucket);
+		OreDictionary.registerOre("bucketMilk", golden_milk_bucket);
+		OreDictionary.registerOre("bucketMilk", diamond_milk_bucket);
+		OreDictionary.registerOre("bucketMilk", obsidian_milk_bucket);
+		OreDictionary.registerOre("bucketMilk", Items.milk_bucket);
+
+		OreDictionaryHelper.replaceRecipes(new ItemStack(Items.milk_bucket), "bucketMilk", null);
+
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(backpack, 1), new Object[] { "LLS", "LIS", "LLL", 'L', "leather", 'S', "string", 'I', "ingotIron" }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(portable_workbench, 1), new Object[] { "III", "IWI", "III", 'W', "workbench", 'I', "ingotIron" }));
 
