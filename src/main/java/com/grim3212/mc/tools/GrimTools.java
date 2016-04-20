@@ -8,6 +8,7 @@ import com.grim3212.mc.core.manual.pages.PageFurnace;
 import com.grim3212.mc.core.manual.pages.PageImageText;
 import com.grim3212.mc.core.part.GrimPart;
 import com.grim3212.mc.core.proxy.CommonProxy;
+import com.grim3212.mc.core.util.RecipeHelper;
 import com.grim3212.mc.tools.blocks.ToolsBlocks;
 import com.grim3212.mc.tools.client.gui.ToolsGuiHandler;
 import com.grim3212.mc.tools.config.ToolsConfig;
@@ -16,6 +17,7 @@ import com.grim3212.mc.tools.event.MilkingEvent;
 import com.grim3212.mc.tools.items.ToolsItems;
 import com.grim3212.mc.tools.world.ToolsGenerate;
 
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
@@ -84,5 +86,11 @@ public class GrimTools extends GrimPart {
 		ManualRegistry.addSection("black", modSection).addSubSectionPages(new PageImageText("blackore", "blackore.png"), new PageFurnace("cookOre", new ItemStack(ToolsBlocks.black_diamond_ore)), new PageCrafting("craftblack", ToolsBlocks.black, 25));
 		ManualRegistry.addSection("tools", modSection).addSubSectionPages(new PageCrafting("tools", ToolsItems.blackTools, 18));
 		ManualRegistry.addSection("armor", modSection).addSubSectionPages(new PageCrafting("armor", ToolsItems.blackArmor, 18));
+		ManualRegistry.addSection("wood", modSection).addSubSectionPages(new PageCrafting("recipe", new ItemStack(ToolsItems.wooden_bucket)));
+		ManualRegistry.addSection("stone", modSection).addSubSectionPages(new PageCrafting("recipe", new ItemStack(ToolsItems.stone_bucket)));
+		ManualRegistry.addSection("gold", modSection).addSubSectionPages(new PageCrafting("recipe", new ItemStack(ToolsItems.golden_bucket)));
+		ManualRegistry.addSection("diamond", modSection).addSubSectionPages(new PageCrafting("recipe", new ItemStack(ToolsItems.diamond_bucket)));
+		ManualRegistry.addSection("obsidian", modSection).addSubSectionPages(new PageCrafting("recipe", new ItemStack(ToolsItems.obsidian_bucket)));
+		ManualRegistry.addSection("milk", modSection).addSubSectionPages(new PageCrafting("recipe", RecipeHelper.getQuickIRecipeForItemStack(new ItemStack(Items.cake))));
 	}
 }

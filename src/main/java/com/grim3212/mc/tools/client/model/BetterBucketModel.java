@@ -2,6 +2,7 @@ package com.grim3212.mc.tools.client.model;
 
 import java.io.IOException;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.vecmath.Matrix4f;
@@ -17,6 +18,7 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Maps;
 import com.grim3212.mc.core.util.NBTHelper;
 import com.grim3212.mc.tools.GrimTools;
+import com.grim3212.mc.tools.items.ItemBetterBucket;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.BakedQuad;
@@ -63,8 +65,8 @@ public class BetterBucketModel implements IModel, IModelCustomData<BetterBucketM
 	protected final ResourceLocation baseLocation;
 	protected final ResourceLocation liquidLocation;
 	protected final ResourceLocation coverLocation;
-	protected final static ResourceLocation overlayMilkLocation = new ResourceLocation(GrimTools.modID, "items/overlay_milk");
-	protected final static ResourceLocation overlayFireLocation = new ResourceLocation(GrimTools.modID, "items/overlay_fire");
+	protected HashMap<String, ResourceLocation> overlays = Maps.newHashMap();
+	protected final ResourceLocation overlayFireLocation = new ResourceLocation(GrimTools.modID, "items/overlay_fire");
 
 	protected final Fluid fluid;
 	protected final boolean flipGas;
@@ -81,6 +83,9 @@ public class BetterBucketModel implements IModel, IModelCustomData<BetterBucketM
 		this.fluid = fluid;
 		this.flipGas = flipGas;
 		this.customName = customName;
+
+		for (int i = 0; i < ItemBetterBucket.extraPickups.size(); i++)
+			overlays.put(ItemBetterBucket.extraPickups.get(i), new ResourceLocation(GrimTools.modID, "items/overlay_" + ItemBetterBucket.extraPickups.get(i)));
 	}
 
 	@Override
@@ -98,8 +103,7 @@ public class BetterBucketModel implements IModel, IModelCustomData<BetterBucketM
 		if (coverLocation != null)
 			builder.add(coverLocation);
 
-		builder.add(overlayMilkLocation);
-		builder.add(overlayFireLocation);
+		builder.addAll(overlays.values());
 
 		return builder.build();
 	}
@@ -143,12 +147,8 @@ public class BetterBucketModel implements IModel, IModelCustomData<BetterBucketM
 				builder.add(ItemTextureQuadConverter.genQuad(format, transform, 0, 0, 16, 16, SOUTH_Z_BASE, base, EnumFacing.SOUTH, 0xffffffff));
 			}
 		} else {
-			if (customName.equals("fire")) {
-				TextureAtlasSprite base = bakedTextureGetter.apply(overlayFireLocation);
-				builder.add(ItemTextureQuadConverter.genQuad(format, transform, 0, 0, 16, 16, NORTH_Z_BASE, base, EnumFacing.NORTH, 0xffffffff));
-				builder.add(ItemTextureQuadConverter.genQuad(format, transform, 0, 0, 16, 16, SOUTH_Z_BASE, base, EnumFacing.SOUTH, 0xffffffff));
-			} else if (customName.equals("milk")) {
-				TextureAtlasSprite base = bakedTextureGetter.apply(overlayMilkLocation);
+			if (ItemBetterBucket.extraPickups.contains(customName)) {
+				TextureAtlasSprite base = bakedTextureGetter.apply(overlays.get(customName));
 				builder.add(ItemTextureQuadConverter.genQuad(format, transform, 0, 0, 16, 16, NORTH_Z_BASE, base, EnumFacing.NORTH, 0xffffffff));
 				builder.add(ItemTextureQuadConverter.genQuad(format, transform, 0, 0, 16, 16, SOUTH_Z_BASE, base, EnumFacing.SOUTH, 0xffffffff));
 			}
@@ -178,7 +178,7 @@ public class BetterBucketModel implements IModel, IModelCustomData<BetterBucketM
 		if (fluid == null) {
 			fluid = this.fluid;
 
-			if (fluidName.equals("milk") || fluidName.equals("fire"))
+			if (ItemBetterBucket.extraPickups.contains(fluidName))
 				custom = fluidName;
 		}
 
@@ -265,7 +265,7 @@ public class BetterBucketModel implements IModel, IModelCustomData<BetterBucketM
 
 			// not a fluid item apparently
 			if (fluidStack == null) {
-				if (NBTHelper.getString(stack, "FluidName").equals("fire") || NBTHelper.getString(stack, "FluidName").equals("milk")) {
+				if (ItemBetterBucket.extraPickups.contains(NBTHelper.getString(stack, "FluidName"))) {
 					String name = NBTHelper.getString(stack, "FluidName");
 					if (!cache.containsKey(name)) {
 						IModel model = parent.process(ImmutableMap.of("fluid", name));

@@ -7,6 +7,7 @@ import java.util.List;
 import com.google.common.collect.Lists;
 import com.grim3212.mc.core.util.NBTHelper;
 import com.grim3212.mc.tools.items.ItemBetterBucket;
+import com.grim3212.mc.tools.items.ItemBetterMilkBucket;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -54,22 +55,45 @@ public class MilkingEvent {
 			return;
 		}
 		if (event.entityPlayer.getHeldItem() != null && event.target instanceof EntityLivingBase && !event.entity.worldObj.isRemote) {
-			if (event.entityPlayer.getHeldItem().getItem() instanceof ItemBetterBucket && !event.entityPlayer.capabilities.isCreativeMode && !((EntityLivingBase) event.target).isChild()) {
-				ItemStack stack = event.entityPlayer.getHeldItem();
-				ItemBetterBucket bucket = (ItemBetterBucket) stack.getItem();
-				int milkingLevel = bucket.milkingLevel;
+			if (!event.entityPlayer.capabilities.isCreativeMode && !((EntityLivingBase) event.target).isChild()) {
+				if (event.entityPlayer.getHeldItem().getItem() instanceof ItemBetterMilkBucket) {
+					ItemStack stack = event.entityPlayer.getHeldItem();
+					ItemBetterMilkBucket bucket = (ItemBetterMilkBucket) stack.getItem();
+					int milkingLevel = bucket.getParent().milkingLevel;
 
-				if (bucket != null) {
-					for (int i = 0; i <= milkingLevel; i++) {
-						for (int j = 0; j < levels.get(i).size(); j++) {
-							if (levels.get(i).contains(event.target.getClass())) {
-								if (ItemBetterBucket.isEmptyOrContains(stack, "milk")) {
-									if (NBTHelper.getInt(stack, "Amount") < bucket.maxCapacity) {
+					if (bucket != null) {
+						for (int i = 0; i <= milkingLevel; i++) {
+							for (int j = 0; j < levels.get(i).size(); j++) {
+								if (levels.get(i).contains(event.target.getClass())) {
+									if (NBTHelper.getInt(stack, "Amount") < bucket.getParent().maxCapacity) {
 										int amount = NBTHelper.getInt(stack, "Amount");
 										NBTHelper.setInteger(stack, "Amount", amount + FluidContainerRegistry.BUCKET_VOLUME);
 										NBTHelper.setString(stack, "FluidName", "milk");
 
 										bucket.pauseForMilk();
+									}
+								}
+							}
+						}
+					}
+				} else if (event.entityPlayer.getHeldItem().getItem() instanceof ItemBetterBucket) {
+					ItemStack stack = event.entityPlayer.getHeldItem();
+					ItemBetterBucket bucket = (ItemBetterBucket) stack.getItem();
+					int milkingLevel = bucket.milkingLevel;
+
+					if (bucket != null) {
+						for (int i = 0; i <= milkingLevel; i++) {
+							for (int j = 0; j < levels.get(i).size(); j++) {
+								if (levels.get(i).contains(event.target.getClass())) {
+									if (ItemBetterBucket.isEmptyOrContains(stack, "milk")) {
+										if (NBTHelper.getInt(stack, "Amount") < bucket.maxCapacity) {
+											int amount = NBTHelper.getInt(stack, "Amount");
+
+											ItemStack milkBucket = new ItemStack(bucket.milkBucket);
+											NBTHelper.setInteger(stack, "Amount", amount + FluidContainerRegistry.BUCKET_VOLUME);
+											NBTHelper.setString(stack, "FluidName", "milk");
+											event.entityPlayer.inventory.setInventorySlotContents(event.entityPlayer.inventory.currentItem, milkBucket);
+										}
 									}
 								}
 							}

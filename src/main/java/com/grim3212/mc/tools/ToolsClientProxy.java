@@ -50,17 +50,23 @@ public class ToolsClientProxy extends ClientProxy {
 		RenderHelper.renderItem(ToolsItems.black_diamond_shovel);
 		RenderHelper.renderItem(ToolsItems.black_diamond_pickaxe);
 
-		setBucketModelDefinition(ToolsItems.wooden_bucket, false);
-		setBucketModelDefinition(ToolsItems.stone_bucket, false);
-		setBucketModelDefinition(ToolsItems.golden_bucket, false);
-		setBucketModelDefinition(ToolsItems.diamond_bucket, false);
-		setBucketModelDefinition(ToolsItems.obsidian_bucket, true);
+		RenderHelper.renderItem(ToolsItems.wooden_milk_bucket);
+		RenderHelper.renderItem(ToolsItems.stone_milk_bucket);
+		RenderHelper.renderItem(ToolsItems.golden_milk_bucket);
+		RenderHelper.renderItem(ToolsItems.diamond_milk_bucket);
+		RenderHelper.renderItem(ToolsItems.obsidian_milk_bucket);
+
+		setBucketModelDefinition(ToolsItems.wooden_bucket);
+		setBucketModelDefinition(ToolsItems.stone_bucket);
+		setBucketModelDefinition(ToolsItems.golden_bucket);
+		setBucketModelDefinition(ToolsItems.diamond_bucket);
+		setBucketModelDefinition(ToolsItems.obsidian_bucket);
 
 		// ENTITYS
 		RenderingRegistry.registerEntityRenderingHandler(EntityBallisticKnife.class, new BallisticKnifeFactory());
 	}
 
-	public void setBucketModelDefinition(Item item, boolean pickupFire) {
+	public void setBucketModelDefinition(Item item) {
 		final ModelResourceLocation LOCATION = new ModelResourceLocation(new ResourceLocation(GrimTools.modID, item.getUnlocalizedName().substring(5)), "inventory");
 
 		ModelLoader.setCustomMeshDefinition(item, new ItemMeshDefinition() {

@@ -1,0 +1,8 @@
+{
+    "parent": "grimcore:item/item",
+    "textures": {
+        "layer0": "grimtools:items/diamond_bucket",
+        "layer1": "grimtools:items/overlay_milk", # doubles as milk
+        "layer2": "grimtools:items/diamond_bucket_covered"
+    }
+}

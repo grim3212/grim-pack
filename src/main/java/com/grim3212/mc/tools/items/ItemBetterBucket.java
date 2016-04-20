@@ -12,8 +12,6 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
-import net.minecraft.item.EnumAction;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.stats.StatList;
@@ -31,9 +29,9 @@ import net.minecraftforge.fluids.IFluidContainerItem;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-/**
- * A universal bucket that can hold any liquid
- */
+//TODO: Possibly change this to only work for everything but milk buckets 
+// that way I can oredict milk buckets and be able to replace all recipes that use milk in it
+//to be able to use any of these buckets
 public class ItemBetterBucket extends Item implements IFluidContainerItem {
 
 	public final int maxCapacity;
@@ -41,35 +39,33 @@ public class ItemBetterBucket extends Item implements IFluidContainerItem {
 	public final float maxPickupTemp;
 	public final boolean pickupFire;
 	public final int milkingLevel;
-	private boolean milkPause = false;
+	public final Item milkBucket;
 	private ItemStack onBroken = null;
 
 	public static List<String> extraPickups = new ArrayList<String>();
 
 	static {
-		extraPickups.add("milk");
 		extraPickups.add("fire");
-		extraPickups.add("empty");
 	}
 
-	public ItemBetterBucket(int maxCapacity, int milkingLevel) {
-		this(maxCapacity, milkingLevel, 5000f, null);
+	public ItemBetterBucket(int maxCapacity, int milkingLevel, Item milkBucket) {
+		this(maxCapacity, milkingLevel, 5000f, null, milkBucket);
 	}
 
-	public ItemBetterBucket(int maxCapacity, int milkingLevel, ItemStack stack) {
-		this(maxCapacity, milkingLevel, 5000f, stack);
+	public ItemBetterBucket(int maxCapacity, int milkingLevel, ItemStack stack, Item milkBucket) {
+		this(maxCapacity, milkingLevel, 5000f, stack, milkBucket);
 	}
 
-	public ItemBetterBucket(int maxCapacity, int milkingLevel, float maxPickupTemp, ItemStack stack) {
-		this(maxCapacity, milkingLevel, maxPickupTemp, false);
+	public ItemBetterBucket(int maxCapacity, int milkingLevel, float maxPickupTemp, ItemStack stack, Item milkBucket) {
+		this(maxCapacity, milkingLevel, maxPickupTemp, false, milkBucket);
 		setOnBroken(stack);
 	}
 
-	public ItemBetterBucket(int maxCapacity, int milkingLevel, boolean pickupFire) {
-		this(maxCapacity, milkingLevel, 5000f, pickupFire);
+	public ItemBetterBucket(int maxCapacity, int milkingLevel, boolean pickupFire, Item milkBucket) {
+		this(maxCapacity, milkingLevel, 5000f, pickupFire, milkBucket);
 	}
 
-	public ItemBetterBucket(int maxCapacity, int milkingLevel, float maxPickupTemp, boolean pickupFire) {
+	public ItemBetterBucket(int maxCapacity, int milkingLevel, float maxPickupTemp, boolean pickupFire, Item milkBucket) {
 		this.maxCapacity = FluidContainerRegistry.BUCKET_VOLUME * maxCapacity;
 
 		ItemStack stack = new ItemStack(this);
@@ -81,6 +77,7 @@ public class ItemBetterBucket extends Item implements IFluidContainerItem {
 		this.maxPickupTemp = maxPickupTemp;
 		this.pickupFire = pickupFire;
 		this.milkingLevel = milkingLevel;
+		this.milkBucket = milkBucket;
 	}
 
 	public Item setOnBroken(ItemStack onBroken) {
@@ -100,6 +97,12 @@ public class ItemBetterBucket extends Item implements IFluidContainerItem {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void getSubItems(Item itemIn, CreativeTabs tab, List<ItemStack> subItems) {
+		// Add empty
+		ItemStack emptyStack = new ItemStack(this);
+		NBTHelper.setString(emptyStack, "FluidName", "empty");
+		NBTHelper.setInteger(emptyStack, "Amount", 0);
+		subItems.add(emptyStack);
+
 		// Fluids
 		for (Fluid fluid : FluidRegistry.getRegisteredFluids().values()) {
 			// add all fluids that the bucket can be filled with
@@ -117,7 +120,7 @@ public class ItemBetterBucket extends Item implements IFluidContainerItem {
 			if (!other.equals("fire")) {
 				ItemStack stack = new ItemStack(this);
 				NBTHelper.setString(stack, "FluidName", other);
-				NBTHelper.setInteger(stack, "Amount", other.equals("empty") ? 0 : maxCapacity);
+				NBTHelper.setInteger(stack, "Amount", maxCapacity);
 				subItems.add(stack);
 			} else {
 				if (this.pickupFire) {
@@ -138,8 +141,6 @@ public class ItemBetterBucket extends Item implements IFluidContainerItem {
 		if (fluidStack == null) {
 			if (NBTHelper.getString(stack, "FluidName").equals("fire")) {
 				return unloc.replaceFirst("\\s", " " + Blocks.fire.getLocalizedName() + " ");
-			} else if (NBTHelper.getString(stack, "FluidName").equals("milk")) {
-				return unloc.replaceFirst("\\s", " " + StatCollector.translateToLocal("tile.milk.name") + " ");
 			}
 
 			if (empty != null) {
@@ -151,10 +152,6 @@ public class ItemBetterBucket extends Item implements IFluidContainerItem {
 		return unloc.replaceFirst("\\s", " " + fluidStack.getLocalizedName() + " ");
 	}
 
-	public void pauseForMilk() {
-		milkPause = true;
-	}
-
 	/**
 	 * Called whenever this item is equipped and the right mouse button is
 	 * pressed. Args: itemStack, world, entityPlayer
@@ -163,20 +160,9 @@ public class ItemBetterBucket extends Item implements IFluidContainerItem {
 	public ItemStack onItemRightClick(ItemStack itemstack, World world, EntityPlayer player) {
 		boolean canContainMore = NBTHelper.getInt(itemstack, "Amount") < maxCapacity;
 
-		if (milkPause) {
-			milkPause = false;
-			return itemstack;
-		}
-
 		// clicked on a block?
 		MovingObjectPosition mop = this.getMovingObjectPositionFromPlayer(world, player, canContainMore);
-		if (mop == null) {
-			// Check to see if you should drink milk
-			if (NBTHelper.getString(itemstack, "FluidName").equals("milk")) {
-				player.setItemInUse(itemstack, this.getMaxItemUseDuration(itemstack));
-				return itemstack;
-			}
-		} else if (mop.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK) {
+		if (mop.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK) {
 			BlockPos clickPos = mop.getBlockPos();
 
 			if (canContainMore) {
@@ -281,38 +267,31 @@ public class ItemBetterBucket extends Item implements IFluidContainerItem {
 				}
 
 				BlockPos targetPos = mop.getBlockPos().offset(mop.sideHit);
+				// can the player place there?
+				if (player.canPlayerEdit(targetPos, mop.sideHit, itemstack)) {
+					int amount = NBTHelper.getInt(itemstack, "Amount");
+					if (amount >= FluidContainerRegistry.BUCKET_VOLUME) {
+						FluidStack fluidStack = getFluid(itemstack);
 
-				if (NBTHelper.getString(itemstack, "FluidName").equals("milk")) {
-					player.setItemInUse(itemstack, this.getMaxItemUseDuration(itemstack));
-					return itemstack;
-				} else {
+						// try placing liquid
+						if (fluidStack != null) {
+							if (this.tryPlaceFluid(fluidStack.getFluid().getBlock(), world, targetPos) && !player.capabilities.isCreativeMode) {
+								// success!
+								player.triggerAchievement(StatList.objectUseStats[Item.getIdFromItem(this)]);
+								NBTHelper.setInteger(itemstack, "Amount", amount - FluidContainerRegistry.BUCKET_VOLUME);
 
-					// can the player place there?
-					if (player.canPlayerEdit(targetPos, mop.sideHit, itemstack)) {
-						int amount = NBTHelper.getInt(itemstack, "Amount");
-						if (amount >= FluidContainerRegistry.BUCKET_VOLUME) {
-							FluidStack fluidStack = getFluid(itemstack);
-
-							// try placing liquid
-							if (fluidStack != null) {
-								if (this.tryPlaceFluid(fluidStack.getFluid().getBlock(), world, targetPos) && !player.capabilities.isCreativeMode) {
-									// success!
-									player.triggerAchievement(StatList.objectUseStats[Item.getIdFromItem(this)]);
-									NBTHelper.setInteger(itemstack, "Amount", amount - FluidContainerRegistry.BUCKET_VOLUME);
-
-									if ((amount - FluidContainerRegistry.BUCKET_VOLUME) <= 0) {
-										return tryBreakBucket();
-									}
+								if ((amount - FluidContainerRegistry.BUCKET_VOLUME) <= 0) {
+									return tryBreakBucket();
 								}
-							} else if (NBTHelper.getString(itemstack, "FluidName").equals("fire")) {
-								if (this.tryPlaceFluid(Blocks.fire, world, targetPos) && !player.capabilities.isCreativeMode) {
-									// success!
-									player.triggerAchievement(StatList.objectUseStats[Item.getIdFromItem(this)]);
-									NBTHelper.setInteger(itemstack, "Amount", amount - FluidContainerRegistry.BUCKET_VOLUME);
+							}
+						} else if (NBTHelper.getString(itemstack, "FluidName").equals("fire")) {
+							if (this.tryPlaceFluid(Blocks.fire, world, targetPos) && !player.capabilities.isCreativeMode) {
+								// success!
+								player.triggerAchievement(StatList.objectUseStats[Item.getIdFromItem(this)]);
+								NBTHelper.setInteger(itemstack, "Amount", amount - FluidContainerRegistry.BUCKET_VOLUME);
 
-									if ((amount - FluidContainerRegistry.BUCKET_VOLUME) <= 0) {
-										return tryBreakBucket();
-									}
+								if ((amount - FluidContainerRegistry.BUCKET_VOLUME) <= 0) {
+									return tryBreakBucket();
 								}
 							}
 						}
@@ -380,53 +359,8 @@ public class ItemBetterBucket extends Item implements IFluidContainerItem {
 	}
 
 	@Override
-	public ItemStack onItemUseFinish(ItemStack stack, World worldIn, EntityPlayer playerIn) {
-		// Everything in here is only used for milk buckets and what happens
-		// when you are finished drinking them
-		if (!playerIn.capabilities.isCreativeMode) {
-			// Set amount and type, if empty
-			int amount = NBTHelper.getInt(stack, "Amount");
-			NBTHelper.setInteger(stack, "Amount", amount - FluidContainerRegistry.BUCKET_VOLUME);
-			if (amount <= 0) {
-				NBTHelper.setString(stack, "FluidName", "empty");
-			}
-		}
-
-		if (!worldIn.isRemote) {
-			// Cure PotionEffects like a regular bucket of milk
-			playerIn.curePotionEffects(new ItemStack(Items.milk_bucket));
-		}
-
-		playerIn.triggerAchievement(StatList.objectUseStats[Item.getIdFromItem(this)]);
-
-		// Another check if the amount equals 0
-		if (NBTHelper.getInt(stack, "Amount") <= 0) {
-			return this.tryBreakBucket();
-		} else {
-			return stack;
-		}
-	}
-
-	@Override
 	public boolean hasContainerItem(ItemStack stack) {
 		return NBTHelper.getInt(stack, "Amount") >= FluidContainerRegistry.BUCKET_VOLUME;
-	}
-
-	@Override
-	public int getMaxItemUseDuration(ItemStack stack) {
-		// Only used for milk
-		return 32;
-	}
-
-	@Override
-	public EnumAction getItemUseAction(ItemStack stack) {
-		// Only used for milk
-		if (NBTHelper.getString(stack, "FluidName").equals("milk")) {
-			return EnumAction.DRINK;
-		} else {
-			return EnumAction.NONE;
-		}
-
 	}
 
 	@Override
