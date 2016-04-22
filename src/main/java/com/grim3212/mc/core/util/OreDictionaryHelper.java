@@ -185,7 +185,6 @@ public class OreDictionaryHelper {
 		}
 
 		Object[] newInputs = inputArray.toArray();
-		GrimLog.info(Loader.instance().activeModContainer().getName(), "Customized ShapdRecipe : " + inputArray.toString());
 		return new ShapedOreRecipe(output, newInputs);
 	}
 
@@ -213,7 +212,6 @@ public class OreDictionaryHelper {
 		}
 
 		Object[] newInputs = inputs.toArray();
-		GrimLog.info(Loader.instance().activeModContainer().getName(), "Customized ShapelessRecipe : " + inputs.toString());
 		return new ShapelessOreRecipe(output, newInputs);
 	}
 
@@ -269,16 +267,12 @@ public class OreDictionaryHelper {
 			}
 
 			if (obj instanceof ItemStack) {
-				System.out.println(i + "," + obj);
 				item = (ItemStack) obj;
 			} else if (obj instanceof Item) {
-				System.out.println(i + "," + obj);
 				item = new ItemStack((Item) obj);
 			} else if (obj instanceof Block) {
-				System.out.println(i + "," + obj);
 				item = new ItemStack((Block) obj, 1, OreDictionary.WILDCARD_VALUE);
 			} else if (obj instanceof List) {
-				System.out.println(i + "," + obj);
 				if ((List<ItemStack>) obj != null && !((List<ItemStack>) obj).isEmpty()) {
 					List<ItemStack> list = (List<ItemStack>) obj;
 
@@ -326,7 +320,6 @@ public class OreDictionaryHelper {
 		}
 
 		Object[] newInputs = inputs.toArray();
-		GrimLog.info(Loader.instance().activeModContainer().getName(), "Customized ShapedOreRecipe : " + inputs.toString());
 		return new ShapedOreRecipe(output, newInputs);
 	}
 
@@ -389,7 +382,6 @@ public class OreDictionaryHelper {
 		}
 
 		Object[] newInputs = inputs.toArray();
-		GrimLog.info(Loader.instance().activeModContainer().getName(), "Customized ShapelessOreRecipe : " + inputs.toString());
 		return new ShapelessOreRecipe(output, newInputs);
 	}
 }
