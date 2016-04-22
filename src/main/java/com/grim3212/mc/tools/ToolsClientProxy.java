@@ -4,8 +4,12 @@ import com.grim3212.mc.core.client.RenderHelper;
 import com.grim3212.mc.core.proxy.ClientProxy;
 import com.grim3212.mc.tools.blocks.ToolsBlocks;
 import com.grim3212.mc.tools.client.entity.RenderBallisticKnife.BallisticKnifeFactory;
+import com.grim3212.mc.tools.client.entity.RenderKnife.KnifeFactory;
+import com.grim3212.mc.tools.client.entity.RenderTomahawk.TomahawkFactory;
 import com.grim3212.mc.tools.client.model.BetterBucketModel;
 import com.grim3212.mc.tools.entity.EntityBallisticKnife;
+import com.grim3212.mc.tools.entity.EntityKnife;
+import com.grim3212.mc.tools.entity.EntityTomahawk;
 import com.grim3212.mc.tools.items.ToolsItems;
 
 import net.minecraft.client.renderer.ItemMeshDefinition;
@@ -49,12 +53,36 @@ public class ToolsClientProxy extends ClientProxy {
 		RenderHelper.renderItem(ToolsItems.black_diamond_axe);
 		RenderHelper.renderItem(ToolsItems.black_diamond_shovel);
 		RenderHelper.renderItem(ToolsItems.black_diamond_pickaxe);
-
 		RenderHelper.renderItem(ToolsItems.wooden_milk_bucket);
 		RenderHelper.renderItem(ToolsItems.stone_milk_bucket);
 		RenderHelper.renderItem(ToolsItems.golden_milk_bucket);
 		RenderHelper.renderItem(ToolsItems.diamond_milk_bucket);
 		RenderHelper.renderItem(ToolsItems.obsidian_milk_bucket);
+		RenderHelper.renderItem(ToolsItems.tomahawk);
+		RenderHelper.renderItem(ToolsItems.throwing_knife);
+		RenderHelper.renderItem(ToolsItems.grip);
+		RenderHelper.renderItem(ToolsItems.gold_ore_item);
+		RenderHelper.renderItem(ToolsItems.iron_ore_item);
+		RenderHelper.renderItem(ToolsItems.iron_chisel);
+		RenderHelper.renderItem(ToolsItems.diamond_chisel);
+		RenderHelper.renderItem(ToolsItems.extinguisher);
+		RenderHelper.renderItem(ToolsItems.wood_hammer);
+		RenderHelper.renderItem(ToolsItems.stone_hammer);
+		RenderHelper.renderItem(ToolsItems.gold_hammer);
+		RenderHelper.renderItem(ToolsItems.iron_hammer);
+		RenderHelper.renderItem(ToolsItems.diamond_hammer);
+		RenderHelper.renderItem(ToolsItems.machete_diamond);
+		RenderHelper.renderItem(ToolsItems.machete_gold);
+		RenderHelper.renderItem(ToolsItems.machete_iron);
+		RenderHelper.renderItem(ToolsItems.machete_stone);
+		RenderHelper.renderItem(ToolsItems.machete_wood);
+		RenderHelper.renderItem(ToolsItems.machete_slime);
+		RenderHelper.renderItem(ToolsItems.building_wand);
+		RenderHelper.renderItem(ToolsItems.breaking_wand);
+		RenderHelper.renderItem(ToolsItems.mining_wand);
+		RenderHelper.renderItem(ToolsItems.reinforced_building_wand);
+		RenderHelper.renderItem(ToolsItems.reinforced_breaking_wand);
+		RenderHelper.renderItem(ToolsItems.reinforced_mining_wand);
 
 		setBucketModelDefinition(ToolsItems.wooden_bucket);
 		setBucketModelDefinition(ToolsItems.stone_bucket);
@@ -64,6 +92,8 @@ public class ToolsClientProxy extends ClientProxy {
 
 		// ENTITYS
 		RenderingRegistry.registerEntityRenderingHandler(EntityBallisticKnife.class, new BallisticKnifeFactory());
+		RenderingRegistry.registerEntityRenderingHandler(EntityTomahawk.class, new TomahawkFactory());
+		RenderingRegistry.registerEntityRenderingHandler(EntityKnife.class, new KnifeFactory());
 	}
 
 	public void setBucketModelDefinition(Item item) {

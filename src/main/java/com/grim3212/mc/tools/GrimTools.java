@@ -6,6 +6,7 @@ import com.grim3212.mc.core.manual.ModSection;
 import com.grim3212.mc.core.manual.pages.PageCrafting;
 import com.grim3212.mc.core.manual.pages.PageFurnace;
 import com.grim3212.mc.core.manual.pages.PageImageText;
+import com.grim3212.mc.core.manual.pages.PageInfo;
 import com.grim3212.mc.core.part.GrimPart;
 import com.grim3212.mc.core.proxy.CommonProxy;
 import com.grim3212.mc.core.util.RecipeHelper;
@@ -92,5 +93,16 @@ public class GrimTools extends GrimPart {
 		ManualRegistry.addSection("diamond", modSection).addSubSectionPages(new PageCrafting("recipe", new ItemStack(ToolsItems.diamond_bucket)));
 		ManualRegistry.addSection("obsidian", modSection).addSubSectionPages(new PageCrafting("recipe", new ItemStack(ToolsItems.obsidian_bucket)));
 		ManualRegistry.addSection("milk", modSection).addSubSectionPages(new PageCrafting("recipe", RecipeHelper.getQuickIRecipeForItemStack(new ItemStack(Items.cake))));
+		ManualRegistry.addSection("knife", modSection).addSubSectionPages(new PageCrafting("knife", new ItemStack(ToolsItems.throwing_knife)));
+		ManualRegistry.addSection("tomahawk", modSection).addSubSectionPages(new PageCrafting("tomahawk", new ItemStack(ToolsItems.tomahawk)));
+		ManualRegistry.addSection("grip", modSection).addSubSectionPages(new PageCrafting("grip", new ItemStack(ToolsItems.grip)));
+		ManualRegistry.addSection("chisels", modSection).addSubSectionPages(new PageCrafting("chisels", ToolsItems.chisels, 25));
+		ManualRegistry.addSection("ores", modSection).addSubSectionPages(new PageFurnace("ore", new ItemStack[] { new ItemStack(ToolsItems.gold_ore_item), new ItemStack(ToolsItems.iron_ore_item) }, 25));
+		ManualRegistry.addSection("extinguisher", modSection).addSubSectionPages(new PageCrafting("extinguisher", ToolsItems.extinguisherRecipe), new PageCrafting("refill", ToolsItems.extinguisherRefillRecipe));
+		ManualRegistry.addSection("hammers", modSection).addSubSectionPages(new PageCrafting("recipes", ToolsItems.hammers, 20));
+		ManualRegistry.addSection("machetes", modSection).addSubSectionPages(new PageCrafting("base", ToolsItems.machetes, 20), new PageCrafting("slime", new ItemStack(ToolsItems.machete_slime)));
+		ManualRegistry.addSection("info", modSection).addSubSectionPages(new PageInfo("info"));
+		ManualRegistry.addSection("regular", modSection).addSubSectionPages(new PageCrafting("recipes", ToolsItems.regular, 20));
+		ManualRegistry.addSection("reinforced", modSection).addSubSectionPages(new PageCrafting("recipes", ToolsItems.reinforced, 20));
 	}
 }
