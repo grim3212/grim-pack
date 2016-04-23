@@ -54,7 +54,7 @@ public class RenderHelper {
 	 * @param variants
 	 *            The different variant names
 	 */
-	public static void renderVariantForge(Item item, String[] variants) {
+	public static void renderVariantForge(Item item, String... variants) {
 		for (int i = 0; i < variants.length; i++) {
 			ModelLoader.setCustomModelResourceLocation(item, i, new ModelResourceLocation(item.getRegistryName(), variants[i]));
 		}
@@ -68,7 +68,7 @@ public class RenderHelper {
 	 * @param variants
 	 *            The different variant names
 	 */
-	public static void renderVariantForge(Block item, String[] variants) {
+	public static void renderVariantForge(Block item, String... variants) {
 		for (int i = 0; i < variants.length; i++) {
 			ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(item), i, new ModelResourceLocation(item.getRegistryName(), variants[i]));
 		}
@@ -82,7 +82,7 @@ public class RenderHelper {
 	 * @param variants
 	 *            The different variant names
 	 */
-	public static void renderVariantVanilla(Item item, String[] variants) {
+	public static void renderVariantVanilla(Item item, String... variants) {
 		for (int i = 0; i < variants.length; i++) {
 			ModelLoader.setCustomModelResourceLocation(item, i, new ModelResourceLocation(item.getRegistryName() + "_" + variants[i], "inventory"));
 		}

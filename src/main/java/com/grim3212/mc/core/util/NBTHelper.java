@@ -2,6 +2,7 @@ package com.grim3212.mc.core.util;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.BlockPos;
 
 public class NBTHelper {
 
@@ -234,4 +235,31 @@ public class NBTHelper {
 		return itemStack;
 	}
 	// =============== END DOUBLE ===============
+
+	// =============== BLOCK POS ===============
+	public static BlockPos getBlockPos(ItemStack itemStack, String keyName) {
+		initNBTTagCompound(itemStack);
+
+		if (!itemStack.getTagCompound().hasKey(keyName)) {
+			setBlockPos(itemStack, keyName, new BlockPos(0, 0, 0));
+		}
+
+		int[] pos = itemStack.getTagCompound().getIntArray(keyName);
+		return new BlockPos(pos[0], pos[1], pos[2]);
+	}
+
+	public static void setBlockPos(ItemStack itemStack, String keyName, BlockPos keyValue) {
+		initNBTTagCompound(itemStack);
+
+		itemStack.getTagCompound().setIntArray(keyName, new int[] { keyValue.getX(), keyValue.getY(), keyValue.getZ() });
+	}
+
+	public static ItemStack setBlockPosItemStack(ItemStack itemStack, String keyName, BlockPos keyValue) {
+		initNBTTagCompound(itemStack);
+
+		itemStack.getTagCompound().setIntArray(keyName, new int[] { keyValue.getX(), keyValue.getY(), keyValue.getZ() });
+
+		return itemStack;
+	}
+	// =============== END BLOCK POS ===============
 }

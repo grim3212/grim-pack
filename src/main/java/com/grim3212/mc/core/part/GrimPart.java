@@ -125,6 +125,8 @@ public abstract class GrimPart {
 
 	protected abstract GrimConfig setConfig();
 
+	// TODO: Remove this
+	@Deprecated
 	protected abstract void setupManualPages(ModSection modSection);
 
 	@SubscribeEvent

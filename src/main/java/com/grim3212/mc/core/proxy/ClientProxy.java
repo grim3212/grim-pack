@@ -12,7 +12,7 @@ public class ClientProxy extends CommonProxy {
 
 	@Override
 	public EntityPlayer getPlayerEntity(MessageContext ctx) {
-		return Minecraft.getMinecraft().thePlayer;
+		return (ctx.side.isClient() ? Minecraft.getMinecraft().thePlayer : super.getPlayerEntity(ctx));
 	}
 
 	@Override
@@ -22,8 +22,6 @@ public class ClientProxy extends CommonProxy {
 
 	@Override
 	public void registerModels() {
-		// ModelLoaderRegistry.registerLoader(new MergedModelLoader());
-
 		RenderHelper.renderItem(CoreItems.instruction_manual);
 	}
 }
