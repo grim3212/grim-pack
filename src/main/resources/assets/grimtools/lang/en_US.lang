@@ -6,6 +6,7 @@ tooltip.buckets.contains=Contains
 #================= BLOCKS =================#
 tile.black_diamond_ore.name=Black Diamond Ore
 tile.black_diamond_block.name=Black Block of Diamond
+tile.element_115_ore.name=Element 115 Ore
 
 #================= ITEMS =================#
 item.portable_workbench.name=Portable Workbench
@@ -78,9 +79,42 @@ item.mining_wand.name=Mining Wand
 item.reinforced_building_wand.name=Reinforced Building Wand
 item.reinforced_breaking_wand.name=Reinforced Breaking Wand
 item.reinforced_mining_wand.name=Reinforced Mining Wand
+item.diamond_multi_tool.name=Diamond MultiTool
+item.wooden_multi_tool.name=Wood MultiTool
+item.stone_multi_tool.name=Stone MultiTool
+item.iron_multi_tool.name=Iron MultiTool
+item.golden_multi_tool.name=Gold MultiTool
+item.obsidian_multi_tool.name=Obsidian MultiTool
+item.pokeball.name=Pokeball
+item.powerstaff_push.name=Power Staff (Push)
+item.powerstaff_pull.name=Power Staff (Pull)
+item.element_115.name=Element 115
+item.energy_canister.name=Energy Canister
+item.empty_energy_canister.name=Empty Canister
+item.ray_gun.name=Ray Gun
+item.advanced_empty_energy_canister.name=Empty Advanced Canister
+item.advanced_energy_canister.name=Advanced Energy Canister
+item.advanced_ray_gun.name=Advanced Raygun
+item.dark_iron_ingot.name=Dark Iron Ingot
+item.sling_shot.name=Slingshot
+item.sling_pellet.name=Slingshot Pellet
 
 #================= INSTRUCTION MANUAL =================#
 grim.manual.grimtools.modinfo=Adds a bunch of weapons and useful tools.
+grim.manual.grimtools.subsection.sling=Slingshot
+grim.manual.grimtools.subsection.sling.page.pellets=The ammo used with the Slingshot are Slingshot Pellets. They are really easy to craft and can be made out of different materials.
+grim.manual.grimtools.subsection.sling.page.pellets.title=Pellets
+grim.manual.grimtools.subsection.sling.page.slingshot=The slingshot is an item that you right click to fire pellets with. The slingshot does not do very much damage but it still can hurt.
+grim.manual.grimtools.subsection.sling.page.slingshot.title=Recipe
+grim.manual.grimtools.subsection.staff=Powerstaff
+grim.manual.grimtools.subsection.staff.page.recipe=The powerstaff is an item that can manipulate blocks. It has two different modes which can be switched between by pressing Left-Control by default which is configurable. Push mode pushes blocks forward and pull mode pulls blocks backward. The blocks pushed do end up having gravity applied to them.
+grim.manual.grimtools.subsection.staff.page.recipe.title=Recipe
+grim.manual.grimtools.subsection.pokeball=Pokeballs
+grim.manual.grimtools.subsection.pokeball.page.recipe=Pokeballs are amazing items that when thrown and hit a mob capture the mob inside. When thrown again the mob will be released. Be aware these do not tame the mob and that this saves the mobs data when captured and will be released exactly as before.
+grim.manual.grimtools.subsection.pokeball.page.recipe.title=Recipe
+grim.manual.grimtools.subsection.multi=Multi Tools
+grim.manual.grimtools.subsection.multi.page.tools=Their are 6 different tool materials. The 5 vanilla ones and obsidian. Each tool has the abilities of all the tools they are made out of.
+grim.manual.grimtools.subsection.multi.page.tools.title=Recipes
 grim.manual.grimtools.subsection.backpacks=Backpacks
 grim.manual.grimtools.subsection.backpacks.page.backpacks=You can craft backpacks which have 18 slots to store items. Also you cannot put backpacks into backpacks to make an infinite amount of space.
 grim.manual.grimtools.subsection.backpacks.page.backpacks.title=Recipe
@@ -171,6 +205,20 @@ grim.manual.grimtools.subsection.regular.page.recipes.title=Recipes
 grim.manual.grimtools.subsection.reinforced=Reinforced Wands
 grim.manual.grimtools.subsection.reinforced.page.recipes=These are the 3 types of reinforced wands available. The Reinforced Breaking Wand has 120 uses and has 3 different modes. The Mining Wand has 120 uses and has 4 different modes. The Building Wand has 200 uses and 7 different modes.
 grim.manual.grimtools.subsection.reinforced.page.recipes.title=Recipes
+grim.manual.grimtools.subsection.raygun=Basic Raygun
+grim.manual.grimtools.subsection.raygun.page.element=Element 115 can be found in ground around your world. When mined it will drop the item form of Element 115 which is used as ammo for the Rayguns and as part of the recipe for the Advanced Raygun.
+grim.manual.grimtools.subsection.raygun.page.element.title=Element 115
+grim.manual.grimtools.subsection.raygun.page.canisters=To use the Basic Raygun you will need ammo. The ammo is stored in canisters which you fill with Element 115.
+grim.manual.grimtools.subsection.raygun.page.canisters.title=Canisters
+grim.manual.grimtools.subsection.raygun.page.raygun=This is the Basic Raygun. The Raygun uses the ammo crafted on the previous page. To shoot the Raygun you right click and you will get an empty canister back. The Raygun is quite powerful so be careful what you shoot.
+grim.manual.grimtools.subsection.raygun.page.raygun.title=Recipe
+grim.manual.grimtools.subsection.advraygun=Advanced Raygun
+grim.manual.grimtools.subsection.advraygun.page.darkIron=Dark Iron is needed as a component of the Advanced Raygun ammo and the gun itself. Dark Iron is made out of Iron and Element 115 from the previous chapter.
+grim.manual.grimtools.subsection.advraygun.page.darkIron.title=Dark Iron
+grim.manual.grimtools.subsection.advraygun.page.canisters=Like the Basic Raygun the advanced raygun needs ammo. Since the Advanced Raygun is stronger it needs more powerful ammo.
+grim.manual.grimtools.subsection.advraygun.page.canisters.title=Canisters
+grim.manual.grimtools.subsection.advraygun.page.advraygun=The Advanced Raygun is a more powerful version of the Basic Raygun. It uses stronger ammo and also fires a different color of ray. Like the Basic Raygun you right click to shoot and will recieve an Empty Advanced Canister back.
+grim.manual.grimtools.subsection.advraygun.page.advraygun.title=Recipe
 
 #Help Messages
 help.build.key1=FULL box

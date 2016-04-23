@@ -18,12 +18,15 @@ public class ToolsBlocks implements IPartItems {
 
 	public static Block black_diamond_block;
 	public static Block black_diamond_ore;
+	public static Block element_115_ore;
 
 	@Override
 	public void initItems() {
 		black_diamond_ore = (new Block(Material.rock)).setHardness(2.0F).setResistance(5F).setUnlocalizedName("black_diamond_ore").setCreativeTab(GrimTools.INSTANCE.getCreativeTab());
 		black_diamond_block = (new Block(Material.rock)).setHardness(2.0F).setResistance(5F).setUnlocalizedName("black_diamond_block").setCreativeTab(GrimTools.INSTANCE.getCreativeTab());
+		element_115_ore = (new BlockElement()).setHardness(2.5F).setResistance(30.0F).setLightLevel(0.4F).setUnlocalizedName("element_115_ore").setCreativeTab(GrimTools.INSTANCE.getCreativeTab());
 
+		GameRegistry.registerBlock(element_115_ore, "element_115_ore");
 		GameRegistry.registerBlock(black_diamond_ore, "black_diamond_ore");
 		GameRegistry.registerBlock(black_diamond_block, "black_diamond_block");
 	}

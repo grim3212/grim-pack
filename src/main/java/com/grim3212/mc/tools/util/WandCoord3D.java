@@ -12,23 +12,18 @@ public class WandCoord3D {
 	public Block block;
 	public int meta;
 
-	public WandCoord3D() {
-		this(new BlockPos(0, 0, 0), Blocks.air, 0);
-	}
-
-	public WandCoord3D(BlockPos pos, int meta) {
-		this.pos = pos;
-		this.meta = meta;
+	private WandCoord3D() {
+		this(BlockPos.ORIGIN, Blocks.air, 0);
 	}
 
 	public WandCoord3D(BlockPos pos, Block block, int meta) {
-		this(pos, meta);
+		this.pos = pos;
+		this.meta = meta;
 		this.block = block;
 	}
 
 	public WandCoord3D(BlockPos pos, int blockID, int meta) {
-		this(pos, meta);
-		block = Block.getBlockById(blockID);
+		this(pos, Block.getBlockById(blockID), meta);
 	}
 
 	public WandCoord3D(WandCoord3D a) {

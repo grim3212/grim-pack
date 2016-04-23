@@ -1,7 +1,6 @@
 package com.grim3212.mc.tools.items;
 
-import java.lang.reflect.Field;
-
+import com.grim3212.mc.core.util.NBTHelper;
 import com.grim3212.mc.tools.config.ToolsConfig;
 import com.grim3212.mc.tools.util.WandCoord3D;
 
@@ -21,7 +20,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.ReflectionHelper;
+import net.minecraftforge.fluids.FluidContainerRegistry;
 
 public class ItemBuildingWand extends ItemWand {
 
@@ -133,16 +132,23 @@ public class ItemBuildingWand extends ItemWand {
 		return true;
 	}
 
-	private boolean emptyBuckets(Item bucketId, EntityPlayer entityplayer, int neededItems) {
+	private boolean emptyBuckets(EntityPlayer entityplayer, int neededItems, boolean lava) {
+		Item vanillaBucket = lava ? Items.lava_bucket : Items.water_bucket;
+
 		if (ToolsConfig.ENABLE_free_build_mode || entityplayer.capabilities.isCreativeMode) {
 			return true;
 		}
 		int itemsInInventory = 0;
 		for (int t = 0; t < entityplayer.inventory.getSizeInventory(); t++) {
 			ItemStack currentItem = entityplayer.inventory.getStackInSlot(t);
-			if (currentItem != null && currentItem.getItem() == bucketId) // bucketWater
-			{
-				itemsInInventory++;
+			if (currentItem != null) {
+				if (currentItem.getItem() == vanillaBucket) {
+					itemsInInventory++;
+				} else if (currentItem.getItem() instanceof ItemBetterBucket) {
+					if (ItemBetterBucket.isEmptyOrContains(currentItem, lava ? "lava" : "water")) {
+						itemsInInventory += NBTHelper.getInt(currentItem, "Amount") / FluidContainerRegistry.BUCKET_VOLUME;
+					}
+				}
 			}
 		}
 		// ? error - not enough items!
@@ -153,22 +159,46 @@ public class ItemBuildingWand extends ItemWand {
 		// last)
 		for (int t = entityplayer.inventory.getSizeInventory() - 1; t >= 0; t--) {
 			ItemStack currentItem = entityplayer.inventory.getStackInSlot(t);
-			if (currentItem != null && currentItem.getItem() == bucketId) {
-				entityplayer.inventory.setInventorySlotContents(t, null);
-				entityplayer.inventory.addItemStackToInventory(new ItemStack(Items.bucket));
-				if (--neededItems == 0)
-					return true;
+			if (currentItem != null) {
+				if (currentItem.getItem() == vanillaBucket) {
+					entityplayer.inventory.setInventorySlotContents(t, null);
+					entityplayer.inventory.addItemStackToInventory(new ItemStack(Items.bucket));
+					if (--neededItems == 0)
+						return true;
+				} else if (currentItem.getItem() instanceof ItemBetterBucket) {
+					if (ItemBetterBucket.isEmptyOrContains(currentItem, lava ? "lava" : "water")) {
+						int bucketAmount = NBTHelper.getInt(currentItem, "Amount") / FluidContainerRegistry.BUCKET_VOLUME;
+						if (bucketAmount > 0) {
+							int amount = neededItems - bucketAmount;
+
+							if (amount >= 0) {
+								NBTHelper.setString(currentItem, "FluidName", "empty");
+								NBTHelper.setInteger(currentItem, "Amount", 0);
+								neededItems -= bucketAmount;
+							} else {
+								amount *= -1;
+								if ((NBTHelper.getInt(currentItem, "Amount") - (amount * FluidContainerRegistry.BUCKET_VOLUME)) <= 0) {
+									NBTHelper.setString(currentItem, "FluidName", "empty");
+									NBTHelper.setInteger(currentItem, "Amount", 0);
+									return true;
+								} else {
+									NBTHelper.setInteger(currentItem, "Amount", amount * FluidContainerRegistry.BUCKET_VOLUME);
+									return true;
+								}
+							}
+						}
+
+						if (neededItems <= 0)
+							return true;
+					}
+				}
 			}
 		}
 		return false;
 	}
 
 	@Override
-	protected boolean doEffect(World world, EntityPlayer entityplayer, WandCoord3D start, WandCoord3D end, WandCoord3D clicked, int keys, Block block, int meta) throws Exception {
-		// TODO: Probably change this
-		Field scheduleUpdatesField = ReflectionHelper.findField(World.class, "scheduledUpdatesAreImmediate", "field_72999_e");
-		scheduleUpdatesField.setAccessible(true);
-
+	protected boolean doEffect(World world, EntityPlayer entityplayer, WandCoord3D start, WandCoord3D end, WandCoord3D clicked, int keys, Block block, int meta) {
 		if (block != id1 && (keys == BUILD_BOX || keys == BUILD_ROOM || keys == BUILD_FRAME || keys == BUILD_TORCHES)) {
 			error(entityplayer, clicked, "notsamecorner");
 			return false;
@@ -179,15 +209,14 @@ public class ItemBuildingWand extends ItemWand {
 				return false;
 			}
 		}
-		if (ToolsConfig.disableNotify)
-			scheduleUpdatesField.setBoolean(world, true);
 		boolean flag = do_Building(world, start, end, clicked, keys, entityplayer, idOrig, meta);
-		if (flag && keys != BUILD_WATER)
+		if (flag && keys != BUILD_WATER && keys != BUILD_LAVA)
 			world.playSoundEffect(clicked.pos.getX(), clicked.pos.getY(), clicked.pos.getZ(), "random.pop", (world.rand.nextFloat() + 0.7F) / 2.0F, 1.0F + (world.rand.nextFloat() - world.rand.nextFloat()) * 0.4F);
 		if (flag && keys == BUILD_WATER)
-			world.playSoundEffect(clicked.pos.getX(), clicked.pos.getY(), clicked.pos.getZ(), "liquid.splash", (world.rand.nextFloat() + 0.7F) / 2.0F, 1.0F + (world.rand.nextFloat() - world.rand.nextFloat()) * 0.4F);
-		if (ToolsConfig.disableNotify)
-			scheduleUpdatesField.setBoolean(world, false);
+			world.playSoundEffect(clicked.pos.getX(), clicked.pos.getY(), clicked.pos.getZ(), "liquid.water", (world.rand.nextFloat() + 0.7F) / 2.0F, 1.0F + (world.rand.nextFloat() - world.rand.nextFloat()) * 0.4F);
+		if (flag && keys == BUILD_WATER)
+			world.playSoundEffect(clicked.pos.getX(), clicked.pos.getY(), clicked.pos.getZ(), "liquid.lavapop", (world.rand.nextFloat() + 0.7F) / 2.0F, 1.0F + (world.rand.nextFloat() - world.rand.nextFloat()) * 0.4F);
+
 		return flag;
 	}
 
@@ -199,7 +228,6 @@ public class ItemBuildingWand extends ItemWand {
 		ItemStack neededStack = getNeededItem(block, meta);
 		int multiplier = getNeededCount(block, meta);
 		int neededItems = 0;
-		Item bucket = Items.bucket;
 		int affected = 0;
 		switch (keys) {
 		case BUILD_BOX:
@@ -323,8 +351,8 @@ public class ItemBuildingWand extends ItemWand {
 			for (X = start.pos.getX(); X <= end.pos.getX(); X++) {
 				for (Z = start.pos.getZ(); Z <= end.pos.getZ(); Z++) {
 					for (Y = start.pos.getY(); Y <= end.pos.getY(); Y++) {
-						if (((X == start.pos.getX()) && (Y == start.pos.getY())) || ((Y == start.pos.getY()) && (Z == start.pos.getZ())) || ((Z == start.pos.getZ()) && (X == start.pos.getX())) || ((X == start.pos.getX()) && (Y == end.pos.getY())) || ((X == end.pos.getX()) && (Y == start.pos.getY())) || ((Y == start.pos.getY()) && (Z == end.pos.getZ())) || ((Y == end.pos.getY()) && (Z == start.pos.getZ())) || ((Z == start.pos.getZ()) && (X == end.pos.getX()))
-								|| ((Z == end.pos.getZ()) && (X == start.pos.getX())) || ((X == end.pos.getX()) && (Y == end.pos.getY())) || ((Y == end.pos.getY()) && (Z == end.pos.getZ())) || ((Z == end.pos.getZ()) && (X == end.pos.getX()) && (canPlace(world, new BlockPos(X, Y, Z), block, keys)))) {
+						if (((X == start.pos.getX()) && (Y == start.pos.getY())) || ((Y == start.pos.getY()) && (Z == start.pos.getZ())) || ((Z == start.pos.getZ()) && (X == start.pos.getX())) || ((X == start.pos.getX()) && (Y == end.pos.getY())) || ((X == end.pos.getX()) && (Y == start.pos.getY())) || ((Y == start.pos.getY()) && (Z == end.pos.getZ())) || ((Y == end.pos.getY()) && (Z == start.pos.getZ())) || ((Z == start.pos.getZ()) && (X == end.pos.getX())) || ((Z == end.pos.getZ()) && (X == start.pos.getX())) || ((X == end.pos.getX()) && (Y == end.pos.getY()))
+								|| ((Y == end.pos.getY()) && (Z == end.pos.getZ())) || ((Z == end.pos.getZ()) && (X == end.pos.getX()) && (canPlace(world, new BlockPos(X, Y, Z), block, keys)))) {
 							neededItems += multiplier;
 						}
 					}
@@ -342,8 +370,8 @@ public class ItemBuildingWand extends ItemWand {
 				for (X = start.pos.getX(); X <= end.pos.getX(); X++) {
 					for (Z = start.pos.getZ(); Z <= end.pos.getZ(); Z++) {
 						for (Y = start.pos.getY(); Y <= end.pos.getY(); Y++) {
-							if (((X == start.pos.getX()) && (Y == start.pos.getY())) || ((Y == start.pos.getY()) && (Z == start.pos.getZ())) || ((Z == start.pos.getZ()) && (X == start.pos.getX())) || ((X == start.pos.getX()) && (Y == end.pos.getY())) || ((X == end.pos.getX()) && (Y == start.pos.getY())) || ((Y == start.pos.getY()) && (Z == end.pos.getZ())) || ((Y == end.pos.getY()) && (Z == start.pos.getZ())) || ((Z == start.pos.getZ()) && (X == end.pos.getX()))
-									|| ((Z == end.pos.getZ()) && (X == start.pos.getX())) || ((X == end.pos.getX()) && (Y == end.pos.getY())) || ((Y == end.pos.getY()) && (Z == end.pos.getZ())) || ((Z == end.pos.getZ()) && (X == end.pos.getX()))) {
+							if (((X == start.pos.getX()) && (Y == start.pos.getY())) || ((Y == start.pos.getY()) && (Z == start.pos.getZ())) || ((Z == start.pos.getZ()) && (X == start.pos.getX())) || ((X == start.pos.getX()) && (Y == end.pos.getY())) || ((X == end.pos.getX()) && (Y == start.pos.getY())) || ((Y == start.pos.getY()) && (Z == end.pos.getZ())) || ((Y == end.pos.getY()) && (Z == start.pos.getZ())) || ((Z == start.pos.getZ()) && (X == end.pos.getX())) || ((Z == end.pos.getZ()) && (X == start.pos.getX())) || ((X == end.pos.getX()) && (Y == end.pos.getY()))
+									|| ((Y == end.pos.getY()) && (Z == end.pos.getZ())) || ((Z == end.pos.getZ()) && (X == end.pos.getX()))) {
 								BlockPos newPos = new BlockPos(X, Y, Z);
 								blockAt = world.getBlockState(newPos).getBlock();
 
@@ -368,8 +396,8 @@ public class ItemBuildingWand extends ItemWand {
 						for (X = start.pos.getX(); X <= end.pos.getX(); X++) {
 							for (Z = start.pos.getZ(); Z <= end.pos.getZ(); Z++) {
 								BlockPos newPos = new BlockPos(X, Y, Z);
-								if (((X == start.pos.getX()) && (Y == start.pos.getY())) || ((Y == start.pos.getY()) && (Z == start.pos.getZ())) || ((Z == start.pos.getZ()) && (X == start.pos.getX())) || ((X == start.pos.getX()) && (Y == end.pos.getY())) || ((X == end.pos.getX()) && (Y == start.pos.getY())) || ((Y == start.pos.getY()) && (Z == end.pos.getZ())) || ((Y == end.pos.getY()) && (Z == start.pos.getZ())) || ((Z == start.pos.getZ()) && (X == end.pos.getX()))
-										|| ((Z == end.pos.getZ()) && (X == start.pos.getX())) || ((X == end.pos.getX()) && (Y == end.pos.getY())) || ((Y == end.pos.getY()) && (Z == end.pos.getZ())) || ((Z == end.pos.getZ()) && (X == end.pos.getX()) && (world.getBlockState(newPos).getBlock() == Blocks.dirt) && ((world.getBlockState(newPos.up()).getBlock() == null) || (!world.getBlockState(newPos.up()).getBlock().isOpaqueCube())))) {
+								if (((X == start.pos.getX()) && (Y == start.pos.getY())) || ((Y == start.pos.getY()) && (Z == start.pos.getZ())) || ((Z == start.pos.getZ()) && (X == start.pos.getX())) || ((X == start.pos.getX()) && (Y == end.pos.getY())) || ((X == end.pos.getX()) && (Y == start.pos.getY())) || ((Y == start.pos.getY()) && (Z == end.pos.getZ())) || ((Y == end.pos.getY()) && (Z == start.pos.getZ())) || ((Z == start.pos.getZ()) && (X == end.pos.getX())) || ((Z == end.pos.getZ()) && (X == start.pos.getX())) || ((X == end.pos.getX()) && (Y == end.pos.getY()))
+										|| ((Y == end.pos.getY()) && (Z == end.pos.getZ())) || ((Z == end.pos.getZ()) && (X == end.pos.getX()) && (world.getBlockState(newPos).getBlock() == Blocks.dirt) && ((world.getBlockState(newPos.up()).getBlock() == null) || (!world.getBlockState(newPos.up()).getBlock().isOpaqueCube())))) {
 									world.setBlockState(newPos, Blocks.grass.getDefaultState());
 								}
 							}
@@ -427,8 +455,6 @@ public class ItemBuildingWand extends ItemWand {
 				return false;
 			}
 
-			bucket = Items.water_bucket;
-
 			if (!FREE) {
 				neededItems = 0;
 
@@ -452,7 +478,7 @@ public class ItemBuildingWand extends ItemWand {
 				}
 			}
 
-			if (emptyBuckets(bucket, entityplayer, 2)) {
+			if (emptyBuckets(entityplayer, 2, false)) {
 				for (X = start.pos.getX(); X <= end.pos.getX(); X++) {
 					for (Z = start.pos.getZ(); Z <= end.pos.getZ(); Z++) {
 						for (Y = start.pos.getY(); Y <= end.pos.getY(); Y++) {
@@ -494,7 +520,6 @@ public class ItemBuildingWand extends ItemWand {
 				error(entityplayer, clicked, "cantfilllava");
 				return false;
 			}
-			bucket = Items.lava_bucket;
 
 			neededItems = 0;
 
@@ -518,7 +543,7 @@ public class ItemBuildingWand extends ItemWand {
 				}
 			}
 
-			if (emptyBuckets(bucket, entityplayer, neededItems)) {
+			if (emptyBuckets(entityplayer, neededItems, true)) {
 				for (X = start.pos.getX(); X <= end.pos.getX(); X++) {
 					for (Z = start.pos.getZ(); Z <= end.pos.getZ(); Z++) {
 						for (Y = start.pos.getY(); Y <= end.pos.getY(); Y++) {

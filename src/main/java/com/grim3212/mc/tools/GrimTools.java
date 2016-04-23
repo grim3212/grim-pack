@@ -7,6 +7,7 @@ import com.grim3212.mc.core.manual.pages.PageCrafting;
 import com.grim3212.mc.core.manual.pages.PageFurnace;
 import com.grim3212.mc.core.manual.pages.PageImageText;
 import com.grim3212.mc.core.manual.pages.PageInfo;
+import com.grim3212.mc.core.network.PacketDispatcher;
 import com.grim3212.mc.core.part.GrimPart;
 import com.grim3212.mc.core.proxy.CommonProxy;
 import com.grim3212.mc.core.util.RecipeHelper;
@@ -16,6 +17,8 @@ import com.grim3212.mc.tools.config.ToolsConfig;
 import com.grim3212.mc.tools.entity.ToolsEntities;
 import com.grim3212.mc.tools.event.MilkingEvent;
 import com.grim3212.mc.tools.items.ToolsItems;
+import com.grim3212.mc.tools.network.MessageSwitchModes;
+import com.grim3212.mc.tools.network.MessageWandKeys;
 import com.grim3212.mc.tools.world.ToolsGenerate;
 
 import net.minecraft.init.Items;
@@ -62,6 +65,8 @@ public class GrimTools extends GrimPart {
 
 		NetworkRegistry.INSTANCE.registerGuiHandler(INSTANCE, new ToolsGuiHandler());
 		MinecraftForge.EVENT_BUS.register(new MilkingEvent());
+		PacketDispatcher.registerMessage(MessageWandKeys.class);
+		PacketDispatcher.registerMessage(MessageSwitchModes.class);
 
 		GameRegistry.registerWorldGenerator(new ToolsGenerate(), 25);
 
@@ -104,5 +109,11 @@ public class GrimTools extends GrimPart {
 		ManualRegistry.addSection("info", modSection).addSubSectionPages(new PageInfo("info"));
 		ManualRegistry.addSection("regular", modSection).addSubSectionPages(new PageCrafting("recipes", ToolsItems.regular, 20));
 		ManualRegistry.addSection("reinforced", modSection).addSubSectionPages(new PageCrafting("recipes", ToolsItems.reinforced, 20));
+		ManualRegistry.addSection("multi", modSection).addSubSectionPages(new PageCrafting("tools", ToolsItems.tools, 20));
+		ManualRegistry.addSection("pokeball", modSection).addSubSectionPages(new PageCrafting("recipe", new ItemStack(ToolsItems.pokeball)));
+		ManualRegistry.addSection("staff", modSection).addSubSectionPages(new PageCrafting("recipe", new ItemStack(ToolsItems.powerstaff)));
+		ManualRegistry.addSection("raygun", modSection).addSubSectionPages(new PageImageText("element", "element115.png"), new PageCrafting("canisters", ToolsItems.basicCanisters, 25), new PageCrafting("raygun", new ItemStack(ToolsItems.ray_gun)));
+		ManualRegistry.addSection("advraygun", modSection).addSubSectionPages(new PageCrafting("darkIron", new ItemStack(ToolsItems.dark_iron_ingot)), new PageCrafting("canisters", ToolsItems.advCanisters, 25), new PageCrafting("advraygun", new ItemStack(ToolsItems.advanced_ray_gun)));
+		ManualRegistry.addSection("sling", modSection).addSubSectionPages(new PageCrafting("pellets", ToolsItems.pellets, 20), new PageCrafting("slingshot", new ItemStack(ToolsItems.sling_shot)));
 	}
 }

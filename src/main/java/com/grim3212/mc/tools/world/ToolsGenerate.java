@@ -19,6 +19,13 @@ public class ToolsGenerate extends GrimWorldGen {
 			int j1 = j + random.nextInt(16);
 			(new WorldGenMinable(ToolsBlocks.black_diamond_ore.getDefaultState(), 5)).generate(world, random, new BlockPos(l, i1, j1));
 		}
+
+		for (int k = 0; k < 7; k++) {
+			int x = i + random.nextInt(16);
+			int y = random.nextInt(32);
+			int z = j + random.nextInt(16);
+			(new WorldGenMinable(ToolsBlocks.element_115_ore.getDefaultState(), 4)).generate(world, random, new BlockPos(x, y, z));
+		}
 	}
 
 	@Override

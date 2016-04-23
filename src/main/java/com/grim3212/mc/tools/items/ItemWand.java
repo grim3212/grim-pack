@@ -2,7 +2,6 @@ package com.grim3212.mc.tools.items;
 
 import java.util.Random;
 
-import com.grim3212.mc.core.network.PacketDispatcher;
 import com.grim3212.mc.core.util.NBTHelper;
 import com.grim3212.mc.tools.GrimTools;
 import com.grim3212.mc.tools.config.ToolsConfig;
@@ -33,10 +32,6 @@ public abstract class ItemWand extends Item {
 	public boolean reinforced;
 
 	protected Random rand = new Random();
-
-	private WandCoord3D clicked_start = new WandCoord3D();
-	private WandCoord3D clicked_end = new WandCoord3D();
-	private WandCoord3D clicked_current = new WandCoord3D();
 
 	protected Block idOrig = Blocks.air;
 
@@ -77,7 +72,7 @@ public abstract class ItemWand extends Item {
 		return this.isTooFar((int) a.getDistance(b), 10, (int) a.getDistanceFlat(b), keys);
 	}
 
-	protected abstract boolean doEffect(World world, EntityPlayer entityplayer, WandCoord3D start, WandCoord3D end, WandCoord3D clicked, int keys, Block block, int meta) throws Exception;
+	protected abstract boolean doEffect(World world, EntityPlayer entityplayer, WandCoord3D start, WandCoord3D end, WandCoord3D clicked, int keys, Block block, int meta);
 
 	protected void sendMessage(EntityPlayer player, String message, boolean autoTranslate) {
 		if (!player.worldObj.isRemote) {
@@ -86,14 +81,9 @@ public abstract class ItemWand extends Item {
 			else
 				player.addChatComponentMessage(new ChatComponentText(message));
 		}
-
-		if (player.worldObj.isRemote)
-			PacketDispatcher.sendToServer(new MessageWandKeys(0, 0, 0));
 	}
 
 	protected void error(EntityPlayer entityplayer, WandCoord3D p, String reason) {
-		if (entityplayer.worldObj.isRemote)
-			PacketDispatcher.sendToServer(new MessageWandKeys(0, 0, 0));
 		entityplayer.worldObj.playSoundEffect(p.pos.getX(), p.pos.getY(), p.pos.getZ(), "random.fizz", (entityplayer.worldObj.rand.nextFloat() + 0.7F) / 2.0F, 0.5F + entityplayer.worldObj.rand.nextFloat() * 0.3F);
 		sendMessage(entityplayer, "error.wand." + reason, true);
 		particles(entityplayer.worldObj, p.pos, 3);
@@ -161,7 +151,6 @@ public abstract class ItemWand extends Item {
 	@Override
 	public boolean onItemUse(ItemStack itemstack, EntityPlayer entityplayer, World world, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ) {
 		FREE = (ToolsConfig.ENABLE_free_build_mode) || (entityplayer.capabilities.isCreativeMode);
-		this.clicked_current.setPos(pos);
 
 		Block id = world.getBlockState(pos).getBlock();
 		int meta = world.getBlockState(pos).getBlock().getMetaFromState(world.getBlockState(pos));
@@ -178,50 +167,45 @@ public abstract class ItemWand extends Item {
 			id = Blocks.powered_repeater;
 		}
 
+		WandCoord3D clicked_current = new WandCoord3D(pos, id, meta);
+
 		if (isIncompatible(id)) {
-			error(entityplayer, this.clicked_current, "cantbuild");
+			error(entityplayer, clicked_current, "cantbuild");
 			return true;
 		}
 
-		int keys = KeybindHelper.getKeyCode();
+		int keys = NBTHelper.getInt(itemstack, "keys");
 		if (keys == 0) {
 			world.playSoundEffect(pos.getX() + 0.5F, pos.getY() + 0.5F, pos.getZ() + 0.5F, id.stepSound.getBreakSound(), (id.stepSound.getVolume() + 1.0F) / 2.0F, id.stepSound.getFrequency() * 0.8F);
 
 			this.meta1 = meta;
 			this.id1 = id;
-			this.clicked_start.setTo(this.clicked_current);
+			clicked_current.writeToNBT(itemstack.getTagCompound(), "Start");
 
-			particles(world, this.clicked_current, 0);
+			particles(world, clicked_current, 0);
 
 			NBTHelper.setBoolean(itemstack, "firstUse", false);
 			return true;
 		} else {
-			this.clicked_end.setTo(this.clicked_current);
+			clicked_current.writeToNBT(itemstack.getTagCompound(), "End");
 
 			if (NBTHelper.getBoolean(itemstack, "firstUse")) {
-				error(entityplayer, this.clicked_current, "nostart");
+				error(entityplayer, clicked_current, "nostart");
 				return true;
 			}
 
-			WandCoord3D Start = this.clicked_start.copy();
-			WandCoord3D End = this.clicked_end.copy();
-			WandCoord3D.findEnds(Start, End);
+			WandCoord3D start = WandCoord3D.getFromNBT(itemstack.getTagCompound(), "Start");
+			WandCoord3D end = WandCoord3D.getFromNBT(itemstack.getTagCompound(), "End");
+			WandCoord3D.findEnds(start, end);
 
-			if (isTooFar(Start, End, keys)) {
-				error(entityplayer, this.clicked_end, "toofar");
+			if (isTooFar(start, end, keys)) {
+				error(entityplayer, end, "toofar");
 				return true;
 			}
 
-			boolean damage = false;
-			try {
-				damage = this.doEffect(world, entityplayer, Start, End, clicked_current, keys, id, meta);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+			boolean damage = this.doEffect(world, entityplayer, start, end, clicked_current, keys, id, meta);
 
 			if (damage) {
-				if (world.isRemote)
-					PacketDispatcher.sendToServer(new MessageWandKeys(0, 0, 0));
 				NBTHelper.setBoolean(itemstack, "firstUse", true);
 				if (!FREE) {
 					itemstack.damageItem(1, entityplayer);

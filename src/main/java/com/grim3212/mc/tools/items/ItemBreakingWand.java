@@ -1,6 +1,5 @@
 package com.grim3212.mc.tools.items;
 
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 
 import com.grim3212.mc.tools.config.ToolsConfig;
@@ -14,7 +13,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.ReflectionHelper;
 
 public class ItemBreakingWand extends ItemWand {
 
@@ -57,18 +55,10 @@ public class ItemBreakingWand extends ItemWand {
 	}
 
 	@Override
-	protected boolean doEffect(World world, EntityPlayer entityplayer, WandCoord3D start, WandCoord3D end, WandCoord3D clicked, int keys, Block block, int meta) throws Exception {
-		// TODO: Probably change
-		Field scheduleUpdatesField = ReflectionHelper.findField(World.class, "scheduledUpdatesAreImmediate", "field_72999_e");
-		scheduleUpdatesField.setAccessible(true);
-
-		if (ToolsConfig.disableNotify)
-			scheduleUpdatesField.setBoolean(world, true);
+	protected boolean doEffect(World world, EntityPlayer entityplayer, WandCoord3D start, WandCoord3D end, WandCoord3D clicked, int keys, Block block, int meta) {
 		boolean damage = do_Breaking(world, start, end, clicked, keys, entityplayer);
 		if (damage)
 			world.playSoundEffect(end.pos.getX(), end.pos.getY(), end.pos.getZ(), "random.explode", 2.5F, 0.5F + world.rand.nextFloat() * 0.3F);
-		if (ToolsConfig.disableNotify)
-			scheduleUpdatesField.setBoolean(world, false);
 		return damage;
 	}
 

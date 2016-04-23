@@ -19,6 +19,7 @@ import com.google.common.collect.Maps;
 import com.grim3212.mc.core.util.NBTHelper;
 import com.grim3212.mc.tools.GrimTools;
 import com.grim3212.mc.tools.items.ItemBetterBucket;
+import com.grim3212.mc.tools.items.ItemBetterMilkBucket;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.BakedQuad;
@@ -66,7 +67,6 @@ public class BetterBucketModel implements IModel, IModelCustomData<BetterBucketM
 	protected final ResourceLocation liquidLocation;
 	protected final ResourceLocation coverLocation;
 	protected HashMap<String, ResourceLocation> overlays = Maps.newHashMap();
-	protected final ResourceLocation overlayFireLocation = new ResourceLocation(GrimTools.modID, "items/overlay_fire");
 
 	protected final Fluid fluid;
 	protected final boolean flipGas;
@@ -265,8 +265,11 @@ public class BetterBucketModel implements IModel, IModelCustomData<BetterBucketM
 
 			// not a fluid item apparently
 			if (fluidStack == null) {
-				if (ItemBetterBucket.extraPickups.contains(NBTHelper.getString(stack, "FluidName"))) {
+				if (ItemBetterBucket.extraPickups.contains(NBTHelper.getString(stack, "FluidName")) || stack.getItem() instanceof ItemBetterMilkBucket) {
 					String name = NBTHelper.getString(stack, "FluidName");
+					if (name.isEmpty() && stack.getItem() instanceof ItemBetterMilkBucket)
+						name = "milk";
+
 					if (!cache.containsKey(name)) {
 						IModel model = parent.process(ImmutableMap.of("fluid", name));
 						Function<ResourceLocation, TextureAtlasSprite> textureGetter;
@@ -304,7 +307,7 @@ public class BetterBucketModel implements IModel, IModelCustomData<BetterBucketM
 				}
 			}
 
-			return cache.get(NBTHelper.getString(stack, "FluidName"));
+			return stack.getItem() instanceof ItemBetterMilkBucket ? cache.get("milk") : cache.get(NBTHelper.getString(stack, "FluidName"));
 		}
 
 		@Override

@@ -10,8 +10,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.stats.StatList;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.common.FMLCommonHandler;
-import net.minecraftforge.fml.relauncher.Side;
 
 public class ItemHammer extends Item {
 
@@ -25,8 +23,7 @@ public class ItemHammer extends Item {
 	public boolean onBlockStartBreak(ItemStack itemstack, BlockPos pos, EntityPlayer entityplayer) {
 		World world = entityplayer.worldObj;
 
-		Side side = FMLCommonHandler.instance().getEffectiveSide();
-		if (side == Side.SERVER && !entityplayer.capabilities.isCreativeMode) {
+		if (!world.isRemote && !entityplayer.capabilities.isCreativeMode) {
 			world.getBlockState(pos).getBlock();
 			entityplayer.addStat(StatList.mineBlockStatArray[Block.getIdFromBlock(world.getBlockState(pos).getBlock())], 1);
 			entityplayer.addExhaustion(0.025F);
@@ -41,7 +38,7 @@ public class ItemHammer extends Item {
 				return false;
 			}
 			return true;
-		} else if (side == Side.CLIENT) {
+		} else if (world.isRemote) {
 			return true;
 		} else {
 			return false;
