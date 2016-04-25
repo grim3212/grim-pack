@@ -5,6 +5,7 @@ import java.util.Random;
 import com.grim3212.mc.core.part.GrimWorldGen;
 import com.grim3212.mc.world.blocks.WorldBlocks;
 import com.grim3212.mc.world.config.WorldConfig;
+import com.grim3212.mc.world.util.FloatingIslandsBlacklist;
 
 import net.minecraft.init.Blocks;
 import net.minecraft.util.BlockPos;
@@ -14,7 +15,7 @@ import net.minecraft.world.gen.feature.WorldGenMinable;
 import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.common.BiomeDictionary.Type;
 
-public class WorldGenerator extends GrimWorldGen {
+public class GrimWorldGenerator extends GrimWorldGen {
 
 	@Override
 	protected void generateSurface(World world, Random random, int i, int j) {
@@ -31,6 +32,8 @@ public class WorldGenerator extends GrimWorldGen {
 			int Zcoord1 = j + random.nextInt(16) + 8;
 			(new WorldGenGunReeds()).generate(world, random, new BlockPos(Xcoord1, Ycoord1, Zcoord1));
 		}
+
+		FloatingIslandsBlacklist.generateFloatingIslands(world, random, i, j);
 
 		surfaceFlatBedrock(world, i, j);
 

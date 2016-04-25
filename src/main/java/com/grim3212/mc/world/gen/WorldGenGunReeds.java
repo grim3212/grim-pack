@@ -11,6 +11,7 @@ import net.minecraft.world.gen.feature.WorldGenerator;
 
 public class WorldGenGunReeds extends WorldGenerator {
 
+	@Override
 	public boolean generate(World worldIn, Random rand, BlockPos pos) {
 		for (int i = 0; i < 20; ++i) {
 			BlockPos blockpos1 = pos.add(rand.nextInt(4) - rand.nextInt(4), 0, rand.nextInt(4) - rand.nextInt(4));

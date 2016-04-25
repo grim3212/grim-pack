@@ -20,6 +20,7 @@ public class WorldGenCorruption extends WorldGenerator {
 		this.numberOfBlocks = var1;
 	}
 
+	@Override
 	public boolean generate(World var1, Random var2, BlockPos pos) {
 		float var6 = var2.nextFloat() * 3.141593F;
 		double var7 = (double) ((float) (pos.getX() + 8) + MathHelper.sin(var6) * (float) this.numberOfBlocks / 8.0F);

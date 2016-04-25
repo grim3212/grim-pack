@@ -10,7 +10,7 @@ import com.grim3212.mc.core.proxy.CommonProxy;
 import com.grim3212.mc.world.blocks.WorldBlocks;
 import com.grim3212.mc.world.config.WorldConfig;
 import com.grim3212.mc.world.entity.WorldEntities;
-import com.grim3212.mc.world.gen.WorldGenerator;
+import com.grim3212.mc.world.gen.GrimWorldGenerator;
 import com.grim3212.mc.world.items.WorldItems;
 import com.grim3212.mc.world.util.DesertWellLoot;
 
@@ -54,7 +54,7 @@ public class GrimWorld extends GrimPart {
 		data.url = "http://mods.grim3212.com/mc/" + "my-mods/grim-world/";
 		data.credits = "Thanks to the following authors. Leesgowest, LFalch, mattop101, Nandonalt.";
 
-		GameRegistry.registerWorldGenerator(new WorldGenerator(), 5);
+		GameRegistry.registerWorldGenerator(new GrimWorldGenerator(), 5);
 		DesertWellLoot.init();
 
 		proxy.registerModels();
@@ -84,6 +84,12 @@ public class GrimWorld extends GrimPart {
 		ManualRegistry.addSection("pixie", modSection).addSubSectionPages(new PageImageText("info", "pixie.png"));
 		ManualRegistry.addSection("treasure", modSection).addSubSectionPages(new PageImageText("info", "treasure.png"));
 		ManualRegistry.addSection("worldgen", modSection).addSubSectionPages(new PageImageText("info", "worldgen.png"));
+		if (WorldConfig.corruption)
+			ManualRegistry.addSection("corruption", modSection).addSubSectionPages(new PageImageText("info", "corruption.png"));
+		if (WorldConfig.generateFI)
+			ManualRegistry.addSection("floating", modSection).addSubSectionPages(new PageImageText("info", "floating.png"));
+		if (WorldConfig.spawnMorePeople)
+			ManualRegistry.addSection("people", modSection).addSubSectionPages(new PageImageText("notch", "notch.png"), new PageImageText("farmer", "farmer.png"), new PageImageText("lumber", "lumber.png"), new PageImageText("miner", "miner.png"), new PageImageText("psycho", "psycho.png"), new PageImageText("suicide", "suicide.png"));
 		ManualRegistry.addSection("greed", modSection).addSubSectionPages(new PageCrafting("recipes", WorldItems.greed, 25));
 		ManualRegistry.addSection("glowseeds", modSection).addSubSectionPages(new PageCrafting("recipe", new ItemStack(WorldBlocks.glowstone_seeds)));
 		ManualRegistry.addSection("basic", modSection).addSubSectionPages(new PageCrafting("green", WorldBlocks.greenFungus, 25), new PageCrafting("color", WorldBlocks.coloredFungus, 15));

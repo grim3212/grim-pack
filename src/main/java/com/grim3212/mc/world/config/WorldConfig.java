@@ -21,6 +21,12 @@ public class WorldConfig extends GrimConfig {
 	public static int frequencySandstonePillars;
 	public static int frequencySandPits;
 	public static int frequencyMelons;
+	
+	public static int spawnrate;
+	public static int sizevariancefrom7;
+	public static boolean generateFI;
+	
+	public static boolean spawnMorePeople;
 
 	public static String[] DIRT_EATING_BLOCKS_POSSIBLE;
 	public static String[] SMOOTHSTONE_EATING_BLOCKS_POSSIBLE;
@@ -34,6 +40,7 @@ public class WorldConfig extends GrimConfig {
 	public void syncConfig() {
 		fire = config.get(Configuration.CATEGORY_GENERAL, "Enable Fire", true).getBoolean();
 		corruption = config.get(Configuration.CATEGORY_GENERAL, "Enable Corruption", false).getBoolean();
+		spawnMorePeople = config.get(Configuration.CATEGORY_GENERAL, "Spawn more people", true).getBoolean();
 
 		config.addCustomCategoryComment(Configuration.CATEGORY_GENERAL, "Change the values to decide how rare or common the different world gen items spawn. Larger values means rarer.");
 		frequencyWheatField = config.get(Configuration.CATEGORY_GENERAL, "Frequency Wheat Field", 350).getInt();
@@ -43,9 +50,15 @@ public class WorldConfig extends GrimConfig {
 		frequencySandstonePillars = config.get(Configuration.CATEGORY_GENERAL, "Frequency Sandstone Pillars", 400).getInt();
 		frequencySandPits = config.get(Configuration.CATEGORY_GENERAL, "Frequency Sand Pits", 600).getInt();
 		frequencyMelons = config.get(Configuration.CATEGORY_GENERAL, "Frequency Melons", 200).getInt();
+		
+		String floatingIslands = "floating-islands";
+		config.addCustomCategoryComment(floatingIslands, "Floating Islands configuration options. Spawn rate becomes more rare as the number grows.");
+		spawnrate = config.get(floatingIslands, "Spawn Rate", 100).getInt();
+		sizevariancefrom7 = config.get(floatingIslands, "Size Variance", 5).getInt();
+		generateFI = config.get(floatingIslands, "Generate Floating Islands", true).getBoolean();
 
 		String fungus = "fungus";
-		config.addCustomCategoryComment(fungus, "Add block !NAMES! to each of the different eating fungus's whitelists and blacklists respectively. \r\nMake sure that after each one you put a comma without a space. \r\nEX: 'stone,grass' ");
+		config.addCustomCategoryComment(fungus, "Add block !NAMES! to each of the different eating fungus's whitelists and blacklists respectively.");
 		DIRT_EATING_BLOCKS_POSSIBLE = config.get(fungus, "Dirt Eating Whitelist", new String[] { "grass", "dirt", "farmland" }).getStringList();
 		SMOOTHSTONE_EATING_BLOCKS_POSSIBLE = config.get(fungus, "Smooth Stone Fungus Whitelist", new String[] { "stone", "monster_egg" }).getStringList();
 		WATER_LEAVES_EATING_BLOCKS_POSSIBLE = config.get(fungus, "Water and Leaves Fungus Whitelist", new String[] { "sapling", "flowing_water", "water", "leaves", "leaves2", "web", "tallgrass", "deadbush", "yellow_flower", "red_flower", "brown_mushroom", "red_mushroom", "wheat", "reeds", "melon_stem", "pumpkin_stem", "vine", "waterlily", "nether_wart", "cocoa", "carrots", "potatoes", "double_plant" }).getStringList();

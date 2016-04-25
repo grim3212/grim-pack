@@ -1,9 +1,22 @@
 #================= OTHER =================#
 grim.creative.grimworld=Grim World
 entity.IcePixie.name=Ice Pixie
-entity.grimworld.IcePixie.name=Ice Pixie
 entity.Treasure.name=Treasure Mob
+entity.Notch.name=Notch
+entity.Psychopath.name=Psychopath
+entity.Farmer.name=Farmer
+entity.LumberJack.name=Lumber Jack
+entity.Miner.name=Miner
+entity.SuicideBomber.name=Suicide Bomber
+
+entity.grimworld.IcePixie.name=Ice Pixie
 entity.grimworld.Treasure.name=Treasure Mob
+entity.grimworld.Notch.name=Notch
+entity.grimworld.Psychopath.name=Psychopath
+entity.grimworld.Farmer.name=Farmer
+entity.grimworld.LumberJack.name=Lumber Jack
+entity.grimworld.Miner.name=Miner
+entity.grimworld.SuicideBomber.name=Suicide Bomber
 
 #================= BLOCKS =================#
 tile.randomite.name=Randomite
@@ -68,6 +81,19 @@ item.fungicide.name=Fungicidal Spray
 
 #================= INSTRUCTION MANUAL =================#
 grim.manual.grimworld.modinfo=Adds in world generation and entities.
+grim.manual.grimworld.subsection.people=More People
+grim.manual.grimworld.subsection.people.page.notch=The first person added with this mod is Minecraft's creator Notch. Notch holds a Diamond Sword and when attacked will attack you. He also drops apples.
+grim.manual.grimworld.subsection.people.page.notch.title=Notch
+grim.manual.grimworld.subsection.people.page.farmer=A farmer is also added in this mod. The farm roams around and will attack if you attack it. They hold a Wooden Hoe and can drop wheat when killed.
+grim.manual.grimworld.subsection.people.page.farmer.title=Farmer
+grim.manual.grimworld.subsection.people.page.lumber=The lumberjack roams around and holds a Wooden Axe. He will also attack you if you attack him and he has a chance of dropping wood and sticks.
+grim.manual.grimworld.subsection.people.page.lumber.title=Lumberjack
+grim.manual.grimworld.subsection.people.page.miner=The miner holds a Stone Pickaxe and will also attack you if you attack him. He has a chance of dropping coal when killed.
+grim.manual.grimworld.subsection.people.page.miner.title=Miner
+grim.manual.grimworld.subsection.people.page.psycho=The psychopath has no arms and will attack you on sight. He will not drop anything if killed.
+grim.manual.grimworld.subsection.people.page.psycho.title=Psychopath
+grim.manual.grimworld.subsection.people.page.suicide=The suicide bomber will run at you and attack you and when attacked he will explode.
+grim.manual.grimworld.subsection.people.page.suicide.title=Suicide Bomber
 grim.manual.grimworld.subsection.randomite=Randomite
 grim.manual.grimworld.subsection.randomite.page.info=Randomite adds in one new ore that generates in your world. This ore has a chance to drop any of the ores in Minecraft and even an egg.
 grim.manual.grimworld.subsection.randomite.page.info.title=Info
@@ -115,3 +141,6 @@ grim.manual.grimworld.subsection.break.page.vert.title=Vert Block Eaters
 grim.manual.grimworld.subsection.fungicide=Fungicide
 grim.manual.grimworld.subsection.fungicide.page.fungicide=Fungicide is used if you want to remove large amounts of fungi in an area at once. Once crafted it has unlimited uses and has a range of up to 20 blocks. Just right click and particles will appear in the area that you cleared.
 grim.manual.grimworld.subsection.fungicide.page.fungicide.title=Recipe
+grim.manual.grimworld.subsection.floating=Floating Islands
+grim.manual.grimworld.subsection.floating.page.info=This mod adds the ability to generate floating islands in your minecraft world. Their are config options for size variance and frequency and also one to turn off generation. 
+grim.manual.grimworld.subsection.floating.page.info.title=Info

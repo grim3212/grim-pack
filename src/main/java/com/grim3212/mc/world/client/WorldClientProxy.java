@@ -2,6 +2,7 @@ package com.grim3212.mc.world.client;
 
 import com.grim3212.mc.core.client.RenderHelper;
 import com.grim3212.mc.core.proxy.ClientProxy;
+import com.grim3212.mc.world.GrimWorld;
 import com.grim3212.mc.world.blocks.BlockFungusBuilding;
 import com.grim3212.mc.world.blocks.BlockFungusGrowing;
 import com.grim3212.mc.world.blocks.BlockFungusKilling;
@@ -10,13 +11,22 @@ import com.grim3212.mc.world.blocks.BlockGunpowderReed;
 import com.grim3212.mc.world.blocks.WorldBlocks;
 import com.grim3212.mc.world.client.entity.RenderIceCube.RenderIceCubeFactory;
 import com.grim3212.mc.world.client.entity.RenderIcePixie.RenderIcePixieFactory;
+import com.grim3212.mc.world.client.entity.RenderPerson.RenderPersonFactory;
 import com.grim3212.mc.world.client.entity.RenderTreasureMob.RenderTreasureMobFactory;
+import com.grim3212.mc.world.config.WorldConfig;
+import com.grim3212.mc.world.entity.EntityBomber;
+import com.grim3212.mc.world.entity.EntityFarmer;
 import com.grim3212.mc.world.entity.EntityIceCube;
 import com.grim3212.mc.world.entity.EntityIcePixie;
+import com.grim3212.mc.world.entity.EntityLumberJack;
+import com.grim3212.mc.world.entity.EntityMiner;
+import com.grim3212.mc.world.entity.EntityNotch;
+import com.grim3212.mc.world.entity.EntityPsycho;
 import com.grim3212.mc.world.entity.EntityTreasureMob;
 import com.grim3212.mc.world.items.WorldItems;
 
 import net.minecraft.client.renderer.block.statemap.StateMap;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 
@@ -45,6 +55,15 @@ public class WorldClientProxy extends ClientProxy {
 		RenderingRegistry.registerEntityRenderingHandler(EntityIcePixie.class, new RenderIcePixieFactory());
 		RenderingRegistry.registerEntityRenderingHandler(EntityIceCube.class, new RenderIceCubeFactory());
 		RenderingRegistry.registerEntityRenderingHandler(EntityTreasureMob.class, new RenderTreasureMobFactory());
+
+		if (WorldConfig.spawnMorePeople) {
+			RenderingRegistry.registerEntityRenderingHandler(EntityNotch.class, new RenderPersonFactory(new ResourceLocation(GrimWorld.modID, "textures/entities/notch.png")));
+			RenderingRegistry.registerEntityRenderingHandler(EntityPsycho.class, new RenderPersonFactory(new ResourceLocation(GrimWorld.modID, "textures/entities/psycho.png")));
+			RenderingRegistry.registerEntityRenderingHandler(EntityFarmer.class, new RenderPersonFactory(new ResourceLocation(GrimWorld.modID, "textures/entities/farmer.png")));
+			RenderingRegistry.registerEntityRenderingHandler(EntityLumberJack.class, new RenderPersonFactory(new ResourceLocation(GrimWorld.modID, "textures/entities/lumberjack.png")));
+			RenderingRegistry.registerEntityRenderingHandler(EntityMiner.class, new RenderPersonFactory(new ResourceLocation(GrimWorld.modID, "textures/entities/miner.png")));
+			RenderingRegistry.registerEntityRenderingHandler(EntityBomber.class, new RenderPersonFactory(new ResourceLocation(GrimWorld.modID, "textures/entities/bomber.png")));
+		}
 	}
 
 }
