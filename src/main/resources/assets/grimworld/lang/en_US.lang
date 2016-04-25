@@ -1,0 +1,117 @@
+#================= OTHER =================#
+grim.creative.grimworld=Grim World
+entity.IcePixie.name=Ice Pixie
+entity.grimworld.IcePixie.name=Ice Pixie
+entity.Treasure.name=Treasure Mob
+entity.grimworld.Treasure.name=Treasure Mob
+
+#================= BLOCKS =================#
+tile.randomite.name=Randomite
+tile.gunpowder_reed_block.name=Greed Block
+tile.glowstone_seeds.name=Glowstone Seed
+tile.corruption_block.name=Corruption Block
+#Growing Fungus
+tile.fungus_growing.0.name=Green Fungus
+tile.fungus_growing.1.name=Yellow Fungus
+tile.fungus_growing.2.name=Red Fungus
+tile.fungus_growing.3.name=Blue Fungus
+tile.fungus_growing.4.name=Purple Fungus
+tile.fungus_growing.5.name=Orange Fungus
+tile.fungus_growing.6.name=Pink Fungus
+tile.fungus_growing.7.name=Cyan Fungus
+tile.fungus_growing.8.name=Rapid Green Fungus
+tile.fungus_growing.9.name=Rapid Yellow Fungus
+tile.fungus_growing.10.name=Rapid Red Fungus
+tile.fungus_growing.11.name=Rapid Blue Fungus
+tile.fungus_growing.12.name=Rapid Purple Fungus
+tile.fungus_growing.13.name=Rapid Orange Fungus
+tile.fungus_growing.14.name=Rapid Pink Fungus
+tile.fungus_growing.15.name=Rapid Cyan Fungus
+#Building Fungus
+tile.fungus_building.0.name=Water Building Fungus
+tile.fungus_building.1.name=Dirt Building Fungus
+tile.fungus_building.2.name=SmoothStone Building Fungus
+tile.fungus_building.3.name=Sand Building Fungus
+tile.fungus_building.4.name=Netherrack Building Fungus
+tile.fungus_building.5.name=Cobblestone Building Fungus
+tile.fungus_building.6.name=StoneBrick Building Fungus
+tile.fungus_building.7.name=Sandstone Building Fungus
+tile.fungus_building.8.name=Lava Building Fungus
+tile.fungus_building.9.name=Dirt Layer Building Fungus
+tile.fungus_building.10.name=SmoothStone Layer Building Fungus
+tile.fungus_building.11.name=Maze Building Fungus
+tile.fungus_building.12.name=Netherrack Layer Building Fungus
+tile.fungus_building.13.name=Cobblestone Layer Building Fungus
+tile.fungus_building.14.name=StoneBrick Layer Building Fungus
+tile.fungus_building.15.name=Sandstone Layer Building Fungus
+#Acid Fungus
+tile.fungus_killing.0.name=Dark Acid Fungus
+tile.fungus_killing.1.name=Rapid Dark Acid Fungus
+tile.fungus_killing.2.name=Dirt Eating Fungus
+tile.fungus_killing.3.name=SmoothStone Eating Fungus
+tile.fungus_killing.4.name=Water'n'Leaves Eating Fungus
+tile.fungus_killing.5.name=Sand'n'Gravel Eating Fungus
+tile.fungus_killing.6.name=Rocks Eating Fungus
+tile.fungus_killing.7.name=Glass Building Fungus
+tile.fungus_killing.8.name=Vertical Dirt Eating Fungus
+tile.fungus_killing.9.name=Vertical SmoothStone Eating Fungus
+tile.fungus_killing.10.name=Vertical Water'n'Leaves Eating Fungus
+tile.fungus_killing.11.name=Vertical Sand'n'Gravel Eating Fungus
+tile.fungus_killing.12.name=Vertical Rocks Eating Fungus
+tile.fungus_killing.13.name=Vertical All Eating Fungus
+tile.fungus_killing.14.name=Forest Killing Blob
+tile.fungus_killing.15.name=Glass Layer Building Fungus
+
+#================= ITEMS =================#
+item.gunpowder_reed_item.name=Gunpowder Reeds
+item.fungicide.name=Fungicidal Spray
+
+#================= INSTRUCTION MANUAL =================#
+grim.manual.grimworld.modinfo=Adds in world generation and entities.
+grim.manual.grimworld.subsection.randomite=Randomite
+grim.manual.grimworld.subsection.randomite.page.info=Randomite adds in one new ore that generates in your world. This ore has a chance to drop any of the ores in Minecraft and even an egg.
+grim.manual.grimworld.subsection.randomite.page.info.title=Info
+grim.manual.grimworld.subsection.greed=Gunpowder Reeds
+grim.manual.grimworld.subsection.greed.page.recipes=Gunpowder Reeds naturally generate around the world but if you would like to get started right away you can craft them yourself. They are like vanilla reeds in that they must be next to water and only grow 3 high. They also must be planted on dirt or sand.
+grim.manual.grimworld.subsection.greed.page.recipes.title=Recipes
+grim.manual.grimworld.subsection.bedrock=Flat Bedrock
+grim.manual.grimworld.subsection.bedrock.page.info=This mod changes how bedrock generates and instead of being really crazy and uneven this mod flattens it out into one layer.
+grim.manual.grimworld.subsection.bedrock.page.info.title=Info
+grim.manual.grimworld.subsection.glowseeds=Glowstone Seeds
+grim.manual.grimworld.subsection.glowseeds.page.recipe=Glowstone seeds are a way to farm glowstone. Seeds need to be planted under netherrack since they grow upside down and can be planted in the Nether or 15 blocks above Bedrock. They grow very, very slowly but once grown they grow a group of glowstone similar to the ones found naturally in the Nether.
+grim.manual.grimworld.subsection.glowseeds.page.recipe.title=Recipe
+grim.manual.grimworld.subsection.wells=Desert Wells
+grim.manual.grimworld.subsection.wells.page.info=Desert Wells changes the way natural Desert Wells spawn in. They add varied depth and also loot to them so it gives you a reason to explore them.
+grim.manual.grimworld.subsection.wells.page.info.title=Info
+grim.manual.grimworld.subsection.corruption=Corruption
+grim.manual.grimworld.subsection.corruption.page.info=This mod adds in one block which corrupts your minecraft world. It transforms other blocks surrounding it with a block of netherrack, soul sand, or another corruption block. It can also spawn fires which is configurable and the block is only obtainable from the nether.
+grim.manual.grimworld.subsection.corruption.page.info.title=Info
+grim.manual.grimworld.subsection.pixie=Ice Pixie
+grim.manual.grimworld.subsection.pixie.page.info=This mod adds in one new entity that spawn in snowy biomes, an Ice Pixie. The Ice Pixie will attack players but cannot be hurt by players. It can only be hurt when surrounded by torches.
+grim.manual.grimworld.subsection.pixie.page.info.title=Info
+grim.manual.grimworld.subsection.treasure=Treasure
+grim.manual.grimworld.subsection.treasure.page.info=This mod adds in a new mob that is a Treasure Chest. When killed it has a chance to drop a variety of different items from bread to diamonds.
+grim.manual.grimworld.subsection.treasure.page.info.title=Info
+grim.manual.grimworld.subsection.worldgen=World Gen Expanded
+grim.manual.grimworld.subsection.worldgen.page.info=World Gen Expanded adds in many new world generation features. It generates melons, wheat patches, stumps and saplings and cactus fields and sandstone pillars in Deserts. All generation can be configured if they spawn and how frequent they spawn.
+grim.manual.grimworld.subsection.worldgen.page.info.title=Info
+grim.manual.grimworld.subsection.basic=Basic Fungi
+grim.manual.grimworld.subsection.basic.page.green=Green fungi will be needed to make any of the colored fungi. All basic fungi doesn't really have a purpose except to grow and keep growing unless boxed in. Basic fungi will replace liquid and weak blocks. Breaking fungi with your hand can drop a slimeball, using a sword will drop the block itself. Basic Fungi have two types the normal and rapid, rapid grows faster.
+grim.manual.grimworld.subsection.basic.page.green.title=Green Fungi
+grim.manual.grimworld.subsection.basic.page.color=Colored fungi are just colored versions of the green variety. Grows unless enclosed, replaces liquid and weak blocks, breaking fungus with a hand can drop a slimeball, breaking them with a sword drops the block itself, and their are two types normal and rapid which rapid grows faster. The colors to choose from are <f>4<f>lRED<f>0<f>r, <f>2<f>lGREEN<f>0<f>r, <f>1<f>lBLUE<f>0<f>r, <f>5<f>lPURPLE<f>0<f>r, <f>e<f>lYELLOW<f>0<f>r, <f>6<f>lORANGE<f>0<f>r, <f>d<f>lPINK<f>0<f>r, <f>b<f>lCYAN<f>0<f>r.
+grim.manual.grimworld.subsection.basic.page.color.title=Colored Fungi
+grim.manual.grimworld.subsection.build=Building Fungi
+grim.manual.grimworld.subsection.build.page.build=Building Fungi as the name suggests build different types of blocks. THese include block builders which build blocks as they grow but will not grow higher than you placed the blocks. Layer builders build a flat layer of the block specified. And liquid builder are just block builders but for lava and water. Building blocks include Netherrack, Sand, Dirt, Stone, Cobble, StoneBricks, SandStone, Glass.
+grim.manual.grimworld.subsection.build.page.build.title=Building Fungi
+grim.manual.grimworld.subsection.build.page.maze=An experimental builder is the maze builder which when placed will start to build a maze. Like the other building fungi it will not grow upward but only down and to the sides.
+grim.manual.grimworld.subsection.build.page.maze.title=Maze Fungi
+grim.manual.grimworld.subsection.break=Eating Fungi
+grim.manual.grimworld.subsection.break.page.kill=Acid fungi are fungi that kill other fungi their are two types the regular and the rapid. One is all you need for a big group of fungi.
+grim.manual.grimworld.subsection.break.page.kill.title=Acid Fungi
+grim.manual.grimworld.subsection.break.page.blockEater=Another variety of fungus are the block eaters which eat a certain type of block by replacing the blocks they eat with themselves. The eater types are Stone, Rock, Dirt, Sand/Gravel, Leaves/Water, and one to target Forests. All eater types are configurable for which types of blocks they eat.
+grim.manual.grimworld.subsection.break.page.blockEater.title=Block Eaters
+grim.manual.grimworld.subsection.break.page.vert=A sub-species of the Block Eaters are the vertical eaters which instead of growing in any direction will not grow any lower than where they were placed. All eater types are configurable for which types of blocks they eat.
+grim.manual.grimworld.subsection.break.page.vert.title=Vert Block Eaters
+grim.manual.grimworld.subsection.fungicide=Fungicide
+grim.manual.grimworld.subsection.fungicide.page.fungicide=Fungicide is used if you want to remove large amounts of fungi in an area at once. Once crafted it has unlimited uses and has a range of up to 20 blocks. Just right click and particles will appear in the area that you cleared.
+grim.manual.grimworld.subsection.fungicide.page.fungicide.title=Recipe
