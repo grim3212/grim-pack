@@ -3,12 +3,14 @@ package com.grim3212.mc.tools.items;
 import java.util.List;
 
 import com.grim3212.mc.core.part.IPartItems;
+import com.grim3212.mc.core.util.NBTHelper;
 import com.grim3212.mc.core.util.OreDictionaryHelper;
 import com.grim3212.mc.core.util.RecipeHelper;
 import com.grim3212.mc.tools.GrimTools;
 import com.grim3212.mc.tools.items.ItemBetterBucket.BucketType;
 import com.grim3212.mc.tools.util.BackpackRecipeHandler;
 import com.grim3212.mc.tools.util.ChiselRegistry;
+import com.grim3212.mc.tools.util.EnumSpearType;
 
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -104,9 +106,20 @@ public class ToolsItems implements IPartItems {
 	public static Item dark_iron_ingot;
 	public static Item sling_shot;
 	public static Item sling_pellet;
+	public static Item spear;
+	public static Item iron_spear;
+	public static Item diamond_spear;
+	public static Item explosive_spear;
+	public static Item fire_spear;
+	public static Item slime_spear;
+	public static Item light_spear;
+	public static Item lightning_spear;
+	public static Item ultimate_fist;
+	public static Item mask;
 
 	public static ToolMaterial blackdiamond = EnumHelper.addToolMaterial("black_diamond", 4, 5122, 15F, 5F, 20);
 	public static ToolMaterial obsidianToolMaterial = EnumHelper.addToolMaterial("obsidian", 3, 10000, 9.5F, 7f, 14);
+	public static ArmorMaterial masks = EnumHelper.addArmorMaterial("mask", GrimTools.modID + ":masks", 5, new int[] { 1, 3, 2, 1 }, 15);
 	public static ArmorMaterial blackarmor = EnumHelper.addArmorMaterial("blackarmor", GrimTools.modID + ":blackarmor", 35, new int[] { 3, 8, 6, 3 }, 20);
 
 	@Override
@@ -183,7 +196,27 @@ public class ToolsItems implements IPartItems {
 		dark_iron_ingot = (new Item()).setUnlocalizedName("dark_iron_ingot").setCreativeTab(GrimTools.INSTANCE.getCreativeTab());
 		sling_shot = (new ItemSlingshot()).setUnlocalizedName("sling_shot").setCreativeTab(GrimTools.INSTANCE.getCreativeTab());
 		sling_pellet = (new Item()).setUnlocalizedName("sling_pellet").setCreativeTab(GrimTools.INSTANCE.getCreativeTab());
+		spear = (new ItemSpear(EnumSpearType.STONE)).setUnlocalizedName("spear").setCreativeTab(GrimTools.INSTANCE.getCreativeTab());
+		iron_spear = (new ItemSpear(EnumSpearType.IRON)).setUnlocalizedName("iron_spear").setCreativeTab(GrimTools.INSTANCE.getCreativeTab());
+		diamond_spear = (new ItemSpear(EnumSpearType.DIAMOND)).setUnlocalizedName("diamond_spear").setCreativeTab(GrimTools.INSTANCE.getCreativeTab());
+		explosive_spear = (new ItemSpear(EnumSpearType.EXPLOSIVE)).setUnlocalizedName("explosive_spear").setCreativeTab(GrimTools.INSTANCE.getCreativeTab());
+		fire_spear = (new ItemSpear(EnumSpearType.FIRE)).setUnlocalizedName("fire_spear").setCreativeTab(GrimTools.INSTANCE.getCreativeTab());
+		slime_spear = (new ItemSpear(EnumSpearType.SLIME)).setUnlocalizedName("slime_spear").setCreativeTab(GrimTools.INSTANCE.getCreativeTab());
+		light_spear = (new ItemSpear(EnumSpearType.LIGHT)).setUnlocalizedName("light_spear").setCreativeTab(GrimTools.INSTANCE.getCreativeTab());
+		lightning_spear = (new ItemSpear(EnumSpearType.LIGHTNING)).setUnlocalizedName("lightning_spear").setCreativeTab(GrimTools.INSTANCE.getCreativeTab());
+		ultimate_fist = (new ItemUltimateFist()).setUnlocalizedName("ultimate_fist").setCreativeTab(GrimTools.INSTANCE.getCreativeTab());
+		mask = (new ItemMaskArmor(masks, 3, 0)).setUnlocalizedName("mask");
 
+		GameRegistry.registerItem(mask, "mask");
+		GameRegistry.registerItem(ultimate_fist, "ultimate_fist");
+		GameRegistry.registerItem(spear, "spear");
+		GameRegistry.registerItem(iron_spear, "iron_spear");
+		GameRegistry.registerItem(diamond_spear, "diamond_spear");
+		GameRegistry.registerItem(explosive_spear, "explosive_spear");
+		GameRegistry.registerItem(fire_spear, "fire_spear");
+		GameRegistry.registerItem(slime_spear, "slime_spear");
+		GameRegistry.registerItem(light_spear, "light_spear");
+		GameRegistry.registerItem(lightning_spear, "lightning_spear");
 		GameRegistry.registerItem(sling_shot, "sling_shot");
 		GameRegistry.registerItem(sling_pellet, "sling_pellet");
 		GameRegistry.registerItem(element_115, "element_115");
@@ -271,6 +304,10 @@ public class ToolsItems implements IPartItems {
 	public static List<IRecipe> advCanisters;
 	public static List<IRecipe> basicCanisters;
 	public static List<IRecipe> pellets;
+	public static List<IRecipe> basics;
+	public static List<IRecipe> specials;
+	public static IRecipe emptyRecipe;
+	public static List<IRecipe> mobs;
 
 	@Override
 	public void addRecipes() {
@@ -401,5 +438,47 @@ public class ToolsItems implements IPartItems {
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(sling_pellet, 2), new Object[] { "#", '#', "cobblestone" }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(sling_pellet, 4), new Object[] { "#", '#', "stone" }));
 		pellets = RecipeHelper.getLatestIRecipes(3);
+
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(spear, 1), new Object[] { "#  ", " X ", "  X", '#', Items.flint, 'X', "stickWood" }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(spear, 1), new Object[] { "XX#", '#', Items.flint, 'X', "stickWood" }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(iron_spear, 1), new Object[] { "#", "X", '#', "ingotIron", 'X', spear }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(diamond_spear, 1), new Object[] { "#", "X", '#', "gemDiamond", 'X', spear }));
+		basics = RecipeHelper.getLatestIRecipes(4);
+
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(explosive_spear, 1), new Object[] { " # ", "# #", " X ", '#', "gunpowder", 'X', spear }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(fire_spear, 1), new Object[] { "#", "X", '#', Items.coal, 'X', spear }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(slime_spear, 1), new Object[] { "#", "X", '#', "slimeball", 'X', spear }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(light_spear, 1), new Object[] { "#", "X", '#', "torch", 'X', spear }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(lightning_spear, 1), new Object[] { "U", "#", "X", 'U', Items.water_bucket, '#', "dustRedstone", 'X', iron_spear }));
+		specials = RecipeHelper.getLatestIRecipes(5);
+
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ultimate_fist, 1), new Object[] { "XXX", "X##", "XXX", '#', "leather", 'X', "gemDiamond" }));
+
+		ItemStack emptyStack = new ItemStack(mask);
+		NBTHelper.setString(emptyStack, "type", "empty");
+		GameRegistry.addRecipe(new ShapedOreRecipe(emptyStack, new Object[] { "YXY", 'Y', "string", 'X', "paper" }));
+		emptyRecipe = RecipeHelper.getLatestIRecipe();
+
+		ItemStack maskStack = new ItemStack(mask);
+		GameRegistry.addRecipe(new ShapelessOreRecipe(NBTHelper.setStringItemStack(maskStack, "type", "blaze"), new Object[] { emptyStack, "dyeBrown", "dyeYellow", "dyeOrange" }));
+		GameRegistry.addRecipe(new ShapelessOreRecipe(NBTHelper.setStringItemStack(maskStack, "type", "cave_spider"), new Object[] { emptyStack, "dyeBlue", "dyeRed", "dyeCyan" }));
+		GameRegistry.addRecipe(new ShapelessOreRecipe(NBTHelper.setStringItemStack(maskStack, "type", "chicken"), new Object[] { emptyStack, "dyeWhite", "dyeRed", "dyeOrange" }));
+		GameRegistry.addRecipe(new ShapelessOreRecipe(NBTHelper.setStringItemStack(maskStack, "type", "cow"), new Object[] { emptyStack, "dyeWhite", "dyeBrown", "dyeBlack" }));
+		GameRegistry.addRecipe(new ShapelessOreRecipe(NBTHelper.setStringItemStack(maskStack, "type", "creeper"), new Object[] { emptyStack, "dyeGreen", "dyeBlack", "dyeBlack" }));
+		GameRegistry.addRecipe(new ShapelessOreRecipe(NBTHelper.setStringItemStack(maskStack, "type", "enderman"), new Object[] { emptyStack, "dyeBlack", "dyeMagenta", "dyePurple" }));
+		GameRegistry.addRecipe(new ShapelessOreRecipe(NBTHelper.setStringItemStack(maskStack, "type", "ghast"), new Object[] { emptyStack, "dyeWhite", "dyeGray", "dyeLightGray" }));
+		GameRegistry.addRecipe(new ShapelessOreRecipe(NBTHelper.setStringItemStack(maskStack, "type", "magmacube"), new Object[] { emptyStack, "dyeBlack", "dyeRed", "dyeYellow" }));
+		GameRegistry.addRecipe(new ShapelessOreRecipe(NBTHelper.setStringItemStack(maskStack, "type", "pig"), new Object[] { emptyStack, "dyePink", "dyeBlack" }));
+		GameRegistry.addRecipe(new ShapelessOreRecipe(NBTHelper.setStringItemStack(maskStack, "type", "sheep"), new Object[] { emptyStack, "dyePink", "dyeWhite", "dyeBrown" }));
+		GameRegistry.addRecipe(new ShapelessOreRecipe(NBTHelper.setStringItemStack(maskStack, "type", "mooshroom"), new Object[] { emptyStack, "dyeRed", "dyeBlack", "dyeWhite" }));
+		GameRegistry.addRecipe(new ShapelessOreRecipe(NBTHelper.setStringItemStack(maskStack, "type", "skeleton"), new Object[] { emptyStack, "dyeWhite", "dyeGray" }));
+		GameRegistry.addRecipe(new ShapelessOreRecipe(NBTHelper.setStringItemStack(maskStack, "type", "slime"), new Object[] { emptyStack, "dyeGreen", "dyeLime" }));
+		GameRegistry.addRecipe(new ShapelessOreRecipe(NBTHelper.setStringItemStack(maskStack, "type", "spider"), new Object[] { emptyStack, "dyeRed", "dyeBlack", "dyeGray" }));
+		GameRegistry.addRecipe(new ShapelessOreRecipe(NBTHelper.setStringItemStack(maskStack, "type", "squid"), new Object[] { emptyStack, "dyeBlue", "dyeCyan", "dyeLightBlue" }));
+		GameRegistry.addRecipe(new ShapelessOreRecipe(NBTHelper.setStringItemStack(maskStack, "type", "villager"), new Object[] { emptyStack, "dyeLime", "dyeBrown", "dyeOrange" }));
+		GameRegistry.addRecipe(new ShapelessOreRecipe(NBTHelper.setStringItemStack(maskStack, "type", "wolf"), new Object[] { emptyStack, "dyeBlack", "dyeBrown", "dyeLightGray" }));
+		GameRegistry.addRecipe(new ShapelessOreRecipe(NBTHelper.setStringItemStack(maskStack, "type", "zombie"), new Object[] { emptyStack, "dyeGreen", "dyeBlack" }));
+		GameRegistry.addRecipe(new ShapelessOreRecipe(NBTHelper.setStringItemStack(maskStack, "type", "zombie_pigman"), new Object[] { emptyStack, "dyeLime", "dyePink", "dyeGray" }));
+		mobs = RecipeHelper.getLatestIRecipes(19);
 	}
 }

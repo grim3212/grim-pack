@@ -17,6 +17,8 @@ public class ToolsEntities implements IPartEntities {
 		EntityRegistry.registerModEntity(EntityRayw.class, "RayShot", 5, GrimTools.INSTANCE, 32, 5, true);
 		EntityRegistry.registerModEntity(EntityAdvRayw.class, "AdvRayShot", 6, GrimTools.INSTANCE, 32, 5, true);
 		EntityRegistry.registerModEntity(EntitySlingpellet.class, "SlingPellet", 7, GrimTools.INSTANCE, 32, 5, true);
+		EntityRegistry.registerModEntity(EntitySpear.class, "spear", 8, GrimTools.INSTANCE, 32, 5, true);
+		EntityRegistry.registerModEntity(EntitySlimeSpear.class, "slime-spear", 9, GrimTools.INSTANCE, 32, 1, true);
 	}
 
 }

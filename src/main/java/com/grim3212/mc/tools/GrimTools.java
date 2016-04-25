@@ -115,5 +115,9 @@ public class GrimTools extends GrimPart {
 		ManualRegistry.addSection("raygun", modSection).addSubSectionPages(new PageImageText("element", "element115.png"), new PageCrafting("canisters", ToolsItems.basicCanisters, 25), new PageCrafting("raygun", new ItemStack(ToolsItems.ray_gun)));
 		ManualRegistry.addSection("advraygun", modSection).addSubSectionPages(new PageCrafting("darkIron", new ItemStack(ToolsItems.dark_iron_ingot)), new PageCrafting("canisters", ToolsItems.advCanisters, 25), new PageCrafting("advraygun", new ItemStack(ToolsItems.advanced_ray_gun)));
 		ManualRegistry.addSection("sling", modSection).addSubSectionPages(new PageCrafting("pellets", ToolsItems.pellets, 20), new PageCrafting("slingshot", new ItemStack(ToolsItems.sling_shot)));
+		ManualRegistry.addSection("basic", modSection).addSubSectionPages(new PageCrafting("recipes", ToolsItems.basics, 20));
+		ManualRegistry.addSection("special", modSection).addSubSectionPages(new PageCrafting("recipes", ToolsItems.specials, 20));
+		ManualRegistry.addSection("ultimate", modSection).addSubSectionPages(new PageCrafting("fist", new ItemStack(ToolsItems.ultimate_fist)));
+		ManualRegistry.addSection("masks", modSection).addSubSectionPages(new PageCrafting("empty", ToolsItems.emptyRecipe), new PageCrafting("mobs", ToolsItems.mobs, 15));
 	}
 }

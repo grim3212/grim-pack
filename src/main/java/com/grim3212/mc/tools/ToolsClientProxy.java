@@ -1,15 +1,13 @@
 package com.grim3212.mc.tools;
 
 import com.grim3212.mc.core.client.RenderHelper;
+import com.grim3212.mc.core.client.entity.RenderProjectile.RenderProjectileFactory;
 import com.grim3212.mc.core.proxy.ClientProxy;
 import com.grim3212.mc.tools.blocks.ToolsBlocks;
 import com.grim3212.mc.tools.client.KeyBindHelper;
-import com.grim3212.mc.tools.client.entity.RenderBallisticKnife.BallisticKnifeFactory;
 import com.grim3212.mc.tools.client.entity.RenderBlockPushPullFactory;
-import com.grim3212.mc.tools.client.entity.RenderKnife.KnifeFactory;
-import com.grim3212.mc.tools.client.entity.RenderThrowableFactory;
 import com.grim3212.mc.tools.client.entity.RenderRayGun.RenderRayGunFactory;
-import com.grim3212.mc.tools.client.entity.RenderTomahawk.TomahawkFactory;
+import com.grim3212.mc.tools.client.entity.RenderThrowableFactory;
 import com.grim3212.mc.tools.client.model.BetterBucketModel;
 import com.grim3212.mc.tools.entity.EntityAdvRayw;
 import com.grim3212.mc.tools.entity.EntityBallisticKnife;
@@ -17,8 +15,11 @@ import com.grim3212.mc.tools.entity.EntityBlockPushPull;
 import com.grim3212.mc.tools.entity.EntityKnife;
 import com.grim3212.mc.tools.entity.EntityPokeball;
 import com.grim3212.mc.tools.entity.EntityRayw;
+import com.grim3212.mc.tools.entity.EntitySlimeSpear;
 import com.grim3212.mc.tools.entity.EntitySlingpellet;
+import com.grim3212.mc.tools.entity.EntitySpear;
 import com.grim3212.mc.tools.entity.EntityTomahawk;
+import com.grim3212.mc.tools.items.ItemMaskArmor;
 import com.grim3212.mc.tools.items.ToolsItems;
 
 import net.minecraft.client.renderer.ItemMeshDefinition;
@@ -107,6 +108,16 @@ public class ToolsClientProxy extends ClientProxy {
 		RenderHelper.renderItem(ToolsItems.ray_gun);
 		RenderHelper.renderItem(ToolsItems.sling_shot);
 		RenderHelper.renderItem(ToolsItems.sling_pellet);
+		RenderHelper.renderItem(ToolsItems.spear);
+		RenderHelper.renderItem(ToolsItems.iron_spear);
+		RenderHelper.renderItem(ToolsItems.diamond_spear);
+		RenderHelper.renderItem(ToolsItems.explosive_spear);
+		RenderHelper.renderItem(ToolsItems.fire_spear);
+		RenderHelper.renderItem(ToolsItems.slime_spear);
+		RenderHelper.renderItem(ToolsItems.light_spear);
+		RenderHelper.renderItem(ToolsItems.lightning_spear);
+		RenderHelper.renderItem(ToolsItems.ultimate_fist);
+		RenderHelper.renderVariantForge(ToolsItems.mask, ItemMaskArmor.types);
 
 		setBucketModelDefinition(ToolsItems.wooden_bucket);
 		setBucketModelDefinition(ToolsItems.stone_bucket);
@@ -120,14 +131,16 @@ public class ToolsClientProxy extends ClientProxy {
 		setBucketModelDefinition(ToolsItems.obsidian_milk_bucket);
 
 		// ENTITYS
-		RenderingRegistry.registerEntityRenderingHandler(EntityBallisticKnife.class, new BallisticKnifeFactory());
-		RenderingRegistry.registerEntityRenderingHandler(EntityTomahawk.class, new TomahawkFactory());
-		RenderingRegistry.registerEntityRenderingHandler(EntityKnife.class, new KnifeFactory());
+		RenderingRegistry.registerEntityRenderingHandler(EntityBlockPushPull.class, new RenderBlockPushPullFactory());
 		RenderingRegistry.registerEntityRenderingHandler(EntityPokeball.class, new RenderThrowableFactory(ToolsItems.pokeball));
 		RenderingRegistry.registerEntityRenderingHandler(EntitySlingpellet.class, new RenderThrowableFactory(ToolsItems.sling_pellet));
-		RenderingRegistry.registerEntityRenderingHandler(EntityBlockPushPull.class, new RenderBlockPushPullFactory());
 		RenderingRegistry.registerEntityRenderingHandler(EntityRayw.class, new RenderRayGunFactory(new ResourceLocation(GrimTools.modID, "textures/entities/sonicw.png")));
 		RenderingRegistry.registerEntityRenderingHandler(EntityAdvRayw.class, new RenderRayGunFactory(new ResourceLocation(GrimTools.modID, "textures/entities/sonicAdv.png")));
+		RenderingRegistry.registerEntityRenderingHandler(EntitySpear.class, new RenderProjectileFactory(new ResourceLocation(GrimTools.modID, "textures/entities/spears.png")));
+		RenderingRegistry.registerEntityRenderingHandler(EntitySlimeSpear.class, new RenderProjectileFactory(new ResourceLocation(GrimTools.modID, "textures/entities/spears.png")));
+		RenderingRegistry.registerEntityRenderingHandler(EntityBallisticKnife.class, new RenderProjectileFactory(new ResourceLocation(GrimTools.modID, "textures/entities/ballistic_knife.png")));
+		RenderingRegistry.registerEntityRenderingHandler(EntityTomahawk.class, new RenderProjectileFactory(new ResourceLocation(GrimTools.modID, "textures/entities/tomahawk.png"), true));
+		RenderingRegistry.registerEntityRenderingHandler(EntityKnife.class, new RenderProjectileFactory(new ResourceLocation(GrimTools.modID, "textures/entities/throwing_knife.png"), true));
 
 		// Key bindings
 		MinecraftForge.EVENT_BUS.register(new KeyBindHelper());

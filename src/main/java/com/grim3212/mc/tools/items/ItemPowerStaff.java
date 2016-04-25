@@ -1,5 +1,7 @@
 package com.grim3212.mc.tools.items;
 
+import java.util.List;
+
 import com.grim3212.mc.tools.entity.EntityBlockPushPull;
 
 import net.minecraft.block.Block;
@@ -7,6 +9,7 @@ import net.minecraft.block.BlockContainer;
 import net.minecraft.block.BlockDoublePlant;
 import net.minecraft.block.BlockFalling;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
@@ -79,5 +82,11 @@ public class ItemPowerStaff extends Item {
 		}
 
 		return true;
+	}
+	
+	@Override
+	public void getSubItems(Item itemIn, CreativeTabs tab, List<ItemStack> subItems) {
+		subItems.add(new ItemStack(itemIn, 1, 0));
+		subItems.add(new ItemStack(itemIn, 1, 1));
 	}
 }

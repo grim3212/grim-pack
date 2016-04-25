@@ -18,9 +18,14 @@ public class ToolsConfig extends GrimConfig {
 	public static boolean ENABLE_easy_mining_obsidian;
 	public static String[] BLOCKS_Destructive_wand_spared_ores;
 	public static String[] BLOCKS_Mining_wand_ores_for_surface_mining;
+	public static double fistEntityDamage;
+	public static float fistBlockBreakSpeed;
 
 	@Override
 	public void syncConfig() {
+		fistEntityDamage = config.get(Configuration.CATEGORY_GENERAL, "Ultimate Fist Damage Against Entity's", 1561).getDouble();
+		fistBlockBreakSpeed = config.get(Configuration.CATEGORY_GENERAL, "Ultime Fist Block Breaking Speed", 64).getInt();
+
 		ENABLE_free_build_mode = config.get(Configuration.CATEGORY_GENERAL, "Enable Free Build Mode", false).getBoolean();
 		ENABLE_bedrock_breaking = config.get(Configuration.CATEGORY_GENERAL, "Enable Bedrock Breaking", false).getBoolean();
 		ENABLE_easy_mining_obsidian = config.get(Configuration.CATEGORY_GENERAL, "Enable Easy Mining Obsidian", false).getBoolean();
