@@ -1,0 +1,22 @@
+version = "1.0.0"
+
+dependencies {
+	// compile project(":Grim3212Core")
+	compile rootProject
+}
+
+processResources
+{
+    inputs.property "version", project.version
+    inputs.property "mcversion", project.minecraft.version
+	
+    from(sourceSets.main.resources.srcDirs) {
+        include 'mcmod.info'
+                
+        expand 'version':project.version, 'mcversion':project.minecraft.version
+    }
+        
+    from(sourceSets.main.resources.srcDirs) {
+        exclude 'mcmod.info'
+    }
+}
