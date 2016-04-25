@@ -42,9 +42,14 @@ item.refined_plutonium.name=Refined Plutonium
 item.plutonium_ingot.name=Plutonium Ingot
 item.refined_uranium.name=Refined Uranium
 item.uranium_ingot.name=Uranium Ingot
+item.gravity_controller.name=Gravity Controller
+item.low_gravity_controller.name=Low Gravity Controller
 
 #================= INSTRUCTION MANUAL =================#
 grim.manual.grimindustry.modinfo=Adds a bunch of tech stuff.
+grim.manual.grimindustry.subsection.gravity=Gravity Control
+grim.manual.grimindustry.subsection.gravity.page.control=There are two different types of gravity controllers. The Low Gravity Controller will reduce gravity to allow you to jump higher. The regular Gravity Controller will make all entities start to float upward into the sky (including you unless you have a Gravity Anchor). All entities that fly will take fall damage if they get high enough. Just right click on a controller to activate.
+grim.manual.grimindustry.subsection.gravity.page.control.title=Controllers
 grim.manual.grimindustry.subsection.toggle=Toggle Rack
 grim.manual.grimindustry.subsection.toggle.page.recipe=The Toggle Rack block when powered by redstone spawns fire above the block and when powered indirectly too.
 grim.manual.grimindustry.subsection.toggle.page.recipe.title=Recipe

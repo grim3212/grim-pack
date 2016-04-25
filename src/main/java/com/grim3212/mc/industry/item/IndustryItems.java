@@ -33,6 +33,8 @@ public class IndustryItems implements IPartItems {
 	public static Item reactor_core;
 	public static Item reactor_core_case;
 	public static Item iron_parts;
+	public static Item low_gravity_controller;
+	public static Item gravity_controller;
 	public static Item anti_radiation_helmet;
 	public static Item anti_radiation_chest;
 	public static Item anti_radiation_legs;
@@ -58,14 +60,17 @@ public class IndustryItems implements IPartItems {
 		plutonium_ingot = (new Item()).setUnlocalizedName("plutonium_ingot").setCreativeTab(GrimIndustry.INSTANCE.getCreativeTab());
 		refined_uranium = (new Item()).setUnlocalizedName("refined_uranium").setCreativeTab(GrimIndustry.INSTANCE.getCreativeTab());
 		uranium_ingot = (new Item()).setUnlocalizedName("uranium_ingot").setCreativeTab(GrimIndustry.INSTANCE.getCreativeTab());
+		gravity_controller = new ItemGravityController().setCreativeTab(GrimIndustry.INSTANCE.getCreativeTab()).setUnlocalizedName("gravity_controller").setMaxStackSize(1);
+		low_gravity_controller = new ItemLowGravityController().setCreativeTab(GrimIndustry.INSTANCE.getCreativeTab()).setUnlocalizedName("low_gravity_controller").setMaxStackSize(1);
 
+		GameRegistry.registerItem(gravity_controller, "gravity_controller");
+		GameRegistry.registerItem(low_gravity_controller, "low_gravity_controller");
 		GameRegistry.registerItem(water_bowl, "water_bowl");
 		GameRegistry.registerItem(gravity_boots, "gravity_boots");
 		GameRegistry.registerItem(anti_radiation_boots, "anti_radiation_boots");
 		GameRegistry.registerItem(anti_radiation_legs, "anti_radiation_legs");
 		GameRegistry.registerItem(anti_radiation_chest, "anti_radiation_chest");
 		GameRegistry.registerItem(anti_radiation_helmet, "anti_radiation_helmet");
-
 		GameRegistry.registerItem(iron_parts, "iron_parts");
 		GameRegistry.registerItem(reactor_core_case, "reactor_core_case");
 		GameRegistry.registerItem(reactor_core, "reactor_core");
@@ -79,6 +84,7 @@ public class IndustryItems implements IPartItems {
 
 	public static List<IRecipe> ice = new ArrayList<IRecipe>();
 	public static List<IRecipe> armor;
+	public static List<IRecipe> control;
 
 	@Override
 	public void addRecipes() {
@@ -107,6 +113,10 @@ public class IndustryItems implements IPartItems {
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(reactor_core, 1), new Object[] { "UUU", "UPU", "UUU", 'U', "ingotRefinedUranium", 'P', "ingotRefinedPlutonium" }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(reactor_core_case, 1), new Object[] { " G ", " G ", " G ", 'G', graphite_rod }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(iron_parts, 1), new Object[] { "III", " I ", 'I', "ingotIron" }));
+		
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(gravity_controller, 1), new Object[] { "EGE", "GDG", "EGE", 'G', "ingotGold", 'E', Items.ender_eye, 'D', "gemDiamond" }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(low_gravity_controller, 1), new Object[] { "EGE", "GDG", "EGE", 'G', "ingotGold", 'E', "enderpearl", 'D', "gemDiamond" }));
+		control = RecipeHelper.getLatestIRecipes(2);
 	}
 
 }

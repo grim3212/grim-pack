@@ -25,6 +25,8 @@ public class IndustryClientProxy extends ClientProxy {
 		RenderHelper.renderItem(IndustryItems.refined_plutonium);
 		RenderHelper.renderItem(IndustryItems.refined_uranium);
 		RenderHelper.renderItem(IndustryItems.uranium_ingot);
+		RenderHelper.renderItem(IndustryItems.low_gravity_controller);
+		RenderHelper.renderItem(IndustryItems.gravity_controller);
 
 		// BLOCKS
 		RenderHelper.renderBlock(IndustryBlocks.togglerack);
