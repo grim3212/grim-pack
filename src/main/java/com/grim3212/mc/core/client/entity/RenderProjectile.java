@@ -12,6 +12,7 @@ import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.client.registry.IRenderFactory;
 
 public class RenderProjectile<T extends EntityProjectile> extends Render<T> {
 
@@ -19,11 +20,7 @@ public class RenderProjectile<T extends EntityProjectile> extends Render<T> {
 	private final boolean doFlip;
 	private float pitch = 40.0F;
 
-	protected RenderProjectile(RenderManager renderManager, ResourceLocation textureLocation) {
-		this(renderManager, textureLocation, false);
-	}
-
-	protected RenderProjectile(RenderManager renderManager, ResourceLocation textureLocation, boolean doFlip) {
+	public RenderProjectile(RenderManager renderManager, ResourceLocation textureLocation, boolean doFlip) {
 		super(renderManager);
 		this.textureLocation = textureLocation;
 		this.doFlip = doFlip;
@@ -119,5 +116,26 @@ public class RenderProjectile<T extends EntityProjectile> extends Render<T> {
 		GlStateManager.disableRescaleNormal();
 		GlStateManager.popMatrix();
 		super.doRender(entity, x, y, z, entityYaw, partialTicks);
+	}
+
+	public static class RenderProjectileFactory implements IRenderFactory<EntityProjectile> {
+
+		private ResourceLocation resource;
+		private boolean useFlip;
+
+		public RenderProjectileFactory(ResourceLocation resource) {
+			this(resource, false);
+		}
+
+		public RenderProjectileFactory(ResourceLocation resource, boolean useFlip) {
+			this.resource = resource;
+			this.useFlip = useFlip;
+		}
+
+		@Override
+		public Render<? super EntityProjectile> createRenderFor(RenderManager manager) {
+			return new RenderProjectile<EntityProjectile>(manager, resource, useFlip);
+		}
+
 	}
 }
