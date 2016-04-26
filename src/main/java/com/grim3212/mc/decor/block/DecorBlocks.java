@@ -56,13 +56,6 @@ public class DecorBlocks implements IPartItems {
 	public static Block stove;
 	public static Block grill;
 
-	public static IRecipe mossy;
-	public static List<IRecipe> stone;
-	public static List<IRecipe> chains;
-	public static List<IRecipe> crafts = new ArrayList<IRecipe>();
-	public static List<IRecipe> clocks;
-	public static List<IRecipe> lights = new ArrayList<IRecipe>();
-
 	@Override
 	public void initItems() {
 		calendar = (new BlockCalendar()).setHardness(1.0F).setStepSound(Block.soundTypeWood).setUnlocalizedName("calendar").setCreativeTab(GrimDecor.INSTANCE.getCreativeTab());
@@ -121,6 +114,13 @@ public class DecorBlocks implements IPartItems {
 		GameRegistry.registerBlock(craft_clay, "craft_clay");
 		GameRegistry.registerBlock(craft_bone, "craft_bone");
 	}
+	
+	public static IRecipe mossy;
+	public static List<IRecipe> stone;
+	public static List<IRecipe> chains;
+	public static List<IRecipe> crafts = new ArrayList<IRecipe>();
+	public static List<IRecipe> clocks;
+	public static List<IRecipe> lights = new ArrayList<IRecipe>();
 
 	@Override
 	public void addRecipes() {
