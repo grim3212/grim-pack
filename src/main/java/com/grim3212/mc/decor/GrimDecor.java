@@ -1,9 +1,6 @@
 package com.grim3212.mc.decor;
 
 import com.grim3212.mc.core.config.GrimConfig;
-import com.grim3212.mc.core.manual.ManualRegistry;
-import com.grim3212.mc.core.manual.ModSection;
-import com.grim3212.mc.core.manual.pages.PageCrafting;
 import com.grim3212.mc.core.network.PacketDispatcher;
 import com.grim3212.mc.core.part.GrimPart;
 import com.grim3212.mc.decor.block.DecorBlocks;
@@ -16,7 +13,6 @@ import com.grim3212.mc.decor.network.MessageUpdateFireplace;
 import com.grim3212.mc.decor.tile.DecorTileEntities;
 
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.Mod.Instance;
@@ -32,15 +28,12 @@ public class GrimDecor extends GrimPart {
 	@Instance(GrimDecor.modID)
 	public static GrimDecor INSTANCE;
 
-	@SidedProxy(clientSide = "com.grim3212.mc.decor.DecorClientProxy", serverSide = "com.grim3212.mc.decor.DecorCommonProxy")
+	@SidedProxy(clientSide = "com.grim3212.mc.decor.client.DecorClientProxy", serverSide = "com.grim3212.mc.decor.DecorCommonProxy")
 	public static DecorCommonProxy proxy;
 
 	public static final String modID = "grimdecor";
 	public static final String modName = "Grim Decor";
 	public static final String modVersion = "1.0.0";
-
-	// TODO: make fireplaces work when removing and lighting fires on servers
-	// Just fix a bunch of server only issues
 
 	public GrimDecor() {
 		super(GrimDecor.modID, GrimDecor.modName, GrimDecor.modVersion);
@@ -63,7 +56,7 @@ public class GrimDecor extends GrimPart {
 		PacketDispatcher.registerMessage(MessageExtinguish.class);
 		PacketDispatcher.registerMessage(MessageUpdateFireplace.class);
 
-		proxy.registerModels();
+		proxy.preInit(getModSection());
 	}
 
 	@Override
@@ -80,12 +73,5 @@ public class GrimDecor extends GrimPart {
 	@Override
 	protected GrimConfig setConfig() {
 		return new DecorConfig();
-	}
-
-	@Override
-	protected void setupManualPages(ModSection modSection) {
-		ManualRegistry.addSection("calendar", modSection).addSubSectionPages(new PageCrafting("calendar", new ItemStack(DecorBlocks.calendar)));
-		ManualRegistry.addSection("wall", modSection).addSubSectionPages(new PageCrafting("clock", DecorBlocks.clocks, 20));
-		ManualRegistry.addSection("lights", modSection).addSubSectionPages(new PageCrafting("recipes", DecorBlocks.lights, 25));
 	}
 }

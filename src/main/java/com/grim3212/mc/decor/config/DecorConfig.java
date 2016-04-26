@@ -4,8 +4,6 @@ import java.util.HashMap;
 
 import com.google.common.collect.Maps;
 import com.grim3212.mc.core.config.GrimConfig;
-import com.grim3212.mc.core.util.GrimLog;
-import com.grim3212.mc.decor.GrimDecor;
 
 import net.minecraft.item.Item;
 import net.minecraft.util.ResourceLocation;
@@ -55,7 +53,6 @@ public class DecorConfig extends GrimConfig {
 				Item rawid1 = (Item) Item.itemRegistry.getObject(new ResourceLocation(rawids[0]));
 				Item rawid2 = (Item) Item.itemRegistry.getObject(new ResourceLocation(rawids[1]));
 				grillRecipes.put(rawid1, rawid2);
-				GrimLog.info(GrimDecor.modName, (rawid1 != null ? rawid1.getUnlocalizedName() : rawid1) + " will now grill into " + (rawid2 != null ? rawid2.getUnlocalizedName() : rawid2));
 			}
 		}
 

@@ -1,6 +1,10 @@
-package com.grim3212.mc.decor;
+package com.grim3212.mc.decor.client;
 
 import com.grim3212.mc.core.client.RenderHelper;
+import com.grim3212.mc.core.manual.ManualRegistry;
+import com.grim3212.mc.core.manual.ModSection;
+import com.grim3212.mc.core.manual.pages.PageCrafting;
+import com.grim3212.mc.decor.DecorCommonProxy;
 import com.grim3212.mc.decor.block.BlockLantern.EnumLanternType;
 import com.grim3212.mc.decor.block.DecorBlocks;
 import com.grim3212.mc.decor.client.entity.RenderFrame.FrameFactory;
@@ -12,6 +16,7 @@ import com.grim3212.mc.decor.entity.EntityWallpaper;
 import com.grim3212.mc.decor.item.DecorItems;
 import com.grim3212.mc.decor.tile.TileEntityCalendar;
 
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.world.World;
@@ -32,7 +37,7 @@ public class DecorClientProxy extends DecorCommonProxy {
 	}
 
 	@Override
-	public void registerModels() {
+	protected void registerModels() {
 		MinecraftForge.EVENT_BUS.register(new ModelEvent());
 		RenderHelper.registerExtraModel(DecorBlocks.lamp_post_top, "lamp_post_top_lamp");
 		RenderHelper.registerExtraModel(DecorItems.lamp_item, "lamp_item_lamp");
@@ -94,4 +99,16 @@ public class DecorClientProxy extends DecorCommonProxy {
 		RenderingRegistry.registerEntityRenderingHandler(EntityWallpaper.class, new WallpaperFactory());
 	}
 
+	@Override
+	protected void registerManual(ModSection modSection) {
+		ManualRegistry.addSection("calendar", modSection).addSubSectionPages(new PageCrafting("calendar", new ItemStack(DecorBlocks.calendar)));
+		ManualRegistry.addSection("wall", modSection).addSubSectionPages(new PageCrafting("clock", DecorBlocks.clocks, 20));
+		ManualRegistry.addSection("lights", modSection).addSubSectionPages(new PageCrafting("recipes", DecorBlocks.lights, 25));
+	}
+
+	@Override
+	public void preInit(ModSection modSection) {
+		registerModels();
+		registerManual(modSection);
+	}
 }
