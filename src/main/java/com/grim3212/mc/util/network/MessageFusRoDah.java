@@ -5,6 +5,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import com.grim3212.mc.core.network.AbstractMessage.AbstractServerMessage;
+import com.grim3212.mc.util.GrimUtil;
 import com.grim3212.mc.util.config.UtilConfig;
 
 import net.minecraft.entity.Entity;
@@ -43,6 +44,13 @@ public class MessageFusRoDah extends AbstractServerMessage<MessageFusRoDah> {
 			if (!player.isDead) {
 				entity.addVelocity(xPower, UtilConfig.frd_lift, zPower);
 			}
+		}
+		
+		if (UtilConfig.soundEnabled) {
+			if (UtilConfig.useOldSound)
+				player.worldObj.playSoundEffect(player.posX, player.posY, player.posZ, GrimUtil.modID + ":fusrodah-old", 1.0F, 1.0F);
+			else
+				player.worldObj.playSoundEffect(player.posX, player.posY, player.posZ, GrimUtil.modID + ":fusrodah", 1.0F, 1.0F);
 		}
 	}
 
