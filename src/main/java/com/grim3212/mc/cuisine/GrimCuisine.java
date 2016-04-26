@@ -1,11 +1,6 @@
 package com.grim3212.mc.cuisine;
 
 import com.grim3212.mc.core.config.GrimConfig;
-import com.grim3212.mc.core.manual.ManualRegistry;
-import com.grim3212.mc.core.manual.ModSection;
-import com.grim3212.mc.core.manual.pages.PageCrafting;
-import com.grim3212.mc.core.manual.pages.PageFurnace;
-import com.grim3212.mc.core.manual.pages.PageImageText;
 import com.grim3212.mc.core.part.GrimPart;
 import com.grim3212.mc.core.proxy.CommonProxy;
 import com.grim3212.mc.cuisine.block.CuisineBlocks;
@@ -16,7 +11,6 @@ import com.grim3212.mc.cuisine.item.CuisineItems;
 import com.grim3212.mc.cuisine.world.CuisineGenerate;
 
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
@@ -29,7 +23,7 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 @Mod(modid = GrimCuisine.modID, name = GrimCuisine.modName, version = GrimCuisine.modVersion, dependencies = "required-after:grimcore", guiFactory = "com.grim3212.mc.cuisine.config.ConfigGuiFactory")
 public class GrimCuisine extends GrimPart {
 
-	@SidedProxy(clientSide = "com.grim3212.mc.cuisine.CuisineClientProxy", serverSide = COMMON_PROXY)
+	@SidedProxy(clientSide = "com.grim3212.mc.cuisine.client.CuisineClientProxy", serverSide = COMMON_PROXY)
 	public static CommonProxy proxy;
 
 	@Instance(GrimCuisine.modID)
@@ -58,7 +52,7 @@ public class GrimCuisine extends GrimPart {
 		MinecraftForge.EVENT_BUS.register(new OnBonemealEvent());
 		GameRegistry.registerWorldGenerator(new CuisineGenerate(), 25);
 
-		proxy.registerModels();
+		proxy.preInit(getModSection());
 	}
 
 	@Override
@@ -69,23 +63,5 @@ public class GrimCuisine extends GrimPart {
 	@Override
 	protected GrimConfig setConfig() {
 		return new CuisineConfig();
-	}
-
-	@Override
-	protected void setupManualPages(ModSection modSection) {
-		// TODO: Reorganize all of the manual pages to work together with each
-		// other
-		ManualRegistry.addSection("carbon", modSection).addSubSectionPages(new PageCrafting("carbon", CuisineItems.carbon, 25));
-		ManualRegistry.addSection("soda", modSection).addSubSectionPages(new PageCrafting("types", CuisineItems.sodas, 15));
-		ManualRegistry.addSection("dragonfruit", modSection).addSubSectionPages(new PageImageText("dragonfruit", "dragonFruitPage.png"));
-		ManualRegistry.addSection("food", modSection).addSubSectionPages(new PageCrafting("sweets", CuisineItems.food, 25));
-		ManualRegistry.addSection("health", modSection).addSubSectionPages(new PageCrafting("recipes", CuisineItems.health, 25));
-		ManualRegistry.addSection("info", modSection).addSubSectionPages(new PageImageText("info", "infoPage.png"), new PageCrafting("bowl", new ItemStack(CuisineItems.milk_bowl)));
-		ManualRegistry.addSection("butter", modSection).addSubSectionPages(new PageCrafting("churn", new ItemStack(CuisineBlocks.butter_churn)), new PageCrafting("eggs", CuisineItems.eggs, 35), new PageFurnace("cooked", new ItemStack(CuisineItems.eggs_mixed)));
-		ManualRegistry.addSection("cheese", modSection).addSubSectionPages(new PageCrafting("maker", new ItemStack(CuisineBlocks.cheese_maker)), new PageCrafting("block", CuisineItems.cheeseRecipe, 25), new PageCrafting("sandwiches", CuisineItems.sandwiches, 25));
-		ManualRegistry.addSection("cocoa", modSection).addSubSectionPages(new PageImageText("tree", "cocoaTreePage.png"), new PageCrafting("fruit", new ItemStack(CuisineItems.cocoa_dust)), new PageCrafting("dye", CuisineItems.cocoaRecipe));
-		ManualRegistry.addSection("bowlchoc", modSection).addSubSectionPages(new PageCrafting("bowlmilk", new ItemStack(CuisineItems.milk_bowl)), new PageCrafting("bowlChoc", new ItemStack(CuisineItems.chocolate_bowl)), new PageFurnace("bowlChocHot", new ItemStack(CuisineItems.chocolate_bowl)), new PageCrafting("chocBall", new ItemStack(CuisineItems.chocolate_ball)), new PageCrafting("cake", CuisineBlocks.cakes, 25));
-		ManualRegistry.addSection("choco", modSection).addSubSectionPages(new PageCrafting("mould", new ItemStack(CuisineBlocks.chocolate_bar_mould)), new PageCrafting("bars", CuisineItems.choc, 25), new PageCrafting("candy", CuisineItems.candy, 25));
-
 	}
 }
