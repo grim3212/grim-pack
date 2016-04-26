@@ -44,6 +44,7 @@ item.refined_uranium.name=Refined Uranium
 item.uranium_ingot.name=Uranium Ingot
 item.gravity_controller.name=Gravity Controller
 item.low_gravity_controller.name=Low Gravity Controller
+item.aluminum_ingot.name=Aluminum Ingot
 
 #================= INSTRUCTION MANUAL =================#
 grim.manual.grimindustry.modinfo=Adds a bunch of tech stuff.

@@ -23,6 +23,7 @@ import net.minecraftforge.oredict.ShapedOreRecipe;
 public class IndustryItems implements IPartItems {
 
 	public static Item water_bowl;
+	public static Item aluminum_ingot;
 	public static Item gravity_boots;
 	public static Item uranium_ingot;
 	public static Item refined_uranium;
@@ -60,6 +61,7 @@ public class IndustryItems implements IPartItems {
 		plutonium_ingot = (new Item()).setUnlocalizedName("plutonium_ingot").setCreativeTab(GrimIndustry.INSTANCE.getCreativeTab());
 		refined_uranium = (new Item()).setUnlocalizedName("refined_uranium").setCreativeTab(GrimIndustry.INSTANCE.getCreativeTab());
 		uranium_ingot = (new Item()).setUnlocalizedName("uranium_ingot").setCreativeTab(GrimIndustry.INSTANCE.getCreativeTab());
+		aluminum_ingot = (new Item()).setUnlocalizedName("aluminum_ingot").setCreativeTab(GrimIndustry.INSTANCE.getCreativeTab());
 		gravity_controller = new ItemGravityController().setCreativeTab(GrimIndustry.INSTANCE.getCreativeTab()).setUnlocalizedName("gravity_controller").setMaxStackSize(1);
 		low_gravity_controller = new ItemLowGravityController().setCreativeTab(GrimIndustry.INSTANCE.getCreativeTab()).setUnlocalizedName("low_gravity_controller").setMaxStackSize(1);
 
@@ -78,6 +80,7 @@ public class IndustryItems implements IPartItems {
 		GameRegistry.registerItem(graphite, "graphite");
 		GameRegistry.registerItem(refined_plutonium, "refined_plutonium");
 		GameRegistry.registerItem(plutonium_ingot, "plutonium_ingot");
+		GameRegistry.registerItem(aluminum_ingot, "aluminum_ingot");
 		GameRegistry.registerItem(refined_uranium, "refined_uranium");
 		GameRegistry.registerItem(uranium_ingot, "uranium_ingot");
 	}
@@ -92,8 +95,10 @@ public class IndustryItems implements IPartItems {
 		OreDictionary.registerOre("ingotRefinedUranium", refined_uranium);
 		OreDictionary.registerOre("ingotPlutonium", plutonium_ingot);
 		OreDictionary.registerOre("ingotRefinedPlutonium", refined_plutonium);
+		OreDictionary.registerOre("ingotAluminum", aluminum_ingot);
 		
 		GameRegistry.addSmelting(Items.flint, new ItemStack(graphite), 0.35F);
+		GameRegistry.addSmelting(Items.iron_ingot, new ItemStack(aluminum_ingot), 0.35F);
 
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(water_bowl, 1), new Object[] { "X", "M", 'X', Items.water_bucket, 'M', Items.bowl }));
 		ice.add(RecipeHelper.getLatestIRecipe());
