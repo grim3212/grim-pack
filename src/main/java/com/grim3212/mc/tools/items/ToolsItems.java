@@ -3,7 +3,6 @@ package com.grim3212.mc.tools.items;
 import java.util.List;
 
 import com.grim3212.mc.core.part.IPartItems;
-import com.grim3212.mc.core.util.NBTHelper;
 import com.grim3212.mc.core.util.OreDictionaryHelper;
 import com.grim3212.mc.core.util.RecipeHelper;
 import com.grim3212.mc.tools.GrimTools;
@@ -374,8 +373,8 @@ public class ToolsItems implements IPartItems {
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(black_diamond_boots, 1), new Object[] { "# #", "# #", '#', black_diamond }));
 		blackArmor = RecipeHelper.getLatestIRecipes(4);
 
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(wooden_bucket, 1), new Object[] { "# #", " # ", '#', "plankWood" }));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(stone_bucket, 1), new Object[] { "# #", " # ", '#', "stone" }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(wooden_bucket, 1), new Object[] { "# #", " # ", '#', "slabWood" }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(stone_bucket, 1), new Object[] { "# #", " # ", '#', "cobblestone" }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(golden_bucket, 1), new Object[] { "# #", " # ", '#', "ingotGold" }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(diamond_bucket, 1), new Object[] { "# #", " # ", '#', "gemDiamond" }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(obsidian_bucket, 1), new Object[] { "# #", " # ", '#', "obsidian" }));
@@ -454,31 +453,29 @@ public class ToolsItems implements IPartItems {
 
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ultimate_fist, 1), new Object[] { "XXX", "X##", "XXX", '#', "leather", 'X', "gemDiamond" }));
 
-		ItemStack emptyStack = new ItemStack(mask);
-		NBTHelper.setString(emptyStack, "type", "empty");
+		ItemStack emptyStack = new ItemStack(mask, 1, 0);
 		GameRegistry.addRecipe(new ShapedOreRecipe(emptyStack, new Object[] { "YXY", 'Y', "string", 'X', "paper" }));
 		emptyRecipe = RecipeHelper.getLatestIRecipe();
 
-		ItemStack maskStack = new ItemStack(mask);
-		GameRegistry.addRecipe(new ShapelessOreRecipe(NBTHelper.setStringItemStack(maskStack, "type", "blaze"), new Object[] { emptyStack, "dyeBrown", "dyeYellow", "dyeOrange" }));
-		GameRegistry.addRecipe(new ShapelessOreRecipe(NBTHelper.setStringItemStack(maskStack, "type", "cave_spider"), new Object[] { emptyStack, "dyeBlue", "dyeRed", "dyeCyan" }));
-		GameRegistry.addRecipe(new ShapelessOreRecipe(NBTHelper.setStringItemStack(maskStack, "type", "chicken"), new Object[] { emptyStack, "dyeWhite", "dyeRed", "dyeOrange" }));
-		GameRegistry.addRecipe(new ShapelessOreRecipe(NBTHelper.setStringItemStack(maskStack, "type", "cow"), new Object[] { emptyStack, "dyeWhite", "dyeBrown", "dyeBlack" }));
-		GameRegistry.addRecipe(new ShapelessOreRecipe(NBTHelper.setStringItemStack(maskStack, "type", "creeper"), new Object[] { emptyStack, "dyeGreen", "dyeBlack", "dyeBlack" }));
-		GameRegistry.addRecipe(new ShapelessOreRecipe(NBTHelper.setStringItemStack(maskStack, "type", "enderman"), new Object[] { emptyStack, "dyeBlack", "dyeMagenta", "dyePurple" }));
-		GameRegistry.addRecipe(new ShapelessOreRecipe(NBTHelper.setStringItemStack(maskStack, "type", "ghast"), new Object[] { emptyStack, "dyeWhite", "dyeGray", "dyeLightGray" }));
-		GameRegistry.addRecipe(new ShapelessOreRecipe(NBTHelper.setStringItemStack(maskStack, "type", "magmacube"), new Object[] { emptyStack, "dyeBlack", "dyeRed", "dyeYellow" }));
-		GameRegistry.addRecipe(new ShapelessOreRecipe(NBTHelper.setStringItemStack(maskStack, "type", "pig"), new Object[] { emptyStack, "dyePink", "dyeBlack" }));
-		GameRegistry.addRecipe(new ShapelessOreRecipe(NBTHelper.setStringItemStack(maskStack, "type", "sheep"), new Object[] { emptyStack, "dyePink", "dyeWhite", "dyeBrown" }));
-		GameRegistry.addRecipe(new ShapelessOreRecipe(NBTHelper.setStringItemStack(maskStack, "type", "mooshroom"), new Object[] { emptyStack, "dyeRed", "dyeBlack", "dyeWhite" }));
-		GameRegistry.addRecipe(new ShapelessOreRecipe(NBTHelper.setStringItemStack(maskStack, "type", "skeleton"), new Object[] { emptyStack, "dyeWhite", "dyeGray" }));
-		GameRegistry.addRecipe(new ShapelessOreRecipe(NBTHelper.setStringItemStack(maskStack, "type", "slime"), new Object[] { emptyStack, "dyeGreen", "dyeLime" }));
-		GameRegistry.addRecipe(new ShapelessOreRecipe(NBTHelper.setStringItemStack(maskStack, "type", "spider"), new Object[] { emptyStack, "dyeRed", "dyeBlack", "dyeGray" }));
-		GameRegistry.addRecipe(new ShapelessOreRecipe(NBTHelper.setStringItemStack(maskStack, "type", "squid"), new Object[] { emptyStack, "dyeBlue", "dyeCyan", "dyeLightBlue" }));
-		GameRegistry.addRecipe(new ShapelessOreRecipe(NBTHelper.setStringItemStack(maskStack, "type", "villager"), new Object[] { emptyStack, "dyeLime", "dyeBrown", "dyeOrange" }));
-		GameRegistry.addRecipe(new ShapelessOreRecipe(NBTHelper.setStringItemStack(maskStack, "type", "wolf"), new Object[] { emptyStack, "dyeBlack", "dyeBrown", "dyeLightGray" }));
-		GameRegistry.addRecipe(new ShapelessOreRecipe(NBTHelper.setStringItemStack(maskStack, "type", "zombie"), new Object[] { emptyStack, "dyeGreen", "dyeBlack" }));
-		GameRegistry.addRecipe(new ShapelessOreRecipe(NBTHelper.setStringItemStack(maskStack, "type", "zombie_pigman"), new Object[] { emptyStack, "dyeLime", "dyePink", "dyeGray" }));
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(mask, 1, 1), new Object[] { emptyStack, "dyeBrown", "dyeYellow", "dyeOrange" }));
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(mask, 1, 2), new Object[] { emptyStack, "dyeBlue", "dyeRed", "dyeCyan" }));
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(mask, 1, 3), new Object[] { emptyStack, "dyeWhite", "dyeRed", "dyeOrange" }));
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(mask, 1, 4), new Object[] { emptyStack, "dyeWhite", "dyeBrown", "dyeBlack" }));
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(mask, 1, 5), new Object[] { emptyStack, "dyeGreen", "dyeBlack", "dyeBlack" }));
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(mask, 1, 6), new Object[] { emptyStack, "dyeBlack", "dyeMagenta", "dyePurple" }));
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(mask, 1, 7), new Object[] { emptyStack, "dyeWhite", "dyeGray", "dyeLightGray" }));
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(mask, 1, 8), new Object[] { emptyStack, "dyeBlack", "dyeRed", "dyeYellow" }));
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(mask, 1, 9), new Object[] { emptyStack, "dyePink", "dyeBlack" }));
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(mask, 1, 10), new Object[] { emptyStack, "dyePink", "dyeWhite", "dyeBrown" }));
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(mask, 1, 11), new Object[] { emptyStack, "dyeRed", "dyeBlack", "dyeWhite" }));
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(mask, 1, 12), new Object[] { emptyStack, "dyeWhite", "dyeGray" }));
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(mask, 1, 13), new Object[] { emptyStack, "dyeGreen", "dyeLime" }));
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(mask, 1, 14), new Object[] { emptyStack, "dyeRed", "dyeBlack", "dyeGray" }));
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(mask, 1, 15), new Object[] { emptyStack, "dyeBlue", "dyeCyan", "dyeLightBlue" }));
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(mask, 1, 16), new Object[] { emptyStack, "dyeLime", "dyeBrown", "dyeOrange" }));
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(mask, 1, 17), new Object[] { emptyStack, "dyeBlack", "dyeBrown", "dyeLightGray" }));
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(mask, 1, 18), new Object[] { emptyStack, "dyeGreen", "dyeBlack" }));
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(mask, 1, 19), new Object[] { emptyStack, "dyeLime", "dyePink", "dyeGray" }));
 		mobs = RecipeHelper.getLatestIRecipes(19);
 	}
 }
