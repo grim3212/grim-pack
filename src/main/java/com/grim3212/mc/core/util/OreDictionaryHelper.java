@@ -120,7 +120,7 @@ public class OreDictionaryHelper {
 		recipes.addAll(recipesToAdd);
 
 		if (recipesToRemove.size() > 0) {
-			GrimLog.info(Loader.instance().activeModContainer().getName(), "Replaced " + recipesToRemove.size() + " ore recipies");
+			GrimLog.info(Loader.instance().activeModContainer().getName(), "Replaced " + recipesToRemove.size() + " ore recipes for " + stack.getUnlocalizedName());
 		}
 	}
 
