@@ -50,6 +50,10 @@ public abstract class GrimPart {
 		this.entities = new ArrayList<IPartEntities>();
 		this.tileentities = new ArrayList<IPartTileEntities>();
 	}
+	
+	public ModSection getModSection() {
+		return modSection;
+	}
 
 	public void addEntity(IPartEntities entity) {
 		this.entities.add(entity);
@@ -95,9 +99,6 @@ public abstract class GrimPart {
 		for (int i = 0; i < this.entities.size(); i++) {
 			this.entities.get(i).initEntities();
 		}
-
-		if (event.getSide().isClient())
-			setupManualPages(modSection);
 	}
 
 	/**
@@ -124,10 +125,6 @@ public abstract class GrimPart {
 	protected abstract Item getCreativeTabIcon();
 
 	protected abstract GrimConfig setConfig();
-
-	// TODO: Remove this
-	@Deprecated
-	protected abstract void setupManualPages(ModSection modSection);
 
 	@SubscribeEvent
 	public void onConfigChanged(OnConfigChangedEvent event) {

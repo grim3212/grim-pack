@@ -1,5 +1,7 @@
 package com.grim3212.mc.core.proxy;
 
+import com.grim3212.mc.core.manual.ModSection;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.IThreadListener;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
@@ -21,8 +23,12 @@ public class CommonProxy {
 		return ctx.getServerHandler().playerEntity.getServerForPlayer();
 	}
 
-	public void registerModels() {
-
+	protected void registerModels() {
 	}
 
+	protected void registerManual(ModSection modSection) {
+	}
+	
+	public void preInit(ModSection modSection){
+	}
 }

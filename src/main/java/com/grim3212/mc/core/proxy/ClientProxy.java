@@ -1,14 +1,13 @@
 package com.grim3212.mc.core.proxy;
 
-import com.grim3212.mc.core.client.RenderHelper;
-import com.grim3212.mc.core.item.CoreItems;
+import com.grim3212.mc.core.manual.ModSection;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.IThreadListener;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 
-public class ClientProxy extends CommonProxy {
+public abstract class ClientProxy extends CommonProxy {
 
 	@Override
 	public EntityPlayer getPlayerEntity(MessageContext ctx) {
@@ -21,7 +20,14 @@ public class ClientProxy extends CommonProxy {
 	}
 
 	@Override
-	public void registerModels() {
-		RenderHelper.renderItem(CoreItems.instruction_manual);
+	protected abstract void registerModels();
+
+	@Override
+	protected abstract void registerManual(ModSection modSection);
+
+	@Override
+	public void preInit(ModSection modSection) {
+		registerModels();
+		registerManual(modSection);
 	}
 }

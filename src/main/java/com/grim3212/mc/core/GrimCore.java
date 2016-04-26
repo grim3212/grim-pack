@@ -4,15 +4,11 @@ import com.grim3212.mc.core.client.gui.CoreGuiHandler;
 import com.grim3212.mc.core.config.CoreConfig;
 import com.grim3212.mc.core.config.GrimConfig;
 import com.grim3212.mc.core.item.CoreItems;
-import com.grim3212.mc.core.manual.ManualRegistry;
-import com.grim3212.mc.core.manual.ModSection;
 import com.grim3212.mc.core.manual.event.LoginEvent;
-import com.grim3212.mc.core.manual.pages.PageCrafting;
 import com.grim3212.mc.core.part.GrimPart;
 import com.grim3212.mc.core.proxy.CommonProxy;
 
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
@@ -28,7 +24,7 @@ public class GrimCore extends GrimPart {
 	@Instance(GrimCore.modID)
 	public static GrimCore INSTANCE;
 
-	@SidedProxy(clientSide = "com.grim3212.mc.core.proxy.ClientProxy", serverSide = COMMON_PROXY)
+	@SidedProxy(clientSide = "com.grim3212.mc.core.client.CoreClientProxy", serverSide = COMMON_PROXY)
 	public static CommonProxy proxy;
 
 	public static final String modID = "grimcore";
@@ -55,7 +51,7 @@ public class GrimCore extends GrimPart {
 		// Register LoginEvent for receiving the Instruction Manual
 		MinecraftForge.EVENT_BUS.register(new LoginEvent());
 
-		proxy.registerModels();
+		proxy.preInit(getModSection());
 	}
 
 	@Override
@@ -66,10 +62,5 @@ public class GrimCore extends GrimPart {
 	@Override
 	public GrimConfig setConfig() {
 		return new CoreConfig();
-	}
-
-	@Override
-	protected void setupManualPages(ModSection modSection) {
-		ManualRegistry.addSection("im", modSection).addSubSectionPages(new PageCrafting("instructionmanual", new ItemStack(CoreItems.instruction_manual)));
 	}
 }

@@ -340,9 +340,9 @@ public class OreDictionaryHelper {
 				item = new ItemStack((Item) obj);
 			} else if (obj instanceof Block) {
 				item = new ItemStack((Block) obj, 1, OreDictionary.WILDCARD_VALUE);
-			} else if (obj instanceof ArrayList) {
-				if ((ArrayList<ItemStack>) obj != null && !((ArrayList<ItemStack>) obj).isEmpty()) {
-					ArrayList<ItemStack> list = (ArrayList<ItemStack>) obj;
+			} else if (obj instanceof List) {
+				if ((List<ItemStack>) obj != null && !((List<ItemStack>) obj).isEmpty()) {
+					List<ItemStack> list = (List<ItemStack>) obj;
 					for (ItemStack oreItem : list) {
 						if (oreItem == null || OreDictionary.getOreIDs(oreItem).length == 0)
 							continue;
