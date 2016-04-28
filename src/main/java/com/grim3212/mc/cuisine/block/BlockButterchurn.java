@@ -15,6 +15,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
+import net.minecraftforge.fluids.FluidContainerRegistry;
+import net.minecraftforge.fluids.IFluidContainerItem;
 import net.minecraftforge.oredict.OreDictionary;
 
 public class BlockButterchurn extends Block {
@@ -28,17 +30,31 @@ public class BlockButterchurn extends Block {
 
 	@Override
 	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumFacing side, float hitX, float hitY, float hitZ) {
-		for (int count = 0; count < OreDictionary.getOres("bowlMilk").size(); count++) {
-			if (playerIn.getCurrentEquippedItem() == null) {
-				return false;
-			} else if (playerIn.getHeldItem().getItem() == OreDictionary.getOres("bowlMilk").get(count).getItem()) {
-				if (((Integer) state.getValue(ACTIVE)) == 0) {
-					worldIn.setBlockState(pos, state.cycleProperty(ACTIVE), 4);
-					playerIn.inventory.consumeInventoryItem(playerIn.getHeldItem().getItem());
-					playerIn.inventory.addItemStackToInventory(new ItemStack(Items.bowl));
+		if (playerIn.getCurrentEquippedItem() == null) {
+			return false;
+		}
+
+		if (playerIn.getCurrentEquippedItem().getItem() == Items.milk_bucket) {
+			if (((Integer) state.getValue(ACTIVE)) == 0) {
+				worldIn.setBlockState(pos, state.cycleProperty(ACTIVE), 4);
+				playerIn.inventory.consumeInventoryItem(playerIn.getHeldItem().getItem());
+				playerIn.inventory.addItemStackToInventory(new ItemStack(Items.bucket));
+			}
+		} else if (!OreDictionary.getOres("bucketMilk").isEmpty()) {
+			for (int count = 0; count < OreDictionary.getOres("bucketMilk").size(); count++) {
+				if (playerIn.getHeldItem().getItem() == OreDictionary.getOres("bucketMilk").get(count).getItem()) {
+					if (((Integer) state.getValue(ACTIVE)) == 0) {
+
+						if (playerIn.getCurrentEquippedItem().getItem() instanceof IFluidContainerItem) {
+							IFluidContainerItem fluidBucket = (IFluidContainerItem) playerIn.getCurrentEquippedItem().getItem();
+							worldIn.setBlockState(pos, state.cycleProperty(ACTIVE), 4);
+							fluidBucket.drain(playerIn.getCurrentEquippedItem(), FluidContainerRegistry.BUCKET_VOLUME, true);
+						}
+					}
 				}
 			}
 		}
+
 		return true;
 	}
 
