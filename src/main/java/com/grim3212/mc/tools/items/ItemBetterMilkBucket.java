@@ -66,22 +66,15 @@ public class ItemBetterMilkBucket extends Item implements IFluidContainerItem {
 		playerIn.triggerAchievement(StatList.objectUseStats[Item.getIdFromItem(this)]);
 
 		// Another check if the amount equals 0
-		if (NBTHelper.getInt(stack, "Amount") <= 0) {
-			return parent.tryBreakBucket();
-		} else {
-			return stack;
-		}
+		return parent.tryBreakBucket(stack);
 	}
 
 	@Override
 	public ItemStack getContainerItem(ItemStack itemStack) {
 		int amount = NBTHelper.getInt(itemStack, "Amount");
 		NBTHelper.setInteger(itemStack, "Amount", amount - FluidContainerRegistry.BUCKET_VOLUME);
-		if (amount - FluidContainerRegistry.BUCKET_VOLUME <= 0) {
-			return parent.tryBreakBucket();
-		} else {
-			return itemStack;
-		}
+
+		return parent.tryBreakBucket(itemStack);
 	}
 
 	@Override
@@ -127,7 +120,7 @@ public class ItemBetterMilkBucket extends Item implements IFluidContainerItem {
 
 	@Override
 	public FluidStack getFluid(ItemStack container) {
-		return null;
+		return FluidStack.loadFluidStackFromNBT(container.getTagCompound());
 	}
 
 	@Override
@@ -165,16 +158,25 @@ public class ItemBetterMilkBucket extends Item implements IFluidContainerItem {
 			return null;
 		}
 
-		FluidStack fluidStack = getFluid(container);
-		if (doDrain && fluidStack != null) {
+		if (doDrain) {
 			int amount = NBTHelper.getInt(container, "Amount");
-			NBTHelper.setInteger(container, "Amount", amount - FluidContainerRegistry.BUCKET_VOLUME);
-
-			if (NBTHelper.getInt(container, "Amount") <= 0) {
-				container.setTagCompound(parent.empty.getTagCompound());
-			}
+			NBTHelper.setInteger(container, "Amount", amount - maxDrain);
 		}
 
-		return fluidStack;
+		ItemStack stack = tryBreakBucket(container);
+
+		if (stack.getItem() != this) {
+			container.setItem(stack.getItem());
+			container.setTagCompound(stack.getTagCompound());
+		}
+
+		return getFluid(container);
+	}
+
+	public ItemStack tryBreakBucket(ItemStack stack) {
+		if (NBTHelper.getInt(stack, "Amount") <= 0)
+			return parent.tryBreakBucket(stack);
+		else
+			return stack;
 	}
 }

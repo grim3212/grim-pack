@@ -294,20 +294,14 @@ public class ItemBetterBucket extends Item implements IFluidContainerItem {
 								// success!
 								player.triggerAchievement(StatList.objectUseStats[Item.getIdFromItem(this)]);
 								NBTHelper.setInteger(itemstack, "Amount", amount - FluidContainerRegistry.BUCKET_VOLUME);
-
-								if ((amount - FluidContainerRegistry.BUCKET_VOLUME) <= 0) {
-									return tryBreakBucket();
-								}
+								return this.tryBreakBucket(itemstack);
 							}
 						} else if (NBTHelper.getString(itemstack, "FluidName").equals("fire")) {
 							if (this.tryPlaceFluid(Blocks.fire, world, targetPos) && !player.capabilities.isCreativeMode) {
 								// success!
 								player.triggerAchievement(StatList.objectUseStats[Item.getIdFromItem(this)]);
 								NBTHelper.setInteger(itemstack, "Amount", amount - FluidContainerRegistry.BUCKET_VOLUME);
-
-								if ((amount - FluidContainerRegistry.BUCKET_VOLUME) <= 0) {
-									return tryBreakBucket();
-								}
+								return this.tryBreakBucket(itemstack);
 							}
 						}
 					}
@@ -316,14 +310,6 @@ public class ItemBetterBucket extends Item implements IFluidContainerItem {
 		}
 		// couldn't place liquid there2
 		return itemstack;
-	}
-
-	public ItemStack tryBreakBucket() {
-		if (this.onBroken != null) {
-			return this.onBroken.copy();
-		} else {
-			return this.empty.copy();
-		}
 	}
 
 	/**
@@ -382,11 +368,8 @@ public class ItemBetterBucket extends Item implements IFluidContainerItem {
 	public ItemStack getContainerItem(ItemStack itemStack) {
 		int amount = NBTHelper.getInt(itemStack, "Amount");
 		NBTHelper.setInteger(itemStack, "Amount", amount - FluidContainerRegistry.BUCKET_VOLUME);
-		if (amount - FluidContainerRegistry.BUCKET_VOLUME <= 0) {
-			return this.tryBreakBucket();
-		} else {
-			return itemStack;
-		}
+
+		return this.tryBreakBucket(itemStack);
 	}
 
 	@Override
@@ -449,7 +432,7 @@ public class ItemBetterBucket extends Item implements IFluidContainerItem {
 		FluidStack fluidStack = getFluid(container);
 		if (doDrain && fluidStack != null) {
 			int amount = NBTHelper.getInt(container, "Amount");
-			NBTHelper.setInteger(container, "Amount", amount - FluidContainerRegistry.BUCKET_VOLUME);
+			NBTHelper.setInteger(container, "Amount", amount - maxDrain);
 
 			if (NBTHelper.getInt(container, "Amount") <= 0) {
 				container.setTagCompound(empty.getTagCompound());
@@ -457,5 +440,16 @@ public class ItemBetterBucket extends Item implements IFluidContainerItem {
 		}
 
 		return fluidStack;
+	}
+
+	public ItemStack tryBreakBucket(ItemStack stack) {
+		if (NBTHelper.getInt(stack, "Amount") <= 0) {
+			if (this.onBroken != null) {
+				return this.onBroken.copy();
+			} else {
+				return this.empty.copy();
+			}
+		}
+		return stack;
 	}
 }
