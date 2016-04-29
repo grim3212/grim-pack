@@ -1,6 +1,5 @@
 package com.grim3212.mc.industry.item;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.grim3212.mc.core.part.IPartItems;
@@ -22,7 +21,6 @@ import net.minecraftforge.oredict.ShapedOreRecipe;
 
 public class IndustryItems implements IPartItems {
 
-	public static Item water_bowl;
 	public static Item aluminum_ingot;
 	public static Item gravity_boots;
 	public static Item uranium_ingot;
@@ -46,7 +44,6 @@ public class IndustryItems implements IPartItems {
 
 	@Override
 	public void initItems() {
-		water_bowl = (new Item()).setUnlocalizedName("water_bowl").setCreativeTab(GrimIndustry.INSTANCE.getCreativeTab()).setMaxStackSize(1);
 		gravity_boots = (new ItemArmor(gravboots, 4, 3)).setUnlocalizedName("gravity_boots").setCreativeTab(GrimIndustry.INSTANCE.getCreativeTab());
 		anti_radiation_boots = (new ItemArmor(antiRadiation, 3, 3)).setUnlocalizedName("anti_radiation_boots").setCreativeTab(GrimIndustry.INSTANCE.getCreativeTab());
 		anti_radiation_legs = (new ItemArmor(antiRadiation, 3, 2)).setUnlocalizedName("anti_radiation_legs").setCreativeTab(GrimIndustry.INSTANCE.getCreativeTab());
@@ -67,7 +64,6 @@ public class IndustryItems implements IPartItems {
 
 		GameRegistry.registerItem(gravity_controller, "gravity_controller");
 		GameRegistry.registerItem(low_gravity_controller, "low_gravity_controller");
-		GameRegistry.registerItem(water_bowl, "water_bowl");
 		GameRegistry.registerItem(gravity_boots, "gravity_boots");
 		GameRegistry.registerItem(anti_radiation_boots, "anti_radiation_boots");
 		GameRegistry.registerItem(anti_radiation_legs, "anti_radiation_legs");
@@ -85,7 +81,6 @@ public class IndustryItems implements IPartItems {
 		GameRegistry.registerItem(uranium_ingot, "uranium_ingot");
 	}
 
-	public static List<IRecipe> ice = new ArrayList<IRecipe>();
 	public static List<IRecipe> armor;
 	public static List<IRecipe> control;
 
@@ -96,21 +91,18 @@ public class IndustryItems implements IPartItems {
 		OreDictionary.registerOre("ingotPlutonium", plutonium_ingot);
 		OreDictionary.registerOre("ingotRefinedPlutonium", refined_plutonium);
 		OreDictionary.registerOre("ingotAluminum", aluminum_ingot);
-		
+
 		GameRegistry.addSmelting(Items.flint, new ItemStack(graphite), 0.35F);
 		GameRegistry.addSmelting(Items.iron_ingot, new ItemStack(aluminum_ingot), 0.35F);
 
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(water_bowl, 1), new Object[] { "X", "M", 'X', Items.water_bucket, 'M', Items.bowl }));
-		ice.add(RecipeHelper.getLatestIRecipe());
-
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(gravity_boots, 1), new Object[] { "S S", "M M", 'M', IndustryBlocks.attractor, 'S', "ingotIron" }));
-		
+
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(anti_radiation_helmet, 1), new Object[] { "WWW", "WGW", "I I", 'W', Blocks.wool, 'G', "blockGlassColorless", 'I', "ingotIron" }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(anti_radiation_chest, 1), new Object[] { "W W", "WWW", "III", 'W', Blocks.wool, 'I', "ingotIron" }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(anti_radiation_legs, 1), new Object[] { "WWW", "W W", "I I", 'W', Blocks.wool, 'I', "ingotIron" }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(anti_radiation_boots, 1), new Object[] { "W W", "I I", 'W', Blocks.wool, 'I', "ingotIron" }));
 		armor = RecipeHelper.getLatestIRecipes(4);
-		
+
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(refined_uranium, 1), new Object[] { " U ", "U U", 'U', "ingotUranium" }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(plutonium_ingot, 1), new Object[] { "U  ", " G ", "  U", 'U', "ingotRefinedUranium", 'G', "glowstone" }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(refined_plutonium, 1), new Object[] { "P P", " P ", "P P", 'P', "ingotPlutonium" }));
@@ -118,7 +110,7 @@ public class IndustryItems implements IPartItems {
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(reactor_core, 1), new Object[] { "UUU", "UPU", "UUU", 'U', "ingotRefinedUranium", 'P', "ingotRefinedPlutonium" }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(reactor_core_case, 1), new Object[] { " G ", " G ", " G ", 'G', graphite_rod }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(iron_parts, 1), new Object[] { "III", " I ", 'I', "ingotIron" }));
-		
+
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(gravity_controller, 1), new Object[] { "EGE", "GDG", "EGE", 'G', "ingotGold", 'E', Items.ender_eye, 'D', "gemDiamond" }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(low_gravity_controller, 1), new Object[] { "EGE", "GDG", "EGE", 'G', "ingotGold", 'E', "enderpearl", 'D', "gemDiamond" }));
 		control = RecipeHelper.getLatestIRecipes(2);

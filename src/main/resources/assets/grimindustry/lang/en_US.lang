@@ -27,7 +27,6 @@ tile.c4.name=C4
 tile.uranium_ore.name=Uranium Ore
 
 #================= ITEMS =================#
-item.water_bowl.name=Bowl of Water
 item.gravity_boots.name=Gravity Boots
 item.anti_radiation_boots.name=Anti-Radiation Boots
 item.anti_radiation_legs.name=Anti-Radiation Leggings
@@ -58,7 +57,7 @@ grim.manual.grimindustry.subsection.benches=Workbench Upgrades
 grim.manual.grimindustry.subsection.benches.page.recipes=The two new Workbenches added are made out of Iron and Diamond. The Iron will double your output from crafting and the Diamond will quadruple the output.
 grim.manual.grimindustry.subsection.benches.page.recipes.title=Recipes
 grim.manual.grimindustry.subsection.ice=Ice Maker
-grim.manual.grimindustry.subsection.ice.page.recipes=Using a bowl of water you will be able to create ice using the Ice Maker. Once crafted right click on the Ice Maker with a Bowl of Water and the water will start the freezing process give it some time and once done it will have the texture of ice on top. Punch it to get your ice.
+grim.manual.grimindustry.subsection.ice.page.recipes=Using a bucket of water you will be able to create ice using the Ice Maker. Once crafted right click on the Ice Maker with a Bowl of Water and the water will start the freezing process give it some time and once done it will have the texture of ice on top. Punch it to get your ice.
 grim.manual.grimindustry.subsection.ice.page.recipes.title=Recipes
 grim.manual.grimindustry.subsection.elemental=Elemental Blocks
 grim.manual.grimindustry.subsection.elemental.page.fire=This elemental block when activated by redstone spawns fire above the block, when deactivated the fire gets removed.

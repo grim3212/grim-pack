@@ -2,8 +2,6 @@ package com.grim3212.mc.industry.block;
 
 import java.util.Random;
 
-import com.grim3212.mc.industry.item.IndustryItems;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
@@ -18,6 +16,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
+import net.minecraftforge.fluids.FluidContainerRegistry;
+import net.minecraftforge.fluids.FluidRegistry;
+import net.minecraftforge.fluids.IFluidContainerItem;
 
 public class BlockIceMaker extends Block {
 
@@ -89,11 +90,23 @@ public class BlockIceMaker extends Block {
 	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumFacing side, float hitX, float hitY, float hitZ) {
 		if (playerIn.getCurrentEquippedItem() == null) {
 			return false;
-		} else if (playerIn.getHeldItem().getItem() == IndustryItems.water_bowl) {
-			if (((Integer) worldIn.getBlockState(pos).getValue(STAGE)) == 0) {
+		}
+
+		if (playerIn.getCurrentEquippedItem().getItem() == Items.water_bucket) {
+			if (((Integer) state.getValue(STAGE)) == 0) {
 				worldIn.setBlockState(pos, state.withProperty(STAGE, 1), 3);
 				playerIn.inventory.consumeInventoryItem(playerIn.getHeldItem().getItem());
-				playerIn.inventory.addItemStackToInventory(new ItemStack(Items.bowl));
+				playerIn.inventory.addItemStackToInventory(new ItemStack(Items.bucket));
+			}
+		} else if (playerIn.getCurrentEquippedItem().getItem() instanceof IFluidContainerItem) {
+			if (((Integer) state.getValue(STAGE)) == 0) {
+				IFluidContainerItem fluidBucket = (IFluidContainerItem) playerIn.getCurrentEquippedItem().getItem();
+				if (fluidBucket.getFluid(playerIn.getCurrentEquippedItem()).getFluid() != null) {
+					if (fluidBucket.getFluid(playerIn.getCurrentEquippedItem()).getFluid() == FluidRegistry.WATER) {
+						worldIn.setBlockState(pos, state.withProperty(STAGE, 1), 3);
+						fluidBucket.drain(playerIn.getCurrentEquippedItem(), FluidContainerRegistry.BUCKET_VOLUME, true);
+					}
+				}
 			}
 		}
 

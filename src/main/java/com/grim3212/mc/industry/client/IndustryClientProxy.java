@@ -17,7 +17,6 @@ public class IndustryClientProxy extends ClientProxy {
 	@Override
 	protected void registerModels() {
 		// ITEMS
-		RenderHelper.renderItem(IndustryItems.water_bowl);
 		RenderHelper.renderItem(IndustryItems.gravity_boots);
 		RenderHelper.renderItem(IndustryItems.graphite);
 		RenderHelper.renderItem(IndustryItems.graphite_rod);
@@ -66,7 +65,7 @@ public class IndustryClientProxy extends ClientProxy {
 	protected void registerManual(ModSection modSection) {
 		ManualRegistry.addSection("toggle", modSection).addSubSectionPages(new PageCrafting("recipe", new ItemStack(IndustryBlocks.togglerack)));
 		ManualRegistry.addSection("benches", modSection).addSubSectionPages(new PageCrafting("recipes", IndustryBlocks.workbenches, 25));
-		ManualRegistry.addSection("ice", modSection).addSubSectionPages(new PageCrafting("recipes", IndustryItems.ice, 25));
+		ManualRegistry.addSection("ice", modSection).addSubSectionPages(new PageCrafting("recipes", new ItemStack(IndustryBlocks.ice_maker)));
 		ManualRegistry.addSection("elemental", modSection).addSubSectionPages(new PageCrafting("fire", new ItemStack(IndustryBlocks.fire_block)), new PageCrafting("water", new ItemStack(IndustryBlocks.water_block)), new PageCrafting("lava", new ItemStack(IndustryBlocks.lava_block)));
 		ManualRegistry.addSection("spikes", modSection).addSubSectionPages(new PageCrafting("recipe", new ItemStack(IndustryBlocks.spike)));
 		ManualRegistry.addSection("sensors", modSection).addSubSectionPages(new PageCrafting("recipes", IndustryBlocks.sensors, 20));
@@ -74,8 +73,8 @@ public class IndustryClientProxy extends ClientProxy {
 		ManualRegistry.addSection("repulse", modSection).addSubSectionPages(new PageCrafting("recipe", IndustryBlocks.repulsing, 25));
 		ManualRegistry.addSection("gravitor", modSection).addSubSectionPages(new PageCrafting("recipe", IndustryBlocks.gravitoring, 25));
 		ManualRegistry.addSection("boots", modSection).addSubSectionPages(new PageCrafting("recipe", new ItemStack(IndustryItems.gravity_boots)));
-		ManualRegistry.addSection("refining", modSection).addSubSectionPages(new PageCrafting("uranium", new ItemStack(IndustryBlocks.uranium_ore)), new PageCrafting("armor", IndustryItems.armor, 20), new PageFurnace("uranium_smelt", new ItemStack(IndustryBlocks.uranium_ore)), new PageCrafting("refined_uranium", new ItemStack(IndustryItems.refined_uranium)), new PageCrafting("plutonium", new ItemStack(IndustryItems.plutonium_ingot)), new PageCrafting("refined_plutonium", new ItemStack(IndustryItems.refined_plutonium)),
-				new PageCrafting("reactor_core", new ItemStack(IndustryItems.reactor_core)));
+		ManualRegistry.addSection("refining", modSection).addSubSectionPages(new PageCrafting("uranium", new ItemStack(IndustryBlocks.uranium_ore)), new PageCrafting("armor", IndustryItems.armor, 20), new PageFurnace("uranium_smelt", new ItemStack(IndustryBlocks.uranium_ore)), new PageCrafting("refined_uranium", new ItemStack(IndustryItems.refined_uranium)), new PageCrafting("plutonium", new ItemStack(IndustryItems.plutonium_ingot)),
+				new PageCrafting("refined_plutonium", new ItemStack(IndustryItems.refined_plutonium)), new PageCrafting("reactor_core", new ItemStack(IndustryItems.reactor_core)));
 		ManualRegistry.addSection("reactor", modSection).addSubSectionPages(new PageFurnace("graphite", new ItemStack(Items.flint)), new PageCrafting("graphite_rod", new ItemStack(IndustryItems.graphite_rod)), new PageCrafting("reactor_case", new ItemStack(IndustryItems.reactor_core_case)), new PageCrafting("iron_parts", new ItemStack(IndustryItems.iron_parts)), new PageCrafting("reactor", new ItemStack(IndustryBlocks.reactor)));
 		ManualRegistry.addSection("explosives", modSection).addSubSectionPages(new PageFurnace("aluminium", new ItemStack(Items.iron_ingot)), new PageCrafting("bomb_shell", new ItemStack(IndustryBlocks.bomb_shell)), new PageCrafting("c4", new ItemStack(IndustryBlocks.c4)), new PageCrafting("nuclear_bomb", new ItemStack(IndustryBlocks.nuclear_bomb)));
 		ManualRegistry.addSection("gravity", modSection).addSubSectionPages(new PageCrafting("control", IndustryItems.control, 25));

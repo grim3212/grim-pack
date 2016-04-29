@@ -114,7 +114,6 @@ public class IndustryBlocks implements IPartItems {
 		workbenches = RecipeHelper.getLatestIRecipes(2);
 
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ice_maker, 1), new Object[] { "X X", "I I", "XXX", 'X', "cobblestone", 'I', Blocks.snow }));
-		IndustryItems.ice.add(RecipeHelper.getLatestIRecipe());
 
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(fire_block, 1), new Object[] { "###", "#!#", "###", '#', "blockIron", '!', Items.flint_and_steel }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(water_block, 1), new Object[] { "###", "#!#", "###", '#', "blockIron", '!', Items.water_bucket }));
