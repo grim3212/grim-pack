@@ -33,7 +33,6 @@ public class CuisineItems implements IPartItems {
 	public static Item powered_sweets;
 	public static Item butter;
 	public static Item cheese;
-	public static Item milk_bowl;
 	public static Item cocoa_fruit;
 	public static Item cocoa_dust;
 	public static Item chocolate_bowl;
@@ -82,7 +81,6 @@ public class CuisineItems implements IPartItems {
 		bandage = (new ItemHealthPack(3)).setUnlocalizedName("bandage").setMaxStackSize(16).setCreativeTab(GrimCuisine.INSTANCE.getCreativeTab());
 		healthpack_super = (new ItemHealthPack(12)).setUnlocalizedName("healthpack_super").setMaxStackSize(4).setCreativeTab(GrimCuisine.INSTANCE.getCreativeTab());
 		healthpack = (new ItemHealthPack(5)).setUnlocalizedName("healthpack").setMaxStackSize(4).setCreativeTab(GrimCuisine.INSTANCE.getCreativeTab());
-		milk_bowl = (new Item()).setMaxStackSize(1).setUnlocalizedName("milk_bowl").setCreativeTab(GrimCuisine.INSTANCE.getCreativeTab());
 		cheese = (new ItemFood(3, 0.6F, false)).setUnlocalizedName("cheese").setCreativeTab(GrimCuisine.INSTANCE.getCreativeTab());
 		butter = (new ItemFood(2, 0.4F, false)).setUnlocalizedName("butter").setCreativeTab(GrimCuisine.INSTANCE.getCreativeTab());
 		cocoa_fruit = (new ItemCocoaFruit()).setUnlocalizedName("cocoa_fruit").setCreativeTab(GrimCuisine.INSTANCE.getCreativeTab());
@@ -121,7 +119,6 @@ public class CuisineItems implements IPartItems {
 		GameRegistry.registerItem(healthpack, "healthpack");
 		GameRegistry.registerItem(cheese, "cheese");
 		GameRegistry.registerItem(butter, "butter");
-		GameRegistry.registerItem(milk_bowl, "milk_bowl");
 		GameRegistry.registerItem(cocoa_fruit, "cocoa_fruit");
 		GameRegistry.registerItem(cocoa_dust, "cocoa_dust");
 		GameRegistry.registerItem(wrapper, "wrapper");
@@ -151,8 +148,6 @@ public class CuisineItems implements IPartItems {
 
 	@Override
 	public void addRecipes() {
-		OreDictionary.registerOre("bowlMilk", milk_bowl);
-
 		GameRegistry.addSmelting(chocolate_bowl, new ItemStack(chocolate_bowl_hot), 0.3F);
 		GameRegistry.addSmelting(eggs_mixed, new ItemStack(eggs_cooked), 0.35F);
 
@@ -182,7 +177,6 @@ public class CuisineItems implements IPartItems {
 		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(powered_sweets, 8), new Object[] { powered_sugar, "paper" }));
 		food = RecipeHelper.getLatestIRecipes(3);
 
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(milk_bowl, 1), new Object[] { "X", "M", 'X', Items.milk_bucket, 'M', Items.bowl }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(cheese, 9), new Object[] { "O", 'O', CuisineBlocks.cheese_block }));
 		cheeseRecipe.add(RecipeHelper.getLatestIRecipe());
 
@@ -197,7 +191,7 @@ public class CuisineItems implements IPartItems {
 		candy = RecipeHelper.getLatestIRecipes(2);
 
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(cocoa_dust, 2), new Object[] { "X", 'X', cocoa_fruit }));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(chocolate_bowl), new Object[] { " X ", "XAX", " B ", 'X', cocoa_dust, 'A', Items.sugar, 'B', "bowlMilk" }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(chocolate_bowl), new Object[] { " X ", "XAX", " B ", 'X', cocoa_dust, 'A', Items.sugar, 'B', Items.milk_bucket }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(chocolate_ball, 2), new Object[] { "X", 'X', chocolate_bowl_hot }));
 
 		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(bread_slice, 2), new Object[] { new ItemStack(Items.bread) }));
