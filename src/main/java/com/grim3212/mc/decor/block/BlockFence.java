@@ -31,6 +31,11 @@ public class BlockFence extends BlockTextured {
 	public IBlockState getStateForEntityRender(IBlockState state) {
 		return this.getDefaultState().withProperty(NORTH, false).withProperty(EAST, false).withProperty(SOUTH, false).withProperty(WEST, false);
 	}
+	
+	@Override
+	public boolean canPlaceTorchOnTop(IBlockAccess world, BlockPos pos) {
+		return true;
+	}
 
 	@Override
 	public void addCollisionBoxesToList(World worldIn, BlockPos pos, IBlockState state, AxisAlignedBB mask, List<AxisAlignedBB> list, Entity collidingEntity) {

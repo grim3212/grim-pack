@@ -56,4 +56,9 @@ public class BlockTable extends BlockTextured {
 		IBlockState blockState = worldIn.getBlockState(pos).getBlock().getDefaultState();
 		return blockState == this.getDefaultState();
 	}
+	
+	@Override
+	public boolean canPlaceTorchOnTop(IBlockAccess world, BlockPos pos) {
+		return true;
+	}
 }

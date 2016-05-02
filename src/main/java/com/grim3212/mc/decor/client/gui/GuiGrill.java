@@ -12,6 +12,7 @@ import com.grim3212.mc.decor.tile.TileEntityGrill;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.gui.inventory.GuiContainer;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.block.model.ItemCameraTransforms.TransformType;
 import net.minecraft.client.renderer.entity.RenderItem;
@@ -42,7 +43,7 @@ public class GuiGrill extends GuiContainer {
 	}
 
 	protected void drawGuiContainerBackgroundLayer(float par1, int par2, int par3) {
-		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 		this.mc.renderEngine.bindTexture(GrillGUI);
 		int x = (this.width - this.xSize) / 2;
 		int y = (this.height - this.ySize) / 2;
@@ -76,21 +77,21 @@ public class GuiGrill extends GuiContainer {
 
 		this.zLevel = 0.0F;
 
-		GL11.glPushMatrix();
-		GL11.glMatrixMode(5889);
-		GL11.glPushMatrix();
-		GL11.glLoadIdentity();
+		GlStateManager.pushMatrix();
+		GlStateManager.matrixMode(GL11.GL_PROJECTION);
+		GlStateManager.pushMatrix();
+		GlStateManager.loadIdentity();
 		ScaledResolution var7 = new ScaledResolution(this.mc);
-		GL11.glViewport((var7.getScaledWidth() - 320) / 2 * var7.getScaleFactor(), (var7.getScaledHeight() - 240) / 2 * var7.getScaleFactor(), 320 * var7.getScaleFactor(), 240 * var7.getScaleFactor());
+		GlStateManager.viewport((var7.getScaledWidth() - 320) / 2 * var7.getScaleFactor(), (var7.getScaledHeight() - 240) / 2 * var7.getScaleFactor(), 320 * var7.getScaleFactor(), 240 * var7.getScaleFactor());
 		GLU.gluPerspective(90.0F, 1.333333F, 9.0F, 80.0F);
-		GL11.glMatrixMode(5888);
-		GL11.glLoadIdentity();
+		GlStateManager.matrixMode(GL11.GL_MODELVIEW);
+		GlStateManager.loadIdentity();
 		RenderHelper.enableStandardItemLighting();
-		GL11.glTranslatef(0.0F, 5.0F, -16.0F);
-		GL11.glScalef(10.0F, 10.0F, 2.5F);
-		GL11.glRotatef(180.0F, 0.0F, 0.0F, 1.0F);
-		GL11.glRotatef(90.0F, 1.0F, 0.0F, 0.0F);
-		GL11.glEnable(32826);
+		GlStateManager.translate(0.0F, 5.0F, -16.0F);
+		GlStateManager.scale(10.0F, 10.0F, 2.5F);
+		GlStateManager.rotate(180.0F, 0.0F, 0.0F, 1.0F);
+		GlStateManager.rotate(90.0F, 1.0F, 0.0F, 0.0F);
+		GlStateManager.enableRescaleNormal();
 
 		if (this.grillInventory != null) {
 			ItemStack grill = new ItemStack(DecorBlocks.grill);
@@ -99,14 +100,14 @@ public class GuiGrill extends GuiContainer {
 			renderItems.renderItem(grill, TransformType.NONE);
 		}
 
-		GL11.glDisable(32826);
+		GlStateManager.disableRescaleNormal();
 		RenderHelper.disableStandardItemLighting();
-		GL11.glMatrixMode(5889);
-		GL11.glViewport(0, 0, this.mc.displayWidth, this.mc.displayHeight);
-		GL11.glPopMatrix();
-		GL11.glMatrixMode(5888);
-		GL11.glPopMatrix();
+		GlStateManager.matrixMode(GL11.GL_PROJECTION);
+		GlStateManager.viewport(0, 0, this.mc.displayWidth, this.mc.displayHeight);
+		GlStateManager.popMatrix();
+		GlStateManager.matrixMode(GL11.GL_MODELVIEW);
+		GlStateManager.popMatrix();
 		RenderHelper.disableStandardItemLighting();
-		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 	}
 }

@@ -51,7 +51,6 @@ public class BlockHelper {
 					for (IProperty prop : (Set<IProperty>) (block.getDefaultState().getProperties().keySet())) {
 						if ((prop.getName().equals("variant") || prop.getName().equals("color") || prop.getName().equals("type")) && !(block instanceof BlockHugeMushroom)) {
 							loadedBlocks.put(block, prop.getAllowedValues().size());
-
 						} else {
 							loadedBlocks.put(block, 0);
 						}

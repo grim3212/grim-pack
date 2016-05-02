@@ -23,7 +23,7 @@ public class BlockLantern extends Block {
 
 	protected BlockLantern() {
 		super(Material.circuits);
-		this.setDefaultState(this.blockState.getBaseState().withProperty(VARIANT, EnumLanternType.PAPER));
+		this.setDefaultState(this.blockState.getBaseState().withProperty(VARIANT, EnumLanternType.paper));
 	}
 
 	@Override
@@ -55,15 +55,15 @@ public class BlockLantern extends Block {
 
 	@Override
 	public int damageDropped(IBlockState state) {
-		return ((BlockLantern.EnumLanternType) state.getValue(VARIANT)).getMetadata();
+		return state.getValue(VARIANT).ordinal();
 	}
 
 	public IBlockState getStateFromMeta(int meta) {
-		return this.getDefaultState().withProperty(VARIANT, BlockLantern.EnumLanternType.byMetadata(meta));
+		return this.getDefaultState().withProperty(VARIANT, EnumLanternType.values[meta]);
 	}
 
 	public int getMetaFromState(IBlockState state) {
-		return ((BlockLantern.EnumLanternType) state.getValue(VARIANT)).getMetadata();
+		return state.getValue(VARIANT).ordinal();
 	}
 
 	protected BlockState createBlockState() {
@@ -71,49 +71,24 @@ public class BlockLantern extends Block {
 	}
 
 	public enum EnumLanternType implements IStringSerializable {
-		PAPER(0, "paper"), BONE(1, "bone"), IRON(2, "iron");
+		paper, bone, iron;
 
-		private final int meta;
-		private final String name;
-		private static final EnumLanternType[] META_LOOKUP = new EnumLanternType[values().length];
+		public static final EnumLanternType values[] = values();
+		
+		public static String[] names() {
+			EnumLanternType[] states = values;
+		    String[] names = new String[states.length];
 
-		private EnumLanternType(int meta, String name) {
-			this.meta = meta;
-			this.name = name;
+		    for (int i = 0; i < states.length; i++) {
+		        names[i] = states[i].name();
+		    }
+
+		    return names;
 		}
-
+		
 		@Override
 		public String getName() {
-			return this.name;
-		}
-
-		public int getMetadata() {
-			return this.meta;
-		}
-
-		public static EnumLanternType byMetadata(int meta) {
-			if (meta < 0 || meta >= META_LOOKUP.length) {
-				meta = 0;
-			}
-
-			return META_LOOKUP[meta];
-		}
-
-		static {
-			for (EnumLanternType colour : values()) {
-				META_LOOKUP[colour.getMetadata()] = colour;
-			}
-		}
-
-		public static String[] names() {
-			EnumLanternType[] types = values();
-			String[] names = new String[types.length];
-
-			for (int i = 0; i < types.length; i++) {
-				names[i] = types[i].getName();
-			}
-
-			return names;
+			return this.name();
 		}
 	}
 }

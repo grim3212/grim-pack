@@ -16,7 +16,7 @@ public class ItemLantern extends ItemBlock {
 
 	@Override
 	public String getUnlocalizedName(ItemStack stack) {
-		BlockLantern.EnumLanternType type = BlockLantern.EnumLanternType.byMetadata(stack.getMetadata());
+		BlockLantern.EnumLanternType type = BlockLantern.EnumLanternType.values[stack.getMetadata()];
 		return super.getUnlocalizedName() + "_" + type.getName();
 	}
 
