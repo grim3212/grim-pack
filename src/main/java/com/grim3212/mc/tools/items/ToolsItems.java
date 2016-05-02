@@ -2,6 +2,8 @@ package com.grim3212.mc.tools.items;
 
 import java.util.List;
 
+import com.grim3212.mc.core.item.AxeItem;
+import com.grim3212.mc.core.item.PickaxeItem;
 import com.grim3212.mc.core.part.IPartItems;
 import com.grim3212.mc.core.util.OreDictionaryHelper;
 import com.grim3212.mc.core.util.RecipeHelper;
@@ -451,7 +453,7 @@ public class ToolsItems implements IPartItems {
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(lightning_spear, 1), new Object[] { "U", "#", "X", 'U', Items.water_bucket, '#', "dustRedstone", 'X', iron_spear }));
 		specials = RecipeHelper.getLatestIRecipes(5);
 
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ultimate_fist, 1), new Object[] { "XXX", "X##", "XXX", '#', "leather", 'X', "gemDiamond" }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ultimate_fist, 1), new Object[] { "XXX", "X##", "XXX", '#', "leather", 'X', "blockDiamond" }));
 
 		ItemStack emptyStack = new ItemStack(mask, 1, 0);
 		GameRegistry.addRecipe(new ShapedOreRecipe(emptyStack, new Object[] { "YXY", 'Y', "string", 'X', "paper" }));

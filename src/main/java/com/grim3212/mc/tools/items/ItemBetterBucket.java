@@ -83,6 +83,12 @@ public class ItemBetterBucket extends Item implements IFluidContainerItem {
 		this.bucketType = bucketType;
 	}
 
+	@Override
+	public void onCreated(ItemStack stack, World worldIn, EntityPlayer playerIn) {
+		NBTHelper.setString(stack, "FluidName", "empty");
+		NBTHelper.setInteger(stack, "Amount", 0);
+	}
+
 	public Item setOnBroken(ItemStack onBroken) {
 		this.onBroken = onBroken;
 		return this;
