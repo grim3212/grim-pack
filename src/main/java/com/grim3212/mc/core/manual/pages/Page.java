@@ -1,12 +1,12 @@
 package com.grim3212.mc.core.manual.pages;
 
 import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL12;
 
 import com.grim3212.mc.core.manual.gui.GuiSubSectionPage;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.item.ItemStack;
@@ -96,23 +96,25 @@ public class Page {
 	public void renderItem(GuiSubSectionPage gui, ItemStack item, int x, int y) {
 		RenderItem render = Minecraft.getMinecraft().getRenderItem();
 
-		GL11.glPushMatrix();
-		GL11.glEnable(GL11.GL_BLEND);
-		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+		GlStateManager.pushMatrix();
+		GlStateManager.enableBlend();
+		GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 		RenderHelper.enableGUIStandardItemLighting();
-		GL11.glScalef(1F, 1F, 0.75F);
-		GL11.glEnable(GL12.GL_RESCALE_NORMAL);
-		GL11.glEnable(GL11.GL_DEPTH_TEST);
+		GlStateManager.scale(1F, 1F, 0.75F);
+
+		GlStateManager.enableRescaleNormal();
+		GlStateManager.enableDepth();
+
 		render.renderItemAndEffectIntoGUI(item, x, y);
-		render.renderItemOverlayIntoGUI(Minecraft.getMinecraft().fontRendererObj, item, x, y, "");
+		render.renderItemOverlayIntoGUI(Minecraft.getMinecraft().fontRendererObj, item, x, y, (String) null);
 		RenderHelper.disableStandardItemLighting();
-		GL11.glPopMatrix();
+		GlStateManager.popMatrix();
 
 		if (relativeMouseX >= x && relativeMouseY >= y && relativeMouseX <= x + 16 && relativeMouseY <= y + 16) {
 			this.tooltipItem = item;
 		}
 
-		GL11.glDisable(GL11.GL_LIGHTING);
+		GlStateManager.disableLighting();
 	}
 
 	public void renderItemCutWild(GuiSubSectionPage gui, ItemStack item, int x, int y) {

@@ -1,7 +1,5 @@
 package com.grim3212.mc.core.manual.gui;
 
-import org.lwjgl.opengl.GL11;
-
 import com.grim3212.mc.core.GrimCore;
 import com.grim3212.mc.core.manual.ManualRegistry;
 import com.grim3212.mc.core.manual.button.GuiButtonChangePage;
@@ -11,6 +9,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StatCollector;
 
@@ -51,7 +50,7 @@ public class GuiManualIndex extends GuiScreen {
 
 	@Override
 	public void drawScreen(int i, int j, float f) {
-		GL11.glColor4f(1F, 1F, 1F, 1F);
+		GlStateManager.color(1F, 1F, 1F, 1F);
 		mc.renderEngine.bindTexture(texture);
 		drawTexturedModalRect(x, y, 0, 0, manualWidth, manualHeight);
 
