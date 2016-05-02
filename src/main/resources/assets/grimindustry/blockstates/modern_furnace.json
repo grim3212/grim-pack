@@ -1,0 +1,16 @@
+{
+	"forge_marker": 1,
+    "defaults": {
+		"transform": "forge:default-block",
+		"model": "orientable",
+		"textures": {
+			"top": "grimindustry:blocks/machine_side",
+			"side": "grimindustry:blocks/steel_block",
+			"front": "grimindustry:blocks/modern_furnace_active"
+		}
+    },
+    "variants": {
+        "normal": [{}],
+		"inventory": [{}]
+    }
+}

@@ -1,0 +1,16 @@
+{
+	"forge_marker": 1,
+    "defaults": {
+		"transform": "forge:default-block",
+		"textures": {
+			"texture": "minecraft:blocks/portal"
+		}
+    },
+    "variants": {
+        "powered": { 
+			"true": { "model": "grimindustry:camo_plate_down" },
+			"false": { "model": "grimindustry:camo_plate_up" }
+		},
+		"inventory": [{ "model": "pressure_plate_inventory" }]
+    }
+}

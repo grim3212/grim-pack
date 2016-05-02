@@ -1,10 +1,10 @@
 package com.grim3212.mc.industry.client.gui;
 
-import org.lwjgl.opengl.GL11;
-
 import com.grim3212.mc.industry.inventory.ContainerDiamondWorkbench;
 
 import net.minecraft.client.gui.inventory.GuiContainer;
+import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.ResourceLocation;
@@ -21,13 +21,15 @@ public class GuiCraftingDiamond extends GuiContainer {
 		super(new ContainerDiamondWorkbench(inventoryplayer.inventory, world, pos));
 	}
 
-	protected void drawGuiContainerForegroundLayer(int par1, int par2) {
-		fontRendererObj.drawString("Diamond Crafting (4x)", 28, 6, 4210752);
-		fontRendererObj.drawString("Inventory", 8, this.ySize - 96 + 2, 4210752);
+	@Override
+	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
+		fontRendererObj.drawString(I18n.format("container.diamond_crafting", new Object[0]), 28, 6, 4210752);
+		fontRendererObj.drawString(I18n.format("container.inventory", new Object[0]), 8, this.ySize - 96 + 2, 4210752);
 	}
 
-	protected void drawGuiContainerBackgroundLayer(float par1, int par2, int par3) {
-		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+	@Override
+	protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
+		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 		this.mc.renderEngine.bindTexture(resourceLocation);
 		int var5 = (this.width - this.xSize) / 2;
 		int var6 = (this.height - this.ySize) / 2;

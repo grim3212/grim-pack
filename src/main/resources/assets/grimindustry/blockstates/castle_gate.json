@@ -1,0 +1,36 @@
+{
+	"forge_marker": 1,
+    "defaults": {
+		"transform": "forge:default-block",
+        "model": "grimindustry:castle_gate"
+    },
+    "variants": {
+        "active": {
+			"false": { },
+			"true": { "model": "grimindustry:invisible_gate" }
+		},
+		"top": {
+			"false": { },
+			"true": { }
+		},
+		"facing": {
+			"north": { "y": 270 },
+			"south": { "y": 90 },
+			"west": { "y": 180 },
+			"east": { }
+		},
+		"active=true,facing=east,top=true": [{ "model": "grimindustry:castle_gate_active_top" }],
+		"active=true,facing=west,top=true": [{ "model": "grimindustry:castle_gate_active_top", "y": 180 }],
+		"active=true,facing=south,top=true": [{ "model": "grimindustry:castle_gate_active_top", "y": 90 }],
+		"active=true,facing=north,top=true": [{ "model": "grimindustry:castle_gate_active_top", "y": 270 }],
+		"inventory": [{
+			"display": {
+				"thirdperson": {
+					"rotation": [ 10, -45, 170 ],
+					"translation": [ 0, 1.5, -2.75 ],
+					"scale": [ 0.375, 0.375, 0.375 ]
+				}
+			}
+		}]
+    }
+}

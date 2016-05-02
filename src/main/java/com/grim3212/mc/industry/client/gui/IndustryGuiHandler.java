@@ -1,7 +1,9 @@
 package com.grim3212.mc.industry.client.gui;
 
+import com.grim3212.mc.industry.inventory.ContainerMachine;
 import com.grim3212.mc.industry.inventory.ContainerDiamondWorkbench;
 import com.grim3212.mc.industry.inventory.ContainerIronWorkbench;
+import com.grim3212.mc.industry.tile.TileEntityMachine;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.BlockPos;
@@ -12,6 +14,9 @@ public class IndustryGuiHandler implements IGuiHandler {
 
 	public static final int ironGUI = 1;
 	public static final int diamondGUI = 2;
+	public static final int modernFurnaceGUI = 3;
+	public static final int derrickGUI = 4;
+	public static final int refineryGUI = 5;
 
 	@Override
 	public Object getServerGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
@@ -20,6 +25,10 @@ public class IndustryGuiHandler implements IGuiHandler {
 			return new ContainerIronWorkbench(player.inventory, world, pos);
 		} else if (ID == diamondGUI) {
 			return new ContainerDiamondWorkbench(player.inventory, world, pos);
+		} else if (ID == modernFurnaceGUI) {
+			return null;
+		} else if (ID == derrickGUI || ID == refineryGUI) {
+			return new ContainerMachine(player.inventory, (TileEntityMachine) world.getTileEntity(pos));
 		}
 		return null;
 	}
@@ -31,6 +40,8 @@ public class IndustryGuiHandler implements IGuiHandler {
 			return new GuiCraftingIron(player, world, pos);
 		} else if (ID == diamondGUI) {
 			return new GuiCraftingDiamond(player, world, pos);
+		} else if (ID == derrickGUI || ID == refineryGUI) {
+			return new GuiMachine(player.inventory, (TileEntityMachine) world.getTileEntity(pos));
 		}
 
 		return null;

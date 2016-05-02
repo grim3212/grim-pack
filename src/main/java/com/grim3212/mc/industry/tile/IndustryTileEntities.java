@@ -10,7 +10,9 @@ public class IndustryTileEntities implements IPartTileEntities {
 	public void initTileEntities() {
 		GameRegistry.registerTileEntity(TileEntitySensor.class, "sensors");
 		GameRegistry.registerTileEntity(TileEntityGravity.class, "gravity");
+		GameRegistry.registerTileEntity(TileEntityCamo.class, "camo_plate");
 		GameRegistry.registerTileEntity(TileEntityDGravity.class, "directional_gravity");
+		GameRegistry.registerTileEntity(TileEntityMachine.class, "machine");
 	}
 
 }

@@ -1,0 +1,19 @@
+{
+	"forge_marker": 1,
+    "defaults": {
+		"transform": "forge:default-block",
+		"model": "cube_bottom_top",
+		"textures": {
+			"top": "grimindustry:blocks/rway_manhole",
+			"side": "grimindustry:blocks/rway_side",
+			"bottom": "blocks/stone"
+		}
+    },
+    "variants": {
+        "active": {
+			"false": { },
+			"true": { "textures": { "top": "grimindustry:blocks/rway_manhole_active", "bottom": "grimindustry:blocks/rway_manhole_bottom"} }
+		},
+		"inventory": [{}]
+    }
+}

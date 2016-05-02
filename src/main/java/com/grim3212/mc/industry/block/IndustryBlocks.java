@@ -1,5 +1,6 @@
 package com.grim3212.mc.industry.block;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.grim3212.mc.core.part.IPartItems;
@@ -10,6 +11,7 @@ import com.grim3212.mc.industry.item.IndustryItems;
 import com.grim3212.mc.industry.item.ItemSensor;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockGlass;
 import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -44,9 +46,47 @@ public class IndustryBlocks implements IPartItems {
 	public static Block c4;
 	public static Block nuclear_bomb;
 	public static Block uranium_ore;
+	public static Block castle_gate;
+	public static Block garage;
+	public static Block halogen_light;
+	public static Block halogen_torch;
+	public static Block sidewalk;
+	public static Block rway;
+	public static Block rway_light_on;
+	public static Block rway_light_off;
+	public static Block rway_manhole;
+	public static Block door_chain;
+	public static Block door_glass;
+	public static Block door_steel;
+	public static Block concrete;
+	public static Block modern_tile;
+	public static Block tempered_glass;
+	public static Block horizontal_siding;
+	public static Block vertical_siding;
+	public static Block fountain;
+	public static Block camo_plate;
+	public static Block chain_fence;
+	public static Block aluminum_ladder;
+	public static Block aluminum_ore;
+	public static Block oil_ore;
+	public static Block derrick;
+	public static Block modern_furnace;
+	public static Block steel_block;
+	public static Block steel_pipe;
+	public static Block refinery;
+	public static Block steel_frame;
+	public static Block fuel_tank;
 
 	@Override
 	public void initItems() {
+		modern_tile = (new Block(Material.rock)).setHardness(1.0F).setResistance(15.0F).setStepSound(Block.soundTypeStone).setUnlocalizedName("modern_tile").setCreativeTab(GrimIndustry.INSTANCE.getCreativeTab());
+		tempered_glass = (new BlockGlass(Material.glass, false)).setHardness(1.0F).setResistance(15.0F).setStepSound(Block.soundTypeGlass).setLightOpacity(0).setUnlocalizedName("tempered_glass").setCreativeTab(GrimIndustry.INSTANCE.getCreativeTab());
+		horizontal_siding = (new BlockSiding()).setHardness(1.0F).setResistance(10.0F).setStepSound(Block.soundTypeStone).setUnlocalizedName("horizontal_siding").setCreativeTab(GrimIndustry.INSTANCE.getCreativeTab());
+		vertical_siding = (new BlockSiding()).setHardness(1.0F).setResistance(10.0F).setStepSound(Block.soundTypeStone).setUnlocalizedName("vertical_siding").setCreativeTab(GrimIndustry.INSTANCE.getCreativeTab());
+		door_chain = (new BlockModernDoor(Material.circuits)).setHardness(0.5F).setResistance(5.0F).setStepSound(Block.soundTypeMetal).setUnlocalizedName("door_chain");
+		door_glass = (new BlockModernDoor(Material.glass)).setHardness(1.0F).setResistance(10.0F).setStepSound(Block.soundTypeGlass).setUnlocalizedName("door_glass");
+		door_steel = (new BlockModernDoor(Material.anvil)).setHardness(1.0F).setResistance(10.0F).setStepSound(Block.soundTypeMetal).setUnlocalizedName("door_steel");
+		concrete = (new Block(Material.rock)).setHardness(1.0F).setResistance(30.0F).setStepSound(Block.soundTypeStone).setUnlocalizedName("concrete").setCreativeTab(GrimIndustry.INSTANCE.getCreativeTab());
 		togglerack = new BlockToggleRack().setUnlocalizedName("togglerack").setCreativeTab(GrimIndustry.INSTANCE.getCreativeTab());
 		iron_workbench = (new BlockIronWorkbench()).setHardness(3F).setResistance(5F).setUnlocalizedName("iron_workbench").setCreativeTab(GrimIndustry.INSTANCE.getCreativeTab());
 		diamond_workbench = (new BlockDiamondWorkbench()).setHardness(5F).setResistance(5F).setUnlocalizedName("diamond_workbench").setCreativeTab(GrimIndustry.INSTANCE.getCreativeTab());
@@ -70,7 +110,59 @@ public class IndustryBlocks implements IPartItems {
 		bomb_shell = (new Block(Material.iron)).setHardness(1.0F).setStepSound(Block.soundTypeMetal).setCreativeTab(GrimIndustry.INSTANCE.getCreativeTab()).setUnlocalizedName("bomb_shell");
 		c4 = (new BlockC4()).setHardness(1.0F).setStepSound(Block.soundTypeMetal).setCreativeTab(GrimIndustry.INSTANCE.getCreativeTab()).setUnlocalizedName("c4");
 		uranium_ore = (new BlockUraniumOre()).setHardness(1.0F).setStepSound(Block.soundTypeStone).setLightLevel(0.55F).setCreativeTab(GrimIndustry.INSTANCE.getCreativeTab()).setUnlocalizedName("uranium_ore");
+		castle_gate = new BlockGate().setHardness(1.0F).setResistance(10.0F).setStepSound(Block.soundTypeMetal).setUnlocalizedName("castle_gate").setCreativeTab(GrimIndustry.INSTANCE.getCreativeTab());
+		garage = new BlockGate().setHardness(1.0F).setResistance(10.0F).setStepSound(Block.soundTypeMetal).setUnlocalizedName("garage").setCreativeTab(GrimIndustry.INSTANCE.getCreativeTab());
+		halogen_light = (new BlockHLight()).setHardness(0.1F).setResistance(6.0F).setLightLevel(1.0F).setLightOpacity(0).setStepSound(Block.soundTypeGlass).setUnlocalizedName("halogen_light").setCreativeTab(GrimIndustry.INSTANCE.getCreativeTab());
+		halogen_torch = (new BlockHTorch()).setHardness(0.1F).setResistance(8.0F).setLightLevel(1.0F).setLightOpacity(0).setStepSound(Block.soundTypeWood).setUnlocalizedName("halogen_torch").setCreativeTab(GrimIndustry.INSTANCE.getCreativeTab());
+		sidewalk = (new BlockSwalk()).setHardness(1.0F).setResistance(15.0F).setStepSound(Block.soundTypeStone).setUnlocalizedName("sidewalk").setCreativeTab(GrimIndustry.INSTANCE.getCreativeTab());
+		rway = (new BlockRway()).setHardness(1.0F).setResistance(15.0F).setStepSound(Block.soundTypeStone).setUnlocalizedName("rway").setCreativeTab(GrimIndustry.INSTANCE.getCreativeTab());
+		rway_light_on = (new BlockRwayLight()).setHardness(1.0F).setResistance(15.0F).setLightLevel(1.0F).setStepSound(Block.soundTypeStone).setUnlocalizedName("rway_light_on");
+		rway_light_off = (new BlockRwayLight()).setHardness(1.0F).setResistance(15.0F).setLightLevel(0.0F).setStepSound(Block.soundTypeStone).setUnlocalizedName("rway_light_off").setCreativeTab(GrimIndustry.INSTANCE.getCreativeTab());
+		rway_manhole = (new BlockRwayManhole()).setHardness(1.0F).setResistance(10.0F).setStepSound(Block.soundTypeStone).setUnlocalizedName("rway_manhole").setCreativeTab(GrimIndustry.INSTANCE.getCreativeTab());
+		fountain = (new BlockFountain()).setHardness(1.5F).setResistance(10.0F).setStepSound(Block.soundTypeStone).setUnlocalizedName("fountain").setCreativeTab(GrimIndustry.INSTANCE.getCreativeTab());
+		camo_plate = (new BlockCamoPlate()).setHardness(0.5F).setResistance(5.0F).setStepSound(Block.soundTypeMetal).setUnlocalizedName("camo_plate").setCreativeTab(GrimIndustry.INSTANCE.getCreativeTab());
+		chain_fence = (new BlockChainFence(Material.circuits)).setHardness(0.5F).setResistance(5.0F).setStepSound(Block.soundTypeMetal).setUnlocalizedName("chain_fence").setCreativeTab(GrimIndustry.INSTANCE.getCreativeTab());
+		aluminum_ladder = (new BlockAluminumLadder()).setHardness(1.0F).setResistance(5.0F).setStepSound(Block.soundTypeMetal).setUnlocalizedName("aluminum_ladder").setCreativeTab(GrimIndustry.INSTANCE.getCreativeTab());
+		aluminum_ore = (new Block(Material.rock)).setHardness(1.0F).setResistance(5.0F).setStepSound(Block.soundTypeStone).setUnlocalizedName("aluminum_ore").setCreativeTab(GrimIndustry.INSTANCE.getCreativeTab());
+		oil_ore = (new BlockOilOre()).setHardness(1.0F).setResistance(5.0F).setStepSound(Block.soundTypeStone).setUnlocalizedName("oil_ore").setCreativeTab(GrimIndustry.INSTANCE.getCreativeTab());
+		derrick = (new BlockDerrick()).setHardness(1.0F).setResistance(10.0F).setLightLevel(0.5F).setStepSound(Block.soundTypeMetal).setUnlocalizedName("derrick").setCreativeTab(GrimIndustry.INSTANCE.getCreativeTab());
+		modern_furnace = (new Block(Material.rock)).setHardness(10.0F).setResistance(2.0F).setLightLevel(1.0F).setStepSound(Block.soundTypeMetal).setUnlocalizedName("modern_furnace").setCreativeTab(GrimIndustry.INSTANCE.getCreativeTab());
+		refinery = (new BlockRefinery()).setHardness(1.0F).setResistance(10.0F).setLightLevel(0.0F).setStepSound(Block.soundTypeMetal).setUnlocalizedName("refinery").setCreativeTab(GrimIndustry.INSTANCE.getCreativeTab());
+		steel_block = (new Block(Material.iron)).setHardness(1.0F).setResistance(20.0F).setStepSound(Block.soundTypeMetal).setUnlocalizedName("steel_block").setCreativeTab(GrimIndustry.INSTANCE.getCreativeTab());
+		steel_pipe = (new BlockSteelPipe()).setHardness(1.0F).setResistance(10.0F).setStepSound(Block.soundTypeMetal).setUnlocalizedName("steel_pipe").setCreativeTab(GrimIndustry.INSTANCE.getCreativeTab());
+		steel_frame = (new BlockSteelFrame()).setHardness(1.0F).setResistance(10.0F).setLightOpacity(0).setStepSound(Block.soundTypeMetal).setUnlocalizedName("steel_frame").setCreativeTab(GrimIndustry.INSTANCE.getCreativeTab());
+		fuel_tank = (new BlockFuel()).setHardness(1.0F).setResistance(5.0F).setStepSound(Block.soundTypeMetal).setUnlocalizedName("fuel_tank").setCreativeTab(GrimIndustry.INSTANCE.getCreativeTab());
 
+		GameRegistry.registerBlock(aluminum_ladder, "aluminum_ladder");
+		GameRegistry.registerBlock(aluminum_ore, "aluminum_ore");
+		GameRegistry.registerBlock(oil_ore, "oil_ore");
+		GameRegistry.registerBlock(derrick, "derrick");
+		GameRegistry.registerBlock(modern_furnace, "modern_furnace");
+		GameRegistry.registerBlock(refinery, "refinery");
+		GameRegistry.registerBlock(steel_block, "steel_block");
+		GameRegistry.registerBlock(steel_pipe, "steel_pipe");
+		GameRegistry.registerBlock(steel_frame, "steel_frame");
+		GameRegistry.registerBlock(fuel_tank, "fuel_tank");
+		GameRegistry.registerBlock(fountain, "fountain");
+		GameRegistry.registerBlock(camo_plate, "camo_plate");
+		GameRegistry.registerBlock(chain_fence, "chain_fence");
+		GameRegistry.registerBlock(modern_tile, "modern_tile");
+		GameRegistry.registerBlock(tempered_glass, "tempered_glass");
+		GameRegistry.registerBlock(horizontal_siding, "horizontal_siding");
+		GameRegistry.registerBlock(vertical_siding, "vertical_siding");
+		GameRegistry.registerBlock(concrete, "concrete");
+		GameRegistry.registerBlock(door_chain, "door_chain");
+		GameRegistry.registerBlock(door_glass, "door_glass");
+		GameRegistry.registerBlock(door_steel, "door_steel");
+		GameRegistry.registerBlock(sidewalk, "sidewalk");
+		GameRegistry.registerBlock(rway, "rway");
+		GameRegistry.registerBlock(rway_light_on, "rway_light_on");
+		GameRegistry.registerBlock(rway_light_off, "rway_light_off");
+		GameRegistry.registerBlock(rway_manhole, "rway_manhole");
+		GameRegistry.registerBlock(halogen_light, "halogen_light");
+		GameRegistry.registerBlock(halogen_torch, "halogen_torch");
+		GameRegistry.registerBlock(castle_gate, "castle_gate");
+		GameRegistry.registerBlock(garage, "garage");
 		GameRegistry.registerBlock(attractor, "attractor");
 		GameRegistry.registerBlock(repulsor, "repulsor");
 		GameRegistry.registerBlock(gravitor, "gravitor");
@@ -101,12 +193,64 @@ public class IndustryBlocks implements IPartItems {
 	public static List<IRecipe> attracting;
 	public static List<IRecipe> repulsing;
 	public static List<IRecipe> gravitoring;
+	public static List<IRecipe> htorches;
+	public static List<IRecipe> rways;
+	public static List<IRecipe> decoration;
+	public static List<IRecipe> others;
+	public static List<IRecipe> buckladd;
+	public static List<IRecipe> steelstuff = new ArrayList<IRecipe>();
 
 	@Override
 	public void addRecipes() {
 		OreDictionary.registerOre("oreUranium", uranium_ore);
+		OreDictionary.registerOre("blockGlass", tempered_glass);
+		OreDictionary.registerOre("blockSteel", steel_block);
+		OreDictionary.registerOre("oreAluminum", aluminum_ore);
 
+		GameRegistry.addSmelting(aluminum_ore, new ItemStack(IndustryItems.aluminum_ingot, 1), 0.45F);
 		GameRegistry.addSmelting(uranium_ore, new ItemStack(IndustryItems.uranium_ingot), 0.7F);
+
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(refinery, 1), new Object[] { "sss", "ara", "sss", 's', "ingotSteel", 'r', "dustRedstone", 'a', IndustryItems.aluminum_can }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(derrick, 1), new Object[] { "s s", "sRs", "sPs", 's', "ingotSteel", 'R', refinery, 'P', steel_pipe }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(modern_furnace, 1), new Object[] { "sss", "rFr", "sss", 's', "ingotSteel", 'r', "dustRedstone", 'F', Blocks.furnace }));
+
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(fuel_tank, 1), new Object[] { "fff", "fff", "fff", 'f', IndustryItems.fuel }));
+		IndustryItems.fuelstuff.add(RecipeHelper.getLatestIRecipe());
+
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(aluminum_ladder, 4), new Object[] { "s s", "sss", "s s", 's', IndustryItems.aluminum_shaft }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Items.bucket, 1), new Object[] { "a a", " a ", 'a', "ingotAluminum" }));
+		buckladd = RecipeHelper.getLatestIRecipes(2);
+
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(steel_pipe, 8), new Object[] { "s s", "s s", "s s", 's', "ingotSteel" }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(steel_block, 1), new Object[] { "iii", "iii", "iii", 'i', "ingotSteel" }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(steel_frame, 4), new Object[] { "i i", " i ", "i i", 'i', IndustryItems.steel_shaft }));
+		steelstuff.addAll(RecipeHelper.getLatestIRecipes(3));
+
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(chain_fence, 32), new Object[] { "sss", "sss", 's', IndustryItems.aluminum_shaft }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(fountain, 1), new Object[] { "CPC", "CaC", "C C", 'C', "cobblestone", 'P', steel_pipe, 'a', "ingotAluminum" }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(camo_plate, 2), new Object[] { "rr", "ii", 'r', "dustRedstone", 'i', "ingotGold" }));
+		others = RecipeHelper.getLatestIRecipes(3);
+
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(concrete, 8), new Object[] { "SSS", "SsS", "SSS", 'S', "stone", 's', IndustryItems.steel_shaft }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(horizontal_siding, 4), new Object[] { "L", "t", "a", 'L', "logWood", 't', IndustryItems.tarball, 'a', "ingotAluminum" }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(vertical_siding, 4), new Object[] { "C", "t", "a", 'C', "cobblestone", 't', IndustryItems.tarball, 'a', "ingotAluminum" }));
+		decoration = RecipeHelper.getLatestIRecipes(3);
+
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(sidewalk, 8), new Object[] { "SSS", "SSS", 'S', "stone" }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(rway, 1), new Object[] { "A", "S", 'A', IndustryItems.asphalt, 'S', "stone" }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(rway_light_off, 1), new Object[] { "L", "R", 'L', halogen_light, 'R', rway }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(rway_manhole, 1), new Object[] { "i", "R", 'i', "ingotIron", 'R', rway }));
+		rways = RecipeHelper.getLatestIRecipes(3);
+
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(halogen_light, 1), new Object[] { "G", "R", 'G', "blockGlass", 'R', "dustRedstone" }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(halogen_torch, 4), new Object[] { "G", "R", "S", 'G', "blockGlass", 'R', "dustRedstone", 'S', "stickWood" }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(halogen_torch, 4), new Object[] { "H", "S", 'H', halogen_light, 'S', "stickWood" }));
+		htorches = RecipeHelper.getLatestIRecipes(2);
+
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(castle_gate, 1), new Object[] { "G", "G", "G", 'G', IndustryItems.gate_grating }));
+		IndustryItems.gates.add(RecipeHelper.getLatestIRecipe());
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(garage, 1), new Object[] { "p", "p", "p", 'p', IndustryItems.garage_panel }));
+		IndustryItems.garages.add(RecipeHelper.getLatestIRecipe());
 
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(togglerack, 4), new Object[] { "QQQ", "QAQ", "QQQ", 'A', "dustRedstone", 'Q', Blocks.netherrack }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(iron_workbench), new Object[] { " X ", "X=X", " X ", 'X', "blockIron", '=', Blocks.crafting_table }));
