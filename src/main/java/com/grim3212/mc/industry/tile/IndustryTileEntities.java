@@ -13,6 +13,7 @@ public class IndustryTileEntities implements IPartTileEntities {
 		GameRegistry.registerTileEntity(TileEntityCamo.class, "camo_plate");
 		GameRegistry.registerTileEntity(TileEntityDGravity.class, "directional_gravity");
 		GameRegistry.registerTileEntity(TileEntityMachine.class, "machine");
+		GameRegistry.registerTileEntity(TileEntityMFurnace.class, "modern_furnace");
 	}
 
 }

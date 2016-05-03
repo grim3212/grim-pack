@@ -45,6 +45,16 @@ tile.door_steel.name=Steel Door
 tile.chain_fence.name=Chain Link Fence
 tile.fountain.name=Water Fountain
 tile.camo_plate.name=Camouflaged Pressure Plate
+tile.aluminum_ladder.name=Aluminum Ladder
+tile.aluminum_ore.name=Aluminum Ore
+tile.oil_ore.name=Oil Ore
+tile.derrick.name=Oil Derrick
+tile.modern_furnace.name=Modern Furnace
+tile.steel_block.name=Block of Steel
+tile.steel_pipe.name=Steel Pipe
+tile.refinery.name=Refinery
+tile.steel_frame.name=Steel Framework
+tile.fuel_tank.name=Fuel Tank
 
 #================= ITEMS =================#
 item.paint_roller_white.name=White Paint Roller
@@ -77,7 +87,23 @@ item.refined_uranium.name=Refined Uranium
 item.uranium_ingot.name=Uranium Ingot
 item.gravity_controller.name=Gravity Controller
 item.low_gravity_controller.name=Low Gravity Controller
+item.aluminum_can.name=Aluminum Cannister
 item.aluminum_ingot.name=Aluminum Ingot
+item.aluminum_shaft.name=Aluminum Shaft
+item.coal_dust.name=Coal Dust
+item.coal_iron_ingot.name=Coal-Dusted Iron
+item.crude_oil.name=Crude Oil
+item.fuel.name=Fuel
+item.rubber.name=Rubber
+item.oily_chunk.name=Oily Chunk
+item.steel_ingot.name=Steel Ingot
+item.steel_shaft.name=Steel Shaft
+item.super_crude_oil.name=Supercrude Oil
+item.steel_pickaxe.name=Steel Pickaxe
+item.steel_axe.name=Steel Axe
+item.steel_hoe.name=Steel Hoe
+item.steel_shovel.name=Steel Shovel
+item.steel_sword.name=Steel Sword
 
 #================= INSTRUCTION MANUAL =================#
 grim.manual.grimindustry.modinfo=Adds a bunch of tech stuff.

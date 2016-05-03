@@ -155,12 +155,11 @@ public class TileEntityMachine extends TileEntityLockable implements ISidedInven
 
 		this.runTime = compound.getInteger("RunTime");
 		this.totalRunTime = compound.getInteger("RunTimeTotal");
+		this.machineType = compound.getInteger("MachineType");
 
 		if (compound.hasKey("CustomName", 8)) {
 			this.customName = compound.getString("CustomName");
 		}
-
-		this.machineType = compound.getInteger("MachineType");
 	}
 
 	@Override
@@ -168,6 +167,7 @@ public class TileEntityMachine extends TileEntityLockable implements ISidedInven
 		super.writeToNBT(compound);
 		compound.setInteger("RunTime", this.runTime);
 		compound.setInteger("RunTimeTotal", this.totalRunTime);
+		compound.setInteger("MachineType", getMachineType());
 		NBTTagList nbttaglist = new NBTTagList();
 
 		for (int i = 0; i < this.itemstacks.length; ++i) {
@@ -184,8 +184,6 @@ public class TileEntityMachine extends TileEntityLockable implements ISidedInven
 		if (this.hasCustomName()) {
 			compound.setString("CustomName", this.customName);
 		}
-
-		compound.setInteger("MachineType", getMachineType());
 	}
 
 	/**

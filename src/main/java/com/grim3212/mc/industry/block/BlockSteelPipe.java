@@ -16,7 +16,8 @@ public class BlockSteelPipe extends Block {
 
 	@Override
 	public boolean canPlaceBlockAt(World worldIn, BlockPos pos) {
-		return super.canPlaceBlockAt(worldIn, pos) && (worldIn.getBlockState(pos.down()).getBlock() == IndustryBlocks.oil_ore || worldIn.getBlockState(pos.down()).getBlock() == IndustryBlocks.steel_pipe || worldIn.getBlockState(pos.down()).getBlock() == IndustryBlocks.fuel_tank);
+		Block block = worldIn.getBlockState(pos.down()).getBlock();
+		return block == IndustryBlocks.oil_ore || block == IndustryBlocks.steel_pipe || block == IndustryBlocks.fuel_tank;
 	}
 
 	@Override

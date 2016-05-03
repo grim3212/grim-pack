@@ -126,7 +126,7 @@ public class IndustryBlocks implements IPartItems {
 		aluminum_ore = (new Block(Material.rock)).setHardness(1.0F).setResistance(5.0F).setStepSound(Block.soundTypeStone).setUnlocalizedName("aluminum_ore").setCreativeTab(GrimIndustry.INSTANCE.getCreativeTab());
 		oil_ore = (new BlockOilOre()).setHardness(1.0F).setResistance(5.0F).setStepSound(Block.soundTypeStone).setUnlocalizedName("oil_ore").setCreativeTab(GrimIndustry.INSTANCE.getCreativeTab());
 		derrick = (new BlockDerrick()).setHardness(1.0F).setResistance(10.0F).setLightLevel(0.5F).setStepSound(Block.soundTypeMetal).setUnlocalizedName("derrick").setCreativeTab(GrimIndustry.INSTANCE.getCreativeTab());
-		modern_furnace = (new Block(Material.rock)).setHardness(10.0F).setResistance(2.0F).setLightLevel(1.0F).setStepSound(Block.soundTypeMetal).setUnlocalizedName("modern_furnace").setCreativeTab(GrimIndustry.INSTANCE.getCreativeTab());
+		modern_furnace = (new BlockModernFurnace()).setHardness(10.0F).setResistance(2.0F).setStepSound(Block.soundTypeMetal).setUnlocalizedName("modern_furnace").setCreativeTab(GrimIndustry.INSTANCE.getCreativeTab());
 		refinery = (new BlockRefinery()).setHardness(1.0F).setResistance(10.0F).setLightLevel(0.0F).setStepSound(Block.soundTypeMetal).setUnlocalizedName("refinery").setCreativeTab(GrimIndustry.INSTANCE.getCreativeTab());
 		steel_block = (new Block(Material.iron)).setHardness(1.0F).setResistance(20.0F).setStepSound(Block.soundTypeMetal).setUnlocalizedName("steel_block").setCreativeTab(GrimIndustry.INSTANCE.getCreativeTab());
 		steel_pipe = (new BlockSteelPipe()).setHardness(1.0F).setResistance(10.0F).setStepSound(Block.soundTypeMetal).setUnlocalizedName("steel_pipe").setCreativeTab(GrimIndustry.INSTANCE.getCreativeTab());

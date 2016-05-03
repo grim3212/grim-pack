@@ -4,7 +4,7 @@ import java.util.Random;
 
 import com.grim3212.mc.industry.GrimIndustry;
 import com.grim3212.mc.industry.client.gui.IndustryGuiHandler;
-import com.grim3212.mc.industry.tile.TileEntityMachine;
+import com.grim3212.mc.industry.tile.TileEntityMFurnace;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.ITileEntityProvider;
@@ -23,16 +23,17 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class BlockRefinery extends Block implements ITileEntityProvider {
+public class BlockModernFurnace extends Block implements ITileEntityProvider {
 
 	public static final PropertyDirection FACING = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
 	public static final PropertyBool ACTIVE = PropertyBool.create("active");
 
-	protected BlockRefinery() {
+	protected BlockModernFurnace() {
 		super(Material.iron);
 		this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH).withProperty(ACTIVE, false));
 	}
@@ -84,8 +85,8 @@ public class BlockRefinery extends Block implements ITileEntityProvider {
 		if (stack.hasDisplayName()) {
 			TileEntity tileentity = worldIn.getTileEntity(pos);
 
-			if (tileentity instanceof TileEntityMachine) {
-				((TileEntityMachine) tileentity).setCustomInventoryName(stack.getDisplayName());
+			if (tileentity instanceof TileEntityMFurnace) {
+				((TileEntityMFurnace) tileentity).setCustomInventoryName(stack.getDisplayName());
 			}
 		}
 	}
@@ -108,8 +109,8 @@ public class BlockRefinery extends Block implements ITileEntityProvider {
 			return true;
 
 		TileEntity te = worldIn.getTileEntity(pos);
-		if (te instanceof TileEntityMachine) {
-			playerIn.openGui(GrimIndustry.INSTANCE, IndustryGuiHandler.refineryGUI, worldIn, pos.getX(), pos.getY(), pos.getZ());
+		if (te instanceof TileEntityMFurnace) {
+			playerIn.openGui(GrimIndustry.INSTANCE, IndustryGuiHandler.modernFurnaceGUI, worldIn, pos.getX(), pos.getY(), pos.getZ());
 		}
 
 		return true;
@@ -119,8 +120,8 @@ public class BlockRefinery extends Block implements ITileEntityProvider {
 	public void breakBlock(World worldIn, BlockPos pos, IBlockState state) {
 		TileEntity tileentity = worldIn.getTileEntity(pos);
 
-		if (tileentity instanceof TileEntityMachine) {
-			InventoryHelper.dropInventoryItems(worldIn, pos, (TileEntityMachine) tileentity);
+		if (tileentity instanceof TileEntityMFurnace) {
+			InventoryHelper.dropInventoryItems(worldIn, pos, (TileEntityMFurnace) tileentity);
 			worldIn.updateComparatorOutputLevel(pos, this);
 		}
 
@@ -128,8 +129,17 @@ public class BlockRefinery extends Block implements ITileEntityProvider {
 	}
 
 	@Override
+	public int getLightValue(IBlockAccess world, BlockPos pos) {
+		if(world.getBlockState(pos).getValue(ACTIVE)){
+			return 15;
+		}
+
+		return super.getLightValue(world, pos);
+	}
+
+	@Override
 	public TileEntity createNewTileEntity(World worldIn, int meta) {
-		return new TileEntityMachine(1);
+		return new TileEntityMFurnace();
 	}
 
 	@Override

@@ -10,9 +10,11 @@ import net.minecraft.block.Block;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.InventoryHelper;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
@@ -22,13 +24,13 @@ import net.minecraft.world.World;
 public class BlockDerrick extends Block implements ITileEntityProvider {
 
 	protected BlockDerrick() {
-		super(Material.rock);
+		super(Material.iron);
 	}
 
 	@Override
 	public boolean canPlaceBlockAt(World worldIn, BlockPos pos) {
 		Block block = worldIn.getBlockState(pos.down()).getBlock();
-		return super.canPlaceBlockAt(worldIn, pos) && (block == IndustryBlocks.steel_pipe || block == IndustryBlocks.oil_ore);
+		return block == IndustryBlocks.steel_pipe || block == IndustryBlocks.oil_ore;
 	}
 
 	@Override
@@ -38,6 +40,17 @@ public class BlockDerrick extends Block implements ITileEntityProvider {
 		if (flag) {
 			this.dropBlockAsItem(worldIn, pos, state, 0);
 			worldIn.setBlockToAir(pos);
+		}
+	}
+
+	@Override
+	public void onBlockPlacedBy(World worldIn, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack) {
+		if (stack.hasDisplayName()) {
+			TileEntity tileentity = worldIn.getTileEntity(pos);
+
+			if (tileentity instanceof TileEntityMachine) {
+				((TileEntityMachine) tileentity).setCustomInventoryName(stack.getDisplayName());
+			}
 		}
 	}
 
