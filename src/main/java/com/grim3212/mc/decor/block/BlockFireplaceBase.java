@@ -83,6 +83,10 @@ public class BlockFireplaceBase extends BlockTextured {
 
 	@Override
 	public int getLightValue(IBlockAccess world, BlockPos pos) {
+		// TODO: Possibly change active to propertybool instead of unlisted
+		// ignore it when rendering and then use it here to update light without
+		// the need for packets
+
 		TileEntityFireplace tef = (TileEntityFireplace) world.getTileEntity(pos);
 
 		if (tef != null && world.getBlockState(pos).getBlock() != DecorBlocks.chimney) {
