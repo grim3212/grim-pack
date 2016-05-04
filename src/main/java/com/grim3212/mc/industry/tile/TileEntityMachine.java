@@ -34,6 +34,9 @@ public class TileEntityMachine extends TileEntityLockable implements ISidedInven
 	private int totalRunTime;
 	private String customName;
 	private int machineType;
+	
+	public TileEntityMachine() {
+	}
 
 	public TileEntityMachine(int machineType) {
 		this.machineType = machineType;

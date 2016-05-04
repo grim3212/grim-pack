@@ -45,6 +45,9 @@ public class TileEntityMFurnace extends TileEntityLockable implements ITickable,
 	private int cookTime;
 	private int totalCookTime;
 	private String furnaceCustomName;
+	
+	public TileEntityMFurnace() {
+	}
 
 	/**
 	 * Returns the number of slots in the inventory.
