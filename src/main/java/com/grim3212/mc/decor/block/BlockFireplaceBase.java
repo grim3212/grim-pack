@@ -4,17 +4,16 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import com.grim3212.mc.core.network.PacketDispatcher;
-import com.grim3212.mc.core.property.UnlistedPropertyBoolean;
 import com.grim3212.mc.core.util.NBTHelper;
 import com.grim3212.mc.decor.GrimDecor;
 import com.grim3212.mc.decor.network.MessageExtinguish;
-import com.grim3212.mc.decor.network.MessageUpdateFireplace;
 import com.grim3212.mc.decor.tile.TileEntityFireplace;
 import com.grim3212.mc.decor.util.BlockHelper;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
+import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.state.BlockState;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
@@ -33,26 +32,34 @@ import net.minecraftforge.common.property.IUnlistedProperty;
 
 public class BlockFireplaceBase extends BlockTextured {
 
-	public static final UnlistedPropertyBoolean ACTIVE = UnlistedPropertyBoolean.create("active");
+	public static final PropertyBool ACTIVE = PropertyBool.create("active");
 
 	protected BlockFireplaceBase() {
 		setCreativeTab(GrimDecor.INSTANCE.getCreativeTab());
+		this.setDefaultState(this.blockState.getBaseState().withProperty(ACTIVE, false));
 	}
 
 	@Override
 	protected BlockState createBlockState() {
-		return new ExtendedBlockState(this, new IProperty[] {}, new IUnlistedProperty[] { BLOCKID, BLOCKMETA, ACTIVE });
+		return new ExtendedBlockState(this, new IProperty[] { ACTIVE }, new IUnlistedProperty[] { BLOCKID, BLOCKMETA });
+	}
+
+	@Override
+	public int getMetaFromState(IBlockState state) {
+		return state.getValue(ACTIVE) ? 1 : 0;
+	}
+
+	@Override
+	public IBlockState getStateFromMeta(int meta) {
+		return this.getDefaultState().withProperty(ACTIVE, meta == 1 ? true : false);
 	}
 
 	@Override
 	public void onBlockClicked(World worldIn, BlockPos pos, EntityPlayer playerIn) {
-		TileEntityFireplace tef = (TileEntityFireplace) worldIn.getTileEntity(pos);
 		if (worldIn.getBlockState(pos).getBlock() != DecorBlocks.chimney) {
-			if (tef.isActive()) {
-				if (!worldIn.isRemote) {
+			if (worldIn.getBlockState(pos).getValue(ACTIVE)) {
+				if (!worldIn.isRemote)
 					PacketDispatcher.sendToDimension(new MessageExtinguish(pos), playerIn.dimension);
-					tef.setActive(false);
-				}
 				worldIn.playSoundEffect(pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D, "random.fizz", 1.0F, worldIn.rand.nextFloat() * 0.4F + 0.8F);
 			}
 		}
@@ -63,37 +70,29 @@ public class BlockFireplaceBase extends BlockTextured {
 		if (worldIn.isRemote)
 			return true;
 
-		TileEntityFireplace tef = (TileEntityFireplace) worldIn.getTileEntity(pos);
 		ItemStack stack = playerIn.inventory.getStackInSlot(playerIn.inventory.currentItem);
 
 		if (state.getBlock() != DecorBlocks.chimney) {
 			if ((stack != null) && ((stack.getItem() == Items.flint_and_steel) || (stack.getItem() == Items.fire_charge))) {
-				if (!tef.isActive()) {
+				if (!worldIn.getBlockState(pos).getValue(ACTIVE)) {
 					stack.damageItem(1, playerIn);
 					worldIn.playSoundEffect(pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D, "fire.ignite", 1.0F, worldIn.rand.nextFloat() * 0.4F + 0.8F);
-					PacketDispatcher.sendToDimension(new MessageUpdateFireplace(pos, true), playerIn.dimension);
-					tef.setActive(true);
+					worldIn.setBlockState(pos, state.withProperty(ACTIVE, true));
 				}
 
 				return true;
 			}
 		}
-		return false;
+		return true;
 	}
 
 	@Override
 	public int getLightValue(IBlockAccess world, BlockPos pos) {
-		// TODO: Possibly change active to propertybool instead of unlisted
-		// ignore it when rendering and then use it here to update light without
-		// the need for packets
-
-		TileEntityFireplace tef = (TileEntityFireplace) world.getTileEntity(pos);
-
-		if (tef != null && world.getBlockState(pos).getBlock() != DecorBlocks.chimney) {
-			return tef.getLightValue();
-		} else {
-			return super.getLightValue(world, pos);
+		if (world.getBlockState(pos).getValue(ACTIVE)) {
+			return 15;
 		}
+
+		return super.getLightValue(world, pos);
 	}
 
 	@Override
@@ -102,7 +101,7 @@ public class BlockFireplaceBase extends BlockTextured {
 		if (te instanceof TileEntityFireplace && state instanceof IExtendedBlockState) {
 			IExtendedBlockState blockState = (IExtendedBlockState) state;
 			TileEntityFireplace tef = (TileEntityFireplace) te;
-			return blockState.withProperty(BLOCKID, tef.getBlockID()).withProperty(BLOCKMETA, tef.getBlockMeta()).withProperty(ACTIVE, tef.isActive());
+			return blockState.withProperty(BLOCKID, tef.getBlockID()).withProperty(BLOCKMETA, tef.getBlockMeta());
 		}
 		return state;
 	}

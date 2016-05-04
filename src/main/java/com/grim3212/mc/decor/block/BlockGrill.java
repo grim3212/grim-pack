@@ -6,13 +6,11 @@ import java.util.List;
 import java.util.Random;
 
 import com.grim3212.mc.core.network.PacketDispatcher;
-import com.grim3212.mc.core.property.UnlistedPropertyBoolean;
 import com.grim3212.mc.core.property.UnlistedPropertyInteger;
 import com.grim3212.mc.core.util.NBTHelper;
 import com.grim3212.mc.decor.GrimDecor;
 import com.grim3212.mc.decor.config.DecorConfig;
 import com.grim3212.mc.decor.network.MessageExtinguish;
-import com.grim3212.mc.decor.network.MessageUpdateFireplace;
 import com.grim3212.mc.decor.tile.TileEntityGrill;
 import com.grim3212.mc.decor.util.BlockHelper;
 
@@ -20,6 +18,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
+import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.state.BlockState;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.particle.EffectRenderer;
@@ -53,11 +52,12 @@ public class BlockGrill extends BlockContainer {
 
 	public static final UnlistedPropertyInteger BLOCKID = UnlistedPropertyInteger.create("blockid");
 	public static final UnlistedPropertyInteger BLOCKMETA = UnlistedPropertyInteger.create("blockmeta");
-	public static final UnlistedPropertyBoolean ACTIVE = UnlistedPropertyBoolean.create("active");
+	public static final PropertyBool ACTIVE = PropertyBool.create("active");
 
 	public BlockGrill() {
 		super(Material.rock);
 		setCreativeTab(GrimDecor.INSTANCE.getCreativeTab());
+		this.setDefaultState(this.blockState.getBaseState().withProperty(ACTIVE, false));
 	}
 
 	@Override
@@ -67,14 +67,23 @@ public class BlockGrill extends BlockContainer {
 
 	@Override
 	protected BlockState createBlockState() {
-		return new ExtendedBlockState(this, new IProperty[] {}, new IUnlistedProperty[] { BLOCKID, BLOCKMETA, ACTIVE });
+		return new ExtendedBlockState(this, new IProperty[] { ACTIVE }, new IUnlistedProperty[] { BLOCKID, BLOCKMETA });
+	}
+
+	@Override
+	public int getMetaFromState(IBlockState state) {
+		return state.getValue(ACTIVE) ? 1 : 0;
+	}
+
+	@Override
+	public IBlockState getStateFromMeta(int meta) {
+		return this.getDefaultState().withProperty(ACTIVE, meta == 1 ? true : false);
 	}
 
 	@Override
 	public void randomDisplayTick(World worldIn, BlockPos pos, IBlockState state, Random rand) {
-		TileEntityGrill tef = (TileEntityGrill) worldIn.getTileEntity(pos);
 		if (DecorConfig.isFireParticles) {
-			if (tef.isActive()) {
+			if (worldIn.getBlockState(pos).getValue(ACTIVE)) {
 				for (int i = 0; i < 5; i++) {
 					double xVar = (worldIn.rand.nextDouble() - 0.5D) / 5.0D;
 					double yVar = (worldIn.rand.nextDouble() - 0.5D) / 5.0D;
@@ -91,12 +100,9 @@ public class BlockGrill extends BlockContainer {
 
 	@Override
 	public void onBlockClicked(World worldIn, BlockPos pos, EntityPlayer playerIn) {
-		TileEntityGrill tef = (TileEntityGrill) worldIn.getTileEntity(pos);
-		if (tef.isActive()) {
-			if (!worldIn.isRemote) {
+		if (worldIn.getBlockState(pos).getValue(ACTIVE)) {
+			if (!worldIn.isRemote)
 				PacketDispatcher.sendToDimension(new MessageExtinguish(pos), playerIn.dimension);
-				tef.setActive(false);
-			}
 			worldIn.playSoundEffect(pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D, "random.fizz", 1.0F, worldIn.rand.nextFloat() * 0.4F + 0.8F);
 		}
 	}
@@ -106,15 +112,13 @@ public class BlockGrill extends BlockContainer {
 		if (worldIn.isRemote)
 			return true;
 
-		TileEntityGrill tef = (TileEntityGrill) worldIn.getTileEntity(pos);
 		ItemStack stack = playerIn.inventory.getStackInSlot(playerIn.inventory.currentItem);
 
 		if ((stack != null) && ((stack.getItem() == Items.flint_and_steel) || (stack.getItem() == Items.fire_charge))) {
-			if (!tef.isActive()) {
+			if (!worldIn.getBlockState(pos).getValue(ACTIVE)) {
 				stack.damageItem(1, playerIn);
 				worldIn.playSoundEffect(pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D, "fire.ignite", 1.0F, worldIn.rand.nextFloat() * 0.4F + 0.8F);
-				PacketDispatcher.sendToDimension(new MessageUpdateFireplace(pos, true), playerIn.dimension);
-				tef.setActive(true);
+				worldIn.setBlockState(pos, state.withProperty(ACTIVE, true));
 			}
 			return true;
 		}
@@ -163,13 +167,11 @@ public class BlockGrill extends BlockContainer {
 
 	@Override
 	public int getLightValue(IBlockAccess world, BlockPos pos) {
-		TileEntityGrill tef = (TileEntityGrill) world.getTileEntity(pos);
-
-		if (tef != null) {
-			return tef.getLightValue();
-		} else {
-			return super.getLightValue(world, pos);
+		if (world.getBlockState(pos).getValue(ACTIVE)) {
+			return 15;
 		}
+
+		return super.getLightValue(world, pos);
 	}
 
 	@Override
@@ -178,7 +180,7 @@ public class BlockGrill extends BlockContainer {
 		if (te instanceof TileEntityGrill && state instanceof IExtendedBlockState) {
 			IExtendedBlockState blockState = (IExtendedBlockState) state;
 			TileEntityGrill tef = (TileEntityGrill) te;
-			return blockState.withProperty(BLOCKID, tef.getBlockID()).withProperty(BLOCKMETA, tef.getBlockMeta()).withProperty(ACTIVE, tef.isActive());
+			return blockState.withProperty(BLOCKID, tef.getBlockID()).withProperty(BLOCKMETA, tef.getBlockMeta());
 		}
 		return state;
 	}

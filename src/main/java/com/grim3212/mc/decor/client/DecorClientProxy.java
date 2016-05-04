@@ -9,7 +9,13 @@ import com.grim3212.mc.core.manual.pages.PageImageText;
 import com.grim3212.mc.core.manual.pages.PageInfo;
 import com.grim3212.mc.core.util.RecipeHelper;
 import com.grim3212.mc.decor.DecorCommonProxy;
+import com.grim3212.mc.decor.block.BlockChimney;
+import com.grim3212.mc.decor.block.BlockFirepit;
+import com.grim3212.mc.decor.block.BlockFireplace;
+import com.grim3212.mc.decor.block.BlockFirering;
+import com.grim3212.mc.decor.block.BlockGrill;
 import com.grim3212.mc.decor.block.BlockLantern.EnumLanternType;
+import com.grim3212.mc.decor.block.BlockStove;
 import com.grim3212.mc.decor.block.DecorBlocks;
 import com.grim3212.mc.decor.client.entity.RenderFrame.FrameFactory;
 import com.grim3212.mc.decor.client.entity.RenderWallpaper.WallpaperFactory;
@@ -20,11 +26,13 @@ import com.grim3212.mc.decor.entity.EntityWallpaper;
 import com.grim3212.mc.decor.item.DecorItems;
 import com.grim3212.mc.decor.tile.TileEntityCalendar;
 
+import net.minecraft.client.renderer.block.statemap.StateMap;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.world.World;
+import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
@@ -44,6 +52,13 @@ public class DecorClientProxy extends DecorCommonProxy {
 	@Override
 	protected void registerModels() {
 		MinecraftForge.EVENT_BUS.register(new ModelEvent());
+		ModelLoader.setCustomStateMapper(DecorBlocks.fireplace, new StateMap.Builder().ignore(BlockFireplace.ACTIVE).build());
+		ModelLoader.setCustomStateMapper(DecorBlocks.firepit, new StateMap.Builder().ignore(BlockFirepit.ACTIVE).build());
+		ModelLoader.setCustomStateMapper(DecorBlocks.firering, new StateMap.Builder().ignore(BlockFirering.ACTIVE).build());
+		ModelLoader.setCustomStateMapper(DecorBlocks.chimney, new StateMap.Builder().ignore(BlockChimney.ACTIVE).build());
+		ModelLoader.setCustomStateMapper(DecorBlocks.stove, new StateMap.Builder().ignore(BlockStove.ACTIVE).build());
+		ModelLoader.setCustomStateMapper(DecorBlocks.grill, new StateMap.Builder().ignore(BlockGrill.ACTIVE).build());
+
 		RenderHelper.registerExtraModel(DecorBlocks.lamp_post_top, "lamp_post_top_lamp");
 		RenderHelper.registerExtraModel(DecorItems.lamp_item, "lamp_item_lamp");
 		RenderHelper.registerExtraModels(DecorBlocks.firepit, "firepit_wood", "firepit_covered", "fire_high");

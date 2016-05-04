@@ -4,7 +4,6 @@ import java.util.Random;
 
 import com.grim3212.mc.decor.GrimDecor;
 import com.grim3212.mc.decor.config.DecorConfig;
-import com.grim3212.mc.decor.tile.TileEntityFireplace;
 
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyBool;
@@ -25,14 +24,13 @@ public class BlockFireplace extends BlockFireplaceBase {
 	public static final PropertyBool WEST = PropertyBool.create("west");
 
 	public BlockFireplace() {
-		this.setDefaultState(blockState.getBaseState().withProperty(EAST, false).withProperty(WEST, false).withProperty(SOUTH, false).withProperty(NORTH, false));
+		this.setDefaultState(blockState.getBaseState().withProperty(EAST, false).withProperty(WEST, false).withProperty(SOUTH, false).withProperty(NORTH, false).withProperty(ACTIVE, false));
 	}
 
 	@Override
 	public void randomDisplayTick(World worldIn, BlockPos pos, IBlockState state, Random rand) {
-		TileEntityFireplace tef = (TileEntityFireplace) worldIn.getTileEntity(pos);
 		if (DecorConfig.isFireParticles) {
-			if (tef.isActive()) {
+			if (worldIn.getBlockState(pos).getValue(ACTIVE)) {
 				for (int i = 0; i < 5; i++) {
 					double xVar = (worldIn.rand.nextDouble() - 0.5D) / 5.0D;
 					double yVar = (worldIn.rand.nextDouble() - 0.5D) / 5.0D;
@@ -46,7 +44,7 @@ public class BlockFireplace extends BlockFireplaceBase {
 			}
 		}
 
-		if (tef.isActive() && worldIn.getBlockState(pos.up()).getBlock() == DecorBlocks.chimney) {
+		if (worldIn.getBlockState(pos).getValue(ACTIVE) && worldIn.getBlockState(pos.up()).getBlock() == DecorBlocks.chimney) {
 			int smokeheight = 1;
 			while (worldIn.getBlockState(pos.up(smokeheight)).getBlock() == DecorBlocks.chimney) {
 				smokeheight++;
@@ -58,7 +56,7 @@ public class BlockFireplace extends BlockFireplaceBase {
 
 	@Override
 	protected BlockState createBlockState() {
-		return new ExtendedBlockState(this, new IProperty[] { NORTH, SOUTH, WEST, EAST }, new IUnlistedProperty[] { BLOCKID, BLOCKMETA, ACTIVE });
+		return new ExtendedBlockState(this, new IProperty[] { NORTH, SOUTH, WEST, EAST, ACTIVE }, new IUnlistedProperty[] { BLOCKID, BLOCKMETA });
 	}
 
 	@Override
@@ -68,7 +66,12 @@ public class BlockFireplace extends BlockFireplaceBase {
 
 	@Override
 	public int getMetaFromState(IBlockState state) {
-		return 0;
+		return state.getValue(ACTIVE) ? 1 : 0;
+	}
+
+	@Override
+	public IBlockState getStateFromMeta(int meta) {
+		return this.getDefaultState().withProperty(ACTIVE, meta == 1 ? true : false);
 	}
 
 	@Override

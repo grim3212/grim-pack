@@ -1,39 +1,23 @@
 package com.grim3212.mc.decor.tile;
 
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.util.BlockPos;
+import net.minecraft.world.World;
 
 public class TileEntityFireplace extends TileEntityTextured {
 
-	protected boolean active = false;
-
 	public TileEntityFireplace() {
 	}
-
+	
 	@Override
-	public void writeToNBT(NBTTagCompound compound) {
-		super.writeToNBT(compound);
-		compound.setBoolean("active", this.active);
+	public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newSate) {
+		return oldState.getBlock() != newSate.getBlock();
 	}
 
-	@Override
-	public void readFromNBT(NBTTagCompound compound) {
-		super.readFromNBT(compound);
-		this.active = compound.getBoolean("active");
-	}
-
-	public boolean isActive() {
-		return active;
-	}
-
-	public void setActive(boolean active) {
-		this.active = active;
+	public void notifyUpdate() {
 		worldObj.markBlockForUpdate(getPos());
 		worldObj.notifyNeighborsOfStateChange(getPos(), blockType);
 		worldObj.notifyLightSet(getPos());
 		worldObj.checkLight(getPos());
-	}
-
-	public int getLightValue() {
-		return isActive() ? 15 : 0;
 	}
 }

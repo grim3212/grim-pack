@@ -54,17 +54,17 @@ public class FireplaceModel extends SimpleBakedModel implements ISmartBlockModel
 			IExtendedBlockState exState = (IExtendedBlockState) state;
 			if (exState.getBlock() instanceof BlockFireplaceBase) {
 				if (exState.getValue(BlockFireplaceBase.BLOCKID) != null && exState.getValue(BlockFireplaceBase.BLOCKMETA) != null) {
-					int blockID = (Integer) exState.getValue(BlockFireplaceBase.BLOCKID);
-					int blockMeta = (Integer) exState.getValue(BlockFireplaceBase.BLOCKMETA);
-					return this.getCachedModel(state, blockID, blockMeta, (Boolean) exState.getValue(BlockFireplaceBase.ACTIVE));
+					int blockID = exState.getValue(BlockFireplaceBase.BLOCKID);
+					int blockMeta = exState.getValue(BlockFireplaceBase.BLOCKMETA);
+					return this.getCachedModel(state, blockID, blockMeta, exState.getValue(BlockFireplaceBase.ACTIVE));
 				} else {
 					return this.getCachedModel(state, 0, 0, false);
 				}
 			} else {
 				if (exState.getValue(BlockGrill.BLOCKID) != null && exState.getValue(BlockGrill.BLOCKMETA) != null) {
-					int blockID = (Integer) exState.getValue(BlockGrill.BLOCKID);
-					int blockMeta = (Integer) exState.getValue(BlockGrill.BLOCKMETA);
-					return this.getCachedModel(state, blockID, blockMeta, (Boolean) exState.getValue(BlockGrill.ACTIVE));
+					int blockID = exState.getValue(BlockGrill.BLOCKID);
+					int blockMeta = exState.getValue(BlockGrill.BLOCKMETA);
+					return this.getCachedModel(state, blockID, blockMeta, exState.getValue(BlockGrill.ACTIVE));
 				} else {
 					return this.getCachedModel(state, 0, 0, false);
 				}

@@ -1,6 +1,7 @@
 package com.grim3212.mc.decor.tile;
 
 import com.grim3212.mc.core.network.PacketDispatcher;
+import com.grim3212.mc.decor.block.BlockGrill;
 import com.grim3212.mc.decor.config.DecorConfig;
 import com.grim3212.mc.decor.inventory.ContainerGrill;
 import com.grim3212.mc.decor.network.MessageExtinguish;
@@ -22,7 +23,9 @@ import net.minecraft.network.Packet;
 import net.minecraft.network.play.INetHandlerPlayClient;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntityLockable;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.ITickable;
+import net.minecraft.world.World;
 
 public class TileEntityGrill extends TileEntityLockable implements ITickable, IInventory {
 
@@ -34,9 +37,13 @@ public class TileEntityGrill extends TileEntityLockable implements ITickable, II
 
 	protected int blockID = 0;
 	protected int blockMeta = 0;
-	protected boolean active = false;
 
 	public TileEntityGrill() {
+	}
+
+	@Override
+	public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newSate) {
+		return oldState.getBlock() != newSate.getBlock();
 	}
 
 	@Override
@@ -44,7 +51,6 @@ public class TileEntityGrill extends TileEntityLockable implements ITickable, II
 		super.writeToNBT(compound);
 		compound.setInteger("blockID", this.blockID);
 		compound.setInteger("blockMeta", this.blockMeta);
-		compound.setBoolean("active", this.active);
 
 		compound.setInteger("GrillCoal", this.grillCoal);
 		compound.setInteger("CookTimes0", this.cookTimes[0]);
@@ -75,7 +81,6 @@ public class TileEntityGrill extends TileEntityLockable implements ITickable, II
 		super.readFromNBT(compound);
 		this.blockID = compound.getInteger("blockID");
 		this.blockMeta = compound.getInteger("blockMeta");
-		this.active = compound.getBoolean("active");
 
 		this.grillCoal = compound.getInteger("GrillCoal");
 		this.cookTimes[0] = compound.getInteger("CookTimes0");
@@ -111,7 +116,7 @@ public class TileEntityGrill extends TileEntityLockable implements ITickable, II
 		if (DecorConfig.infiniteGrillFuel)
 			this.grillCoal = 4000;
 
-		if ((this.grillCoal <= 1) && (isActive())) {
+		if ((this.grillCoal <= 1) && (getWorld().getBlockState(getPos()).getValue(BlockGrill.ACTIVE))) {
 			if ((getStackInSlot(4) != null) && (getStackInSlot(4).getItem() == Items.coal)) {
 				this.grillCoal = 4001;
 
@@ -122,10 +127,9 @@ public class TileEntityGrill extends TileEntityLockable implements ITickable, II
 			}
 		}
 
-		if ((this.grillCoal <= 0) && (isActive()) && this.nextUpdate == 50) {
+		if ((this.grillCoal <= 0) && (getWorld().getBlockState(getPos()).getValue(BlockGrill.ACTIVE)) && this.nextUpdate == 50) {
 			if (!worldObj.isRemote) {
 				PacketDispatcher.sendToDimension(new MessageExtinguish(pos), worldObj.provider.getDimensionId());
-				setActive(false);
 			}
 			worldObj.playSoundEffect(pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D, "random.fizz", 1.0F, worldObj.rand.nextFloat() * 0.4F + 0.8F);
 		}
@@ -227,7 +231,7 @@ public class TileEntityGrill extends TileEntityLockable implements ITickable, II
 	}
 
 	public boolean isGrillBurning() {
-		if (isActive() && (this.grillCoal > 0))
+		if (getWorld().getBlockState(getPos()).getValue(BlockGrill.ACTIVE) && (this.grillCoal > 0))
 			return true;
 		return false;
 	}
@@ -337,20 +341,11 @@ public class TileEntityGrill extends TileEntityLockable implements ITickable, II
 		this.blockMeta = blockMeta;
 	}
 
-	public boolean isActive() {
-		return active;
-	}
-
-	public void setActive(boolean active) {
-		this.active = active;
+	public void notifyUpdate() {
 		worldObj.markBlockForUpdate(getPos());
 		worldObj.notifyNeighborsOfStateChange(getPos(), blockType);
 		worldObj.notifyLightSet(getPos());
 		worldObj.checkLight(getPos());
-	}
-
-	public int getLightValue() {
-		return isActive() ? 15 : 0;
 	}
 
 	@Override
