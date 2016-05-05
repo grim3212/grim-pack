@@ -1,7 +1,9 @@
 package com.grim3212.mc.tools.items;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import com.grim3212.mc.tools.config.ToolsConfig;
 import com.grim3212.mc.tools.entity.EntityBlockPushPull;
 
 import net.minecraft.block.Block;
@@ -20,8 +22,10 @@ import net.minecraft.world.World;
 
 public class ItemPowerStaff extends Item {
 
+	public static ArrayList<Block> allowedBlocks = new ArrayList<Block>();
+
 	protected ItemPowerStaff() {
-		maxStackSize = 1;
+		setMaxStackSize(1);
 		setMaxDamage(0);
 		setHasSubtypes(true);
 	}
@@ -43,8 +47,8 @@ public class ItemPowerStaff extends Item {
 
 	@Override
 	public boolean onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ) {
-		double xMov = 0;
-		double zMov = 0;
+		int xMov = 0;
+		int zMov = 0;
 		switch (side) {
 		case EAST:
 			xMov = 1;
@@ -68,22 +72,34 @@ public class ItemPowerStaff extends Item {
 		}
 
 		Block block = worldIn.getBlockState(pos).getBlock();
+		// Not-allowed blocks no matter what
+		if (block == null || block.getMaterial().isLiquid() || block == Blocks.fire || block == Blocks.snow_layer || block instanceof BlockDoublePlant || block instanceof BlockContainer)
+			return false;
+
+		if (ToolsConfig.restrictPowerStaffBlocks && allowedBlocks.contains(block)) {
+			onPower(block, worldIn, pos, xMov, zMov);
+		} else if (!ToolsConfig.restrictPowerStaffBlocks) {
+			// Default not-allowed blocks
+			if (block != Blocks.bedrock || block != Blocks.obsidian)
+				onPower(block, worldIn, pos, xMov, zMov);
+		}
+
+		return true;
+	}
+
+	private void onPower(Block block, World worldIn, BlockPos pos, int xMov, int zMov) {
 		if (block instanceof BlockFalling) {
 			IBlockState state = worldIn.getBlockState(pos);
 			worldIn.setBlockToAir(pos);
-			worldIn.setBlockState(pos.east((int) xMov).south((int) zMov), state);
-		} else if (block == null || block.getMaterial().isLiquid() || block == Blocks.fire || block == Blocks.snow_layer || block instanceof BlockDoublePlant || block instanceof BlockContainer || block == Blocks.bedrock || block == Blocks.obsidian) {
-			return false;
+			worldIn.setBlockState(pos.east(xMov).south(zMov), state);
 		} else {
 			EntityBlockPushPull blockpushpull = new EntityBlockPushPull(worldIn, (double) pos.getX() + 0.5D, (double) pos.getY(), (double) pos.getZ() + 0.5D, worldIn.getBlockState(pos));
 			blockpushpull.motionX = 0.29999999999999999D * (double) xMov;
 			blockpushpull.motionZ = 0.29999999999999999D * (double) zMov;
 			worldIn.spawnEntityInWorld(blockpushpull);
 		}
-
-		return true;
 	}
-	
+
 	@Override
 	public void getSubItems(Item itemIn, CreativeTabs tab, List<ItemStack> subItems) {
 		subItems.add(new ItemStack(itemIn, 1, 0));
