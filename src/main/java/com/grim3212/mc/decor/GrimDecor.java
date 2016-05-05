@@ -8,7 +8,7 @@ import com.grim3212.mc.decor.client.gui.DecorGuiHandler;
 import com.grim3212.mc.decor.config.DecorConfig;
 import com.grim3212.mc.decor.entity.DecorEntities;
 import com.grim3212.mc.decor.item.DecorItems;
-import com.grim3212.mc.decor.network.MessageExtinguish;
+import com.grim3212.mc.decor.network.MessageParticles;
 import com.grim3212.mc.decor.tile.DecorTileEntities;
 
 import net.minecraft.item.Item;
@@ -52,7 +52,7 @@ public class GrimDecor extends GrimPart {
 
 		NetworkRegistry.INSTANCE.registerGuiHandler(INSTANCE, new DecorGuiHandler());
 
-		PacketDispatcher.registerMessage(MessageExtinguish.class);
+		PacketDispatcher.registerMessage(MessageParticles.class);
 
 		proxy.preInit(getModSection());
 	}

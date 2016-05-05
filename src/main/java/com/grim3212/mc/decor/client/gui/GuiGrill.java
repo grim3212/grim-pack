@@ -17,6 +17,7 @@ import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.block.model.ItemCameraTransforms.TransformType;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StatCollector;
@@ -28,21 +29,25 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class GuiGrill extends GuiContainer {
 
 	private TileEntityGrill grillInventory;
+	private IInventory playerInv;
 	private RenderItem renderItems = Minecraft.getMinecraft().getRenderItem();
 	private static ResourceLocation GrillGUI = new ResourceLocation(GrimDecor.modID, "textures/gui/grill.png");
 
-	public GuiGrill(InventoryPlayer par1InventoryPlayer, TileEntityGrill par2TileEntityGrill) {
-		super(new ContainerGrill(par1InventoryPlayer, par2TileEntityGrill));
-		this.grillInventory = par2TileEntityGrill;
+	public GuiGrill(InventoryPlayer inventoryPlayer, TileEntityGrill grillTE) {
+		super(new ContainerGrill(inventoryPlayer, grillTE));
+		this.playerInv = inventoryPlayer;
+		this.grillInventory = grillTE;
 	}
 
-	protected void drawGuiContainerForegroundLayer(int par1, int par2) {
+	@Override
+	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
 		this.fontRendererObj.drawString(this.grillInventory.getName(), this.xSize / 2 - this.fontRendererObj.getStringWidth(grillInventory.getName()) / 2, 6, 4210752);
-		this.fontRendererObj.drawString("Tier " + grillInventory.getTier(), 73, 14, 4210752);
-		this.fontRendererObj.drawString(StatCollector.translateToLocal("container.inventory"), 8, this.ySize - 96 + 2, 4210752);
+		this.fontRendererObj.drawString(StatCollector.translateToLocal("container.grill.tier") + " " + grillInventory.getTier(), 73, 14, 4210752);
+		this.fontRendererObj.drawString(this.playerInv.getDisplayName().getUnformattedText(), 8, this.ySize - 96 + 2, 4210752);
 	}
 
-	protected void drawGuiContainerBackgroundLayer(float par1, int par2, int par3) {
+	@Override
+	protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
 		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 		this.mc.renderEngine.bindTexture(GrillGUI);
 		int x = (this.width - this.xSize) / 2;

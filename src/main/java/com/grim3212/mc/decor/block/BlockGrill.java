@@ -10,7 +10,7 @@ import com.grim3212.mc.core.property.UnlistedPropertyInteger;
 import com.grim3212.mc.core.util.NBTHelper;
 import com.grim3212.mc.decor.GrimDecor;
 import com.grim3212.mc.decor.config.DecorConfig;
-import com.grim3212.mc.decor.network.MessageExtinguish;
+import com.grim3212.mc.decor.network.MessageParticles;
 import com.grim3212.mc.decor.tile.TileEntityGrill;
 import com.grim3212.mc.decor.util.BlockHelper;
 
@@ -101,8 +101,10 @@ public class BlockGrill extends BlockContainer {
 	@Override
 	public void onBlockClicked(World worldIn, BlockPos pos, EntityPlayer playerIn) {
 		if (worldIn.getBlockState(pos).getValue(ACTIVE)) {
-			if (!worldIn.isRemote)
-				PacketDispatcher.sendToDimension(new MessageExtinguish(pos), playerIn.dimension);
+			if (!worldIn.isRemote) {
+				PacketDispatcher.sendToDimension(new MessageParticles(pos), playerIn.dimension);
+				worldIn.setBlockState(pos, worldIn.getBlockState(pos).withProperty(ACTIVE, false));
+			}
 			worldIn.playSoundEffect(pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D, "random.fizz", 1.0F, worldIn.rand.nextFloat() * 0.4F + 0.8F);
 		}
 	}

@@ -1,5 +1,8 @@
 #================= OTHER =================#
 grim.creative.grimdecor=Grim Decor
+container.grill=Grill
+container.grill.tier=Tier
+
 #Configuration#
 fireplace.cfg.recipes=Grill Recipes
 fireplace.cfg.recipes.tooltip=Use this to add new grill recipes. To add a new recipe end the last one with a ';' then write out the [RawItemName] separated by a '>' then write out the [CookedItemName]. For mod items make sure to add the modID with a colon ':' and the then the item name. Do not end with a ';' or it may cause issues. Example: clay_ball>brick;chocolate:chocolate_ball>chocolate:chocolate_bar

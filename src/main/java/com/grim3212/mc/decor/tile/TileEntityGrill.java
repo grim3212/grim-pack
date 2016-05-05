@@ -4,7 +4,7 @@ import com.grim3212.mc.core.network.PacketDispatcher;
 import com.grim3212.mc.decor.block.BlockGrill;
 import com.grim3212.mc.decor.config.DecorConfig;
 import com.grim3212.mc.decor.inventory.ContainerGrill;
-import com.grim3212.mc.decor.network.MessageExtinguish;
+import com.grim3212.mc.decor.network.MessageParticles;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -129,7 +129,8 @@ public class TileEntityGrill extends TileEntityLockable implements ITickable, II
 
 		if ((this.grillCoal <= 0) && (getWorld().getBlockState(getPos()).getValue(BlockGrill.ACTIVE)) && this.nextUpdate == 50) {
 			if (!worldObj.isRemote) {
-				PacketDispatcher.sendToDimension(new MessageExtinguish(pos), worldObj.provider.getDimensionId());
+				PacketDispatcher.sendToDimension(new MessageParticles(pos), worldObj.provider.getDimensionId());
+				worldObj.setBlockState(getPos(), getWorld().getBlockState(getPos()).withProperty(BlockGrill.ACTIVE, false));
 			}
 			worldObj.playSoundEffect(pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D, "random.fizz", 1.0F, worldObj.rand.nextFloat() * 0.4F + 0.8F);
 		}
@@ -164,7 +165,7 @@ public class TileEntityGrill extends TileEntityLockable implements ITickable, II
 
 	@Override
 	public String getName() {
-		return this.hasCustomName() ? this.customName : "fireplaces.grill";
+		return this.hasCustomName() ? this.customName : "container.grill";
 	}
 
 	@Override
