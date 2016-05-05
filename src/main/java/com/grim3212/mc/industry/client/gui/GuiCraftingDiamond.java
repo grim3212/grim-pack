@@ -4,10 +4,11 @@ import com.grim3212.mc.industry.inventory.ContainerDiamondWorkbench;
 
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.IInventory;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -16,15 +17,17 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class GuiCraftingDiamond extends GuiContainer {
 
 	private static final ResourceLocation resourceLocation = new ResourceLocation("textures/gui/container/crafting_table.png");
+	private IInventory playerInv;
 
 	public GuiCraftingDiamond(EntityPlayer inventoryplayer, World world, BlockPos pos) {
 		super(new ContainerDiamondWorkbench(inventoryplayer.inventory, world, pos));
+		this.playerInv = inventoryplayer.inventory;
 	}
 
 	@Override
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
-		fontRendererObj.drawString(I18n.format("container.diamond_crafting", new Object[0]), 28, 6, 4210752);
-		fontRendererObj.drawString(I18n.format("container.inventory", new Object[0]), 8, this.ySize - 96 + 2, 4210752);
+		this.fontRendererObj.drawString(StatCollector.translateToLocal("container.crafting_diamond"), 28, 6, 4210752);
+		this.fontRendererObj.drawString(this.playerInv.getDisplayName().getUnformattedText(), 8, this.ySize - 96 + 2, 4210752);
 	}
 
 	@Override

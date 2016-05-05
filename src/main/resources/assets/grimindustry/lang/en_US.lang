@@ -1,5 +1,10 @@
 #================= OTHER =================#
 grim.creative.grimindustry=Grim Industry
+container.crafting_iron=Iron Crafting (2x)
+container.crafting_diamond=Diamond Crafting (4x)
+container.derrick=Oil Derrick
+container.refinery=Refinery
+container.modern_furnace=Modern Furnace
 
 #================= BLOCKS =================#
 tile.modern_tile.name=Modern Tile
