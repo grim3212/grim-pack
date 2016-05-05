@@ -36,6 +36,8 @@ public class GrimCore extends GrimPart {
 		addItem(new CoreItems());
 	}
 
+	//TODO: Fix all GUIs to allow for renaming as well as for localizing the default gui name
+	
 	@Override
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
