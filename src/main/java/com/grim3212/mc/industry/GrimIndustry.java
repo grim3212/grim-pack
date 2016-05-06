@@ -1,5 +1,6 @@
 package com.grim3212.mc.industry;
 
+import com.grim3212.mc.core.GrimCore;
 import com.grim3212.mc.core.config.GrimConfig;
 import com.grim3212.mc.core.part.GrimPart;
 import com.grim3212.mc.core.proxy.CommonProxy;
@@ -21,7 +22,7 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
-@Mod(modid = GrimIndustry.modID, name = GrimIndustry.modName, version = GrimIndustry.modVersion, dependencies = "required-after:grimcore")
+@Mod(modid = GrimIndustry.modID, name = GrimIndustry.modName, version = GrimCore.modVersion, dependencies = "required-after:grimcore", guiFactory = "com.grim3212.mc.industry.config.ConfigGuiFactory")
 public class GrimIndustry extends GrimPart {
 
 	@SidedProxy(clientSide = "com.grim3212.mc.industry.client.IndustryClientProxy", serverSide = COMMON_PROXY)
@@ -32,10 +33,9 @@ public class GrimIndustry extends GrimPart {
 
 	public static final String modID = "grimindustry";
 	public static final String modName = "Grim Industry";
-	public static final String modVersion = "1.0.0";
 
 	public GrimIndustry() {
-		super(GrimIndustry.modID, GrimIndustry.modName, GrimIndustry.modVersion);
+		super(GrimIndustry.modID, GrimIndustry.modName, GrimCore.modVersion);
 		addItem(new IndustryBlocks());
 		addItem(new IndustryItems());
 		addTileEntity(new IndustryTileEntities());

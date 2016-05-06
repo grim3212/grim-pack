@@ -16,7 +16,7 @@
 			"model": "builtin/generated",
 			"transform": "forge:default-item",
 			"textures": {
-				"layer0": "grimcuisine:blocks/cocoa_tree_Sapling"
+				"layer0": "grimcuisine:blocks/cocoa_tree_sapling"
 			}
 		}]
 	}

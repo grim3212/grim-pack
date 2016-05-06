@@ -1,5 +1,6 @@
 package com.grim3212.mc.cuisine;
 
+import com.grim3212.mc.core.GrimCore;
 import com.grim3212.mc.core.config.GrimConfig;
 import com.grim3212.mc.core.part.GrimPart;
 import com.grim3212.mc.core.proxy.CommonProxy;
@@ -21,7 +22,7 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
-@Mod(modid = GrimCuisine.modID, name = GrimCuisine.modName, version = GrimCuisine.modVersion, dependencies = "required-after:grimcore", guiFactory = "com.grim3212.mc.cuisine.config.ConfigGuiFactory")
+@Mod(modid = GrimCuisine.modID, name = GrimCuisine.modName, version = GrimCore.modVersion, dependencies = "required-after:grimcore", guiFactory = "com.grim3212.mc.cuisine.config.ConfigGuiFactory")
 public class GrimCuisine extends GrimPart {
 
 	@SidedProxy(clientSide = "com.grim3212.mc.cuisine.client.CuisineClientProxy", serverSide = COMMON_PROXY)
@@ -32,10 +33,9 @@ public class GrimCuisine extends GrimPart {
 
 	public static final String modID = "grimcuisine";
 	public static final String modName = "Grim Cuisine";
-	public static final String modVersion = "1.0.0";
 
 	public GrimCuisine() {
-		super(GrimCuisine.modID, GrimCuisine.modName, GrimCuisine.modVersion);
+		super(GrimCuisine.modID, GrimCuisine.modName, GrimCore.modVersion);
 		addItem(new CuisineBlocks());
 		addItem(new CuisineItems());
 	}

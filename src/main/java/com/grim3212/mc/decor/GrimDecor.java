@@ -1,5 +1,6 @@
 package com.grim3212.mc.decor;
 
+import com.grim3212.mc.core.GrimCore;
 import com.grim3212.mc.core.config.GrimConfig;
 import com.grim3212.mc.core.network.PacketDispatcher;
 import com.grim3212.mc.core.part.GrimPart;
@@ -21,7 +22,7 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 
-@Mod(modid = GrimDecor.modID, name = GrimDecor.modName, version = GrimDecor.modVersion, dependencies = "required-after:grimcore", guiFactory = "com.grim3212.mc.decor.config.ConfigGuiFactory")
+@Mod(modid = GrimDecor.modID, name = GrimDecor.modName, version = GrimCore.modVersion, dependencies = "required-after:grimcore", guiFactory = "com.grim3212.mc.decor.config.ConfigGuiFactory")
 public class GrimDecor extends GrimPart {
 
 	@Instance(GrimDecor.modID)
@@ -32,10 +33,9 @@ public class GrimDecor extends GrimPart {
 
 	public static final String modID = "grimdecor";
 	public static final String modName = "Grim Decor";
-	public static final String modVersion = "1.0.0";
 
 	public GrimDecor() {
-		super(GrimDecor.modID, GrimDecor.modName, GrimDecor.modVersion);
+		super(GrimDecor.modID, GrimDecor.modName, GrimCore.modVersion);
 		addItem(new DecorBlocks());
 		addItem(new DecorItems());
 		addEntity(new DecorEntities());

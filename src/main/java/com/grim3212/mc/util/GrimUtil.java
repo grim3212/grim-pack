@@ -1,5 +1,6 @@
 package com.grim3212.mc.util;
 
+import com.grim3212.mc.core.GrimCore;
 import com.grim3212.mc.core.config.GrimConfig;
 import com.grim3212.mc.core.network.PacketDispatcher;
 import com.grim3212.mc.core.part.GrimPart;
@@ -20,7 +21,7 @@ import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
-@Mod(modid = GrimUtil.modID, name = GrimUtil.modName, version = GrimUtil.modVersion, dependencies = "required-after:grimcore")
+@Mod(modid = GrimUtil.modID, name = GrimUtil.modName, version = GrimCore.modVersion, dependencies = "required-after:grimcore", guiFactory = "com.grim3212.mc.util.config.ConfigGuiFactory")
 public class GrimUtil extends GrimPart {
 
 	@SidedProxy(clientSide = "com.grim3212.mc.util.client.UtilClientProxy", serverSide = COMMON_PROXY)
@@ -31,10 +32,9 @@ public class GrimUtil extends GrimPart {
 
 	public static final String modID = "grimutil";
 	public static final String modName = "Grim Util";
-	public static final String modVersion = "1.0.0";
 
 	public GrimUtil() {
-		super(GrimUtil.modID, GrimUtil.modName, GrimUtil.modVersion);
+		super(GrimUtil.modID, GrimUtil.modName, GrimCore.modVersion);
 	}
 
 	@Override

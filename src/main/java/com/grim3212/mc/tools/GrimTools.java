@@ -1,5 +1,6 @@
 package com.grim3212.mc.tools;
 
+import com.grim3212.mc.core.GrimCore;
 import com.grim3212.mc.core.config.GrimConfig;
 import com.grim3212.mc.core.network.PacketDispatcher;
 import com.grim3212.mc.core.part.GrimPart;
@@ -26,7 +27,7 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
-@Mod(modid = GrimTools.modID, name = GrimTools.modName, version = GrimTools.modVersion, dependencies = "required-after:grimcore")
+@Mod(modid = GrimTools.modID, name = GrimTools.modName, version = GrimCore.modVersion, dependencies = "required-after:grimcore", guiFactory = "com.grim3212.mc.tools.config.ConfigGuiFactory")
 public class GrimTools extends GrimPart {
 
 	@SidedProxy(clientSide = "com.grim3212.mc.tools.client.ToolsClientProxy", serverSide = COMMON_PROXY)
@@ -37,10 +38,9 @@ public class GrimTools extends GrimPart {
 
 	public static final String modID = "grimtools";
 	public static final String modName = "Grim Tools";
-	public static final String modVersion = "1.0.0";
 
 	public GrimTools() {
-		super(GrimTools.modID, GrimTools.modName, GrimTools.modVersion);
+		super(GrimTools.modID, GrimTools.modName, GrimCore.modVersion);
 		addItem(new ToolsItems());
 		addItem(new ToolsBlocks());
 		addEntity(new ToolsEntities());

@@ -1,5 +1,6 @@
 package com.grim3212.mc.world;
 
+import com.grim3212.mc.core.GrimCore;
 import com.grim3212.mc.core.config.GrimConfig;
 import com.grim3212.mc.core.part.GrimPart;
 import com.grim3212.mc.core.proxy.CommonProxy;
@@ -20,7 +21,7 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
-@Mod(modid = GrimWorld.modID, name = GrimWorld.modName, version = GrimWorld.modVersion, dependencies = "required-after:grimcore")
+@Mod(modid = GrimWorld.modID, name = GrimWorld.modName, version = GrimCore.modVersion, dependencies = "required-after:grimcore", guiFactory = "com.grim3212.mc.world.config.ConfigGuiFactory")
 public class GrimWorld extends GrimPart {
 
 	@SidedProxy(clientSide = "com.grim3212.mc.world.client.WorldClientProxy", serverSide = COMMON_PROXY)
@@ -31,10 +32,9 @@ public class GrimWorld extends GrimPart {
 
 	public static final String modID = "grimworld";
 	public static final String modName = "Grim World";
-	public static final String modVersion = "1.0.0";
 
 	public GrimWorld() {
-		super(GrimWorld.modID, GrimWorld.modName, GrimWorld.modVersion);
+		super(GrimWorld.modID, GrimWorld.modName, GrimCore.modVersion);
 		addItem(new WorldBlocks());
 		addItem(new WorldItems());
 		addEntity(new WorldEntities());

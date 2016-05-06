@@ -61,6 +61,13 @@ dependencies {
 
 }
 
+jar {
+	manifest {
+        attributes 'FMLCorePlugin': 'com.grim3212.mc.world.asm.DesertGenLoadingPlugin'
+        attributes 'FMLCorePluginContainsFMLMod': 'true'
+    }
+}
+
 processResources
 {
     // this will ensure that this task is redone when the versions change.
