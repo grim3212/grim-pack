@@ -1,0 +1,136 @@
+#================= OTHER =================#
+grim.creative.grimcuisine=Grim Cuisine
+
+#================= BLOCKS =================#
+tile.cheese_block.name=Cheese Block
+tile.cheese_maker.name=Cheese Maker
+tile.butter_churn.name=Butter Churn
+tile.apple_pie.name=Apple Pie
+tile.chocolate_pie.name=Chocolate Pie
+tile.pumpkin_pie.name=Pumpkin Pie
+tile.melon_pie.name=Melon Pie
+tile.pork_pie.name=Pork Pie
+tile.cocoa_block.name=Cocoa Fruit
+tile.cocoa_tree_sapling.name=Cocoa Sapling
+tile.chocolate_bar_mould.name=Chocolate Bar Mould
+tile.chocolate_cake.name=Chocolate Cake
+tile.chocolate_block.name=Chocolate Block
+
+#================= ITEMS =================#
+item.soda.apple.name=Apple Soda
+item.soda.bottle.name=Soda Bottle
+item.soda.slurm.name=Slurm
+item.soda.co2.name=Co2
+item.soda.golden_apple.name=Golden Apple Soda
+item.soda.spiked_orange.name=Spiked Orange Soda
+item.soda.root_beer.name=Root Beer
+item.soda.cream_orange.name=Orange Cream Soda
+item.soda.diamond.name=Diamond Soda
+item.soda.orange.name=Orange Soda
+item.soda.cocoa.name=Cocoa Soda
+item.soda.carbonated_water.name=Carbonated Water
+item.soda.mushroom.name=Mushroom Soda
+item.dragon_fruit.name=Dragon Fruit
+item.powered_sweets.name=Super Sugar Sweets
+item.powered_sugar.name=Super Sugar
+item.sweets.name=Sugar Sweets
+item.bandage.name=Bandage
+item.healthpack_super.name=Super Health Pack
+item.healthpack.name=Health Pack
+item.cheese.name=Cheese
+item.butter.name=Butter
+item.eggs_cooked.name=Cooked Eggs
+item.eggs_unmixed.name=Unmixed Eggs
+item.eggs_mixed.name=Mixed Eggs
+item.bread_slice.name=Bread Slice
+item.hot_cheese.name=Hot Cheese Sandwich
+item.cheese_burger.name=Cheese Burger
+item.knife.name=Cutting Knife
+item.mixer.name=Mixer
+item.dough.name=Dough
+item.pan.name=Pie Pan
+item.raw_empty_pie.name=Raw Empty Pie
+item.raw_apple_pie.name=Raw Apple Pie
+item.raw_chocolate_pie.name=Raw Chocolate Pie
+item.raw_melon_pie.name=Raw Melon Pie
+item.raw_pork_pie.name=Raw Pork Pie
+item.raw_pumpkin_pie.name=Raw Pumpkin Pie
+item.pumpkin_slice.name=Pumpkin Slice
+item.cocoa_fruit.name=Cocoa Fruit
+item.cocoa_dust.name=Cocoa Powder
+item.wrapper.name=Candy Wrapper
+item.chocolate_bowl.name=Bowl of Chocolate Milk
+item.chocolate_bar.name=Chocolate Bar
+item.chocolate_bar_wrapped.name=Wrapped Chocolate Bar
+item.chocolate_ball.name=Chocolate Ball
+item.milk_bowl.name=Bowl of Milk
+item.chocolate_bowl_hot.name=Bowl of Hot Chocolate Milk
+
+#================= INSTRUCTION MANUAL =================#
+grim.manual.grimcuisine.modinfo=Adds many different types of food and health regeneration options.
+grim.manual.grimcuisine.subsection.soda=Soda
+grim.manual.grimcuisine.subsection.soda.page.carbon=To get started creating any of the Soda types you will need to get carbonated water. You first need to get a Soda Bottle then Co2 and then you will have what you need to create Carbonated Water.
+grim.manual.grimcuisine.subsection.soda.page.carbon.title=Recipes
+grim.manual.grimcuisine.subsection.soda.page.types=Their are several different Soda types added which all heal you different amounts. The types available are Slurm-1.5H, Apple-5H, Golden Apple-10H, Cocoa-8H, Root Beer-2.5H, Diamond-10H, Mushroom-2.5H, Orange-4H, Orange Cream-4H, and Spiked Orange which hurts who drinks it.
+grim.manual.grimcuisine.subsection.soda.page.types.title=Types
+grim.manual.grimcuisine.subsection.dragonfruit=Dragon Fruit
+grim.manual.grimcuisine.subsection.dragonfruit.page.dragonfruit.title=Dragon Fruit
+grim.manual.grimcuisine.subsection.dragonfruit.page.dragonfruit=Cacti now have a chance of dropping a new type of food which is Dragon Fruit and it replenishes 2 hunger.
+grim.manual.grimcuisine.subsection.sugar=Sugar
+grim.manual.grimcuisine.subsection.sugar.page.sweets=Sugar Sweets and Super Sugar Sweets are 'sweet'! The regular sweets replenish one hunger while the super sweets replenish 3. Just be careful you don't eat too much sugar.
+grim.manual.grimcuisine.subsection.sugar.page.sweets.title=Recipes
+grim.manual.grimcuisine.subsection.health=Health Regeneration
+grim.manual.grimcuisine.subsection.health.page.recipes=Health items are hard to come by. So, if you need to heal your wounds right away use these. The Bandage, Health Pack, and Super Health Pack which requires the Super Sugar from the previous sub-section. These can come in handy in battles because you won't have to wait for you hearts to slowly regenerate.
+grim.manual.grimcuisine.subsection.health.page.recipes.title=Recipes
+
+grim.manual.grimcuisine.subsection.dairy=Dairy
+grim.manual.grimcuisine.subsection.dairy.page.butter=The butter churn is very simple to use. Simply right click it with any milk bucket (including tools buckets) in your hand and then punch to get cheese back out. Then eat cheese!
+grim.manual.grimcuisine.subsection.dairy.page.butter.title=Butter Churn Recipe
+grim.manual.grimcuisine.subsection.dairy.page.cheese=The cheese maker is slightly more complex than the butter churn. Right click with any milk bucket (including tools buckets) in your hand and it will start processing. Wait for it to turn to a yellowish orange and then punch it and you get a block of cheese.
+grim.manual.grimcuisine.subsection.dairy.page.cheese.title=Cheese Maker Recipe
+grim.manual.grimcuisine.subsection.dairy.page.cheeseblock=The block of cheese that you got from using the cheese maker can then be changed into 9 cheese pieces or vice versa.
+grim.manual.grimcuisine.subsection.dairy.page.cheeseblock.title=Cheesey
+
+grim.manual.grimcuisine.subsection.food=Food
+grim.manual.grimcuisine.subsection.food.page.utensils.title=Utensils
+grim.manual.grimcuisine.subsection.food.page.utensils=Using these utensils you will be able to create some more filling and appetizing foods.
+grim.manual.grimcuisine.subsection.food.page.extras.title=Dough and Pumpkin
+grim.manual.grimcuisine.subsection.food.page.extras=These items will be used later but, if you can't control your hunger, then they can still make a nice snack.
+grim.manual.grimcuisine.subsection.food.page.sandwiches.title=Sandwiches
+grim.manual.grimcuisine.subsection.food.page.sandwiches=Using cheese you will be able to craft some yummy sandwiches. You can create bread slices used to create a filling cheese burger or a cheese sandwich.
+grim.manual.grimcuisine.subsection.food.page.eggs=Using butter you will also be able to create some eggs which heal quite a bit back and are very filling. You will first have to crack and mix your eggs.
+grim.manual.grimcuisine.subsection.food.page.eggs.title=Making Eggs
+grim.manual.grimcuisine.subsection.food.page.cooked=Once mixed you can heat up your eggs and get them ready to eat. You don't want to be eating raw eggs.
+grim.manual.grimcuisine.subsection.food.page.cooked.title=Cooking Eggs
+
+grim.manual.grimcuisine.subsection.pie=Pies
+grim.manual.grimcuisine.subsection.pie.page.craft.title=Preparation
+grim.manual.grimcuisine.subsection.pie.page.craft=Before you can eat any pie you must make the empty pie and fill it with your choice of filling.
+grim.manual.grimcuisine.subsection.pie.page.bake.title=Baking
+grim.manual.grimcuisine.subsection.pie.page.bake=Once you bake your cake you can place it on a windowsill of your choice. Eat it like you would a cake!
+
+grim.manual.grimcuisine.subsection.cocoa=Cocoa Trees
+grim.manual.grimcuisine.subsection.cocoa.page.tree=A new type of tree, the cocoa tree, will generate in your Minecraft world and can have cocoa fruit hanging down from it which is needed to craft some later things. You can also replant the cocoa fruit to generate some new cocoa trees.
+grim.manual.grimcuisine.subsection.cocoa.page.tree.title=Cocoa Tree
+grim.manual.grimcuisine.subsection.cocoa.page.fruit=Using the cocoa fruit you can then create some cocoa dust.
+grim.manual.grimcuisine.subsection.cocoa.page.fruit.title=Cocoa Dust
+grim.manual.grimcuisine.subsection.cocoa.page.dye=Using cocoa dust you can also turn them into cocoa beans from vanilla by combining two of them.
+grim.manual.grimcuisine.subsection.cocoa.page.dye.title=Dye
+
+grim.manual.grimcuisine.subsection.bowlchoc=Chocolate
+grim.manual.grimcuisine.subsection.bowlchoc.page.bowlChoc=You can now create a bowl of chocolate milk. This will need to be heated up to be used. You can use any milk bucket.
+grim.manual.grimcuisine.subsection.bowlchoc.page.bowlChoc.title=Chocolate Bowl
+grim.manual.grimcuisine.subsection.bowlchoc.page.bowlChocHot=To heat up the chocolate milk it will need to be put in a furnace. Now that it is heated up it will be able to be used in the chocolate mould and also in some other recipes.
+grim.manual.grimcuisine.subsection.bowlchoc.page.bowlChocHot.title=Hot Chocolate Bowl
+grim.manual.grimcuisine.subsection.bowlchoc.page.chocBall=Using the bowl of hot chocolate milk we now create balls of chocolate which can be eaten.
+grim.manual.grimcuisine.subsection.bowlchoc.page.chocBall.title=Balls
+grim.manual.grimcuisine.subsection.bowlchoc.page.cake=Using the chocolate balls and any form of milk you can create chocolate cakes which are quite delicious.
+grim.manual.grimcuisine.subsection.bowlchoc.page.cake.title=Cake
+
+grim.manual.grimcuisine.subsection.choco=Candy
+grim.manual.grimcuisine.subsection.choco.page.mould=To get started in crafting some chocolate bars you will need to make a chocolate mould. It is pretty easy to craft and all you need to do to start the chocolate bar process is right click on it with a bowl of hot chocolate milk. Once the chocolate is hardened give it a punch and get your chocolate bars. If ice or snow is under the mould then the process will be two times faster.
+grim.manual.grimcuisine.subsection.choco.page.mould.title=Chocolate Mould
+grim.manual.grimcuisine.subsection.choco.page.bars=The chocolate bars that you just created can be eaten or you can craft them to store a lot of them at once or if you would like them back you get 9 back from storage.
+grim.manual.grimcuisine.subsection.choco.page.bars.title=Storage
+grim.manual.grimcuisine.subsection.choco.page.candy=To craft a legitimate candy bar you will need to craft a wrapper first. THen using that wrapper and a regular chocolate bar you can create a wrapped chocolate bar. Using the power of a wrapper this can be eaten and is a better food then plain chocolate bars.
+grim.manual.grimcuisine.subsection.choco.page.candy.title=Bars

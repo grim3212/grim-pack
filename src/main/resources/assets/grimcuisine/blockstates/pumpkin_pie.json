@@ -1,0 +1,23 @@
+{
+	"forge_marker": 1,
+    "defaults": {
+		"transform": "forge:default-block",
+		"model": "grimcuisine:pie_uneaten",
+		"textures": {
+			"top": "grimcuisine:blocks/pumpkin_pie_top",
+			"inside": "grimcuisine:blocks/pumpkin_pie_cut"
+		}
+    },
+	"variants": {
+		"bites": {
+			"0": { },
+			"1": { "model": "grimcuisine:pie_slice1" },
+			"2": { "model": "grimcuisine:pie_slice2" },
+			"3": { "model": "grimcuisine:pie_slice3" },
+			"4": { "model": "grimcuisine:pie_slice4" },
+			"5": { "model": "grimcuisine:pie_slice5" },
+			"6": { "model": "grimcuisine:pie_slice6" }
+		},
+		"inventory": [{}]
+	}
+}
