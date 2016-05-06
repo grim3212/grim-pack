@@ -13,14 +13,14 @@ import net.minecraftforge.common.MinecraftForge;
 public class UtilClientProxy extends ClientProxy {
 
 	@Override
-	protected void registerModels() {
+	public void registerModels() {
 		MinecraftForge.EVENT_BUS.register(new AutoItemTickHandler());
 		MinecraftForge.EVENT_BUS.register(new RenderTickHandler());
 		MinecraftForge.EVENT_BUS.register(new KeyBindHelper());
 	}
 
 	@Override
-	protected void registerManual(ModSection modSection) {
+	public void registerManual(ModSection modSection) {
 		ManualRegistry.addSection("autoitem", modSection).addSubSectionPages(new PageImageText("info", "autoitem.png"));
 		ManualRegistry.addSection("fusrodah", modSection).addSubSectionPages(new PageImageText("info", "fusrodah.png"));
 		ManualRegistry.addSection("time", modSection).addSubSectionPages(new PageImageText("info", "time.png"));

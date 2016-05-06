@@ -50,13 +50,14 @@ public class GrimUtil extends GrimPart {
 		MinecraftForge.EVENT_BUS.register(new EntityDeathEvent());
 		MinecraftForge.EVENT_BUS.register(new BlockChangeEvents());
 
-		proxy.preInit(getModSection());
+		proxy.registerModels();
 	}
 
 	@Override
 	@EventHandler
 	public void init(FMLInitializationEvent event) {
 		super.init(event);
+		proxy.registerManual(getModSection());
 	}
 
 	@Override
