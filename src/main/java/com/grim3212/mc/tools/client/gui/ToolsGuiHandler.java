@@ -32,7 +32,7 @@ public class ToolsGuiHandler implements IGuiHandler {
 			BackpackInventory backpackInventory = new BackpackInventory(player.inventory.getCurrentItem(), player, 0);
 			return new GuiBackpack(backpackInventory, player.inventory);
 		} else if (ID == workbenchGUI_ID) {
-			return new GuiPortable(player, world, new BlockPos(x, y, z));
+			return new GuiPortable(player.inventory, world, new BlockPos(x, y, z), player.getCurrentEquippedItem());
 		}
 
 		return null;

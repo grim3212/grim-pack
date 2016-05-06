@@ -45,7 +45,6 @@ public class ToolsItems implements IPartItems {
 	public static Item ammo_part;
 	public static Item button_part;
 	public static Item spring_part;
-	public static Item casing_part;
 	public static Item rod_part;
 	public static Item black_diamond;
 	public static Item black_diamond_pickaxe;
@@ -132,7 +131,6 @@ public class ToolsItems implements IPartItems {
 		ammo_part = (new ItemBallisticKnife(false, true)).setMaxStackSize(64).setUnlocalizedName("ammo_part").setCreativeTab(GrimTools.INSTANCE.getCreativeTab());
 		button_part = (new Item()).setMaxStackSize(1).setUnlocalizedName("button_part").setCreativeTab(GrimTools.INSTANCE.getCreativeTab());
 		spring_part = (new Item()).setMaxStackSize(1).setUnlocalizedName("spring_part").setCreativeTab(GrimTools.INSTANCE.getCreativeTab());
-		casing_part = (new Item()).setMaxStackSize(1).setUnlocalizedName("casing_part").setCreativeTab(GrimTools.INSTANCE.getCreativeTab());
 		rod_part = (new Item()).setMaxStackSize(64).setUnlocalizedName("rod_part").setCreativeTab(GrimTools.INSTANCE.getCreativeTab());
 		black_diamond = (new Item()).setUnlocalizedName("black_diamond").setCreativeTab(GrimTools.INSTANCE.getCreativeTab());
 		black_diamond_boots = (new ItemArmor(blackarmor, 4, 3)).setUnlocalizedName("black_diamond_boots").setCreativeTab(GrimTools.INSTANCE.getCreativeTab());
@@ -276,7 +274,6 @@ public class ToolsItems implements IPartItems {
 		GameRegistry.registerItem(ammo_part, "ammo_part");
 		GameRegistry.registerItem(button_part, "button_part");
 		GameRegistry.registerItem(spring_part, "spring_part");
-		GameRegistry.registerItem(casing_part, "casing_part");
 		GameRegistry.registerItem(rod_part, "rod_part");
 		GameRegistry.registerItem(backpack, "backpack");
 		GameRegistry.registerItem(portable_workbench, "portable_workbench");
@@ -317,12 +314,12 @@ public class ToolsItems implements IPartItems {
 		blackdiamond.setRepairItem(new ItemStack(black_diamond));
 
 		OreDictionary.registerOre("ingotDarkIron", dark_iron_ingot);
+		OreDictionary.registerOre("bucketMilk", Items.milk_bucket);
 		OreDictionary.registerOre("bucketMilk", wooden_milk_bucket);
 		OreDictionary.registerOre("bucketMilk", stone_milk_bucket);
 		OreDictionary.registerOre("bucketMilk", golden_milk_bucket);
 		OreDictionary.registerOre("bucketMilk", diamond_milk_bucket);
 		OreDictionary.registerOre("bucketMilk", obsidian_milk_bucket);
-		OreDictionary.registerOre("bucketMilk", Items.milk_bucket);
 
 		// Register chiseleable blocks
 		ChiselRegistry.registerBlock(Blocks.diamond_ore, Blocks.stone, Items.diamond, 1, 0);
@@ -356,10 +353,9 @@ public class ToolsItems implements IPartItems {
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(grip, 2), new Object[] { "Y", "Y", 'Y', "leather" }));
 
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ammo_part, 1), new Object[] { "#  ", " # ", "  !", '#', "ingotIron", '!', rod_part }));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(casing_part, 1), new Object[] { "# ", " #", '#', Items.flint }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(spring_part, 1), new Object[] { "#  ", " ! ", "  #", '#', "ingotIron", '!', "string" }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(button_part, 1), new Object[] { " # ", "#!#", " # ", '#', "dustRedstone", '!', Blocks.stone_button }));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(unloaded_knife, 1), new Object[] { " #", "! ", " @", '#', button_part, '!', spring_part, '@', casing_part }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(unloaded_knife, 1), new Object[] { " #", "! ", " @", '#', button_part, '!', spring_part, '@', grip }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(rod_part, 1), new Object[] { "#", "#", '#', "ingotIron" }));
 
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(black_diamond_pickaxe, 1), new Object[] { "###", " X ", " X ", 'X', "stickWood", '#', black_diamond }));

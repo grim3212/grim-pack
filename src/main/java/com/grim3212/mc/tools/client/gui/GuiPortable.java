@@ -1,28 +1,43 @@
 package com.grim3212.mc.tools.client.gui;
 
 import com.grim3212.mc.tools.inventory.ContainerCustomWorkbench;
+import com.grim3212.mc.tools.items.ToolsItems;
 
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.resources.I18n;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.inventory.IInventory;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 
 public class GuiPortable extends GuiContainer {
 	private static final ResourceLocation resourceLocation = new ResourceLocation("textures/gui/container/crafting_table.png");
+	private IInventory playerInv;
+	private ItemStack portableStack;
 
-	public GuiPortable(EntityPlayer inventoryplayer, World world, BlockPos pos) {
-		super(new ContainerCustomWorkbench(inventoryplayer.inventory, world, pos));
+	public GuiPortable(InventoryPlayer inventoryplayer, World world, BlockPos pos, ItemStack stack) {
+		super(new ContainerCustomWorkbench(inventoryplayer, world, pos));
+		this.playerInv = inventoryplayer;
+
+		if (stack.getItem() == ToolsItems.portable_workbench) {
+			this.portableStack = stack.copy();
+		}
 	}
 
-	protected void drawGuiContainerForegroundLayer(int par1, int par2) {
-		fontRendererObj.drawString(I18n.format("container.portable_workbench", new Object[0]), 8, 6, 4210752);
-		fontRendererObj.drawString(I18n.format("container.inventory", new Object[0]), 8, this.ySize - 96 + 2, 4210752);
+	@Override
+	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
+		if (this.portableStack.hasDisplayName())
+			fontRendererObj.drawString(this.portableStack.getDisplayName(), 8, 6, 4210752);
+		else
+			fontRendererObj.drawString(StatCollector.translateToLocal("container.portable_workbench"), 8, 6, 4210752);
+		fontRendererObj.drawString(this.playerInv.getDisplayName().getUnformattedText(), 8, this.ySize - 96 + 2, 4210752);
 	}
 
-	protected void drawGuiContainerBackgroundLayer(float par1, int par2, int par3) {
+	@Override
+	protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
 		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 		this.mc.renderEngine.bindTexture(resourceLocation);
 		int var5 = (this.width - this.xSize) / 2;

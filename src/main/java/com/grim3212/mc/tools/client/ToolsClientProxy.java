@@ -44,7 +44,7 @@ import net.minecraftforge.fml.client.registry.RenderingRegistry;
 public class ToolsClientProxy extends ClientProxy {
 
 	@Override
-	protected void registerModels() {
+	public void registerModels() {
 		// Register custom model
 		ModelLoaderRegistry.registerLoader(BetterBucketModel.LoaderDynBucket.instance);
 
@@ -61,7 +61,6 @@ public class ToolsClientProxy extends ClientProxy {
 		RenderHelper.renderItem(ToolsItems.ammo_part);
 		RenderHelper.renderItem(ToolsItems.button_part);
 		RenderHelper.renderItem(ToolsItems.spring_part);
-		RenderHelper.renderItem(ToolsItems.casing_part);
 		RenderHelper.renderItem(ToolsItems.rod_part);
 		RenderHelper.renderItem(ToolsItems.black_diamond);
 		RenderHelper.renderItem(ToolsItems.black_diamond_helmet);
@@ -167,39 +166,25 @@ public class ToolsClientProxy extends ClientProxy {
 	}
 
 	@Override
-	protected void registerManual(ModSection modSection) {
+	public void registerManual(ModSection modSection) {
 		ManualRegistry.addSection("backpacks", modSection).addSubSectionPages(new PageCrafting("backpacks", new ItemStack(ToolsItems.backpack)), new PageImageText("colors", "colorsImage.png"));
 		ManualRegistry.addSection("portable", modSection).addSubSectionPages(new PageCrafting("portableworkbench", new ItemStack(ToolsItems.portable_workbench)));
-		ManualRegistry.addSection("parts", modSection).addSubSectionPages(new PageCrafting("part1", new ItemStack(ToolsItems.casing_part)), new PageCrafting("part2", new ItemStack(ToolsItems.spring_part)), new PageCrafting("part3", new ItemStack(ToolsItems.button_part)), new PageCrafting("part4", new ItemStack(ToolsItems.rod_part)));
-		ManualRegistry.addSection("ballistic", modSection).addSubSectionPages(new PageCrafting("ballistic", new ItemStack(ToolsItems.unloaded_knife)), new PageCrafting("knives", new ItemStack(ToolsItems.ammo_part)));
 		ManualRegistry.addSection("black", modSection).addSubSectionPages(new PageImageText("blackore", "blackore.png"), new PageFurnace("cookOre", new ItemStack(ToolsBlocks.black_diamond_ore)), new PageCrafting("craftblack", ToolsBlocks.black, 25));
-		ManualRegistry.addSection("tools", modSection).addSubSectionPages(new PageCrafting("tools", ToolsItems.blackTools, 18));
-		ManualRegistry.addSection("armor", modSection).addSubSectionPages(new PageCrafting("armor", ToolsItems.blackArmor, 18));
-		ManualRegistry.addSection("wood", modSection).addSubSectionPages(new PageCrafting("recipe", new ItemStack(ToolsItems.wooden_bucket)));
-		ManualRegistry.addSection("stone", modSection).addSubSectionPages(new PageCrafting("recipe", new ItemStack(ToolsItems.stone_bucket)));
-		ManualRegistry.addSection("gold", modSection).addSubSectionPages(new PageCrafting("recipe", new ItemStack(ToolsItems.golden_bucket)));
-		ManualRegistry.addSection("diamond", modSection).addSubSectionPages(new PageCrafting("recipe", new ItemStack(ToolsItems.diamond_bucket)));
-		ManualRegistry.addSection("obsidian", modSection).addSubSectionPages(new PageCrafting("recipe", new ItemStack(ToolsItems.obsidian_bucket)));
-		ManualRegistry.addSection("milk", modSection).addSubSectionPages(new PageCrafting("recipe", RecipeHelper.getQuickIRecipeForItemStack(new ItemStack(Items.cake))));
-		ManualRegistry.addSection("knife", modSection).addSubSectionPages(new PageCrafting("knife", new ItemStack(ToolsItems.throwing_knife)));
-		ManualRegistry.addSection("tomahawk", modSection).addSubSectionPages(new PageCrafting("tomahawk", new ItemStack(ToolsItems.tomahawk)));
-		ManualRegistry.addSection("grip", modSection).addSubSectionPages(new PageCrafting("grip", new ItemStack(ToolsItems.grip)));
-		ManualRegistry.addSection("chisels", modSection).addSubSectionPages(new PageCrafting("chisels", ToolsItems.chisels, 25));
-		ManualRegistry.addSection("ores", modSection).addSubSectionPages(new PageFurnace("ore", new ItemStack[] { new ItemStack(ToolsItems.gold_ore_item), new ItemStack(ToolsItems.iron_ore_item) }, 25));
+		ManualRegistry.addSection("tools", modSection).addSubSectionPages(new PageCrafting("tools", ToolsItems.blackTools, 18), new PageCrafting("armor", ToolsItems.blackArmor, 18));
+		ManualRegistry.addSection("buckets", modSection).addSubSectionPages(new PageCrafting("wooden", new ItemStack(ToolsItems.wooden_bucket)), new PageCrafting("stone", new ItemStack(ToolsItems.stone_bucket)), new PageCrafting("golden", new ItemStack(ToolsItems.golden_bucket)), new PageCrafting("diamond", new ItemStack(ToolsItems.diamond_bucket)), new PageCrafting("obsidian", new ItemStack(ToolsItems.obsidian_bucket)), new PageCrafting("milk", RecipeHelper.getQuickIRecipeForItemStack(new ItemStack(Items.cake))));
+		ManualRegistry.addSection("ballistic", modSection).addSubSectionPages(new PageCrafting("grip", new ItemStack(ToolsItems.grip)), new PageCrafting("part2", new ItemStack(ToolsItems.spring_part)), new PageCrafting("part3", new ItemStack(ToolsItems.button_part)), new PageCrafting("part4", new ItemStack(ToolsItems.rod_part)), new PageCrafting("ballistic", new ItemStack(ToolsItems.unloaded_knife)), new PageCrafting("knives", new ItemStack(ToolsItems.ammo_part)));
+		ManualRegistry.addSection("knives", modSection).addSubSectionPages(new PageCrafting("knife", new ItemStack(ToolsItems.throwing_knife)), new PageCrafting("tomahawk", new ItemStack(ToolsItems.tomahawk)));
+		ManualRegistry.addSection("chisels", modSection).addSubSectionPages(new PageCrafting("chisels", ToolsItems.chisels, 25), new PageFurnace("ore", new ItemStack[] { new ItemStack(ToolsItems.gold_ore_item), new ItemStack(ToolsItems.iron_ore_item) }, 25));
 		ManualRegistry.addSection("extinguisher", modSection).addSubSectionPages(new PageCrafting("extinguisher", ToolsItems.extinguisherRecipe), new PageCrafting("refill", ToolsItems.extinguisherRefillRecipe));
 		ManualRegistry.addSection("hammers", modSection).addSubSectionPages(new PageCrafting("recipes", ToolsItems.hammers, 20));
 		ManualRegistry.addSection("machetes", modSection).addSubSectionPages(new PageCrafting("base", ToolsItems.machetes, 20), new PageCrafting("slime", new ItemStack(ToolsItems.machete_slime)));
-		ManualRegistry.addSection("info", modSection).addSubSectionPages(new PageInfo("info"));
-		ManualRegistry.addSection("regular", modSection).addSubSectionPages(new PageCrafting("recipes", ToolsItems.regular, 20));
-		ManualRegistry.addSection("reinforced", modSection).addSubSectionPages(new PageCrafting("recipes", ToolsItems.reinforced, 20));
+		ManualRegistry.addSection("wands", modSection).addSubSectionPages(new PageInfo("info"), new PageCrafting("regular", ToolsItems.regular, 20), new PageCrafting("reinforced", ToolsItems.reinforced, 20));
 		ManualRegistry.addSection("multi", modSection).addSubSectionPages(new PageCrafting("tools", ToolsItems.tools, 20));
 		ManualRegistry.addSection("pokeball", modSection).addSubSectionPages(new PageCrafting("recipe", new ItemStack(ToolsItems.pokeball)));
 		ManualRegistry.addSection("staff", modSection).addSubSectionPages(new PageCrafting("recipe", new ItemStack(ToolsItems.powerstaff)));
-		ManualRegistry.addSection("raygun", modSection).addSubSectionPages(new PageImageText("element", "element115.png"), new PageCrafting("canisters", ToolsItems.basicCanisters, 25), new PageCrafting("raygun", new ItemStack(ToolsItems.ray_gun)));
-		ManualRegistry.addSection("advraygun", modSection).addSubSectionPages(new PageCrafting("darkIron", new ItemStack(ToolsItems.dark_iron_ingot)), new PageCrafting("canisters", ToolsItems.advCanisters, 25), new PageCrafting("advraygun", new ItemStack(ToolsItems.advanced_ray_gun)));
+		ManualRegistry.addSection("raygun", modSection).addSubSectionPages(new PageImageText("element", "element115.png"), new PageCrafting("canisters", ToolsItems.basicCanisters, 25), new PageCrafting("raygun", new ItemStack(ToolsItems.ray_gun)), new PageCrafting("darkIron", new ItemStack(ToolsItems.dark_iron_ingot)), new PageCrafting("advCanisters", ToolsItems.advCanisters, 25), new PageCrafting("advraygun", new ItemStack(ToolsItems.advanced_ray_gun)));
 		ManualRegistry.addSection("sling", modSection).addSubSectionPages(new PageCrafting("pellets", ToolsItems.pellets, 20), new PageCrafting("slingshot", new ItemStack(ToolsItems.sling_shot)));
-		ManualRegistry.addSection("basic", modSection).addSubSectionPages(new PageCrafting("recipes", ToolsItems.basics, 20));
-		ManualRegistry.addSection("special", modSection).addSubSectionPages(new PageCrafting("recipes", ToolsItems.specials, 20));
+		ManualRegistry.addSection("spears", modSection).addSubSectionPages(new PageCrafting("basics", ToolsItems.basics, 20), new PageCrafting("specials", ToolsItems.specials, 20));
 		ManualRegistry.addSection("ultimate", modSection).addSubSectionPages(new PageCrafting("fist", new ItemStack(ToolsItems.ultimate_fist)));
 		ManualRegistry.addSection("masks", modSection).addSubSectionPages(new PageCrafting("empty", ToolsItems.emptyRecipe), new PageCrafting("mobs", ToolsItems.mobs, 15));
 	}

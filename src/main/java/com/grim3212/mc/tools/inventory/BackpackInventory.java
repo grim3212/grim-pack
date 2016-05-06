@@ -6,14 +6,19 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.IChatComponent;
 import net.minecraftforge.common.util.Constants;
 
 public class BackpackInventory extends BackpackInventoryBase {
 	protected String uniqueID;
+	private ItemStack stack;
 
 	public BackpackInventory(ItemStack itemStack, EntityPlayer entityPlayer, int inventorySize) {
 		super(itemStack, entityPlayer, inventorySize);
+		this.stack = itemStack;
+
 		uniqueID = "";
 		if (!itemStack.hasTagCompound()) {
 			itemStack.setTagCompound(new NBTTagCompound());
@@ -24,9 +29,13 @@ public class BackpackInventory extends BackpackInventoryBase {
 		readFromNBT(itemStack.getTagCompound());
 	}
 
+	public ItemStack getStack() {
+		return stack;
+	}
+
 	@Override
 	public String getName() {
-		return this.uniqueID;
+		return this.hasCustomName() ? stack.getDisplayName() : "container.backpack";
 	}
 
 	@Override
@@ -123,12 +132,11 @@ public class BackpackInventory extends BackpackInventoryBase {
 
 	@Override
 	public boolean hasCustomName() {
-		return true;
+		return this.stack.hasDisplayName();
 	}
 
 	@Override
 	public IChatComponent getDisplayName() {
-		return null;
+		return this.hasCustomName() ? new ChatComponentText(this.getName()) : new ChatComponentTranslation(this.getName(), new Object[0]);
 	}
-
 }
