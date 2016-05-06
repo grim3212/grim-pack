@@ -54,13 +54,14 @@ public class GrimIndustry extends GrimPart {
 
 		NetworkRegistry.INSTANCE.registerGuiHandler(INSTANCE, new IndustryGuiHandler());
 
-		proxy.preInit(getModSection());
+		proxy.registerModels();
 	}
 
 	@Override
 	@EventHandler
 	public void init(FMLInitializationEvent event) {
 		super.init(event);
+		proxy.registerManual(getModSection());
 	}
 
 	@Override

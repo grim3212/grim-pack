@@ -205,7 +205,6 @@ public class IndustryItems implements IPartItems {
 
 		GameRegistry.addSmelting(tarball, new ItemStack(asphalt, 1), 0.35F);
 		GameRegistry.addSmelting(Items.flint, new ItemStack(graphite), 0.35F);
-		GameRegistry.addSmelting(Items.iron_ingot, new ItemStack(aluminum_ingot), 0.35F);
 		GameRegistry.addSmelting(coal_iron_ingot, new ItemStack(steel_ingot, 1), 0.5F);
 
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(aluminum_can, 16), new Object[] { "a a", "a a", "a a", 'a', "ingotAluminum" }));
