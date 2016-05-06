@@ -52,13 +52,14 @@ public class GrimWorld extends GrimPart {
 		GameRegistry.registerWorldGenerator(new GrimWorldGenerator(), 5);
 		DesertWellLoot.init();
 
-		proxy.preInit(getModSection());
+		proxy.registerModels();
 	}
 
 	@Override
 	@EventHandler
 	public void init(FMLInitializationEvent event) {
 		super.init(event);
+		proxy.registerManual(getModSection());
 	}
 
 	@Override

@@ -38,7 +38,7 @@ import net.minecraftforge.fml.client.registry.RenderingRegistry;
 public class WorldClientProxy extends ClientProxy {
 
 	@Override
-	protected void registerModels() {
+	public void registerModels() {
 		ModelLoader.setCustomStateMapper(WorldBlocks.gunpowder_reed_block, new StateMap.Builder().ignore(BlockGunpowderReed.AGE).build());
 		ModelLoader.setCustomStateMapper(WorldBlocks.glowstone_seeds, new StateMap.Builder().ignore(BlockGlowstoneSeed.STEP).build());
 		ModelLoader.setCustomStateMapper(WorldBlocks.fungus_building, new StateMap.Builder().ignore(BlockFungusBuilding.TYPE).build());
@@ -72,7 +72,7 @@ public class WorldClientProxy extends ClientProxy {
 	}
 
 	@Override
-	protected void registerManual(ModSection modSection) {
+	public void registerManual(ModSection modSection) {
 		ManualRegistry.addSection("randomite", modSection).addSubSectionPages(new PageImageText("info", "randomite.png"));
 		ManualRegistry.addSection("bedrock", modSection).addSubSectionPages(new PageImageText("info", "flat.png"));
 		ManualRegistry.addSection("wells", modSection).addSubSectionPages(new PageImageText("info", "well.png"));
@@ -87,9 +87,7 @@ public class WorldClientProxy extends ClientProxy {
 			ManualRegistry.addSection("people", modSection).addSubSectionPages(new PageImageText("notch", "notch.png"), new PageImageText("farmer", "farmer.png"), new PageImageText("lumber", "lumber.png"), new PageImageText("miner", "miner.png"), new PageImageText("psycho", "psycho.png"), new PageImageText("suicide", "suicide.png"));
 		ManualRegistry.addSection("greed", modSection).addSubSectionPages(new PageCrafting("recipes", WorldItems.greed, 25));
 		ManualRegistry.addSection("glowseeds", modSection).addSubSectionPages(new PageCrafting("recipe", new ItemStack(WorldBlocks.glowstone_seeds)));
-		ManualRegistry.addSection("basic", modSection).addSubSectionPages(new PageCrafting("green", WorldBlocks.greenFungus, 25), new PageCrafting("color", WorldBlocks.coloredFungus, 15));
-		ManualRegistry.addSection("build", modSection).addSubSectionPages(new PageCrafting("build", WorldBlocks.buildingFungus, 15), new PageCrafting("maze", WorldBlocks.mazeFungusRecipe));
-		ManualRegistry.addSection("break", modSection).addSubSectionPages(new PageCrafting("kill", WorldBlocks.acidFungus, 25), new PageCrafting("blockEater", WorldBlocks.breakingFungus, 15), new PageCrafting("vert", WorldBlocks.vertFungus, 20));
+		ManualRegistry.addSection("fungus", modSection).addSubSectionPages(new PageCrafting("green", WorldBlocks.greenFungus, 25), new PageCrafting("color", WorldBlocks.coloredFungus, 15),new PageCrafting("build", WorldBlocks.buildingFungus, 15), new PageCrafting("maze", WorldBlocks.mazeFungusRecipe),new PageCrafting("kill", WorldBlocks.acidFungus, 25), new PageCrafting("blockEater", WorldBlocks.breakingFungus, 15), new PageCrafting("vert", WorldBlocks.vertFungus, 20));
 		ManualRegistry.addSection("fungicide", modSection).addSubSectionPages(new PageCrafting("fungicide", new ItemStack(WorldItems.fungicide)));
 	}
 
