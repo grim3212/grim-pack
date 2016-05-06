@@ -25,7 +25,7 @@ group= "com.grim3212.mc" // http://maven.apache.org/guides/mini/guide-naming-con
 archivesBaseName = "Grim Pack"
 
 minecraft {
-    version = "1.8.9-11.15.1.1855"
+    version = "1.8.9-11.15.1.1890-1.8.9"
     runDir = "run"
     
     // the mappings can be changed at any time, and must be in the following format.
