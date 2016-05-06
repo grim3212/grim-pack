@@ -13,14 +13,10 @@ public class DecorCommonProxy extends CommonProxy {
 	}
 	
 	@Override
-	protected void registerModels() {
+	public void registerModels() {
 	}
 	
 	@Override
-	protected void registerManual(ModSection modSection) {
-	}
-	
-	@Override
-	public void preInit(ModSection modSection) {
+	public void registerManual(ModSection modSection) {
 	}
 }

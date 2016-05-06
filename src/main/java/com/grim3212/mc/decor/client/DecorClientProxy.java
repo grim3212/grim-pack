@@ -50,7 +50,7 @@ public class DecorClientProxy extends DecorCommonProxy {
 	}
 
 	@Override
-	protected void registerModels() {
+	public void registerModels() {
 		MinecraftForge.EVENT_BUS.register(new ModelEvent());
 		ModelLoader.setCustomStateMapper(DecorBlocks.fireplace, new StateMap.Builder().ignore(BlockFireplace.ACTIVE).build());
 		ModelLoader.setCustomStateMapper(DecorBlocks.firepit, new StateMap.Builder().ignore(BlockFirepit.ACTIVE).build());
@@ -80,16 +80,16 @@ public class DecorClientProxy extends DecorCommonProxy {
 
 		ModelEvent.renderCustomModel(DecorItems.lamp_item, "inventory");
 		ModelEvent.renderCustomModel(DecorBlocks.stool, "inventory", "up=false", "up=true");
-		ModelEvent.renderCustomModel(DecorBlocks.fireplace, "inventory", "east=false,north=false,south=false,west=false", "east=false,north=true,south=false,west=false", "east=true,north=false,south=false,west=false", "east=false,north=false,south=true,west=false", "east=false,north=false,south=false,west=true", "east=true,north=true,south=false,west=false", "east=true,north=false,south=true,west=false", "east=false,north=false,south=true,west=true",
-				"east=false,north=true,south=false,west=true", "east=false,north=true,south=true,west=false", "east=true,north=false,south=false,west=true", "east=true,north=true,south=true,west=false", "east=true,north=false,south=true,west=true", "east=false,north=true,south=true,west=true", "east=true,north=true,south=false,west=true", "east=true,north=true,south=true,west=true");
+		ModelEvent.renderCustomModel(DecorBlocks.fireplace, "inventory", "east=false,north=false,south=false,west=false", "east=false,north=true,south=false,west=false", "east=true,north=false,south=false,west=false", "east=false,north=false,south=true,west=false", "east=false,north=false,south=false,west=true", "east=true,north=true,south=false,west=false", "east=true,north=false,south=true,west=false", "east=false,north=false,south=true,west=true", "east=false,north=true,south=false,west=true", "east=false,north=true,south=true,west=false", "east=true,north=false,south=false,west=true",
+				"east=true,north=true,south=true,west=false", "east=true,north=false,south=true,west=true", "east=false,north=true,south=true,west=true", "east=true,north=true,south=false,west=true", "east=true,north=true,south=true,west=true");
 		ModelEvent.renderCustomModel(DecorBlocks.chair, "inventory", "facing=north", "facing=south", "facing=west", "facing=east");
 		ModelEvent.renderCustomModel(DecorBlocks.wall, "inventory", "facing=north", "facing=south", "facing=west", "facing=east");
-		ModelEvent.renderCustomModel(DecorBlocks.fence, "inventory", "east=false,north=false,south=false,west=false", "east=false,north=true,south=false,west=false", "east=true,north=false,south=false,west=false", "east=false,north=false,south=true,west=false", "east=false,north=false,south=false,west=true", "east=true,north=true,south=false,west=false", "east=true,north=false,south=true,west=false", "east=false,north=false,south=true,west=true", "east=false,north=true,south=false,west=true",
-				"east=false,north=true,south=true,west=false", "east=true,north=false,south=false,west=true", "east=true,north=true,south=true,west=false", "east=true,north=false,south=true,west=true", "east=false,north=true,south=true,west=true", "east=true,north=true,south=false,west=true", "east=true,north=true,south=true,west=true");
-		ModelEvent.renderCustomModel(DecorBlocks.fence_gate, "inventory", "facing=south,open=false,powered=false", "facing=west,open=false,powered=false", "facing=north,open=false,powered=false", "facing=east,open=false,powered=false", "facing=south,open=true,powered=false", "facing=west,open=true,powered=false", "facing=north,open=true,powered=false", "facing=east,open=true,powered=false", "facing=south,open=false,powered=true", "facing=west,open=false,powered=true",
-				"facing=north,open=false,powered=true", "facing=east,open=false,powered=true", "facing=south,open=true,powered=true", "facing=west,open=true,powered=true", "facing=north,open=true,powered=true", "facing=east,open=true,powered=true");
-		ModelEvent.renderCustomModel(DecorBlocks.table, "inventory", "east=false,north=false,south=false,west=false", "east=false,north=true,south=false,west=false", "east=true,north=false,south=false,west=false", "east=false,north=false,south=true,west=false", "east=false,north=false,south=false,west=true", "east=true,north=true,south=false,west=false", "east=true,north=false,south=true,west=false", "east=false,north=false,south=true,west=true", "east=false,north=true,south=false,west=true",
-				"east=false,north=true,south=true,west=false", "east=true,north=false,south=false,west=true", "east=true,north=true,south=true,west=false", "east=true,north=false,south=true,west=true", "east=false,north=true,south=true,west=true", "east=true,north=true,south=false,west=true", "east=true,north=true,south=true,west=true");
+		ModelEvent.renderCustomModel(DecorBlocks.fence, "inventory", "east=false,north=false,south=false,west=false", "east=false,north=true,south=false,west=false", "east=true,north=false,south=false,west=false", "east=false,north=false,south=true,west=false", "east=false,north=false,south=false,west=true", "east=true,north=true,south=false,west=false", "east=true,north=false,south=true,west=false", "east=false,north=false,south=true,west=true", "east=false,north=true,south=false,west=true", "east=false,north=true,south=true,west=false", "east=true,north=false,south=false,west=true",
+				"east=true,north=true,south=true,west=false", "east=true,north=false,south=true,west=true", "east=false,north=true,south=true,west=true", "east=true,north=true,south=false,west=true", "east=true,north=true,south=true,west=true");
+		ModelEvent.renderCustomModel(DecorBlocks.fence_gate, "inventory", "facing=south,open=false,powered=false", "facing=west,open=false,powered=false", "facing=north,open=false,powered=false", "facing=east,open=false,powered=false", "facing=south,open=true,powered=false", "facing=west,open=true,powered=false", "facing=north,open=true,powered=false", "facing=east,open=true,powered=false", "facing=south,open=false,powered=true", "facing=west,open=false,powered=true", "facing=north,open=false,powered=true", "facing=east,open=false,powered=true", "facing=south,open=true,powered=true",
+				"facing=west,open=true,powered=true", "facing=north,open=true,powered=true", "facing=east,open=true,powered=true");
+		ModelEvent.renderCustomModel(DecorBlocks.table, "inventory", "east=false,north=false,south=false,west=false", "east=false,north=true,south=false,west=false", "east=true,north=false,south=false,west=false", "east=false,north=false,south=true,west=false", "east=false,north=false,south=false,west=true", "east=true,north=true,south=false,west=false", "east=true,north=false,south=true,west=false", "east=false,north=false,south=true,west=true", "east=false,north=true,south=false,west=true", "east=false,north=true,south=true,west=false", "east=true,north=false,south=false,west=true",
+				"east=true,north=true,south=true,west=false", "east=true,north=false,south=true,west=true", "east=false,north=true,south=true,west=true", "east=true,north=true,south=false,west=true", "east=true,north=true,south=true,west=true");
 
 		// ITEMS
 		RenderHelper.renderItem(DecorItems.glass_shard);
@@ -120,28 +120,14 @@ public class DecorClientProxy extends DecorCommonProxy {
 	}
 
 	@Override
-	protected void registerManual(ModSection modSection) {
-		ManualRegistry.addSection("calendar", modSection).addSubSectionPages(new PageCrafting("calendar", new ItemStack(DecorBlocks.calendar)));
-		ManualRegistry.addSection("wall", modSection).addSubSectionPages(new PageCrafting("clock", DecorBlocks.clocks, 20));
-		ManualRegistry.addSection("lights", modSection).addSubSectionPages(new PageCrafting("recipes", DecorBlocks.lights, 25));
+	public void registerManual(ModSection modSection) {
 		ManualRegistry.addSection("intro", modSection).addSubSectionPages(new PageInfo("fancy"), new PageCrafting("moss", DecorBlocks.mossy), new PageCrafting("stone", DecorBlocks.stone, 25), new PageFurnace("road", new ItemStack(Blocks.gravel)));
-		ManualRegistry.addSection("deco", modSection).addSubSectionPages(new PageCrafting("cage", DecorBlocks.chains, 20), new PageCrafting("lantern", RecipeHelper.getAllIRecipesForItem(new ItemStack(DecorBlocks.lantern)), 20), new PageCrafting("crafts", DecorBlocks.crafts, 25), new PageFurnace("firing", new ItemStack[] { new ItemStack(DecorItems.unfired_craft), new ItemStack(DecorItems.unfired_pot) }, 20));
+		ManualRegistry.addSection("hanging", modSection).addSubSectionPages(new PageCrafting("calendar", new ItemStack(DecorBlocks.calendar)), new PageCrafting("clock", DecorBlocks.clocks, 20), new PageInfo("wallpaperinfo"), new PageCrafting("wallpaper", new ItemStack(DecorItems.wallpaper)), new PageImageText("frameinfo", "framesInfoPage.png"), new PageCrafting("frames", DecorItems.frames, 25));
+		ManualRegistry.addSection("deco", modSection).addSubSectionPages(new PageCrafting("cage", DecorBlocks.chains, 20), new PageCrafting("lantern", RecipeHelper.getAllIRecipesForItem(new ItemStack(DecorBlocks.lantern)), 20), new PageCrafting("crafts", DecorBlocks.crafts, 25), new PageFurnace("firing", new ItemStack[] { new ItemStack(DecorItems.unfired_craft), new ItemStack(DecorItems.unfired_pot) }, 20), new PageCrafting("lights", DecorBlocks.lights, 25));
 		ManualRegistry.addSection("furniture", modSection).addSubSectionPages(new PageCrafting("table", RecipeHelper.getAllIRecipesForItem(new ItemStack(DecorBlocks.table)), 15), new PageCrafting("chair", RecipeHelper.getAllIRecipesForItem(new ItemStack(DecorBlocks.chair)), 15), new PageCrafting("stool", RecipeHelper.getAllIRecipesForItem(new ItemStack(DecorBlocks.stool)), 15), new PageCrafting("counter", RecipeHelper.getAllIRecipesForItem(new ItemStack(DecorBlocks.counter)), 15));
 		ManualRegistry.addSection("other", modSection).addSubSectionPages(new PageCrafting("fence", RecipeHelper.getAllIRecipesForItem(new ItemStack(DecorBlocks.fence)), 15), new PageCrafting("fencegate", RecipeHelper.getAllIRecipesForItem(new ItemStack(DecorBlocks.fence_gate)), 15), new PageCrafting("wall", RecipeHelper.getAllIRecipesForItem(new ItemStack(DecorBlocks.wall)), 20));
-		ManualRegistry.addSection("fireplace", modSection).addSubSectionPages(new PageCrafting("fireplace", RecipeHelper.getAllIRecipesForItem(new ItemStack(DecorBlocks.fireplace)), 15));
-		ManualRegistry.addSection("stove", modSection).addSubSectionPages(new PageCrafting("stove", RecipeHelper.getAllIRecipesForItem(new ItemStack(DecorBlocks.stove)), 15));
-		ManualRegistry.addSection("firepit", modSection).addSubSectionPages(new PageCrafting("firepit", RecipeHelper.getAllIRecipesForItem(new ItemStack(DecorBlocks.firepit)), 15));
-		ManualRegistry.addSection("firering", modSection).addSubSectionPages(new PageCrafting("firering", RecipeHelper.getAllIRecipesForItem(new ItemStack(DecorBlocks.firering)), 15));
+		ManualRegistry.addSection("fires", modSection).addSubSectionPages(new PageCrafting("fireplace", RecipeHelper.getAllIRecipesForItem(new ItemStack(DecorBlocks.fireplace)), 15),new PageCrafting("chimney", RecipeHelper.getAllIRecipesForItem(new ItemStack(DecorBlocks.chimney)), 15), new PageCrafting("stove", RecipeHelper.getAllIRecipesForItem(new ItemStack(DecorBlocks.stove)), 15),new PageCrafting("firepit", RecipeHelper.getAllIRecipesForItem(new ItemStack(DecorBlocks.firepit)), 15),new PageCrafting("firering", RecipeHelper.getAllIRecipesForItem(new ItemStack(DecorBlocks.firering)), 15));
 		ManualRegistry.addSection("grill", modSection).addSubSectionPages(new PageCrafting("grill", RecipeHelper.getAllIRecipesForItem(new ItemStack(DecorBlocks.grill)), 15));
-		ManualRegistry.addSection("chimney", modSection).addSubSectionPages(new PageCrafting("chimney", RecipeHelper.getAllIRecipesForItem(new ItemStack(DecorBlocks.chimney)), 15));
-		ManualRegistry.addSection("frames", modSection).addSubSectionPages(new PageCrafting("frames", DecorItems.frames, 25), new PageImageText("info", "framesInfoPage.png"));
 		ManualRegistry.addSection("lamps", modSection).addSubSectionPages(new PageCrafting("recipes", RecipeHelper.getAllIRecipesForItem(new ItemStack(DecorItems.lamp_item)), 10));
-		ManualRegistry.addSection("wallpaper", modSection).addSubSectionPages(new PageInfo("info"), new PageCrafting("recipe", new ItemStack(DecorItems.wallpaper)));
-	}
-
-	@Override
-	public void preInit(ModSection modSection) {
-		registerModels();
-		registerManual(modSection);
 	}
 }

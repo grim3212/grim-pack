@@ -56,52 +56,83 @@ item.lamp_item.name=Lamp Post
 
 #================= INSTRUCTION MANUAL =================#
 grim.manual.grimdecor.modinfo=Adds in many different decorative items and blocks to spice up your Minecraft world.
-grim.manual.grimdecor.subsection.calendar=Calendar
-grim.manual.grimdecor.subsection.calendar.page.calendar=Using some paper you can craft the calendar which will tell you the date and day of the week in your Minecraft world and you can hang it on the wall.
-grim.manual.grimdecor.subsection.calendar.page.calendar.title=Crafting
-grim.manual.grimdecor.subsection.wall=Wall Clock
-grim.manual.grimdecor.subsection.wall.page.clock=The Wall Clock is a block that works the same as a clock and displays the same type of texture as the clock too.
-grim.manual.grimdecor.subsection.wall.page.clock.title=Recipe
-grim.manual.grimdecor.subsection.lights=Light Bulbs
-grim.manual.grimdecor.subsection.lights.page.recipes=Light Bulbs are used to light up your world. They can be controlled by redstone and are placed underneath blocks. When broken you recieve glass shards which can be crafted back into glass.
-grim.manual.grimdecor.subsection.lights.page.recipes.title=Recipes
-grim.manual.grimdecor.subsection.frames=Frames
-grim.manual.grimdecor.subsection.frames.page.frames=The frames added in are wooden and iron. Once crafted right click to place on a wall to place them and right click them with another frame in your hand to switch between display types.  
-grim.manual.grimdecor.subsection.frames.page.frames.title=Recipes
-grim.manual.grimdecor.subsection.frames.page.info=The frames can also have the block they are placed on be removed and they will stay there. Their is a config option if the wooden frames can burn and also one for dying frames. To dye a frame you just need to right click with a dye in your hand on them. To break frames use an axe for wooden and a pickaxe for the iron.
-grim.manual.grimdecor.subsection.frames.page.info.title=More Info
-grim.manual.grimdecor.subsection.wallpaper=Wallpaper
-grim.manual.grimdecor.subsection.wallpaper.page.info=Wallpaper gives you many options to decorate your home with. By default you have 24 options but it is configurable so you can add your own. You also can change the width of the wallpaper too.<br>Other than just the default wallpaper you can also dye them by right clicking on a placed wallpaper with dye, if you would like to clear the wallpaper use Bonemeal.<br>Dying wallpaper is configurable and so is the option if wallpaper can catch on fire which if on fire will char the wallpaper and its surrounding paper which can then be cleaned with Bonemeal.
-grim.manual.grimdecor.subsection.wallpaper.page.info.title=Information
-grim.manual.grimdecor.subsection.wallpaper.page.recipe=To place wallpaper just right click on a wall with a wallpaper item. Right click on it again and it will cycle through the available options. When placed next to other wallpaper it will take on the texture of the surrounding wallpaper.
-grim.manual.grimdecor.subsection.wallpaper.page.recipe.title=Recipe
-grim.manual.grimdecor.subsection.intro=Introduction
-grim.manual.grimdecor.subsection.intro.page.fancy=This mod adds many options to <f>4<f>ldecorate <f>0<f>r your house or other buildings with. <br>It adds furniture like chairs, tables, and stools, to a more expanded range of fences to choose from. This mod also includes other things like chains and cages to crafts which can cycle through many different display types. <br>Tables, Chairs, Counters, Walls, Stools, Chimneys, Fences, and Fence Gates can all be crafted out of all solid blocks in the game (even mods). <br>Go through this mods section and find out all their is to do with the Fancy Pack mod. 
-grim.manual.grimdecor.subsection.intro.page.fancy.title=Info
-grim.manual.grimdecor.subsection.intro.page.moss=This mod has many options of furniture that involve mossy cobblestone, as a result a recipe has been added to compensate.
-grim.manual.grimdecor.subsection.intro.page.moss.title=Mossy Cobblestone
-grim.manual.grimdecor.subsection.intro.page.stone=One of the new blocks that this mod adds is Fancy Stone which looks quite nice. Fancy Stone can also be converted back into stone if you like.
-grim.manual.grimdecor.subsection.intro.page.stone.title=Stone
-grim.manual.grimdecor.subsection.intro.page.road=Another new block that the FancyPack adds is the road block, which looks better then gravel roads and also gives a nice speed boost when walking on it.
-grim.manual.grimdecor.subsection.intro.page.road.title=Roads
+#Start Hanging
+grim.manual.grimdecor.subsection.hanging=Hangeables
+grim.manual.grimdecor.subsection.hanging.page.calendar=Need to know how long you've been in your Minecraft world or when to get more porkchops. If you do then the calendar will help keep track of those things for you.
+grim.manual.grimdecor.subsection.hanging.page.calendar.title=Crafting
+grim.manual.grimdecor.subsection.hanging.page.clock=If you also would like to display the current time on the wall then use a wall clock.
+grim.manual.grimdecor.subsection.hanging.page.clock.title=Recipe
+grim.manual.grimdecor.subsection.hanging.page.wallpaperinfo=Are your walls lacking substance? Maybe they need some wallpaper. Wallpaper gives you many options to decorate your home with. By default you have 24 different designs. <br>Other than just the default wallpaper you can also dye them by right clicking on a placed wallpaper with dye, if you would like to clear the wallpaper use Bonemeal. <br>If your house even catches on fire remember that you can remove the burned look from wallpaper.
+grim.manual.grimdecor.subsection.hanging.page.wallpaperinfo.title=Information
+grim.manual.grimdecor.subsection.hanging.page.wallpaper=Once placed right click on it again and it will cycle through the available options. When placed next to other wallpaper it will try and take on the texture of the surrounding wallpaper.
+grim.manual.grimdecor.subsection.hanging.page.wallpaper.title=Recipe
+grim.manual.grimdecor.subsection.hanging.page.frameinfo=If you would also like to add depth to your house then frames are for you. Frames come in either wood or iron. <br>Frames are stronger then wallpaper so if their supporting block is removed they will still be there. To dye a frame you just need to right click with a dye in your hand on them. To break frames use an axe for wooden and a pickaxe for the iron.
+grim.manual.grimdecor.subsection.hanging.page.frameinfo.title=More Info
+grim.manual.grimdecor.subsection.hanging.page.frames=Similar to wallpaper, once placed keep right clicking for available patterns. 
+grim.manual.grimdecor.subsection.hanging.page.frames.title=Recipes
+#End Hanging
+
+#Start Fires
+grim.manual.grimdecor.subsection.fires=Fireplaces
+grim.manual.grimdecor.subsection.fires.page.fireplace=Fireplaces when right clicked with Flint and Steel burns and provides light, punch to put it out. Chimneys produce smoke when on top of a lit fireplace. Fireplaces also re-orient their corner posts when multiple are placed next to each other.
+grim.manual.grimdecor.subsection.fires.page.fireplace.title=Fireplace
+grim.manual.grimdecor.subsection.fires.page.chimney=Chimneys produce smoke when placed on top of either a Fireplace or Stove and can be stacked on top of each other. 
+grim.manual.grimdecor.subsection.fires.page.chimney.title=Chimney
+grim.manual.grimdecor.subsection.fires.page.stove=Stoves, like fireplaces, when right clicked with Flint and Steel lights up with fire and you can punch it to put it out. Chimneys produce smoke when on top of a lit stove.
+grim.manual.grimdecor.subsection.fires.page.stove.title=Stove
+grim.manual.grimdecor.subsection.fires.page.firepit=Firepits when right clicked with Flint and Steel lights up with fire and you can punch it to put it out. Firepits can also have a protective net around them.
+grim.manual.grimdecor.subsection.fires.page.firepit.title=Firepit
+grim.manual.grimdecor.subsection.fires.page.firering=Firerings are great for ghost stories. Firerings when right clicked with Flint and Steel lights up with fire and you can punch it to put it out.
+grim.manual.grimdecor.subsection.fires.page.firering.title=Firering
+#End Fires
+
+grim.manual.grimdecor.subsection.grill=Grills
+grim.manual.grimdecor.subsection.grill.page.grill=Want to cook some burgers for you and your friends on a grill. You will first need to add coal or charcoal into the fuel slot then light the grill with Flint and Steel and then place in the food you want to cook.
+grim.manual.grimdecor.subsection.grill.page.grill.title=Recipe
+
+grim.manual.grimdecor.subsection.lamps=Lamp Posts
+grim.manual.grimdecor.subsection.lamps.page.recipes=Lamp Post are crafted like so and once placed form a 3 block high structure. Only the top block emits light.
+grim.manual.grimdecor.subsection.lamps.page.recipes.title=Recipes
+
+#Start Decorations
 grim.manual.grimdecor.subsection.deco=Decoration
-grim.manual.grimdecor.subsection.deco.page.cage=The Fancy Pack adds in cages and chains to decorate your house if you like a dark or even evil feel for your building.
+grim.manual.grimdecor.subsection.deco.page.cage=Cages and chains to give off a dark or even evil feel.
 grim.manual.grimdecor.subsection.deco.page.cage.title=Cages
-grim.manual.grimdecor.subsection.deco.page.lantern=The Fancy Pack also adds in different lighting choices besides torches. These include bone, iron, and paper lanterns.
+grim.manual.grimdecor.subsection.deco.page.lantern=If you ever found torches a bit bland then lanterns will come in handy. These include bone, iron, and paper lanterns.
 grim.manual.grimdecor.subsection.deco.page.lantern.title=Lanterns
 grim.manual.grimdecor.subsection.deco.page.crafts=Their are 3 basic crafts, the bone and clay crafts and the clay pot. The bone craft is ready after you are done crafting it and once placed right clicking it will cycle through various display types. The Unfired Clay Decoration and the Uncooked Clay Pot will need to be put into a furnace to be completed.
 grim.manual.grimdecor.subsection.deco.page.crafts.title=Decorations
-grim.manual.grimdecor.subsection.deco.page.firing=As said previously the Uncooked Clay Pot and Decoration needed to be cooked to be ready. Both blocks when right clicked, after placed, will switch through different display types. As you switch display types the pot will be able to support those type of plants on top. Also something special happens when a pot is placed on a stool (talked about later).
+grim.manual.grimdecor.subsection.deco.page.firing=Uncooked decorations will need to be fired to use. Both blocks when right clicked, after placed, will switch through different display types. As you switch display types the pot will be able to support those type of plants on top. Also something special happens when a pot is placed on a stool.
 grim.manual.grimdecor.subsection.deco.page.firing.title=Firing Clay
+grim.manual.grimdecor.subsection.deco.page.lights=Besides lanterns, light bulbs can be made to feel more modern. They can be controlled by redstone and are placed underneath blocks. When broken you receive glass shards which can be crafted back into glass.
+grim.manual.grimdecor.subsection.deco.page.lights.title=Light Bulbs
+#End Decorations
+
+#Start introduction
+grim.manual.grimdecor.subsection.intro=Introduction
+grim.manual.grimdecor.subsection.intro.page.fancy=Did you need more options to <f>4<f>ldecorate<f>0<f>r your house or other buildings with. <br>This gives you that ability. This adds furniture like chairs, tables, and stools, to a more expanded range of fences to choose from. Many types of fireplaces calendars and more for you to find out. <br>Many of the blocks added allow for an almost unlimited range using many of the blocks around you.
+grim.manual.grimdecor.subsection.intro.page.fancy.title=Info
+grim.manual.grimdecor.subsection.intro.page.moss=Furniture that involve mossy cobblestone looks nice but mossy stone is hard to come by. As a result a recipe has been added to compensate.
+grim.manual.grimdecor.subsection.intro.page.moss.title=Mossy Cobblestone
+grim.manual.grimdecor.subsection.intro.page.stone=One of the new blocks that this mod adds is Fancy Stone which looks quite nice. Fancy Stone can also be converted back into stone if you like.
+grim.manual.grimdecor.subsection.intro.page.stone.title=Stone
+grim.manual.grimdecor.subsection.intro.page.road=A Road block, which looks better then gravel, allows for you to quickly travel through the world by increasing your walking speed (similar to industries sidewalk). Try not to break an ankle.
+grim.manual.grimdecor.subsection.intro.page.road.title=Roads
+#End introduction
+
+#Start Furniture
 grim.manual.grimdecor.subsection.furniture=Furniture
-grim.manual.grimdecor.subsection.furniture.page.table=The Fancy Pack adds in tables as part of some of the new furniture. Tables when placed to one another automatically place the legs at the correct positions for a table.
+grim.manual.grimdecor.subsection.furniture.page.table=Tables are part of some of the new furniture. Tables when placed to one another automatically place the legs at the correct positions for a table so you can have enough room to eat your cereal.
 grim.manual.grimdecor.subsection.furniture.page.table.title=Tables
-grim.manual.grimdecor.subsection.furniture.page.chair=The Fancy Pack also adds in chairs to go with your tables. These chairs re-orient depending on which way you place them. 
+grim.manual.grimdecor.subsection.furniture.page.chair=Chairs go with your tables. These chairs re-orient depending on which way you place them. 
 grim.manual.grimdecor.subsection.furniture.page.chair.title=Chairs
 grim.manual.grimdecor.subsection.furniture.page.stool=Stools are smaller than chairs and go quite well when a clay pot is placed on top of them.
 grim.manual.grimdecor.subsection.furniture.page.stool.title=Stools
 grim.manual.grimdecor.subsection.furniture.page.counter=Counters are like the tables except without the legs so they just kinda float there.
 grim.manual.grimdecor.subsection.furniture.page.counter.title=Counters
+#End Furniture
+
+#Start Other
 grim.manual.grimdecor.subsection.other=Other
 grim.manual.grimdecor.subsection.other.page.fence=Fences are like regular fences except they do not attach to vanilla fences but do attach to the new fence gates added. There is also some overlap with the fences already in Minecraft.
 grim.manual.grimdecor.subsection.other.page.fence.title=Fences
@@ -109,26 +140,4 @@ grim.manual.grimdecor.subsection.other.page.fencegate=Fence Gates act like vanil
 grim.manual.grimdecor.subsection.other.page.fencegate.title=Fence Gates
 grim.manual.grimdecor.subsection.other.page.wall=Walls are basically counters but on their side and these like chairs re-orient depending on the direction they were placed from.
 grim.manual.grimdecor.subsection.other.page.wall.title=Walls
-grim.manual.grimdecor.subsection.other.page.chimney=Chimneys are a nice block for decorating houses and even emit smoke.
-grim.manual.grimdecor.subsection.other.page.chimney.title=Chimneys
-grim.manual.grimdecor.subsection.lamps=Lamp Posts
-grim.manual.grimdecor.subsection.lamps.page.recipes=Lamp Post are crafted like so and once placed form a 3 block high structure. Only the top block emits light.
-grim.manual.grimdecor.subsection.lamps.page.recipes.title=Recipes
-grim.manual.grimdecor.subsection.fireplace=Fireplaces
-grim.manual.grimdecor.subsection.fireplace.page.fireplace=One block added by this mod is Fireplaces. Fireplaces are purely aesthetic and when right clicked with Flint and Steel burns and provides light, punch to put it out. Chimneys produce smoke when on top of a lit fireplace. Fireplaces also re-orient their corner posts when multiple are placed next to each other.
-grim.manual.grimdecor.subsection.fireplace.page.fireplace.title=Recipe
-grim.manual.grimdecor.subsection.stove=Stoves
-grim.manual.grimdecor.subsection.stove.page.stove=Stoves are also added which is another aesthetic block and when right clicked with Flint and Steel the block lights up with fire and you can punch it to put it out. Chimneys produce smoke when on top of a lit stove.
-grim.manual.grimdecor.subsection.stove.page.stove.title=Recipe
-grim.manual.grimdecor.subsection.firepit=Firepits
-grim.manual.grimdecor.subsection.firepit.page.firepit=Firepits are also added which is another aesthetic block and when right clicked with Flint and Steel the block lights up with fire and you can punch it to put it out. Chimneys do not produce smoke when on top of a lit Firepit. Firepits also have a config option for turning on or off the steel net around them.
-grim.manual.grimdecor.subsection.firepit.page.firepit.title=Recipe
-grim.manual.grimdecor.subsection.firering=Firerings
-grim.manual.grimdecor.subsection.firering.page.firering=Firerings are also added which is another aesthetic block and when right clicked with Flint and Steel the block lights up with fire and you can punch it to put it out. Chimneys do not produce smoke when on top of a lit Firering.
-grim.manual.grimdecor.subsection.firering.page.firering.title=Recipe
-grim.manual.grimdecor.subsection.grill=Grills
-grim.manual.grimdecor.subsection.grill.page.grill=Grills are added which are a block to help you cook various items like food. You will first need to add coal or charcoal into the fuel slot then light the grill with Flint and Steel and then place in the food you want to cook. Each slot can only hold one at a time. The grill also has a config option to have infinite fuel and a config option where you can input your own grill recipes explained there. 
-grim.manual.grimdecor.subsection.grill.page.grill.title=Recipe
-grim.manual.grimdecor.subsection.chimney=Chimneys
-grim.manual.grimdecor.subsection.chimney.page.chimney=Chimneys are another aesthetic block which produces smoke when placed on top of either a Fireplace or Stove and can be stacked on top of each other. 
-grim.manual.grimdecor.subsection.chimney.page.chimney.title=Recipe
+#End Other

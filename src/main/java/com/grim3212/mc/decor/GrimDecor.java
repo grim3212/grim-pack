@@ -54,13 +54,14 @@ public class GrimDecor extends GrimPart {
 
 		PacketDispatcher.registerMessage(MessageParticles.class);
 
-		proxy.preInit(getModSection());
+		proxy.registerModels();
 	}
 
 	@Override
 	@EventHandler
 	public void init(FMLInitializationEvent event) {
 		super.init(event);
+		proxy.registerManual(getModSection());
 	}
 
 	@Override
