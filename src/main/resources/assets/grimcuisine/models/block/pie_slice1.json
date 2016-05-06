@@ -1,10 +1,8 @@
 {
     "textures": {
-        "particle": "grimcuisine:blocks/chocolate_pie_top",
+        "particle": "#top",
         "bottom": "grimcuisine:blocks/pie_bottom",
-        "top": "grimcuisine:blocks/chocolate_pie_top",
-        "side": "grimcuisine:blocks/pie_side",
-        "inside": "grimcuisine:blocks/chocolate_pie_cut"
+        "side": "grimcuisine:blocks/pie_side"
     },
     "elements": [
         {   "from": [ 3, 0, 1 ],

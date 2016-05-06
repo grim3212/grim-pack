@@ -1,5 +1,11 @@
 {
+	"forge_marker": 1,
+    "defaults": {
+		"transform": "forge:default-block",
+		"model": "grimcuisine:cocoa_block"
+    },
 	"variants": {
-		"normal": { "model": "grimcuisine:cocoa_block" }
+		"normal": [{}],
+		"inventory": [{}]
 	}
 }

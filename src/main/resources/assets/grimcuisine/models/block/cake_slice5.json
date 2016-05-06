@@ -1,10 +1,6 @@
 {
     "textures": {
-        "particle": "grimcuisine:blocks/chocolate_cake_side",
-        "bottom": "grimcuisine:blocks/chocolate_cake_bottom",
-        "top": "grimcuisine:blocks/chocolate_cake_top",
-        "side": "grimcuisine:blocks/chocolate_cake_side",
-        "inside": "grimcuisine:blocks/chocolate_cake_sidecut"
+        "particle": "#side"
     },
     "elements": [
         {   "from": [ 11, 0, 1 ],

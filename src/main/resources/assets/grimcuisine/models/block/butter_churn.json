@@ -1,7 +1,0 @@
-{
-	"parent": "block/cube_top",
-	"textures": {
-		"top": "grimcuisine:blocks/butter_churn_top",
-		"side": "grimcuisine:blocks/butter_churn_side"
-	}
-}

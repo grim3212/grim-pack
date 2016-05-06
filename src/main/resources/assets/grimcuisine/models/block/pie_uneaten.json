@@ -1,8 +1,7 @@
 {
     "textures": {
-        "particle": "grimcuisine:blocks/melon_pie_top",
+        "particle": "#top",
         "bottom": "grimcuisine:blocks/pie_bottom",
-        "top": "grimcuisine:blocks/melon_pie_top",
         "side": "grimcuisine:blocks/pie_side"
     },
     "elements": [

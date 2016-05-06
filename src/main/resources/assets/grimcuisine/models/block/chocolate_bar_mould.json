@@ -1,12 +1,9 @@
 {
-
-"textures": {
-        "particle": "grimcuisine:blocks/chocolate_bar_mould",
-        "top": "grimcuisine:blocks/chocolate_bar_mould",
-        "side": "blocks/furnace_side"
-    },
-
-"elements": [ 
+	"textures": {
+		"particle": "grimcuisine:blocks/chocolate_bar_mould",
+		"side": "blocks/furnace_side"
+	},
+	"elements": [ 
 		{
 	    "from": [ 1, 0, 1 ],
 	    "to": [ 15, 8, 15 ],

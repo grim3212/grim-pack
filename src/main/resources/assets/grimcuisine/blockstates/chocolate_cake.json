@@ -1,11 +1,25 @@
 {
-    "variants": {
-        "bites=0": { "model": "grimcuisine:chocolate_cake_uneaten" },
-        "bites=1": { "model": "grimcuisine:chocolate_cake_slice1" },
-        "bites=2": { "model": "grimcuisine:chocolate_cake_slice2" },
-        "bites=3": { "model": "grimcuisine:chocolate_cake_slice3" },
-        "bites=4": { "model": "grimcuisine:chocolate_cake_slice4" },
-        "bites=5": { "model": "grimcuisine:chocolate_cake_slice5" },
-        "bites=6": { "model": "grimcuisine:chocolate_cake_slice6" }
-    }
+	"forge_marker": 1,
+    "defaults": {
+		"transform": "forge:default-block",
+		"model": "grimcuisine:cake_uneaten",
+		"textures": {
+			"bottom": "grimcuisine:blocks/chocolate_cake_bottom",
+			"top": "grimcuisine:blocks/chocolate_cake_top",
+			"side": "grimcuisine:blocks/chocolate_cake_side",
+			"inside": "grimcuisine:blocks/chocolate_cake_sidecut"
+		}
+    },
+	"variants": {
+		"bites": {
+			"0": { },
+			"1": { "model": "grimcuisine:cake_slice1" },
+			"2": { "model": "grimcuisine:cake_slice2" },
+			"3": { "model": "grimcuisine:cake_slice3" },
+			"4": { "model": "grimcuisine:cake_slice4" },
+			"5": { "model": "grimcuisine:cake_slice5" },
+			"6": { "model": "grimcuisine:cake_slice6" }
+		},
+		"inventory": [{}]
+	}
 }

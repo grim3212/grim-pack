@@ -1,7 +1,5 @@
 package com.grim3212.mc.cuisine.block;
 
-import java.util.List;
-
 import com.grim3212.mc.core.part.IPartItems;
 import com.grim3212.mc.core.util.RecipeHelper;
 import com.grim3212.mc.cuisine.GrimCuisine;
@@ -11,7 +9,6 @@ import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.IRecipe;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 
@@ -30,8 +27,6 @@ public class CuisineBlocks implements IPartItems {
 	public static Block pumpkin_pie;
 	public static Block chocolate_pie;
 	public static Block pork_pie;
-
-	public static List<IRecipe> cakes;
 
 	@Override
 	public void initItems() {
@@ -78,8 +73,6 @@ public class CuisineBlocks implements IPartItems {
 		CuisineItems.cheeseRecipe.add(RecipeHelper.getLatestIRecipe());
 
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(chocolate_cake, 1), new Object[] { "BXB", "SES", "WWW", 'B', CuisineItems.chocolate_ball, 'X', Items.milk_bucket, 'S', Items.sugar, 'E', "egg", 'W', "cropWheat" }));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(chocolate_cake, 1), new Object[] { "BXB", "SES", "WWW", 'B', CuisineItems.chocolate_ball, 'X', "bowlMilk", 'S', Items.sugar, 'E', "egg", 'W', "cropWheat" }));
-		cakes = RecipeHelper.getLatestIRecipes(2);
 
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(chocolate_block, 1), new Object[] { "XXX", "XXX", "XXX", 'X', CuisineItems.chocolate_bar }));
 		CuisineItems.choc.add(RecipeHelper.getLatestIRecipe());

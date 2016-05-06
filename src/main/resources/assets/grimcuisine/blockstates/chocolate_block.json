@@ -1,5 +1,14 @@
 {
+	"forge_marker": 1,
+    "defaults": {
+		"transform": "forge:default-block",
+		"model": "cube_all",
+		"textures": {
+			"all": "grimcuisine:blocks/chocolate_block"
+		}
+    },
 	"variants": {
-		"normal": { "model": "grimcuisine:chocolate_block" }
+		"normal": [{}],
+		"inventory": [{}]
 	}
 }

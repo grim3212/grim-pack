@@ -1,11 +1,23 @@
 {
-    "variants": {
-        "bites=0": { "model": "grimcuisine:pumpkin_pie_uneaten" },
-        "bites=1": { "model": "grimcuisine:pumpkin_pie_slice1" },
-        "bites=2": { "model": "grimcuisine:pumpkin_pie_slice2" },
-        "bites=3": { "model": "grimcuisine:pumpkin_pie_slice3" },
-        "bites=4": { "model": "grimcuisine:pumpkin_pie_slice4" },
-        "bites=5": { "model": "grimcuisine:pumpkin_pie_slice5" },
-        "bites=6": { "model": "grimcuisine:pumpkin_pie_slice6" }
-    }
+	"forge_marker": 1,
+    "defaults": {
+		"transform": "forge:default-block",
+		"model": "grimcuisine:pie_uneaten",
+		"textures": {
+			"top": "grimcuisine:blocks/pumpkin_pie_top",
+			"inside": "grimcuisine:blocks/pumpkin_pie_cut"
+		}
+    },
+	"variants": {
+		"bites": {
+			"0": { },
+			"1": { "model": "grimcuisine:pie_slice1" },
+			"2": { "model": "grimcuisine:pie_slice2" },
+			"3": { "model": "grimcuisine:pie_slice3" },
+			"4": { "model": "grimcuisine:pie_slice4" },
+			"5": { "model": "grimcuisine:pie_slice5" },
+			"6": { "model": "grimcuisine:pie_slice6" }
+		},
+		"inventory": [{}]
+	}
 }
