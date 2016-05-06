@@ -1,0 +1,16 @@
+{
+	"forge_marker": 1,
+    "defaults": {
+		"transform": "forge:default-block",
+        "model": "cube_bottom_top",
+		"textures": {
+			"top": "grimindustry:blocks/rway_light_off",
+			"side": "grimindustry:blocks/rway_side",
+			"bottom": "blocks/stone"
+		}
+    },
+    "variants": {
+        "normal": [{}],
+		"inventory": [{}]
+    }
+}

@@ -1,0 +1,34 @@
+{
+	"forge_marker": 1,
+    "defaults": {
+		"transform": "forge:default-block",
+        "model": "grimindustry:sensor",
+		"textures": {
+			"side": "grimindustry:blocks/iron_sensor_side",
+			"active": "grimindustry:blocks/iron_sensor_off"
+		}
+    },
+	"variants": {
+		"active": { 
+			"false": {
+				"textures": {
+					"active": "grimindustry:blocks/iron_sensor_off"
+				}
+			},
+			"true": {
+				"textures": {
+					"active": "grimindustry:blocks/iron_sensor_on"
+				}
+			}
+		},
+		"facing": { 
+			"north": { },
+			"south": { "y": 180 },
+			"east": { "y": 90 },
+			"west": { "y": 270 },
+			"up": { "model": "grimindustry:sensor_up" },
+			"down": { "model": "grimindustry:sensor_up", "x": 180 }
+		},
+		"inventory": [{ }]
+	}
+}

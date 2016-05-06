@@ -1,0 +1,37 @@
+{
+	"forge_marker": 1,
+    "defaults": {
+		"transform": "forge:default-block",
+        "model": "cross"
+    },
+	"variants": {
+		"active": { 
+			"false": {
+				"textures": {
+					"cross": "grimindustry:blocks/spike"
+				}
+			},
+			"true": {
+				"textures": {
+					"cross": "grimindustry:blocks/spike_active"
+				}
+			}
+		},
+		"facing": { 
+			"north": { "x": 90 },
+			"south": { "x": 90, "y": 180 },
+			"east": { "x": 90, "y": 90 },
+			"west": { "x": 90, "y": 270 },
+			"up": {},
+			"down": { "x": 180 }
+		},
+		"inventory": [{ 
+			"model": "builtin/generated",
+			"transform": "forge:default-item",
+			"textures": {
+				"layer0": "grimindustry:blocks/spike_active"
+			}
+		}]
+	}
+}
+

@@ -1,0 +1,44 @@
+{
+	"forge_marker": 1,
+    "defaults": {
+		"transform": "forge:default-block",
+        "model": "cube_top",
+		"textures": {
+			"top": "grimindustry:blocks/ice_maker_top_active",
+			"side": "blocks/furnace_side"
+		}
+    },
+	"variants": {
+		"stage": { 
+			"0": {
+				"textures": { 
+					"top": "grimindustry:blocks/ice_maker_top_empty" 
+				} 
+			},
+			"1": {},
+			"2": {},
+			"3": {},
+			"4": {},
+			"5": {},
+			"6": {},
+			"7": {},
+			"8": {},
+			"9": {},
+			"10": {},
+			"11": {},
+			"12": {},
+			"13": {},
+			"14": {},
+			"15": {
+				"textures": { 
+					"top": "grimindustry:blocks/ice_maker_top_done" 
+				} 
+			}
+		},
+		"inventory": [{ 
+			"textures": { 
+				"top": "grimindustry:blocks/ice_maker_top_empty" 
+			} 
+		}]
+	}
+}
