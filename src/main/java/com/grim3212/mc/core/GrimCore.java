@@ -19,7 +19,7 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 
-@Mod(modid = GrimCore.modID, name = GrimCore.modName, version = GrimCore.modVersion, dependencies = "required-after:Forge", guiFactory = "com.grim3212.mc.core.config.ConfigGuiFactory")
+@Mod(modid = GrimCore.modID, name = GrimCore.modName, version = GrimCore.modVersion, dependencies = "required-after:Forge", guiFactory = "com.grim3212.mc.core.config.ConfigGuiFactory", updateJSON = "https://raw.githubusercontent.com/grim3212/Grim-Pack/master/update.json")
 public class GrimCore extends GrimPart {
 
 	@Instance(GrimCore.modID)

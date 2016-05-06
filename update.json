@@ -1,0 +1,10 @@
+{
+	"homepage": "http://mods.grim3212.com/",
+	"promos": {
+		"1.8.9-latest": "1.0.0",
+		"1.8.9-recomended": "1.0.0"
+	},
+	"1.8.9": {
+		"1.0.0": "The initial release of the newly combined grims mods."
+	}
+}
