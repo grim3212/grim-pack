@@ -1,0 +1,26 @@
+{
+    "forge_marker": 1,
+    "defaults": {
+		"transform": "forge:default-block",
+        "model": "grimdecor:calendar",
+		"textures": {
+			"particle": "grimdecor:blocks/calendar",
+			"texture": "grimdecor:blocks/calendar"
+		}
+    },
+    "variants": {
+        "facing": {
+            "north": { "y": 180},
+            "south": { },
+            "west": { "y": 90 },
+            "east": { "y": 270 }
+        },
+		"inventory": [{
+			"model": "builtin/generated",
+			"transform": "forge:default-item",
+			"textures": {
+				"layer0": "grimdecor:items/calendar"
+			}
+		}]
+    }
+}

@@ -1,0 +1,60 @@
+{
+	"forge_marker": 1,
+	"defaults": {
+		"transform": "forge:default-block",
+		"model": "cube_top",
+		"textures": {
+			"side": "grimdecor:blocks/pot",
+			"top": "blocks/dirt"
+		}
+	},
+	"variants": {
+		"down": {
+			"false": {
+				"model": "cube_top"
+			},
+			"true": {
+				"model": "grimdecor:pot_down",
+				"uvlock": true
+			}
+		},
+		"top": {
+			"0": {
+				"textures": {
+					"top": "blocks/dirt"
+				}
+			},
+			"1": {
+				"textures": {
+					"top": "blocks/sand"
+				}
+			},
+			"2": {
+				"textures": {
+					"top": "blocks/gravel"
+				}
+			},
+			"3": {
+				"textures": {
+					"top": "blocks/clay"
+				}
+			},
+			"4": {
+				"textures": {
+					"top": "blocks/farmland_dry"
+				}
+			},
+			"5": {
+				"textures": {
+					"top": "blocks/netherrack"
+				}
+			},
+			"6": {
+				"textures": {
+					"top": "blocks/soul_sand"
+				}
+			}
+		},
+		"inventory": [{}]
+	}
+}

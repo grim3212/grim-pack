@@ -1,0 +1,11 @@
+{
+    "forge_marker": 1,
+    "defaults": {
+		"transform": "forge:default-item",
+		"model": "forge:item-layer"
+    },
+    "variants": {
+		"iron": [{ "textures": { "layer0": "grimdecor:items/frame_iron" }}],
+        "wood": [{ "textures": { "layer0": "grimdecor:items/frame_wood" }}]
+    }
+}

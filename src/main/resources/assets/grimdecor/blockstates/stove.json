@@ -1,0 +1,11 @@
+{
+	"forge_marker": 1,
+    "defaults": {
+		"transform": "forge:default-block",
+        "model": "grimdecor:stove"
+    },
+    "variants": {
+        "normal": [{}],
+		"inventory": [{}]
+    }
+}

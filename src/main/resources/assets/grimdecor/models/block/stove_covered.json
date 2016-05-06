@@ -1,0 +1,44 @@
+{
+"__comment": "Designed by Grim3212 with BDcraft Cubik PRO 0.93 Beta - http://bdcraft.net",
+"textures": {
+		"texture": "grimdecor:blocks/net"
+	},
+"elements": [ 
+{
+    "__comment": "SideW",
+    "from": [ 1.5, 6, 3 ],
+    "to": [ 1.5625, 13, 13 ],
+    "faces": {
+        "west":  { "uv": [ 3, 3, 13, 10 ], "texture": "#texture" },
+        "east":  { "uv": [ 3, 3, 13, 10 ], "texture": "#texture" }
+    }
+},
+{
+    "__comment": "SideE",
+    "from": [ 14.5, 6, 3 ],
+    "to": [ 14.5625, 13, 13 ],
+    "faces": {
+        "west":  { "uv": [ 3, 3, 13, 10 ], "texture": "#texture" },
+        "east":  { "uv": [ 3, 3, 13, 10 ], "texture": "#texture" }
+    }
+},
+{
+    "__comment": "SideN",
+    "from": [ 3, 6, 1.5 ],
+    "to": [ 13, 13, 1.5625 ],
+    "faces": {
+        "north": { "uv": [ 3, 3, 13, 10 ], "texture": "#texture" },
+        "south": { "uv": [ 3, 3, 13, 10 ], "texture": "#texture" }
+    }
+},
+{
+    "__comment": "SideS",
+    "from": [ 3, 6, 14.5 ],
+    "to": [ 13, 13, 14.5625 ],
+    "faces": {
+        "north": { "uv": [ 3, 3, 13, 10 ], "texture": "#texture" },
+        "south": { "uv": [ 3, 3, 13, 10 ], "texture": "#texture" }
+    }
+}
+]
+}

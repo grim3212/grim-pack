@@ -1,0 +1,52 @@
+{
+"__comment": "Designed by Grim3212 with BDcraft Cubik PRO 0.93 Beta - http://bdcraft.net",
+"textures": {
+		"texture": "blocks/glowstone"
+	},
+"elements": [ 
+{
+    "from": [ 5.5, 10.5, 5.5 ],
+    "to": [ 10.5, 15, 10.5 ],
+    "faces": {
+        "down":  { "uv": [ 10.5, 10.5, 5.5, 5.5 ], "texture": "#texture" },
+        "up":    { "uv": [ 5.5, 5.5, 10.5, 10.5 ], "texture": "#texture" },
+        "north": { "uv": [ 5.5, 1.5, 10.5, 5.5 ], "texture": "#texture" },
+        "south": { "uv": [ 5.5, 1.5, 10.5, 5.5 ], "texture": "#texture" },
+        "west":  { "uv": [ 5.5, 1.5, 10.5, 5.5 ], "texture": "#texture" },
+        "east":  { "uv": [ 5.5, 1.5, 10.5, 5.5 ], "texture": "#texture" }
+    }
+}
+],
+"display": {
+    "thirdperson": {
+        "rotation": [ -90, 0, 0 ],
+        "translation": [ 0, 0.6, -3.5 ],
+        "scale": [ 0.75, 0.75, 0.75 ]
+    },
+    "head": {
+        "rotation": [ 0, 0, 0 ],
+        "translation": [ 0, 7.5, 0 ],
+        "scale": [ 1, 1, 1 ]
+    },
+    "ground": {
+        "rotation": [ 0, 0, 0 ],
+        "translation": [ 0, 0, 0 ],
+        "scale": [ 2, 2, 2 ]
+    },
+    "fixed": {
+        "rotation": [ 0, 0, 0 ],
+        "translation": [ 0, 0, 0 ],
+        "scale": [ 2, 2, 2 ]
+    },
+    "firstperson": {
+        "rotation": [ -1, -9, 0 ],
+        "translation": [ 0, 2.75, 0 ],
+        "scale": [ 1.25, 1.25, 1.25 ]
+    },
+    "gui": {
+        "rotation": [ 0, 0, 0 ],
+        "translation": [ 0, 0, 0 ],
+        "scale": [ 1.5, 1.5, 1.5 ]
+    }
+}
+}
