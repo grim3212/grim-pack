@@ -23,12 +23,9 @@ public class CommonProxy {
 		return ctx.getServerHandler().playerEntity.getServerForPlayer();
 	}
 
-	protected void registerModels() {
+	public void registerModels() {
 	}
 
-	protected void registerManual(ModSection modSection) {
-	}
-	
-	public void preInit(ModSection modSection){
+	public void registerManual(ModSection modSection) {
 	}
 }

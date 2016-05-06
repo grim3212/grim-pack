@@ -20,14 +20,8 @@ public abstract class ClientProxy extends CommonProxy {
 	}
 
 	@Override
-	protected abstract void registerModels();
+	public abstract void registerModels();
 
 	@Override
-	protected abstract void registerManual(ModSection modSection);
-
-	@Override
-	public void preInit(ModSection modSection) {
-		registerModels();
-		registerManual(modSection);
-	}
+	public abstract void registerManual(ModSection modSection);
 }

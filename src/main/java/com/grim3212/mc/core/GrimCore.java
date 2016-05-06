@@ -15,6 +15,7 @@ import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.Mod.Instance;
 import net.minecraftforge.fml.common.ModMetadata;
 import net.minecraftforge.fml.common.SidedProxy;
+import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 
@@ -36,8 +37,6 @@ public class GrimCore extends GrimPart {
 		addItem(new CoreItems());
 	}
 
-	//TODO: Fix all GUIs to allow for renaming as well as for localizing the default gui name
-	
 	@Override
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
@@ -53,7 +52,14 @@ public class GrimCore extends GrimPart {
 		// Register LoginEvent for receiving the Instruction Manual
 		MinecraftForge.EVENT_BUS.register(new LoginEvent());
 
-		proxy.preInit(getModSection());
+		proxy.registerModels();
+	}
+
+	@Override
+	@EventHandler
+	public void init(FMLInitializationEvent event) {
+		super.init(event);
+		proxy.registerManual(getModSection());
 	}
 
 	@Override
