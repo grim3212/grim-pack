@@ -10,8 +10,6 @@ import com.grim3212.mc.util.event.BlockChangeEvents;
 import com.grim3212.mc.util.event.EntityDeathEvent;
 import com.grim3212.mc.util.network.MessageFusRoDah;
 
-import net.minecraft.init.Items;
-import net.minecraft.item.Item;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
@@ -34,7 +32,7 @@ public class GrimUtil extends GrimPart {
 	public static final String modName = "Grim Util";
 
 	public GrimUtil() {
-		super(GrimUtil.modID, GrimUtil.modName, GrimCore.modVersion);
+		super(GrimUtil.modID, GrimUtil.modName, GrimCore.modVersion, false);
 	}
 
 	@Override
@@ -58,11 +56,6 @@ public class GrimUtil extends GrimPart {
 	public void init(FMLInitializationEvent event) {
 		super.init(event);
 		proxy.registerManual(getModSection());
-	}
-
-	@Override
-	protected Item getCreativeTabIcon() {
-		return Items.golden_hoe;
 	}
 
 	@Override

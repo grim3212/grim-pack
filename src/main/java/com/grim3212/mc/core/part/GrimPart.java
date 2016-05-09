@@ -37,20 +37,25 @@ public abstract class GrimPart {
 	private List<IPartTileEntities> tileentities;
 
 	public GrimPart(String modid, String name, String version) {
+		this(modid, name, version, true);
+	}
+
+	public GrimPart(String modid, String name, String version, boolean creativeTab) {
 		GrimLog.info(GrimCore.modName, "Registered Grim Part: { " + name + " }");
 
 		this.modid = modid;
 		this.name = name;
 		this.version = version;
 		this.config = setConfig();
-		this.creativeTab = new GrimPartCreativeTab(this);
+		if (creativeTab)
+			this.creativeTab = new GrimPartCreativeTab(this);
 		ManualRegistry.registerMod(modSection = new ModSection(getName(), getModid()));
 		loadedParts.add(this);
 		this.items = new ArrayList<IPartItems>();
 		this.entities = new ArrayList<IPartEntities>();
 		this.tileentities = new ArrayList<IPartTileEntities>();
 	}
-	
+
 	public ModSection getModSection() {
 		return modSection;
 	}
@@ -122,7 +127,9 @@ public abstract class GrimPart {
 	public void postInit(FMLPostInitializationEvent event) {
 	}
 
-	protected abstract Item getCreativeTabIcon();
+	protected Item getCreativeTabIcon() {
+		return null;
+	}
 
 	protected abstract GrimConfig setConfig();
 
