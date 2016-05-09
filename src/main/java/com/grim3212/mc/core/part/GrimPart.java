@@ -135,7 +135,7 @@ public abstract class GrimPart {
 
 	@SubscribeEvent
 	public void onConfigChanged(OnConfigChangedEvent event) {
-		if (event.modID.equals(this.modid)) {
+		if (event.getModID().equals(this.modid)) {
 			this.config.syncConfig();
 		}
 	}

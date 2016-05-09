@@ -2,7 +2,7 @@ package com.grim3212.mc.core.manual;
 
 import java.util.ArrayList;
 
-import net.minecraft.util.StatCollector;
+import net.minecraft.util.text.translation.I18n;
 
 public class ModSection {
 
@@ -24,7 +24,7 @@ public class ModSection {
 	}
 
 	public String getModSectionInfo() {
-		return StatCollector.translateToLocal("grim.manual." + modID + "." + "modinfo");
+		return I18n.translateToLocal("grim.manual." + modID + "." + "modinfo");
 	}
 
 	public ArrayList<ModSubSection> getPages() {

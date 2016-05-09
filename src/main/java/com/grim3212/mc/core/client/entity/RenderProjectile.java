@@ -6,12 +6,11 @@ import com.grim3212.mc.core.entity.EntityProjectile;
 
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
-import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
 
 public class RenderProjectile<T extends EntityProjectile> extends Render<T> {
@@ -65,7 +64,6 @@ public class RenderProjectile<T extends EntityProjectile> extends Render<T> {
 
 	private void renderAll(T entity, double x, double y, double z, float entityYaw, float partialTicks) {
 		Tessellator tessellator = Tessellator.getInstance();
-		WorldRenderer worldrenderer = tessellator.getWorldRenderer();
 		int i = 0;
 		float f = 0.0F;
 		float f1 = 0.5F;
@@ -88,28 +86,28 @@ public class RenderProjectile<T extends EntityProjectile> extends Render<T> {
 		GlStateManager.scale(f8, f8, f8);
 		GlStateManager.translate(-4.0F, 0.0F, 0.0F);
 		GL11.glNormal3f(f8, 0.0F, 0.0F);
-		worldrenderer.begin(7, DefaultVertexFormats.POSITION_TEX);
-		worldrenderer.pos(-7.0D, -2.0D, -2.0D).tex((double) f4, (double) f6).endVertex();
-		worldrenderer.pos(-7.0D, -2.0D, 2.0D).tex((double) f5, (double) f6).endVertex();
-		worldrenderer.pos(-7.0D, 2.0D, 2.0D).tex((double) f5, (double) f7).endVertex();
-		worldrenderer.pos(-7.0D, 2.0D, -2.0D).tex((double) f4, (double) f7).endVertex();
+		tessellator.getBuffer().begin(7, DefaultVertexFormats.POSITION_TEX);
+		tessellator.getBuffer().pos(-7.0D, -2.0D, -2.0D).tex((double) f4, (double) f6).endVertex();
+		tessellator.getBuffer().pos(-7.0D, -2.0D, 2.0D).tex((double) f5, (double) f6).endVertex();
+		tessellator.getBuffer().pos(-7.0D, 2.0D, 2.0D).tex((double) f5, (double) f7).endVertex();
+		tessellator.getBuffer().pos(-7.0D, 2.0D, -2.0D).tex((double) f4, (double) f7).endVertex();
 		tessellator.draw();
 		GL11.glNormal3f(-f8, 0.0F, 0.0F);
-		worldrenderer.begin(7, DefaultVertexFormats.POSITION_TEX);
-		worldrenderer.pos(-7.0D, 2.0D, -2.0D).tex((double) f4, (double) f6).endVertex();
-		worldrenderer.pos(-7.0D, 2.0D, 2.0D).tex((double) f5, (double) f6).endVertex();
-		worldrenderer.pos(-7.0D, -2.0D, 2.0D).tex((double) f5, (double) f7).endVertex();
-		worldrenderer.pos(-7.0D, -2.0D, -2.0D).tex((double) f4, (double) f7).endVertex();
+		tessellator.getBuffer().begin(7, DefaultVertexFormats.POSITION_TEX);
+		tessellator.getBuffer().pos(-7.0D, 2.0D, -2.0D).tex((double) f4, (double) f6).endVertex();
+		tessellator.getBuffer().pos(-7.0D, 2.0D, 2.0D).tex((double) f5, (double) f6).endVertex();
+		tessellator.getBuffer().pos(-7.0D, -2.0D, 2.0D).tex((double) f5, (double) f7).endVertex();
+		tessellator.getBuffer().pos(-7.0D, -2.0D, -2.0D).tex((double) f4, (double) f7).endVertex();
 		tessellator.draw();
 
 		for (int j = 0; j < 4; ++j) {
 			GlStateManager.rotate(90.0F, 1.0F, 0.0F, 0.0F);
 			GL11.glNormal3f(0.0F, 0.0F, f8);
-			worldrenderer.begin(7, DefaultVertexFormats.POSITION_TEX);
-			worldrenderer.pos(-8.0D, -2.0D, 0.0D).tex((double) f, (double) f2).endVertex();
-			worldrenderer.pos(8.0D, -2.0D, 0.0D).tex((double) f1, (double) f2).endVertex();
-			worldrenderer.pos(8.0D, 2.0D, 0.0D).tex((double) f1, (double) f3).endVertex();
-			worldrenderer.pos(-8.0D, 2.0D, 0.0D).tex((double) f, (double) f3).endVertex();
+			tessellator.getBuffer().begin(7, DefaultVertexFormats.POSITION_TEX);
+			tessellator.getBuffer().pos(-8.0D, -2.0D, 0.0D).tex((double) f, (double) f2).endVertex();
+			tessellator.getBuffer().pos(8.0D, -2.0D, 0.0D).tex((double) f1, (double) f2).endVertex();
+			tessellator.getBuffer().pos(8.0D, 2.0D, 0.0D).tex((double) f1, (double) f3).endVertex();
+			tessellator.getBuffer().pos(-8.0D, 2.0D, 0.0D).tex((double) f, (double) f3).endVertex();
 			tessellator.draw();
 		}
 

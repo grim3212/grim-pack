@@ -2,7 +2,7 @@ package com.grim3212.mc.core.util;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.math.BlockPos;
 
 public class NBTHelper {
 

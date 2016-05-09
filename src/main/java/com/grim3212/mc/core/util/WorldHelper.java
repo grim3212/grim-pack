@@ -1,11 +1,10 @@
 package com.grim3212.mc.core.util;
 
-import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.MathHelper;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 
 public class WorldHelper {
@@ -35,9 +34,8 @@ public class WorldHelper {
 				for (int i2 = i1; i2 < j1; ++i2) {
 					BlockPos blockpos = new BlockPos(k1, l1, i2);
 					IBlockState iblockstate = worldObj.getBlockState(blockpos);
-					Block block = iblockstate.getBlock();
 
-					if (block.getMaterial() == material) {
+					if (iblockstate.getMaterial() == material) {
 						int j2 = iblockstate.getBlock().getMetaFromState(iblockstate);
 						double d0 = (double) (l1 + 1);
 

@@ -2,17 +2,19 @@ package com.grim3212.mc.core.client;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.block.model.BakedQuad;
+import net.minecraft.client.renderer.block.model.IBakedModel;
+import net.minecraft.client.renderer.block.model.ModelBakery;
+import net.minecraft.client.renderer.block.model.ModelResourceLocation;
+import net.minecraft.client.renderer.block.model.SimpleBakedModel;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.client.renderer.vertex.VertexFormat;
-import net.minecraft.client.resources.model.IBakedModel;
-import net.minecraft.client.resources.model.ModelBakery;
-import net.minecraft.client.resources.model.ModelResourceLocation;
-import net.minecraft.client.resources.model.SimpleBakedModel;
 import net.minecraft.item.Item;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
@@ -141,13 +143,14 @@ public class RenderHelper {
 			priorityModel = models[0];
 		}
 
-		SimpleBakedModel mergedModel = new SimpleBakedModel(new ArrayList<BakedQuad>(), setupFaceQuads(), priorityModel.isGui3d(), priorityModel.isAmbientOcclusion(), priorityModel.getParticleTexture(), priorityModel.getItemCameraTransforms());
+		SimpleBakedModel mergedModel = new SimpleBakedModel(new ArrayList<BakedQuad>(), setupFaceQuads(), priorityModel.isGui3d(), priorityModel.isAmbientOcclusion(), priorityModel.getParticleTexture(), priorityModel.getItemCameraTransforms(), priorityModel.getOverrides());
 
 		// Overlay the models on top of each other one after the other
 		for (int i = 0; i < models.length; i++) {
-			mergedModel.getGeneralQuads().addAll(models[i].getGeneralQuads());
-			for (int j = 0; j < EnumFacing.VALUES.length; j++) {
-				mergedModel.getFaceQuads(EnumFacing.VALUES[j]).addAll(models[i].getFaceQuads(EnumFacing.VALUES[j]));
+			mergedModel.getQuads(null, null, 0).addAll(models[i].getQuads(null, null, 0));
+
+			for (EnumFacing facing : EnumFacing.VALUES) {
+				mergedModel.getQuads(null, facing, 0).addAll(models[i].getQuads(null, facing, 0));
 			}
 		}
 
@@ -159,11 +162,11 @@ public class RenderHelper {
 	 * 
 	 * @return The new faceQuad list
 	 */
-	public static List<List<BakedQuad>> setupFaceQuads() {
+	public static Map<EnumFacing, List<BakedQuad>> setupFaceQuads() {
 		// Setup up an empty faceQuad list
-		List<List<BakedQuad>> faceQuads = new ArrayList<List<BakedQuad>>();
-		for (int i = 0; i < EnumFacing.VALUES.length; i++) {
-			faceQuads.add(Lists.<BakedQuad> newArrayList());
+		Map<EnumFacing, List<BakedQuad>> faceQuads = Maps.<EnumFacing, List<BakedQuad>> newHashMap();
+		for (EnumFacing facing : EnumFacing.VALUES) {
+			faceQuads.put(facing, Lists.<BakedQuad> newArrayList());
 		}
 		return faceQuads;
 	}

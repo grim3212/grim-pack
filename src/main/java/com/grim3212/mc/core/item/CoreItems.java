@@ -7,6 +7,7 @@ import com.grim3212.mc.core.part.IPartItems;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
 
@@ -17,7 +18,7 @@ public class CoreItems implements IPartItems {
 	@Override
 	public void initItems() {
 		instruction_manual = (new ItemManual()).setUnlocalizedName("instruction_manual").setCreativeTab(GrimCore.INSTANCE.getCreativeTab());
-		GameRegistry.registerItem(instruction_manual, "instruction_manual");
+		GameRegistry.register(instruction_manual, new ResourceLocation(GrimCore.modID, "instruction_manual"));
 	}
 
 	@Override

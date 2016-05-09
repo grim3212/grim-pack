@@ -22,7 +22,7 @@ import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.item.crafting.ShapedRecipes;
 import net.minecraft.item.crafting.ShapelessRecipes;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.StatCollector;
+import net.minecraft.util.text.translation.I18n;
 import net.minecraftforge.fml.relauncher.ReflectionHelper;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
@@ -104,7 +104,7 @@ public class PageCrafting extends Page {
 
 		ItemStack outstack = output.get(recipeShown).getRecipeOutput();
 		if (isShapeless)
-			NBTHelper.setString(outstack, "customTooltip", StatCollector.translateToLocal("grim.manual.shapeless"));
+			NBTHelper.setString(outstack, "customTooltip", I18n.translateToLocal("grim.manual.shapeless"));
 		this.renderItem(gui, outstack, gui.getX() + 143, gui.getY() + 154);
 
 		FontRenderer renderer = Minecraft.getMinecraft().fontRendererObj;
@@ -125,7 +125,7 @@ public class PageCrafting extends Page {
 			GlStateManager.disableBlend();
 			GlStateManager.popMatrix();
 
-			this.renderItemCutWild(gui, NBTHelper.setStringItemStack(((List<ItemStack>) item).get(0), "customTooltip", StatCollector.translateToLocal("grim.manual.oredictionary") + " : " + RecipeHelper.getOreDict((List<ItemStack>) item)), x - 1, y - 1);
+			this.renderItemCutWild(gui, NBTHelper.setStringItemStack(((List<ItemStack>) item).get(0), "customTooltip", I18n.translateToLocal("grim.manual.oredictionary") + " : " + RecipeHelper.getOreDict((List<ItemStack>) item)), x - 1, y - 1);
 		}
 	}
 

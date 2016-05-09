@@ -13,10 +13,9 @@ import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.text.TextFormatting;
 
 public class TooltipHelper {
 
@@ -34,7 +33,7 @@ public class TooltipHelper {
 			if (k == 0) {
 				list.set(k, itemstack.getRarity().rarityColor + (String) list.get(k));
 			} else {
-				list.set(k, EnumChatFormatting.GRAY + (String) list.get(k));
+				list.set(k, TextFormatting.GRAY + (String) list.get(k));
 			}
 		}
 
@@ -116,12 +115,11 @@ public class TooltipHelper {
 		GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
 		GlStateManager.shadeModel(7425);
 		Tessellator tessellator = Tessellator.getInstance();
-		WorldRenderer worldrenderer = tessellator.getWorldRenderer();
-		worldrenderer.begin(7, DefaultVertexFormats.POSITION_COLOR);
-		worldrenderer.pos((double) right, (double) top, (double) zLevel).color(f1, f2, f3, f).endVertex();
-		worldrenderer.pos((double) left, (double) top, (double) zLevel).color(f1, f2, f3, f).endVertex();
-		worldrenderer.pos((double) left, (double) bottom, (double) zLevel).color(f5, f6, f7, f4).endVertex();
-		worldrenderer.pos((double) right, (double) bottom, (double) zLevel).color(f5, f6, f7, f4).endVertex();
+		tessellator.getBuffer().begin(7, DefaultVertexFormats.POSITION_COLOR);
+		tessellator.getBuffer().pos((double) right, (double) top, (double) zLevel).color(f1, f2, f3, f).endVertex();
+		tessellator.getBuffer().pos((double) left, (double) top, (double) zLevel).color(f1, f2, f3, f).endVertex();
+		tessellator.getBuffer().pos((double) left, (double) bottom, (double) zLevel).color(f5, f6, f7, f4).endVertex();
+		tessellator.getBuffer().pos((double) right, (double) bottom, (double) zLevel).color(f5, f6, f7, f4).endVertex();
 		tessellator.draw();
 		GlStateManager.shadeModel(7424);
 		GlStateManager.disableBlend();
