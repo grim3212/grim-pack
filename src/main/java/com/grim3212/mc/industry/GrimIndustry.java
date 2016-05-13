@@ -48,7 +48,6 @@ public class GrimIndustry extends GrimPart {
 		ModMetadata data = event.getModMetadata();
 		data.description = "Grim Industry lets the player mess be a bit more technical.";
 		data.url = "http://mods.grim3212.com/mc/" + "my-mods/grim-industry/";
-		data.credits = "Thanks to the following authors. Leesgowest, LFalch, mattop101, Nandonalt.";
 
 		GameRegistry.registerWorldGenerator(new IndustryGenerate(), 10);
 

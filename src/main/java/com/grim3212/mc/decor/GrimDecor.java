@@ -48,7 +48,7 @@ public class GrimDecor extends GrimPart {
 		super.preInit(event);
 		ModMetadata data = event.getModMetadata();
 		data.description = "Grim Decor provides many different ways to decorate your Minecraft world.";
-		data.credits = "Thanks to the following authors.";
+		data.url = "http://mods.grim3212.com/mc/" + "my-mods/grim-decor/";
 
 		NetworkRegistry.INSTANCE.registerGuiHandler(INSTANCE, new DecorGuiHandler());
 

@@ -53,7 +53,6 @@ public class GrimTools extends GrimPart {
 		ModMetadata data = event.getModMetadata();
 		data.description = "Grim Tools adds in a bunch of tools and weapons.";
 		data.url = "http://mods.grim3212.com/mc/" + "my-mods/grim-tools/";
-		data.credits = "Thanks to the following authors. Leesgowest, LFalch, mattop101, Nandonalt.";
 
 		NetworkRegistry.INSTANCE.registerGuiHandler(INSTANCE, new ToolsGuiHandler());
 		MinecraftForge.EVENT_BUS.register(new MilkingEvent());

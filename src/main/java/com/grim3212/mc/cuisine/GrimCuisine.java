@@ -47,7 +47,6 @@ public class GrimCuisine extends GrimPart {
 		ModMetadata data = event.getModMetadata();
 		data.description = "Grim Cuisine provides many different food sources and health regeneration options.";
 		data.url = "http://mods.grim3212.com/mc/" + "my-mods/grim-cuisine/";
-		data.credits = "Thanks to the follwoing authors. Leesgowest, LFalch, mattop101, Nandonalt.";
 
 		MinecraftForge.EVENT_BUS.register(new DropEvent());
 		MinecraftForge.EVENT_BUS.register(new OnBonemealEvent());

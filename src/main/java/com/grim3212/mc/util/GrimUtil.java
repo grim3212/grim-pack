@@ -42,7 +42,6 @@ public class GrimUtil extends GrimPart {
 		ModMetadata data = event.getModMetadata();
 		data.description = "Grim Util adds in a bunch of small utilities that can make playing more fun..";
 		data.url = "http://mods.grim3212.com/mc/" + "my-mods/grim-util/";
-		data.credits = "Thanks to the following authors. Leesgowest, LFalch, mattop101, Nandonalt.";
 
 		PacketDispatcher.registerMessage(MessageFusRoDah.class);
 		MinecraftForge.EVENT_BUS.register(new EntityDeathEvent());
