@@ -1,0 +1,23 @@
+{
+	"forge_marker": 1,
+    "defaults": {
+		"transform": "forge:default-block",
+		"model": "cross",
+		"textures": {
+			"cross": "grimpack:blocks/cocoa_tree_sapling"
+		}
+    },
+	"variants": {
+		"stage": {
+			"0": { },
+			"1": { }
+		},
+		"inventory": [{
+			"model": "builtin/generated",
+			"transform": "forge:default-item",
+			"textures": {
+				"layer0": "grimpack:blocks/cocoa_tree_sapling"
+			}
+		}]
+	}
+}

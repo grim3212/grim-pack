@@ -1,0 +1,21 @@
+{
+
+"textures": {
+		"particle": "grimpack:blocks/cocoa_block",
+		"all": "grimpack:blocks/cocoa_block"
+	},
+"elements": [ 
+	{
+	    "from": [ 4.5, 4, 4.5 ],
+	    "to": [ 11.5, 16, 11.5 ],
+	    "faces": {
+	        "down":  { "uv": [ 11.5, 11.5, 4.5, 4.5 ], "texture": "#all" },
+	        "up":    { "uv": [ 4.5, 4.5, 11.5, 11.5 ], "texture": "#all" },
+	        "north": { "uv": [ 4.5, 0, 11.5, 12 ], "texture": "#all" },
+	        "south": { "uv": [ 4.5, 0, 11.5, 12 ], "texture": "#all" },
+	        "west":  { "uv": [ 4.5, 0, 11.5, 12 ], "texture": "#all" },
+	        "east":  { "uv": [ 4.5, 0, 11.5, 12 ], "texture": "#all" }
+	    }
+	}
+]
+}

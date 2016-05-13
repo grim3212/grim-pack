@@ -1,5 +1,5 @@
 {
-    "parent": "grimcore:item/item",
+    "parent": "item/generated",
     "textures": {
         "layer0": "grimdecor:items/glass_shard"
     }
