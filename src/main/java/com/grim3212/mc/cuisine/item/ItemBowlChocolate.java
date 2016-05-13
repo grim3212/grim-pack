@@ -1,5 +1,6 @@
 package com.grim3212.mc.cuisine.item;
 
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.EnumAction;
@@ -15,19 +16,23 @@ public class ItemBowlChocolate extends Item {
 	}
 
 	@Override
-	public ItemStack onItemUseFinish(ItemStack stack, World worldIn, EntityPlayer playerIn) {
-		if (!playerIn.capabilities.isCreativeMode) {
-			--stack.stackSize;
+	public ItemStack onItemUseFinish(ItemStack stack, World worldIn, EntityLivingBase playerIn) {
+		if (playerIn instanceof EntityPlayer) {
+			EntityPlayer entityplayer = (EntityPlayer) playerIn;
+
+			if (!entityplayer.capabilities.isCreativeMode) {
+				--stack.stackSize;
+			}
+
+			if (!worldIn.isRemote) {
+				entityplayer.heal(4f);
+			}
+
+			entityplayer.inventory.consumeInventoryItem(entityplayer.getHeldItem(entityplayer.getActiveHand()).getItem());
+			entityplayer.inventory.addItemStackToInventory(new ItemStack(Items.bowl));
 		}
 
-		if (!worldIn.isRemote) {
-			playerIn.heal(4f);
-		}
-
-		playerIn.inventory.consumeInventoryItem(playerIn.getHeldItem().getItem());
-		playerIn.inventory.addItemStackToInventory(new ItemStack(Items.bowl));
-
-		return null;
+		return stack;
 	}
 
 	@Override

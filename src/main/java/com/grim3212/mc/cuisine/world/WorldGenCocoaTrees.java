@@ -7,7 +7,7 @@ import com.grim3212.mc.cuisine.block.CuisineBlocks;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockLeaves;
 import net.minecraft.init.Blocks;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenerator;
 
@@ -62,7 +62,7 @@ public class WorldGenCocoaTrees extends WorldGenerator {
 					int j4 = i4 - pos.getZ();
 					BlockPos newPos = new BlockPos(k3, k1, i4);
 
-					if (Math.abs(l3) == i3 && Math.abs(j4) == i3 && (random.nextInt(2) == 0 || j2 == 0) || world.getBlockState(newPos).getBlock().isOpaqueCube()) {
+					if (Math.abs(l3) == i3 && Math.abs(j4) == i3 && (random.nextInt(2) == 0 || j2 == 0) || world.getBlockState(newPos).isOpaqueCube()) {
 						continue;
 					}
 					if (random.nextInt(60) < 10) {

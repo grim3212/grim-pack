@@ -11,12 +11,12 @@ public class OnBonemealEvent {
 
 	@SubscribeEvent
 	public void onUseBonemeal(BonemealEvent event) {
-		if (event.block == CuisineBlocks.cocoa_tree_sapling.getDefaultState()) {
-			if (!event.world.isRemote) {
+		if (event.getBlock() == CuisineBlocks.cocoa_tree_sapling.getDefaultState()) {
+			if (!event.getWorld().isRemote) {
 				// Spawn grow particles
-				event.world.playAuxSFX(2005, event.pos, 0);
+				event.getWorld().playAuxSFX(2005, event.getPos(), 0);
 				// Try and grow tree
-				((BlockCocoaSapling) CuisineBlocks.cocoa_tree_sapling).grow(event.world, event.world.rand, event.pos, event.block);
+				((BlockCocoaSapling) CuisineBlocks.cocoa_tree_sapling).grow(event.getWorld(), event.getWorld().rand, event.getPos(), event.getBlock());
 				event.setResult(Result.ALLOW);
 			}
 		}

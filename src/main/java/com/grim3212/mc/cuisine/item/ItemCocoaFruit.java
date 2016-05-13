@@ -8,8 +8,11 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.SoundCategory;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public class ItemCocoaFruit extends Item {
@@ -19,7 +22,7 @@ public class ItemCocoaFruit extends Item {
 	}
 
 	@Override
-	public boolean onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ) {
+	public EnumActionResult onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
 		IBlockState iblockstate = worldIn.getBlockState(pos);
 		Block block = iblockstate.getBlock();
 
@@ -28,21 +31,21 @@ public class ItemCocoaFruit extends Item {
 		}
 
 		if (stack.stackSize == 0) {
-			return false;
+			return EnumActionResult.FAIL;
 		} else if (!playerIn.canPlayerEdit(pos, side, stack)) {
-			return false;
+			return EnumActionResult.FAIL;
 		} else if (worldIn.canBlockBePlaced(CuisineBlocks.cocoa_tree_sapling, pos, false, side, (Entity) null, stack)) {
 			int i = this.getMetadata(stack.getMetadata());
 			IBlockState iblockstate1 = CuisineBlocks.cocoa_tree_sapling.onBlockPlaced(worldIn, pos, side, hitX, hitY, hitZ, i, playerIn);
 
 			if (placeBlockAt(stack, playerIn, worldIn, pos, side, hitX, hitY, hitZ, iblockstate1)) {
-				worldIn.playSoundEffect((double) ((float) pos.getX() + 0.5F), (double) ((float) pos.getY() + 0.5F), (double) ((float) pos.getZ() + 0.5F), CuisineBlocks.cocoa_tree_sapling.stepSound.getPlaceSound(), (CuisineBlocks.cocoa_tree_sapling.stepSound.getVolume() + 1.0F) / 2.0F, CuisineBlocks.cocoa_tree_sapling.stepSound.getFrequency() * 0.8F);
+				worldIn.playSound(playerIn, (double) ((float) pos.getX() + 0.5F), (double) ((float) pos.getY() + 0.5F), (double) ((float) pos.getZ() + 0.5F), CuisineBlocks.cocoa_tree_sapling.getStepSound().getPlaceSound(), SoundCategory.BLOCKS, (CuisineBlocks.cocoa_tree_sapling.getStepSound().getVolume() + 1.0F) / 2.0F, CuisineBlocks.cocoa_tree_sapling.getStepSound().getPitch() * 0.8F);
 				--stack.stackSize;
 			}
 
-			return true;
+			return EnumActionResult.SUCCESS;
 		} else {
-			return false;
+			return EnumActionResult.FAIL;
 		}
 	}
 

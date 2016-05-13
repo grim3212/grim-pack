@@ -11,9 +11,9 @@ public class DropEvent {
 
 	@SubscribeEvent
 	public void dropEvent(HarvestDropsEvent event) {
-		if (event.state.getBlock() == Blocks.cactus) {
-			if (event.world.rand.nextInt(3) == 0)
-				event.drops.add(new ItemStack(CuisineItems.dragon_fruit, event.world.rand.nextInt(2) + 1));
+		if (event.getState().getBlock() == Blocks.cactus) {
+			if (event.getWorld().rand.nextInt(3) == 0)
+				event.getDrops().add(new ItemStack(CuisineItems.dragon_fruit, event.getWorld().rand.nextInt(2) + 1));
 		}
 	}
 

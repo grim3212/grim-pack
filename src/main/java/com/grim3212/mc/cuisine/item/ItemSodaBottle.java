@@ -8,8 +8,11 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ActionResult;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.MathHelper;
+import net.minecraft.util.EnumActionResult;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 
 public class ItemSodaBottle extends Item {
@@ -24,47 +27,47 @@ public class ItemSodaBottle extends Item {
 	}
 
 	@Override
-	public ItemStack onItemRightClick(ItemStack itemstack, World world, EntityPlayer entityplayer) {
-		if (entityplayer.shouldHeal()) {
-			if (itemstack.getItemDamage() == 0) {
-				entityplayer.heal(10);
+	public ActionResult<ItemStack> onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn, EnumHand hand) {
+		if (playerIn.shouldHeal()) {
+			if (itemStackIn.getItemDamage() == 0) {
+				playerIn.heal(10);
 			}
-			if (itemstack.getItemDamage() == 2) {
-				entityplayer.heal(3);
+			if (itemStackIn.getItemDamage() == 2) {
+				playerIn.heal(3);
 			}
-			if (itemstack.getItemDamage() == 4) {
-				entityplayer.heal(20);
+			if (itemStackIn.getItemDamage() == 4) {
+				playerIn.heal(20);
 			}
-			if (itemstack.getItemDamage() == 6) {
-				entityplayer.heal(5);
+			if (itemStackIn.getItemDamage() == 6) {
+				playerIn.heal(5);
 			}
-			if (itemstack.getItemDamage() == 7) {
-				entityplayer.heal(10);
+			if (itemStackIn.getItemDamage() == 7) {
+				playerIn.heal(10);
 			}
-			if (itemstack.getItemDamage() == 8) {
-				entityplayer.heal(20);
+			if (itemStackIn.getItemDamage() == 8) {
+				playerIn.heal(20);
 			}
-			if (itemstack.getItemDamage() == 9) {
-				entityplayer.heal(8);
+			if (itemStackIn.getItemDamage() == 9) {
+				playerIn.heal(8);
 			}
-			if (itemstack.getItemDamage() == 10) {
-				entityplayer.heal(14);
+			if (itemStackIn.getItemDamage() == 10) {
+				playerIn.heal(14);
 			}
-			if (itemstack.getItemDamage() == 11) {
-				entityplayer.heal(2);
+			if (itemStackIn.getItemDamage() == 11) {
+				playerIn.heal(2);
 			}
-			if (itemstack.getItemDamage() == 12) {
-				entityplayer.heal(5);
+			if (itemStackIn.getItemDamage() == 12) {
+				playerIn.heal(5);
 			}
-			itemstack.stackSize--;
+			itemStackIn.stackSize--;
 		}
-		if (itemstack.getItemDamage() == 5) {
-			entityplayer.attackEntityFrom(DamageSource.generic, 8.0F);
-			itemstack.stackSize--;
+		if (itemStackIn.getItemDamage() == 5) {
+			playerIn.attackEntityFrom(DamageSource.generic, 8.0F);
+			itemStackIn.stackSize--;
 		} else {
-			entityplayer.heal(0);
+			playerIn.heal(0);
 		}
-		return itemstack;
+		return ActionResult.newResult(EnumActionResult.SUCCESS, itemStackIn);
 	}
 
 	@Override
