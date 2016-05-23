@@ -46,17 +46,17 @@ public class DecorItems implements IPartItems {
 
 	@Override
 	public void addRecipes() {
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Blocks.glass, 1), new Object[] { "##", "##", '#', glass_shard }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Blocks.GLASS, 1), new Object[] { "##", "##", '#', glass_shard }));
 		DecorBlocks.lights.add(RecipeHelper.getLatestIRecipe());
 
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(frame, 2, 0), new Object[] { "  #", " # ", "#  ", '#', "plankWood" }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(frame, 2, 1), new Object[] { "  #", " # ", "#  ", '#', "ingotIron" }));
 		frames = RecipeHelper.getLatestIRecipes(2);
 
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(wallpaper, 6), new Object[] { "#A", "#A", "#A", '#', Items.paper, 'A', Blocks.wool }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(wallpaper, 6), new Object[] { "#A", "#A", "#A", '#', Items.PAPER, 'A', Blocks.WOOL }));
 
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(unfired_pot, 1), new Object[] { "# #", "###", '#', Items.clay_ball }));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(unfired_craft, 1), new Object[] { " # ", "###", "###", '#', Items.clay_ball }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(unfired_pot, 1), new Object[] { "# #", "###", '#', Items.CLAY_BALL }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(unfired_craft, 1), new Object[] { " # ", "###", "###", '#', Items.CLAY_BALL }));
 		DecorBlocks.crafts.addAll(RecipeHelper.getLatestIRecipes(2));
 
 		GameRegistry.addSmelting(unfired_craft, new ItemStack(DecorBlocks.craft_clay, 1), 0.35F);

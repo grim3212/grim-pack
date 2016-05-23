@@ -1,59 +1,30 @@
 package com.grim3212.mc.pack.decor.block;
 
-import java.util.List;
-
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.Entity;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
-import net.minecraft.world.World;
 
 public class BlockWall extends BlockFurnitureRotate {
 
-	@Override
-	public void setBlockBoundsBasedOnState(IBlockAccess worldIn, BlockPos pos) {
-		EnumFacing facing = (EnumFacing) worldIn.getBlockState(pos).getValue(FACING);
-
-		float f1 = 0;
-		float f2 = 0;
-		float f3 = 1;
-		float f4 = 1;
-
-		if (facing == EnumFacing.EAST) {
-			f1 = 0.81F;
-		} else if (facing == EnumFacing.NORTH) {
-			f4 = 0.19F;
-		} else if (facing == EnumFacing.WEST) {
-			f3 = 0.19F;
-		} else if (facing == EnumFacing.SOUTH) {
-			f2 = 0.81F;
-		}
-
-		this.setBlockBounds(f1, 0F, f2, f3, 1F, f4);
-	}
+	private static final AxisAlignedBB EAST_AABB = new AxisAlignedBB(0.81F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
+	private static final AxisAlignedBB WEST_AABB = new AxisAlignedBB(0.0F, 0.0F, 0.0F, 0.19F, 1.0F, 1.0F);
+	private static final AxisAlignedBB NORTH_AABB = new AxisAlignedBB(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 0.19F);
+	private static final AxisAlignedBB SOUTH_AABB = new AxisAlignedBB(0.0F, 0.0F, 0.81F, 1.0F, 1F, 1F);
 
 	@Override
-	public void addCollisionBoxesToList(World worldIn, BlockPos pos, IBlockState state, AxisAlignedBB mask, List<AxisAlignedBB> list, Entity collidingEntity) {
-		EnumFacing facing = (EnumFacing) worldIn.getBlockState(pos).getValue(FACING);
-		float f1 = 0;
-		float f2 = 0;
-		float f3 = 1;
-		float f4 = 1;
-
-		if (facing == EnumFacing.EAST) {
-			f1 = 0.81F;
-		} else if (facing == EnumFacing.NORTH) {
-			f4 = 0.19F;
-		} else if (facing == EnumFacing.WEST) {
-			f3 = 0.19F;
-		} else if (facing == EnumFacing.SOUTH) {
-			f2 = 0.81F;
+	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
+		switch (state.getValue(FACING)) {
+		case EAST:
+			return EAST_AABB;
+		case NORTH:
+			return NORTH_AABB;
+		case SOUTH:
+			return SOUTH_AABB;
+		case WEST:
+			return WEST_AABB;
+		default:
+			return FULL_BLOCK_AABB;
 		}
-
-		this.setBlockBounds(f1, 0F, f2, f3, 1F, f4);
-		super.addCollisionBoxesToList(worldIn, pos, state, mask, list, collidingEntity);
 	}
-
 }

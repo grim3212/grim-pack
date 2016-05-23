@@ -2,7 +2,7 @@ package com.grim3212.mc.pack.decor.block;
 
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyDirection;
-import net.minecraft.block.state.BlockState;
+import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.common.property.ExtendedBlockState;
@@ -17,7 +17,7 @@ public class BlockFurnitureRotate extends BlockTextured {
 	}
 
 	@Override
-	protected BlockState createBlockState() {
+	protected BlockStateContainer createBlockState() {
 		return new ExtendedBlockState(this, new IProperty[] { FACING }, new IUnlistedProperty[] { BLOCKID, BLOCKMETA });
 	}
 

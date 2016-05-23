@@ -20,8 +20,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.network.NetworkManager;
-import net.minecraft.network.Packet;
-import net.minecraft.network.play.INetHandlerPlayClient;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntityLockable;
 import net.minecraft.util.ITickable;
@@ -49,7 +47,12 @@ public class TileEntityGrill extends TileEntityLockable implements ITickable, II
 	}
 
 	@Override
-	public void writeToNBT(NBTTagCompound compound) {
+	public NBTTagCompound getUpdateTag() {
+		return writeToNBT(new NBTTagCompound());
+	}
+
+	@Override
+	public NBTTagCompound writeToNBT(NBTTagCompound compound) {
 		super.writeToNBT(compound);
 		compound.setInteger("blockID", this.blockID);
 		compound.setInteger("blockMeta", this.blockMeta);
@@ -76,6 +79,8 @@ public class TileEntityGrill extends TileEntityLockable implements ITickable, II
 		if (this.hasCustomName()) {
 			compound.setString("CustomName", this.customName);
 		}
+
+		return compound;
 	}
 
 	@Override
@@ -119,7 +124,7 @@ public class TileEntityGrill extends TileEntityLockable implements ITickable, II
 			this.grillCoal = 4000;
 
 		if ((this.grillCoal <= 1) && (getWorld().getBlockState(getPos()).getValue(BlockGrill.ACTIVE))) {
-			if ((getStackInSlot(4) != null) && (getStackInSlot(4).getItem() == Items.coal)) {
+			if ((getStackInSlot(4) != null) && (getStackInSlot(4).getItem() == Items.COAL)) {
 				this.grillCoal = 4001;
 
 				if (getStackInSlot(4).stackSize > 1) {
@@ -135,7 +140,7 @@ public class TileEntityGrill extends TileEntityLockable implements ITickable, II
 				worldObj.setBlockState(getPos(), getWorld().getBlockState(getPos()).withProperty(BlockGrill.ACTIVE, false));
 			}
 			// TODO: CHECK IF THIS IS DOING ANYTHING
-			worldObj.playSound(pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D, SoundEvents.block_fire_extinguish, SoundCategory.BLOCKS, 1.0F, worldObj.rand.nextFloat() * 0.4F + 0.8F, false);
+			worldObj.playSound(pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D, SoundEvents.BLOCK_FIRE_EXTINGUISH, SoundCategory.BLOCKS, 1.0F, worldObj.rand.nextFloat() * 0.4F + 0.8F, false);
 		}
 
 		if (isGrillBurning()) {
@@ -240,18 +245,19 @@ public class TileEntityGrill extends TileEntityLockable implements ITickable, II
 		return false;
 	}
 
+	@SuppressWarnings("deprecation")
 	public int getTier() {
 		IBlockState grillType = Block.getBlockById(blockID).getStateFromMeta(blockMeta);
 
-		if (grillType.getBlock() == Blocks.diamond_block || grillType.getBlock() == Blocks.emerald_block) {
+		if (grillType.getBlock() == Blocks.DIAMOND_BLOCK || grillType.getBlock() == Blocks.EMERALD_BLOCK) {
 			return 6;
-		} else if (grillType.getMaterial() == Material.iron) {
+		} else if (grillType.getMaterial() == Material.IRON) {
 			return 5;
-		} else if (grillType.getBlock() == Blocks.obsidian || grillType.getBlock() == Blocks.end_stone || grillType.getBlock() == Blocks.lapis_block) {
+		} else if (grillType.getBlock() == Blocks.OBSIDIAN || grillType.getBlock() == Blocks.END_STONE || grillType.getBlock() == Blocks.LAPIS_BLOCK) {
 			return 4;
-		} else if (grillType.getMaterial() == Material.rock) {
+		} else if (grillType.getMaterial() == Material.ROCK) {
 			return 3;
-		} else if (grillType.getMaterial() == Material.sand) {
+		} else if (grillType.getMaterial() == Material.SAND) {
 			return 1;
 		}
 		return 2;
@@ -318,7 +324,7 @@ public class TileEntityGrill extends TileEntityLockable implements ITickable, II
 	}
 
 	@Override
-	public Packet<INetHandlerPlayClient> getDescriptionPacket() {
+	public SPacketUpdateTileEntity getUpdatePacket() {
 		NBTTagCompound nbtTagCompound = new NBTTagCompound();
 		writeToNBT(nbtTagCompound);
 		return new SPacketUpdateTileEntity(this.pos, 1, nbtTagCompound);

@@ -1,14 +1,11 @@
 package com.grim3212.mc.pack.decor.block;
 
-import java.util.List;
-
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyBool;
-import net.minecraft.block.state.BlockState;
+import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.Entity;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.property.ExtendedBlockState;
@@ -22,24 +19,18 @@ public class BlockTable extends BlockTextured {
 	public static final PropertyBool WEST = PropertyBool.create("west");
 
 	@Override
-	public void setBlockBoundsBasedOnState(IBlockAccess worldIn, BlockPos pos) {
-		this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
+	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
+		return FULL_BLOCK_AABB;
 	}
 
 	@Override
-	public void addCollisionBoxesToList(World worldIn, BlockPos pos, IBlockState state, AxisAlignedBB mask, List<AxisAlignedBB> list, Entity collidingEntity) {
-		this.setBlockBounds(0.0F, 0.8F, 0.0F, 1.0F, 1F, 1.0F);
-		super.addCollisionBoxesToList(worldIn, pos, state, mask, list, collidingEntity);
+	public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, World worldIn, BlockPos pos) {
+		return BlockCounter.COUNTER_AABB;
 	}
 
 	@Override
-	protected BlockState createBlockState() {
+	protected BlockStateContainer createBlockState() {
 		return new ExtendedBlockState(this, new IProperty[] { NORTH, SOUTH, WEST, EAST }, new IUnlistedProperty[] { BLOCKID, BLOCKMETA });
-	}
-
-	@Override
-	public IBlockState getStateForEntityRender(IBlockState state) {
-		return this.getDefaultState().withProperty(NORTH, false).withProperty(EAST, false).withProperty(SOUTH, false).withProperty(WEST, false);
 	}
 
 	@Override
@@ -56,9 +47,9 @@ public class BlockTable extends BlockTextured {
 		IBlockState blockState = worldIn.getBlockState(pos).getBlock().getDefaultState();
 		return blockState == this.getDefaultState();
 	}
-	
+
 	@Override
-	public boolean canPlaceTorchOnTop(IBlockAccess world, BlockPos pos) {
+	public boolean canPlaceTorchOnTop(IBlockState state, IBlockAccess world, BlockPos pos) {
 		return true;
 	}
 }

@@ -1,14 +1,11 @@
 package com.grim3212.mc.pack.decor.block;
 
-import java.util.List;
-
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyBool;
-import net.minecraft.block.state.BlockState;
+import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.Entity;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.property.ExtendedBlockState;
@@ -17,39 +14,23 @@ import net.minecraftforge.common.property.IUnlistedProperty;
 public class BlockStool extends BlockTextured {
 
 	public static final PropertyBool UP = PropertyBool.create("up");
+	private static final AxisAlignedBB STOOL_AABB = new AxisAlignedBB(0.18F, 0.0F, 0.18F, 0.82F, 0.63F, 0.82F);
+	private static final AxisAlignedBB WALKING_STOOL_AABB = new AxisAlignedBB(0.18F, 0.0F, 0.18F, 0.82F, 0.60F, 0.82F);
+	private static final AxisAlignedBB POT_STOOL_AABB = new AxisAlignedBB(0.18F, 0.0F, 0.18F, 0.82F, 1F, 0.82F);
 
 	@Override
-	public void setBlockBoundsBasedOnState(IBlockAccess worldIn, BlockPos pos) {
-		if (worldIn.getBlockState(pos.up()).getBlock() != DecorBlocks.pot) {
-			this.setBlockBounds(0.18F, 0.0F, 0.18F, 0.82F, 0.63F, 0.82F);
-		} else if (worldIn.getBlockState(pos.up()).getBlock() == DecorBlocks.pot) {
-			this.setBlockBounds(0.18F, 0.0F, 0.18F, 0.82F, 1F, 0.82F);
-		} else {
-			super.setBlockBoundsBasedOnState(worldIn, pos);
-		}
+	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
+		return state.getValue(UP) ? POT_STOOL_AABB : STOOL_AABB;
 	}
 
 	@Override
-	public void addCollisionBoxesToList(World worldIn, BlockPos pos, IBlockState state, AxisAlignedBB mask, List<AxisAlignedBB> list, Entity collidingEntity) {
-		if (worldIn.getBlockState(pos.up()).getBlock() != DecorBlocks.pot) {
-			this.setBlockBounds(0.18F, 0.0F, 0.18F, 0.82F, 0.60F, 0.82F);
-			super.addCollisionBoxesToList(worldIn, pos, state, mask, list, collidingEntity);
-		} else if (worldIn.getBlockState(pos.up()).getBlock() == DecorBlocks.pot) {
-			this.setBlockBounds(0.18F, 0.0F, 0.18F, 0.82F, 1F, 0.82F);
-			super.addCollisionBoxesToList(worldIn, pos, state, mask, list, collidingEntity);
-		} else {
-			super.addCollisionBoxesToList(worldIn, pos, state, mask, list, collidingEntity);
-		}
+	public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, World worldIn, BlockPos pos) {
+		return blockState.getValue(UP) ? POT_STOOL_AABB : WALKING_STOOL_AABB;
 	}
 
 	@Override
-	protected BlockState createBlockState() {
+	protected BlockStateContainer createBlockState() {
 		return new ExtendedBlockState(this, new IProperty[] { UP }, new IUnlistedProperty[] { BLOCKID, BLOCKMETA });
-	}
-
-	@Override
-	public IBlockState getStateForEntityRender(IBlockState state) {
-		return this.getDefaultState().withProperty(UP, false);
 	}
 
 	@Override

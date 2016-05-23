@@ -27,21 +27,21 @@ public class BlockButterchurn extends Block {
 	public static final PropertyInteger ACTIVE = PropertyInteger.create("active", 0, 1);
 
 	protected BlockButterchurn() {
-		super(Material.wood);
-		setStepSound(SoundType.WOOD);
+		super(Material.WOOD);
+		setSoundType(SoundType.WOOD);
 		this.setDefaultState(this.blockState.getBaseState().withProperty(ACTIVE, 0));
 	}
 
 	@Override
 	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ) {
 		if (heldItem != null) {
-			if (heldItem.getItem() == Items.milk_bucket) {
+			if (heldItem.getItem() == Items.MILK_BUCKET) {
 				if (((Integer) state.getValue(ACTIVE)) == 0) {
 					worldIn.setBlockState(pos, state.cycleProperty(ACTIVE), 4);
 
 					--heldItem.stackSize;
 					if (heldItem.stackSize <= 0) {
-						playerIn.inventory.addItemStackToInventory(new ItemStack(Items.bucket));
+						playerIn.inventory.addItemStackToInventory(new ItemStack(Items.BUCKET));
 					}
 				}
 			} else if (!OreDictionary.getOres("bucketMilk").isEmpty()) {

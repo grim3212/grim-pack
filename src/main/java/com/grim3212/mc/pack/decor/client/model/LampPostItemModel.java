@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.grim3212.mc.pack.core.client.RenderHelper;
+import com.google.common.collect.Lists;
 import com.grim3212.mc.pack.core.client.model.TexturedBuilder;
 import com.grim3212.mc.pack.core.util.NBTHelper;
 
@@ -14,32 +14,41 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BlockModelShapes;
 import net.minecraft.client.renderer.block.model.BakedQuad;
+import net.minecraft.client.renderer.block.model.IBakedModel;
 import net.minecraft.client.renderer.block.model.ItemCameraTransforms;
+import net.minecraft.client.renderer.block.model.ItemOverride;
+import net.minecraft.client.renderer.block.model.ItemOverrideList;
+import net.minecraft.client.renderer.block.model.SimpleBakedModel;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.client.resources.model.IBakedModel;
-import net.minecraft.client.resources.model.ModelResourceLocation;
-import net.minecraft.client.resources.model.SimpleBakedModel;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.client.model.ISmartItemModel;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.world.World;
 
 @SuppressWarnings("deprecation")
-public class LampPostItemModel extends SimpleBakedModel implements ISmartItemModel {
+public class LampPostItemModel extends SimpleBakedModel implements IBakedModel {
 
-	public LampPostItemModel(List<BakedQuad> l1, List<List<BakedQuad>> l2, boolean b1, boolean b2, TextureAtlasSprite sprite, ItemCameraTransforms cam) {
-		super(l1, l2, b1, b2, sprite, cam);
+	public LampPostItemModel(List<BakedQuad> l1, Map<EnumFacing, List<BakedQuad>> l2, boolean b1, boolean b2, TextureAtlasSprite sprite, ItemCameraTransforms cam, ItemOverrideList itemOverrideListIn) {
+		super(l1, l2, b1, b2, sprite, cam, itemOverrideListIn);
 	}
 
 	@Override
-	public IBakedModel handleItemState(ItemStack stack) {
-		if (stack.hasTagCompound() && stack.getTagCompound().hasKey("blockID") && stack.getTagCompound().hasKey("blockMeta")) {
-			int blockID = NBTHelper.getInt(stack, "blockID");
-			int blockMeta = NBTHelper.getInt(stack, "blockMeta");
-			return this.getCachedModel(blockID, blockMeta);
-		}
-
-		return null;
+	public ItemOverrideList getOverrides() {
+		return itemHandler;
 	}
+
+	private final ItemOverrideList itemHandler = new ItemOverrideList(Lists.<ItemOverride> newArrayList()) {
+		@Override
+		public IBakedModel handleItemState(IBakedModel model, ItemStack stack, World world, EntityLivingBase entity) {
+			if (stack.hasTagCompound() && stack.getTagCompound().hasKey("blockID") && stack.getTagCompound().hasKey("blockMeta")) {
+				int blockID = NBTHelper.getInt(stack, "blockID");
+				int blockMeta = NBTHelper.getInt(stack, "blockMeta");
+				return LampPostItemModel.this.getCachedModel(blockID, blockMeta);
+			}
+			return super.handleItemState(model, stack, world, entity);
+		}
+	};
 
 	private final Map<List<Integer>, IBakedModel> cache = new HashMap<List<Integer>, IBakedModel>();
 
@@ -51,14 +60,14 @@ public class LampPostItemModel extends SimpleBakedModel implements ISmartItemMod
 			IBlockState blockState = Block.getBlockById(blockID).getStateFromMeta(blockMeta);
 			TextureAtlasSprite blockTexture = blockModel.getTexture(blockState);
 
-			if (Block.getBlockById(blockID) == Blocks.grass) {
-				this.cache.put(key, RenderHelper.mergeModels(blockModel.getModelManager().getModel(new ModelResourceLocation("grimdecor:lamp_item_lamp", "inventory")), new LampPostItemBuilder(this, Minecraft.getMinecraft().getTextureMapBlocks().getAtlasSprite("minecraft:blocks/grass_top")).makeBakedModel()));
-			} else if (Block.getBlockById(blockID) == Blocks.dirt && blockMeta == 2) {
-				this.cache.put(key, RenderHelper.mergeModels(blockModel.getModelManager().getModel(new ModelResourceLocation("grimdecor:lamp_item_lamp", "inventory")), new LampPostItemBuilder(this, Minecraft.getMinecraft().getTextureMapBlocks().getAtlasSprite("minecraft:blocks/dirt_podzol_top")).makeBakedModel()));
-			} else if (Block.getBlockById(blockID) == Blocks.mycelium) {
-				this.cache.put(key, RenderHelper.mergeModels(blockModel.getModelManager().getModel(new ModelResourceLocation("grimdecor:lamp_item_lamp", "inventory")), new LampPostItemBuilder(this, Minecraft.getMinecraft().getTextureMapBlocks().getAtlasSprite("minecraft:blocks/mycelium_top")).makeBakedModel()));
+			if (Block.getBlockById(blockID) == Blocks.GRASS) {
+				this.cache.put(key, new LampPostItemBuilder(this, Minecraft.getMinecraft().getTextureMapBlocks().getAtlasSprite("minecraft:blocks/grass_top")).makeBakedModel());
+			} else if (Block.getBlockById(blockID) == Blocks.DIRT && blockMeta == 2) {
+				this.cache.put(key, new LampPostItemBuilder(this, Minecraft.getMinecraft().getTextureMapBlocks().getAtlasSprite("minecraft:blocks/dirt_podzol_top")).makeBakedModel());
+			} else if (Block.getBlockById(blockID) == Blocks.MYCELIUM) {
+				this.cache.put(key, new LampPostItemBuilder(this, Minecraft.getMinecraft().getTextureMapBlocks().getAtlasSprite("minecraft:blocks/mycelium_top")).makeBakedModel());
 			} else {
-				this.cache.put(key, RenderHelper.mergeModels(blockModel.getModelManager().getModel(new ModelResourceLocation("grimdecor:lamp_item_lamp", "inventory")), new LampPostItemBuilder(this, blockTexture).makeBakedModel()));
+				this.cache.put(key, new LampPostItemBuilder(this, blockTexture).makeBakedModel());
 			}
 		}
 
@@ -75,7 +84,7 @@ public class LampPostItemModel extends SimpleBakedModel implements ISmartItemMod
 			if (this.getBuilderTexture() == null) {
 				throw new RuntimeException("Missing particle!");
 			} else {
-				return new LampPostItemModel(this.getBuilderGeneralQuads(), this.getBuilderFaceQuads(), this.isBuilderAmbientOcclusion(), this.isBuilderGui3d(), this.getBuilderTexture(), this.getBuilderCameraTransforms());
+				return new LampPostItemModel(this.getBuilderGeneralQuads(), this.getBuilderFaceQuads(), this.isBuilderAmbientOcclusion(), this.isBuilderGui3d(), this.getBuilderTexture(), this.getBuilderCameraTransforms(), this.getBuilderItemOverrideList());
 			}
 		}
 	}

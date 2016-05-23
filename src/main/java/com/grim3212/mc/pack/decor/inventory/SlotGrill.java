@@ -24,7 +24,7 @@ public class SlotGrill extends Slot {
 
 	public boolean isItemValid(ItemStack item) {
 		if (this.isFuel)
-			return (item.getItem() != null) && (item.getItem() == Items.coal);
+			return (item.getItem() != null) && (item.getItem() == Items.COAL);
 		return DecorConfig.grillRecipes.keySet().contains(item.getItem());
 	}
 }

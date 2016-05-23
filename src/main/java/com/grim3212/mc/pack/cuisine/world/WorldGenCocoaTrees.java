@@ -34,7 +34,7 @@ public class WorldGenCocoaTrees extends WorldGenerator {
 				for (int l2 = pos.getZ() - byte0; l2 <= pos.getZ() + byte0 && flag; l2++) {
 					if (i1 >= 0 && i1 < 128) {
 						Block j3 = world.getBlockState(new BlockPos(i2, i1, l2)).getBlock();
-						if (j3 != Blocks.air && !(j3 instanceof BlockLeaves)) {
+						if (j3 != Blocks.AIR && !(j3 instanceof BlockLeaves)) {
 							flag = false;
 						}
 					} else {
@@ -48,11 +48,11 @@ public class WorldGenCocoaTrees extends WorldGenerator {
 			return false;
 		}
 		Block j1 = world.getBlockState(pos.down()).getBlock();
-		if (j1 != Blocks.grass && j1 != Blocks.dirt || pos.getY() >= 128 - l - 1) {
+		if (j1 != Blocks.GRASS && j1 != Blocks.DIRT || pos.getY() >= 128 - l - 1) {
 			return false;
 		}
 
-		world.setBlockState(pos.down(), Blocks.dirt.getDefaultState());
+		world.setBlockState(pos.down(), Blocks.DIRT.getDefaultState());
 		for (int k1 = (pos.getY() - 3) + l; k1 <= pos.getY() + l; k1++) {
 			int j2 = k1 - (pos.getY() + l);
 			int i3 = 1 - j2 / 2;
@@ -66,17 +66,17 @@ public class WorldGenCocoaTrees extends WorldGenerator {
 						continue;
 					}
 					if (random.nextInt(60) < 10) {
-						if (world.getBlockState(newPos) == Blocks.log.getDefaultState()) {
+						if (world.getBlockState(newPos) == Blocks.LOG.getDefaultState()) {
 							continue;
 						}
 						if (world.getBlockState(newPos.down()) == CuisineBlocks.cocoa_block.getDefaultState()) {
-							world.setBlockState(newPos, Blocks.leaves.getDefaultState());
+							world.setBlockState(newPos, Blocks.LEAVES.getDefaultState());
 						} else {
 							world.setBlockState(newPos, CuisineBlocks.cocoa_block.getDefaultState());
-							world.setBlockState(newPos.up(), Blocks.leaves.getDefaultState());
+							world.setBlockState(newPos.up(), Blocks.LEAVES.getDefaultState());
 						}
 					} else {
-						world.setBlockState(newPos, Blocks.leaves.getDefaultState());
+						world.setBlockState(newPos, Blocks.LEAVES.getDefaultState());
 					}
 				}
 			}
@@ -84,8 +84,8 @@ public class WorldGenCocoaTrees extends WorldGenerator {
 
 		for (int l1 = 0; l1 < l; l1++) {
 			Block k2 = world.getBlockState(pos.up(l1)).getBlock();
-			if (k2 == Blocks.air || k2 instanceof BlockLeaves) {
-				world.setBlockState(pos.up(l1), Blocks.log.getDefaultState());
+			if (k2 == Blocks.AIR || k2 instanceof BlockLeaves) {
+				world.setBlockState(pos.up(l1), Blocks.LOG.getDefaultState());
 			}
 		}
 		return true;

@@ -10,8 +10,8 @@ import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.translation.I18n;
 
 public class GuiManualIndex extends GuiScreen {
 
@@ -79,7 +79,7 @@ public class GuiManualIndex extends GuiScreen {
 	protected void drawTitle() {
 		boolean unicode = fontRendererObj.getUnicodeFlag();
 		fontRendererObj.setUnicodeFlag(false);
-		String title = I18n.translateToLocal("grim.manual.title");
+		String title = I18n.format("grim.manual.title");
 		fontRendererObj.drawString(title, width / 2 - fontRendererObj.getStringWidth(title) / 2, this.y + 14, 0x0026FF, false);
 		fontRendererObj.setUnicodeFlag(unicode);
 	}
@@ -88,7 +88,7 @@ public class GuiManualIndex extends GuiScreen {
 		if (page == 0) {
 			boolean unicode = fontRendererObj.getUnicodeFlag();
 			fontRendererObj.setUnicodeFlag(true);
-			fontRendererObj.drawSplitString(I18n.translateToLocal("grim.manual.header"), x + 15, y + 28, 162, 0);
+			fontRendererObj.drawSplitString(I18n.format("grim.manual.header"), x + 15, y + 28, 162, 0);
 			fontRendererObj.setUnicodeFlag(unicode);
 		}
 	}

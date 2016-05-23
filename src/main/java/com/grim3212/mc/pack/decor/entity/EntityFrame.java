@@ -15,8 +15,14 @@ import net.minecraft.entity.EntityHanging;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
+import net.minecraft.init.SoundEvents;
+import net.minecraft.item.ItemAxe;
+import net.minecraft.item.ItemPickaxe;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.datasync.DataParameter;
+import net.minecraft.network.datasync.DataSerializers;
+import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
@@ -43,6 +49,12 @@ public class EntityFrame extends EntityHanging implements IEntityAdditionalSpawn
 	public static final int[] colorValues = { 1973019, 11743532, 3887386, 5320730, 2437522, 8073150, 2651799, 8816262, 4408131, 14188952, 4312372, 14602026, 6719955, 12801229, 15435844, 16777215 };
 	private BlockPos pos;
 
+	private static final DataParameter<Boolean> BURNT = EntityDataManager.createKey(EntityFrame.class, DataSerializers.BOOLEAN);
+	private static final DataParameter<Integer> FRAME_ID = EntityDataManager.createKey(EntityFrame.class, DataSerializers.VARINT);
+	private static final DataParameter<Integer> COLOR_RED = EntityDataManager.createKey(EntityFrame.class, DataSerializers.VARINT);
+	private static final DataParameter<Integer> COLOR_GREEN = EntityDataManager.createKey(EntityFrame.class, DataSerializers.VARINT);
+	private static final DataParameter<Integer> COLOR_BLUE = EntityDataManager.createKey(EntityFrame.class, DataSerializers.VARINT);
+
 	public EntityFrame(World world) {
 		super(world);
 	}
@@ -57,7 +69,7 @@ public class EntityFrame extends EntityHanging implements IEntityAdditionalSpawn
 
 		for (int i = 0; i < EnumFrame.values().length; i++) {
 			EnumFrame tryFrame = EnumFrame.values()[i];
-			this.getDataWatcher().updateObject(8, tryFrame.id);
+			this.getDataManager().set(FRAME_ID, tryFrame.id);
 			setDirectionAndSize(direction);
 			if (onValidSurface()) {
 				// For the first valid direction update the frame and you don't
@@ -71,11 +83,11 @@ public class EntityFrame extends EntityHanging implements IEntityAdditionalSpawn
 
 	@Override
 	protected void entityInit() {
-		this.getDataWatcher().addObject(8, 1);
-		this.getDataWatcher().addObject(9, 256);
-		this.getDataWatcher().addObject(10, 256);
-		this.getDataWatcher().addObject(11, 256);
-		this.getDataWatcher().addObject(12, (byte) 0);
+		this.getDataManager().register(FRAME_ID, 1);
+		this.getDataManager().register(COLOR_RED, 256);
+		this.getDataManager().register(COLOR_GREEN, 256);
+		this.getDataManager().register(COLOR_BLUE, 256);
+		this.getDataManager().register(BURNT, false);
 	}
 
 	@Override
@@ -83,7 +95,7 @@ public class EntityFrame extends EntityHanging implements IEntityAdditionalSpawn
 		ItemStack itemstack = player.inventory.getCurrentItem();
 		if (player.canPlayerEdit(pos, EnumFacing.getHorizontal(this.direction), itemstack)) {
 			if (itemstack != null) {
-				if ((DecorConfig.dyeFrames) && (itemstack.getItem() == Items.dye)) {
+				if ((DecorConfig.dyeFrames) && (itemstack.getItem() == Items.DYE)) {
 					if (dyeFrame(itemstack.getItemDamage())) {
 						if (!player.capabilities.isCreativeMode) {
 							itemstack.stackSize -= 1;
@@ -108,7 +120,7 @@ public class EntityFrame extends EntityHanging implements IEntityAdditionalSpawn
 		while (looking) {
 			for (int i = 0; i < EnumFrame.values().length; i++) {
 				EnumFrame tryFrame = EnumFrame.values()[i];
-				this.getDataWatcher().updateObject(8, tryFrame.id);
+				this.getDataManager().set(FRAME_ID, tryFrame.id);
 				setDirectionAndSize(this.direction);
 				if (onValidSurface()) {
 					if (foundOld) {
@@ -140,10 +152,10 @@ public class EntityFrame extends EntityHanging implements IEntityAdditionalSpawn
 			return false;
 		}
 
-		this.getDataWatcher().updateObject(9, newred);
-		this.getDataWatcher().updateObject(10, newgreen);
-		this.getDataWatcher().updateObject(11, newblue);
-		this.getDataWatcher().updateObject(12, burn ? (byte) 1 : (byte) 0);
+		this.getDataManager().set(COLOR_RED, newred);
+		this.getDataManager().set(COLOR_GREEN, newgreen);
+		this.getDataManager().set(COLOR_BLUE, newblue);
+		this.getDataManager().set(BURNT, burn);
 
 		if (!this.worldObj.isRemote) {
 			if (burn) {
@@ -249,7 +261,7 @@ public class EntityFrame extends EntityHanging implements IEntityAdditionalSpawn
 	@Override
 	public void onUpdate() {
 		if ((this.material == 0) && (DecorConfig.burnFrames)) {
-			if (WorldHelper.isAABBInMaterial(worldObj, this.fireboundingBox.expand(-0.001D, -0.001D, -0.001D), Material.fire)) {
+			if (WorldHelper.isAABBInMaterial(worldObj, this.fireboundingBox.expand(-0.001D, -0.001D, -0.001D), Material.FIRE)) {
 				if (!this.getBurned()) {
 					dyeFrame(8, true);
 				}
@@ -258,12 +270,12 @@ public class EntityFrame extends EntityHanging implements IEntityAdditionalSpawn
 	}
 
 	public EnumFrame getCurrentFrame() {
-		return EnumFrame.getFrameById(this.getDataWatcher().getWatchableObjectInt(8));
+		return EnumFrame.getFrameById(this.getDataManager().get(FRAME_ID));
 	}
 
 	@Override
 	public boolean onValidSurface() {
-		if (this.worldObj.getCollidingBoundingBoxes(this, this.setupboundingBox).size() > 0) {
+		if (this.worldObj.getCollisionBoxes(this, this.setupboundingBox).size() > 0) {
 			return false;
 		}
 
@@ -351,11 +363,11 @@ public class EntityFrame extends EntityHanging implements IEntityAdditionalSpawn
 		ItemStack itemstack = player.inventory.getCurrentItem();
 
 		if (itemstack != null) {
-			if ((this.material == 0) && (((itemstack.getItem() == DecorItems.frame) && (itemstack.getItemDamage() == this.material)) || (itemstack.getItem() == Items.wooden_axe) || (itemstack.getItem() == Items.stone_axe) || (itemstack.getItem() == Items.iron_axe) || (itemstack.getItem() == Items.golden_axe) || (itemstack.getItem() == Items.diamond_axe) || (itemstack.getItem() == Items.dye))) {
+			if ((this.material == 0) && (((itemstack.getItem() == DecorItems.frame) && (itemstack.getItemDamage() == this.material)) || (itemstack.getItem() instanceof ItemAxe) || (itemstack.getItem() == Items.DYE))) {
 				return true;
 			}
 
-			if ((this.material == 1) && (((itemstack.getItem() == DecorItems.frame) && (itemstack.getItemDamage() == this.material)) || (itemstack.getItem() == Items.wooden_pickaxe) || (itemstack.getItem() == Items.stone_pickaxe) || (itemstack.getItem() == Items.iron_pickaxe) || (itemstack.getItem() == Items.golden_pickaxe) || (itemstack.getItem() == Items.diamond_pickaxe) || (itemstack.getItem() == Items.dye))) {
+			if ((this.material == 1) && (((itemstack.getItem() == DecorItems.frame) && (itemstack.getItemDamage() == this.material)) || (itemstack.getItem() instanceof ItemPickaxe) || (itemstack.getItem() == Items.DYE))) {
 				return true;
 			}
 		}
@@ -426,27 +438,27 @@ public class EntityFrame extends EntityHanging implements IEntityAdditionalSpawn
 	public void playFrameSound() {
 		switch (this.material) {
 		case 0:
-			this.worldObj.playSoundEffect(this.posX + 0.5D, this.posY + 0.5D, this.posZ + 0.5D, "step.wood", 1.0F, 0.8F);
+			this.playSound(SoundEvents.BLOCK_WOOD_STEP, 1.0F, 0.8F);
 			break;
 		case 1:
-			this.worldObj.playSoundEffect(this.posX + 0.5D, this.posY + 0.5D, this.posZ + 0.5D, "step.stone", 1.0F, 1.2F);
+			this.playSound(SoundEvents.BLOCK_STONE_STEP, 1.0F, 1.2F);
 		}
 	}
 
 	public int getFrameID() {
-		return this.getDataWatcher().getWatchableObjectInt(8);
+		return this.getDataManager().get(FRAME_ID);
 	}
 
 	public int[] getFrameColor() {
-		return new int[] { this.getDataWatcher().getWatchableObjectInt(9), this.getDataWatcher().getWatchableObjectInt(10), this.getDataWatcher().getWatchableObjectInt(11) };
+		return new int[] { this.getDataManager().get(COLOR_RED), this.getDataManager().get(COLOR_GREEN), this.getDataManager().get(COLOR_BLUE) };
 	}
 
 	public boolean getBurned() {
-		return this.getDataWatcher().getWatchableObjectByte(12) == (byte) 1;
+		return this.getDataManager().get(BURNT);
 	}
 
 	public void playBurnSound() {
-		this.worldObj.playSoundEffect(this.posX + 0.5D, this.posY + 0.5D, this.posZ + 0.5D, "fire.fire", 1.0F, 1.0F);
+		this.playSound(SoundEvents.BLOCK_FIRE_AMBIENT, 1.0F, 1.0F);
 	}
 
 	@Override
@@ -473,12 +485,12 @@ public class EntityFrame extends EntityHanging implements IEntityAdditionalSpawn
 		this.zPosition = nbttagcompound.getInteger("TileZ");
 
 		this.pos = new BlockPos(xPosition, yPosition, zPosition);
-		this.getDataWatcher().updateObject(9, nbttagcompound.getInteger("Red"));
-		this.getDataWatcher().updateObject(10, nbttagcompound.getInteger("Green"));
-		this.getDataWatcher().updateObject(11, nbttagcompound.getInteger("Blue"));
+		this.getDataManager().set(COLOR_RED, nbttagcompound.getInteger("Red"));
+		this.getDataManager().set(COLOR_GREEN, nbttagcompound.getInteger("Green"));
+		this.getDataManager().set(COLOR_BLUE, nbttagcompound.getInteger("Blue"));
 		this.material = nbttagcompound.getInteger("Material");
-		this.getDataWatcher().updateObject(8, nbttagcompound.getInteger("Motive"));
-		this.getDataWatcher().updateObject(12, nbttagcompound.getBoolean("Burnt") ? (byte) 1 : (byte) 0);
+		this.getDataManager().set(FRAME_ID, nbttagcompound.getInteger("Motive"));
+		this.getDataManager().set(BURNT, nbttagcompound.getBoolean("Burnt"));
 
 		setDirectionAndSize(this.direction);
 		setResistance(this.material);
@@ -509,15 +521,15 @@ public class EntityFrame extends EntityHanging implements IEntityAdditionalSpawn
 		this.zPosition = data.readInt();
 		this.pos = new BlockPos(xPosition, yPosition, zPosition);
 		this.material = data.readInt();
-		this.getDataWatcher().updateObject(8, data.readInt());
+		this.getDataManager().set(FRAME_ID, data.readInt());
 
 		setDirectionAndSize(this.direction);
 		setResistance(this.material);
 
-		this.getDataWatcher().updateObject(9, data.readInt());
-		this.getDataWatcher().updateObject(10, data.readInt());
-		this.getDataWatcher().updateObject(11, data.readInt());
-		this.getDataWatcher().updateObject(12, data.readBoolean() ? (byte) 1 : (byte) 0);
+		this.getDataManager().set(COLOR_RED, data.readInt());
+		this.getDataManager().set(COLOR_GREEN, data.readInt());
+		this.getDataManager().set(COLOR_BLUE, data.readInt());
+		this.getDataManager().set(BURNT, data.readBoolean());
 	}
 
 	@Override
@@ -551,6 +563,6 @@ public class EntityFrame extends EntityHanging implements IEntityAdditionalSpawn
 	}
 
 	@Override
-	public void func_184523_o() {
+	public void playPlaceSound() {
 	}
 }

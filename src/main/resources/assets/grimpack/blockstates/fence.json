@@ -1,0 +1,25 @@
+{
+	"forge_marker": 1,
+    "defaults": {
+		"transform": "forge:default-block"
+    },
+    "variants": {
+        "east=false,north=false,south=false,west=false": [{ "model": "grimpack:fence_post" }],
+        "east=false,north=true,south=false,west=false": [{ "model": "grimpack:fence_n", "uvlock": true }],
+        "east=true,north=false,south=false,west=false": [{ "model": "grimpack:fence_n", "y": 90, "uvlock": true }],
+        "east=false,north=false,south=true,west=false": [{ "model": "grimpack:fence_n", "y": 180, "uvlock": true }],
+        "east=false,north=false,south=false,west=true": [{ "model": "grimpack:fence_n", "y": 270, "uvlock": true }],
+        "east=true,north=true,south=false,west=false": [{ "model": "grimpack:fence_ne", "uvlock": true }],
+        "east=true,north=false,south=true,west=false": [{ "model": "grimpack:fence_ne", "y": 90, "uvlock": true }],
+        "east=false,north=false,south=true,west=true": [{ "model": "grimpack:fence_ne", "y": 180, "uvlock": true }],
+        "east=false,north=true,south=false,west=true": [{ "model": "grimpack:fence_ne", "y": 270, "uvlock": true }],
+        "east=false,north=true,south=true,west=false": [{ "model": "grimpack:fence_ns", "uvlock": true }],
+        "east=true,north=false,south=false,west=true": [{ "model": "grimpack:fence_ns", "y": 90, "uvlock": true }],
+        "east=true,north=true,south=true,west=false": [{ "model": "grimpack:fence_nse", "uvlock": true }],
+        "east=true,north=false,south=true,west=true": [{ "model": "grimpack:fence_nse", "y": 90, "uvlock": true }],
+        "east=false,north=true,south=true,west=true": [{ "model": "grimpack:fence_nse", "y": 180, "uvlock": true }],
+        "east=true,north=true,south=false,west=true": [{ "model": "grimpack:fence_nse", "y": 270, "uvlock": true }],
+        "east=true,north=true,south=true,west=true": [{ "model": "grimpack:fence_nsew", "uvlock": true }],
+		"inventory": [{ "model": "grimpack:fence_inventory" }]
+    }
+}

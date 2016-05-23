@@ -28,7 +28,7 @@ public class ItemBowlChocolate extends Item {
 			entity.heal(4f);
 		}
 
-		return stack.stackSize <= 0 ? new ItemStack(Items.bowl) : stack;
+		return stack.stackSize <= 0 ? new ItemStack(Items.BOWL) : stack;
 	}
 
 	@Override

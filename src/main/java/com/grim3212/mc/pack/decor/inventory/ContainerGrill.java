@@ -7,7 +7,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.Container;
-import net.minecraft.inventory.ICrafting;
+import net.minecraft.inventory.IContainerListener;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.relauncher.Side;
@@ -41,8 +41,8 @@ public class ContainerGrill extends Container {
 	}
 
 	@Override
-	public void onCraftGuiOpened(ICrafting crafting) {
-		super.onCraftGuiOpened(crafting);
+	public void addListener(IContainerListener crafting) {
+		super.addListener(crafting);
 		crafting.sendAllWindowProperties(this, grill);
 	}
 
@@ -50,8 +50,8 @@ public class ContainerGrill extends Container {
 	public void detectAndSendChanges() {
 		super.detectAndSendChanges();
 
-		for (int var1 = 0; var1 < this.crafters.size(); var1++) {
-			ICrafting var2 = (ICrafting) this.crafters.get(var1);
+		for (int var1 = 0; var1 < this.listeners.size(); var1++) {
+			IContainerListener var2 = (IContainerListener) this.listeners.get(var1);
 
 			if (this.lastCoalTime != this.grill.grillCoal) {
 				var2.sendProgressBarUpdate(this, 0, this.grill.grillCoal);
@@ -142,8 +142,8 @@ public class ContainerGrill extends Container {
 
 				}
 
-				if (realstack.getItem() == Items.coal) {
-					if ((this.grill.getStackInSlot(4) != null) && (this.grill.getStackInSlot(4).getItem() == Items.coal) && (this.grill.getStackInSlot(4).stackSize < this.grill.getInventoryStackLimit()) && (this.grill.getStackInSlot(4).getItemDamage() == realstack.getItemDamage())) {
+				if (realstack.getItem() == Items.COAL) {
+					if ((this.grill.getStackInSlot(4) != null) && (this.grill.getStackInSlot(4).getItem() == Items.COAL) && (this.grill.getStackInSlot(4).stackSize < this.grill.getInventoryStackLimit()) && (this.grill.getStackInSlot(4).getItemDamage() == realstack.getItemDamage())) {
 						ItemStack fuel = this.grill.getStackInSlot(4);
 						int difference = this.grill.getInventoryStackLimit() - fuel.stackSize;
 

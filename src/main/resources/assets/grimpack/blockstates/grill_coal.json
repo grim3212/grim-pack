@@ -1,0 +1,11 @@
+{
+	"forge_marker": 1,
+    "defaults": {
+		"transform": "forge:default-block",
+        "model": "grimpack:grill_coal"
+    },
+    "variants": {
+        "normal": [{}],
+		"inventory": [{}]
+    }
+}

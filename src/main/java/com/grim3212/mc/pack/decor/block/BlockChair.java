@@ -4,33 +4,37 @@ import java.util.List;
 
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public class BlockChair extends BlockFurnitureRotate {
 
+	private static final AxisAlignedBB BASE_AABB = new AxisAlignedBB(0, 0, 0, 1, 0.5f, 1);
+	private static final AxisAlignedBB EAST_AABB = new AxisAlignedBB(0.0F, 0.0F, 0.81F, 1.0F, 1.0F, 1.0F);
+	private static final AxisAlignedBB WEST_AABB = new AxisAlignedBB(0.81F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
+	private static final AxisAlignedBB NORTH_AABB = new AxisAlignedBB(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 0.19F);
+	private static final AxisAlignedBB SOUTH_AABB = new AxisAlignedBB(0.0F, 0.0F, 0.0F, 0.19F, 1F, 1F);
+
 	@Override
-	public void addCollisionBoxesToList(World worldIn, BlockPos pos, IBlockState state, AxisAlignedBB mask, List<AxisAlignedBB> list, Entity collidingEntity) {
-		this.setBlockBounds(0.0F, 0.0F, 0.0F, 1F, 0.5F, 1F);
-		super.addCollisionBoxesToList(worldIn, pos, state, mask, list, collidingEntity);
+	public void addCollisionBoxToList(IBlockState state, World worldIn, BlockPos pos, AxisAlignedBB entityBox, List<AxisAlignedBB> collidingBoxes, Entity entityIn) {
+		addCollisionBoxToList(pos, entityBox, collidingBoxes, BASE_AABB);
 
-		int l = worldIn.getBlockState(pos).getBlock().getMetaFromState(state) % 4;
-
-		if (l == 1) {
-			this.setBlockBounds(0.81F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
-			super.addCollisionBoxesToList(worldIn, pos, state, mask, list, collidingEntity);
-		} else if (l == 2) {
-			this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 0.19F);
-			super.addCollisionBoxesToList(worldIn, pos, state, mask, list, collidingEntity);
-		} else if (l == 0) {
-			this.setBlockBounds(0.0F, 0.0F, 0.0F, 0.19F, 1F, 1F);
-			super.addCollisionBoxesToList(worldIn, pos, state, mask, list, collidingEntity);
-		} else if (l == 3) {
-			this.setBlockBounds(0.0F, 0.0F, 0.81F, 1.0F, 1.0F, 1.0F);
-			super.addCollisionBoxesToList(worldIn, pos, state, mask, list, collidingEntity);
+		switch (state.getValue(FACING)) {
+		case EAST:
+			addCollisionBoxToList(pos, entityBox, collidingBoxes, EAST_AABB);
+			break;
+		case NORTH:
+			addCollisionBoxToList(pos, entityBox, collidingBoxes, NORTH_AABB);
+			break;
+		case SOUTH:
+			addCollisionBoxToList(pos, entityBox, collidingBoxes, SOUTH_AABB);
+			break;
+		case WEST:
+			addCollisionBoxToList(pos, entityBox, collidingBoxes, WEST_AABB);
+			break;
+		default:
+			break;
 		}
-
-		this.setBlockBounds(0.0F, 0.0F, 0.0F, 1F, 1F, 1F);
 	}
 }

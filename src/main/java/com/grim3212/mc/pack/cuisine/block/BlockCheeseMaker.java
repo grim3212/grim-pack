@@ -27,8 +27,8 @@ public class BlockCheeseMaker extends Block {
 	public static final PropertyInteger STAGE = PropertyInteger.create("stage", 0, 15);
 
 	protected BlockCheeseMaker() {
-		super(Material.ground);
-		setStepSound(SoundType.STONE);
+		super(Material.GROUND);
+		setSoundType(SoundType.STONE);
 		setTickRandomly(true);
 		this.setDefaultState(this.blockState.getBaseState().withProperty(STAGE, 0));
 	}
@@ -84,13 +84,13 @@ public class BlockCheeseMaker extends Block {
 	@Override
 	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ) {
 		if (heldItem != null) {
-			if (heldItem.getItem() == Items.milk_bucket) {
+			if (heldItem.getItem() == Items.MILK_BUCKET) {
 				if (state.getValue(STAGE) == 0) {
 					worldIn.setBlockState(pos, state.withProperty(STAGE, 1), 2);
 
 					--heldItem.stackSize;
 					if (heldItem.stackSize <= 0) {
-						playerIn.inventory.addItemStackToInventory(new ItemStack(Items.bucket));
+						playerIn.inventory.addItemStackToInventory(new ItemStack(Items.BUCKET));
 					}
 				}
 			} else if (!OreDictionary.getOres("bucketMilk").isEmpty()) {

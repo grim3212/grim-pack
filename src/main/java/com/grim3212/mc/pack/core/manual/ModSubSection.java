@@ -5,7 +5,7 @@ import java.util.Arrays;
 
 import com.grim3212.mc.pack.core.manual.pages.Page;
 
-import net.minecraft.util.text.translation.I18n;
+import net.minecraft.client.resources.I18n;
 
 public class ModSubSection {
 
@@ -23,7 +23,7 @@ public class ModSubSection {
 	}
 
 	public String getSubSectionName() {
-		return I18n.translateToLocal(this.getUnlocalizedSubSectionName());
+		return I18n.format(this.getUnlocalizedSubSectionName());
 	}
 
 	public ModSubSection addSubSectionPages(Page... pages) {
@@ -32,7 +32,7 @@ public class ModSubSection {
 		for (Page page : pages) {
 			page.setPartId(modID);
 			page.setPageName(this.getUnlocalizedSubSectionName() + ".page." + page.getPageName());
-			page.setLocalizedPageName(I18n.translateToLocal(page.getPageName() + ".title"));
+			page.setLocalizedPageName(I18n.format(page.getPageName() + ".title"));
 
 			// If using values set above
 			if (page.setupMethod())

@@ -4,29 +4,34 @@ import com.grim3212.mc.pack.decor.tile.TileEntityWallClock;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.ITileEntityProvider;
+import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyDirection;
 import net.minecraft.block.properties.PropertyInteger;
-import net.minecraft.block.state.BlockState;
+import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumWorldBlockLayer;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
 public class BlockWallClock extends Block implements ITileEntityProvider {
 
+	protected static final AxisAlignedBB CLOCK_NORTH_AABB = new AxisAlignedBB(0.0D, 0.0D, 0.875D, 1.0D, 1.0D, 1.0D);
+	protected static final AxisAlignedBB CLOCK_SOUTH_AABB = new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 1.0D, 0.125D);
+	protected static final AxisAlignedBB CLOCK_WEST_AABB = new AxisAlignedBB(0.875D, 0.0D, 0.0D, 1.0D, 1.0D, 1.0D);
+	protected static final AxisAlignedBB CLOCK_EAST_AABB = new AxisAlignedBB(0.0D, 0.0D, 0.0D, 0.125D, 1.0D, 1.0D);
 	public static final PropertyDirection FACING = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
 	public static final PropertyInteger TIME = PropertyInteger.create("time", 0, 63);
 
 	protected BlockWallClock() {
-		super(Material.circuits);
-		this.setBlockBounds(0.0F, 0.0F, 0.0F, 0.25F, 1.0F, 1.0F);
+		super(Material.CIRCUITS);
 		this.setDefaultState(blockState.getBaseState().withProperty(FACING, EnumFacing.SOUTH));
+		setSoundType(SoundType.WOOD);
 	}
 
 	@Override
@@ -52,84 +57,53 @@ public class BlockWallClock extends Block implements ITileEntityProvider {
 	}
 
 	@Override
-	protected BlockState createBlockState() {
-		return new BlockState(this, FACING, TIME);
+	protected BlockStateContainer createBlockState() {
+		return new BlockStateContainer(this, FACING, TIME);
 	}
 
 	@Override
-	public void setBlockBoundsBasedOnState(IBlockAccess worldIn, BlockPos pos) {
-		EnumFacing face = (EnumFacing) worldIn.getBlockState(pos).getValue(FACING);
-
-		float f = 0.125F;
-		if (face == EnumFacing.NORTH) {
-			setBlockBounds(0.0F, 0.0F, 1.0F - f, 1.0F, 1.0F, 1.0F);
-		}
-		if (face == EnumFacing.SOUTH) {
-			setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, f);
-		}
-		if (face == EnumFacing.WEST) {
-			setBlockBounds(1.0F - f, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
-		}
-		if (face == EnumFacing.EAST) {
-			setBlockBounds(0.0F, 0.0F, 0.0F, f, 1.0F, 1.0F);
+	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
+		switch ((EnumFacing) state.getValue(FACING)) {
+		case EAST:
+			return CLOCK_EAST_AABB;
+		case WEST:
+			return CLOCK_WEST_AABB;
+		case SOUTH:
+			return CLOCK_SOUTH_AABB;
+		case NORTH:
+			return CLOCK_NORTH_AABB;
+		default:
+			return CLOCK_NORTH_AABB;
 		}
 	}
 
 	@Override
-	public AxisAlignedBB getCollisionBoundingBox(World worldIn, BlockPos pos, IBlockState state) {
-		super.getCollisionBoundingBox(worldIn, pos, state);
-
-		EnumFacing face = (EnumFacing) state.getValue(FACING);
-
-		float f = 0.125F;
-		if (face == EnumFacing.NORTH) {
-			setBlockBounds(0.0F, 0.0F, 1.0F - f, 1.0F, 1.0F, 1.0F);
-		}
-		if (face == EnumFacing.SOUTH) {
-			setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, f);
-		}
-		if (face == EnumFacing.WEST) {
-			setBlockBounds(1.0F - f, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
-		}
-		if (face == EnumFacing.EAST) {
-			setBlockBounds(0.0F, 0.0F, 0.0F, f, 1.0F, 1.0F);
-		}
-
-		return super.getCollisionBoundingBox(worldIn, pos, state);
+	public BlockRenderLayer getBlockLayer() {
+		return BlockRenderLayer.CUTOUT;
 	}
 
 	@Override
-	public AxisAlignedBB getSelectedBoundingBox(World worldIn, BlockPos pos) {
-		return super.getSelectedBoundingBox(worldIn, pos);
-	}
-
-	@Override
-	public EnumWorldBlockLayer getBlockLayer() {
-		return EnumWorldBlockLayer.CUTOUT;
-	}
-
-	@Override
-	public boolean isOpaqueCube() {
+	public boolean isOpaqueCube(IBlockState state) {
 		return false;
 	}
 
 	@Override
-	public boolean isFullCube() {
+	public boolean isNormalCube(IBlockState state) {
 		return false;
 	}
 
 	@Override
 	public boolean canPlaceBlockAt(World worldIn, BlockPos pos) {
-		if (worldIn.getBlockState(pos.west()).getBlock().isOpaqueCube()) {
+		if (worldIn.getBlockState(pos.west()).isOpaqueCube()) {
 			return true;
 		}
-		if (worldIn.getBlockState(pos.east()).getBlock().isOpaqueCube()) {
+		if (worldIn.getBlockState(pos.east()).isOpaqueCube()) {
 			return true;
 		}
-		if (worldIn.getBlockState(pos.north()).getBlock().isOpaqueCube()) {
+		if (worldIn.getBlockState(pos.north()).isOpaqueCube()) {
 			return true;
 		} else {
-			return worldIn.getBlockState(pos.south()).getBlock().isOpaqueCube();
+			return worldIn.getBlockState(pos.south()).isOpaqueCube();
 		}
 	}
 
@@ -138,16 +112,16 @@ public class BlockWallClock extends Block implements ITileEntityProvider {
 
 		IBlockState state = this.getDefaultState();
 
-		if (facing == EnumFacing.NORTH && worldIn.getBlockState(pos.south()).getBlock().isOpaqueCube()) {
+		if (facing == EnumFacing.NORTH && worldIn.getBlockState(pos.south()).isOpaqueCube()) {
 			state = state.withProperty(FACING, EnumFacing.NORTH);
 		}
-		if (facing == EnumFacing.SOUTH && worldIn.getBlockState(pos.north()).getBlock().isOpaqueCube()) {
+		if (facing == EnumFacing.SOUTH && worldIn.getBlockState(pos.north()).isOpaqueCube()) {
 			state = state.withProperty(FACING, EnumFacing.SOUTH);
 		}
-		if (facing == EnumFacing.WEST && worldIn.getBlockState(pos.east()).getBlock().isOpaqueCube()) {
+		if (facing == EnumFacing.WEST && worldIn.getBlockState(pos.east()).isOpaqueCube()) {
 			state = state.withProperty(FACING, EnumFacing.WEST);
 		}
-		if (facing == EnumFacing.EAST && worldIn.getBlockState(pos.west()).getBlock().isOpaqueCube()) {
+		if (facing == EnumFacing.EAST && worldIn.getBlockState(pos.west()).isOpaqueCube()) {
 			state = state.withProperty(FACING, EnumFacing.EAST);
 		}
 
@@ -155,27 +129,25 @@ public class BlockWallClock extends Block implements ITileEntityProvider {
 	}
 
 	@Override
-	public void onNeighborBlockChange(World worldIn, BlockPos pos, IBlockState state, Block neighborBlock) {
+	public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn) {
 		EnumFacing facing = (EnumFacing) state.getValue(FACING);
 		boolean flag = false;
-		if (facing == EnumFacing.NORTH && worldIn.getBlockState(pos.south()).getBlock().isOpaqueCube()) {
+		if (facing == EnumFacing.NORTH && worldIn.getBlockState(pos.south()).isOpaqueCube()) {
 			flag = true;
 		}
-		if (facing == EnumFacing.SOUTH && worldIn.getBlockState(pos.north()).getBlock().isOpaqueCube()) {
+		if (facing == EnumFacing.SOUTH && worldIn.getBlockState(pos.north()).isOpaqueCube()) {
 			flag = true;
 		}
-		if (facing == EnumFacing.WEST && worldIn.getBlockState(pos.east()).getBlock().isOpaqueCube()) {
+		if (facing == EnumFacing.WEST && worldIn.getBlockState(pos.east()).isOpaqueCube()) {
 			flag = true;
 		}
-		if (facing == EnumFacing.EAST && worldIn.getBlockState(pos.west()).getBlock().isOpaqueCube()) {
+		if (facing == EnumFacing.EAST && worldIn.getBlockState(pos.west()).isOpaqueCube()) {
 			flag = true;
 		}
 		if (!flag) {
 			dropBlockAsItem(worldIn, pos, state, 0);
 			worldIn.setBlockToAir(pos);
 		}
-
-		super.onNeighborBlockChange(worldIn, pos, state, neighborBlock);
 	}
 
 	@Override

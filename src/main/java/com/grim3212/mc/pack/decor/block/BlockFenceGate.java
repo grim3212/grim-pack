@@ -1,14 +1,18 @@
 package com.grim3212.mc.pack.decor.block;
 
+import javax.annotation.Nullable;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyBool;
-import net.minecraft.block.state.BlockState;
+import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.BlockPos;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.property.ExtendedBlockState;
@@ -18,6 +22,10 @@ public class BlockFenceGate extends BlockFurnitureRotate {
 
 	public static final PropertyBool OPEN = PropertyBool.create("open");
 	public static final PropertyBool POWERED = PropertyBool.create("powered");
+	protected static final AxisAlignedBB AABB_COLLIDE_ZAXIS = new AxisAlignedBB(0.0D, 0.0D, 0.375D, 1.0D, 1.0D, 0.625D);
+	protected static final AxisAlignedBB AABB_COLLIDE_XAXIS = new AxisAlignedBB(0.375D, 0.0D, 0.0D, 0.625D, 1.0D, 1.0D);
+	protected static final AxisAlignedBB AABB_CLOSED_SELECTED_ZAXIS = new AxisAlignedBB(0.0D, 0.0D, 0.375D, 1.0D, 1.5D, 0.625D);
+	protected static final AxisAlignedBB AABB_CLOSED_SELECTED_XAXIS = new AxisAlignedBB(0.375D, 0.0D, 0.0D, 0.625D, 1.5D, 1.0D);
 
 	public BlockFenceGate() {
 		this.setDefaultState(this.getDefaultState().withProperty(OPEN, false).withProperty(POWERED, false));
@@ -25,68 +33,57 @@ public class BlockFenceGate extends BlockFurnitureRotate {
 
 	@Override
 	public boolean canPlaceBlockAt(World worldIn, BlockPos pos) {
-		return worldIn.getBlockState(pos.down()).getBlock().getMaterial().isSolid() ? super.canPlaceBlockAt(worldIn, pos) : false;
+		return worldIn.getBlockState(pos.down()).getMaterial().isSolid() ? super.canPlaceBlockAt(worldIn, pos) : false;
 	}
 
 	@Override
-	public AxisAlignedBB getCollisionBoundingBox(World worldIn, BlockPos pos, IBlockState state) {
-		if ((Boolean) state.getValue(OPEN)) {
-			return null;
-		} else {
-			EnumFacing.Axis axis = ((EnumFacing) state.getValue(FACING)).getAxis();
-			return axis == EnumFacing.Axis.Z ? new AxisAlignedBB((double) pos.getX(), (double) pos.getY(), (double) ((float) pos.getZ() + 0.375F), (double) (pos.getX() + 1), (double) ((float) pos.getY() + 1.5F), (double) ((float) pos.getZ() + 0.625F)) : new AxisAlignedBB((double) ((float) pos.getX() + 0.375F), (double) pos.getY(), (double) pos.getZ(), (double) ((float) pos.getX() + 0.625F), (double) ((float) pos.getY() + 1.5F), (double) (pos.getZ() + 1));
-		}
+	public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, World worldIn, BlockPos pos) {
+		return blockState.getValue(OPEN) ? NULL_AABB : (blockState.getValue(FACING).getAxis() == EnumFacing.Axis.Z ? AABB_CLOSED_SELECTED_ZAXIS : AABB_CLOSED_SELECTED_XAXIS);
 	}
 
 	@Override
-	public void setBlockBoundsBasedOnState(IBlockAccess worldIn, BlockPos pos) {
-		EnumFacing.Axis axis = ((EnumFacing) worldIn.getBlockState(pos).getValue(FACING)).getAxis();
-
-		if (axis == EnumFacing.Axis.Z) {
-			this.setBlockBounds(0.0F, 0.0F, 0.375F, 1.0F, 1.0F, 0.625F);
-		} else {
-			this.setBlockBounds(0.375F, 0.0F, 0.0F, 0.625F, 1.0F, 1.0F);
-		}
+	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
+		return state.getValue(FACING).getAxis() == EnumFacing.Axis.X ? AABB_COLLIDE_XAXIS : AABB_COLLIDE_ZAXIS;
 	}
 
 	@Override
 	public boolean isPassable(IBlockAccess worldIn, BlockPos pos) {
-		return (Boolean) worldIn.getBlockState(pos).getValue(OPEN);
+		return worldIn.getBlockState(pos).getValue(OPEN);
 	}
 
 	@Override
-	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumFacing side, float hitX, float hitY, float hitZ) {
-		if ((Boolean) state.getValue(OPEN)) {
+	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, @Nullable ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ) {
+		if (state.getValue(OPEN)) {
 			state = state.withProperty(OPEN, false);
-			worldIn.setBlockState(pos, state, 2);
+			worldIn.setBlockState(pos, state, 10);
 		} else {
-			EnumFacing enumfacing1 = EnumFacing.fromAngle((double) playerIn.rotationYaw);
+			EnumFacing enumfacing = EnumFacing.fromAngle((double) playerIn.rotationYaw);
 
-			if (state.getValue(FACING) == enumfacing1.getOpposite()) {
-				state = state.withProperty(FACING, enumfacing1);
+			if (state.getValue(FACING) == enumfacing.getOpposite()) {
+				state = state.withProperty(FACING, enumfacing);
 			}
 
 			state = state.withProperty(OPEN, true);
-			worldIn.setBlockState(pos, state, 2);
+			worldIn.setBlockState(pos, state, 10);
 		}
 
-		worldIn.playAuxSFXAtEntity(playerIn, (Boolean) state.getValue(OPEN) ? 1003 : 1006, pos, 0);
+		worldIn.playEvent(playerIn, state.getValue(OPEN) ? 1008 : 1014, pos, 0);
 		return true;
 	}
 
 	@Override
-	public void onNeighborBlockChange(World worldIn, BlockPos pos, IBlockState state, Block neighborBlock) {
+	public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn) {
 		if (!worldIn.isRemote) {
 			boolean flag = worldIn.isBlockPowered(pos);
 
-			if (flag || neighborBlock.canProvidePower()) {
-				if (flag && !(Boolean) state.getValue(OPEN) && !(Boolean) state.getValue(POWERED)) {
-					worldIn.setBlockState(pos, state.withProperty(POWERED, true).withProperty(OPEN, true), 2);
-					worldIn.playAuxSFXAtEntity((EntityPlayer) null, 1003, pos, 0);
-				} else if (!flag && (Boolean) state.getValue(OPEN) && (Boolean) state.getValue(POWERED)) {
-					worldIn.setBlockState(pos, state.withProperty(POWERED, false).withProperty(OPEN, false), 2);
-					worldIn.playAuxSFXAtEntity((EntityPlayer) null, 1006, pos, 0);
-				} else if (flag != (Boolean) state.getValue(POWERED)) {
+			if (flag || blockIn.getDefaultState().canProvidePower()) {
+				if (flag && !state.getValue(OPEN) && !state.getValue(POWERED)) {
+					worldIn.setBlockState(pos, state.withProperty(OPEN, true).withProperty(POWERED, true), 2);
+					worldIn.playEvent((EntityPlayer) null, 1008, pos, 0);
+				} else if (!flag && state.getValue(OPEN) && state.getValue(POWERED)) {
+					worldIn.setBlockState(pos, state.withProperty(OPEN, false).withProperty(POWERED, false), 2);
+					worldIn.playEvent((EntityPlayer) null, 1014, pos, 0);
+				} else if (flag != state.getValue(POWERED)) {
 					worldIn.setBlockState(pos, state.withProperty(POWERED, flag), 2);
 				}
 			}
@@ -103,11 +100,11 @@ public class BlockFenceGate extends BlockFurnitureRotate {
 		byte b0 = 0;
 		int i = b0 | ((EnumFacing) state.getValue(FACING)).getHorizontalIndex();
 
-		if ((Boolean) state.getValue(POWERED)) {
+		if (state.getValue(POWERED)) {
 			i |= 8;
 		}
 
-		if ((Boolean) state.getValue(OPEN)) {
+		if (state.getValue(OPEN)) {
 			i |= 4;
 		}
 
@@ -115,7 +112,7 @@ public class BlockFenceGate extends BlockFurnitureRotate {
 	}
 
 	@Override
-	protected BlockState createBlockState() {
+	protected BlockStateContainer createBlockState() {
 		return new ExtendedBlockState(this, new IProperty[] { FACING, OPEN, POWERED }, new IUnlistedProperty[] { BLOCKID, BLOCKMETA });
 	}
 }

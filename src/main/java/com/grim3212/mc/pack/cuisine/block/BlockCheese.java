@@ -14,8 +14,8 @@ public class BlockCheese extends Block {
 	protected static final AxisAlignedBB CHEESE_AABB = new AxisAlignedBB(0.0625D, 0.0D, 0.0625D, 0.9375D, 0.5D, 0.9375D);
 
 	protected BlockCheese() {
-		super(Material.cake);
-		setStepSound(SoundType.CLOTH);
+		super(Material.CAKE);
+		setSoundType(SoundType.CLOTH);
 	}
 
 	@Override
@@ -42,9 +42,9 @@ public class BlockCheese extends Block {
 	public boolean canPlaceBlockAt(World worldIn, BlockPos pos) {
 		return super.canPlaceBlockAt(worldIn, pos) ? this.canBlockStay(worldIn, pos) : false;
 	}
-
+	
 	@Override
-	public void onNeighborBlockChange(World worldIn, BlockPos pos, IBlockState state, Block neighborBlock) {
+	public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn) {
 		if (!this.canBlockStay(worldIn, pos)) {
 			this.dropBlockAsItem(worldIn, pos, state, 0);
 			worldIn.setBlockToAir(pos);

@@ -23,7 +23,7 @@ public class CoreItems implements IPartItems {
 
 	@Override
 	public void addRecipes() {
-		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(instruction_manual), new Object[] { Items.book, "dyeBlack", "dyeBrown" }));
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(instruction_manual), new Object[] { Items.BOOK, "dyeBlack", "dyeBrown" }));
 	}
 
 }

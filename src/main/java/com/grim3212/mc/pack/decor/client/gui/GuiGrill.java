@@ -16,11 +16,11 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.RenderItem;
 import net.minecraft.client.renderer.block.model.ItemCameraTransforms.TransformType;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.translation.I18n;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -41,7 +41,7 @@ public class GuiGrill extends GuiContainer {
 	@Override
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
 		this.fontRendererObj.drawString(this.grillInventory.getName(), this.xSize / 2 - this.fontRendererObj.getStringWidth(grillInventory.getName()) / 2, 6, 4210752);
-		this.fontRendererObj.drawString(I18n.translateToLocal("container.grill.tier") + " " + grillInventory.getTier(), 73, 14, 4210752);
+		this.fontRendererObj.drawString(I18n.format("container.grill.tier") + " " + grillInventory.getTier(), 73, 14, 4210752);
 		this.fontRendererObj.drawString(this.playerInv.getDisplayName().getUnformattedText(), 8, this.ySize - 96 + 2, 4210752);
 	}
 

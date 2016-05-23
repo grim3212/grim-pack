@@ -1,0 +1,14 @@
+{
+	"forge_marker": 1,
+    "defaults": {
+		"transform": "forge:default-block",
+        "model": "cross",
+		"textures": {
+            "cross": "grimpack:blocks/chain"
+        }
+    },
+    "variants": {
+        "normal": [{}],
+		"inventory": [{}]
+    }
+}

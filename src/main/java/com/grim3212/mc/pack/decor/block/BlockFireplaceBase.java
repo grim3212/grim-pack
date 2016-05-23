@@ -14,16 +14,19 @@ import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyBool;
-import net.minecraft.block.state.BlockState;
+import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.SoundCategory;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.property.ExtendedBlockState;
@@ -40,7 +43,7 @@ public class BlockFireplaceBase extends BlockTextured {
 	}
 
 	@Override
-	protected BlockState createBlockState() {
+	protected BlockStateContainer createBlockState() {
 		return new ExtendedBlockState(this, new IProperty[] { ACTIVE }, new IUnlistedProperty[] { BLOCKID, BLOCKMETA });
 	}
 
@@ -58,27 +61,27 @@ public class BlockFireplaceBase extends BlockTextured {
 	public void onBlockClicked(World worldIn, BlockPos pos, EntityPlayer playerIn) {
 		if (worldIn.getBlockState(pos).getBlock() != DecorBlocks.chimney) {
 			if (worldIn.getBlockState(pos).getValue(ACTIVE)) {
-				if (!worldIn.isRemote){
+				if (!worldIn.isRemote) {
 					PacketDispatcher.sendToDimension(new MessageParticles(pos), playerIn.dimension);
 					worldIn.setBlockState(pos, worldIn.getBlockState(pos).withProperty(ACTIVE, false));
 				}
-				worldIn.playSoundEffect(pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D, "random.fizz", 1.0F, worldIn.rand.nextFloat() * 0.4F + 0.8F);
+				worldIn.playSound(playerIn, pos, SoundEvents.BLOCK_FIRE_EXTINGUISH, SoundCategory.BLOCKS, 1.0F, worldIn.rand.nextFloat() * 0.4F + 0.8F);
 			}
 		}
 	}
 
 	@Override
-	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumFacing side, float hitX, float hitY, float hitZ) {
+	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ) {
 		if (worldIn.isRemote)
 			return true;
 
 		ItemStack stack = playerIn.inventory.getStackInSlot(playerIn.inventory.currentItem);
 
 		if (state.getBlock() != DecorBlocks.chimney) {
-			if ((stack != null) && ((stack.getItem() == Items.flint_and_steel) || (stack.getItem() == Items.fire_charge))) {
+			if ((stack != null) && ((stack.getItem() == Items.FLINT_AND_STEEL) || (stack.getItem() == Items.FIRE_CHARGE))) {
 				if (!worldIn.getBlockState(pos).getValue(ACTIVE)) {
 					stack.damageItem(1, playerIn);
-					worldIn.playSoundEffect(pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D, "fire.ignite", 1.0F, worldIn.rand.nextFloat() * 0.4F + 0.8F);
+					worldIn.playSound(playerIn, pos, SoundEvents.ITEM_FLINTANDSTEEL_USE, SoundCategory.BLOCKS, 1.0F, worldIn.rand.nextFloat() * 0.4F + 0.8F);
 					worldIn.setBlockState(pos, state.withProperty(ACTIVE, true));
 				}
 
@@ -89,12 +92,11 @@ public class BlockFireplaceBase extends BlockTextured {
 	}
 
 	@Override
-	public int getLightValue(IBlockAccess world, BlockPos pos) {
+	public int getLightValue(IBlockState state, IBlockAccess world, BlockPos pos) {
 		if (world.getBlockState(pos).getValue(ACTIVE)) {
 			return 15;
 		}
-
-		return super.getLightValue(world, pos);
+		return super.getLightValue(state, world, pos);
 	}
 
 	@Override
@@ -114,7 +116,7 @@ public class BlockFireplaceBase extends BlockTextured {
 		Block[] blocks = loadedBlocks.keySet().toArray(new Block[loadedBlocks.keySet().size()]);
 
 		for (int i = 0; i < blocks.length; i++) {
-			if (blocks[i].getMaterial() == Material.wood || blocks[i].getMaterial() == Material.cloth || blocks[i].getMaterial() == Material.gourd || blocks[i].getMaterial() == Material.ice || blocks[i].getMaterial() == Material.glass || blocks[i].getMaterial() == Material.packedIce || blocks[i].getMaterial() == Material.sponge || blocks[i].getMaterial() == Material.grass || blocks[i].getMaterial() == Material.ground) {
+			if (blocks[i].getDefaultState().getMaterial() == Material.WOOD || blocks[i].getDefaultState().getMaterial() == Material.CLOTH || blocks[i].getDefaultState().getMaterial() == Material.GOURD || blocks[i].getDefaultState().getMaterial() == Material.ICE || blocks[i].getDefaultState().getMaterial() == Material.GLASS || blocks[i].getDefaultState().getMaterial() == Material.PACKED_ICE || blocks[i].getDefaultState().getMaterial() == Material.SPONGE || blocks[i].getDefaultState().getMaterial() == Material.GRASS || blocks[i].getDefaultState().getMaterial() == Material.GROUND) {
 				continue;
 			}
 

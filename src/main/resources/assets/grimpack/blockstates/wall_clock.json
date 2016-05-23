@@ -1,0 +1,350 @@
+{
+	"forge_marker": 1,
+    "defaults": {
+        "model": "grimpack:wall_clock",
+        "transform": "forge:default-block",
+        "textures": {
+			"particle": "blocks/planks_oak",
+            "side": "grimpack:blocks/wallclock/wall_clock_1",
+            "back": "blocks/planks_oak",
+			"front": "blocks/planks_oak"
+        }
+    },
+    "variants": {
+        "time": {
+            "0": {
+                "textures": {
+                    "front": "grimpack:blocks/wallclock/wall_clock_1"
+                }
+            },
+            "1": {
+                "textures": {
+                    "front": "grimpack:blocks/wallclock/wall_clock_2"
+                }
+            },
+            "2": {
+                "textures": {
+                    "front": "grimpack:blocks/wallclock/wall_clock_3"
+                }
+            },
+            "3": {
+                "textures": {
+                    "front": "grimpack:blocks/wallclock/wall_clock_4"
+                }
+            },
+            "4": {
+                "textures": {
+                    "front": "grimpack:blocks/wallclock/wall_clock_5"
+                }
+            },
+            "5": {
+                "textures": {
+                    "front": "grimpack:blocks/wallclock/wall_clock_6"
+                }
+            },
+            "6": {
+                "textures": {
+                    "front": "grimpack:blocks/wallclock/wall_clock_7"
+                }
+            },
+            "7": {
+                "textures": {
+                    "front": "grimpack:blocks/wallclock/wall_clock_8"
+                }
+            },
+            "8": {
+                "textures": {
+                    "front": "grimpack:blocks/wallclock/wall_clock_9"
+                }
+            },
+            "9": {
+                "textures": {
+                    "front": "grimpack:blocks/wallclock/wall_clock_10"
+                }
+            },
+            "10": {
+                "textures": {
+                    "front": "grimpack:blocks/wallclock/wall_clock_11"
+                }
+            },
+            "11": {
+                "textures": {
+                    "front": "grimpack:blocks/wallclock/wall_clock_12"
+                }
+            },
+            "12": {
+                "textures": {
+                    "front": "grimpack:blocks/wallclock/wall_clock_13"
+                }
+            },
+            "13": {
+                "textures": {
+                    "front": "grimpack:blocks/wallclock/wall_clock_14"
+                }
+            },
+            "14": {
+                "textures": {
+                    "front": "grimpack:blocks/wallclock/wall_clock_15"
+                }
+            },
+            "15": {
+                "textures": {
+                    "front": "grimpack:blocks/wallclock/wall_clock_16"
+                }
+            },
+            "16": {
+                "textures": {
+                    "front": "grimpack:blocks/wallclock/wall_clock_17"
+                }
+            },
+            "17": {
+                "textures": {
+                    "front": "grimpack:blocks/wallclock/wall_clock_18"
+                }
+            },
+            "18": {
+                "textures": {
+                    "front": "grimpack:blocks/wallclock/wall_clock_19"
+                }
+            },
+            "19": {
+                "textures": {
+                    "front": "grimpack:blocks/wallclock/wall_clock_20"
+                }
+            },
+            "20": {
+                "textures": {
+                    "front": "grimpack:blocks/wallclock/wall_clock_21"
+                }
+            },
+            "21": {
+                "textures": {
+                    "front": "grimpack:blocks/wallclock/wall_clock_22"
+                }
+            },
+            "22": {
+                "textures": {
+                    "front": "grimpack:blocks/wallclock/wall_clock_23"
+                }
+            },
+            "23": {
+                "textures": {
+                    "front": "grimpack:blocks/wallclock/wall_clock_24"
+                }
+            },
+            "24": {
+                "textures": {
+                    "front": "grimpack:blocks/wallclock/wall_clock_25"
+                }
+            },
+            "25": {
+                "textures": {
+                    "front": "grimpack:blocks/wallclock/wall_clock_26"
+                }
+            },
+            "26": {
+                "textures": {
+                    "front": "grimpack:blocks/wallclock/wall_clock_27"
+                }
+            },
+            "27": {
+                "textures": {
+                    "front": "grimpack:blocks/wallclock/wall_clock_28"
+                }
+            },
+            "28": {
+                "textures": {
+                    "front": "grimpack:blocks/wallclock/wall_clock_29"
+                }
+            },
+            "29": {
+                "textures": {
+                    "front": "grimpack:blocks/wallclock/wall_clock_30"
+                }
+            },
+            "30": {
+                "textures": {
+                    "front": "grimpack:blocks/wallclock/wall_clock_31"
+                }
+            },
+            "31": {
+                "textures": {
+                    "front": "grimpack:blocks/wallclock/wall_clock_32"
+                }
+            },
+            "32": {
+                "textures": {
+                    "front": "grimpack:blocks/wallclock/wall_clock_33"
+                }
+            },
+            "33": {
+                "textures": {
+                    "front": "grimpack:blocks/wallclock/wall_clock_34"
+                }
+            },
+            "34": {
+                "textures": {
+                    "front": "grimpack:blocks/wallclock/wall_clock_35"
+                }
+            },
+            "35": {
+                "textures": {
+                    "front": "grimpack:blocks/wallclock/wall_clock_36"
+                }
+            },
+            "36": {
+                "textures": {
+                    "front": "grimpack:blocks/wallclock/wall_clock_37"
+                }
+            },
+            "37": {
+                "textures": {
+                    "front": "grimpack:blocks/wallclock/wall_clock_38"
+                }
+            },
+            "38": {
+                "textures": {
+                    "front": "grimpack:blocks/wallclock/wall_clock_39"
+                }
+            },
+            "39": {
+                "textures": {
+                    "front": "grimpack:blocks/wallclock/wall_clock_40"
+                }
+            },
+            "40": {
+                "textures": {
+                    "front": "grimpack:blocks/wallclock/wall_clock_41"
+                }
+            },
+            "41": {
+                "textures": {
+                    "front": "grimpack:blocks/wallclock/wall_clock_42"
+                }
+            },
+            "42": {
+                "textures": {
+                    "front": "grimpack:blocks/wallclock/wall_clock_43"
+                }
+            },
+            "43": {
+                "textures": {
+                    "front": "grimpack:blocks/wallclock/wall_clock_44"
+                }
+            },
+            "44": {
+                "textures": {
+                    "front": "grimpack:blocks/wallclock/wall_clock_45"
+                }
+            },
+            "45": {
+                "textures": {
+                    "front": "grimpack:blocks/wallclock/wall_clock_46"
+                }
+            },
+            "46": {
+                "textures": {
+                    "front": "grimpack:blocks/wallclock/wall_clock_47"
+                }
+            },
+            "47": {
+                "textures": {
+                    "front": "grimpack:blocks/wallclock/wall_clock_48"
+                }
+            },
+            "48": {
+                "textures": {
+                    "front": "grimpack:blocks/wallclock/wall_clock_49"
+                }
+            },
+            "49": {
+                "textures": {
+                    "front": "grimpack:blocks/wallclock/wall_clock_50"
+                }
+            },
+            "50": {
+                "textures": {
+                    "front": "grimpack:blocks/wallclock/wall_clock_51"
+                }
+            },
+            "51": {
+                "textures": {
+                    "front": "grimpack:blocks/wallclock/wall_clock_52"
+                }
+            },
+            "52": {
+                "textures": {
+                    "front": "grimpack:blocks/wallclock/wall_clock_53"
+                }
+            },
+            "53": {
+                "textures": {
+                    "front": "grimpack:blocks/wallclock/wall_clock_54"
+                }
+            },
+            "54": {
+                "textures": {
+                    "front": "grimpack:blocks/wallclock/wall_clock_55"
+                }
+            },
+            "55": {
+                "textures": {
+                    "front": "grimpack:blocks/wallclock/wall_clock_56"
+                }
+            },
+            "56": {
+                "textures": {
+                    "front": "grimpack:blocks/wallclock/wall_clock_57"
+                }
+            },
+            "57": {
+                "textures": {
+                    "front": "grimpack:blocks/wallclock/wall_clock_58"
+                }
+            },
+            "58": {
+                "textures": {
+                    "front": "grimpack:blocks/wallclock/wall_clock_59"
+                }
+            },
+            "59": {
+                "textures": {
+                    "front": "grimpack:blocks/wallclock/wall_clock_60"
+                }
+            },
+            "60": {
+                "textures": {
+                    "front": "grimpack:blocks/wallclock/wall_clock_61"
+                }
+            },
+            "61": {
+                "textures": {
+                    "front": "grimpack:blocks/wallclock/wall_clock_62"
+                }
+            },
+            "62": {
+                "textures": {
+                    "front": "grimpack:blocks/wallclock/wall_clock_63"
+                }
+            },
+            "63": {
+                "textures": {
+                    "front": "grimpack:blocks/wallclock/wall_clock_64"
+                }
+            }
+        },
+        "facing": {
+            "north": { "y": 270 },
+            "south": { "y": 90 },
+            "west": { "y": 180 },
+            "east": { }
+        },
+		"inventory": [{
+			"model": "builtin/generated",
+			"transform": "forge:default-item",
+			"textures": {
+				"layer0": "grimpack:items/wall_clock"
+			}
+		}]
+    }
+}

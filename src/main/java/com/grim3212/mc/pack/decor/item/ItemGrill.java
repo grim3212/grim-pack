@@ -8,6 +8,7 @@ import net.minecraft.block.BlockSnow;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.color.IItemColor;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -19,7 +20,6 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.World;
 
 public class ItemGrill extends ItemBlock implements IItemColor {
@@ -38,7 +38,7 @@ public class ItemGrill extends ItemBlock implements IItemColor {
 		IBlockState iblockstate = worldIn.getBlockState(pos);
 		Block block = iblockstate.getBlock();
 
-		if (block == Blocks.snow_layer && ((Integer) iblockstate.getValue(BlockSnow.LAYERS)).intValue() < 1) {
+		if (block == Blocks.SNOW_LAYER && ((Integer) iblockstate.getValue(BlockSnow.LAYERS)).intValue() < 1) {
 			facing = EnumFacing.UP;
 		} else if (!block.isReplaceable(worldIn, pos)) {
 			pos = pos.offset(facing);
@@ -61,7 +61,7 @@ public class ItemGrill extends ItemBlock implements IItemColor {
 				((TileEntityGrill) tileentity).setBlockID(NBTHelper.getInt(stack, "blockID"));
 				((TileEntityGrill) tileentity).setBlockMeta(NBTHelper.getInt(stack, "blockMeta"));
 				((TileEntityGrill) tileentity).setCustomName(stack.getDisplayName());
-				worldIn.playSound(playerIn, pos, blockType.getStepSound().getPlaceSound(), SoundCategory.BLOCKS, (blockType.getStepSound().getVolume() + 1.0F) / 2.0F, blockType.getStepSound().getPitch() * 0.8F);
+				worldIn.playSound(playerIn, pos, blockType.getSoundType().getPlaceSound(), SoundCategory.BLOCKS, (blockType.getSoundType().getVolume() + 1.0F) / 2.0F, blockType.getSoundType().getPitch() * 0.8F);
 			}
 
 			return EnumActionResult.SUCCESS;
@@ -78,7 +78,7 @@ public class ItemGrill extends ItemBlock implements IItemColor {
 
 	@Override
 	public String getItemStackDisplayName(ItemStack stack) {
-		return I18n.translateToLocal(new ItemStack(Block.getBlockById(NBTHelper.getInt(stack, "blockID")), 1, NBTHelper.getInt(stack, "blockMeta")).getDisplayName()) + " " + I18n.translateToLocal(this.block.getUnlocalizedName() + ".name");
+		return I18n.format(new ItemStack(Block.getBlockById(NBTHelper.getInt(stack, "blockID")), 1, NBTHelper.getInt(stack, "blockMeta")).getDisplayName()) + " " + I18n.format(this.block.getUnlocalizedName() + ".name");
 	}
 
 	@Override

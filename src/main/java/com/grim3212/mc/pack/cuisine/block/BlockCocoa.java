@@ -24,8 +24,8 @@ public class BlockCocoa extends Block {
 	protected static final AxisAlignedBB COCOA_AABB = new AxisAlignedBB(0.28F, 0.25F, 0.28F, 0.72F, 1F, 0.72F);
 
 	protected BlockCocoa() {
-		super(Material.circuits);
-		setStepSound(SoundType.CLOTH);
+		super(Material.CIRCUITS);
+		setSoundType(SoundType.CLOTH);
 	}
 
 	@Override
@@ -63,9 +63,9 @@ public class BlockCocoa extends Block {
 		Block block = worldIn.getBlockState(pos.up()).getBlock();
 		return block instanceof BlockLeaves;
 	}
-
+	
 	@Override
-	public void onNeighborBlockChange(World worldIn, BlockPos pos, IBlockState state, Block neighborBlock) {
+	public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn) {
 		this.checkBlock(worldIn, pos);
 	}
 

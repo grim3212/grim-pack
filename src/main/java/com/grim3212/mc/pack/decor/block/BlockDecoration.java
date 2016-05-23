@@ -3,9 +3,9 @@ package com.grim3212.mc.pack.decor.block;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.EnumWorldBlockLayer;
+import net.minecraft.util.BlockRenderLayer;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public class BlockDecoration extends Block {
@@ -18,26 +18,27 @@ public class BlockDecoration extends Block {
 	}
 
 	@Override
-	public EnumWorldBlockLayer getBlockLayer() {
-		return EnumWorldBlockLayer.CUTOUT;
+	public BlockRenderLayer getBlockLayer() {
+		return BlockRenderLayer.CUTOUT;
 	}
 
 	@Override
-	public AxisAlignedBB getCollisionBoundingBox(World worldIn, BlockPos pos, IBlockState state) {
+	@SuppressWarnings("deprecation")
+	public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, World worldIn, BlockPos pos) {
 		if (useCollision) {
-			return super.getCollisionBoundingBox(worldIn, pos, state);
+			return super.getCollisionBoundingBox(blockState, worldIn, pos);
 		} else {
-			return null;
+			return NULL_AABB;
 		}
 	}
 
 	@Override
-	public boolean isNormalCube() {
+	public boolean isNormalCube(IBlockState blockState) {
 		return useCollision;
 	}
 
 	@Override
-	public boolean isOpaqueCube() {
+	public boolean isOpaqueCube(IBlockState blockState) {
 		return false;
 	}
 }

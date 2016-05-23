@@ -1,0 +1,28 @@
+{
+	"forge_marker": 1,
+    "defaults": {
+		"transform": "forge:default-block",
+        "model": "cross"
+    },
+    "variants": {
+        "active": {
+            "true": {
+                "textures": {
+                    "cross": "grimpack:blocks/lit_bulb"
+                }
+            },
+            "false": {
+                "textures": {
+                    "cross": "grimpack:blocks/unlit_bulb"
+                }
+            }
+        },
+		"inventory": [{
+			"model": "builtin/generated",
+			"transform": "forge:default-item",
+			"textures": {
+				"layer0": "grimpack:blocks/unlit_bulb"
+			}
+		}]
+    }
+}

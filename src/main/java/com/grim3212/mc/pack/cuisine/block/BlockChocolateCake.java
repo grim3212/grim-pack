@@ -10,7 +10,7 @@ public class BlockChocolateCake extends BlockCake {
 
 	protected BlockChocolateCake() {
 		super();
-		setStepSound(SoundType.CLOTH);
+		setSoundType(SoundType.CLOTH);
 	}
 
 	@Override

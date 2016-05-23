@@ -17,7 +17,7 @@ public class CuisineGenerate extends GrimWorldGen {
 			int i1 = i + random.nextInt(16);
 			int j1 = j + random.nextInt(16);
 			BlockPos pos = new BlockPos(i1, l, j1);
-			if ((world.getBlockState(pos.down()).getBlock() == Blocks.grass || world.getBlockState(pos.down()).getBlock() == Blocks.dirt) && random.nextInt(10) < 1) {
+			if ((world.getBlockState(pos.down()).getBlock() == Blocks.GRASS || world.getBlockState(pos.down()).getBlock() == Blocks.DIRT) && random.nextInt(10) < 1) {
 				(new WorldGenCocoaTrees()).generate(world, random, pos);
 			}
 		}

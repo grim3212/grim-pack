@@ -39,7 +39,7 @@ public class ItemCocoaFruit extends Item {
 			IBlockState iblockstate1 = CuisineBlocks.cocoa_tree_sapling.onBlockPlaced(worldIn, pos, side, hitX, hitY, hitZ, i, playerIn);
 
 			if (placeBlockAt(stack, playerIn, worldIn, pos, side, hitX, hitY, hitZ, iblockstate1)) {
-				worldIn.playSound(playerIn, (double) ((float) pos.getX() + 0.5F), (double) ((float) pos.getY() + 0.5F), (double) ((float) pos.getZ() + 0.5F), CuisineBlocks.cocoa_tree_sapling.getStepSound().getPlaceSound(), SoundCategory.BLOCKS, (CuisineBlocks.cocoa_tree_sapling.getStepSound().getVolume() + 1.0F) / 2.0F, CuisineBlocks.cocoa_tree_sapling.getStepSound().getPitch() * 0.8F);
+				worldIn.playSound(playerIn, (double) ((float) pos.getX() + 0.5F), (double) ((float) pos.getY() + 0.5F), (double) ((float) pos.getZ() + 0.5F), CuisineBlocks.cocoa_tree_sapling.getSoundType().getPlaceSound(), SoundCategory.BLOCKS, (CuisineBlocks.cocoa_tree_sapling.getSoundType().getVolume() + 1.0F) / 2.0F, CuisineBlocks.cocoa_tree_sapling.getSoundType().getPitch() * 0.8F);
 				--stack.stackSize;
 			}
 

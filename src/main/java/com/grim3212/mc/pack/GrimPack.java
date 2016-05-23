@@ -3,6 +3,7 @@ package com.grim3212.mc.pack;
 import com.grim3212.mc.pack.core.GrimCore;
 import com.grim3212.mc.pack.core.part.PartRegistry;
 import com.grim3212.mc.pack.cuisine.GrimCuisine;
+import com.grim3212.mc.pack.decor.GrimDecor;
 
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
@@ -13,7 +14,7 @@ import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 
-@Mod(modid = GrimPack.modID, name = GrimPack.modName, version = GrimPack.modVersion, dependencies = "required-after:Forge@[12.16.1.1895,)", acceptedMinecraftVersions = "[1.9]", guiFactory = "com.grim3212.mc.pack.core.config.ConfigGuiFactory", updateJSON = "https://raw.githubusercontent.com/grim3212/Grim-Pack/master/update.json")
+@Mod(modid = GrimPack.modID, name = GrimPack.modName, version = GrimPack.modVersion, dependencies = "required-after:Forge@[12.17.0.1909,)", acceptedMinecraftVersions = "[1.9.4]", guiFactory = "com.grim3212.mc.pack.core.config.ConfigGuiFactory", updateJSON = "https://raw.githubusercontent.com/grim3212/Grim-Pack/master/update.json")
 public class GrimPack {
 
 	@Instance(GrimPack.modID)
@@ -21,11 +22,12 @@ public class GrimPack {
 
 	public static final String modID = "grimpack";
 	public static final String modName = "Grim Pack";
-	public static final String modVersion = "1.9-1.0.0.0";
+	public static final String modVersion = "1.9.4-1.0.0.0";
 
 	static {
 		PartRegistry.registerPart(GrimCore.INSTANCE);
 		PartRegistry.registerPart(GrimCuisine.INSTANCE);
+		PartRegistry.registerPart(GrimDecor.INSTANCE);
 	}
 
 	@EventHandler

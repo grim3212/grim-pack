@@ -2,19 +2,23 @@ package com.grim3212.mc.pack.decor.block;
 
 import java.util.List;
 
+import javax.annotation.Nullable;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyBool;
-import net.minecraft.block.state.BlockState;
+import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemLead;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.BlockPos;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.property.ExtendedBlockState;
@@ -28,94 +32,64 @@ public class BlockFence extends BlockTextured {
 	public static final PropertyBool WEST = PropertyBool.create("west");
 
 	@Override
-	public IBlockState getStateForEntityRender(IBlockState state) {
-		return this.getDefaultState().withProperty(NORTH, false).withProperty(EAST, false).withProperty(SOUTH, false).withProperty(WEST, false);
-	}
-	
-	@Override
-	public boolean canPlaceTorchOnTop(IBlockAccess world, BlockPos pos) {
+	public boolean canPlaceTorchOnTop(IBlockState state, IBlockAccess world, net.minecraft.util.math.BlockPos pos) {
 		return true;
 	}
 
 	@Override
-	public void addCollisionBoxesToList(World worldIn, BlockPos pos, IBlockState state, AxisAlignedBB mask, List<AxisAlignedBB> list, Entity collidingEntity) {
-		boolean flag = this.canConnectTo(worldIn, pos.north());
-		boolean flag1 = this.canConnectTo(worldIn, pos.south());
-		boolean flag2 = this.canConnectTo(worldIn, pos.west());
-		boolean flag3 = this.canConnectTo(worldIn, pos.east());
-		float f = 0.375F;
-		float f1 = 0.625F;
-		float f2 = 0.375F;
-		float f3 = 0.625F;
+	public void addCollisionBoxToList(IBlockState state, World worldIn, BlockPos pos, AxisAlignedBB entityBox, List<AxisAlignedBB> collidingBoxes, @Nullable Entity entityIn) {
+		state = state.getActualState(worldIn, pos);
+		addCollisionBoxToList(pos, entityBox, collidingBoxes, net.minecraft.block.BlockFence.PILLAR_AABB);
 
-		if (flag) {
-			f2 = 0.0F;
+		if (state.getValue(NORTH)) {
+			addCollisionBoxToList(pos, entityBox, collidingBoxes, net.minecraft.block.BlockFence.NORTH_AABB);
 		}
 
-		if (flag1) {
-			f3 = 1.0F;
+		if (state.getValue(EAST)) {
+			addCollisionBoxToList(pos, entityBox, collidingBoxes, net.minecraft.block.BlockFence.EAST_AABB);
 		}
 
-		if (flag || flag1) {
-			this.setBlockBounds(f, 0.0F, f2, f1, 1.5F, f3);
-			super.addCollisionBoxesToList(worldIn, pos, state, mask, list, collidingEntity);
+		if (state.getValue(SOUTH)) {
+			addCollisionBoxToList(pos, entityBox, collidingBoxes, net.minecraft.block.BlockFence.SOUTH_AABB);
 		}
 
-		f2 = 0.375F;
-		f3 = 0.625F;
-
-		if (flag2) {
-			f = 0.0F;
+		if (state.getValue(WEST)) {
+			addCollisionBoxToList(pos, entityBox, collidingBoxes, net.minecraft.block.BlockFence.WEST_AABB);
 		}
-
-		if (flag3) {
-			f1 = 1.0F;
-		}
-
-		if (flag2 || flag3 || !flag && !flag1) {
-			this.setBlockBounds(f, 0.0F, f2, f1, 1.5F, f3);
-			super.addCollisionBoxesToList(worldIn, pos, state, mask, list, collidingEntity);
-		}
-
-		if (flag) {
-			f2 = 0.0F;
-		}
-
-		if (flag1) {
-			f3 = 1.0F;
-		}
-
-		this.setBlockBounds(f, 0.0F, f2, f1, 1.0F, f3);
 	}
 
-	@Override
-	public void setBlockBoundsBasedOnState(IBlockAccess worldIn, BlockPos pos) {
-		boolean flag = this.canConnectTo(worldIn, pos.north());
-		boolean flag1 = this.canConnectTo(worldIn, pos.south());
-		boolean flag2 = this.canConnectTo(worldIn, pos.west());
-		boolean flag3 = this.canConnectTo(worldIn, pos.east());
-		float f = 0.375F;
-		float f1 = 0.625F;
-		float f2 = 0.375F;
-		float f3 = 0.625F;
+	protected static final AxisAlignedBB[] BOUNDING_BOXES = new AxisAlignedBB[] { new AxisAlignedBB(0.375D, 0.0D, 0.375D, 0.625D, 1.0D, 0.625D), new AxisAlignedBB(0.375D, 0.0D, 0.375D, 0.625D, 1.0D, 1.0D), new AxisAlignedBB(0.0D, 0.0D, 0.375D, 0.625D, 1.0D, 0.625D), new AxisAlignedBB(0.0D, 0.0D, 0.375D, 0.625D, 1.0D, 1.0D), new AxisAlignedBB(0.375D, 0.0D, 0.0D, 0.625D, 1.0D, 0.625D), new AxisAlignedBB(0.375D, 0.0D, 0.0D, 0.625D, 1.0D, 1.0D), new AxisAlignedBB(0.0D, 0.0D, 0.0D, 0.625D, 1.0D, 0.625D), new AxisAlignedBB(0.0D, 0.0D, 0.0D, 0.625D, 1.0D, 1.0D),
+			new AxisAlignedBB(0.375D, 0.0D, 0.375D, 1.0D, 1.0D, 0.625D), new AxisAlignedBB(0.375D, 0.0D, 0.375D, 1.0D, 1.0D, 1.0D), new AxisAlignedBB(0.0D, 0.0D, 0.375D, 1.0D, 1.0D, 0.625D), new AxisAlignedBB(0.0D, 0.0D, 0.375D, 1.0D, 1.0D, 1.0D), new AxisAlignedBB(0.375D, 0.0D, 0.0D, 1.0D, 1.0D, 0.625D), new AxisAlignedBB(0.375D, 0.0D, 0.0D, 1.0D, 1.0D, 1.0D), new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 1.0D, 0.625D), new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 1.0D, 1.0D) };
 
-		if (flag) {
-			f2 = 0.0F;
+	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
+		state = this.getActualState(state, source, pos);
+		return BOUNDING_BOXES[getBoundingBoxIdx(state)];
+	}
+
+	/**
+	 * Returns the correct index into boundingBoxes, based on what the fence is
+	 * connected to.
+	 */
+	private static int getBoundingBoxIdx(IBlockState state) {
+		int i = 0;
+
+		if (state.getValue(NORTH)) {
+			i |= 1 << EnumFacing.NORTH.getHorizontalIndex();
 		}
 
-		if (flag1) {
-			f3 = 1.0F;
+		if (state.getValue(EAST)) {
+			i |= 1 << EnumFacing.EAST.getHorizontalIndex();
 		}
 
-		if (flag2) {
-			f = 0.0F;
+		if (state.getValue(SOUTH)) {
+			i |= 1 << EnumFacing.SOUTH.getHorizontalIndex();
 		}
 
-		if (flag3) {
-			f1 = 1.0F;
+		if (state.getValue(WEST)) {
+			i |= 1 << EnumFacing.WEST.getHorizontalIndex();
 		}
 
-		this.setBlockBounds(f, 0.0F, f2, f1, 1.0F, f3);
+		return i;
 	}
 
 	@Override
@@ -124,12 +98,13 @@ public class BlockFence extends BlockTextured {
 	}
 
 	public boolean canConnectTo(IBlockAccess worldIn, BlockPos pos) {
-		Block block = worldIn.getBlockState(pos).getBlock();
-		return block == Blocks.barrier ? false : ((!(block instanceof BlockFence) || block.getMaterial() != this.blockMaterial) && !(block instanceof BlockFenceGate) ? (block.getMaterial().isOpaque() && block.isFullCube() ? block.getMaterial() != Material.gourd : false) : true);
+		IBlockState state = worldIn.getBlockState(pos);
+		Block block = state.getBlock();
+		return block == Blocks.BARRIER ? false : ((!(block instanceof BlockFence) || state.getMaterial() != this.blockMaterial) && !(block instanceof BlockFenceGate) ? (state.getMaterial().isOpaque() && state.isFullCube() ? state.getMaterial() != Material.GOURD : false) : true);
 	}
 
 	@Override
-	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumFacing side, float hitX, float hitY, float hitZ) {
+	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, @Nullable ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ) {
 		return worldIn.isRemote ? true : ItemLead.attachToFence(playerIn, worldIn, pos);
 	}
 
@@ -144,7 +119,7 @@ public class BlockFence extends BlockTextured {
 	}
 
 	@Override
-	protected BlockState createBlockState() {
+	protected BlockStateContainer createBlockState() {
 		return new ExtendedBlockState(this, new IProperty[] { NORTH, SOUTH, WEST, EAST }, new IUnlistedProperty[] { BLOCKID, BLOCKMETA });
 	}
 }

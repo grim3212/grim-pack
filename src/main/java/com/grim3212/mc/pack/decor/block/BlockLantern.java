@@ -6,15 +6,15 @@ import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyEnum;
-import net.minecraft.block.state.BlockState;
+import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.EnumWorldBlockLayer;
+import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.IStringSerializable;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public class BlockLantern extends Block {
@@ -22,13 +22,13 @@ public class BlockLantern extends Block {
 	public static final PropertyEnum<BlockLantern.EnumLanternType> VARIANT = PropertyEnum.create("variant", BlockLantern.EnumLanternType.class);
 
 	protected BlockLantern() {
-		super(Material.circuits);
+		super(Material.CIRCUITS);
 		this.setDefaultState(this.blockState.getBaseState().withProperty(VARIANT, EnumLanternType.paper));
 	}
 
 	@Override
-	public EnumWorldBlockLayer getBlockLayer() {
-		return EnumWorldBlockLayer.CUTOUT;
+	public BlockRenderLayer getBlockLayer() {
+		return BlockRenderLayer.CUTOUT;
 	}
 
 	@Override
@@ -39,18 +39,18 @@ public class BlockLantern extends Block {
 	}
 
 	@Override
-	public boolean isOpaqueCube() {
+	public boolean isOpaqueCube(IBlockState state) {
 		return false;
 	}
 
 	@Override
-	public AxisAlignedBB getCollisionBoundingBox(World worldIn, BlockPos pos, IBlockState state) {
-		return null;
+	public boolean isNormalCube(IBlockState state) {
+		return false;
 	}
 
 	@Override
-	public boolean isNormalCube() {
-		return false;
+	public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, World worldIn, BlockPos pos) {
+		return NULL_AABB;
 	}
 
 	@Override
@@ -66,26 +66,26 @@ public class BlockLantern extends Block {
 		return state.getValue(VARIANT).ordinal();
 	}
 
-	protected BlockState createBlockState() {
-		return new BlockState(this, new IProperty[] { VARIANT });
+	protected BlockStateContainer createBlockState() {
+		return new BlockStateContainer(this, new IProperty[] { VARIANT });
 	}
 
 	public enum EnumLanternType implements IStringSerializable {
 		paper, bone, iron;
 
 		public static final EnumLanternType values[] = values();
-		
+
 		public static String[] names() {
 			EnumLanternType[] states = values;
-		    String[] names = new String[states.length];
+			String[] names = new String[states.length];
 
-		    for (int i = 0; i < states.length; i++) {
-		        names[i] = states[i].name();
-		    }
+			for (int i = 0; i < states.length; i++) {
+				names[i] = states[i].name();
+			}
 
-		    return names;
+			return names;
 		}
-		
+
 		@Override
 		public String getName() {
 			return this.name();

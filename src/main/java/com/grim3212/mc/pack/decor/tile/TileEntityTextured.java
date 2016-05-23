@@ -2,8 +2,6 @@ package com.grim3212.mc.pack.decor.tile;
 
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
-import net.minecraft.network.Packet;
-import net.minecraft.network.play.INetHandlerPlayClient;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 
@@ -14,12 +12,18 @@ public class TileEntityTextured extends TileEntity {
 
 	public TileEntityTextured() {
 	}
+	
+	@Override
+	public NBTTagCompound getUpdateTag() {
+		return writeToNBT(new NBTTagCompound());
+	}
 
 	@Override
-	public void writeToNBT(NBTTagCompound compound) {
+	public NBTTagCompound writeToNBT(NBTTagCompound compound) {
 		super.writeToNBT(compound);
 		compound.setInteger("blockID", this.blockID);
 		compound.setInteger("blockMeta", this.blockMeta);
+		return compound;
 	}
 
 	@Override
@@ -30,7 +34,7 @@ public class TileEntityTextured extends TileEntity {
 	}
 
 	@Override
-	public Packet<INetHandlerPlayClient> getDescriptionPacket() {
+	public SPacketUpdateTileEntity getUpdatePacket() {
 		NBTTagCompound nbtTagCompound = new NBTTagCompound();
 		writeToNBT(nbtTagCompound);
 		int metadata = getBlockMetadata();

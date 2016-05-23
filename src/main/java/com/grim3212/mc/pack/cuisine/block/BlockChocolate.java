@@ -7,8 +7,8 @@ import net.minecraft.block.material.Material;
 public class BlockChocolate extends Block {
 
 	public BlockChocolate() {
-		super(Material.cake);
-		setStepSound(SoundType.CLOTH);
+		super(Material.CAKE);
+		setSoundType(SoundType.CLOTH);
 	}
 
 }

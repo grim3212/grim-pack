@@ -1,0 +1,25 @@
+{
+	"forge_marker": 1,
+    "defaults": {
+		"transform": "forge:default-block"
+    },
+    "variants": {
+        "east=false,north=false,south=false,west=false": [{ "model": "grimpack:table" }],
+        "east=false,north=true,south=false,west=false": [{ "model": "grimpack:table_n", "uvlock": true }],
+        "east=true,north=false,south=false,west=false": [{ "model": "grimpack:table_n", "y": 90, "uvlock": true }],
+        "east=false,north=false,south=true,west=false": [{ "model": "grimpack:table_n", "y": 180, "uvlock": true }],
+        "east=false,north=false,south=false,west=true": [{ "model": "grimpack:table_n", "y": 270, "uvlock": true }],
+        "east=true,north=true,south=false,west=false": [{ "model": "grimpack:table_se", "y": 270, "uvlock": true }],
+        "east=true,north=false,south=true,west=false": [{ "model": "grimpack:table_se", "uvlock": true }],
+        "east=false,north=false,south=true,west=true": [{ "model": "grimpack:table_se", "y": 90, "uvlock": true }],
+        "east=false,north=true,south=false,west=true": [{ "model": "grimpack:table_se", "y": 180, "uvlock": true }],
+        "east=false,north=true,south=true,west=false": [{ "model": "grimpack:counter", "uvlock": true }],
+        "east=true,north=false,south=false,west=true": [{ "model": "grimpack:counter", "y": 90, "uvlock": true }],
+        "east=true,north=true,south=true,west=false": [{ "model": "grimpack:counter", "uvlock": true }],
+        "east=true,north=false,south=true,west=true": [{ "model": "grimpack:counter", "y": 90, "uvlock": true }],
+        "east=false,north=true,south=true,west=true": [{ "model": "grimpack:counter", "y": 180, "uvlock": true }],
+        "east=true,north=true,south=false,west=true": [{ "model": "grimpack:counter", "y": 270, "uvlock": true }],
+        "east=true,north=true,south=true,west=true": [{ "model": "grimpack:counter", "uvlock": true }],
+		"inventory": [{ "model": "grimpack:table" }]
+    }
+}

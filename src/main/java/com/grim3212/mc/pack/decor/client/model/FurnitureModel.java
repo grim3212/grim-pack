@@ -5,7 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.grim3212.mc.pack.core.client.model.TexturedBuilder;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Lists;
 import com.grim3212.mc.pack.core.util.NBTHelper;
 import com.grim3212.mc.pack.decor.block.BlockTextured;
 
@@ -14,50 +15,63 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BlockModelShapes;
 import net.minecraft.client.renderer.block.model.BakedQuad;
+import net.minecraft.client.renderer.block.model.IBakedModel;
 import net.minecraft.client.renderer.block.model.ItemCameraTransforms;
+import net.minecraft.client.renderer.block.model.ItemOverride;
+import net.minecraft.client.renderer.block.model.ItemOverrideList;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.IResourceManager;
 import net.minecraft.client.resources.IResourceManagerReloadListener;
-import net.minecraft.client.resources.model.IBakedModel;
-import net.minecraft.client.resources.model.SimpleBakedModel;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.client.model.ISmartBlockModel;
-import net.minecraftforge.client.model.ISmartItemModel;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.world.World;
 import net.minecraftforge.common.property.IExtendedBlockState;
 
 @SuppressWarnings("deprecation")
-public class FurnitureModel extends SimpleBakedModel implements ISmartBlockModel, ISmartItemModel, IResourceManagerReloadListener {
+public class FurnitureModel implements IBakedModel, IResourceManagerReloadListener {
 
-	public FurnitureModel(List<BakedQuad> generalQuads, List<List<BakedQuad>> faceQuads, boolean ambientOcclusion, boolean gui3d, TextureAtlasSprite texture, ItemCameraTransforms cameraTransforms) {
-		super(generalQuads, faceQuads, ambientOcclusion, gui3d, texture, cameraTransforms);
+	private final TextureAtlasSprite particle;
+	private final IBakedModel model;
+
+	public FurnitureModel(IBakedModel model, TextureAtlasSprite particle) {
+		this.model = model;
+		this.particle = particle;
 	}
 
 	@Override
-	public IBakedModel handleBlockState(IBlockState state) {
+	public List<BakedQuad> getQuads(IBlockState state, EnumFacing side, long rand) {
 		if (state instanceof IExtendedBlockState) {
 			IExtendedBlockState exState = (IExtendedBlockState) state;
 			if (exState.getValue(BlockTextured.BLOCKID) != null && exState.getValue(BlockTextured.BLOCKMETA) != null) {
 				int blockID = (Integer) exState.getValue(BlockTextured.BLOCKID);
 				int blockMeta = (Integer) exState.getValue(BlockTextured.BLOCKMETA);
-				return this.getCachedModel(blockID, blockMeta);
+				return this.getCachedModel(blockID, blockMeta).getQuads(exState, side, rand);
 			} else {
-				return this.getCachedModel(0, 0);
+				return this.getCachedModel(0, 0).getQuads(exState, side, rand);
 			}
 		}
 
-		return this;
+		return ImmutableList.of();
 	}
 
 	@Override
-	public IBakedModel handleItemState(ItemStack stack) {
-		if (stack.hasTagCompound() && stack.getTagCompound().hasKey("blockID") && stack.getTagCompound().hasKey("blockMeta")) {
-			int blockID = NBTHelper.getInt(stack, "blockID");
-			int blockMeta = NBTHelper.getInt(stack, "blockMeta");
-			return this.getCachedModel(blockID, blockMeta);
-		}
-		return this;
+	public ItemOverrideList getOverrides() {
+		return itemHandler;
 	}
+
+	private final ItemOverrideList itemHandler = new ItemOverrideList(Lists.<ItemOverride> newArrayList()) {
+		@Override
+		public IBakedModel handleItemState(IBakedModel model, ItemStack stack, World world, EntityLivingBase entity) {
+			if (stack.hasTagCompound() && stack.getTagCompound().hasKey("blockID") && stack.getTagCompound().hasKey("blockMeta")) {
+				int blockID = NBTHelper.getInt(stack, "blockID");
+				int blockMeta = NBTHelper.getInt(stack, "blockMeta");
+				return FurnitureModel.this.getCachedModel(blockID, blockMeta);
+			}
+			return FurnitureModel.this;
+		}
+	};
 
 	@Override
 	public void onResourceManagerReload(IResourceManager resourceManager) {
@@ -74,32 +88,44 @@ public class FurnitureModel extends SimpleBakedModel implements ISmartBlockModel
 			IBlockState blockState = Block.getBlockById(blockID).getStateFromMeta(blockMeta);
 			TextureAtlasSprite blockTexture = blockModel.getTexture(blockState);
 
-			if (Block.getBlockById(blockID) == Blocks.grass) {
-				this.cache.put(key, new FurnitureBuilder(this, Minecraft.getMinecraft().getTextureMapBlocks().getAtlasSprite("minecraft:blocks/grass_top")).makeBakedModel());
-			} else if (Block.getBlockById(blockID) == Blocks.dirt && blockMeta == 2) {
-				this.cache.put(key, new FurnitureBuilder(this, Minecraft.getMinecraft().getTextureMapBlocks().getAtlasSprite("minecraft:blocks/dirt_podzol_top")).makeBakedModel());
-			} else if (Block.getBlockById(blockID) == Blocks.mycelium) {
-				this.cache.put(key, new FurnitureBuilder(this, Minecraft.getMinecraft().getTextureMapBlocks().getAtlasSprite("minecraft:blocks/mycelium_top")).makeBakedModel());
+			if (Block.getBlockById(blockID) == Blocks.GRASS) {
+				this.cache.put(key, new BakedModel(model, Minecraft.getMinecraft().getTextureMapBlocks().getAtlasSprite("minecraft:blocks/grass_top")));
+			} else if (Block.getBlockById(blockID) == Blocks.DIRT && blockMeta == 2) {
+				this.cache.put(key, new BakedModel(model, Minecraft.getMinecraft().getTextureMapBlocks().getAtlasSprite("minecraft:blocks/dirt_podzol_top")));
+			} else if (Block.getBlockById(blockID) == Blocks.MYCELIUM) {
+				this.cache.put(key, new BakedModel(model, Minecraft.getMinecraft().getTextureMapBlocks().getAtlasSprite("minecraft:blocks/mycelium_top")));
 			} else {
-				this.cache.put(key, new FurnitureBuilder(this, blockTexture).makeBakedModel());
+				this.cache.put(key, new BakedModel(model, blockTexture));
 			}
 		}
 
+		System.out.println(key);
+		
 		return this.cache.get(key);
 	}
 
-	public static class FurnitureBuilder extends TexturedBuilder {
+	@Override
+	public boolean isAmbientOcclusion() {
+		return true;
+	}
 
-		public FurnitureBuilder(IBakedModel model, TextureAtlasSprite blockTexture) {
-			super(model, blockTexture);
-		}
+	@Override
+	public boolean isGui3d() {
+		return true;
+	}
 
-		public IBakedModel makeBakedModel() {
-			if (this.getBuilderTexture() == null) {
-				throw new RuntimeException("Missing particle!");
-			} else {
-				return new FurnitureModel(this.getBuilderGeneralQuads(), this.getBuilderFaceQuads(), this.isBuilderAmbientOcclusion(), this.isBuilderGui3d(), this.getBuilderTexture(), this.getBuilderCameraTransforms());
-			}
-		}
+	@Override
+	public boolean isBuiltInRenderer() {
+		return false;
+	}
+
+	@Override
+	public TextureAtlasSprite getParticleTexture() {
+		return this.particle;
+	}
+
+	@Override
+	public ItemCameraTransforms getItemCameraTransforms() {
+		return ItemCameraTransforms.DEFAULT;
 	}
 }

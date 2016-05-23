@@ -15,10 +15,12 @@ import net.minecraft.block.Block;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
-import net.minecraft.block.state.BlockState;
+import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.particle.EffectRenderer;
-import net.minecraft.client.particle.EntityDiggingFX;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.particle.ParticleDigging;
+import net.minecraft.client.particle.ParticleManager;
+import net.minecraft.client.renderer.color.IBlockColor;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -26,11 +28,13 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.BlockRenderLayer;
+import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumParticleTypes;
-import net.minecraft.util.EnumWorldBlockLayer;
-import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
@@ -38,23 +42,21 @@ import net.minecraft.world.WorldServer;
 import net.minecraftforge.common.property.ExtendedBlockState;
 import net.minecraftforge.common.property.IExtendedBlockState;
 import net.minecraftforge.common.property.IUnlistedProperty;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
-public abstract class BlockTextured extends Block implements ITileEntityProvider {
+public abstract class BlockTextured extends Block implements ITileEntityProvider, IBlockColor {
 
 	public static final UnlistedPropertyInteger BLOCKID = UnlistedPropertyInteger.create("blockid");
 	public static final UnlistedPropertyInteger BLOCKMETA = UnlistedPropertyInteger.create("blockmeta");
 
 	public BlockTextured() {
-		super(Material.rock);
+		super(Material.ROCK);
 		this.setHardness(1.0F);
 		this.setResistance(10F);
 		this.setCreativeTab(GrimDecor.INSTANCE.getCreativeTab());
 	}
 
 	@Override
-	protected BlockState createBlockState() {
+	protected BlockStateContainer createBlockState() {
 		return new ExtendedBlockState(this, new IProperty[] {}, new IUnlistedProperty[] { BLOCKID, BLOCKMETA });
 	}
 
@@ -88,19 +90,19 @@ public abstract class BlockTextured extends Block implements ITileEntityProvider
 	}
 
 	@Override
-	public void harvestBlock(World worldIn, EntityPlayer player, BlockPos pos, IBlockState state, TileEntity te) {
+	public void harvestBlock(World worldIn, EntityPlayer player, BlockPos pos, IBlockState state, TileEntity te, ItemStack stack) {
 		if (te instanceof TileEntityTextured) {
 			ItemStack itemstack = new ItemStack(this, 1);
 			NBTHelper.setInteger(itemstack, "blockID", ((TileEntityTextured) te).getBlockID());
 			NBTHelper.setInteger(itemstack, "blockMeta", ((TileEntityTextured) te).getBlockMeta());
 			spawnAsEntity(worldIn, pos, itemstack);
 		} else {
-			super.harvestBlock(worldIn, player, pos, state, te);
+			super.harvestBlock(worldIn, player, pos, state, te, stack);
 		}
 	}
 
 	@Override
-	public ItemStack getPickBlock(MovingObjectPosition target, World world, BlockPos pos, EntityPlayer player) {
+	public ItemStack getPickBlock(IBlockState state, RayTraceResult target, World world, BlockPos pos, EntityPlayer player) {
 		TileEntity te = world.getTileEntity(pos);
 		if (te instanceof TileEntityTextured) {
 			ItemStack itemstack = new ItemStack(this, 1);
@@ -108,32 +110,33 @@ public abstract class BlockTextured extends Block implements ITileEntityProvider
 			NBTHelper.setInteger(itemstack, "blockMeta", ((TileEntityTextured) te).getBlockMeta());
 			return itemstack;
 		}
-		return super.getPickBlock(target, world, pos, player);
+		return super.getPickBlock(state, target, world, pos, player);
 	}
 
 	@Override
-	public EnumWorldBlockLayer getBlockLayer() {
-		return EnumWorldBlockLayer.CUTOUT;
+	public BlockRenderLayer getBlockLayer() {
+		return BlockRenderLayer.CUTOUT;
 	}
 
 	@Override
-	public int colorMultiplier(IBlockAccess worldIn, BlockPos pos, int renderPass) {
+	@SuppressWarnings("deprecation")
+	public int colorMultiplier(IBlockState state, IBlockAccess worldIn, BlockPos pos, int tintIndex) {
 		TileEntity te = worldIn.getTileEntity(pos);
 		if (te instanceof TileEntityTextured) {
-			return Block.getBlockById(((TileEntityTextured) te).getBlockID()).colorMultiplier(worldIn, pos, renderPass);
+			return Minecraft.getMinecraft().getBlockColors().colorMultiplier(Block.getBlockById(((TileEntityTextured) te).getBlockID()).getStateFromMeta(((TileEntityTextured) te).getBlockMeta()), worldIn, pos, tintIndex);
 		} else {
 			return 16777215;
 		}
 	}
 
 	@Override
-	public boolean shouldSideBeRendered(IBlockAccess worldIn, BlockPos pos, EnumFacing side) {
+	public boolean shouldSideBeRendered(IBlockState blockState, IBlockAccess blockAccess, BlockPos pos, EnumFacing side) {
 		return true;
 	}
 
 	@Override
-	public int getRenderType() {
-		return 3;
+	public EnumBlockRenderType getRenderType(IBlockState state) {
+		return EnumBlockRenderType.ENTITYBLOCK_ANIMATED;
 	}
 
 	@Override
@@ -159,12 +162,12 @@ public abstract class BlockTextured extends Block implements ITileEntityProvider
 	}
 
 	@Override
-	public boolean isOpaqueCube() {
+	public boolean isOpaqueCube(IBlockState state) {
 		return false;
 	}
 
 	@Override
-	public boolean isFullCube() {
+	public boolean isFullCube(IBlockState state) {
 		return false;
 	}
 
@@ -174,17 +177,19 @@ public abstract class BlockTextured extends Block implements ITileEntityProvider
 	}
 
 	@Override
-	public float getBlockHardness(World worldIn, BlockPos pos) {
+	@SuppressWarnings("deprecation")
+	public float getBlockHardness(IBlockState blockState, World worldIn, BlockPos pos) {
 		TileEntity tileentity = worldIn.getTileEntity(pos);
 		if (tileentity instanceof TileEntityTextured) {
-			IBlockState blockState = Block.getBlockById(((TileEntityTextured) tileentity).getBlockID()).getStateFromMeta(((TileEntityTextured) tileentity).getBlockMeta());
-			return blockState.getBlock().getBlockHardness(worldIn, pos);
+			IBlockState heldState = Block.getBlockById(((TileEntityTextured) tileentity).getBlockID()).getStateFromMeta(((TileEntityTextured) tileentity).getBlockMeta());
+			return heldState.getBlockHardness(worldIn, pos);
 		} else {
-			return super.getBlockHardness(worldIn, pos);
+			return super.getBlockHardness(blockState, worldIn, pos);
 		}
 	}
 
 	@Override
+	@SuppressWarnings("deprecation")
 	public float getExplosionResistance(World world, BlockPos pos, Entity exploder, Explosion explosion) {
 		TileEntity tileentity = world.getTileEntity(pos);
 		if (tileentity instanceof TileEntityTextured) {
@@ -196,17 +201,19 @@ public abstract class BlockTextured extends Block implements ITileEntityProvider
 	}
 
 	@Override
-	public float getPlayerRelativeBlockHardness(EntityPlayer playerIn, World worldIn, BlockPos pos) {
+	@SuppressWarnings("deprecation")
+	public float getPlayerRelativeBlockHardness(IBlockState state, EntityPlayer player, World worldIn, BlockPos pos) {
 		TileEntity tileentity = worldIn.getTileEntity(pos);
 		if (tileentity instanceof TileEntityTextured) {
 			IBlockState blockState = Block.getBlockById(((TileEntityTextured) tileentity).getBlockID()).getStateFromMeta(((TileEntityTextured) tileentity).getBlockMeta());
-			return BlockHelper.blockStrength(blockState, playerIn, worldIn, pos);
+			return BlockHelper.blockStrength(blockState, player, worldIn, pos);
 		} else {
-			return super.getPlayerRelativeBlockHardness(playerIn, worldIn, pos);
+			return super.getPlayerRelativeBlockHardness(state, player, worldIn, pos);
 		}
 	}
 
 	@Override
+	@SuppressWarnings("deprecation")
 	public boolean isWood(IBlockAccess world, BlockPos pos) {
 		TileEntity tileentity = world.getTileEntity(pos);
 		if (tileentity instanceof TileEntityTextured) {
@@ -218,17 +225,19 @@ public abstract class BlockTextured extends Block implements ITileEntityProvider
 	}
 
 	@Override
-	public boolean canEntityDestroy(IBlockAccess world, BlockPos pos, Entity entity) {
+	@SuppressWarnings("deprecation")
+	public boolean canEntityDestroy(IBlockState state, IBlockAccess world, BlockPos pos, Entity entity) {
 		TileEntity tileentity = world.getTileEntity(pos);
 		if (tileentity instanceof TileEntityTextured) {
 			IBlockState blockState = Block.getBlockById(((TileEntityTextured) tileentity).getBlockID()).getStateFromMeta(((TileEntityTextured) tileentity).getBlockMeta());
-			return blockState.getBlock().canEntityDestroy(world, pos, entity);
+			return blockState.getBlock().canEntityDestroy(state, world, pos, entity);
 		} else {
-			return super.canEntityDestroy(world, pos, entity);
+			return super.canEntityDestroy(state, world, pos, entity);
 		}
 	}
 
 	@Override
+	@SuppressWarnings("deprecation")
 	public boolean canHarvestBlock(IBlockAccess world, BlockPos pos, EntityPlayer player) {
 		TileEntity tileentity = world.getTileEntity(pos);
 		if (tileentity instanceof TileEntityTextured) {
@@ -240,74 +249,75 @@ public abstract class BlockTextured extends Block implements ITileEntityProvider
 	}
 
 	@Override
-	@SideOnly(Side.CLIENT)
-	public boolean addHitEffects(World worldObj, MovingObjectPosition target, EffectRenderer effectRenderer) {
+	@SuppressWarnings("deprecation")
+	public boolean addHitEffects(IBlockState state, World worldObj, RayTraceResult target, ParticleManager manager) {
 		TileEntityTextured tileentity = (TileEntityTextured) worldObj.getTileEntity(target.getBlockPos());
-
 		IBlockState iblockstate = Block.getBlockById(tileentity.getBlockID()).getStateFromMeta(tileentity.getBlockMeta());
-		Block block = iblockstate.getBlock();
+		BlockPos pos = target.getBlockPos();
 
-		if (block.getRenderType() != -1) {
-			int i = target.getBlockPos().getX();
-			int j = target.getBlockPos().getY();
-			int k = target.getBlockPos().getZ();
+		if (iblockstate.getRenderType() != EnumBlockRenderType.INVISIBLE) {
+			int i = pos.getX();
+			int j = pos.getY();
+			int k = pos.getZ();
 			float f = 0.1F;
-			double d0 = (double) i + RANDOM.nextDouble() * (block.getBlockBoundsMaxX() - block.getBlockBoundsMinX() - (double) (f * 2.0F)) + (double) f + block.getBlockBoundsMinX();
-			double d1 = (double) j + RANDOM.nextDouble() * (block.getBlockBoundsMaxY() - block.getBlockBoundsMinY() - (double) (f * 2.0F)) + (double) f + block.getBlockBoundsMinY();
-			double d2 = (double) k + RANDOM.nextDouble() * (block.getBlockBoundsMaxZ() - block.getBlockBoundsMinZ() - (double) (f * 2.0F)) + (double) f + block.getBlockBoundsMinZ();
+			AxisAlignedBB axisalignedbb = iblockstate.getBoundingBox(worldObj, pos);
+			double d0 = (double) i + RANDOM.nextDouble() * (axisalignedbb.maxX - axisalignedbb.minX - (double) (f * 2.0F)) + (double) f + axisalignedbb.minX;
+			double d1 = (double) j + RANDOM.nextDouble() * (axisalignedbb.maxY - axisalignedbb.minY - (double) (f * 2.0F)) + (double) f + axisalignedbb.minY;
+			double d2 = (double) k + RANDOM.nextDouble() * (axisalignedbb.maxZ - axisalignedbb.minZ - (double) (f * 2.0F)) + (double) f + axisalignedbb.minZ;
 
-			if (target.sideHit == EnumFacing.DOWN) {
-				d1 = (double) j + block.getBlockBoundsMinY() - (double) f;
+			EnumFacing side = target.sideHit;
+
+			if (side == EnumFacing.DOWN) {
+				d1 = (double) j + axisalignedbb.minY - (double) f;
 			}
 
-			if (target.sideHit == EnumFacing.UP) {
-				d1 = (double) j + block.getBlockBoundsMaxY() + (double) f;
+			if (side == EnumFacing.UP) {
+				d1 = (double) j + axisalignedbb.maxY + (double) f;
 			}
 
-			if (target.sideHit == EnumFacing.NORTH) {
-				d2 = (double) k + block.getBlockBoundsMinZ() - (double) f;
+			if (side == EnumFacing.NORTH) {
+				d2 = (double) k + axisalignedbb.minZ - (double) f;
 			}
 
-			if (target.sideHit == EnumFacing.SOUTH) {
-				d2 = (double) k + block.getBlockBoundsMaxZ() + (double) f;
+			if (side == EnumFacing.SOUTH) {
+				d2 = (double) k + axisalignedbb.maxZ + (double) f;
 			}
 
-			if (target.sideHit == EnumFacing.WEST) {
-				d0 = (double) i + block.getBlockBoundsMinX() - (double) f;
+			if (side == EnumFacing.WEST) {
+				d0 = (double) i + axisalignedbb.minX - (double) f;
 			}
 
-			if (target.sideHit == EnumFacing.EAST) {
-				d0 = (double) i + block.getBlockBoundsMaxX() + (double) f;
+			if (side == EnumFacing.EAST) {
+				d0 = (double) i + axisalignedbb.maxX + (double) f;
 			}
 
 			try {
-				Constructor<EntityDiggingFX> constructor = EntityDiggingFX.class.getDeclaredConstructor(World.class, double.class, double.class, double.class, double.class, double.class, double.class, IBlockState.class);
+				Constructor<ParticleDigging> constructor = ParticleDigging.class.getDeclaredConstructor(World.class, double.class, double.class, double.class, double.class, double.class, double.class, IBlockState.class);
 				constructor.setAccessible(true);
-				EntityDiggingFX digging = constructor.newInstance(worldObj, d0, d1, d2, 0.0D, 0.0D, 0.0D, iblockstate);
-				digging.func_174846_a(target.getBlockPos()).multiplyVelocity(0.2f).multipleParticleScaleBy(0.6f);
-				effectRenderer.addEffect(digging);
+				ParticleDigging digging = constructor.newInstance(worldObj, d0, d1, d2, 0.0D, 0.0D, 0.0D, iblockstate);
+				digging.setBlockPos(target.getBlockPos()).multiplyVelocity(0.2f).multipleParticleScaleBy(0.6f);
+				manager.addEffect(digging);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
 
-		worldObj.getBlockState(target.getBlockPos()).getBlock().setStepSound(block.stepSound);
-
-		return true;
+		return super.addHitEffects(state, worldObj, target, manager);
 	}
 
 	@Override
-	public boolean addDestroyEffects(World world, BlockPos pos, EffectRenderer effectRenderer) {
+	@SuppressWarnings("deprecation")
+	public boolean addDestroyEffects(World world, BlockPos pos, ParticleManager manager) {
 		TileEntityTextured tileentity = (TileEntityTextured) world.getTileEntity(pos);
-		effectRenderer.clearEffects(world);
-		effectRenderer.addBlockDestroyEffects(pos, Block.getBlockById(tileentity.getBlockID()).getStateFromMeta(tileentity.getBlockMeta()));
-		world.getBlockState(pos).getBlock().setStepSound(Block.getBlockById(tileentity.getBlockID()).getStateFromMeta(tileentity.getBlockMeta()).getBlock().stepSound);
+		manager.clearEffects(world);
+		manager.addBlockDestroyEffects(pos, Block.getBlockById(tileentity.getBlockID()).getStateFromMeta(tileentity.getBlockMeta()));
 
 		return true;
 	}
 
 	@Override
-	public boolean addLandingEffects(WorldServer worldObj, BlockPos blockPosition, IBlockState iblockstate, EntityLivingBase entity, int numberOfParticles) {
+	@SuppressWarnings("deprecation")
+	public boolean addLandingEffects(IBlockState state, WorldServer worldObj, BlockPos blockPosition, IBlockState iblockstate, EntityLivingBase entity, int numberOfParticles) {
 		TileEntity tileentity = (TileEntity) worldObj.getTileEntity(blockPosition);
 		if (tileentity instanceof TileEntityTextured) {
 			TileEntityTextured te = (TileEntityTextured) tileentity;

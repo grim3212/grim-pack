@@ -28,10 +28,10 @@ public class BlockCocoaSapling extends BlockBush implements IGrowable {
 	public static final PropertyInteger STAGE = PropertyInteger.create("stage", 0, 1);
 
 	protected BlockCocoaSapling() {
-		super(Material.plants);
+		super(Material.PLANTS);
 		setTickRandomly(true);
 		setCreativeTab(null);
-		setStepSound(SoundType.CLOTH);
+		setSoundType(SoundType.CLOTH);
 		this.setDefaultState(this.blockState.getBaseState().withProperty(STAGE, 0));
 	}
 

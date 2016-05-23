@@ -1,6 +1,5 @@
 package com.grim3212.mc.pack.decor.block;
 
-import java.util.List;
 import java.util.Random;
 
 import com.grim3212.mc.pack.core.util.NBTHelper;
@@ -9,14 +8,13 @@ import com.grim3212.mc.pack.decor.tile.TileEntityTextured;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
@@ -31,33 +29,25 @@ public class BlockLampPost extends BlockTextured {
 		}
 	}
 
+	private static final AxisAlignedBB TOP_AABB = new AxisAlignedBB(0.125F, 0.0F, 0.125F, 0.875F, 0.685F, 0.875F);
+	private static final AxisAlignedBB MIDDLE_AABB = new AxisAlignedBB(0.375F, 0.0F, 0.375F, 0.625F, 1.0F, 0.625F);
+	private static final AxisAlignedBB BOTTOM_AABB = new AxisAlignedBB(0.375F, 0.0F, 0.375F, 0.625F, 1.0F, 0.625F);
+
 	@Override
-	public void addCollisionBoxesToList(World worldIn, BlockPos pos, IBlockState state, AxisAlignedBB mask, List<AxisAlignedBB> list, Entity collidingEntity) {
-		if (state.getBlock() == DecorBlocks.lamp_post_bottom) {
-			this.setBlockBounds(0.375F, 0.0F, 0.375F, 0.625F, 1.0F, 0.625F);
-			super.addCollisionBoxesToList(worldIn, pos, state, mask, list, collidingEntity);
+	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
+		if (state.getBlock() == DecorBlocks.lamp_post_top) {
+			return TOP_AABB;
 		} else if (state.getBlock() == DecorBlocks.lamp_post_middle) {
-			this.setBlockBounds(0.375F, 0.0F, 0.375F, 0.625F, 1.0F, 0.625F);
-			super.addCollisionBoxesToList(worldIn, pos, state, mask, list, collidingEntity);
-		} else {
-			this.setBlockBounds(0.125F, 0.0F, 0.125F, 0.875F, 0.685F, 0.875F);
-			super.addCollisionBoxesToList(worldIn, pos, state, mask, list, collidingEntity);
+			return MIDDLE_AABB;
+		} else if (state.getBlock() == DecorBlocks.lamp_post_bottom) {
+			return BOTTOM_AABB;
 		}
+
+		return FULL_BLOCK_AABB;
 	}
 
 	@Override
-	public void setBlockBoundsBasedOnState(IBlockAccess worldIn, BlockPos pos) {
-		if (worldIn.getBlockState(pos).getBlock() == DecorBlocks.lamp_post_bottom) {
-			this.setBlockBounds(0.375F, 0.0F, 0.375F, 0.625F, 1.0F, 0.625F);
-		} else if (worldIn.getBlockState(pos).getBlock() == DecorBlocks.lamp_post_middle) {
-			this.setBlockBounds(0.375F, 0.0F, 0.375F, 0.625F, 1.0F, 0.625F);
-		} else {
-			this.setBlockBounds(0.125F, 0.0F, 0.125F, 0.875F, 0.685F, 0.875F);
-		}
-	}
-
-	@Override
-	public ItemStack getPickBlock(MovingObjectPosition target, World world, BlockPos pos, EntityPlayer player) {
+	public ItemStack getPickBlock(IBlockState state, RayTraceResult target, World world, BlockPos pos, EntityPlayer player) {
 		TileEntity te = world.getTileEntity(pos);
 		if (te instanceof TileEntityTextured) {
 			ItemStack itemstack = new ItemStack(DecorItems.lamp_item, 1);
@@ -65,7 +55,7 @@ public class BlockLampPost extends BlockTextured {
 			NBTHelper.setInteger(itemstack, "blockMeta", ((TileEntityTextured) te).getBlockMeta());
 			return itemstack;
 		}
-		return super.getPickBlock(target, world, pos, player);
+		return super.getPickBlock(state, target, world, pos, player);
 	}
 
 	@Override
@@ -119,10 +109,10 @@ public class BlockLampPost extends BlockTextured {
 	}
 
 	@Override
-	public Item getItem(World worldIn, BlockPos pos) {
-		return DecorItems.lamp_item;
+	public ItemStack getItem(World worldIn, BlockPos pos, IBlockState state) {
+		return new ItemStack(DecorItems.lamp_item);
 	}
-	
+
 	@Override
 	public void dropBlockAsItemWithChance(World worldIn, BlockPos pos, IBlockState state, float chance, int fortune) {
 		TileEntity tileentity = worldIn.getTileEntity(pos);
@@ -137,14 +127,14 @@ public class BlockLampPost extends BlockTextured {
 	}
 
 	@Override
-	public void harvestBlock(World worldIn, EntityPlayer player, BlockPos pos, IBlockState state, TileEntity te) {
+	public void harvestBlock(World worldIn, EntityPlayer player, BlockPos pos, IBlockState state, TileEntity te, ItemStack stack) {
 		if (te instanceof TileEntityTextured) {
 			ItemStack itemstack = new ItemStack(DecorItems.lamp_item, 1);
 			NBTHelper.setInteger(itemstack, "blockID", ((TileEntityTextured) te).getBlockID());
 			NBTHelper.setInteger(itemstack, "blockMeta", ((TileEntityTextured) te).getBlockMeta());
 			spawnAsEntity(worldIn, pos, itemstack);
 		} else {
-			super.harvestBlock(worldIn, player, pos, state, te);
+			super.harvestBlock(worldIn, player, pos, state, te, stack);
 		}
 	}
 }

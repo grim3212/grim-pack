@@ -50,8 +50,8 @@ public class DecorConfig extends GrimConfig {
 
 			for (int i = 0; i < recipes.length; i++) {
 				String[] rawids = recipes[i].split(">");
-				Item rawid1 = (Item) Item.itemRegistry.getObject(new ResourceLocation(rawids[0]));
-				Item rawid2 = (Item) Item.itemRegistry.getObject(new ResourceLocation(rawids[1]));
+				Item rawid1 = (Item) Item.REGISTRY.getObject(new ResourceLocation(rawids[0]));
+				Item rawid2 = (Item) Item.REGISTRY.getObject(new ResourceLocation(rawids[1]));
 				grillRecipes.put(rawid1, rawid2);
 			}
 		}

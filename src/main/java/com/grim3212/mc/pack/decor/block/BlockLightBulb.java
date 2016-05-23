@@ -7,28 +7,30 @@ import com.grim3212.mc.pack.decor.item.DecorItems;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockBreakable;
+import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyBool;
-import net.minecraft.block.state.BlockState;
+import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.EnumWorldBlockLayer;
-import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.BlockRenderLayer;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
 public class BlockLightBulb extends BlockBreakable {
 
+	protected static final AxisAlignedBB BULB_AABB = new AxisAlignedBB(0.2D, 0.3D, 0.2D, 0.8D, 1.0D, 0.8D);
 	public static final PropertyBool ACTIVE = PropertyBool.create("active");
 
 	protected BlockLightBulb() {
-		super(Material.glass, true);
-		float f = 0.3F;
-		setBlockBounds(0.5F - f, 0.3F, 0.5F - f, 0.5F + f, 1.0F, 0.5F + f);
+		super(Material.GLASS, true);
+		setSoundType(SoundType.GLASS);
 		this.setDefaultState(this.getBlockState().getBaseState().withProperty(ACTIVE, false));
 	}
 
@@ -48,32 +50,32 @@ public class BlockLightBulb extends BlockBreakable {
 	}
 
 	@Override
-	protected BlockState createBlockState() {
-		return new BlockState(this, ACTIVE);
+	protected BlockStateContainer createBlockState() {
+		return new BlockStateContainer(this, ACTIVE);
 	}
 
 	@Override
-	public EnumWorldBlockLayer getBlockLayer() {
-		return EnumWorldBlockLayer.CUTOUT;
+	public BlockRenderLayer getBlockLayer() {
+		return BlockRenderLayer.CUTOUT;
 	}
 
 	@Override
-	public boolean isOpaqueCube() {
+	public boolean isOpaqueCube(IBlockState state) {
 		return false;
 	}
 
 	@Override
-	public boolean isFullCube() {
+	public boolean isNormalCube(IBlockState state) {
 		return false;
 	}
 
 	@Override
 	public void onBlockAdded(World worldIn, BlockPos pos, IBlockState state) {
-		onNeighborBlockChange(worldIn, pos, state, worldIn.getBlockState(pos.up()).getBlock());
+		neighborChanged(state, worldIn, pos, worldIn.getBlockState(pos.up()).getBlock());
 	}
 
 	@Override
-	public void onNeighborBlockChange(World worldIn, BlockPos pos, IBlockState state, Block neighborBlock) {
+	public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn) {
 		if (worldIn.isBlockIndirectlyGettingPowered(pos) > 0 || worldIn.isBlockIndirectlyGettingPowered(pos.up()) > 0) {
 			worldIn.setBlockState(pos, getDefaultState().withProperty(ACTIVE, true));
 		} else {
@@ -88,7 +90,7 @@ public class BlockLightBulb extends BlockBreakable {
 
 	@Override
 	public boolean canPlaceBlockAt(World worldIn, BlockPos pos) {
-		return worldIn.getBlockState(pos.up()).getBlock().isOpaqueCube();
+		return worldIn.getBlockState(pos.up()).isOpaqueCube();
 	}
 
 	@Override
@@ -102,26 +104,27 @@ public class BlockLightBulb extends BlockBreakable {
 	}
 
 	@Override
-	public boolean canProvidePower() {
+	public boolean canProvidePower(IBlockState state) {
 		return false;
 	}
 
 	@Override
-	public AxisAlignedBB getCollisionBoundingBox(World worldIn, BlockPos pos, IBlockState state) {
-		return null;
+	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
+		return BULB_AABB;
 	}
 
 	@Override
-	public ItemStack getPickBlock(MovingObjectPosition target, World world, BlockPos pos) {
+	public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, World worldIn, BlockPos pos) {
+		return NULL_AABB;
+	}
+
+	@Override
+	public ItemStack getPickBlock(IBlockState state, RayTraceResult target, World world, BlockPos pos, EntityPlayer player) {
 		return new ItemStack(DecorBlocks.light_bulb, 1, 0);
 	}
 
 	@Override
-	public int getLightValue(IBlockAccess world, BlockPos pos) {
-		IBlockState block = world.getBlockState(pos);
-		if (block.getBlock() == this) {
-			return block.getValue(ACTIVE) ? 15 : 0;
-		}
-		return 0;
+	public int getLightValue(IBlockState state, IBlockAccess world, BlockPos pos) {
+		return state.getValue(ACTIVE) ? 15 : 0;
 	}
 }

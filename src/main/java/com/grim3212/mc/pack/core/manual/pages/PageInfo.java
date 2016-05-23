@@ -4,7 +4,7 @@ import com.grim3212.mc.pack.core.manual.gui.GuiSubSectionPage;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.util.text.translation.I18n;
+import net.minecraft.client.resources.I18n;
 
 public class PageInfo extends Page {
 
@@ -19,7 +19,7 @@ public class PageInfo extends Page {
 	}
 
 	public static void drawText(int x, int y, String pageInfo) {
-		String pageText = I18n.translateToLocal(pageInfo).replaceAll("<f>", "\u00a7");
+		String pageText = I18n.format(pageInfo).replaceAll("<f>", "\u00a7");
 		String[] paragraphs = pageText.split("<br>");
 
 		FontRenderer renderer = Minecraft.getMinecraft().fontRendererObj;

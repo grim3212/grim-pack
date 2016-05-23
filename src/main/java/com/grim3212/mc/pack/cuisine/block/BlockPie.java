@@ -11,7 +11,7 @@ public class BlockPie extends BlockCake {
 
 	public BlockPie() {
 		super();
-		setStepSound(SoundType.CLOTH);
+		setSoundType(SoundType.CLOTH);
 	}
 
 	@Override

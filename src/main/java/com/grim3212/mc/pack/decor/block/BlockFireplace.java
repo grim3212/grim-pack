@@ -7,10 +7,10 @@ import com.grim3212.mc.pack.decor.config.DecorConfig;
 
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyBool;
-import net.minecraft.block.state.BlockState;
+import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.property.ExtendedBlockState;
@@ -28,7 +28,7 @@ public class BlockFireplace extends BlockFireplaceBase {
 	}
 
 	@Override
-	public void randomDisplayTick(World worldIn, BlockPos pos, IBlockState state, Random rand) {
+	public void randomDisplayTick(IBlockState stateIn, World worldIn, BlockPos pos, Random rand) {
 		if (DecorConfig.isFireParticles) {
 			if (worldIn.getBlockState(pos).getValue(ACTIVE)) {
 				for (int i = 0; i < 5; i++) {
@@ -55,13 +55,8 @@ public class BlockFireplace extends BlockFireplaceBase {
 	}
 
 	@Override
-	protected BlockState createBlockState() {
+	protected BlockStateContainer createBlockState() {
 		return new ExtendedBlockState(this, new IProperty[] { NORTH, SOUTH, WEST, EAST, ACTIVE }, new IUnlistedProperty[] { BLOCKID, BLOCKMETA });
-	}
-
-	@Override
-	public IBlockState getStateForEntityRender(IBlockState state) {
-		return this.getDefaultState();
 	}
 
 	@Override

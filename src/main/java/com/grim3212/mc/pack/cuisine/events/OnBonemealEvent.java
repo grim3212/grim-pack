@@ -14,7 +14,7 @@ public class OnBonemealEvent {
 		if (event.getBlock() == CuisineBlocks.cocoa_tree_sapling.getDefaultState()) {
 			if (!event.getWorld().isRemote) {
 				// Spawn grow particles
-				event.getWorld().playAuxSFX(2005, event.getPos(), 0);
+				event.getWorld().playEvent(2005, event.getPos(), 0);
 				// Try and grow tree
 				((BlockCocoaSapling) CuisineBlocks.cocoa_tree_sapling).grow(event.getWorld(), event.getWorld().rand, event.getPos(), event.getBlock());
 				event.setResult(Result.ALLOW);

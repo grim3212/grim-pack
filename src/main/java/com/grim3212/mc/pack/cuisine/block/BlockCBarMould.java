@@ -29,9 +29,9 @@ public class BlockCBarMould extends Block {
 	public static final PropertyInteger STAGE = PropertyInteger.create("stage", 0, 15);
 
 	protected BlockCBarMould() {
-		super(Material.wood);
+		super(Material.WOOD);
 		setTickRandomly(true);
-		setStepSound(SoundType.STONE);
+		setSoundType(SoundType.STONE);
 		this.setDefaultState(this.blockState.getBaseState().withProperty(STAGE, 0));
 	}
 
@@ -54,9 +54,9 @@ public class BlockCBarMould extends Block {
 	public boolean canPlaceBlockAt(World worldIn, BlockPos pos) {
 		return super.canPlaceBlockAt(worldIn, pos) ? this.canBlockStay(worldIn, pos) : false;
 	}
-
+	
 	@Override
-	public void onNeighborBlockChange(World worldIn, BlockPos pos, IBlockState state, Block neighborBlock) {
+	public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn) {
 		if (!this.canBlockStay(worldIn, pos)) {
 			this.dropBlockAsItem(worldIn, pos, state, 0);
 			worldIn.setBlockToAir(pos);
@@ -71,7 +71,7 @@ public class BlockCBarMould extends Block {
 	public void updateTick(World worldIn, BlockPos pos, IBlockState state, Random rand) {
 		super.updateTick(worldIn, pos, state, rand);
 		int current_stage = 2;
-		if (worldIn.getBlockState(pos.down()).getBlock() == Blocks.ice || worldIn.getBlockState(pos.down()).getBlock() == Blocks.snow || worldIn.getBlockState(pos.down()).getBlock() == Blocks.packed_ice) {
+		if (worldIn.getBlockState(pos.down()).getBlock() == Blocks.ICE || worldIn.getBlockState(pos.down()).getBlock() == Blocks.SNOW || worldIn.getBlockState(pos.down()).getBlock() == Blocks.PACKED_ICE) {
 			current_stage = 4;
 		}
 
@@ -112,7 +112,7 @@ public class BlockCBarMould extends Block {
 
 				--heldItem.stackSize;
 				if (heldItem.stackSize <= 0) {
-					playerIn.inventory.addItemStackToInventory(new ItemStack(Items.bowl));
+					playerIn.inventory.addItemStackToInventory(new ItemStack(Items.BOWL));
 				}
 			}
 		}

@@ -5,11 +5,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.grim3212.mc.pack.core.client.RenderHelper;
+import com.google.common.collect.Lists;
 import com.grim3212.mc.pack.core.client.model.TexturedBuilder;
 import com.grim3212.mc.pack.core.util.NBTHelper;
 import com.grim3212.mc.pack.decor.block.BlockFireplaceBase;
-import com.grim3212.mc.pack.decor.block.BlockGrill;
 import com.grim3212.mc.pack.decor.block.DecorBlocks;
 import com.grim3212.mc.pack.decor.config.DecorConfig;
 
@@ -20,56 +19,58 @@ import net.minecraft.client.renderer.BlockModelShapes;
 import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.block.model.IBakedModel;
 import net.minecraft.client.renderer.block.model.ItemCameraTransforms;
-import net.minecraft.client.renderer.block.model.ModelResourceLocation;
+import net.minecraft.client.renderer.block.model.ItemOverride;
+import net.minecraft.client.renderer.block.model.ItemOverrideList;
 import net.minecraft.client.renderer.block.model.SimpleBakedModel;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.IResourceManager;
 import net.minecraft.client.resources.IResourceManagerReloadListener;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.world.World;
 import net.minecraftforge.common.property.IExtendedBlockState;
 
 @SuppressWarnings("deprecation")
-public class FireplaceModel extends SimpleBakedModel implements ISmartBlockModel, ISmartItemModel, IResourceManagerReloadListener {
+public class FireplaceModel extends SimpleBakedModel implements IBakedModel, IResourceManagerReloadListener {
 
-	public FireplaceModel(List<BakedQuad> generalQuads, List<List<BakedQuad>> faceQuads, boolean ambientOcclusion, boolean gui3d, TextureAtlasSprite texture, ItemCameraTransforms cameraTransforms) {
-		super(generalQuads, faceQuads, ambientOcclusion, gui3d, texture, cameraTransforms);
+	public FireplaceModel(List<BakedQuad> generalQuads, Map<EnumFacing, List<BakedQuad>> faceQuads, boolean ambientOcclusion, boolean gui3d, TextureAtlasSprite texture, ItemCameraTransforms cameraTransforms, ItemOverrideList itemOverrideListIn) {
+		super(generalQuads, faceQuads, ambientOcclusion, gui3d, texture, cameraTransforms, itemOverrideListIn);
 	}
 
 	@Override
-	public IBakedModel handleItemState(ItemStack stack) {
-		if (stack.hasTagCompound() && stack.getTagCompound().hasKey("blockID") && stack.getTagCompound().hasKey("blockMeta")) {
-			int blockID = NBTHelper.getInt(stack, "blockID");
-			int blockMeta = NBTHelper.getInt(stack, "blockMeta");
-			return this.getCachedModel(Block.getBlockFromItem(stack.getItem()).getDefaultState(), blockID, blockMeta, false);
+	public ItemOverrideList getOverrides() {
+		return itemHandler;
+	}
+
+	private final ItemOverrideList itemHandler = new ItemOverrideList(Lists.<ItemOverride> newArrayList()) {
+		@Override
+		public IBakedModel handleItemState(IBakedModel model, ItemStack stack, World world, EntityLivingBase entity) {
+			if (stack.hasTagCompound() && stack.getTagCompound().hasKey("blockID") && stack.getTagCompound().hasKey("blockMeta")) {
+				int blockID = NBTHelper.getInt(stack, "blockID");
+				int blockMeta = NBTHelper.getInt(stack, "blockMeta");
+				return FireplaceModel.this.getCachedModel(Block.getBlockFromItem(stack.getItem()).getDefaultState(), blockID, blockMeta, false);
+			}
+
+			return super.handleItemState(model, stack, world, entity);
 		}
+	};
 
-		return null;
-	}
-
-	@Override
-	public IBakedModel handleBlockState(IBlockState state) {
+	public List<BakedQuad> getQuads(IBlockState state, EnumFacing side, long rand) {
 		if (state instanceof IExtendedBlockState) {
 			IExtendedBlockState exState = (IExtendedBlockState) state;
 			if (exState.getBlock() instanceof BlockFireplaceBase) {
 				if (exState.getValue(BlockFireplaceBase.BLOCKID) != null && exState.getValue(BlockFireplaceBase.BLOCKMETA) != null) {
 					int blockID = exState.getValue(BlockFireplaceBase.BLOCKID);
 					int blockMeta = exState.getValue(BlockFireplaceBase.BLOCKMETA);
-					return this.getCachedModel(state, blockID, blockMeta, exState.getValue(BlockFireplaceBase.ACTIVE));
+					return this.getCachedModel(state, blockID, blockMeta, exState.getValue(BlockFireplaceBase.ACTIVE)).getQuads(state, side, rand);
 				} else {
-					return this.getCachedModel(state, 0, 0, false);
-				}
-			} else {
-				if (exState.getValue(BlockGrill.BLOCKID) != null && exState.getValue(BlockGrill.BLOCKMETA) != null) {
-					int blockID = exState.getValue(BlockGrill.BLOCKID);
-					int blockMeta = exState.getValue(BlockGrill.BLOCKMETA);
-					return this.getCachedModel(state, blockID, blockMeta, exState.getValue(BlockGrill.ACTIVE));
-				} else {
-					return this.getCachedModel(state, 0, 0, false);
+					return this.getCachedModel(state, 0, 0, false).getQuads(state, side, rand);
 				}
 			}
 		}
 
-		return null;
+		return super.getQuads(state, side, rand);
 	}
 
 	private final Map<List<Integer>, IBakedModel> cache = new HashMap<List<Integer>, IBakedModel>();
@@ -92,15 +93,15 @@ public class FireplaceModel extends SimpleBakedModel implements ISmartBlockModel
 				TextureAtlasSprite blockTexture = blockModel.getTexture(blockState);
 				if (isActive && !DecorConfig.isFireParticles) {
 					if (DecorConfig.enableFirepitNet) {
-						this.firepitCache.put(firepitKey, RenderHelper.mergeModels(new FireplaceBuilder(this, blockTexture).makeBakedModel(), blockModel.getModelManager().getModel(new ModelResourceLocation("grimdecor:firepit_wood", "inventory")), blockModel.getModelManager().getModel(new ModelResourceLocation("grimdecor:firepit_covered", "inventory")), blockModel.getModelManager().getModel(new ModelResourceLocation("grimdecor:fire_high", "inventory"))));
+						this.firepitCache.put(firepitKey, new FireplaceBuilder(this, blockTexture).makeBakedModel());
 					} else {
-						this.firepitCache.put(firepitKey, RenderHelper.mergeModels(new FireplaceBuilder(this, blockTexture).makeBakedModel(), blockModel.getModelManager().getModel(new ModelResourceLocation("grimdecor:firepit_wood", "inventory")), blockModel.getModelManager().getModel(new ModelResourceLocation("grimdecor:fire_high", "inventory"))));
+						this.firepitCache.put(firepitKey, new FireplaceBuilder(this, blockTexture).makeBakedModel());
 					}
 				} else {
 					if (DecorConfig.enableFirepitNet) {
-						this.firepitCache.put(firepitKey, RenderHelper.mergeModels(new FireplaceBuilder(this, blockTexture).makeBakedModel(), blockModel.getModelManager().getModel(new ModelResourceLocation("grimdecor:firepit_wood", "inventory")), blockModel.getModelManager().getModel(new ModelResourceLocation("grimdecor:firepit_covered", "inventory"))));
+						this.firepitCache.put(firepitKey, new FireplaceBuilder(this, blockTexture).makeBakedModel());
 					} else {
-						this.firepitCache.put(firepitKey, RenderHelper.mergeModels(new FireplaceBuilder(this, blockTexture).makeBakedModel(), blockModel.getModelManager().getModel(new ModelResourceLocation("grimdecor:firepit_wood", "inventory"))));
+						this.firepitCache.put(firepitKey, new FireplaceBuilder(this, blockTexture).makeBakedModel());
 					}
 				}
 			}
@@ -114,30 +115,30 @@ public class FireplaceModel extends SimpleBakedModel implements ISmartBlockModel
 			TextureAtlasSprite blockTexture = blockModel.getTexture(blockState);
 
 			if (state.getBlock() == DecorBlocks.chimney) {
-				this.cache.put(key, RenderHelper.mergeModels(new FireplaceBuilder(this, blockTexture).makeBakedModel(), blockModel.getModelManager().getModel(new ModelResourceLocation("grimdecor:chimney_top", "inventory"))));
+				this.cache.put(key, new FireplaceBuilder(this, blockTexture).makeBakedModel());
 			} else if (state.getBlock() == DecorBlocks.fireplace) {
 				if (isActive && !DecorConfig.isFireParticles) {
-					this.cache.put(key, RenderHelper.mergeModels(new FireplaceBuilder(this, blockTexture).makeBakedModel(), blockModel.getModelManager().getModel(new ModelResourceLocation("grimdecor:fireplace_wood", "inventory")), blockModel.getModelManager().getModel(new ModelResourceLocation("grimdecor:fire", "inventory"))));
+					this.cache.put(key, new FireplaceBuilder(this, blockTexture).makeBakedModel());
 				} else {
-					this.cache.put(key, RenderHelper.mergeModels(new FireplaceBuilder(this, blockTexture).makeBakedModel(), blockModel.getModelManager().getModel(new ModelResourceLocation("grimdecor:fireplace_wood", "inventory"))));
+					this.cache.put(key, new FireplaceBuilder(this, blockTexture).makeBakedModel());
 				}
 			} else if (state.getBlock() == DecorBlocks.firering) {
 				if (isActive && !DecorConfig.isFireParticles) {
-					this.cache.put(key, RenderHelper.mergeModels(new FireplaceBuilder(this, blockTexture).makeBakedModel(), blockModel.getModelManager().getModel(new ModelResourceLocation("grimdecor:firering_wood", "inventory")), blockModel.getModelManager().getModel(new ModelResourceLocation("grimdecor:fire", "inventory"))));
+					this.cache.put(key, new FireplaceBuilder(this, blockTexture).makeBakedModel());
 				} else {
-					this.cache.put(key, RenderHelper.mergeModels(new FireplaceBuilder(this, blockTexture).makeBakedModel(), blockModel.getModelManager().getModel(new ModelResourceLocation("grimdecor:firering_wood", "inventory"))));
+					this.cache.put(key, new FireplaceBuilder(this, blockTexture).makeBakedModel());
 				}
 			} else if (state.getBlock() == DecorBlocks.stove) {
 				if (isActive && !DecorConfig.isFireParticles) {
-					this.cache.put(key, RenderHelper.mergeModels(new FireplaceBuilder(this, blockTexture).makeBakedModel(), blockModel.getModelManager().getModel(new ModelResourceLocation("grimdecor:stove_wood", "inventory")), blockModel.getModelManager().getModel(new ModelResourceLocation("grimdecor:stove_covered", "inventory")), blockModel.getModelManager().getModel(new ModelResourceLocation("grimdecor:fire_high", "inventory"))));
+					this.cache.put(key, new FireplaceBuilder(this, blockTexture).makeBakedModel());
 				} else {
-					this.cache.put(key, RenderHelper.mergeModels(new FireplaceBuilder(this, blockTexture).makeBakedModel(), blockModel.getModelManager().getModel(new ModelResourceLocation("grimdecor:stove_wood", "inventory")), blockModel.getModelManager().getModel(new ModelResourceLocation("grimdecor:stove_covered", "inventory"))));
+					this.cache.put(key, new FireplaceBuilder(this, blockTexture).makeBakedModel());
 				}
 			} else if (state.getBlock() == DecorBlocks.grill) {
 				if (isActive && !DecorConfig.isFireParticles) {
-					this.cache.put(key, RenderHelper.mergeModels(new FireplaceBuilder(this, blockTexture).makeBakedModel(), blockModel.getModelManager().getModel(new ModelResourceLocation("grimdecor:grill_coal", "inventory")), blockModel.getModelManager().getModel(new ModelResourceLocation("grimdecor:grill_fire", "inventory"))));
+					this.cache.put(key, new FireplaceBuilder(this, blockTexture).makeBakedModel());
 				} else {
-					this.cache.put(key, RenderHelper.mergeModels(new FireplaceBuilder(this, blockTexture).makeBakedModel(), blockModel.getModelManager().getModel(new ModelResourceLocation("grimdecor:grill_coal", "inventory"))));
+					this.cache.put(key, new FireplaceBuilder(this, blockTexture).makeBakedModel());
 				}
 			}
 		}
@@ -155,7 +156,7 @@ public class FireplaceModel extends SimpleBakedModel implements ISmartBlockModel
 			if (this.getBuilderTexture() == null) {
 				throw new RuntimeException("Missing particle!");
 			} else {
-				return new FireplaceModel(this.getBuilderGeneralQuads(), this.getBuilderFaceQuads(), this.isBuilderAmbientOcclusion(), this.isBuilderGui3d(), this.getBuilderTexture(), this.getBuilderCameraTransforms());
+				return new FireplaceModel(this.getBuilderGeneralQuads(), this.getBuilderFaceQuads(), this.isBuilderAmbientOcclusion(), this.isBuilderGui3d(), this.getBuilderTexture(), this.getBuilderCameraTransforms(), this.getBuilderItemOverrideList());
 			}
 		}
 	}

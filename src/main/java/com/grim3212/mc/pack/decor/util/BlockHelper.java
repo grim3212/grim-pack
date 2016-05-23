@@ -41,9 +41,9 @@ public class BlockHelper {
 			while (i.hasNext()) {
 				Block block = (Block) i.next();
 
-				if (block == Blocks.glass || block == Blocks.redstone_ore || block == Blocks.redstone_lamp) {
+				if (block == Blocks.GLASS || block == Blocks.REDSTONE_ORE || block == Blocks.REDSTONE_LAMP) {
 					// Do nothing!
-				} else if (block == null || block == Blocks.air || block instanceof BlockSlab || block instanceof BlockSilverfish || block.hasTileEntity(block.getDefaultState()) || !block.getDefaultState().isNormalCube() || !block.getDefaultState().isOpaqueCube() || block instanceof BlockRedstoneOre || block instanceof BlockRedstoneLight) {
+				} else if (block == null || block == Blocks.AIR || block instanceof BlockSlab || block instanceof BlockSilverfish || block.hasTileEntity(block.getDefaultState()) || !block.getDefaultState().isNormalCube() || !block.getDefaultState().isOpaqueCube() || block instanceof BlockRedstoneOre || block instanceof BlockRedstoneLight) {
 					continue;
 				}
 
@@ -103,9 +103,9 @@ public class BlockHelper {
 		}
 
 		if (!canHarvestBlock(state, player, world, pos)) {
-			return player.getBreakSpeed(state, pos) / hardness / 100F;
+			return player.getDigSpeed(state, pos) / hardness / 100F;
 		} else {
-			return player.getBreakSpeed(state, pos) / hardness / 30F;
+			return player.getDigSpeed(state, pos) / hardness / 30F;
 		}
 	}
 
