@@ -41,7 +41,7 @@ public class TileEntityCalendarRenderer extends TileEntitySpecialRenderer<TileEn
 		GL11.glNormal3f(0.0F, 0.0F, -1F * f3);
 
 		GlStateManager.depthMask(false);
-
+		
 		String s = DateHandler.calculateDate(Minecraft.getMinecraft().theWorld.getWorldTime(), 1);
 		String as[] = s.split(",");
 		for (int k = 0; k < as.length; k++) {
