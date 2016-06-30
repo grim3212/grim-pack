@@ -20,6 +20,7 @@ import com.grim3212.mc.pack.decor.block.DecorBlocks;
 import com.grim3212.mc.pack.decor.client.entity.RenderFrame.FrameFactory;
 import com.grim3212.mc.pack.decor.client.entity.RenderWallpaper.WallpaperFactory;
 import com.grim3212.mc.pack.decor.client.event.ModelEvent;
+import com.grim3212.mc.pack.decor.client.model.DecorModelLoader;
 import com.grim3212.mc.pack.decor.client.tile.TileEntityCalendarRenderer;
 import com.grim3212.mc.pack.decor.entity.EntityFrame;
 import com.grim3212.mc.pack.decor.entity.EntityWallpaper;
@@ -33,6 +34,7 @@ import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.client.model.ModelLoader;
+import net.minecraftforge.client.model.ModelLoaderRegistry;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
@@ -51,7 +53,10 @@ public class DecorClientProxy extends DecorCommonProxy {
 
 	@Override
 	public void registerModels() {
+		ModelLoaderRegistry.registerLoader(DecorModelLoader.instance);
+
 		MinecraftForge.EVENT_BUS.register(new ModelEvent());
+
 		ModelLoader.setCustomStateMapper(DecorBlocks.fireplace, new StateMap.Builder().ignore(BlockFireplace.ACTIVE).build());
 		ModelLoader.setCustomStateMapper(DecorBlocks.firepit, new StateMap.Builder().ignore(BlockFirepit.ACTIVE).build());
 		ModelLoader.setCustomStateMapper(DecorBlocks.firering, new StateMap.Builder().ignore(BlockFirering.ACTIVE).build());
@@ -76,10 +81,12 @@ public class DecorClientProxy extends DecorCommonProxy {
 		ModelEvent.renderNormalModel(DecorBlocks.lamp_post_top);
 		ModelEvent.renderNormalModel(DecorBlocks.lamp_post_middle);
 		ModelEvent.renderNormalModel(DecorBlocks.lamp_post_bottom);
-		ModelEvent.renderNormalModel(DecorBlocks.counter);
+
+		RenderHelper.renderBlock(DecorBlocks.counter);
+		RenderHelper.renderBlock(DecorBlocks.table);
+		RenderHelper.renderBlock(DecorBlocks.stool);
 
 		ModelEvent.renderCustomModel(DecorItems.lamp_item, "inventory");
-		ModelEvent.renderCustomModel(DecorBlocks.stool, "inventory", "up=false", "up=true");
 		ModelEvent.renderCustomModel(DecorBlocks.fireplace, "inventory", "east=false,north=false,south=false,west=false", "east=false,north=true,south=false,west=false", "east=true,north=false,south=false,west=false", "east=false,north=false,south=true,west=false", "east=false,north=false,south=false,west=true", "east=true,north=true,south=false,west=false", "east=true,north=false,south=true,west=false", "east=false,north=false,south=true,west=true", "east=false,north=true,south=false,west=true", "east=false,north=true,south=true,west=false", "east=true,north=false,south=false,west=true",
 				"east=true,north=true,south=true,west=false", "east=true,north=false,south=true,west=true", "east=false,north=true,south=true,west=true", "east=true,north=true,south=false,west=true", "east=true,north=true,south=true,west=true");
 		ModelEvent.renderCustomModel(DecorBlocks.chair, "inventory", "facing=north", "facing=south", "facing=west", "facing=east");
@@ -88,8 +95,6 @@ public class DecorClientProxy extends DecorCommonProxy {
 				"east=true,north=true,south=true,west=false", "east=true,north=false,south=true,west=true", "east=false,north=true,south=true,west=true", "east=true,north=true,south=false,west=true", "east=true,north=true,south=true,west=true");
 		ModelEvent.renderCustomModel(DecorBlocks.fence_gate, "inventory", "facing=south,open=false,powered=false", "facing=west,open=false,powered=false", "facing=north,open=false,powered=false", "facing=east,open=false,powered=false", "facing=south,open=true,powered=false", "facing=west,open=true,powered=false", "facing=north,open=true,powered=false", "facing=east,open=true,powered=false", "facing=south,open=false,powered=true", "facing=west,open=false,powered=true", "facing=north,open=false,powered=true", "facing=east,open=false,powered=true", "facing=south,open=true,powered=true",
 				"facing=west,open=true,powered=true", "facing=north,open=true,powered=true", "facing=east,open=true,powered=true");
-		ModelEvent.renderCustomModel(DecorBlocks.table, "inventory", "east=false,north=false,south=false,west=false", "east=false,north=true,south=false,west=false", "east=true,north=false,south=false,west=false", "east=false,north=false,south=true,west=false", "east=false,north=false,south=false,west=true", "east=true,north=true,south=false,west=false", "east=true,north=false,south=true,west=false", "east=false,north=false,south=true,west=true", "east=false,north=true,south=false,west=true", "east=false,north=true,south=true,west=false", "east=true,north=false,south=false,west=true",
-				"east=true,north=true,south=true,west=false", "east=true,north=false,south=true,west=true", "east=false,north=true,south=true,west=true", "east=true,north=true,south=false,west=true", "east=true,north=true,south=true,west=true");
 
 		// ITEMS
 		RenderHelper.renderItem(DecorItems.glass_shard);

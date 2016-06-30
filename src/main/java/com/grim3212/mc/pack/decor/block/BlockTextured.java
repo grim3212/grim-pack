@@ -135,11 +135,6 @@ public abstract class BlockTextured extends Block implements ITileEntityProvider
 	}
 
 	@Override
-	public EnumBlockRenderType getRenderType(IBlockState state) {
-		return EnumBlockRenderType.ENTITYBLOCK_ANIMATED;
-	}
-
-	@Override
 	public void getSubBlocks(Item itemIn, CreativeTabs tab, List<ItemStack> list) {
 		LinkedHashMap<Block, Integer> loadedBlocks = BlockHelper.getBlocks();
 		Block[] blocks = loadedBlocks.keySet().toArray(new Block[loadedBlocks.keySet().size()]);

@@ -97,11 +97,11 @@ public class LampPostModel extends SimpleBakedModel implements IBakedModel, IRes
 			super(model, blockTexture);
 		}
 
-		public IBakedModel makeBakedModel() {
+		public TexturedModel makeBakedModel() {
 			if (this.getBuilderTexture() == null) {
 				throw new RuntimeException("Missing particle!");
 			} else {
-				return new LampPostModel(this.getBuilderGeneralQuads(), this.getBuilderFaceQuads(), this.isBuilderAmbientOcclusion(), this.isBuilderGui3d(), this.getBuilderTexture(), this.getBuilderCameraTransforms(), this.getBuilderItemOverrideList());
+				return new TexturedModel(this.getBuilderGeneralQuads(), this.getBuilderFaceQuads(), this.isBuilderAmbientOcclusion(), this.isBuilderGui3d(), this.getBuilderTexture(), this.getBuilderCameraTransforms(), this.getBuilderItemOverrideList());
 			}
 		}
 	}

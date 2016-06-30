@@ -41,12 +41,14 @@ public class LampPostItemModel extends SimpleBakedModel implements IBakedModel {
 	private final ItemOverrideList itemHandler = new ItemOverrideList(Lists.<ItemOverride> newArrayList()) {
 		@Override
 		public IBakedModel handleItemState(IBakedModel model, ItemStack stack, World world, EntityLivingBase entity) {
+			int blockID = 0;
+			int blockMeta = 0;
+			
 			if (stack.hasTagCompound() && stack.getTagCompound().hasKey("blockID") && stack.getTagCompound().hasKey("blockMeta")) {
-				int blockID = NBTHelper.getInt(stack, "blockID");
-				int blockMeta = NBTHelper.getInt(stack, "blockMeta");
-				return LampPostItemModel.this.getCachedModel(blockID, blockMeta);
+				blockID = NBTHelper.getInt(stack, "blockID");
+				blockMeta = NBTHelper.getInt(stack, "blockMeta");
 			}
-			return super.handleItemState(model, stack, world, entity);
+			return LampPostItemModel.this.getCachedModel(blockID, blockMeta);
 		}
 	};
 
@@ -60,6 +62,8 @@ public class LampPostItemModel extends SimpleBakedModel implements IBakedModel {
 			IBlockState blockState = Block.getBlockById(blockID).getStateFromMeta(blockMeta);
 			TextureAtlasSprite blockTexture = blockModel.getTexture(blockState);
 
+			//SimpleBakedModel.Builder builder = new SimpleBakedModel.Builder();
+			
 			if (Block.getBlockById(blockID) == Blocks.GRASS) {
 				this.cache.put(key, new LampPostItemBuilder(this, Minecraft.getMinecraft().getTextureMapBlocks().getAtlasSprite("minecraft:blocks/grass_top")).makeBakedModel());
 			} else if (Block.getBlockById(blockID) == Blocks.DIRT && blockMeta == 2) {
@@ -84,7 +88,7 @@ public class LampPostItemModel extends SimpleBakedModel implements IBakedModel {
 			if (this.getBuilderTexture() == null) {
 				throw new RuntimeException("Missing particle!");
 			} else {
-				return new LampPostItemModel(this.getBuilderGeneralQuads(), this.getBuilderFaceQuads(), this.isBuilderAmbientOcclusion(), this.isBuilderGui3d(), this.getBuilderTexture(), this.getBuilderCameraTransforms(), this.getBuilderItemOverrideList());
+				return new TexturedModel(this.getBuilderGeneralQuads(), this.getBuilderFaceQuads(), this.isBuilderAmbientOcclusion(), this.isBuilderGui3d(), this.getBuilderTexture(), this.getBuilderCameraTransforms(), this.getBuilderItemOverrideList());
 			}
 		}
 	}

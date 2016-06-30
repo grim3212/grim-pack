@@ -14,11 +14,9 @@ import net.minecraft.util.EnumFacing;
 public class BakedModel implements IBakedModel {
 
 	private final IBakedModel model;
-	private final TextureAtlasSprite texture;
 
-	public BakedModel(IBakedModel model, TextureAtlasSprite texture) {
+	public BakedModel(IBakedModel model) {
 		this.model = model;
-		this.texture = texture;
 	}
 
 	@Override
@@ -28,22 +26,22 @@ public class BakedModel implements IBakedModel {
 
 	@Override
 	public boolean isAmbientOcclusion() {
-		return true;
+		return model.isAmbientOcclusion();
 	}
 
 	@Override
 	public boolean isGui3d() {
-		return true;
+		return model.isGui3d();
 	}
 
 	@Override
 	public boolean isBuiltInRenderer() {
-		return false;
+		return model.isBuiltInRenderer();
 	}
 
 	@Override
 	public TextureAtlasSprite getParticleTexture() {
-		return this.texture;
+		return model.getParticleTexture();
 	}
 
 	@Override
@@ -55,5 +53,4 @@ public class BakedModel implements IBakedModel {
 	public ItemOverrideList getOverrides() {
 		return model.getOverrides();
 	}
-
 }

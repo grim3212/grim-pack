@@ -1,20 +1,21 @@
 {
 	"forge_marker": 1,
     "defaults": {
-		"transform": "forge:default-block"
+		"transform": "forge:default-block",
+		"model": "grimpack:decor_custom"
     },
     "variants": {
         "up": {
             "true": {
-				"model": "grimpack:stool_up", 
-				"uvlock": true
+				"uvlock": true,
+				"custom": {"models": ["grimpack:block/stool_up"]}
             },
             "false": {
-				"model": "grimpack:stool"
+				"custom": {"models": ["grimpack:block/stool"]}
             }
         },
 		"inventory": [{
-			"model": "grimpack:stool"
+			"custom": {"models": ["grimpack:block/stool"]}
 		}]
     }
 }

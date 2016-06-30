@@ -73,8 +73,8 @@ public class FireplaceModel extends SimpleBakedModel implements IBakedModel, IRe
 		return super.getQuads(state, side, rand);
 	}
 
-	private final Map<List<Integer>, IBakedModel> cache = new HashMap<List<Integer>, IBakedModel>();
-	private final Map<List<Integer>, IBakedModel> firepitCache = new HashMap<List<Integer>, IBakedModel>();
+	private final Map<List<Integer>, TexturedModel> cache = new HashMap<List<Integer>, TexturedModel>();
+	private final Map<List<Integer>, TexturedModel> firepitCache = new HashMap<List<Integer>, TexturedModel>();
 
 	@Override
 	public void onResourceManagerReload(IResourceManager resourceManager) {
@@ -82,7 +82,7 @@ public class FireplaceModel extends SimpleBakedModel implements IBakedModel, IRe
 		firepitCache.clear();
 	}
 
-	public IBakedModel getCachedModel(IBlockState state, int blockID, int blockMeta, boolean isActive) {
+	public TexturedModel getCachedModel(IBlockState state, int blockID, int blockMeta, boolean isActive) {
 		List<Integer> key = Arrays.asList(blockID, blockMeta, isActive ? 1 : 0, DecorConfig.isFireParticles ? 1 : 0);
 		List<Integer> firepitKey = Arrays.asList(blockID, blockMeta, isActive ? 1 : 0, DecorConfig.isFireParticles ? 1 : 0, DecorConfig.enableFirepitNet ? 1 : 0);
 
@@ -152,11 +152,11 @@ public class FireplaceModel extends SimpleBakedModel implements IBakedModel, IRe
 			super(model, blockTexture);
 		}
 
-		public IBakedModel makeBakedModel() {
+		public TexturedModel makeBakedModel() {
 			if (this.getBuilderTexture() == null) {
 				throw new RuntimeException("Missing particle!");
 			} else {
-				return new FireplaceModel(this.getBuilderGeneralQuads(), this.getBuilderFaceQuads(), this.isBuilderAmbientOcclusion(), this.isBuilderGui3d(), this.getBuilderTexture(), this.getBuilderCameraTransforms(), this.getBuilderItemOverrideList());
+				return new TexturedModel(this.getBuilderGeneralQuads(), this.getBuilderFaceQuads(), this.isBuilderAmbientOcclusion(), this.isBuilderGui3d(), this.getBuilderTexture(), this.getBuilderCameraTransforms(), this.getBuilderItemOverrideList());
 			}
 		}
 	}

@@ -114,7 +114,13 @@ public class ItemLampPost extends Item implements IItemColor {
 
 	@Override
 	public String getItemStackDisplayName(ItemStack stack) {
-		return I18n.format(new ItemStack(Block.getBlockById(NBTHelper.getInt(stack, "blockID")), 1, NBTHelper.getInt(stack, "blockMeta")).getDisplayName()) + " " + I18n.format(DecorItems.lamp_item.getUnlocalizedName() + ".name");
+		ItemStack toPlaceStack = new ItemStack(Block.getBlockById(NBTHelper.getInt(stack, "blockID")), 1, NBTHelper.getInt(stack, "blockMeta"));
+
+		if (toPlaceStack.getItem() != Item.getItemFromBlock(Blocks.AIR)) {
+			return I18n.format(toPlaceStack.getDisplayName() + " " + I18n.format(this.getUnlocalizedName() + ".name"));
+		}
+
+		return super.getItemStackDisplayName(stack);
 	}
 
 	@Override

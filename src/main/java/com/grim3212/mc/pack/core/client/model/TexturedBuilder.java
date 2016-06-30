@@ -28,24 +28,24 @@ public abstract class TexturedBuilder {
 	private boolean builderGui3d;
 	private ItemCameraTransforms builderCameraTransforms;
 
-	public TexturedBuilder(IBakedModel p_i46988_1_, TextureAtlasSprite p_i46988_2_) {
-		this(p_i46988_1_.isAmbientOcclusion(), p_i46988_1_.isGui3d(), p_i46988_1_.getItemCameraTransforms(), p_i46988_1_.getOverrides());
-		this.builderTexture = p_i46988_2_;
+	public TexturedBuilder(IBakedModel model, TextureAtlasSprite texture) {
+		this(model.isAmbientOcclusion(), model.isGui3d(), model.getItemCameraTransforms(), model.getOverrides());
+		this.builderTexture = texture;
 	}
 
-	public TexturedBuilder(IBlockState p_i46989_1_, IBakedModel p_i46989_2_, TextureAtlasSprite p_i46989_3_, BlockPos p_i46989_4_) {
-		this(p_i46989_2_.isAmbientOcclusion(), p_i46989_2_.isGui3d(), p_i46989_2_.getItemCameraTransforms(), p_i46989_2_.getOverrides());
-		this.builderTexture = p_i46989_2_.getParticleTexture();
-		long i = MathHelper.getPositionRandom(p_i46989_4_);
+	public TexturedBuilder(IBlockState state, IBakedModel model, TextureAtlasSprite texture, BlockPos pos) {
+		this(model.isAmbientOcclusion(), model.isGui3d(), model.getItemCameraTransforms(), model.getOverrides());
+		this.builderTexture = model.getParticleTexture();
+		long i = MathHelper.getPositionRandom(pos);
 
 		for (EnumFacing enumfacing : EnumFacing.values()) {
-			this.addFaceQuads(p_i46989_1_, p_i46989_2_, p_i46989_3_, enumfacing, i);
+			this.addFaceQuads(state, model, texture, enumfacing, i);
 		}
 
-		this.addGeneralQuads(p_i46989_1_, p_i46989_2_, p_i46989_3_, i);
+		this.addGeneralQuads(state, model, texture, i);
 	}
 
-	private TexturedBuilder(boolean p_i46990_1_, boolean p_i46990_2_, ItemCameraTransforms p_i46990_3_, ItemOverrideList p_i46990_4_) {
+	private TexturedBuilder(boolean ambientOcclusion, boolean gui3d, ItemCameraTransforms transforms, ItemOverrideList overrides) {
 		this.builderGeneralQuads = Lists.<BakedQuad> newArrayList();
 		this.builderFaceQuads = Maps.newEnumMap(EnumFacing.class);
 
@@ -53,21 +53,21 @@ public abstract class TexturedBuilder {
 			this.builderFaceQuads.put(enumfacing, Lists.<BakedQuad> newArrayList());
 		}
 
-		this.builderItemOverrideList = p_i46990_4_;
-		this.builderAmbientOcclusion = p_i46990_1_;
-		this.builderGui3d = p_i46990_2_;
-		this.builderCameraTransforms = p_i46990_3_;
+		this.builderItemOverrideList = overrides;
+		this.builderAmbientOcclusion = ambientOcclusion;
+		this.builderGui3d = gui3d;
+		this.builderCameraTransforms = transforms;
 	}
 
-	private void addFaceQuads(IBlockState p_188644_1_, IBakedModel p_188644_2_, TextureAtlasSprite p_188644_3_, EnumFacing p_188644_4_, long p_188644_5_) {
-		for (BakedQuad bakedquad : p_188644_2_.getQuads(p_188644_1_, p_188644_4_, p_188644_5_)) {
-			this.addFaceQuad(p_188644_4_, new BakedQuadRetextured(bakedquad, p_188644_3_));
+	private void addFaceQuads(IBlockState state, IBakedModel model, TextureAtlasSprite texture, EnumFacing facing, long rand) {
+		for (BakedQuad bakedquad : model.getQuads(state, facing, rand)) {
+			this.addFaceQuad(facing, new BakedQuadRetextured(bakedquad, texture));
 		}
 	}
 
-	private void addGeneralQuads(IBlockState p_188645_1_, IBakedModel p_188645_2_, TextureAtlasSprite p_188645_3_, long p_188645_4_) {
-		for (BakedQuad bakedquad : p_188645_2_.getQuads(p_188645_1_, (EnumFacing) null, p_188645_4_)) {
-			this.addGeneralQuad(new BakedQuadRetextured(bakedquad, p_188645_3_));
+	private void addGeneralQuads(IBlockState state, IBakedModel model, TextureAtlasSprite texture, long rand) {
+		for (BakedQuad bakedquad : model.getQuads(state, (EnumFacing) null, rand)) {
+			this.addGeneralQuad(new BakedQuadRetextured(bakedquad, texture));
 		}
 	}
 

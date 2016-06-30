@@ -11,7 +11,8 @@ import com.google.common.collect.Maps;
 import com.grim3212.mc.pack.GrimPack;
 import com.grim3212.mc.pack.core.client.RenderHelper;
 import com.grim3212.mc.pack.decor.block.DecorBlocks;
-import com.grim3212.mc.pack.decor.client.model.FurnitureModel;
+import com.grim3212.mc.pack.decor.client.model.FireplaceModel.FireplaceBuilder;
+import com.grim3212.mc.pack.decor.client.model.LampPostItemModel.LampPostItemBuilder;
 import com.grim3212.mc.pack.decor.item.DecorItems;
 
 import net.minecraft.block.Block;
@@ -41,21 +42,19 @@ public class ModelEvent {
 				IBakedModel model = event.getModelRegistry().getObject(new ModelResourceLocation(GrimPack.modID + ":" + name, state));
 
 				// Add all of the currently known Builders
-				if (allowedFurniture.contains(entry.getKey()))
-					event.getModelRegistry().putObject(new ModelResourceLocation(GrimPack.modID + ":" + name, state), new FurnitureModel(model, particle));
+				// if (allowedFurniture.contains(entry.getKey()))
+				// event.getModelRegistry().putObject(new
+				// ModelResourceLocation(GrimPack.modID + ":" + name, state),
+				// new FurnitureModel(model, particle));
 				// else if (allowedLamps.contains(entry.getKey()))
 				// event.getModelRegistry().putObject(new
 				// ModelResourceLocation(GrimPack.modID + ":" + name, state),
 				// new LampPostBuilder(model, particle).makeBakedModel());
-				// else if (allowedLampItems.contains(entry.getKey()))
-				// event.getModelRegistry().putObject(new
-				// ModelResourceLocation(GrimPack.modID + ":" + name, state),
-				// new LampPostItemBuilder(model, particle).makeBakedModel());
-				// else if (allowedFireplaces.contains(entry.getKey())) {
-				// event.getModelRegistry().putObject(new
-				// ModelResourceLocation(GrimPack.modID + ":" + name, state),
-				// new FireplaceBuilder(model, particle).makeBakedModel());
-				// }
+
+				if (allowedFireplaces.contains(entry.getKey()))
+					event.getModelRegistry().putObject(new ModelResourceLocation(GrimPack.modID + ":" + name, state), new FireplaceBuilder(model, particle).makeBakedModel());
+				else if (allowedLampItems.contains(entry.getKey()))
+					event.getModelRegistry().putObject(new ModelResourceLocation(GrimPack.modID + ":" + name, state), new LampPostItemBuilder(model, particle).makeBakedModel());
 			}
 		}
 	}

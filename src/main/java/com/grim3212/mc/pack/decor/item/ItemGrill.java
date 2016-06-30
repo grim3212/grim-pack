@@ -12,6 +12,7 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -78,7 +79,13 @@ public class ItemGrill extends ItemBlock implements IItemColor {
 
 	@Override
 	public String getItemStackDisplayName(ItemStack stack) {
-		return I18n.format(new ItemStack(Block.getBlockById(NBTHelper.getInt(stack, "blockID")), 1, NBTHelper.getInt(stack, "blockMeta")).getDisplayName()) + " " + I18n.format(this.block.getUnlocalizedName() + ".name");
+		ItemStack toPlaceStack = new ItemStack(Block.getBlockById(NBTHelper.getInt(stack, "blockID")), 1, NBTHelper.getInt(stack, "blockMeta"));
+
+		if (toPlaceStack.getItem() != Item.getItemFromBlock(Blocks.AIR)) {
+			return I18n.format(toPlaceStack.getDisplayName() + " " + I18n.format(this.block.getUnlocalizedName() + ".name"));
+		}
+
+		return super.getItemStackDisplayName(stack);
 	}
 
 	@Override
