@@ -8,7 +8,6 @@ import com.grim3212.mc.pack.PackGuiHandler;
 import com.grim3212.mc.pack.core.network.PacketDispatcher;
 import com.grim3212.mc.pack.core.util.NBTHelper;
 import com.grim3212.mc.pack.decor.GrimDecor;
-import com.grim3212.mc.pack.decor.config.DecorConfig;
 import com.grim3212.mc.pack.decor.network.MessageParticles;
 import com.grim3212.mc.pack.decor.tile.TileEntityGrill;
 import com.grim3212.mc.pack.decor.util.BlockHelper;
@@ -74,24 +73,6 @@ public class BlockGrill extends BlockFireplaceBase {
 	@Override
 	public IBlockState getStateFromMeta(int meta) {
 		return this.getDefaultState().withProperty(ACTIVE, meta == 1 ? true : false);
-	}
-
-	@Override
-	public void randomDisplayTick(IBlockState stateIn, World worldIn, BlockPos pos, Random rand) {
-		if (DecorConfig.isFireParticles) {
-			if (worldIn.getBlockState(pos).getValue(ACTIVE)) {
-				for (int i = 0; i < 5; i++) {
-					double xVar = (worldIn.rand.nextDouble() - 0.5D) / 5.0D;
-					double yVar = (worldIn.rand.nextDouble() - 0.5D) / 5.0D;
-					double zVar = (worldIn.rand.nextDouble() - 0.5D) / 5.0D;
-
-					double height = rand.nextDouble();
-					if (height > 0.85D || height < 0.7D)
-						height = 0.7D;
-					worldIn.spawnParticle(EnumParticleTypes.FLAME, pos.getX() + 0.5D + xVar, pos.getY() + height + yVar, pos.getZ() + 0.5D + zVar, 0.0D, 0.0D, 0.0D);
-				}
-			}
-		}
 	}
 
 	@Override

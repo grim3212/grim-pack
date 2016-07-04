@@ -2,10 +2,20 @@
 	"forge_marker": 1,
     "defaults": {
 		"transform": "forge:default-block",
-        "model": "grimpack:stove"
+        "model": "grimpack:decor_fireplace",
+		"custom": {
+			"models": ["grimpack:block/stove", "grimpack:block/stove_wood", "grimpack:block/stove_covered"]
+		}
     },
     "variants": {
-        "normal": [{}],
+        "active": {
+			"true": {
+				"custom": {
+					"models": ["grimpack:block/stove", "grimpack:block/stove_wood", "grimpack:block/stove_covered", "grimpack:block/fire_high"]
+				}
+			},
+			"false": {}
+		},
 		"inventory": [{}]
     }
 }

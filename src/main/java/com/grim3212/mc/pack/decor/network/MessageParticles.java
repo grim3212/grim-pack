@@ -3,8 +3,8 @@ package com.grim3212.mc.pack.decor.network;
 import java.io.IOException;
 
 import com.grim3212.mc.pack.core.network.AbstractMessage.AbstractClientMessage;
-import com.grim3212.mc.pack.decor.tile.TileEntityFireplace;
 import com.grim3212.mc.pack.decor.tile.TileEntityGrill;
+import com.grim3212.mc.pack.decor.tile.TileEntityTextured;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.network.PacketBuffer;
@@ -37,7 +37,7 @@ public class MessageParticles extends AbstractClientMessage<MessageParticles> {
 	@Override
 	public void process(EntityPlayer player, Side side) {
 		TileEntity te = player.worldObj.getTileEntity(pos);
-		if (te instanceof TileEntityFireplace) {
+		if (te instanceof TileEntityTextured) {
 			for (int i = 0; i < 3; i++) {
 				double xVar = (player.worldObj.rand.nextDouble() - 0.5D) / 5.0D;
 				double yVar = (player.worldObj.rand.nextDouble() - 0.5D) / 5.0D;

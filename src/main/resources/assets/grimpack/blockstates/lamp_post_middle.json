@@ -2,7 +2,10 @@
 	"forge_marker": 1,
     "defaults": {
 		"transform": "forge:default-block",
-        "model": "grimpack:lamp_post_middle"
+        "model": "grimpack:decor_lamppost",
+		"custom": {
+			"models": ["grimpack:block/lamp_post_middle"]
+		}
     },
     "variants": {
         "normal": [{}],

@@ -44,20 +44,31 @@ import net.minecraftforge.common.model.IModelState;
 import net.minecraftforge.common.model.TRSRTransformation;
 import net.minecraftforge.common.property.IExtendedBlockState;
 
-public class BakedFurnitureModel implements IPerspectiveAwareModel, IResourceManagerReloadListener {
+@SuppressWarnings("deprecation")
+public class BakedDecorModel implements IPerspectiveAwareModel, IResourceManagerReloadListener {
 
-	private final IModelState state;
-	private final ResourceLocation modelLocation;
-	private final ResourceLocation textureLocation;
-	private final ImmutableMap<ItemCameraTransforms.TransformType, TRSRTransformation> transforms;
-	private final VertexFormat format;
+	protected final IModelState modelState;
+	protected final ImmutableList<ResourceLocation> modelLocation;
+	protected final ResourceLocation textureLocation;
+	protected final ImmutableMap<ItemCameraTransforms.TransformType, TRSRTransformation> transforms;
+	protected final VertexFormat format;
+	protected final IModel baseModel;
+	protected final ImmutableList<IModel> modelParts;
 
-	public BakedFurnitureModel(IModelState state, ResourceLocation modelLocation, ResourceLocation textureLocation, VertexFormat fmt, ImmutableMap<ItemCameraTransforms.TransformType, TRSRTransformation> transforms) {
-		this.state = state;
+	public BakedDecorModel(IModelState modelState, ImmutableList<ResourceLocation> modelLocation, ResourceLocation textureLocation, VertexFormat fmt, ImmutableMap<ItemCameraTransforms.TransformType, TRSRTransformation> transforms) {
+		this.modelState = modelState;
 		this.modelLocation = modelLocation;
 		this.textureLocation = textureLocation;
 		this.format = fmt;
 		this.transforms = transforms;
+
+		this.baseModel = ModelLoaderRegistry.getModelOrLogError(this.modelLocation.get(0), "Base model not found " + this.modelLocation.get(0));
+
+		ImmutableList.Builder<IModel> builder = ImmutableList.builder();
+		for (int i = 1; i < modelLocation.size(); i++) {
+			builder.add(ModelLoaderRegistry.getModelOrLogError(this.modelLocation.get(i), "Model part not found " + this.modelLocation.get(i)));
+		}
+		this.modelParts = builder.build();
 	}
 
 	@Override
@@ -80,7 +91,6 @@ public class BakedFurnitureModel implements IPerspectiveAwareModel, IResourceMan
 
 	private final Map<List<Integer>, IBakedModel> cache = new HashMap<List<Integer>, IBakedModel>();
 
-	@SuppressWarnings("deprecation")
 	public IBakedModel getCachedModel(IBlockState state, int blockID, int blockMeta) {
 		List<Integer> key = Arrays.asList(blockID, blockMeta);
 
@@ -101,11 +111,45 @@ public class BakedFurnitureModel implements IPerspectiveAwareModel, IResourceMan
 				newTexture.put("texture", blockTexture.getIconName());
 			}
 
-			IModel model = ModelLoaderRegistry.getModelOrLogError(this.modelLocation, "Model not found " + this.modelLocation);
-			this.cache.put(key, ModelProcessingHelper.retexture(model, newTexture.build()).bake(this.state, this.format, ModelLoader.defaultTextureGetter()));
+			this.cache.put(key, generateModel(newTexture.build()));
 		}
 
 		return this.cache.get(key);
+	}
+
+	/**
+	 * Generate the model defined in json that is a combination of all models
+	 * defined
+	 * 
+	 * @param state
+	 * @param texture
+	 * @return
+	 */
+	protected IBakedModel generateModel(ImmutableMap<String, String> texture) {
+		ImmutableList.Builder<IBakedModel> builder = ImmutableList.builder();
+		builder.add(ModelProcessingHelper.retexture(this.baseModel, texture).bake(this.modelState, this.format, ModelLoader.defaultTextureGetter()));
+		for (IModel model : this.modelParts)
+			builder.add(model.bake(this.modelState, this.format, ModelLoader.defaultTextureGetter()));
+
+		return new CompositeModel(builder.build());
+	}
+
+	/**
+	 * Generates the model defined in the json and then also merges extra models
+	 * to it
+	 * 
+	 * @param state
+	 * @param texture
+	 * @param models
+	 * @return
+	 */
+	protected IBakedModel generateModel(ImmutableMap<String, String> texture, IModel... models) {
+		ImmutableList.Builder<IBakedModel> builder = ImmutableList.builder();
+		builder.add(this.generateModel(texture));
+		for (IModel model : models)
+			builder.add(model.bake(this.modelState, this.format, ModelLoader.defaultTextureGetter()));
+
+		return new CompositeModel(builder.build());
 	}
 
 	@Override
@@ -130,7 +174,7 @@ public class BakedFurnitureModel implements IPerspectiveAwareModel, IResourceMan
 
 	@Override
 	public ItemCameraTransforms getItemCameraTransforms() {
-		return ItemCameraTransforms.DEFAULT;
+		return baseModel.bake(this.modelState, this.format, ModelLoader.defaultTextureGetter()).getItemCameraTransforms();
 	}
 
 	@Override
@@ -144,14 +188,14 @@ public class BakedFurnitureModel implements IPerspectiveAwareModel, IResourceMan
 			if (stack.hasTagCompound() && stack.getTagCompound().hasKey("blockID") && stack.getTagCompound().hasKey("blockMeta")) {
 				int blockID = NBTHelper.getInt(stack, "blockID");
 				int blockMeta = NBTHelper.getInt(stack, "blockMeta");
-				return BakedFurnitureModel.this.getCachedModel(Block.getBlockFromItem(stack.getItem()).getDefaultState(), blockID, blockMeta);
+				return BakedDecorModel.this.getCachedModel(Block.getBlockFromItem(stack.getItem()).getDefaultState(), blockID, blockMeta);
 			}
-			return BakedFurnitureModel.this;
+			return BakedDecorModel.this;
 		}
 	};
 
 	@Override
 	public Pair<? extends IBakedModel, Matrix4f> handlePerspective(TransformType cameraTransformType) {
-		return IPerspectiveAwareModel.MapWrapper.handlePerspective(this, transforms, cameraTransformType);
+		return IPerspectiveAwareModel.MapWrapper.handlePerspective(baseModel.bake(this.modelState, this.format, ModelLoader.defaultTextureGetter()), transforms, cameraTransformType);
 	}
 }

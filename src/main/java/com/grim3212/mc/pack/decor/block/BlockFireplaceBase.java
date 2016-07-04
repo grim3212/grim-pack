@@ -7,7 +7,7 @@ import com.grim3212.mc.pack.core.network.PacketDispatcher;
 import com.grim3212.mc.pack.core.util.NBTHelper;
 import com.grim3212.mc.pack.decor.GrimDecor;
 import com.grim3212.mc.pack.decor.network.MessageParticles;
-import com.grim3212.mc.pack.decor.tile.TileEntityFireplace;
+import com.grim3212.mc.pack.decor.tile.TileEntityTextured;
 import com.grim3212.mc.pack.decor.util.BlockHelper;
 
 import net.minecraft.block.Block;
@@ -102,9 +102,9 @@ public class BlockFireplaceBase extends BlockTextured {
 	@Override
 	public IBlockState getExtendedState(IBlockState state, IBlockAccess world, BlockPos pos) {
 		TileEntity te = world.getTileEntity(pos);
-		if (te instanceof TileEntityFireplace && state instanceof IExtendedBlockState) {
+		if (te instanceof TileEntityTextured && state instanceof IExtendedBlockState) {
 			IExtendedBlockState blockState = (IExtendedBlockState) state;
-			TileEntityFireplace tef = (TileEntityFireplace) te;
+			TileEntityTextured tef = (TileEntityTextured) te;
 			return blockState.withProperty(BLOCKID, tef.getBlockID()).withProperty(BLOCKMETA, tef.getBlockMeta());
 		}
 		return state;
@@ -138,6 +138,6 @@ public class BlockFireplaceBase extends BlockTextured {
 
 	@Override
 	public TileEntity createNewTileEntity(World world, int var2) {
-		return new TileEntityFireplace();
+		return new TileEntityTextured();
 	}
 }

@@ -20,12 +20,12 @@ public class BlockStool extends BlockTextured {
 
 	@Override
 	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
-		return state.getValue(UP) ? POT_STOOL_AABB : STOOL_AABB;
+		return state.getActualState(source, pos).getValue(UP) ? POT_STOOL_AABB : STOOL_AABB;
 	}
 
 	@Override
 	public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, World worldIn, BlockPos pos) {
-		return blockState.getValue(UP) ? POT_STOOL_AABB : WALKING_STOOL_AABB;
+		return blockState.getActualState(worldIn, pos).getValue(UP) ? POT_STOOL_AABB : WALKING_STOOL_AABB;
 	}
 
 	@Override

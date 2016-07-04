@@ -1,25 +1,46 @@
 {
 	"forge_marker": 1,
     "defaults": {
-		"transform": "forge:default-block"
+		"transform": "forge:default-block",
+		"model": "grimpack:decor_fireplace",
+		"custom": {
+			"models": ["grimpack:block/fireplace_nsew", "grimpack:block/fireplace_wood"]
+		}
     },
     "variants": {
-    	"east=false,north=false,south=false,west=false": [{ "model": "grimpack:fireplace" }],
-        "east=false,north=true,south=false,west=false": [{ "model": "grimpack:fireplace_n", "uvlock": true }],       
-        "east=true,north=false,south=false,west=false": [{ "model": "grimpack:fireplace_w", "y": 180, "uvlock": true }],
-        "east=false,north=false,south=true,west=false": [{ "model": "grimpack:fireplace_n", "y": 180, "uvlock": true }],
-        "east=false,north=false,south=false,west=true": [{ "model": "grimpack:fireplace_w", "uvlock": true }],
-        "east=true,north=true,south=false,west=false": [{ "model": "grimpack:fireplace_ne", "uvlock": true }],
-        "east=true,north=false,south=true,west=false": [{ "model": "grimpack:fireplace_sew", "uvlock": true }],
-        "east=false,north=false,south=true,west=true": [{ "model": "grimpack:fireplace_ne", "y": 180, "uvlock": true }],
-        "east=false,north=true,south=false,west=true": [{ "model": "grimpack:fireplace_sew", "y": 180, "uvlock": true }],       
-        "east=false,north=true,south=true,west=false": [{ "model": "grimpack:fireplace_nsew", "uvlock": true }],
-        "east=true,north=false,south=false,west=true": [{ "model": "grimpack:fireplace_nsew",  "uvlock": true }],
-        "east=true,north=true,south=true,west=false": [{ "model": "grimpack:fireplace_nsew", "uvlock": true }],
-        "east=true,north=false,south=true,west=true": [{ "model": "grimpack:fireplace_nsew",  "uvlock": true }],
-        "east=false,north=true,south=true,west=true": [{ "model": "grimpack:fireplace_nsew",  "uvlock": true }],
-        "east=true,north=true,south=false,west=true": [{ "model": "grimpack:fireplace_nsew", "uvlock": true }],
-        "east=true,north=true,south=true,west=true": [{ "model": "grimpack:fireplace_nsew", "uvlock": true }],
-		"inventory": [{ "model": "grimpack:fireplace" }]
+    	"active=false,east=false,north=false,south=false,west=false": [{ "custom": {"models": ["grimpack:block/fireplace", "grimpack:block/fireplace_wood"]} }],
+        "active=false,east=false,north=true,south=false,west=false": [{ "custom": {"models": ["grimpack:block/fireplace_n", "grimpack:block/fireplace_wood"]}, "uvlock": true }],       
+        "active=false,east=true,north=false,south=false,west=false": [{ "custom": {"models": ["grimpack:block/fireplace_w", "grimpack:block/fireplace_wood"]}, "y": 180, "uvlock": true }],
+        "active=false,east=false,north=false,south=true,west=false": [{ "custom": {"models": ["grimpack:block/fireplace_n", "grimpack:block/fireplace_wood"]}, "y": 180, "uvlock": true }],
+        "active=false,east=false,north=false,south=false,west=true": [{ "custom": {"models": ["grimpack:block/fireplace_w", "grimpack:block/fireplace_wood"]}, "uvlock": true }],
+        "active=false,east=true,north=true,south=false,west=false": [{ "custom": {"models": ["grimpack:block/fireplace_ne", "grimpack:block/fireplace_wood"]}, "uvlock": true }],
+        "active=false,east=true,north=false,south=true,west=false": [{ "custom": {"models": ["grimpack:block/fireplace_sew", "grimpack:block/fireplace_wood"]}, "uvlock": true }],
+        "active=false,east=false,north=false,south=true,west=true": [{ "custom": {"models": ["grimpack:block/fireplace_ne", "grimpack:block/fireplace_wood"]}, "y": 180, "uvlock": true }],
+        "active=false,east=false,north=true,south=false,west=true": [{ "custom": {"models": ["grimpack:block/fireplace_sew", "grimpack:block/fireplace_wood"]}, "y": 180, "uvlock": true }],       
+        "active=false,east=false,north=true,south=true,west=false": [{ "uvlock": true }],
+        "active=false,east=true,north=false,south=false,west=true": [{ "uvlock": true }],
+        "active=false,east=true,north=true,south=true,west=false": [{ "uvlock": true }],
+        "active=false,east=true,north=false,south=true,west=true": [{ "uvlock": true }],
+        "active=false,east=false,north=true,south=true,west=true": [{ "uvlock": true }],
+        "active=false,east=true,north=true,south=false,west=true": [{ "uvlock": true }],
+        "active=false,east=true,north=true,south=true,west=true": [{ "uvlock": true }],
+		
+		"active=true,east=false,north=false,south=false,west=false": [{ "custom": {"models": ["grimpack:block/fireplace", "grimpack:block/fireplace_wood", "grimpack:block/fire"]} }],
+        "active=true,east=false,north=true,south=false,west=false": [{ "custom": {"models": ["grimpack:block/fireplace_n", "grimpack:block/fireplace_wood", "grimpack:block/fire"]}, "uvlock": true }],       
+        "active=true,east=true,north=false,south=false,west=false": [{ "custom": {"models": ["grimpack:block/fireplace_w", "grimpack:block/fireplace_wood", "grimpack:block/fire"]}, "y": 180, "uvlock": true }],
+        "active=true,east=false,north=false,south=true,west=false": [{ "custom": {"models": ["grimpack:block/fireplace_n", "grimpack:block/fireplace_wood", "grimpack:block/fire"]}, "y": 180, "uvlock": true }],
+        "active=true,east=false,north=false,south=false,west=true": [{ "custom": {"models": ["grimpack:block/fireplace_w", "grimpack:block/fireplace_wood", "grimpack:block/fire"]}, "uvlock": true }],
+        "active=true,east=true,north=true,south=false,west=false": [{ "custom": {"models": ["grimpack:block/fireplace_ne", "grimpack:block/fireplace_wood", "grimpack:block/fire"]}, "uvlock": true }],
+        "active=true,east=true,north=false,south=true,west=false": [{ "custom": {"models": ["grimpack:block/fireplace_sew", "grimpack:block/fireplace_wood", "grimpack:block/fire"]}, "uvlock": true }],
+        "active=true,east=false,north=false,south=true,west=true": [{ "custom": {"models": ["grimpack:block/fireplace_ne", "grimpack:block/fireplace_wood", "grimpack:block/fire"]}, "y": 180, "uvlock": true }],
+        "active=true,east=false,north=true,south=false,west=true": [{ "custom": {"models": ["grimpack:block/fireplace_sew", "grimpack:block/fireplace_wood", "grimpack:block/fire"]}, "y": 180, "uvlock": true }],       
+        "active=true,east=false,north=true,south=true,west=false": [{ "custom": {"models": ["grimpack:block/fireplace_nsew", "grimpack:block/fireplace_wood", "grimpack:block/fire"]}, "uvlock": true }],
+        "active=true,east=true,north=false,south=false,west=true": [{ "custom": {"models": ["grimpack:block/fireplace_nsew", "grimpack:block/fireplace_wood", "grimpack:block/fire"]}, "uvlock": true }],
+        "active=true,east=true,north=true,south=true,west=false": [{ "custom": {"models": ["grimpack:block/fireplace_nsew", "grimpack:block/fireplace_wood", "grimpack:block/fire"]}, "uvlock": true }],
+        "active=true,east=true,north=false,south=true,west=true": [{ "custom": {"models": ["grimpack:block/fireplace_nsew", "grimpack:block/fireplace_wood", "grimpack:block/fire"]}, "uvlock": true }],
+        "active=true,east=false,north=true,south=true,west=true": [{ "custom": {"models": ["grimpack:block/fireplace_nsew", "grimpack:block/fireplace_wood", "grimpack:block/fire"]}, "uvlock": true }],
+        "active=true,east=true,north=true,south=false,west=true": [{ "custom": {"models": ["grimpack:block/fireplace_nsew", "grimpack:block/fireplace_wood", "grimpack:block/fire"]}, "uvlock": true }],
+        "active=true,east=true,north=true,south=true,west=true": [{ "custom": {"models": ["grimpack:block/fireplace_nsew", "grimpack:block/fireplace_wood", "grimpack:block/fire"]}, "uvlock": true }],
+		"inventory": [{ "custom": {"models": ["grimpack:block/fireplace", "grimpack:block/fireplace_wood"]} }]
     }
 }

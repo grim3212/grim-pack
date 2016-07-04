@@ -1,7 +1,8 @@
 {
     "forge_marker": 1,
     "defaults": {
-		"transform": "forge:default-block"
+		"transform": "forge:default-block",
+		"model": "grimpack:decor_furniture"
     },
     "variants": {
         "facing": { 
@@ -11,15 +12,11 @@
             "east": { "y": 270, "uvlock": true }
 		},
 		"open": { 
-			"false": { "model": "grimpack:fence_gate_closed" },
-            "true": { "model": "grimpack:fence_gate_open" }
-		},
-		"powered": { 
-			"false": { },
-            "true": { }
+			"false": { "custom": {"models": ["grimpack:block/fence_gate_closed"]} },
+            "true": { "custom": {"models": ["grimpack:block/fence_gate_open"]} }
 		},
 		"inventory": [{ 
-			"model": "grimpack:fence_gate_closed"
+			"custom": {"models": ["grimpack:block/fence_gate_closed"]}
 		}]
     }
 }

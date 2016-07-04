@@ -2,7 +2,10 @@
     "forge_marker": 1,
     "defaults": {
 		"transform": "forge:default-block",
-        "model": "grimpack:wall"
+		"model": "grimpack:decor_furniture",
+		"custom": {
+			"models": ["grimpack:block/wall"]
+		}
     },
     "variants": {
         "facing": {

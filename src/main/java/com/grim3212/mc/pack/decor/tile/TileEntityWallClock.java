@@ -1,5 +1,6 @@
 package com.grim3212.mc.pack.decor.tile;
 
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.math.MathHelper;
@@ -13,6 +14,11 @@ public class TileEntityWallClock extends TileEntity implements ITickable {
 
 	public int getTime() {
 		return time;
+	}
+	
+	@Override
+	public void handleUpdateTag(NBTTagCompound tag) {
+		super.handleUpdateTag(tag);
 	}
 
 	private double field_94239_h;

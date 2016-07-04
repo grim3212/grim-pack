@@ -18,16 +18,18 @@ import net.minecraftforge.client.model.IRetexturableModel;
 import net.minecraftforge.common.model.IModelState;
 import net.minecraftforge.common.model.TRSRTransformation;
 
-public class FurnitureModel implements IRetexturableModel, IModelCustomData {
-	
-	public static final FurnitureModel MODEL = new FurnitureModel(ImmutableList.<ResourceLocation>of(), new ResourceLocation("minecraft:blocks/portal"));
-	
+public class DecorModel implements IRetexturableModel, IModelCustomData {
+
+	public static final DecorModel MODEL = new DecorModel(ImmutableList.<ResourceLocation> of(), new ResourceLocation("minecraft:blocks/portal"), EnumDecorModelType.Unknown);
+
 	private final ImmutableList<ResourceLocation> modelLocation;
 	private final ResourceLocation textureLocation;
+	private final EnumDecorModelType modelType;
 
-	public FurnitureModel(ImmutableList<ResourceLocation> modelLocation, ResourceLocation textureLocation) {
+	public DecorModel(ImmutableList<ResourceLocation> modelLocation, ResourceLocation textureLocation, EnumDecorModelType modelType) {
 		this.modelLocation = modelLocation;
 		this.textureLocation = textureLocation;
+		this.modelType = modelType;
 	}
 
 	@Override
@@ -46,7 +48,17 @@ public class FurnitureModel implements IRetexturableModel, IModelCustomData {
 
 	@Override
 	public IBakedModel bake(IModelState state, VertexFormat format, Function<ResourceLocation, TextureAtlasSprite> bakedTextureGetter) {
-		return new BakedFurnitureModel(state, modelLocation.get(0), textureLocation, format, IPerspectiveAwareModel.MapWrapper.getTransforms(state));
+		if (this.modelType == EnumDecorModelType.Furniture) {
+			return new BakedDecorModel(state, modelLocation, textureLocation, format, IPerspectiveAwareModel.MapWrapper.getTransforms(state));
+		} else if (this.modelType == EnumDecorModelType.Fireplace) {
+			return new BakedFireplaceModel(state, modelLocation, textureLocation, format, IPerspectiveAwareModel.MapWrapper.getTransforms(state));
+		} else if (this.modelType == EnumDecorModelType.LampPost) {
+			return new BakedDecorModel(state, modelLocation, textureLocation, format, IPerspectiveAwareModel.MapWrapper.getTransforms(state));
+		} else if (this.modelType == EnumDecorModelType.LampPostItem) {
+			return new BakedLampItemModel(state, modelLocation, textureLocation, format, IPerspectiveAwareModel.MapWrapper.getTransforms(state));
+		}
+
+		return new BakedDecorModel(state, modelLocation, textureLocation, format, IPerspectiveAwareModel.MapWrapper.getTransforms(state));
 	}
 
 	@Override
@@ -61,22 +73,26 @@ public class FurnitureModel implements IRetexturableModel, IModelCustomData {
 		if (textures.containsKey("texture"))
 			base = new ResourceLocation(textures.get("texture"));
 
-		return new FurnitureModel(this.modelLocation, base);
+		return new DecorModel(this.modelLocation, base, this.modelType);
 	}
-	
+
 	@Override
 	public IModel process(ImmutableMap<String, String> customData) {
 		ImmutableList.Builder<ResourceLocation> modelLocations = ImmutableList.builder();
-		
-		if(!customData.containsKey("models"))
+
+		if (!customData.containsKey("models"))
 			throw new UnsupportedOperationException("Model location no found for a DecorModel");
-		
+
 		String[] models = customData.get("models").replaceAll("\\[|\\]|\"", "").split(",");
-		
-		for(String model : models){
+
+		for (String model : models) {
 			modelLocations.add(new ResourceLocation(model));
 		}
-		
-		return new FurnitureModel(modelLocations.build(), this.textureLocation);
+
+		return new DecorModel(modelLocations.build(), this.textureLocation, this.modelType);
+	}
+
+	public static enum EnumDecorModelType {
+		Furniture, Fireplace, LampPostItem, LampPost, Unknown
 	}
 }

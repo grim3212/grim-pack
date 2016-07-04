@@ -1,7 +1,7 @@
 package com.grim3212.mc.pack.decor.item;
 
 import com.grim3212.mc.pack.core.util.NBTHelper;
-import com.grim3212.mc.pack.decor.tile.TileEntityFireplace;
+import com.grim3212.mc.pack.decor.tile.TileEntityTextured;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockSnow;
@@ -58,9 +58,9 @@ public class ItemFireplaceBase extends ItemBlock implements IItemColor {
 			TileEntity tileentity = worldIn.getTileEntity(pos);
 
 			Block blockType = Block.getBlockById(NBTHelper.getInt(stack, "blockID"));
-			if (tileentity instanceof TileEntityFireplace) {
-				((TileEntityFireplace) tileentity).setBlockID(NBTHelper.getInt(stack, "blockID"));
-				((TileEntityFireplace) tileentity).setBlockMeta(NBTHelper.getInt(stack, "blockMeta"));
+			if (tileentity instanceof TileEntityTextured) {
+				((TileEntityTextured) tileentity).setBlockID(NBTHelper.getInt(stack, "blockID"));
+				((TileEntityTextured) tileentity).setBlockMeta(NBTHelper.getInt(stack, "blockMeta"));
 				worldIn.playSound(playerIn, pos, blockType.getSoundType().getPlaceSound(), SoundCategory.BLOCKS, (blockType.getSoundType().getVolume() + 1.0F) / 2.0F, blockType.getSoundType().getPitch() * 0.8F);
 			}
 

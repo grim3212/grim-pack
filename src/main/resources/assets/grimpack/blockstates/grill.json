@@ -2,10 +2,20 @@
 	"forge_marker": 1,
     "defaults": {
 		"transform": "forge:default-block",
-        "model": "grimpack:grill"
+        "model": "grimpack:decor_fireplace",
+		"custom": {
+			"models": ["grimpack:block/grill", "grimpack:block/grill_coal"]
+		}
     },
     "variants": {
-        "normal": [{}],
+        "active": {
+			"true": {
+				"custom": {
+					"models": ["grimpack:block/grill", "grimpack:block/grill_coal", "grimpack:block/grill_fire"]
+				}
+			},
+			"false": {}
+		},
 		"inventory": [{}]
     }
 }

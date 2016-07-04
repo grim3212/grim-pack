@@ -10,16 +10,11 @@ import com.grim3212.mc.pack.core.manual.pages.PageInfo;
 import com.grim3212.mc.pack.core.util.RecipeHelper;
 import com.grim3212.mc.pack.decor.DecorCommonProxy;
 import com.grim3212.mc.pack.decor.block.BlockChimney;
-import com.grim3212.mc.pack.decor.block.BlockFirepit;
-import com.grim3212.mc.pack.decor.block.BlockFireplace;
-import com.grim3212.mc.pack.decor.block.BlockFirering;
-import com.grim3212.mc.pack.decor.block.BlockGrill;
+import com.grim3212.mc.pack.decor.block.BlockFenceGate;
 import com.grim3212.mc.pack.decor.block.BlockLantern.EnumLanternType;
-import com.grim3212.mc.pack.decor.block.BlockStove;
 import com.grim3212.mc.pack.decor.block.DecorBlocks;
 import com.grim3212.mc.pack.decor.client.entity.RenderFrame.FrameFactory;
 import com.grim3212.mc.pack.decor.client.entity.RenderWallpaper.WallpaperFactory;
-import com.grim3212.mc.pack.decor.client.event.ModelEvent;
 import com.grim3212.mc.pack.decor.client.model.DecorModelLoader;
 import com.grim3212.mc.pack.decor.client.tile.TileEntityCalendarRenderer;
 import com.grim3212.mc.pack.decor.entity.EntityFrame;
@@ -35,7 +30,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.client.model.ModelLoaderRegistry;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 
@@ -55,46 +49,8 @@ public class DecorClientProxy extends DecorCommonProxy {
 	public void registerModels() {
 		ModelLoaderRegistry.registerLoader(DecorModelLoader.instance);
 
-		MinecraftForge.EVENT_BUS.register(new ModelEvent());
-
-		ModelLoader.setCustomStateMapper(DecorBlocks.fireplace, new StateMap.Builder().ignore(BlockFireplace.ACTIVE).build());
-		ModelLoader.setCustomStateMapper(DecorBlocks.firepit, new StateMap.Builder().ignore(BlockFirepit.ACTIVE).build());
-		ModelLoader.setCustomStateMapper(DecorBlocks.firering, new StateMap.Builder().ignore(BlockFirering.ACTIVE).build());
+		ModelLoader.setCustomStateMapper(DecorBlocks.fence_gate, new StateMap.Builder().ignore(BlockFenceGate.POWERED).build());
 		ModelLoader.setCustomStateMapper(DecorBlocks.chimney, new StateMap.Builder().ignore(BlockChimney.ACTIVE).build());
-		ModelLoader.setCustomStateMapper(DecorBlocks.stove, new StateMap.Builder().ignore(BlockStove.ACTIVE).build());
-		ModelLoader.setCustomStateMapper(DecorBlocks.grill, new StateMap.Builder().ignore(BlockGrill.ACTIVE).build());
-
-		RenderHelper.registerExtraModel(DecorBlocks.lamp_post_top, "lamp_post_top_lamp");
-		RenderHelper.registerExtraModel(DecorItems.lamp_item, "lamp_item_lamp");
-		RenderHelper.registerExtraModels(DecorBlocks.firepit, "firepit_wood", "firepit_covered", "fire_high");
-		RenderHelper.registerExtraModel(DecorBlocks.firering, "firering_wood");
-		RenderHelper.registerExtraModels(DecorBlocks.fireplace, "fireplace_wood", "fire");
-		RenderHelper.registerExtraModel(DecorBlocks.chimney, "chimney_top");
-		RenderHelper.registerExtraModels(DecorBlocks.stove, "stove_wood", "stove_covered");
-		RenderHelper.registerExtraModels(DecorBlocks.grill, "grill_coal", "grill_fire");
-
-		ModelEvent.renderNormalModel(DecorBlocks.chimney);
-		ModelEvent.renderNormalModel(DecorBlocks.stove);
-		ModelEvent.renderNormalModel(DecorBlocks.firepit);
-		ModelEvent.renderNormalModel(DecorBlocks.firering);
-		ModelEvent.renderNormalModel(DecorBlocks.grill);
-		ModelEvent.renderNormalModel(DecorBlocks.lamp_post_top);
-		ModelEvent.renderNormalModel(DecorBlocks.lamp_post_middle);
-		ModelEvent.renderNormalModel(DecorBlocks.lamp_post_bottom);
-
-		RenderHelper.renderBlock(DecorBlocks.counter);
-		RenderHelper.renderBlock(DecorBlocks.table);
-		RenderHelper.renderBlock(DecorBlocks.stool);
-
-		ModelEvent.renderCustomModel(DecorItems.lamp_item, "inventory");
-		ModelEvent.renderCustomModel(DecorBlocks.fireplace, "inventory", "east=false,north=false,south=false,west=false", "east=false,north=true,south=false,west=false", "east=true,north=false,south=false,west=false", "east=false,north=false,south=true,west=false", "east=false,north=false,south=false,west=true", "east=true,north=true,south=false,west=false", "east=true,north=false,south=true,west=false", "east=false,north=false,south=true,west=true", "east=false,north=true,south=false,west=true", "east=false,north=true,south=true,west=false", "east=true,north=false,south=false,west=true",
-				"east=true,north=true,south=true,west=false", "east=true,north=false,south=true,west=true", "east=false,north=true,south=true,west=true", "east=true,north=true,south=false,west=true", "east=true,north=true,south=true,west=true");
-		ModelEvent.renderCustomModel(DecorBlocks.chair, "inventory", "facing=north", "facing=south", "facing=west", "facing=east");
-		ModelEvent.renderCustomModel(DecorBlocks.wall, "inventory", "facing=north", "facing=south", "facing=west", "facing=east");
-		ModelEvent.renderCustomModel(DecorBlocks.fence, "inventory", "east=false,north=false,south=false,west=false", "east=false,north=true,south=false,west=false", "east=true,north=false,south=false,west=false", "east=false,north=false,south=true,west=false", "east=false,north=false,south=false,west=true", "east=true,north=true,south=false,west=false", "east=true,north=false,south=true,west=false", "east=false,north=false,south=true,west=true", "east=false,north=true,south=false,west=true", "east=false,north=true,south=true,west=false", "east=true,north=false,south=false,west=true",
-				"east=true,north=true,south=true,west=false", "east=true,north=false,south=true,west=true", "east=false,north=true,south=true,west=true", "east=true,north=true,south=false,west=true", "east=true,north=true,south=true,west=true");
-		ModelEvent.renderCustomModel(DecorBlocks.fence_gate, "inventory", "facing=south,open=false,powered=false", "facing=west,open=false,powered=false", "facing=north,open=false,powered=false", "facing=east,open=false,powered=false", "facing=south,open=true,powered=false", "facing=west,open=true,powered=false", "facing=north,open=true,powered=false", "facing=east,open=true,powered=false", "facing=south,open=false,powered=true", "facing=west,open=false,powered=true", "facing=north,open=false,powered=true", "facing=east,open=false,powered=true", "facing=south,open=true,powered=true",
-				"facing=west,open=true,powered=true", "facing=north,open=true,powered=true", "facing=east,open=true,powered=true");
 
 		// ITEMS
 		RenderHelper.renderItem(DecorItems.glass_shard);
@@ -102,6 +58,7 @@ public class DecorClientProxy extends DecorCommonProxy {
 		RenderHelper.renderVariantForge(DecorItems.frame, new String[] { "wood", "iron" });
 		RenderHelper.renderItem(DecorItems.unfired_craft);
 		RenderHelper.renderItem(DecorItems.unfired_pot);
+		RenderHelper.renderItem(DecorItems.lamp_item);
 
 		// BLOCKS
 		RenderHelper.renderBlock(DecorBlocks.calendar);
@@ -115,6 +72,22 @@ public class DecorClientProxy extends DecorCommonProxy {
 		RenderHelper.renderBlock(DecorBlocks.craft_bone);
 		RenderHelper.renderBlock(DecorBlocks.craft_clay);
 		RenderHelper.renderBlock(DecorBlocks.pot);
+		RenderHelper.renderBlock(DecorBlocks.chimney);
+		RenderHelper.renderBlock(DecorBlocks.stove);
+		RenderHelper.renderBlock(DecorBlocks.firepit);
+		RenderHelper.renderBlock(DecorBlocks.firering);
+		RenderHelper.renderBlock(DecorBlocks.grill);
+		RenderHelper.renderBlock(DecorBlocks.fireplace);
+		RenderHelper.renderBlock(DecorBlocks.counter);
+		RenderHelper.renderBlock(DecorBlocks.table);
+		RenderHelper.renderBlock(DecorBlocks.stool);
+		RenderHelper.renderBlock(DecorBlocks.chair);
+		RenderHelper.renderBlock(DecorBlocks.wall);
+		RenderHelper.renderBlock(DecorBlocks.fence);
+		RenderHelper.renderBlock(DecorBlocks.fence_gate);
+		RenderHelper.renderBlock(DecorBlocks.lamp_post_bottom);
+		RenderHelper.renderBlock(DecorBlocks.lamp_post_middle);
+		RenderHelper.renderBlock(DecorBlocks.lamp_post_top);
 
 		// TILE ENTITYS
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityCalendar.class, new TileEntityCalendarRenderer());
