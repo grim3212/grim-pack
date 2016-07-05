@@ -1,4 +1,4 @@
-package com.grim3212.mc.pack.core;
+package com.grim3212.mc.pack.core.block;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;

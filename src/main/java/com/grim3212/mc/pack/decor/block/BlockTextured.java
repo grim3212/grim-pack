@@ -17,10 +17,8 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.ParticleDigging;
 import net.minecraft.client.particle.ParticleManager;
-import net.minecraft.client.renderer.color.IBlockColor;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -43,7 +41,7 @@ import net.minecraftforge.common.property.ExtendedBlockState;
 import net.minecraftforge.common.property.IExtendedBlockState;
 import net.minecraftforge.common.property.IUnlistedProperty;
 
-public abstract class BlockTextured extends Block implements ITileEntityProvider, IBlockColor {
+public abstract class BlockTextured extends Block implements ITileEntityProvider {
 
 	public static final UnlistedPropertyInteger BLOCKID = UnlistedPropertyInteger.create("blockid");
 	public static final UnlistedPropertyInteger BLOCKMETA = UnlistedPropertyInteger.create("blockmeta");
@@ -116,17 +114,6 @@ public abstract class BlockTextured extends Block implements ITileEntityProvider
 	@Override
 	public BlockRenderLayer getBlockLayer() {
 		return BlockRenderLayer.CUTOUT;
-	}
-
-	@Override
-	@SuppressWarnings("deprecation")
-	public int colorMultiplier(IBlockState state, IBlockAccess worldIn, BlockPos pos, int tintIndex) {
-		TileEntity te = worldIn.getTileEntity(pos);
-		if (te instanceof TileEntityTextured) {
-			return Minecraft.getMinecraft().getBlockColors().colorMultiplier(Block.getBlockById(((TileEntityTextured) te).getBlockID()).getStateFromMeta(((TileEntityTextured) te).getBlockMeta()), worldIn, pos, tintIndex);
-		} else {
-			return 16777215;
-		}
 	}
 
 	@Override

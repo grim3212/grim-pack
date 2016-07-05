@@ -11,8 +11,6 @@ import com.grim3212.mc.pack.decor.util.BlockHelper;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockSnow;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.color.IItemColor;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
@@ -28,7 +26,7 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class ItemLampPost extends Item implements IItemColor {
+public class ItemLampPost extends Item {
 
 	public ItemLampPost() {
 		this.setHasSubtypes(true);
@@ -121,14 +119,5 @@ public class ItemLampPost extends Item implements IItemColor {
 		}
 
 		return super.getItemStackDisplayName(stack);
-	}
-
-	@Override
-	public int getColorFromItemstack(ItemStack stack, int tintIndex) {
-		int blockID = NBTHelper.getInt(stack, "blockID");
-		if (stack != null && stack.hasTagCompound()) {
-			return Minecraft.getMinecraft().getItemColors().getColorFromItemstack(new ItemStack(Block.getBlockById(blockID)), tintIndex);
-		}
-		return 16777215;
 	}
 }

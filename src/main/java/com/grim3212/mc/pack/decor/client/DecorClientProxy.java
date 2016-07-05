@@ -7,6 +7,7 @@ import com.grim3212.mc.pack.core.manual.pages.PageCrafting;
 import com.grim3212.mc.pack.core.manual.pages.PageFurnace;
 import com.grim3212.mc.pack.core.manual.pages.PageImageText;
 import com.grim3212.mc.pack.core.manual.pages.PageInfo;
+import com.grim3212.mc.pack.core.util.NBTHelper;
 import com.grim3212.mc.pack.core.util.RecipeHelper;
 import com.grim3212.mc.pack.decor.DecorCommonProxy;
 import com.grim3212.mc.pack.decor.block.BlockChimney;
@@ -21,12 +22,21 @@ import com.grim3212.mc.pack.decor.entity.EntityFrame;
 import com.grim3212.mc.pack.decor.entity.EntityWallpaper;
 import com.grim3212.mc.pack.decor.item.DecorItems;
 import com.grim3212.mc.pack.decor.tile.TileEntityCalendar;
+import com.grim3212.mc.pack.decor.tile.TileEntityGrill;
+import com.grim3212.mc.pack.decor.tile.TileEntityTextured;
 
+import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.statemap.StateMap;
+import net.minecraft.client.renderer.color.IBlockColor;
+import net.minecraft.client.renderer.color.IItemColor;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.client.model.ModelLoaderRegistry;
@@ -47,6 +57,7 @@ public class DecorClientProxy extends DecorCommonProxy {
 
 	@Override
 	public void registerModels() {
+		// Register all custom models for furniture, fireplaces, and lamp posts
 		ModelLoaderRegistry.registerLoader(DecorModelLoader.instance);
 
 		ModelLoader.setCustomStateMapper(DecorBlocks.fence_gate, new StateMap.Builder().ignore(BlockFenceGate.POWERED).build());
@@ -72,6 +83,7 @@ public class DecorClientProxy extends DecorCommonProxy {
 		RenderHelper.renderBlock(DecorBlocks.craft_bone);
 		RenderHelper.renderBlock(DecorBlocks.craft_clay);
 		RenderHelper.renderBlock(DecorBlocks.pot);
+
 		RenderHelper.renderBlock(DecorBlocks.chimney);
 		RenderHelper.renderBlock(DecorBlocks.stove);
 		RenderHelper.renderBlock(DecorBlocks.firepit);
@@ -108,5 +120,55 @@ public class DecorClientProxy extends DecorCommonProxy {
 				new PageCrafting("firering", RecipeHelper.getAllIRecipesForItem(new ItemStack(DecorBlocks.firering)), 15));
 		ManualRegistry.addSection("grill", modSection).addSubSectionPages(new PageCrafting("grill", RecipeHelper.getAllIRecipesForItem(new ItemStack(DecorBlocks.grill)), 15));
 		ManualRegistry.addSection("lamps", modSection).addSubSectionPages(new PageCrafting("recipes", RecipeHelper.getAllIRecipesForItem(new ItemStack(DecorItems.lamp_item)), 10));
+	}
+
+	@Override
+	@SuppressWarnings("deprecation")
+	public void initColors() {
+		Minecraft.getMinecraft().getBlockColors().registerBlockColorHandler(new IBlockColor() {
+			public int colorMultiplier(IBlockState state, IBlockAccess worldIn, BlockPos pos, int tintIndex) {
+				if (pos != null) {
+					TileEntity te = worldIn.getTileEntity(pos);
+					if (te != null && te instanceof TileEntityTextured) {
+						return Minecraft.getMinecraft().getBlockColors().colorMultiplier(Block.getBlockById(((TileEntityTextured) te).getBlockID()).getStateFromMeta(((TileEntityTextured) te).getBlockMeta()), worldIn, pos, tintIndex);
+					}
+				}
+				return 16777215;
+			}
+		}, DecorBlocks.chimney, DecorBlocks.stove, DecorBlocks.firepit, DecorBlocks.firering, DecorBlocks.fireplace, DecorBlocks.counter, DecorBlocks.table, DecorBlocks.stool, DecorBlocks.chair, DecorBlocks.wall, DecorBlocks.fence, DecorBlocks.fence_gate, DecorBlocks.lamp_post_bottom, DecorBlocks.lamp_post_middle, DecorBlocks.lamp_post_top);
+
+		Minecraft.getMinecraft().getBlockColors().registerBlockColorHandler(new IBlockColor() {
+			public int colorMultiplier(IBlockState state, IBlockAccess worldIn, BlockPos pos, int tintIndex) {
+				if (pos != null) {
+					TileEntity te = worldIn.getTileEntity(pos);
+					if (te != null && te instanceof TileEntityGrill) {
+						return Minecraft.getMinecraft().getBlockColors().colorMultiplier(Block.getBlockById(((TileEntityGrill) te).getBlockID()).getStateFromMeta(((TileEntityGrill) te).getBlockMeta()), worldIn, pos, tintIndex);
+					}
+				}
+				return 16777215;
+			}
+		}, DecorBlocks.grill);
+
+		Minecraft.getMinecraft().getItemColors().registerItemColorHandler(new IItemColor() {
+			@Override
+			public int getColorFromItemstack(ItemStack stack, int tintIndex) {
+				int blockID = NBTHelper.getInt(stack, "blockID");
+				if (stack != null && stack.hasTagCompound()) {
+					return Minecraft.getMinecraft().getItemColors().getColorFromItemstack(new ItemStack(Block.getBlockById(blockID)), tintIndex);
+				}
+				return 16777215;
+			}
+		}, DecorBlocks.grill, DecorBlocks.chimney, DecorBlocks.stove, DecorBlocks.firepit, DecorBlocks.firering, DecorBlocks.fireplace, DecorBlocks.counter, DecorBlocks.table, DecorBlocks.stool, DecorBlocks.chair, DecorBlocks.wall, DecorBlocks.fence, DecorBlocks.fence_gate, DecorBlocks.lamp_post_bottom, DecorBlocks.lamp_post_middle, DecorBlocks.lamp_post_top);
+
+		Minecraft.getMinecraft().getItemColors().registerItemColorHandler(new IItemColor() {
+			@Override
+			public int getColorFromItemstack(ItemStack stack, int tintIndex) {
+				int blockID = NBTHelper.getInt(stack, "blockID");
+				if (stack != null && stack.hasTagCompound()) {
+					return Minecraft.getMinecraft().getItemColors().getColorFromItemstack(new ItemStack(Block.getBlockById(blockID)), tintIndex);
+				}
+				return 16777215;
+			}
+		}, DecorItems.lamp_item);
 	}
 }

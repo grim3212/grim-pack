@@ -4,7 +4,7 @@ import java.lang.reflect.Constructor;
 import java.util.Random;
 
 import com.grim3212.mc.pack.GrimPack;
-import com.grim3212.mc.pack.PackGuiHandler;
+import com.grim3212.mc.pack.core.client.gui.PackGuiHandler;
 import com.grim3212.mc.pack.core.network.PacketDispatcher;
 import com.grim3212.mc.pack.core.util.NBTHelper;
 import com.grim3212.mc.pack.decor.GrimDecor;
@@ -17,7 +17,6 @@ import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.ParticleDigging;
 import net.minecraft.client.particle.ParticleManager;
 import net.minecraft.entity.Entity;
@@ -178,17 +177,6 @@ public class BlockGrill extends BlockFireplaceBase {
 			return itemstack;
 		}
 		return super.getPickBlock(state, target, world, pos, player);
-	}
-
-	@Override
-	@SuppressWarnings("deprecation")
-	public int colorMultiplier(IBlockState state, IBlockAccess worldIn, BlockPos pos, int tintIndex) {
-		TileEntity te = worldIn.getTileEntity(pos);
-		if (te instanceof TileEntityGrill) {
-			return Minecraft.getMinecraft().getBlockColors().colorMultiplier(Block.getBlockById(((TileEntityGrill) te).getBlockID()).getStateFromMeta(((TileEntityGrill) te).getBlockMeta()), worldIn, pos, tintIndex);
-		} else {
-			return 16777215;
-		}
 	}
 
 	@Override

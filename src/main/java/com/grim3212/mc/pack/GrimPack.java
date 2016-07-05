@@ -1,6 +1,7 @@
 package com.grim3212.mc.pack;
 
 import com.grim3212.mc.pack.core.GrimCore;
+import com.grim3212.mc.pack.core.client.gui.PackGuiHandler;
 import com.grim3212.mc.pack.core.part.PartRegistry;
 import com.grim3212.mc.pack.cuisine.GrimCuisine;
 import com.grim3212.mc.pack.decor.GrimDecor;

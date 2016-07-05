@@ -3,7 +3,7 @@ package com.grim3212.mc.pack.core.manual;
 import java.util.List;
 
 import com.grim3212.mc.pack.GrimPack;
-import com.grim3212.mc.pack.PackGuiHandler;
+import com.grim3212.mc.pack.core.client.gui.PackGuiHandler;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;

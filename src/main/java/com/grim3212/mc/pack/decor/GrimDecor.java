@@ -48,6 +48,7 @@ public class GrimDecor extends GrimPart {
 	@EventHandler
 	public void init(FMLInitializationEvent event) {
 		super.init(event);
+		proxy.initColors();
 		proxy.registerManual(getModSection());
 	}
 
