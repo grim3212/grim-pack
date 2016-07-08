@@ -28,4 +28,7 @@ public class CommonProxy {
 
 	public void registerManual(ModSection modSection) {
 	}
+	
+	public void initColors() {
+	}
 }

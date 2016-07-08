@@ -18,27 +18,21 @@ public class ItemWallpaper extends Item {
 
 	@Override
 	public EnumActionResult onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
-		if (!playerIn.canPlayerEdit(pos, facing, stack)) {
-			return EnumActionResult.FAIL;
-		}
+		if (facing != EnumFacing.DOWN && facing != EnumFacing.UP && playerIn.canPlayerEdit(pos.offset(facing), facing, stack)) {
+			EntityWallpaper wallpaper = new EntityWallpaper(worldIn, pos.offset(facing), facing);
 
-		if (facing == EnumFacing.UP || facing == EnumFacing.DOWN)
-			return EnumActionResult.FAIL;
+			if (wallpaper != null && wallpaper.onValidSurface()) {
+				if (!worldIn.isRemote) {
+					wallpaper.playPlaceSound();
+					worldIn.spawnEntityInWorld(wallpaper);
+				}
 
-		if (facing == EnumFacing.NORTH || facing == EnumFacing.SOUTH)
-			facing = facing.getOpposite();
-
-		EntityWallpaper entitywallpaper = new EntityWallpaper(worldIn, pos, facing.getHorizontalIndex());
-
-		if (entitywallpaper.onValidSurface()) {
-			if (!worldIn.isRemote) {
-				worldIn.spawnEntityInWorld(entitywallpaper);
-				entitywallpaper.playWallpaperSound();
+				--stack.stackSize;
 			}
 
-			--stack.stackSize;
+			return EnumActionResult.SUCCESS;
+		} else {
+			return EnumActionResult.FAIL;
 		}
-
-		return EnumActionResult.SUCCESS;
 	}
 }

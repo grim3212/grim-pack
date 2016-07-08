@@ -1,0 +1,108 @@
+package com.grim3212.mc.pack.industry.item;
+
+import com.grim3212.mc.pack.industry.block.BlockGate;
+import com.grim3212.mc.pack.industry.block.IndustryBlocks;
+
+import net.minecraft.block.Block;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.EnumActionResult;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.world.World;
+
+public class ItemActivator extends Item {
+
+	private static final int maxRange = 32;
+	private static final int vertRange = 3;
+
+	public ItemActivator() {
+		this.maxStackSize = 1;
+	}
+
+	@Override
+	@SuppressWarnings("incomplete-switch")
+	public ActionResult<ItemStack> onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn, EnumHand hand) {
+		int x = MathHelper.floor_double(playerIn.posX);
+		int y = MathHelper.floor_double(playerIn.posY);
+		int z = MathHelper.floor_double(playerIn.posZ);
+
+		Block activationBlock = null;
+		if (itemStackIn.getItem() == IndustryItems.garage_remote) {
+			activationBlock = IndustryBlocks.garage;
+		} else if (itemStackIn.getItem() == IndustryItems.gate_trumpet) {
+			activationBlock = IndustryBlocks.castle_gate;
+		}
+
+		switch (playerIn.getHorizontalFacing()) {
+		case NORTH:
+			for (int i = z; i > z - maxRange; --i) {
+				for (int var9 = y + vertRange; var9 > y - vertRange; --var9) {
+					BlockPos pos = new BlockPos(x, var9, i);
+
+					if (worldIn.getBlockState(pos).getBlock() instanceof BlockGate && worldIn.getBlockState(pos).getBlock() == activationBlock) {
+						EnumFacing facing = (EnumFacing) worldIn.getBlockState(pos).getValue(BlockGate.FACING);
+						BlockGate gate = (BlockGate) worldIn.getBlockState(pos).getBlock();
+						gate.onBlockActivated(worldIn, pos, worldIn.getBlockState(pos), playerIn, hand, itemStackIn, facing, 1, 1, 1);
+						return ActionResult.newResult(EnumActionResult.SUCCESS, itemStackIn);
+					}
+				}
+			}
+
+			break;
+		case SOUTH:
+			for (int i = z; i < z + maxRange; ++i) {
+				for (int var9 = y + vertRange; var9 > y - vertRange; --var9) {
+					BlockPos pos = new BlockPos(x, var9, i);
+
+					if (worldIn.getBlockState(pos).getBlock() instanceof BlockGate && worldIn.getBlockState(pos).getBlock() == activationBlock) {
+						EnumFacing facing = (EnumFacing) worldIn.getBlockState(pos).getValue(BlockGate.FACING);
+						BlockGate gate = (BlockGate) worldIn.getBlockState(pos).getBlock();
+						gate.onBlockActivated(worldIn, pos, worldIn.getBlockState(pos), playerIn, hand, itemStackIn, facing, 1, 1, 1);
+						return ActionResult.newResult(EnumActionResult.SUCCESS, itemStackIn);
+					}
+				}
+			}
+
+			break;
+		case EAST:
+			for (int i = x; i < x + maxRange; ++i) {
+				for (int var9 = y + vertRange; var9 > y - vertRange; --var9) {
+					BlockPos pos = new BlockPos(i, var9, z);
+
+					if (worldIn.getBlockState(pos).getBlock() instanceof BlockGate && worldIn.getBlockState(pos).getBlock() == activationBlock) {
+						EnumFacing facing = (EnumFacing) worldIn.getBlockState(pos).getValue(BlockGate.FACING);
+						BlockGate gate = (BlockGate) worldIn.getBlockState(pos).getBlock();
+						gate.onBlockActivated(worldIn, pos, worldIn.getBlockState(pos), playerIn, hand, itemStackIn, facing, 1, 1, 1);
+						return ActionResult.newResult(EnumActionResult.SUCCESS, itemStackIn);
+					}
+				}
+			}
+
+			break;
+		case WEST:
+			for (int i = x; i > x - maxRange; --i) {
+				for (int var9 = y + vertRange; var9 > y - vertRange; --var9) {
+					BlockPos pos = new BlockPos(i, var9, z);
+
+					if (worldIn.getBlockState(pos).getBlock() instanceof BlockGate && worldIn.getBlockState(pos).getBlock() == activationBlock) {
+						EnumFacing facing = (EnumFacing) worldIn.getBlockState(pos).getValue(BlockGate.FACING);
+						BlockGate gate = (BlockGate) worldIn.getBlockState(pos).getBlock();
+						gate.onBlockActivated(worldIn, pos, worldIn.getBlockState(pos), playerIn, hand, itemStackIn, facing, 1, 1, 1);
+						return ActionResult.newResult(EnumActionResult.SUCCESS, itemStackIn);
+					}
+				}
+			}
+		}
+		return ActionResult.newResult(EnumActionResult.SUCCESS, itemStackIn);
+	}
+
+	@Override
+	public boolean isFull3D() {
+		return true;
+	}
+}

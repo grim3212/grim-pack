@@ -49,16 +49,16 @@ public class DecorModel implements IRetexturableModel, IModelCustomData {
 	@Override
 	public IBakedModel bake(IModelState state, VertexFormat format, Function<ResourceLocation, TextureAtlasSprite> bakedTextureGetter) {
 		if (this.modelType == EnumDecorModelType.Furniture) {
-			return new BakedDecorModel(state, modelLocation, textureLocation, format, IPerspectiveAwareModel.MapWrapper.getTransforms(state));
+			return new BakedTexturedModel(state, modelLocation, textureLocation, format, IPerspectiveAwareModel.MapWrapper.getTransforms(state));
 		} else if (this.modelType == EnumDecorModelType.Fireplace) {
 			return new BakedFireplaceModel(state, modelLocation, textureLocation, format, IPerspectiveAwareModel.MapWrapper.getTransforms(state));
 		} else if (this.modelType == EnumDecorModelType.LampPost) {
-			return new BakedDecorModel(state, modelLocation, textureLocation, format, IPerspectiveAwareModel.MapWrapper.getTransforms(state));
+			return new BakedTexturedModel(state, modelLocation, textureLocation, format, IPerspectiveAwareModel.MapWrapper.getTransforms(state));
 		} else if (this.modelType == EnumDecorModelType.LampPostItem) {
 			return new BakedLampItemModel(state, modelLocation, textureLocation, format, IPerspectiveAwareModel.MapWrapper.getTransforms(state));
 		}
 
-		return new BakedDecorModel(state, modelLocation, textureLocation, format, IPerspectiveAwareModel.MapWrapper.getTransforms(state));
+		return new BakedTexturedModel(state, modelLocation, textureLocation, format, IPerspectiveAwareModel.MapWrapper.getTransforms(state));
 	}
 
 	@Override

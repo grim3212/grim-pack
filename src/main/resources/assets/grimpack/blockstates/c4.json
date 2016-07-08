@@ -1,0 +1,20 @@
+{
+	"forge_marker": 1,
+    "defaults": {
+		"transform": "forge:default-block",
+        "model": "minecraft:cube",
+		"textures": {
+			"down": "grimpack:blocks/c4",
+			"up": "grimpack:blocks/c4",
+			"north": "grimpack:blocks/c4_side",
+			"south": "grimpack:blocks/c4_side",
+			"west": "grimpack:blocks/c4_side",
+			"east": "grimpack:blocks/c4_side",
+			"particle": "grimpack:blocks/c4_side"
+		}
+    },
+    "variants": {
+        "normal": [{}],
+		"inventory": [{}]
+    }
+}

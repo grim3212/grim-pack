@@ -101,7 +101,7 @@ public class GuiGrill extends GuiContainer {
 			ItemStack grill = new ItemStack(DecorBlocks.grill);
 			NBTHelper.setInteger(grill, "blockID", grillInventory.getBlockID());
 			NBTHelper.setInteger(grill, "blockMeta", grillInventory.getBlockMeta());
-			renderItems.renderItem(grill, TransformType.NONE);
+			renderItems.renderItem(grill, TransformType.FIXED);
 		}
 
 		GlStateManager.disableRescaleNormal();

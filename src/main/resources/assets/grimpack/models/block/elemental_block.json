@@ -1,0 +1,7 @@
+{
+	"parent": "block/cube_top",
+	"textures": {
+		"top": "#top",
+		"side": "grimpack:blocks/elemental_side"
+	}
+}

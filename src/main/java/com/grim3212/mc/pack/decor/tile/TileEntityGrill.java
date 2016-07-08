@@ -21,14 +21,24 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
-import net.minecraft.tileentity.TileEntityLockable;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraft.world.IInteractionObject;
+import net.minecraft.world.ILockableContainer;
+import net.minecraft.world.LockCode;
 import net.minecraft.world.World;
+import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.items.CapabilityItemHandler;
+import net.minecraftforge.items.IItemHandler;
+import net.minecraftforge.items.wrapper.InvWrapper;
 
-public class TileEntityGrill extends TileEntityLockable implements ITickable, IInventory {
+public class TileEntityGrill extends TileEntityTextured implements ITickable, IInventory, IInteractionObject, ILockableContainer {
 
+	private LockCode code = LockCode.EMPTY_CODE;
 	public ItemStack[] inventory = new ItemStack[5];
 	public int[] cookTimes = new int[4];
 	public int grillCoal = 0;
@@ -52,10 +62,18 @@ public class TileEntityGrill extends TileEntityLockable implements ITickable, II
 	}
 
 	@Override
+	public void handleUpdateTag(NBTTagCompound tag) {
+		readFromNBT(tag);
+	}
+
+	@Override
 	public NBTTagCompound writeToNBT(NBTTagCompound compound) {
 		super.writeToNBT(compound);
 		compound.setInteger("blockID", this.blockID);
 		compound.setInteger("blockMeta", this.blockMeta);
+		if (this.code != null) {
+			this.code.toNBT(compound);
+		}
 
 		compound.setInteger("GrillCoal", this.grillCoal);
 		compound.setInteger("CookTimes0", this.cookTimes[0]);
@@ -88,6 +106,7 @@ public class TileEntityGrill extends TileEntityLockable implements ITickable, II
 		super.readFromNBT(compound);
 		this.blockID = compound.getInteger("blockID");
 		this.blockMeta = compound.getInteger("blockMeta");
+		this.code = LockCode.fromNBT(compound);
 
 		this.grillCoal = compound.getInteger("GrillCoal");
 		this.cookTimes[0] = compound.getInteger("CookTimes0");
@@ -364,5 +383,48 @@ public class TileEntityGrill extends TileEntityLockable implements ITickable, II
 	@Override
 	public ItemStack removeStackFromSlot(int index) {
 		return null;
+	}
+
+	@Override
+	public boolean isLocked() {
+		return this.code != null && !this.code.isEmpty();
+	}
+
+	@Override
+	public LockCode getLockCode() {
+		return this.code;
+	}
+
+	@Override
+	public void setLockCode(LockCode code) {
+		this.code = code;
+	}
+
+	/**
+	 * Get the formatted ChatComponent that will be used for the sender's
+	 * username in chat
+	 */
+	@Override
+	public ITextComponent getDisplayName() {
+		return (ITextComponent) (this.hasCustomName() ? new TextComponentString(this.getName()) : new TextComponentTranslation(this.getName(), new Object[0]));
+	}
+
+	private IItemHandler itemHandler;
+
+	protected IItemHandler createUnSidedHandler() {
+		return new InvWrapper(this);
+	}
+
+	@Override
+	@SuppressWarnings("unchecked")
+	public <T> T getCapability(Capability<T> capability, net.minecraft.util.EnumFacing facing) {
+		if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY)
+			return (T) (itemHandler == null ? (itemHandler = createUnSidedHandler()) : itemHandler);
+		return super.getCapability(capability, facing);
+	}
+
+	@Override
+	public boolean hasCapability(Capability<?> capability, net.minecraft.util.EnumFacing facing) {
+		return capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY || super.hasCapability(capability, facing);
 	}
 }

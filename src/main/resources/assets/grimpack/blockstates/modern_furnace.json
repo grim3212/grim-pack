@@ -1,0 +1,33 @@
+{
+	"forge_marker": 1,
+    "defaults": {
+		"transform": "forge:default-block",
+		"model": "orientable",
+		"textures": {
+			"top": "grimpack:blocks/machine_side",
+			"side": "grimpack:blocks/steel_block",
+			"front": "grimpack:blocks/modern_furnace_idle"
+		}
+    },
+    "variants": {
+        "facing": {
+			"north": {},
+			"south": { "y": 180 },
+			"west": { "y": 270 },
+			"east": { "y": 90 }
+		},
+		"active": {
+			"true": {
+				"textures": {
+					"front": "grimpack:blocks/modern_furnace_active"
+				}
+			},
+			"false": { 
+				"textures": {
+					"front": "grimpack:blocks/modern_furnace_idle"
+				}
+			}
+		},
+		"inventory": [{}]
+    }
+}

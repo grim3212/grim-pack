@@ -109,8 +109,10 @@ public class BlockPot extends Block {
 
 	@Override
 	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ) {
-		ItemStack itemstack = playerIn.getActiveItemStack();
-		if (itemstack == null || itemstack.stackSize == 0) {
+		if (worldIn.isRemote)
+			return true;
+
+		if (heldItem == null || heldItem.stackSize == 0) {
 			int top = worldIn.getBlockState(pos).getValue(TOP);
 			if (top == 6) {
 				top = 0;
@@ -118,8 +120,11 @@ public class BlockPot extends Block {
 				top++;
 			}
 			worldIn.setBlockState(pos, state.withProperty(TOP, top), 2);
+			return true;
+		}else{
+			return false;
 		}
-		return super.onBlockActivated(worldIn, pos, state, playerIn, hand, heldItem, side, hitX, hitY, hitZ);
+		
 	}
 
 	@Override

@@ -4,8 +4,8 @@ import net.minecraft.item.ItemAxe;
 
 public class AxeItem extends ItemAxe {
 
-	public AxeItem(ToolMaterial toolMaterial) {
-		super(toolMaterial);
+	public AxeItem(ToolMaterial toolMaterial, float damage, float speed) {
+		super(toolMaterial, damage, speed);
 	}
 
 }

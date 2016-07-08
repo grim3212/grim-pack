@@ -34,27 +34,21 @@ public class ItemFrame extends Item {
 
 	@Override
 	public EnumActionResult onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
-		if (!playerIn.canPlayerEdit(pos, facing, stack)) {
-			return EnumActionResult.FAIL;
-		}
+		if (facing != EnumFacing.DOWN && facing != EnumFacing.UP && playerIn.canPlayerEdit(pos.offset(facing), facing, stack)) {
+			EntityFrame frame = new EntityFrame(worldIn, pos.offset(facing), facing, stack.getItemDamage());
 
-		if (facing == EnumFacing.UP || facing == EnumFacing.DOWN)
-			return EnumActionResult.FAIL;
+			if (frame != null && frame.onValidSurface()) {
+				if (!worldIn.isRemote) {
+					frame.playPlaceSound();
+					worldIn.spawnEntityInWorld(frame);
+				}
 
-		if (facing == EnumFacing.NORTH || facing == EnumFacing.SOUTH)
-			facing = facing.getOpposite();
-
-		EntityFrame frame = new EntityFrame(worldIn, pos, facing.getHorizontalIndex(), stack.getItemDamage());
-
-		if (frame.onValidSurface()) {
-			if (!worldIn.isRemote) {
-				worldIn.spawnEntityInWorld(frame);
-				frame.playFrameSound();
+				--stack.stackSize;
 			}
 
-			stack.stackSize -= 1;
+			return EnumActionResult.SUCCESS;
+		} else {
+			return EnumActionResult.FAIL;
 		}
-
-		return EnumActionResult.SUCCESS;
 	}
 }

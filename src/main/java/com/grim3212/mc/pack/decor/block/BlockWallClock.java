@@ -88,7 +88,7 @@ public class BlockWallClock extends Block implements ITileEntityProvider {
 	}
 
 	@Override
-	public boolean isNormalCube(IBlockState state) {
+	public boolean isFullCube(IBlockState state) {
 		return false;
 	}
 
@@ -109,7 +109,6 @@ public class BlockWallClock extends Block implements ITileEntityProvider {
 
 	@Override
 	public IBlockState onBlockPlaced(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer) {
-
 		IBlockState state = this.getDefaultState();
 
 		if (facing == EnumFacing.NORTH && worldIn.getBlockState(pos.south()).isOpaqueCube()) {

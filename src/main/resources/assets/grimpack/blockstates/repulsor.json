@@ -1,0 +1,17 @@
+{
+	"forge_marker": 1,
+    "defaults": {
+		"transform": "forge:default-block",
+        "model": "minecraft:cube_all",
+		"textures": {
+		  "all": "grimpack:blocks/repulsor_off"
+		}
+    },
+    "variants": {
+        "powered": {
+			"false": { "textures": { "all": "grimpack:blocks/repulsor_off"} },
+			"true": { "textures": { "all": "grimpack:blocks/repulsor_on"} }
+		},
+		"inventory": [{}]
+    }
+}

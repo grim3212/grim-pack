@@ -13,8 +13,6 @@ import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -50,8 +48,7 @@ public class RenderFrame extends Render<EntityFrame> {
 		Tessellator tess = Tessellator.getInstance();
 		int[] planks = frame.planks;
 		EnumFrameRender[] renderFrames = EnumFrameRender.values();
-		BlockPos pos = new BlockPos(MathHelper.floor_double(entity.posX), MathHelper.floor_double(entity.posY), MathHelper.floor_double(entity.posZ));
-		int light = this.renderManager.worldObj.getCombinedLight(pos, 0);
+		int light = this.renderManager.worldObj.getCombinedLight(entity.getHangingPosition(), 0);
 		int j = light >> 16 & 65535;
 		int k = light & 65535;
 

@@ -1,0 +1,34 @@
+{
+	"forge_marker": 1,
+    "defaults": {
+		"transform": "forge:default-block",
+        "model": "grimpack:sensor",
+		"textures": {
+			"side": "grimpack:blocks/stone_sensor_side",
+			"active": "grimpack:blocks/stone_sensor_off"
+		}
+    },
+	"variants": {
+		"active": { 
+			"false": {
+				"textures": {
+					"active": "grimpack:blocks/stone_sensor_off"
+				}
+			},
+			"true": {
+				"textures": {
+					"active": "grimpack:blocks/stone_sensor_on"
+				}
+			}
+		},
+		"facing": { 
+			"north": { },
+			"south": { "y": 180 },
+			"east": { "y": 90 },
+			"west": { "y": 270 },
+			"up": { "model": "grimpack:sensor_up" },
+			"down": { "model": "grimpack:sensor_up", "x": 180 }
+		},
+		"inventory": [{ }]
+	}
+}

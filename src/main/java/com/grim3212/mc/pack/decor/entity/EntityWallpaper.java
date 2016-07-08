@@ -2,11 +2,14 @@ package com.grim3212.mc.pack.decor.entity;
 
 import java.util.List;
 
+import org.apache.commons.lang3.Validate;
+
 import com.grim3212.mc.pack.core.util.WorldHelper;
 import com.grim3212.mc.pack.decor.config.DecorConfig;
 import com.grim3212.mc.pack.decor.item.DecorItems;
 
 import io.netty.buffer.ByteBuf;
+import net.minecraft.block.BlockRedstoneDiode;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
@@ -23,10 +26,10 @@ import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
 import net.minecraftforge.fml.relauncher.Side;
@@ -34,23 +37,19 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class EntityWallpaper extends EntityHanging implements IEntityAdditionalSpawnData {
 
-	public int xPosition;
-	public int yPosition;
-	public int zPosition;
-	public int direction;
+	public static final int[] colorValues = { 1973019, 11743532, 3887386, 5320730, 2437522, 8073150, 2651799, 8816262, 4408131, 14188952, 4312372, 14602026, 6719955, 12801229, 15435844, 16777215, 2236962 };
 	public boolean isBlockUp;
 	public boolean isBlockDown;
 	public boolean isBlockLeft;
 	public boolean isBlockRight;
-	public AxisAlignedBB fireboundingBox;
-	public static final int[] colorValues = { 1973019, 11743532, 3887386, 5320730, 2437522, 8073150, 2651799, 8816262, 4408131, 14188952, 4312372, 14602026, 6719955, 12801229, 15435844, 16777215, 2236962 };
-	private BlockPos pos;
 
-	private static final DataParameter<Boolean> BURNT = EntityDataManager.createKey(EntityFrame.class, DataSerializers.BOOLEAN);
-	private static final DataParameter<Integer> WALLPAPER_ID = EntityDataManager.createKey(EntityFrame.class, DataSerializers.VARINT);
-	private static final DataParameter<Integer> COLOR_RED = EntityDataManager.createKey(EntityFrame.class, DataSerializers.VARINT);
-	private static final DataParameter<Integer> COLOR_GREEN = EntityDataManager.createKey(EntityFrame.class, DataSerializers.VARINT);
-	private static final DataParameter<Integer> COLOR_BLUE = EntityDataManager.createKey(EntityFrame.class, DataSerializers.VARINT);
+	public AxisAlignedBB fireboundingBox;
+
+	private static final DataParameter<Boolean> BURNT = EntityDataManager.<Boolean> createKey(EntityFrame.class, DataSerializers.BOOLEAN);
+	private static final DataParameter<Integer> WALLPAPER_ID = EntityDataManager.<Integer> createKey(EntityFrame.class, DataSerializers.VARINT);
+	private static final DataParameter<Integer> COLOR_RED = EntityDataManager.<Integer> createKey(EntityFrame.class, DataSerializers.VARINT);
+	private static final DataParameter<Integer> COLOR_GREEN = EntityDataManager.<Integer> createKey(EntityFrame.class, DataSerializers.VARINT);
+	private static final DataParameter<Integer> COLOR_BLUE = EntityDataManager.<Integer> createKey(EntityFrame.class, DataSerializers.VARINT);
 
 	public EntityWallpaper(World world) {
 		super(world);
@@ -59,17 +58,15 @@ public class EntityWallpaper extends EntityHanging implements IEntityAdditionalS
 		this.isBlockLeft = false;
 		this.isBlockRight = false;
 		this.fireboundingBox = new AxisAlignedBB(0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D);
-		this.direction = 0;
+		this.facingDirection = EnumFacing.SOUTH;
 		setSize(0.5F, 0.5F);
 	}
 
-	public EntityWallpaper(World world, BlockPos pos, int direction) {
+	public EntityWallpaper(World world, BlockPos pos, EnumFacing direction) {
 		this(world);
-		this.xPosition = pos.getX();
-		this.yPosition = pos.getY();
-		this.zPosition = pos.getZ();
-		this.pos = pos;
-		setDirection(direction);
+		this.hangingPosition = pos;
+		this.updateFacingWithBoundingBox(direction);
+
 		List<Entity> entities = this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.fireboundingBox);
 
 		for (int i = 0; i < entities.size(); i++) {
@@ -84,15 +81,6 @@ public class EntityWallpaper extends EntityHanging implements IEntityAdditionalS
 				}
 			}
 		}
-	}
-
-	public EntityWallpaper(World world, int x, int y, int z, int direction, int wallpaper) {
-		this(world);
-		this.xPosition = x;
-		this.yPosition = y;
-		this.zPosition = z;
-		this.getDataManager().set(WALLPAPER_ID, wallpaper);
-		setDirection(direction);
 	}
 
 	@Override
@@ -130,7 +118,7 @@ public class EntityWallpaper extends EntityHanging implements IEntityAdditionalS
 
 		this.getDataManager().set(WALLPAPER_ID, newWallpaper);
 		if (!this.worldObj.isRemote)
-			playWallpaperSound();
+			playPlaceSound();
 
 		return true;
 	}
@@ -139,7 +127,7 @@ public class EntityWallpaper extends EntityHanging implements IEntityAdditionalS
 		this.getDataManager().set(WALLPAPER_ID, wallpaper);
 
 		if (!this.worldObj.isRemote)
-			playWallpaperSound();
+			playPlaceSound();
 
 		return true;
 	}
@@ -161,59 +149,13 @@ public class EntityWallpaper extends EntityHanging implements IEntityAdditionalS
 			if (burn) {
 				playBurnSound();
 			} else {
-				playWallpaperSound();
+				playPlaceSound();
 			}
 		}
 	}
 
 	public void dyeWallpaper(int color) {
 		dyeWallpaper(color, false);
-	}
-
-	public void setDirection(int var1) {
-		this.direction = var1;
-		this.prevRotationYaw = (this.rotationYaw = var1 * 90);
-		float var2 = 16.0F;
-		float var3 = 16.0F;
-		float var4 = 16.0F;
-		float var5 = DecorConfig.widthWallpaper;
-
-		if ((var1 != 0) && (var1 != 2)) {
-			var2 = var5;
-		} else {
-			var4 = var5;
-		}
-
-		var2 /= 32.0F;
-		var3 /= 32.0F;
-		var4 /= 32.0F;
-		var5 /= 32.0F;
-		float var6 = this.xPosition + 0.5F;
-		float var7 = this.yPosition + 0.5F;
-		float var8 = this.zPosition + 0.5F;
-
-		if (var1 == 0) {
-			var8 -= var5 + 0.5F;
-		}
-
-		if (var1 == 1) {
-			var6 -= var5 + 0.5F;
-		}
-
-		if (var1 == 2) {
-			var8 += var5 + 0.5F;
-		}
-
-		if (var1 == 3) {
-			var6 += var5 + 0.5F;
-		}
-
-		setPosition(var6, var7, var8);
-		this.setEntityBoundingBox(new AxisAlignedBB(var6 - var2, var7 - var3, var8 - var4, var6 + var2, var7 + var3, var8 + var4));
-		var2 = 1.0F;
-		var3 = 1.0F;
-		var4 = 1.0F;
-		this.fireboundingBox = new AxisAlignedBB(var6 - var2, var7 - var3, var8 - var4, var6 + var2, var7 + var3, var8 + var4);
 	}
 
 	@Override
@@ -232,43 +174,6 @@ public class EntityWallpaper extends EntityHanging implements IEntityAdditionalS
 	}
 
 	@Override
-	public boolean onValidSurface() {
-		Material material = this.worldObj.getBlockState(pos).getMaterial();
-
-		if (!material.isSolid()) {
-			return false;
-		}
-
-		int x = MathHelper.floor_double(this.posX);
-		int y = MathHelper.floor_double(this.posY);
-		int z = MathHelper.floor_double(this.posZ);
-
-		BlockPos newPos = new BlockPos(x, y, z);
-		Material newMaterial = this.worldObj.getBlockState(newPos).getMaterial();
-
-		if (newMaterial.isSolid()) {
-			IBlockState state = this.worldObj.getBlockState(newPos);
-
-			if (!state.isOpaqueCube()) {
-				return false;
-			}
-		}
-
-		List<Entity> entities = this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.getEntityBoundingBox());
-		for (int i = 0; i < entities.size(); i++) {
-			if ((entities.get(i) instanceof EntityWallpaper)) {
-				EntityWallpaper entWallpaper = (EntityWallpaper) entities.get(i);
-
-				if (entWallpaper.direction == this.direction) {
-					return false;
-				}
-			}
-		}
-
-		return true;
-	}
-
-	@Override
 	@SideOnly(Side.CLIENT)
 	public boolean canBeCollidedWith() {
 		EntityPlayer player = Minecraft.getMinecraft().thePlayer;
@@ -277,44 +182,138 @@ public class EntityWallpaper extends EntityHanging implements IEntityAdditionalS
 	}
 
 	@Override
+	@SuppressWarnings("incomplete-switch")
 	public boolean attackEntityFrom(DamageSource damage, float amount) {
-		if ((!this.isDead) && (!this.worldObj.isRemote)) {
-			setDead();
-			setBeenAttacked();
-			EntityPlayer var3 = null;
+		if (this.isEntityInvulnerable(damage)) {
+			return false;
+		} else {
+			if ((!this.isDead) && (!this.worldObj.isRemote)) {
+				setDead();
+				setBeenAttacked();
+				EntityPlayer player = null;
 
-			if ((damage.getEntity() instanceof EntityPlayer)) {
-				var3 = (EntityPlayer) damage.getEntity();
-				playWallpaperSound();
+				if ((damage.getEntity() instanceof EntityPlayer)) {
+					player = (EntityPlayer) damage.getEntity();
+					playPlaceSound();
+				}
+
+				if ((player != null) && (player.capabilities.isCreativeMode)) {
+					return true;
+				}
+
+				switch (facingDirection) {
+				case SOUTH:
+					this.posZ--;
+					this.posY -= 0.5D;
+					break;
+				case WEST:
+					this.posX--;
+					this.posY -= 0.5D;
+					break;
+				case NORTH:
+					this.posZ++;
+					this.posY -= 0.5D;
+					break;
+				case EAST:
+					this.posX++;
+					this.posY -= 0.5D;
+					break;
+				}
+
+				this.worldObj.spawnEntityInWorld(new EntityItem(this.worldObj, this.posX, this.posY, this.posZ, new ItemStack(DecorItems.wallpaper)));
 			}
+			return true;
+		}
+	}
 
-			if ((var3 != null) && (var3.capabilities.isCreativeMode)) {
-				return true;
-			}
+	@Override
+	protected void updateFacingWithBoundingBox(EnumFacing facingDirectionIn) {
+		Validate.notNull(facingDirectionIn);
+		Validate.isTrue(facingDirectionIn.getAxis().isHorizontal());
+		this.facingDirection = facingDirectionIn;
 
-			switch (direction) {
-			case 0:
-				this.posZ--;
-				this.posY -= 0.5D;
-				break;
-			case 1:
-				this.posX--;
-				this.posY -= 0.5D;
-				break;
-			case 2:
-				this.posZ++;
-				this.posY -= 0.5D;
-				break;
-			case 3:
-				this.posX++;
-				this.posY -= 0.5D;
-				break;
-			}
+		if (facingDirectionIn == EnumFacing.SOUTH || facingDirectionIn == EnumFacing.NORTH)
+			this.prevRotationYaw = this.rotationYaw = (float) (this.facingDirection.getOpposite().getHorizontalIndex() * 90);
+		else
+			this.prevRotationYaw = this.rotationYaw = (float) (this.facingDirection.getHorizontalIndex() * 90);
 
-			this.worldObj.spawnEntityInWorld(new EntityItem(this.worldObj, this.posX, this.posY, this.posZ, new ItemStack(DecorItems.wallpaper)));
+		double d0 = (double) this.hangingPosition.getX() + 0.5D;
+		double d1 = (double) this.hangingPosition.getY() + 0.5D;
+		double d2 = (double) this.hangingPosition.getZ() + 0.5D;
+		double d4 = this.offs(this.getWidthPixels());
+		double d5 = this.offs(this.getHeightPixels());
+		d0 = d0 - (double) this.facingDirection.getFrontOffsetX() * 0.46875D;
+		d2 = d2 - (double) this.facingDirection.getFrontOffsetZ() * 0.46875D;
+		d1 = d1 + d5;
+		EnumFacing enumfacing = this.facingDirection.rotateYCCW();
+		d0 = d0 + d4 * (double) enumfacing.getFrontOffsetX();
+		d2 = d2 + d4 * (double) enumfacing.getFrontOffsetZ();
+		this.posX = d0;
+		this.posY = d1;
+		this.posZ = d2;
+		double d6 = (double) this.getWidthPixels();
+		double d7 = (double) this.getHeightPixels();
+		double d8 = (double) this.getWidthPixels();
+
+		if (this.facingDirection.getAxis() == EnumFacing.Axis.Z) {
+			d8 = 1.0D;
+		} else {
+			d6 = 1.0D;
 		}
 
-		return true;
+		d6 = d6 / 32.0D;
+		d7 = d7 / 32.0D;
+		d8 = d8 / 32.0D;
+		this.setEntityBoundingBox(new AxisAlignedBB(d0 - d6, d1 - d7, d2 - d8, d0 + d6, d1 + d7, d2 + d8));
+		d6 = 1.0F;
+		d7 = 1.0F;
+		d8 = 1.0F;
+		this.fireboundingBox = new AxisAlignedBB(d0 - d6, d1 - d7, d2 - d8, d0 + d6, d1 + d7, d2 + d8);
+	}
+
+	private double offs(int i) {
+		return i % 32 == 0 ? 0.5D : 0.0D;
+	}
+
+	@Override
+	public boolean onValidSurface() {
+		if (!this.worldObj.getCollisionBoxes(this, this.getEntityBoundingBox()).isEmpty()) {
+			return false;
+		} else {
+			int i = Math.max(1, this.getWidthPixels() / 16);
+			int j = Math.max(1, this.getHeightPixels() / 16);
+			BlockPos blockpos = this.hangingPosition.offset(this.facingDirection.getOpposite());
+			EnumFacing enumfacing = this.facingDirection.rotateYCCW();
+
+			for (int k = 0; k < i; ++k) {
+				for (int l = 0; l < j; ++l) {
+					int i1 = i > 2 ? -1 : 0;
+					int j1 = j > 2 ? -1 : 0;
+					BlockPos blockpos1 = blockpos.offset(enumfacing, k + i1).up(l + j1);
+					IBlockState iblockstate = this.worldObj.getBlockState(blockpos1);
+
+					if (iblockstate.isSideSolid(this.worldObj, blockpos1, this.facingDirection))
+						continue;
+
+					if (!iblockstate.getMaterial().isSolid() && !BlockRedstoneDiode.isDiode(iblockstate)) {
+						return false;
+					}
+				}
+			}
+
+			List<Entity> entities = this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.getEntityBoundingBox());
+			for (int m = 0; m < entities.size(); m++) {
+				if ((entities.get(m) instanceof EntityWallpaper)) {
+					EntityWallpaper entWallpaper = (EntityWallpaper) entities.get(m);
+
+					if (entWallpaper.facingDirection == this.facingDirection) {
+						return false;
+					}
+				}
+			}
+
+			return true;
+		}
 	}
 
 	public int getWallpaperID() {
@@ -329,21 +328,14 @@ public class EntityWallpaper extends EntityHanging implements IEntityAdditionalS
 		return this.getDataManager().get(BURNT);
 	}
 
-	public void playWallpaperSound() {
-		this.playSound(SoundEvents.BLOCK_CLOTH_STEP, 1.0F, 0.8F);
-	}
-
 	public void playBurnSound() {
 		this.playSound(SoundEvents.BLOCK_FIRE_AMBIENT, 1.0F, 1.0F);
 	}
 
 	@Override
 	public void writeEntityToNBT(NBTTagCompound nbt) {
-		nbt.setByte("Dir", (byte) this.direction);
+		super.writeEntityToNBT(nbt);
 		nbt.setInteger("Motive", this.getWallpaperID());
-		nbt.setInteger("TileX", this.xPosition);
-		nbt.setInteger("TileY", this.yPosition);
-		nbt.setInteger("TileZ", this.zPosition);
 		nbt.setInteger("Red", this.getWallpaperColor()[0]);
 		nbt.setInteger("Green", this.getWallpaperColor()[1]);
 		nbt.setInteger("Blue", this.getWallpaperColor()[2]);
@@ -352,19 +344,12 @@ public class EntityWallpaper extends EntityHanging implements IEntityAdditionalS
 
 	@Override
 	public void readEntityFromNBT(NBTTagCompound nbt) {
-		this.direction = nbt.getByte("Dir");
-		this.xPosition = nbt.getInteger("TileX");
-		this.yPosition = nbt.getInteger("TileY");
-		this.zPosition = nbt.getInteger("TileZ");
-
-		this.pos = new BlockPos(xPosition, yPosition, zPosition);
-
+		super.readEntityFromNBT(nbt);
 		this.getDataManager().set(WALLPAPER_ID, nbt.getInteger("Motive"));
 		this.getDataManager().set(COLOR_RED, nbt.getInteger("Red"));
 		this.getDataManager().set(COLOR_GREEN, nbt.getInteger("Green"));
 		this.getDataManager().set(COLOR_BLUE, nbt.getInteger("Blue"));
 		this.getDataManager().set(BURNT, nbt.getBoolean("Burnt"));
-		setDirection(this.direction);
 	}
 
 	@Override
@@ -385,11 +370,11 @@ public class EntityWallpaper extends EntityHanging implements IEntityAdditionalS
 
 	@Override
 	public void writeSpawnData(ByteBuf buf) {
-		buf.writeInt(this.xPosition);
-		buf.writeInt(this.yPosition);
-		buf.writeInt(this.zPosition);
+		buf.writeInt(this.hangingPosition.getX());
+		buf.writeInt(this.hangingPosition.getY());
+		buf.writeInt(this.hangingPosition.getZ());
 		buf.writeInt(this.getWallpaperID());
-		buf.writeInt(this.direction);
+		buf.writeInt(this.facingDirection.getHorizontalIndex());
 		buf.writeInt(this.getWallpaperColor()[0]);
 		buf.writeInt(this.getWallpaperColor()[1]);
 		buf.writeInt(this.getWallpaperColor()[2]);
@@ -398,14 +383,9 @@ public class EntityWallpaper extends EntityHanging implements IEntityAdditionalS
 
 	@Override
 	public void readSpawnData(ByteBuf buf) {
-		this.xPosition = buf.readInt();
-		this.yPosition = buf.readInt();
-		this.zPosition = buf.readInt();
-
-		this.pos = new BlockPos(xPosition, yPosition, zPosition);
-
+		this.hangingPosition = new BlockPos(buf.readInt(), buf.readInt(), buf.readInt());
 		this.getDataManager().set(WALLPAPER_ID, buf.readInt());
-		setDirection(buf.readInt());
+		updateFacingWithBoundingBox(EnumFacing.getHorizontal(buf.readInt()));
 		this.getDataManager().set(COLOR_RED, buf.readInt());
 		this.getDataManager().set(COLOR_GREEN, buf.readInt());
 		this.getDataManager().set(COLOR_BLUE, buf.readInt());
@@ -414,12 +394,12 @@ public class EntityWallpaper extends EntityHanging implements IEntityAdditionalS
 
 	@Override
 	public int getWidthPixels() {
-		return 0;
+		return 16;
 	}
 
 	@Override
 	public int getHeightPixels() {
-		return 0;
+		return 16;
 	}
 
 	@Override
@@ -428,5 +408,6 @@ public class EntityWallpaper extends EntityHanging implements IEntityAdditionalS
 
 	@Override
 	public void playPlaceSound() {
+		this.playSound(SoundEvents.BLOCK_CLOTH_STEP, 1.0F, 0.8F);
 	}
 }

@@ -81,7 +81,7 @@ public class BlockFireplaceBase extends BlockTextured {
 			if ((stack != null) && ((stack.getItem() == Items.FLINT_AND_STEEL) || (stack.getItem() == Items.FIRE_CHARGE))) {
 				if (!worldIn.getBlockState(pos).getValue(ACTIVE)) {
 					stack.damageItem(1, playerIn);
-					worldIn.playSound(playerIn, pos, SoundEvents.ITEM_FLINTANDSTEEL_USE, SoundCategory.BLOCKS, 1.0F, worldIn.rand.nextFloat() * 0.4F + 0.8F);
+					worldIn.playSound((EntityPlayer) null, pos, SoundEvents.ITEM_FLINTANDSTEEL_USE, SoundCategory.BLOCKS, 1.0F, worldIn.rand.nextFloat() * 0.4F + 0.8F);
 					worldIn.setBlockState(pos, state.withProperty(ACTIVE, true));
 				}
 
@@ -93,7 +93,7 @@ public class BlockFireplaceBase extends BlockTextured {
 
 	@Override
 	public int getLightValue(IBlockState state, IBlockAccess world, BlockPos pos) {
-		if (world.getBlockState(pos).getValue(ACTIVE)) {
+		if (world.getBlockState(pos).getBlock() == this && world.getBlockState(pos).getValue(ACTIVE)) {
 			return 15;
 		}
 		return super.getLightValue(state, world, pos);

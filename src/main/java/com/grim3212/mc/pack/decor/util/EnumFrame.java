@@ -46,6 +46,7 @@ public enum EnumFrame {
 	frame_36(36, 16, 16, new int[] { 53 }, false);
 
 	public static final int maxArtTitleLength = "frame_01".length();
+	public static final EnumFrame[] VALUES = EnumFrame.values();
 	public final int id;
 	public final int sizeX;
 	public final int sizeY;
@@ -59,6 +60,8 @@ public enum EnumFrame {
 		this.planks = planks;
 		this.isCollidable = collidable;
 	}
+	
+	
 
 	public static EnumFrame getFrameById(int id) {
 		for (int i = 0; i < EnumFrame.values().length; i++) {

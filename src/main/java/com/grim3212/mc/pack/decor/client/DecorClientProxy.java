@@ -22,7 +22,6 @@ import com.grim3212.mc.pack.decor.entity.EntityFrame;
 import com.grim3212.mc.pack.decor.entity.EntityWallpaper;
 import com.grim3212.mc.pack.decor.item.DecorItems;
 import com.grim3212.mc.pack.decor.tile.TileEntityCalendar;
-import com.grim3212.mc.pack.decor.tile.TileEntityGrill;
 import com.grim3212.mc.pack.decor.tile.TileEntityTextured;
 
 import net.minecraft.block.Block;
@@ -83,7 +82,6 @@ public class DecorClientProxy extends DecorCommonProxy {
 		RenderHelper.renderBlock(DecorBlocks.craft_bone);
 		RenderHelper.renderBlock(DecorBlocks.craft_clay);
 		RenderHelper.renderBlock(DecorBlocks.pot);
-
 		RenderHelper.renderBlock(DecorBlocks.chimney);
 		RenderHelper.renderBlock(DecorBlocks.stove);
 		RenderHelper.renderBlock(DecorBlocks.firepit);
@@ -135,19 +133,7 @@ public class DecorClientProxy extends DecorCommonProxy {
 				}
 				return 16777215;
 			}
-		}, DecorBlocks.chimney, DecorBlocks.stove, DecorBlocks.firepit, DecorBlocks.firering, DecorBlocks.fireplace, DecorBlocks.counter, DecorBlocks.table, DecorBlocks.stool, DecorBlocks.chair, DecorBlocks.wall, DecorBlocks.fence, DecorBlocks.fence_gate, DecorBlocks.lamp_post_bottom, DecorBlocks.lamp_post_middle, DecorBlocks.lamp_post_top);
-
-		Minecraft.getMinecraft().getBlockColors().registerBlockColorHandler(new IBlockColor() {
-			public int colorMultiplier(IBlockState state, IBlockAccess worldIn, BlockPos pos, int tintIndex) {
-				if (pos != null) {
-					TileEntity te = worldIn.getTileEntity(pos);
-					if (te != null && te instanceof TileEntityGrill) {
-						return Minecraft.getMinecraft().getBlockColors().colorMultiplier(Block.getBlockById(((TileEntityGrill) te).getBlockID()).getStateFromMeta(((TileEntityGrill) te).getBlockMeta()), worldIn, pos, tintIndex);
-					}
-				}
-				return 16777215;
-			}
-		}, DecorBlocks.grill);
+		}, DecorBlocks.grill, DecorBlocks.chimney, DecorBlocks.stove, DecorBlocks.firepit, DecorBlocks.firering, DecorBlocks.fireplace, DecorBlocks.counter, DecorBlocks.table, DecorBlocks.stool, DecorBlocks.chair, DecorBlocks.wall, DecorBlocks.fence, DecorBlocks.fence_gate, DecorBlocks.lamp_post_bottom, DecorBlocks.lamp_post_middle, DecorBlocks.lamp_post_top);
 
 		Minecraft.getMinecraft().getItemColors().registerItemColorHandler(new IItemColor() {
 			@Override

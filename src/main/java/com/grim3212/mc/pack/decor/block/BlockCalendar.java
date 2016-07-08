@@ -58,16 +58,16 @@ public class BlockCalendar extends Block implements ITileEntityProvider {
 
 	@Override
 	public EnumBlockRenderType getRenderType(IBlockState state) {
-		return EnumBlockRenderType.ENTITYBLOCK_ANIMATED;
+		return EnumBlockRenderType.MODEL;
 	}
 
 	@Override
 	public boolean isOpaqueCube(IBlockState state) {
 		return false;
 	}
-
+	
 	@Override
-	public boolean isNormalCube(IBlockState state) {
+	public boolean isFullCube(IBlockState state) {
 		return false;
 	}
 

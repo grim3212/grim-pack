@@ -36,7 +36,7 @@ import net.minecraftforge.common.model.TRSRTransformation;
 import net.minecraftforge.common.property.IExtendedBlockState;
 
 @SuppressWarnings("deprecation")
-public class BakedFireplaceModel extends BakedDecorModel {
+public class BakedFireplaceModel extends BakedTexturedModel {
 
 	public BakedFireplaceModel(IModelState modelState, ImmutableList<ResourceLocation> modelLocation, ResourceLocation textureLocation, VertexFormat fmt, ImmutableMap<TransformType, TRSRTransformation> transforms) {
 		super(modelState, modelLocation, textureLocation, fmt, transforms);

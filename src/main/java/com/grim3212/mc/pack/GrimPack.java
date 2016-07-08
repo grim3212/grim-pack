@@ -5,6 +5,7 @@ import com.grim3212.mc.pack.core.client.gui.PackGuiHandler;
 import com.grim3212.mc.pack.core.part.PartRegistry;
 import com.grim3212.mc.pack.cuisine.GrimCuisine;
 import com.grim3212.mc.pack.decor.GrimDecor;
+import com.grim3212.mc.pack.industry.GrimIndustry;
 
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
@@ -29,6 +30,7 @@ public class GrimPack {
 		PartRegistry.registerPart(GrimCore.INSTANCE);
 		PartRegistry.registerPart(GrimCuisine.INSTANCE);
 		PartRegistry.registerPart(GrimDecor.INSTANCE);
+		PartRegistry.registerPart(GrimIndustry.INSTANCE);
 	}
 
 	@EventHandler

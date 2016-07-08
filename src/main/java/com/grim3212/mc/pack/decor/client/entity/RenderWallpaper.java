@@ -12,6 +12,7 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
@@ -75,9 +76,9 @@ public class RenderWallpaper extends Render<EntityWallpaper> {
 		Tessellator tessellator = Tessellator.getInstance();
 		GlStateManager.scale(0.03125F, 0.03125F, 0.03125F);
 
-		int x = MathHelper.floor_double(entitywallpaper.posX);
-		int y = MathHelper.floor_double(entitywallpaper.posY);
-		int z = MathHelper.floor_double(entitywallpaper.posZ);
+		int x = MathHelper.floor_double(entitywallpaper.getHangingPosition().getX());
+		int y = MathHelper.floor_double(entitywallpaper.getHangingPosition().getY());
+		int z = MathHelper.floor_double(entitywallpaper.getHangingPosition().getZ());
 
 		float minX = -16.0F;
 		float minY = -16.0F;
@@ -98,8 +99,11 @@ public class RenderWallpaper extends Render<EntityWallpaper> {
 		float blue = entitywallpaper.getWallpaperColor()[2] / 256.0F;
 
 		tessellator.getBuffer().begin(GL11.GL_QUADS, RenderHelper.POSITION_TEX_COLOR_LIGHTMAP_NORMAL);
+		
+		//System.out.println(entitywallpaper.facingDirection);
+		
 		if (Minecraft.isAmbientOcclusionEnabled()) {
-			renderWithAmbientOcclusion(new BlockPos(x, y, z), red, green, blue, entitywallpaper.direction);
+			renderWithAmbientOcclusion(new BlockPos(x, y, z), red, green, blue, entitywallpaper.facingDirection);
 
 			int topBlockRight = this.brightnessTopRight >> 16 & 65535;
 			int topSkyRight = this.brightnessTopRight & 65535;
@@ -113,45 +117,45 @@ public class RenderWallpaper extends Render<EntityWallpaper> {
 			int bottomBlockLeft = this.brightnessBottomLeft >> 16 & 65535;
 			int bottomSkyLeft = this.brightnessBottomLeft & 65535;
 
-			if (entitywallpaper.direction == 0) {
+			if (entitywallpaper.facingDirection == EnumFacing.NORTH) {
 				tessellator.getBuffer().pos(minX, minY, minZ).tex(minU + maxUV, minV + maxUV).color(this.colorRedTopRight, this.colorGreenTopRight, this.colorBlueTopRight, 1.0f).lightmap(topBlockRight, topSkyRight).normal(0.0F, 0.0F, 1.0F).endVertex();
 				tessellator.getBuffer().pos(minX, maxY, minZ).tex(minU + maxUV, minV).color(this.colorRedTopLeft, this.colorGreenTopLeft, this.colorBlueTopLeft, 1.0f).lightmap(topBlockLeft, topSkyLeft).normal(0.0F, 0.0F, 1.0F).endVertex();
 				tessellator.getBuffer().pos(maxX, maxY, minZ).tex(minU, minV).color(this.colorRedBottomLeft, this.colorGreenBottomLeft, this.colorBlueBottomLeft, 1.0f).lightmap(bottomBlockLeft, bottomSkyLeft).normal(0.0F, 0.0F, 1.0F).endVertex();
 				tessellator.getBuffer().pos(maxX, minY, minZ).tex(minU, minV + maxUV).color(this.colorRedBottomRight, this.colorGreenBottomRight, this.colorBlueBottomRight, 1.0f).lightmap(bottomBlockRight, bottomSkyRight).normal(0.0F, 0.0F, 1.0F).endVertex();
-			} else if (entitywallpaper.direction == 2) {
+			} else if (entitywallpaper.facingDirection == EnumFacing.SOUTH) {
 				tessellator.getBuffer().pos(minX, minY, minZ).tex(minU + maxUV, minV + maxUV).color(this.colorRedBottomRight, this.colorGreenBottomRight, this.colorBlueBottomRight, 1.0f).lightmap(bottomBlockRight, bottomSkyRight).normal(0.0F, 0.0F, 1.0F).endVertex();
 				tessellator.getBuffer().pos(minX, maxY, minZ).tex(minU + maxUV, minV).color(this.colorRedTopRight, this.colorGreenTopRight, this.colorBlueTopRight, 1.0f).lightmap(topBlockRight, topSkyRight).normal(0.0F, 0.0F, 1.0F).endVertex();
 				tessellator.getBuffer().pos(maxX, maxY, minZ).tex(minU, minV).color(this.colorRedTopLeft, this.colorGreenTopLeft, this.colorBlueTopLeft, 1.0f).lightmap(topBlockLeft, topSkyLeft).normal(0.0F, 0.0F, 1.0F).endVertex();
 				tessellator.getBuffer().pos(maxX, minY, minZ).tex(minU, minV + maxUV).color(this.colorRedBottomLeft, this.colorGreenBottomLeft, this.colorBlueBottomLeft, 1.0f).lightmap(bottomBlockLeft, bottomSkyLeft).normal(0.0F, 0.0F, 1.0F).endVertex();
-			} else if (entitywallpaper.direction == 1) {
+			} else if (entitywallpaper.facingDirection == EnumFacing.WEST) {
 				tessellator.getBuffer().pos(minX, minY, minZ).tex(minU + maxUV, minV + maxUV).color(this.colorRedTopRight, this.colorGreenTopRight, this.colorBlueTopRight, 1.0f).lightmap(topBlockRight, topSkyRight).normal(0.0F, 0.0F, 1.0F).endVertex();
 				tessellator.getBuffer().pos(minX, maxY, minZ).tex(minU + maxUV, minV).color(this.colorRedTopLeft, this.colorGreenTopLeft, this.colorBlueTopLeft, 1.0f).lightmap(topBlockLeft, topSkyLeft).normal(0.0F, 0.0F, 1.0F).endVertex();
 				tessellator.getBuffer().pos(maxX, maxY, minZ).tex(minU, minV).color(this.colorRedBottomLeft, this.colorGreenBottomLeft, this.colorBlueBottomLeft, 1.0f).lightmap(bottomBlockLeft, bottomSkyLeft).normal(0.0F, 0.0F, 1.0F).endVertex();
 				tessellator.getBuffer().pos(maxX, minY, minZ).tex(minU, minV + maxUV).color(this.colorRedBottomRight, this.colorGreenBottomRight, this.colorBlueBottomRight, 1.0f).lightmap(bottomBlockRight, bottomSkyRight).normal(0.0F, 0.0F, 1.0F).endVertex();
-			} else if (entitywallpaper.direction == 3) {
+			} else if (entitywallpaper.facingDirection == EnumFacing.EAST) {
 				tessellator.getBuffer().pos(minX, minY, minZ).tex(minU + maxUV, minV + maxUV).color(this.colorRedBottomLeft, this.colorGreenBottomLeft, this.colorBlueBottomLeft, 1.0f).lightmap(bottomBlockLeft, bottomSkyLeft).normal(0.0F, 0.0F, 1.0F).endVertex();
 				tessellator.getBuffer().pos(minX, maxY, minZ).tex(minU + maxUV, minV).color(this.colorRedBottomRight, this.colorGreenBottomRight, this.colorBlueBottomRight, 1.0f).lightmap(bottomBlockRight, bottomSkyRight).normal(0.0F, 0.0F, 1.0F).endVertex();
-				tessellator.getBuffer().pos(maxX, maxY, minZ).tex(minU, minV).color(this.colorRedTopRight, this.colorGreenTopRight, this.colorBlueTopRight, 1.0f).normal(0.0F, 0.0F, 1.0F).lightmap(topBlockRight, topSkyRight).endVertex();
-				tessellator.getBuffer().pos(maxX, minY, minZ).tex(minU, minV + maxUV).color(this.colorRedTopLeft, this.colorGreenTopLeft, this.colorBlueTopLeft, 1.0f).normal(0.0F, 0.0F, 1.0F).lightmap(topBlockLeft, topSkyLeft).endVertex();
+				tessellator.getBuffer().pos(maxX, maxY, minZ).tex(minU, minV).color(this.colorRedTopRight, this.colorGreenTopRight, this.colorBlueTopRight, 1.0f).lightmap(topBlockRight, topSkyRight).normal(0.0F, 0.0F, 1.0F).endVertex();
+				tessellator.getBuffer().pos(maxX, minY, minZ).tex(minU, minV + maxUV).color(this.colorRedTopLeft, this.colorGreenTopLeft, this.colorBlueTopLeft, 1.0f).lightmap(topBlockLeft, topSkyLeft).normal(0.0F, 0.0F, 1.0F).endVertex();
 			}
 
 			if (!entitywallpaper.isBlockLeft) {
-				if (entitywallpaper.direction == 0) {
+				if (entitywallpaper.facingDirection == EnumFacing.NORTH) {
 					tessellator.getBuffer().pos(minX, maxY, maxZ).tex(minU + maxUV, minV).color(this.colorRedTopLeft, this.colorGreenTopLeft, this.colorBlueTopLeft, 1.0f).lightmap(topBlockLeft, topSkyLeft).normal(-1.0F, 0.0F, 0.0F).endVertex();
 					tessellator.getBuffer().pos(minX, maxY, minZ).tex(minU + maxUV, minV).color(this.colorRedTopLeft, this.colorGreenTopLeft, this.colorBlueTopLeft, 1.0f).lightmap(topBlockLeft, topSkyLeft).normal(-1.0F, 0.0F, 0.0F).endVertex();
 					tessellator.getBuffer().pos(minX, minY, minZ).tex(minU + maxUV - sideUV, minV + maxUV).color(this.colorRedTopRight, this.colorGreenTopRight, this.colorBlueTopRight, 1.0f).lightmap(topBlockRight, topSkyRight).normal(-1.0F, 0.0F, 0.0F).endVertex();
 					tessellator.getBuffer().pos(minX, minY, maxZ).tex(minU + maxUV - sideUV, minV + maxUV).color(this.colorRedTopRight, this.colorGreenTopRight, this.colorBlueTopRight, 1.0f).lightmap(topBlockRight, topSkyRight).normal(-1.0F, 0.0F, 0.0F).endVertex();
-				} else if (entitywallpaper.direction == 2) {
+				} else if (entitywallpaper.facingDirection == EnumFacing.SOUTH) {
 					tessellator.getBuffer().pos(minX, maxY, maxZ).tex(minU + maxUV, minV).color(this.colorRedTopRight, this.colorGreenTopRight, this.colorBlueTopRight, 1.0f).lightmap(topBlockRight, topSkyRight).normal(-1.0F, 0.0F, 0.0F).endVertex();
 					tessellator.getBuffer().pos(minX, maxY, minZ).tex(minU + maxUV, minV).color(this.colorRedTopRight, this.colorGreenTopRight, this.colorBlueTopRight, 1.0f).lightmap(topBlockRight, topSkyRight).normal(-1.0F, 0.0F, 0.0F).endVertex();
 					tessellator.getBuffer().pos(minX, minY, minZ).tex(minU + maxUV - sideUV, minV + maxUV).color(this.colorRedBottomRight, this.colorGreenBottomRight, this.colorBlueBottomRight, 1.0f).lightmap(bottomBlockRight, bottomSkyRight).normal(-1.0F, 0.0F, 0.0F).endVertex();
 					tessellator.getBuffer().pos(minX, minY, maxZ).tex(minU + maxUV - sideUV, minV + maxUV).color(this.colorRedBottomRight, this.colorGreenBottomRight, this.colorBlueBottomRight, 1.0f).lightmap(bottomBlockRight, bottomSkyRight).normal(-1.0F, 0.0F, 0.0F).endVertex();
-				} else if (entitywallpaper.direction == 1) {
+				} else if (entitywallpaper.facingDirection == EnumFacing.WEST) {
 					tessellator.getBuffer().pos(minX, maxY, maxZ).tex(minU + maxUV, minV).color(this.colorRedTopLeft, this.colorGreenTopLeft, this.colorBlueTopLeft, 1.0f).lightmap(topBlockLeft, topSkyLeft).normal(-1.0F, 0.0F, 0.0F).endVertex();
 					tessellator.getBuffer().pos(minX, maxY, minZ).tex(minU + maxUV, minV).color(this.colorRedTopLeft, this.colorGreenTopLeft, this.colorBlueTopLeft, 1.0f).lightmap(topBlockLeft, topSkyLeft).normal(-1.0F, 0.0F, 0.0F).endVertex();
 					tessellator.getBuffer().pos(minX, minY, minZ).tex(minU + maxUV - sideUV, minV + maxUV).color(this.colorRedTopRight, this.colorGreenTopRight, this.colorBlueTopRight, 1.0f).lightmap(topBlockRight, topSkyRight).normal(-1.0F, 0.0F, 0.0F).endVertex();
 					tessellator.getBuffer().pos(minX, minY, maxZ).tex(minU + maxUV - sideUV, minV + maxUV).color(this.colorRedTopRight, this.colorGreenTopRight, this.colorBlueTopRight, 1.0f).lightmap(topBlockRight, topSkyRight).normal(-1.0F, 0.0F, 0.0F).endVertex();
-				} else if (entitywallpaper.direction == 3) {
+				} else if (entitywallpaper.facingDirection == EnumFacing.EAST) {
 					tessellator.getBuffer().pos(minX, maxY, maxZ).tex(minU + maxUV, minV).color(this.colorRedBottomRight, this.colorGreenBottomRight, this.colorBlueBottomRight, 1.0f).lightmap(bottomBlockRight, bottomSkyRight).normal(-1.0F, 0.0F, 0.0F).endVertex();
 					tessellator.getBuffer().pos(minX, maxY, minZ).tex(minU + maxUV, minV).color(this.colorRedBottomRight, this.colorGreenBottomRight, this.colorBlueBottomRight, 1.0f).lightmap(bottomBlockRight, bottomSkyRight).normal(-1.0F, 0.0F, 0.0F).endVertex();
 					tessellator.getBuffer().pos(minX, minY, minZ).tex(minU + maxUV - sideUV, minV + maxUV).color(this.colorRedBottomLeft, this.colorGreenBottomLeft, this.colorBlueBottomLeft, 1.0f).lightmap(bottomBlockLeft, bottomSkyLeft).normal(-1.0F, 0.0F, 0.0F).endVertex();
@@ -159,22 +163,22 @@ public class RenderWallpaper extends Render<EntityWallpaper> {
 				}
 			}
 			if (!entitywallpaper.isBlockUp) {
-				if (entitywallpaper.direction == 0) {
+				if (entitywallpaper.facingDirection == EnumFacing.NORTH) {
 					tessellator.getBuffer().pos(minX, maxY, minZ).tex(minU + maxUV, minV).color(this.colorRedTopLeft, this.colorGreenTopLeft, this.colorBlueTopLeft, 1.0f).lightmap(topBlockLeft, topSkyLeft).normal(0.0F, 1.0F, 0.0F).endVertex();
 					tessellator.getBuffer().pos(minX, maxY, maxZ).tex(minU + maxUV, minV + sideUV).color(this.colorRedTopLeft, this.colorGreenTopLeft, this.colorBlueTopLeft, 1.0f).lightmap(topBlockLeft, topSkyLeft).normal(0.0F, 1.0F, 0.0F).endVertex();
 					tessellator.getBuffer().pos(maxX, maxY, maxZ).tex(minU, minV + sideUV).color(this.colorRedBottomLeft, this.colorGreenBottomLeft, this.colorBlueBottomLeft, 1.0f).lightmap(bottomBlockLeft, bottomSkyLeft).normal(0.0F, 1.0F, 0.0F).endVertex();
 					tessellator.getBuffer().pos(maxX, maxY, minZ).tex(minU, minV).color(this.colorRedBottomLeft, this.colorGreenBottomLeft, this.colorBlueBottomLeft, 1.0f).lightmap(bottomBlockLeft, bottomSkyLeft).normal(0.0F, 1.0F, 0.0F).endVertex();
-				} else if (entitywallpaper.direction == 2) {
+				} else if (entitywallpaper.facingDirection == EnumFacing.SOUTH) {
 					tessellator.getBuffer().pos(maxX, maxY, maxZ).tex(minU, minV + sideUV).color(this.colorRedTopLeft, this.colorGreenTopLeft, this.colorBlueTopLeft, 1.0f).lightmap(topBlockLeft, topSkyLeft).normal(0.0F, 1.0F, 0.0F).endVertex();
 					tessellator.getBuffer().pos(maxX, maxY, minZ).tex(minU, minV).color(this.colorRedTopLeft, this.colorGreenTopLeft, this.colorBlueTopLeft, 1.0f).lightmap(topBlockLeft, topSkyLeft).normal(0.0F, 1.0F, 0.0F).endVertex();
 					tessellator.getBuffer().pos(minX, maxY, minZ).tex(minU + maxUV, minV).color(this.colorRedTopRight, this.colorGreenTopRight, this.colorBlueTopRight, 1.0f).lightmap(topBlockRight, topSkyRight).normal(0.0F, 1.0F, 0.0F).endVertex();
 					tessellator.getBuffer().pos(minX, maxY, maxZ).tex(minU + maxUV, minV + sideUV).color(this.colorRedTopRight, this.colorGreenTopRight, this.colorBlueTopRight, 1.0f).lightmap(topBlockRight, topSkyRight).normal(0.0F, 1.0F, 0.0F).endVertex();
-				} else if (entitywallpaper.direction == 1) {
+				} else if (entitywallpaper.facingDirection == EnumFacing.WEST) {
 					tessellator.getBuffer().pos(maxX, maxY, maxZ).tex(minU, minV + sideUV).color(this.colorRedBottomLeft, this.colorGreenBottomLeft, this.colorBlueBottomLeft, 1.0f).lightmap(bottomBlockLeft, bottomSkyLeft).normal(0.0F, 1.0F, 0.0F).endVertex();
 					tessellator.getBuffer().pos(maxX, maxY, minZ).tex(minU, minV).color(this.colorRedBottomLeft, this.colorGreenBottomLeft, this.colorBlueBottomLeft, 1.0f).lightmap(bottomBlockLeft, bottomSkyLeft).normal(0.0F, 1.0F, 0.0F).endVertex();
 					tessellator.getBuffer().pos(minX, maxY, minZ).tex(minU + maxUV, minV).color(this.colorRedTopLeft, this.colorGreenTopLeft, this.colorBlueTopLeft, 1.0f).lightmap(topBlockLeft, topSkyLeft).normal(0.0F, 1.0F, 0.0F).endVertex();
 					tessellator.getBuffer().pos(minX, maxY, maxZ).tex(minU + maxUV, minV + sideUV).color(this.colorRedTopLeft, this.colorGreenTopLeft, this.colorBlueTopLeft, 1.0f).lightmap(topBlockLeft, topSkyLeft).normal(0.0F, 1.0F, 0.0F).endVertex();
-				} else if (entitywallpaper.direction == 3) {
+				} else if (entitywallpaper.facingDirection == EnumFacing.EAST) {
 					tessellator.getBuffer().pos(maxX, maxY, maxZ).tex(minU, minV + sideUV).color(this.colorRedTopRight, this.colorGreenTopRight, this.colorBlueTopRight, 1.0f).lightmap(topBlockRight, topSkyRight).normal(0.0F, 1.0F, 0.0F).endVertex();
 					tessellator.getBuffer().pos(maxX, maxY, minZ).tex(minU, minV).color(this.colorRedTopRight, this.colorGreenTopRight, this.colorBlueTopRight, 1.0f).lightmap(topBlockRight, topSkyRight).normal(0.0F, 1.0F, 0.0F).endVertex();
 					tessellator.getBuffer().pos(minX, maxY, minZ).tex(minU + maxUV, minV).color(this.colorRedBottomRight, this.colorGreenBottomRight, this.colorBlueBottomRight, 1.0f).lightmap(bottomBlockRight, bottomSkyRight).normal(0.0F, 1.0F, 0.0F).endVertex();
@@ -182,22 +186,22 @@ public class RenderWallpaper extends Render<EntityWallpaper> {
 				}
 			}
 			if (!entitywallpaper.isBlockRight) {
-				if (entitywallpaper.direction == 0) {
+				if (entitywallpaper.facingDirection == EnumFacing.NORTH) {
 					tessellator.getBuffer().pos(maxX, minY, maxZ).tex(minU + sideUV, minV + maxUV).color(this.colorRedBottomRight, this.colorGreenBottomRight, this.colorBlueBottomRight, 1.0f).lightmap(bottomBlockRight, bottomSkyRight).normal(1.0F, 0.0F, 0.0F).endVertex();
 					tessellator.getBuffer().pos(maxX, minY, minZ).tex(minU, minV + maxUV).color(this.colorRedBottomRight, this.colorGreenBottomRight, this.colorBlueBottomRight, 1.0f).lightmap(bottomBlockRight, bottomSkyRight).normal(1.0F, 0.0F, 0.0F).endVertex();
 					tessellator.getBuffer().pos(maxX, maxY, minZ).tex(minU, minV).color(this.colorRedBottomLeft, this.colorGreenBottomLeft, this.colorBlueBottomLeft, 1.0f).lightmap(bottomBlockLeft, bottomSkyLeft).normal(1.0F, 0.0F, 0.0F).endVertex();
 					tessellator.getBuffer().pos(maxX, maxY, maxZ).tex(minU + sideUV, minV).color(this.colorRedBottomLeft, this.colorGreenBottomLeft, this.colorBlueBottomLeft, 1.0f).lightmap(bottomBlockLeft, bottomSkyLeft).normal(1.0F, 0.0F, 0.0F).endVertex();
-				} else if (entitywallpaper.direction == 2) {
+				} else if (entitywallpaper.facingDirection == EnumFacing.SOUTH) {
 					tessellator.getBuffer().pos(maxX, minY, maxZ).tex(minU + sideUV, minV + maxUV).color(this.colorRedBottomLeft, this.colorGreenBottomLeft, this.colorBlueBottomLeft, 1.0f).lightmap(bottomBlockLeft, bottomSkyLeft).normal(1.0F, 0.0F, 0.0F).endVertex();
 					tessellator.getBuffer().pos(maxX, minY, minZ).tex(minU, minV + maxUV).color(this.colorRedBottomLeft, this.colorGreenBottomLeft, this.colorBlueBottomLeft, 1.0f).lightmap(bottomBlockLeft, bottomSkyLeft).normal(1.0F, 0.0F, 0.0F).endVertex();
 					tessellator.getBuffer().pos(maxX, maxY, minZ).tex(minU, minV).color(this.colorRedTopLeft, this.colorGreenTopLeft, this.colorBlueTopLeft, 1.0f).lightmap(topBlockLeft, topSkyLeft).normal(1.0F, 0.0F, 0.0F).endVertex();
 					tessellator.getBuffer().pos(maxX, maxY, maxZ).tex(minU + sideUV, minV).color(this.colorRedTopLeft, this.colorGreenTopLeft, this.colorBlueTopLeft, 1.0f).lightmap(topBlockLeft, topSkyLeft).normal(1.0F, 0.0F, 0.0F).endVertex();
-				} else if (entitywallpaper.direction == 1) {
+				} else if (entitywallpaper.facingDirection == EnumFacing.WEST) {
 					tessellator.getBuffer().pos(maxX, minY, maxZ).tex(minU + sideUV, minV + maxUV).color(this.colorRedBottomRight, this.colorGreenBottomRight, this.colorBlueBottomRight, 1.0f).lightmap(bottomBlockRight, bottomSkyRight).normal(1.0F, 0.0F, 0.0F).endVertex();
 					tessellator.getBuffer().pos(maxX, minY, minZ).tex(minU, minV + maxUV).color(this.colorRedBottomRight, this.colorGreenBottomRight, this.colorBlueBottomRight, 1.0f).lightmap(bottomBlockRight, bottomSkyRight).normal(1.0F, 0.0F, 0.0F).endVertex();
 					tessellator.getBuffer().pos(maxX, maxY, minZ).tex(minU, minV).color(this.colorRedBottomLeft, this.colorGreenBottomLeft, this.colorBlueBottomLeft, 1.0f).lightmap(bottomBlockLeft, bottomSkyLeft).normal(1.0F, 0.0F, 0.0F).endVertex();
 					tessellator.getBuffer().pos(maxX, maxY, maxZ).tex(minU + sideUV, minV).color(this.colorRedBottomLeft, this.colorGreenBottomLeft, this.colorBlueBottomLeft, 1.0f).lightmap(bottomBlockLeft, bottomSkyLeft).normal(1.0F, 0.0F, 0.0F).endVertex();
-				} else if (entitywallpaper.direction == 3) {
+				} else if (entitywallpaper.facingDirection == EnumFacing.EAST) {
 					tessellator.getBuffer().pos(maxX, minY, maxZ).tex(minU + sideUV, minV + maxUV).color(this.colorRedTopLeft, this.colorGreenTopLeft, this.colorBlueTopLeft, 1.0f).lightmap(topBlockLeft, topSkyLeft).normal(1.0F, 0.0F, 0.0F).endVertex();
 					tessellator.getBuffer().pos(maxX, minY, minZ).tex(minU, minV + maxUV).color(this.colorRedTopLeft, this.colorGreenTopLeft, this.colorBlueTopLeft, 1.0f).lightmap(topBlockLeft, topSkyLeft).normal(1.0F, 0.0F, 0.0F).endVertex();
 					tessellator.getBuffer().pos(maxX, maxY, minZ).tex(minU, minV).color(this.colorRedTopRight, this.colorGreenTopRight, this.colorBlueTopRight, 1.0f).lightmap(topBlockRight, topSkyRight).normal(1.0F, 0.0F, 0.0F).endVertex();
@@ -205,22 +209,22 @@ public class RenderWallpaper extends Render<EntityWallpaper> {
 				}
 			}
 			if (!entitywallpaper.isBlockDown) {
-				if (entitywallpaper.direction == 0) {
+				if (entitywallpaper.facingDirection == EnumFacing.NORTH) {
 					tessellator.getBuffer().pos(minX, minY, maxZ).tex(minU + maxUV, minV + maxUV - sideUV).color(this.colorRedTopRight, this.colorGreenTopRight, this.colorBlueTopRight, 1.0f).lightmap(topBlockRight, topSkyRight).normal(0.0F, -1.0F, 0.0F).endVertex();
 					tessellator.getBuffer().pos(minX, minY, minZ).tex(minU + maxUV, minV + maxUV).color(this.colorRedTopRight, this.colorGreenTopRight, this.colorBlueTopRight, 1.0f).lightmap(topBlockRight, topSkyRight).normal(0.0F, -1.0F, 0.0F).endVertex();
 					tessellator.getBuffer().pos(maxX, minY, minZ).tex(minU, minV + maxUV).color(this.colorRedBottomRight, this.colorGreenBottomRight, this.colorBlueBottomRight, 1.0f).lightmap(bottomBlockRight, bottomSkyRight).normal(0.0F, -1.0F, 0.0F).endVertex();
 					tessellator.getBuffer().pos(maxX, minY, maxZ).tex(minU, minV + maxUV - sideUV).color(this.colorRedBottomRight, this.colorGreenBottomRight, this.colorBlueBottomRight, 1.0f).lightmap(bottomBlockRight, bottomSkyRight).normal(0.0F, -1.0F, 0.0F).endVertex();
-				} else if (entitywallpaper.direction == 2) {
+				} else if (entitywallpaper.facingDirection == EnumFacing.SOUTH) {
 					tessellator.getBuffer().pos(minX, minY, maxZ).tex(minU + maxUV, minV + maxUV - sideUV).color(this.colorRedBottomRight, this.colorGreenBottomRight, this.colorBlueBottomRight, 1.0f).lightmap(bottomBlockRight, bottomSkyRight).normal(0.0F, -1.0F, 0.0F).endVertex();
 					tessellator.getBuffer().pos(minX, minY, minZ).tex(minU + maxUV, minV + maxUV).color(this.colorRedBottomRight, this.colorGreenBottomRight, this.colorBlueBottomRight, 1.0f).lightmap(bottomBlockRight, bottomSkyRight).normal(0.0F, -1.0F, 0.0F).endVertex();
 					tessellator.getBuffer().pos(maxX, minY, minZ).tex(minU, minV + maxUV).color(this.colorRedBottomLeft, this.colorGreenBottomLeft, this.colorBlueBottomLeft, 1.0f).lightmap(bottomBlockLeft, bottomSkyLeft).normal(0.0F, -1.0F, 0.0F).endVertex();
 					tessellator.getBuffer().pos(maxX, minY, maxZ).tex(minU, minV + maxUV - sideUV).color(this.colorRedBottomLeft, this.colorGreenBottomLeft, this.colorBlueBottomLeft, 1.0f).lightmap(bottomBlockLeft, bottomSkyLeft).normal(0.0F, -1.0F, 0.0F).endVertex();
-				} else if (entitywallpaper.direction == 1) {
+				} else if (entitywallpaper.facingDirection == EnumFacing.WEST) {
 					tessellator.getBuffer().pos(minX, minY, maxZ).tex(minU + maxUV, minV + maxUV - sideUV).color(this.colorRedTopRight, this.colorGreenTopRight, this.colorBlueTopRight, 1.0f).lightmap(topBlockRight, topSkyRight).normal(0.0F, -1.0F, 0.0F).endVertex();
 					tessellator.getBuffer().pos(minX, minY, minZ).tex(minU + maxUV, minV + maxUV).color(this.colorRedTopRight, this.colorGreenTopRight, this.colorBlueTopRight, 1.0f).lightmap(topBlockRight, topSkyRight).normal(0.0F, -1.0F, 0.0F).endVertex();
 					tessellator.getBuffer().pos(maxX, minY, minZ).tex(minU, minV + maxUV).color(this.colorRedBottomRight, this.colorGreenBottomRight, this.colorBlueBottomRight, 1.0f).lightmap(bottomBlockRight, bottomSkyRight).normal(0.0F, -1.0F, 0.0F).endVertex();
 					tessellator.getBuffer().pos(maxX, minY, maxZ).tex(minU, minV + maxUV - sideUV).color(this.colorRedBottomRight, this.colorGreenBottomRight, this.colorBlueBottomRight, 1.0f).lightmap(bottomBlockRight, bottomSkyRight).normal(0.0F, -1.0F, 0.0F).endVertex();
-				} else if (entitywallpaper.direction == 3) {
+				} else if (entitywallpaper.facingDirection == EnumFacing.EAST) {
 					tessellator.getBuffer().pos(minX, minY, maxZ).tex(minU + maxUV, minV + maxUV - sideUV).color(this.colorRedBottomLeft, this.colorGreenBottomLeft, this.colorBlueBottomLeft, 1.0f).lightmap(bottomBlockLeft, bottomSkyLeft).normal(0.0F, -1.0F, 0.0F).endVertex();
 					tessellator.getBuffer().pos(minX, minY, minZ).tex(minU + maxUV, minV + maxUV).color(this.colorRedBottomLeft, this.colorGreenBottomLeft, this.colorBlueBottomLeft, 1.0f).lightmap(bottomBlockLeft, bottomSkyLeft).normal(0.0F, -1.0F, 0.0F).endVertex();
 					tessellator.getBuffer().pos(maxX, minY, minZ).tex(minU, minV + maxUV).color(this.colorRedTopLeft, this.colorGreenTopLeft, this.colorBlueTopLeft, 1.0f).lightmap(topBlockLeft, topSkyLeft).normal(0.0F, -1.0F, 0.0F).endVertex();
@@ -267,11 +271,12 @@ public class RenderWallpaper extends Render<EntityWallpaper> {
 		tessellator.draw();
 	}
 
-	public boolean renderWithAmbientOcclusion(BlockPos pos, float red, float green, float blue, int direction) {
+	public boolean renderWithAmbientOcclusion(BlockPos pos, float red, float green, float blue, EnumFacing facingDirection) {
 		float lightSelf = getAmbientOcclusionLightValue(pos);
 		int brightnessSelf = getMixedBrightnessForBlock(pos);
+		float colorMultiplier = 0.7f;
 
-		if (direction == 0) {
+		if (facingDirection == EnumFacing.NORTH) {
 			float lightValueXZNN = getAmbientOcclusionLightValue(pos.west());
 			float lightValueYZNN = getAmbientOcclusionLightValue(pos.down());
 			float lightValueYZPN = getAmbientOcclusionLightValue(pos.up());
@@ -302,9 +307,9 @@ public class RenderWallpaper extends Render<EntityWallpaper> {
 			this.brightnessBottomRight = getAoBrightness(brightnessYZNN, brightnessXYZPNN, brightnessXZPN, brightnessSelf);
 			this.brightnessTopRight = getAoBrightness(brightnessXZNN, brightnessXYZNNN, brightnessYZNN, brightnessSelf);
 
-			this.colorRedTopLeft = (this.colorRedBottomLeft = this.colorRedBottomRight = this.colorRedTopRight = red * 0.8F);
-			this.colorGreenTopLeft = (this.colorGreenBottomLeft = this.colorGreenBottomRight = this.colorGreenTopRight = green * 0.8F);
-			this.colorBlueTopLeft = (this.colorBlueBottomLeft = this.colorBlueBottomRight = this.colorBlueTopRight = blue * 0.8F);
+			this.colorRedTopLeft = (this.colorRedBottomLeft = this.colorRedBottomRight = this.colorRedTopRight = red * colorMultiplier);
+			this.colorGreenTopLeft = (this.colorGreenBottomLeft = this.colorGreenBottomRight = this.colorGreenTopRight = green * colorMultiplier);
+			this.colorBlueTopLeft = (this.colorBlueBottomLeft = this.colorBlueBottomRight = this.colorBlueTopRight = blue * colorMultiplier);
 
 			this.colorRedTopLeft *= lightTopLeft;
 			this.colorGreenTopLeft *= lightTopLeft;
@@ -325,7 +330,7 @@ public class RenderWallpaper extends Render<EntityWallpaper> {
 			return true;
 		}
 
-		if (direction == 2) {
+		if (facingDirection == EnumFacing.SOUTH) {
 			float lightValueXZNP = getAmbientOcclusionLightValue(pos.west());
 			float lightValueXZPP = getAmbientOcclusionLightValue(pos.east());
 			float lightValueYZNP = getAmbientOcclusionLightValue(pos.down());
@@ -356,9 +361,9 @@ public class RenderWallpaper extends Render<EntityWallpaper> {
 			this.brightnessBottomRight = getAoBrightness(brightnessYZNP, brightnessXYZPNP, brightnessXZPP, brightnessSelf);
 			this.brightnessBottomLeft = getAoBrightness(brightnessXYZNNP, brightnessXZNP, brightnessYZNP, brightnessSelf);
 
-			this.colorRedTopLeft = (this.colorRedBottomLeft = this.colorRedBottomRight = this.colorRedTopRight = red * 0.8F);
-			this.colorGreenTopLeft = (this.colorGreenBottomLeft = this.colorGreenBottomRight = this.colorGreenTopRight = green * 0.8F);
-			this.colorBlueTopLeft = (this.colorBlueBottomLeft = this.colorBlueBottomRight = this.colorBlueTopRight = blue * 0.8F);
+			this.colorRedTopLeft = (this.colorRedBottomLeft = this.colorRedBottomRight = this.colorRedTopRight = red * colorMultiplier);
+			this.colorGreenTopLeft = (this.colorGreenBottomLeft = this.colorGreenBottomRight = this.colorGreenTopRight = green * colorMultiplier);
+			this.colorBlueTopLeft = (this.colorBlueBottomLeft = this.colorBlueBottomRight = this.colorBlueTopRight = blue * colorMultiplier);
 
 			this.colorRedTopLeft *= lightTopLeft;
 			this.colorGreenTopLeft *= lightTopLeft;
@@ -379,7 +384,7 @@ public class RenderWallpaper extends Render<EntityWallpaper> {
 			return true;
 		}
 
-		if (direction == 1) {
+		if (facingDirection == EnumFacing.WEST) {
 			float lightValueXYNN = getAmbientOcclusionLightValue(pos.down());
 			float lightValueXZNN = getAmbientOcclusionLightValue(pos.north());
 			float lightValueXZNP = getAmbientOcclusionLightValue(pos.south());
@@ -410,9 +415,9 @@ public class RenderWallpaper extends Render<EntityWallpaper> {
 			this.brightnessBottomLeft = getAoBrightness(brightnessXZNN, brightnessXYZNPN, brightnessXYNP, brightnessSelf);
 			this.brightnessBottomRight = getAoBrightness(brightnessXYZNNN, brightnessXYNN, brightnessXZNN, brightnessSelf);
 
-			this.colorRedTopLeft = (this.colorRedBottomLeft = this.colorRedBottomRight = this.colorRedTopRight = red * 0.6F);
-			this.colorGreenTopLeft = (this.colorGreenBottomLeft = this.colorGreenBottomRight = this.colorGreenTopRight = green * 0.6F);
-			this.colorBlueTopLeft = (this.colorBlueBottomLeft = this.colorBlueBottomRight = this.colorBlueTopRight = blue * 0.6F);
+			this.colorRedTopLeft = (this.colorRedBottomLeft = this.colorRedBottomRight = this.colorRedTopRight = red * colorMultiplier);
+			this.colorGreenTopLeft = (this.colorGreenBottomLeft = this.colorGreenBottomRight = this.colorGreenTopRight = green * colorMultiplier);
+			this.colorBlueTopLeft = (this.colorBlueBottomLeft = this.colorBlueBottomRight = this.colorBlueTopRight = blue * colorMultiplier);
 
 			this.colorRedTopLeft *= lightTopLeft;
 			this.colorGreenTopLeft *= lightTopLeft;
@@ -433,7 +438,7 @@ public class RenderWallpaper extends Render<EntityWallpaper> {
 			return true;
 		}
 
-		if (direction == 3) {
+		if (facingDirection == EnumFacing.EAST) {
 			float lightValueXYPN = getAmbientOcclusionLightValue(pos.down());
 			float lightValueXZPN = getAmbientOcclusionLightValue(pos.north());
 			float lightValueXZPP = getAmbientOcclusionLightValue(pos.south());
@@ -464,9 +469,9 @@ public class RenderWallpaper extends Render<EntityWallpaper> {
 			this.brightnessBottomRight = getAoBrightness(brightnessXZPN, brightnessXYZPPN, brightnessXYPP, brightnessSelf);
 			this.brightnessBottomLeft = getAoBrightness(brightnessXYZPNN, brightnessXYPN, brightnessXZPN, brightnessSelf);
 
-			this.colorRedTopLeft = (this.colorRedBottomLeft = this.colorRedBottomRight = this.colorRedTopRight = red * 0.6F);
-			this.colorGreenTopLeft = (this.colorGreenBottomLeft = this.colorGreenBottomRight = this.colorGreenTopRight = green * 0.6F);
-			this.colorBlueTopLeft = (this.colorBlueBottomLeft = this.colorBlueBottomRight = this.colorBlueTopRight = blue * 0.6F);
+			this.colorRedTopLeft = (this.colorRedBottomLeft = this.colorRedBottomRight = this.colorRedTopRight = red * colorMultiplier);
+			this.colorGreenTopLeft = (this.colorGreenBottomLeft = this.colorGreenBottomRight = this.colorGreenTopRight = green * colorMultiplier);
+			this.colorBlueTopLeft = (this.colorBlueBottomLeft = this.colorBlueBottomRight = this.colorBlueTopRight = blue * colorMultiplier);
 
 			this.colorRedTopLeft *= lightTopLeft;
 			this.colorGreenTopLeft *= lightTopLeft;
@@ -544,6 +549,7 @@ public class RenderWallpaper extends Render<EntityWallpaper> {
 		return this.renderManager.worldObj.getCombinedLight(pos, 0);
 	}
 
+	@Override
 	public void doRender(EntityWallpaper wallpaper, double x, double y, double z, float yaw, float f1) {
 		initWallpaper(wallpaper, x, y, z, yaw);
 	}

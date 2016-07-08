@@ -3,7 +3,6 @@ package com.grim3212.mc.pack.decor.block;
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.BlockPos;
@@ -15,9 +14,9 @@ public class BlockRoad extends Block {
 		super(Material.ROCK);
 		setSoundType(SoundType.STONE);
 	}
-	
+
 	@Override
-	public void onEntityCollidedWithBlock(World worldIn, BlockPos pos, IBlockState state, Entity entityIn) {
+	public void onEntityWalk(World worldIn, BlockPos pos, Entity entityIn) {
 		double maxSpeed = 1.5D;
 		double speedMultiplier = 2.0D;
 
@@ -25,6 +24,7 @@ public class BlockRoad extends Block {
 			double entMotX = entityIn.motionX;
 			double entMotZ = entityIn.motionZ;
 			double speedUp = Math.sqrt(entMotX * entMotX + entMotZ * entMotZ);
+
 			if (speedUp != 0.0D) {
 				double var12 = speedUp * speedMultiplier;
 				var12 = Math.min(var12, maxSpeed);

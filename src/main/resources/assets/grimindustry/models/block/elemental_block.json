@@ -1,7 +1,0 @@
-{
-	"parent": "block/cube_top",
-	"textures": {
-		"top": "#top",
-		"side": "grimindustry:blocks/elemental_side"
-	}
-}

@@ -32,7 +32,7 @@ import net.minecraftforge.common.model.IModelState;
 import net.minecraftforge.common.model.TRSRTransformation;
 
 @SuppressWarnings("deprecation")
-public class BakedLampItemModel extends BakedDecorModel {
+public class BakedLampItemModel extends BakedTexturedModel {
 
 	public BakedLampItemModel(IModelState modelState, ImmutableList<ResourceLocation> modelLocation, ResourceLocation textureLocation, VertexFormat fmt, ImmutableMap<TransformType, TRSRTransformation> transforms) {
 		super(modelState, modelLocation, textureLocation, fmt, transforms);

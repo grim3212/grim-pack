@@ -18,7 +18,4 @@ public class DecorCommonProxy extends CommonProxy {
 	@Override
 	public void registerManual(ModSection modSection) {
 	}
-
-	public void initColors() {
-	}
 }

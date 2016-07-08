@@ -2,13 +2,17 @@ package com.grim3212.mc.pack.decor.entity;
 
 import java.util.List;
 
+import org.apache.commons.lang3.Validate;
+
 import com.grim3212.mc.pack.core.util.WorldHelper;
 import com.grim3212.mc.pack.decor.config.DecorConfig;
 import com.grim3212.mc.pack.decor.item.DecorItems;
 import com.grim3212.mc.pack.decor.util.EnumFrame;
 
 import io.netty.buffer.ByteBuf;
+import net.minecraft.block.BlockRedstoneDiode;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityHanging;
@@ -29,7 +33,6 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
@@ -38,16 +41,10 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class EntityFrame extends EntityHanging implements IEntityAdditionalSpawnData {
 
-	public int direction;
-	public int xPosition;
-	public int yPosition;
-	public int zPosition;
 	public int material = 0;
 	public float resistance = 0.0F;
-	public AxisAlignedBB setupboundingBox = new AxisAlignedBB(0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D);
 	public AxisAlignedBB fireboundingBox = new AxisAlignedBB(0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D);
 	public static final int[] colorValues = { 1973019, 11743532, 3887386, 5320730, 2437522, 8073150, 2651799, 8816262, 4408131, 14188952, 4312372, 14602026, 6719955, 12801229, 15435844, 16777215 };
-	private BlockPos pos;
 
 	private static final DataParameter<Boolean> BURNT = EntityDataManager.createKey(EntityFrame.class, DataSerializers.BOOLEAN);
 	private static final DataParameter<Integer> FRAME_ID = EntityDataManager.createKey(EntityFrame.class, DataSerializers.VARINT);
@@ -59,18 +56,14 @@ public class EntityFrame extends EntityHanging implements IEntityAdditionalSpawn
 		super(world);
 	}
 
-	public EntityFrame(World world, BlockPos pos, int direction, int material) {
+	public EntityFrame(World world, BlockPos pos, EnumFacing direction, int material) {
 		super(world, pos);
-		this.xPosition = pos.getX();
-		this.yPosition = pos.getY();
-		this.zPosition = pos.getZ();
-		this.pos = pos;
 		this.material = material;
 
-		for (int i = 0; i < EnumFrame.values().length; i++) {
-			EnumFrame tryFrame = EnumFrame.values()[i];
+		for (int i = 0; i < EnumFrame.VALUES.length; i++) {
+			EnumFrame tryFrame = EnumFrame.VALUES[i];
 			this.getDataManager().set(FRAME_ID, tryFrame.id);
-			setDirectionAndSize(direction);
+			updateFacingWithBoundingBox(direction);
 			if (onValidSurface()) {
 				// For the first valid direction update the frame and you don't
 				// need to search anymore
@@ -93,7 +86,7 @@ public class EntityFrame extends EntityHanging implements IEntityAdditionalSpawn
 	@Override
 	public EnumActionResult applyPlayerInteraction(EntityPlayer player, Vec3d vec, ItemStack stack, EnumHand hand) {
 		ItemStack itemstack = player.inventory.getCurrentItem();
-		if (player.canPlayerEdit(pos, EnumFacing.getHorizontal(this.direction), itemstack)) {
+		if (player.canPlayerEdit(hangingPosition, this.facingDirection, itemstack)) {
 			if (itemstack != null) {
 				if ((DecorConfig.dyeFrames) && (itemstack.getItem() == Items.DYE)) {
 					if (dyeFrame(itemstack.getItemDamage())) {
@@ -118,10 +111,10 @@ public class EntityFrame extends EntityHanging implements IEntityAdditionalSpawn
 		// Wrapped in a while to account for if the the next valid frame is at
 		// the beginning of the EnumFrame values
 		while (looking) {
-			for (int i = 0; i < EnumFrame.values().length; i++) {
-				EnumFrame tryFrame = EnumFrame.values()[i];
+			for (int i = 0; i < EnumFrame.VALUES.length; i++) {
+				EnumFrame tryFrame = EnumFrame.VALUES[i];
 				this.getDataManager().set(FRAME_ID, tryFrame.id);
-				setDirectionAndSize(this.direction);
+				updateFacingWithBoundingBox(this.facingDirection);
 				if (onValidSurface()) {
 					if (foundOld) {
 						// The next valid frame we stop looking for the next
@@ -133,12 +126,17 @@ public class EntityFrame extends EntityHanging implements IEntityAdditionalSpawn
 							foundOld = true;
 						}
 					}
+				} else {
+					if (tryFrame.id == oldFrameID) {
+						looking = false;
+						break;
+					}
 				}
 			}
 		}
 
 		if (!this.worldObj.isRemote)
-			playFrameSound();
+			playPlaceSound();
 
 		return true;
 	}
@@ -161,7 +159,7 @@ public class EntityFrame extends EntityHanging implements IEntityAdditionalSpawn
 			if (burn) {
 				playBurnSound();
 			} else {
-				playFrameSound();
+				playPlaceSound();
 			}
 		}
 
@@ -182,80 +180,76 @@ public class EntityFrame extends EntityHanging implements IEntityAdditionalSpawn
 		}
 	}
 
-	public void setDirectionAndSize(int direction) {
-		this.direction = direction;
+	@Override
+	protected void updateFacingWithBoundingBox(EnumFacing facingDirectionIn) {
+		Validate.notNull(facingDirectionIn);
+		Validate.isTrue(facingDirectionIn.getAxis().isHorizontal());
+		this.facingDirection = facingDirectionIn;
 
-		this.prevRotationYaw = (this.rotationYaw = direction * 90);
+		if (facingDirectionIn.getAxis() == EnumFacing.Axis.Z)
+			this.prevRotationYaw = this.rotationYaw = (float) (this.facingDirection.getOpposite().getHorizontalIndex() * 90);
+		else
+			this.prevRotationYaw = this.rotationYaw = (float) (this.facingDirection.getHorizontalIndex() * 90);
 
-		EnumFrame currentFrame = getCurrentFrame();
+		double x = (double) this.hangingPosition.getX() + 0.5D;
+		double y = (double) this.hangingPosition.getY() + 0.5D;
+		double z = (double) this.hangingPosition.getZ() + 0.5D;
+		double widthOffset = this.offs(this.getWidthPixels());
+		double heightOffset = this.offs(this.getHeightPixels());
+		x = x - (double) this.facingDirection.getFrontOffsetX() * 0.46875D;
+		z = z - (double) this.facingDirection.getFrontOffsetZ() * 0.46875D;
+		y = y + heightOffset;
+		EnumFacing enumfacing = this.facingDirection.rotateYCCW();
+		x = x + widthOffset * (double) enumfacing.getFrontOffsetX();
+		z = z + widthOffset * (double) enumfacing.getFrontOffsetZ();
+		this.posX = x;
+		this.posY = y;
+		this.posZ = z;
+		double width = (double) this.getWidthPixels();
+		double height = (double) this.getHeightPixels();
+		double depth = (double) this.getWidthPixels();
 
-		float sizeX = currentFrame.sizeX;
-		float sizeY = currentFrame.sizeY;
-		float sizeZ = currentFrame.sizeX;
-		float width = 0.5F;
-
-		if ((direction != 0) && (direction != 2)) {
-			sizeX = width;
+		if (this.facingDirection.getAxis() == EnumFacing.Axis.Z) {
+			depth = 1.0D;
 		} else {
-			sizeZ = width;
+			width = 1.0D;
 		}
 
-		sizeX /= 32.0F;
-		sizeY /= 32.0F;
-		sizeZ /= 32.0F;
-		width /= 32.0F;
+		width = width / 32.0D;
+		height = height / 32.0D;
+		depth = depth / 32.0D;
 
-		float xPos = this.xPosition + 0.5F;
-		float yPos = this.yPosition + 0.5F;
-		float zPos = this.zPosition + 0.5F;
+		this.setEntityBoundingBox(new AxisAlignedBB(x - width, y - height, z - depth, x + width, y + height, z + depth));
 
-		yPos += sizeOffset(currentFrame.sizeY);
-		if (direction == 0) {
-			zPos -= width + 0.5F;
-			xPos -= sizeOffset(currentFrame.sizeX);
-		}
-		if (direction == 1) {
-			xPos -= width + 0.5F;
-			zPos += sizeOffset(currentFrame.sizeX);
-		}
-		if (direction == 2) {
-			zPos += width + 0.5F;
-			xPos += sizeOffset(currentFrame.sizeX);
-		}
-		if (direction == 3) {
-			xPos += width + 0.5F;
-			zPos -= sizeOffset(currentFrame.sizeX);
-		}
-
-		setPosition(xPos, yPos, zPos);
-		this.setEntityBoundingBox(new AxisAlignedBB(xPos - sizeX, yPos - sizeY, zPos - sizeZ, xPos + sizeX, yPos + sizeY, zPos + sizeZ));
-
-		if ((direction == 0) || (direction == 2)) {
-			sizeX -= 0.1F;
-			sizeY -= 0.1F;
+		if (facingDirectionIn.getAxis() == EnumFacing.Axis.Z) {
+			width += 0.1F;
+			height += 0.1F;
+			depth = 1.0F;
 		} else {
-			sizeY -= 0.1F;
-			sizeZ -= 0.1F;
+			width = 1.0F;
+			height += 0.1F;
+			depth += 0.1F;
 		}
-		this.setupboundingBox = new AxisAlignedBB(xPos - sizeX, yPos - sizeY, zPos - sizeZ, xPos + sizeX, yPos + sizeY, zPos + sizeZ);
-
-		if ((direction == 0) || (direction == 2)) {
-			sizeX += 0.1F;
-			sizeY += 0.1F;
-			sizeZ = 1.0F;
-		} else {
-			sizeX = 1.0F;
-			sizeY += 0.1F;
-			sizeZ += 0.1F;
-		}
-		this.fireboundingBox = new AxisAlignedBB(xPos - sizeX, yPos - sizeY, zPos - sizeZ, xPos + sizeX, yPos + sizeY, zPos + sizeZ);
+		this.fireboundingBox = new AxisAlignedBB(x - width, y - height, z - depth, x + width, y + height, z + depth);
 	}
 
-	private float sizeOffset(int size) {
-		if (size == 32) {
-			return 0.5F;
-		}
-		return size != 64 ? 0.0F : 0.5F;
+	private double offs(int size) {
+		return size % 32 == 0 ? 0.5D : 0.0D;
+	}
+
+	@Override
+	public void setLocationAndAngles(double x, double y, double z, float yaw, float pitch) {
+		this.setPosition(x, y, z);
+	}
+
+	/**
+	 * Set the position and rotation values directly without any clamping.
+	 */
+	@Override
+	@SideOnly(Side.CLIENT)
+	public void setPositionAndRotationDirect(double x, double y, double z, float yaw, float pitch, int posRotationIncrements, boolean teleport) {
+		BlockPos blockpos = this.hangingPosition.add(x - this.posX, y - this.posY, z - this.posZ);
+		this.setPosition((double) blockpos.getX(), (double) blockpos.getY(), (double) blockpos.getZ());
 	}
 
 	@Override
@@ -275,77 +269,44 @@ public class EntityFrame extends EntityHanging implements IEntityAdditionalSpawn
 
 	@Override
 	public boolean onValidSurface() {
-		if (this.worldObj.getCollisionBoxes(this, this.setupboundingBox).size() > 0) {
+		if (!this.worldObj.getCollisionBoxes(this, this.getEntityBoundingBox()).isEmpty()) {
 			return false;
-		}
+		} else {
+			int i = Math.max(1, this.getWidthPixels() / 16);
+			int j = Math.max(1, this.getHeightPixels() / 16);
+			BlockPos blockpos = this.hangingPosition.offset(facingDirection.getOpposite());
+			EnumFacing enumfacing = this.facingDirection.rotateYCCW();
+			for (int k = 0; k < i; ++k) {
+				for (int l = 0; l < j; ++l) {
+					int i1 = i > 2 ? -1 : 0;
+					int j1 = j > 2 ? -1 : 0;
+					BlockPos blockpos1 = blockpos.offset(enumfacing, k + i1).up(l + j1);
+					IBlockState iblockstate = this.worldObj.getBlockState(blockpos1);
 
-		EnumFrame currentFrame = getCurrentFrame();
+					if (iblockstate.isSideSolid(this.worldObj, blockpos1, this.facingDirection))
+						continue;
 
-		int sizeX = currentFrame.sizeX / 16;
-		int sizeY = currentFrame.sizeY / 16;
-		int x = this.xPosition;
-		int y = this.yPosition;
-		int z = this.zPosition;
-
-		boolean onWall = true;
-
-		Material mainSupportingBlock = this.worldObj.getBlockState(pos).getMaterial();
-
-		if (!mainSupportingBlock.isSolid()) {
-			onWall = false;
-		}
-
-		if (this.direction == 0) {
-			x = MathHelper.floor_double(this.posX - currentFrame.sizeX / 32.0F);
-		}
-		if (this.direction == 1) {
-			z = MathHelper.floor_double(this.posZ - currentFrame.sizeX / 32.0F);
-		}
-		if (this.direction == 2) {
-			x = MathHelper.floor_double(this.posX - currentFrame.sizeX / 32.0F);
-		}
-		if (this.direction == 3) {
-			z = MathHelper.floor_double(this.posZ - currentFrame.sizeX / 32.0F);
-		}
-
-		y = MathHelper.floor_double(this.posY - currentFrame.sizeY / 32.0F);
-
-		if (onWall) {
-			for (int xOffset = 0; xOffset < sizeX; xOffset++) {
-				for (int yOffset = 0; yOffset < sizeY; yOffset++) {
-					Material supportingBlock;
-					if ((this.direction == 0) || (this.direction == 2)) {
-						supportingBlock = this.worldObj.getBlockState(new BlockPos(x + xOffset, y + yOffset, z)).getMaterial();
-					} else {
-						supportingBlock = this.worldObj.getBlockState(new BlockPos(x, y + yOffset, z + xOffset)).getMaterial();
-					}
-
-					if (!supportingBlock.isSolid()) {
+					if (!iblockstate.getMaterial().isSolid() && !BlockRedstoneDiode.isDiode(iblockstate)) {
 						return false;
 					}
 				}
 			}
 
-		}
+			if (getCurrentFrame().isCollidable) {
+				List<Entity> entities = this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.getEntityBoundingBox());
+				for (int m = 0; m < entities.size(); m++) {
+					if ((entities.get(m) instanceof EntityFrame)) {
+						EntityFrame entFrame = (EntityFrame) entities.get(m);
 
-		if (currentFrame.isCollidable) {
-			List<Entity> list = this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.getEntityBoundingBox());
-			for (int l1 = 0; l1 < list.size(); l1++) {
-				if ((list.get(l1) instanceof EntityFrame)) {
-					EntityFrame lNeighbourFrame = (EntityFrame) list.get(l1);
-					if (lNeighbourFrame.direction == this.direction) {
-						return false;
+						if (entFrame.facingDirection == this.facingDirection) {
+							return false;
+						}
 					}
 				}
 			}
+
+			return true;
 		}
-
-		return true;
-	}
-
-	@Override
-	public AxisAlignedBB getEntityBoundingBox() {
-		return super.getEntityBoundingBox();
 	}
 
 	@Override
@@ -376,23 +337,24 @@ public class EntityFrame extends EntityHanging implements IEntityAdditionalSpawn
 	}
 
 	@Override
+	@SuppressWarnings("incomplete-switch")
 	public boolean attackEntityFrom(DamageSource damagesource, float damage) {
 		if (!this.isDead) {
 
-			switch (direction) {
-			case 0:
+			switch (facingDirection) {
+			case SOUTH:
 				this.posZ--;
 				this.posY -= 0.5D;
 				break;
-			case 1:
+			case WEST:
 				this.posX--;
 				this.posY -= 0.5D;
 				break;
-			case 2:
+			case NORTH:
 				this.posZ++;
 				this.posY -= 0.5D;
 				break;
-			case 3:
+			case EAST:
 				this.posX++;
 				this.posY -= 0.5D;
 				break;
@@ -401,13 +363,13 @@ public class EntityFrame extends EntityHanging implements IEntityAdditionalSpawn
 			if ((damagesource.getEntity() instanceof EntityPlayer)) {
 				EntityPlayer entityplayer = (EntityPlayer) damagesource.getEntity();
 				ItemStack itemstack = entityplayer.inventory.getCurrentItem();
-				if (!entityplayer.canPlayerEdit(pos, EnumFacing.getHorizontal(this.direction), itemstack)) {
+				if (!entityplayer.canPlayerEdit(hangingPosition, this.facingDirection, itemstack)) {
 					return false;
 				}
 
 				setDead();
 				setBeenAttacked();
-				playFrameSound();
+				playPlaceSound();
 
 				if (entityplayer.capabilities.isCreativeMode) {
 					return true;
@@ -435,16 +397,6 @@ public class EntityFrame extends EntityHanging implements IEntityAdditionalSpawn
 		return false;
 	}
 
-	public void playFrameSound() {
-		switch (this.material) {
-		case 0:
-			this.playSound(SoundEvents.BLOCK_WOOD_STEP, 1.0F, 0.8F);
-			break;
-		case 1:
-			this.playSound(SoundEvents.BLOCK_STONE_STEP, 1.0F, 1.2F);
-		}
-	}
-
 	public int getFrameID() {
 		return this.getDataManager().get(FRAME_ID);
 	}
@@ -463,47 +415,41 @@ public class EntityFrame extends EntityHanging implements IEntityAdditionalSpawn
 
 	@Override
 	public void writeEntityToNBT(NBTTagCompound nbttagcompound) {
-		nbttagcompound.setByte("Dir", (byte) this.direction);
 		nbttagcompound.setInteger("Motive", this.getFrameID());
-		nbttagcompound.setInteger("TileX", this.xPosition);
-		nbttagcompound.setInteger("TileY", this.yPosition);
-		nbttagcompound.setInteger("TileZ", this.zPosition);
-
 		int[] color = getFrameColor();
 		nbttagcompound.setInteger("Red", color[0]);
 		nbttagcompound.setInteger("Green", color[1]);
 		nbttagcompound.setInteger("Blue", color[2]);
 		nbttagcompound.setInteger("Material", this.material);
 		nbttagcompound.setBoolean("Burnt", getBurned());
+
+		nbttagcompound.setByte("Facing", (byte) this.facingDirection.getHorizontalIndex());
+		BlockPos blockpos = this.getHangingPosition();
+		nbttagcompound.setInteger("TileX", blockpos.getX());
+		nbttagcompound.setInteger("TileY", blockpos.getY());
+		nbttagcompound.setInteger("TileZ", blockpos.getZ());
 	}
 
 	@Override
 	public void readEntityFromNBT(NBTTagCompound nbttagcompound) {
-		this.direction = nbttagcompound.getByte("Dir");
-		this.xPosition = nbttagcompound.getInteger("TileX");
-		this.yPosition = nbttagcompound.getInteger("TileY");
-		this.zPosition = nbttagcompound.getInteger("TileZ");
-
-		this.pos = new BlockPos(xPosition, yPosition, zPosition);
 		this.getDataManager().set(COLOR_RED, nbttagcompound.getInteger("Red"));
 		this.getDataManager().set(COLOR_GREEN, nbttagcompound.getInteger("Green"));
 		this.getDataManager().set(COLOR_BLUE, nbttagcompound.getInteger("Blue"));
-		this.material = nbttagcompound.getInteger("Material");
+		setResistance(this.material = nbttagcompound.getInteger("Material"));
 		this.getDataManager().set(FRAME_ID, nbttagcompound.getInteger("Motive"));
 		this.getDataManager().set(BURNT, nbttagcompound.getBoolean("Burnt"));
 
-		setDirectionAndSize(this.direction);
-		setResistance(this.material);
+		this.hangingPosition = new BlockPos(nbttagcompound.getInteger("TileX"), nbttagcompound.getInteger("TileY"), nbttagcompound.getInteger("TileZ"));
+		this.updateFacingWithBoundingBox(EnumFacing.getHorizontal(nbttagcompound.getByte("Facing")));
 	}
 
 	@Override
 	public void writeSpawnData(ByteBuf data) {
-		data.writeInt(this.direction);
-		data.writeInt(this.xPosition);
-		data.writeInt(this.yPosition);
-		data.writeInt(this.zPosition);
+		data.writeInt(this.facingDirection.getHorizontalIndex());
+		data.writeInt(this.hangingPosition.getX());
+		data.writeInt(this.hangingPosition.getY());
+		data.writeInt(this.hangingPosition.getZ());
 		data.writeInt(this.material);
-
 		data.writeInt(this.getFrameID());
 
 		int[] color = getFrameColor();
@@ -515,15 +461,12 @@ public class EntityFrame extends EntityHanging implements IEntityAdditionalSpawn
 
 	@Override
 	public void readSpawnData(ByteBuf data) {
-		this.direction = data.readInt();
-		this.xPosition = data.readInt();
-		this.yPosition = data.readInt();
-		this.zPosition = data.readInt();
-		this.pos = new BlockPos(xPosition, yPosition, zPosition);
+		this.facingDirection = EnumFacing.getHorizontal(data.readInt());
+		this.hangingPosition = new BlockPos(data.readInt(), data.readInt(), data.readInt());
 		this.material = data.readInt();
 		this.getDataManager().set(FRAME_ID, data.readInt());
 
-		setDirectionAndSize(this.direction);
+		updateFacingWithBoundingBox(this.facingDirection);
 		setResistance(this.material);
 
 		this.getDataManager().set(COLOR_RED, data.readInt());
@@ -550,12 +493,12 @@ public class EntityFrame extends EntityHanging implements IEntityAdditionalSpawn
 
 	@Override
 	public int getWidthPixels() {
-		return 0;
+		return this.getCurrentFrame().sizeX;
 	}
 
 	@Override
 	public int getHeightPixels() {
-		return 0;
+		return this.getCurrentFrame().sizeY;
 	}
 
 	@Override
@@ -564,5 +507,12 @@ public class EntityFrame extends EntityHanging implements IEntityAdditionalSpawn
 
 	@Override
 	public void playPlaceSound() {
+		switch (this.material) {
+		case 0:
+			this.playSound(SoundEvents.BLOCK_WOOD_STEP, 1.0F, 0.8F);
+			break;
+		case 1:
+			this.playSound(SoundEvents.BLOCK_STONE_STEP, 1.0F, 1.2F);
+		}
 	}
 }

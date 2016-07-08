@@ -1,0 +1,19 @@
+{
+	"forge_marker": 1,
+    "defaults": {
+		"transform": "forge:default-block",
+		"model": "cube_bottom_top",
+		"textures": {
+			"top": "grimpack:blocks/rway_manhole",
+			"side": "grimpack:blocks/rway_side",
+			"bottom": "blocks/stone"
+		}
+    },
+    "variants": {
+        "active": {
+			"false": { },
+			"true": { "textures": { "top": "grimpack:blocks/rway_manhole_active", "bottom": "grimpack:blocks/rway_manhole_bottom"} }
+		},
+		"inventory": [{}]
+    }
+}

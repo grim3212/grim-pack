@@ -7,6 +7,7 @@ import com.grim3212.mc.pack.GrimPack;
 import com.grim3212.mc.pack.core.GrimCore;
 import com.grim3212.mc.pack.cuisine.config.CuisineConfig;
 import com.grim3212.mc.pack.decor.config.DecorConfig;
+import com.grim3212.mc.pack.industry.config.IndustryConfig;
 
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraftforge.fml.client.config.DummyConfigElement.DummyCategoryElement;
@@ -30,6 +31,9 @@ public class ConfigGui extends GuiConfig {
 
 		// Add decor config category
 		list.add(new DummyCategoryElement("decor", "grimpack.decor.cfg", DecorConfig.getConfigItems()));
+
+		// Add decor config category
+		list.add(new DummyCategoryElement("industry", "grimpack.industry.cfg", IndustryConfig.getConfigItems()));
 
 		return list;
 	}
