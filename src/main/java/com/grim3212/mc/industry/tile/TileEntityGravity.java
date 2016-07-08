@@ -34,6 +34,7 @@ public class TileEntityGravity extends TileEntity implements ITickable {
 		this.power = this.gravity * (double) this.type;
 	}
 
+	@Override
 	public void update() {
 		double var1 = 1.0D;
 		double var3 = 1.0D;

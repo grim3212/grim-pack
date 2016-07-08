@@ -134,8 +134,8 @@ public class RenderWallpaper extends Render<EntityWallpaper> {
 			} else if (entitywallpaper.direction == 3) {
 				renderer.pos(minX, minY, minZ).tex(minU + maxUV, minV + maxUV).color(this.colorRedBottomLeft, this.colorGreenBottomLeft, this.colorBlueBottomLeft, 1.0f).lightmap(bottomBlockLeft, bottomSkyLeft).normal(0.0F, 0.0F, 1.0F).endVertex();
 				renderer.pos(minX, maxY, minZ).tex(minU + maxUV, minV).color(this.colorRedBottomRight, this.colorGreenBottomRight, this.colorBlueBottomRight, 1.0f).lightmap(bottomBlockRight, bottomSkyRight).normal(0.0F, 0.0F, 1.0F).endVertex();
-				renderer.pos(maxX, maxY, minZ).tex(minU, minV).color(this.colorRedTopRight, this.colorGreenTopRight, this.colorBlueTopRight, 1.0f).normal(0.0F, 0.0F, 1.0F).lightmap(topBlockRight, topSkyRight).endVertex();
-				renderer.pos(maxX, minY, minZ).tex(minU, minV + maxUV).color(this.colorRedTopLeft, this.colorGreenTopLeft, this.colorBlueTopLeft, 1.0f).normal(0.0F, 0.0F, 1.0F).lightmap(topBlockLeft, topSkyLeft).endVertex();
+				renderer.pos(maxX, maxY, minZ).tex(minU, minV).color(this.colorRedTopRight, this.colorGreenTopRight, this.colorBlueTopRight, 1.0f).lightmap(topBlockRight, topSkyRight).normal(0.0F, 0.0F, 1.0F).endVertex();
+				renderer.pos(maxX, minY, minZ).tex(minU, minV + maxUV).color(this.colorRedTopLeft, this.colorGreenTopLeft, this.colorBlueTopLeft, 1.0f).lightmap(topBlockLeft, topSkyLeft).normal(0.0F, 0.0F, 1.0F).endVertex();
 			}
 
 			if (!entitywallpaper.isBlockLeft) {
