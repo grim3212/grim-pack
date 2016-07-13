@@ -1,0 +1,7 @@
+{
+   "raysh": { 
+		"category": "players", 
+		"subtitle": "grimpack.subtitle.raygun",
+		"sounds": ["grimpack:raysh"] 
+	}
+}

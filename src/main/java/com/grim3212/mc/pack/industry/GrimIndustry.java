@@ -10,7 +10,6 @@ import com.grim3212.mc.pack.industry.tile.IndustryTileEntities;
 import com.grim3212.mc.pack.industry.world.IndustryGenerate;
 
 import net.minecraft.item.Item;
-import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
@@ -34,7 +33,6 @@ public class GrimIndustry extends GrimPart {
 	}
 
 	@Override
-	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
 		super.preInit(event);
 
@@ -43,7 +41,6 @@ public class GrimIndustry extends GrimPart {
 	}
 
 	@Override
-	@EventHandler
 	public void init(FMLInitializationEvent event) {
 		super.init(event);
 		proxy.registerManual(getModSection());

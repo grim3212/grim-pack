@@ -1,5 +1,6 @@
 package com.grim3212.mc.pack.cuisine.block;
 
+import com.grim3212.mc.pack.core.util.Utils;
 import com.grim3212.mc.pack.cuisine.item.CuisineItems;
 
 import net.minecraft.block.Block;
@@ -17,11 +18,10 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.fluids.FluidContainerRegistry;
-import net.minecraftforge.fluids.IFluidContainerItem;
+import net.minecraftforge.fluids.Fluid;
+import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.oredict.OreDictionary;
 
-@SuppressWarnings("deprecation")
 public class BlockButterchurn extends Block {
 
 	public static final PropertyInteger ACTIVE = PropertyInteger.create("active", 0, 1);
@@ -36,7 +36,7 @@ public class BlockButterchurn extends Block {
 	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ) {
 		if (heldItem != null) {
 			if (heldItem.getItem() == Items.MILK_BUCKET) {
-				if (((Integer) state.getValue(ACTIVE)) == 0) {
+				if (state.getValue(ACTIVE) == 0) {
 					worldIn.setBlockState(pos, state.cycleProperty(ACTIVE), 4);
 
 					--heldItem.stackSize;
@@ -47,12 +47,12 @@ public class BlockButterchurn extends Block {
 			} else if (!OreDictionary.getOres("bucketMilk").isEmpty()) {
 				for (int count = 0; count < OreDictionary.getOres("bucketMilk").size(); count++) {
 					if (heldItem.getItem() == OreDictionary.getOres("bucketMilk").get(count).getItem()) {
-						if (((Integer) state.getValue(ACTIVE)) == 0) {
+						if (state.getValue(ACTIVE) == 0) {
 
-							if (heldItem.getItem() instanceof IFluidContainerItem) {
-								IFluidContainerItem fluidBucket = (IFluidContainerItem) heldItem.getItem();
+							if (Utils.hasFluidHandler(heldItem)) {
+								IFluidHandler fluidBucket = Utils.getFluidHandler(heldItem);
 								worldIn.setBlockState(pos, state.cycleProperty(ACTIVE), 4);
-								fluidBucket.drain(heldItem, FluidContainerRegistry.BUCKET_VOLUME, true);
+								fluidBucket.drain(Fluid.BUCKET_VOLUME, true);
 							}
 						}
 					}
@@ -66,7 +66,7 @@ public class BlockButterchurn extends Block {
 	@Override
 	public void onBlockClicked(World worldIn, BlockPos pos, EntityPlayer playerIn) {
 		if (!worldIn.isRemote) {
-			if (((Integer) worldIn.getBlockState(pos).getValue(ACTIVE)) == 1) {
+			if (worldIn.getBlockState(pos).getValue(ACTIVE) == 1) {
 				worldIn.setBlockState(pos, this.getDefaultState());
 				float f = 0.7F;
 				double d = (double) (worldIn.rand.nextFloat() * f) + (double) (1.0F - f) * 0.5D;
@@ -92,7 +92,7 @@ public class BlockButterchurn extends Block {
 
 	@Override
 	public int getMetaFromState(IBlockState state) {
-		return ((Integer) state.getValue(ACTIVE));
+		return state.getValue(ACTIVE);
 	}
 
 	@Override

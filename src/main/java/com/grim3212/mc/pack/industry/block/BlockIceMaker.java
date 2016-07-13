@@ -20,6 +20,10 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.fluids.Fluid;
+import net.minecraftforge.fluids.FluidRegistry;
+import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.capability.IFluidHandler;
 
 public class BlockIceMaker extends Block {
 
@@ -100,21 +104,16 @@ public class BlockIceMaker extends Block {
 				Utils.consumeInventoryItem(playerIn, heldItem.getItem());
 				playerIn.inventory.addItemStackToInventory(new ItemStack(Items.BUCKET));
 			}
+		} else if (Utils.hasFluidHandler(heldItem)) {
+			if (state.getValue(STAGE) == 0) {
+				IFluidHandler fluidBucket = Utils.getFluidHandler(heldItem);
+				FluidStack fluid = fluidBucket.drain(Fluid.BUCKET_VOLUME, false);
+				if (fluid.getFluid() != null && fluid.getFluid() == FluidRegistry.WATER) {
+					worldIn.setBlockState(pos, state.withProperty(STAGE, 1), 2);
+					fluidBucket.drain(Fluid.BUCKET_VOLUME, true);
+				}
+			}
 		}
-		// TODO: Reimplement this
-		// else if (heldItem.getItem() instanceof IFluidContainerItem) {
-		// if (state.getValue(STAGE) == 0) {
-		// IFluidContainerItem fluidBucket = (IFluidContainerItem)
-		// heldItem.getItem();
-		// if (fluidBucket.getFluid(heldItem).getFluid() != null) {
-		// if (fluidBucket.getFluid(heldItem).getFluid() == FluidRegistry.WATER)
-		// {
-		// worldIn.setBlockState(pos, state.withProperty(STAGE, 1), 3);
-		// fluidBucket.drain(heldItem, Fluid.BUCKET_VOLUME, true);
-		// }
-		// }
-		// }
-		// }
 
 		return true;
 	}

@@ -12,7 +12,10 @@ import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
+import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
@@ -22,6 +25,7 @@ import net.minecraftforge.items.wrapper.RangedWrapper;
 
 public class Utils {
 
+	public static int entityID = 0;
 	public static final AxisAlignedBB NULL_AABB = new AxisAlignedBB(0f, 0f, 0f, 0f, 0f, 0f);
 
 	public static void registerBlock(Block block, String name) {
@@ -36,6 +40,13 @@ public class Utils {
 
 	public static void registerItem(Item item, String name) {
 		GameRegistry.register(item, new ResourceLocation(GrimPack.modID, name));
+	}
+
+	public static SoundEvent registerSound(String name) {
+		ResourceLocation location = new ResourceLocation(GrimPack.modID, name);
+		SoundEvent sound = new SoundEvent(location);
+		GameRegistry.register(sound, location);
+		return sound;
 	}
 
 	/**
@@ -97,5 +108,19 @@ public class Utils {
 
 	public static boolean consumeInventoryItem(EntityPlayer player, final Item item) {
 		return Utils.consumeInventoryItem(player, item, 1);
+	}
+
+	public static IFluidHandler getFluidHandler(ItemStack stack) {
+		if (stack.hasCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, null)) {
+			return stack.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, null);
+		}
+		return null;
+	}
+
+	public static boolean hasFluidHandler(ItemStack stack) {
+		if (stack.hasCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, null)) {
+			return true;
+		}
+		return false;
 	}
 }

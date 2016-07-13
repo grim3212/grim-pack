@@ -2,6 +2,8 @@ package com.grim3212.mc.pack.cuisine.block;
 
 import java.util.Random;
 
+import com.grim3212.mc.pack.core.util.Utils;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
@@ -17,11 +19,10 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.fluids.FluidContainerRegistry;
-import net.minecraftforge.fluids.IFluidContainerItem;
+import net.minecraftforge.fluids.Fluid;
+import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.oredict.OreDictionary;
 
-@SuppressWarnings("deprecation")
 public class BlockCheeseMaker extends Block {
 
 	public static final PropertyInteger STAGE = PropertyInteger.create("stage", 0, 15);
@@ -98,10 +99,10 @@ public class BlockCheeseMaker extends Block {
 					if (heldItem.getItem() == OreDictionary.getOres("bucketMilk").get(count).getItem()) {
 						if (state.getValue(STAGE) == 0) {
 
-							if (heldItem.getItem() instanceof IFluidContainerItem) {
-								IFluidContainerItem fluidBucket = (IFluidContainerItem) heldItem.getItem();
+							if (Utils.hasFluidHandler(heldItem)) {
+								IFluidHandler fluidBucket = Utils.getFluidHandler(heldItem);
 								worldIn.setBlockState(pos, state.withProperty(STAGE, 1), 2);
-								fluidBucket.drain(heldItem, FluidContainerRegistry.BUCKET_VOLUME, true);
+								fluidBucket.drain(Fluid.BUCKET_VOLUME, true);
 							}
 						}
 					}

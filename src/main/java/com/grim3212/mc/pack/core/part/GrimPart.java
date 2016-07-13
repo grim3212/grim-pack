@@ -78,9 +78,7 @@ public abstract class GrimPart {
 	}
 
 	/**
-	 * Make sure to add @EventHandler when overridden as well as call super
-	 * 
-	 * Registers the config change event
+	 * Registers the config change event And iterates through items and entities
 	 * 
 	 * @param FMLPreInitializationEvent
 	 *            event
@@ -104,7 +102,7 @@ public abstract class GrimPart {
 	}
 
 	/**
-	 * Make sure to add @EventHandler when overridden
+	 * Initializes tile entities
 	 * 
 	 * @param FMLInitializationEvent
 	 *            event
@@ -116,8 +114,6 @@ public abstract class GrimPart {
 	}
 
 	/**
-	 * Make sure to add @EventHandler when overridden
-	 * 
 	 * @param FMLPostInitializationEvent
 	 *            event
 	 */

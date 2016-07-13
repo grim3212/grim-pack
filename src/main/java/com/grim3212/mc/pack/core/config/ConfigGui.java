@@ -32,8 +32,11 @@ public class ConfigGui extends GuiConfig {
 		// Add decor config category
 		list.add(new DummyCategoryElement("decor", "grimpack.decor.cfg", DecorConfig.getConfigItems()));
 
-		// Add decor config category
+		// Add industry config category
 		list.add(new DummyCategoryElement("industry", "grimpack.industry.cfg", IndustryConfig.getConfigItems()));
+
+		// Add tools config category
+		list.add(new DummyCategoryElement("tools", "grimpack.tools.cfg", IndustryConfig.getConfigItems()));
 
 		return list;
 	}

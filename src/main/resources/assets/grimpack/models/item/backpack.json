@@ -1,0 +1,9 @@
+{
+    "parent": "item/generated",
+    "textures": {
+        "layer0": "grimpack:items/backpack_white",
+        "layer1": "grimpack:items/backpack_outline"
+    }
+}
+
+

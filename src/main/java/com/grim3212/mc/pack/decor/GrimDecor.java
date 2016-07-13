@@ -11,7 +11,6 @@ import com.grim3212.mc.pack.decor.network.MessageParticles;
 import com.grim3212.mc.pack.decor.tile.DecorTileEntities;
 
 import net.minecraft.item.Item;
-import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
@@ -35,7 +34,6 @@ public class GrimDecor extends GrimPart {
 	}
 
 	@Override
-	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
 		super.preInit(event);
 
@@ -45,7 +43,6 @@ public class GrimDecor extends GrimPart {
 	}
 
 	@Override
-	@EventHandler
 	public void init(FMLInitializationEvent event) {
 		super.init(event);
 		proxy.initColors();

@@ -158,7 +158,6 @@ public class TileEntityGrill extends TileEntityTextured implements ITickable, II
 				PacketDispatcher.sendToDimension(new MessageParticles(pos), worldObj.provider.getDimension());
 				worldObj.setBlockState(getPos(), getWorld().getBlockState(getPos()).withProperty(BlockGrill.ACTIVE, false));
 			}
-			// TODO: CHECK IF THIS IS DOING ANYTHING
 			worldObj.playSound(pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D, SoundEvents.BLOCK_FIRE_EXTINGUISH, SoundCategory.BLOCKS, 1.0F, worldObj.rand.nextFloat() * 0.4F + 0.8F, false);
 		}
 

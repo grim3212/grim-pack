@@ -1,0 +1,109 @@
+{
+	"forge_marker": 1,
+    "defaults": {
+		"model": "builtin/generated",
+		"transform": "forge:default-item"
+    },
+    "variants": {
+		"empty": [{ 
+			"textures": { 
+				"layer0": "grimpack:items/masks/empty" 
+			} 
+		}],
+		"blaze": [{ 
+			"textures": { 
+				"layer0": "grimpack:items/masks/blaze" 
+			} 
+		}],
+		"cave_spider": [{
+			"textures": {
+				"layer0": "grimpack:items/masks/cave_spider"
+			}
+		}],
+		"chicken": [{
+			"textures": {
+				"layer0": "grimpack:items/masks/chicken"
+			}
+		}],
+		"cow": [{
+			"textures": {
+				"layer0": "grimpack:items/masks/cow"
+			}
+		}],
+		"creeper": [{
+			"textures": {
+				"layer0": "grimpack:items/masks/creeper"
+			}
+		}],
+		"enderman": [{
+			"textures": {
+				"layer0": "grimpack:items/masks/enderman"
+			}
+		}],
+		"ghast": [{
+			"textures": {
+				"layer0": "grimpack:items/masks/ghast"
+			}
+		}],
+		"magmacube": [{
+			"textures": {
+				"layer0": "grimpack:items/masks/magmacube"
+			}
+		}],
+		"mooshroom": [{
+			"textures": {
+				"layer0": "grimpack:items/masks/mooshroom"
+			}
+		}],
+		"pig": [{
+			"textures": {
+				"layer0": "grimpack:items/masks/pig"
+			}
+		}],
+		"sheep": [{
+			"textures": {
+				"layer0": "grimpack:items/masks/sheep"
+			}
+		}],
+		"skeleton": [{
+			"textures": {
+				"layer0": "grimpack:items/masks/skeleton"
+			}
+		}],
+		"slime": [{
+			"textures": {
+				"layer0": "grimpack:items/masks/slime"
+			}
+		}],
+		"spider": [{
+			"textures": {
+				"layer0": "grimpack:items/masks/spider"
+			}
+		}],
+		"squid": [{
+			"textures": {
+				"layer0": "grimpack:items/masks/squid"
+			}
+		}],
+		"villager": [{
+			"textures": {
+				"layer0": "grimpack:items/masks/villager"
+			}
+		}],
+		"wolf": [{
+			"textures": {
+				"layer0": "grimpack:items/masks/wolf"
+			}
+		}],
+		"zombie_pigman": [{
+			"textures": {
+				"layer0": "grimpack:items/masks/zombie_pigman"
+			}
+		}],
+		"zombie": [{
+			"textures": {
+				"layer0": "grimpack:items/masks/zombie"
+			}
+		}]
+    }
+}

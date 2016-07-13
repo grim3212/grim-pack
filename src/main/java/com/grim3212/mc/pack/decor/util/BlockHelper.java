@@ -21,7 +21,6 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.common.registry.GameData;
 
 public class BlockHelper {
 
@@ -32,12 +31,12 @@ public class BlockHelper {
 	 * @return A hashmap of Blocks and their associated metadata if they contain
 	 *         a color or variant property
 	 */
-	@SuppressWarnings({ "rawtypes", "deprecation" })
+	@SuppressWarnings({ "rawtypes" })
 	public static LinkedHashMap<Block, Integer> getBlocks() {
 		LinkedHashMap<Block, Integer> loadedBlocks = new LinkedHashMap<Block, Integer>();
 
 		if (DecorConfig.useAllBlocks) {
-			Iterator<Block> i = GameData.getBlockRegistry().iterator();
+			Iterator<Block> i = Block.REGISTRY.iterator();
 			while (i.hasNext()) {
 				Block block = (Block) i.next();
 
@@ -64,7 +63,7 @@ public class BlockHelper {
 
 			if (blocks.length > 0) {
 				for (String u : blocks) {
-					Block block = GameData.getBlockRegistry().getObject(new ResourceLocation(u));
+					Block block = Block.REGISTRY.getObject(new ResourceLocation(u));
 
 					if (!block.getDefaultState().getProperties().isEmpty()) {
 						for (IProperty prop : (ImmutableSet<IProperty<?>>) (block.getDefaultState().getProperties().keySet())) {

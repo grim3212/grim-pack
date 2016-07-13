@@ -12,7 +12,6 @@ import com.grim3212.mc.pack.cuisine.world.CuisineGenerate;
 
 import net.minecraft.item.Item;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
@@ -35,7 +34,6 @@ public class GrimCuisine extends GrimPart {
 	}
 
 	@Override
-	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
 		super.preInit(event);
 
@@ -47,7 +45,6 @@ public class GrimCuisine extends GrimPart {
 	}
 
 	@Override
-	@EventHandler
 	public void init(FMLInitializationEvent event) {
 		super.init(event);
 		proxy.registerManual(getModSection());
