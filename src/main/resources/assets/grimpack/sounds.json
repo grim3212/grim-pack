@@ -3,5 +3,15 @@
 		"category": "players", 
 		"subtitle": "grimpack.subtitle.raygun",
 		"sounds": ["grimpack:raysh"] 
+	},
+	"fusrodah": {
+		"category": "players",
+		"subtitle": "grimpack.subtitle.fusrodah",
+		"sounds": ["grimpack:fusrodah"]
+	},
+   "fusrodah-old": {
+		"category": "players",
+		"subtitle": "grimpack.subtitle.fusrodah",
+		"sounds": ["grimpack:fusrodah-old"]
 	}
 }
