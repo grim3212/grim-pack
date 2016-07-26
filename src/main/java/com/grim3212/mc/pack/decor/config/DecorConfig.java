@@ -43,14 +43,14 @@ public class DecorConfig extends GrimConfig {
 		useAllBlocks = config.get(CONFIG_NAME, "UseAllBlocks", true).getBoolean();
 		decorationBlocks = config.get(CONFIG_NAME, "DecorationBlocks", new String[] { "mossy_cobblestone", "diamond_ore" }).getStringList();
 
-		enableFirepitNet = config.get(CONFIG_NAME, "fireplace.cfg.EnableFirepitNet", true).getBoolean();
-		infiniteGrillFuel = config.get(CONFIG_NAME, "fireplace.cfg.InfiniteGrillFuel", false).getBoolean();
+		enableFirepitNet = config.get(CONFIG_NAME, "grimpack.decor.cfg.EnableFirepitNet", true).getBoolean();
+		infiniteGrillFuel = config.get(CONFIG_NAME, "grimpack.decor.cfg.InfiniteGrillFuel", false).getBoolean();
 
-		config.get("customgrillrecipes", "fireplace.cfg.recipes", new String[] { "porkchop>cooked_porkchop", "beef>cooked_beef", "chicken>cooked_chicken", "potato>baked_potato", "rabbit>cooked_rabbit", "mutton>cooked_mutton", "fish>cooked_fish" });
+		config.get("customgrillrecipes", "grimpack.decor.cfg.recipes", new String[] { "porkchop>cooked_porkchop", "beef>cooked_beef", "chicken>cooked_chicken", "potato>baked_potato", "rabbit>cooked_rabbit", "mutton>cooked_mutton", "fish>cooked_fish" });
 		config.addCustomCategoryComment("customgrillrecipes", "Use this to add new grill recipes. \nTo add a new recipe add a line then write out the [RawItemName] separated by a '>' then write out the [CookedItemName]. For mod items make sure to add the modID with a colon ':' and the then the item name. \nExample: grimcuisine:chocolate_ball>grimcuisine:chocolate_bar");
 
 		if (!config.getCategory("customgrillrecipes").isEmpty()) {
-			String[] recipes = config.getCategory("customgrillrecipes").get("fireplace.cfg.recipes").getStringList();
+			String[] recipes = config.getCategory("customgrillrecipes").get("grimpack.decor.cfg.recipes").getStringList();
 
 			for (int i = 0; i < recipes.length; i++) {
 				String[] rawids = recipes[i].split(">");

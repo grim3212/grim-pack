@@ -10,6 +10,7 @@ import com.grim3212.mc.pack.decor.config.DecorConfig;
 import com.grim3212.mc.pack.industry.config.IndustryConfig;
 import com.grim3212.mc.pack.tools.config.ToolsConfig;
 import com.grim3212.mc.pack.util.config.UtilConfig;
+import com.grim3212.mc.pack.world.config.WorldConfig;
 
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraftforge.fml.client.config.DummyConfigElement.DummyCategoryElement;
@@ -42,6 +43,9 @@ public class ConfigGui extends GuiConfig {
 
 		// Add util config category
 		list.add(new DummyCategoryElement("util", "grimpack.util.cfg", UtilConfig.getConfigItems()));
+
+		// Add world config category
+		list.add(new DummyCategoryElement("world", "grimpack.world.cfg", WorldConfig.getConfigItems()));
 
 		return list;
 	}

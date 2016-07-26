@@ -1,16 +1,14 @@
-package com.grim3212.mc.pack.world.asm;
+package com.grim3212.mc.pack.world.gen;
 
 import java.util.Random;
-
-import com.grim3212.mc.pack.world.gen.WorldGenBetterDesertWells;
 
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 
-public class ASMMethods extends Biome {
+public class BiomeBetterDesert extends Biome {
 
-	public ASMMethods(Biome.BiomeProperties properties) {
+	public BiomeBetterDesert(Biome.BiomeProperties properties) {
 		super(properties);
 	}
 

@@ -51,7 +51,7 @@ public abstract class BlockFungusBase extends Block {
 
 	@Override
 	public int getMetaFromState(IBlockState state) {
-		return (Integer) state.getValue(TYPE);
+		return state.getValue(TYPE);
 	}
 
 	@Override
@@ -77,10 +77,8 @@ public abstract class BlockFungusBase extends Block {
 	@SuppressWarnings("deprecation")
 	@Override
 	public boolean shouldSideBeRendered(IBlockState blockState, IBlockAccess blockAccess, BlockPos pos, EnumFacing side) {
-		if (blockAccess.getBlockState(pos).getBlock() instanceof BlockFungusBase) {
-			return false;
-		}
-		return super.shouldSideBeRendered(blockState, blockAccess, pos, side);
+		IBlockState iblockstate = blockAccess.getBlockState(pos.offset(side));
+		return iblockstate.getBlock() == this ? false : super.shouldSideBeRendered(blockState, blockAccess, pos, side);
 	}
 
 	@Override

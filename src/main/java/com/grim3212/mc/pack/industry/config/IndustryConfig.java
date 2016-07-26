@@ -6,7 +6,6 @@ public class IndustryConfig extends GrimConfig {
 
 	@Override
 	public void syncConfig() {
-
 		super.syncConfig();
 	}
 }

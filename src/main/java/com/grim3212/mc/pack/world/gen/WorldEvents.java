@@ -14,6 +14,7 @@ public class WorldEvents {
 
 	@SubscribeEvent
 	public void populateDesertWells(BiomeEvent.CreateDecorator event) {
+		// TODO: Replace in 1.10 if PR is accepted
 		if (event.getBiome() == Biomes.DESERT || event.getBiome() == Biomes.MUTATED_DESERT) {
 			event.setNewBiomeDecorator(new BiomeDecoratorWells());
 		}
@@ -26,11 +27,9 @@ public class WorldEvents {
 			super.decorate(worldIn, random, biome, pos);
 
 			if (random.nextInt(1000) == 0) {
-
 				int i = random.nextInt(16) + 8;
 				int j = random.nextInt(16) + 8;
 				BlockPos blockpos1 = worldIn.getHeight(pos.add(i, 0, j)).up();
-				System.out.println("Generated new well at [" + blockpos1 + "]");
 				(new WorldGenBetterDesertWells()).generate(worldIn, random, blockpos1);
 			}
 		}

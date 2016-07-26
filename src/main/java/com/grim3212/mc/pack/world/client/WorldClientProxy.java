@@ -104,11 +104,13 @@ public class WorldClientProxy extends ClientProxy {
 			@Override
 			public int colorMultiplier(IBlockState state, IBlockAccess worldIn, BlockPos pos, int tintIndex) {
 				if (state.getBlock() instanceof BlockFungusKilling)
-					return BlockFungusKilling.color[worldIn.getBlockState(pos).getValue(BlockFungusKilling.TYPE)];
+					return BlockFungusKilling.color[state.getValue(BlockFungusKilling.TYPE)];
 				else if (state.getBlock() instanceof BlockFungusBuilding)
-					return BlockFungusBuilding.color[worldIn.getBlockState(pos).getValue(BlockFungusBuilding.TYPE)];
+					return BlockFungusBuilding.color[state.getValue(BlockFungusBuilding.TYPE)];
+				else if (state.getBlock() instanceof BlockFungusGrowing)
+					return BlockFungusGrowing.color[state.getValue(BlockFungusGrowing.TYPE)];
 				else
-					return BlockFungusGrowing.color[worldIn.getBlockState(pos).getValue(BlockFungusGrowing.TYPE)];
+					return 0xffffff;
 			}
 
 		}, WorldBlocks.fungus_growing, WorldBlocks.fungus_building, WorldBlocks.fungus_killing);

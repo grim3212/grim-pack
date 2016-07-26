@@ -16,7 +16,6 @@ public class CoreConfig extends GrimConfig {
 	@Override
 	public void syncConfig() {
 		giveManualOnJoin = config.get(CONFIG_NAME, "Give Instruction Manual on World Join", true).getBoolean();
-
 		super.syncConfig();
 	}
 

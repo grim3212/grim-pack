@@ -369,6 +369,29 @@ item.gunpowder_reed_item.name=Gunpowder Reeds
 item.fungicide.name=Fungicidal Spray
 
 #================= OTHER =================#
+grimpack.core.cfg=Core Config
+grimpack.cuisine.cfg=Cuisine Config
+grimpack.decor.cfg=Decor Config
+grimpack.industry.cfg=Industry Config
+grimpack.tools.cfg=Tools Config
+grimpack.util.cfg=Util Config
+grimpack.world.cfg=World Config
+
+grimpack.decor.cfg.general=General Options
+grimpack.decor.cfg.grillrecipes=Custom Grill Recipes
+grimpack.decor.cfg.recipes=Grill Recipes
+grimpack.decor.cfg.recipes.tooltip=Use this to add new grill recipes. To add a new recipe end the last one with a ';' then write out the [RawItemName] separated by a '>' then write out the [CookedItemName]. For mod items make sure to add the modID with a colon ':' and the then the item name. Do not end with a ';' or it may cause issues. Example: clay_ball>brick;chocolate:chocolate_ball>chocolate:chocolate_bar
+grimpack.decor.cfg.EnableFirepitNet=Enable Firepit Net
+grimpack.decor.cfg.InfiniteGrillFuel=Infinite Grill Fuel
+grimpack.decor.cfg.IsFireParticles=Is Fire Particles
+grimpack.decor.cfg.EnableFirepitNet.tooltip=True if you want the firepit to have the metal net around it.
+grimpack.decor.cfg.InfiniteGrillFuel.tooltip=True if you want the grill to have infinite fuel.
+grimpack.decor.cfg.IsFireParticles.tooltip=When False the fire when blocks are active are actual fire if true this uses particles instead.
+
+grimpack.world.cfg.general=General Options
+grimpack.world.cfg.fungus=Fungus Options
+grimpack.world.cfg.floatingIslands=Floating Islands Options
+
 container.crafting_iron=Iron Crafting (2x)
 container.crafting_diamond=Diamond Crafting (4x)
 container.derrick=Oil Derrick
@@ -422,14 +445,6 @@ mask.villager=Villager
 mask.wolf=Wolf
 mask.zombie=Zombie
 mask.zombie_pigman=Zombie Pig
-fireplace.cfg.recipes=Grill Recipes
-fireplace.cfg.recipes.tooltip=Use this to add new grill recipes. To add a new recipe end the last one with a ';' then write out the [RawItemName] separated by a '>' then write out the [CookedItemName]. For mod items make sure to add the modID with a colon ':' and the then the item name. Do not end with a ';' or it may cause issues. Example: clay_ball>brick;chocolate:chocolate_ball>chocolate:chocolate_bar
-fireplace.cfg.EnableFirepitNet=Enable Firepit Net
-fireplace.cfg.InfiniteGrillFuel=Infinite Grill Fuel
-fireplace.cfg.IsFireParticles=Is Fire Particles
-fireplace.cfg.EnableFirepitNet.tooltip=True if you want the firepit to have the metal net around it.
-fireplace.cfg.InfiniteGrillFuel.tooltip=True if you want the grill to have infinite fuel.
-fireplace.cfg.IsFireParticles.tooltip=When False the fire when blocks are active are actual fire if true this uses particles instead.
 
 #================= INSTRUCTION MANUAL =================#
 grim.manual.title=Grim Instruction Manual
