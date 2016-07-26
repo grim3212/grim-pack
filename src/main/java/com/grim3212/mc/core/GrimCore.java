@@ -30,7 +30,7 @@ public class GrimCore extends GrimPart {
 
 	public static final String modID = "grimcore";
 	public static final String modName = "Grim Core";
-	public static final String modVersion = "1.0.0";
+	public static final String modVersion = "1.0.0.1";
 
 	public GrimCore() {
 		super(GrimCore.modID, GrimCore.modName, GrimCore.modVersion);
