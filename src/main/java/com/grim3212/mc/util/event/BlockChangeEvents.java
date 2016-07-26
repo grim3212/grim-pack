@@ -47,9 +47,6 @@ public class BlockChangeEvents {
 
 				int adjacent = checkAdjacentBlock(event.world, event.pos);
 
-				System.out.println(event.world.getBlockState(event.pos));
-				System.out.println(adjacent);
-
 				if (adjacent >= 2) {
 					event.world.setBlockState(event.pos, Blocks.lava.getDefaultState());
 				}
