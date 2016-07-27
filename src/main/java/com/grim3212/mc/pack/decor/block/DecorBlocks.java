@@ -197,16 +197,28 @@ public class DecorBlocks implements IPartItems {
 			}
 
 			if (loadedBlocks.get(blocks[i]) == 0) {
-				ItemStack stack = new ItemStack(furnType, amount);
-				NBTHelper.setInteger(stack, "blockID", Block.getIdFromBlock(blocks[i]));
-				NBTHelper.setInteger(stack, "blockMeta", 0);
-				GameRegistry.addRecipe(new ShapedOreRecipe(stack, new Object[] { pattern, '#', new ItemStack(blocks[i], 1, 0), 'S', "stickWood", 'G', "glowstone", 'P', "plankWood", 'I', "ingotIron", 'C', Items.COAL, 'H', new ItemStack(Items.COAL, 1, 1), 'B', Blocks.IRON_BARS }));
+				if (blocks[i] != null) {
+					ItemStack stack = new ItemStack(furnType, amount);
+					ItemStack inputStack = new ItemStack(blocks[i], 1, 0);
+
+					if (stack.getItem() != null && inputStack.getItem() != null) {
+						NBTHelper.setInteger(stack, "blockID", Block.getIdFromBlock(blocks[i]));
+						NBTHelper.setInteger(stack, "blockMeta", 0);
+						GameRegistry.addRecipe(new ShapedOreRecipe(stack, new Object[] { pattern, '#', new ItemStack(blocks[i], 1, 0), 'S', "stickWood", 'G', "glowstone", 'P', "plankWood", 'I', "ingotIron", 'C', Items.COAL, 'H', new ItemStack(Items.COAL, 1, 1), 'B', Blocks.IRON_BARS }));
+					}
+				}
 			} else {
 				for (int j = 0; j < loadedBlocks.get(blocks[i]); j++) {
-					ItemStack stack = new ItemStack(furnType, amount);
-					NBTHelper.setInteger(stack, "blockID", Block.getIdFromBlock(blocks[i]));
-					NBTHelper.setInteger(stack, "blockMeta", j);
-					GameRegistry.addRecipe(new ShapedOreRecipe(stack, new Object[] { pattern, '#', new ItemStack(blocks[i], 1, j), 'S', "stickWood", 'G', "glowstone", 'P', "plankWood", 'I', "ingotIron", 'C', Items.COAL, 'H', new ItemStack(Items.COAL, 1, 1), 'B', Blocks.IRON_BARS }));
+					if (blocks[i] != null) {
+						ItemStack stack = new ItemStack(furnType, amount);
+						ItemStack inputStack = new ItemStack(blocks[i], 1, j);
+
+						if (stack.getItem() != null && inputStack.getItem() != null) {
+							NBTHelper.setInteger(stack, "blockID", Block.getIdFromBlock(blocks[i]));
+							NBTHelper.setInteger(stack, "blockMeta", j);
+							GameRegistry.addRecipe(new ShapedOreRecipe(stack, new Object[] { pattern, '#', new ItemStack(blocks[i], 1, j), 'S', "stickWood", 'G', "glowstone", 'P', "plankWood", 'I', "ingotIron", 'C', Items.COAL, 'H', new ItemStack(Items.COAL, 1, 1), 'B', Blocks.IRON_BARS }));
+						}
+					}
 				}
 			}
 		}

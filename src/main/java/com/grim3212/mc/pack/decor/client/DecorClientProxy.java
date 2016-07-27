@@ -138,9 +138,16 @@ public class DecorClientProxy extends DecorCommonProxy {
 		Minecraft.getMinecraft().getItemColors().registerItemColorHandler(new IItemColor() {
 			@Override
 			public int getColorFromItemstack(ItemStack stack, int tintIndex) {
-				int blockID = NBTHelper.getInt(stack, "blockID");
 				if (stack != null && stack.hasTagCompound()) {
-					return Minecraft.getMinecraft().getItemColors().getColorFromItemstack(new ItemStack(Block.getBlockById(blockID)), tintIndex);
+					if (stack.getTagCompound().hasKey("blockID")) {
+						Block block = Block.getBlockById(NBTHelper.getInt(stack, "blockID"));
+						if (block != null)
+							try {
+								return Minecraft.getMinecraft().getItemColors().getColorFromItemstack(new ItemStack(block), tintIndex);
+							} catch (Exception e) {
+								return 16777215;
+							}
+					}
 				}
 				return 16777215;
 			}
@@ -149,9 +156,16 @@ public class DecorClientProxy extends DecorCommonProxy {
 		Minecraft.getMinecraft().getItemColors().registerItemColorHandler(new IItemColor() {
 			@Override
 			public int getColorFromItemstack(ItemStack stack, int tintIndex) {
-				int blockID = NBTHelper.getInt(stack, "blockID");
 				if (stack != null && stack.hasTagCompound()) {
-					return Minecraft.getMinecraft().getItemColors().getColorFromItemstack(new ItemStack(Block.getBlockById(blockID)), tintIndex);
+					if (stack.getTagCompound().hasKey("blockID")) {
+						Block block = Block.getBlockById(NBTHelper.getInt(stack, "blockID"));
+						if (block != null)
+							try {
+								return Minecraft.getMinecraft().getItemColors().getColorFromItemstack(new ItemStack(block), tintIndex);
+							} catch (Exception e) {
+								return 16777215;
+							}
+					}
 				}
 				return 16777215;
 			}
