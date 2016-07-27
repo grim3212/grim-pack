@@ -11,7 +11,7 @@
 		"1.0.0": "The initial release of the newly combined grims mods."
 	},
 	"1.9": {
-		"2.0.0.0": "Fixes a problem with modern furnaces. Also fixes compatibility issues with other mods blocks in decor.",
+		"2.0.0.2": "Fixes a problem with modern furnaces. Also fixes compatibility issues with other mods blocks in decor.",
 		"2.0.0.0": "Combines all parts mods into 1 mod and combine a lot of the logic. Lots of bugfixes and changes."
 	}
 }
