@@ -131,7 +131,7 @@ public class BlockModernFurnace extends Block implements ITileEntityProvider {
 
 	@Override
 	public int getLightValue(IBlockState state, IBlockAccess world, BlockPos pos) {
-		if (world.getBlockState(pos).getValue(ACTIVE)) {
+		if (world.getBlockState(pos).getBlock() == this && world.getBlockState(pos).getValue(ACTIVE)) {
 			return 15;
 		}
 		return super.getLightValue(state, world, pos);

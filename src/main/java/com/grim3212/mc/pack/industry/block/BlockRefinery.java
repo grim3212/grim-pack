@@ -157,7 +157,7 @@ public class BlockRefinery extends Block implements ITileEntityProvider {
 	@Override
 	public int getMetaFromState(IBlockState state) {
 		int i = 0;
-		i = i | ((EnumFacing) state.getValue(FACING)).getIndex();
+		i = i | state.getValue(FACING).getIndex();
 
 		if (state.getValue(ACTIVE)) {
 			i |= 8;
