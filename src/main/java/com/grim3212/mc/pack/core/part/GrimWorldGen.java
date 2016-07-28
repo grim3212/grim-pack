@@ -11,20 +11,18 @@ import net.minecraftforge.fml.common.IWorldGenerator;
 public abstract class GrimWorldGen implements IWorldGenerator {
 
 	@Override
+	/**
+	 * Be doubly sure that each dimension type is actually the dimension we want
+	 */
 	public void generate(Random random, int chunkX, int chunkZ, World world, IChunkGenerator chunkGenerator, IChunkProvider chunkProvider) {
-		switch (world.provider.getDimensionType()) {
-		case NETHER:
+		if (world.provider.getDimensionType() == DimensionType.NETHER && world.provider.getDimension() == -1) {
 			generateNether(world, random, chunkX * 16, chunkZ * 16);
-			break;
-		case OVERWORLD:
+		} else if (world.provider.getDimensionType() == DimensionType.OVERWORLD && world.provider.getDimension() == 0) {
 			generateSurface(world, random, chunkX * 16, chunkZ * 16);
-			break;
-		case THE_END:
+		} else if (world.provider.getDimensionType() == DimensionType.THE_END && world.provider.getDimension() == 1) {
 			generateEnd(world, random, chunkX * 16, chunkZ * 16);
-			break;
-		default:
+		} else {
 			generateCustom(world.provider.getDimensionType(), world, random, chunkX * 16, chunkZ * 16);
-			break;
 		}
 	}
 
