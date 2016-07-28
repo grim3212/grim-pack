@@ -70,6 +70,11 @@ public abstract class BlockFungusBase extends Block {
 	}
 
 	@Override
+	public boolean isFullCube(IBlockState state) {
+		return false;
+	}
+
+	@Override
 	public boolean isOpaqueCube(IBlockState state) {
 		return false;
 	}
