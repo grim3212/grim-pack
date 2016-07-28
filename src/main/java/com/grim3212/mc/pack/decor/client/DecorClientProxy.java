@@ -141,12 +141,17 @@ public class DecorClientProxy extends DecorCommonProxy {
 				if (stack != null && stack.hasTagCompound()) {
 					if (stack.getTagCompound().hasKey("blockID")) {
 						Block block = Block.getBlockById(NBTHelper.getInt(stack, "blockID"));
-						if (block != null)
-							try {
-								return Minecraft.getMinecraft().getItemColors().getColorFromItemstack(new ItemStack(block), tintIndex);
-							} catch (Exception e) {
-								return 16777215;
+						if (stack.getTagCompound().hasKey("blockMeta")) {
+							ItemStack colorStack = new ItemStack(block, 1, NBTHelper.getInt(stack, "blockMeta"));
+							if (colorStack.getItem() != null) {
+								return Minecraft.getMinecraft().getItemColors().getColorFromItemstack(colorStack, tintIndex);
 							}
+						} else {
+							ItemStack colorStack = new ItemStack(block);
+							if (colorStack.getItem() != null) {
+								return Minecraft.getMinecraft().getItemColors().getColorFromItemstack(colorStack, tintIndex);
+							}
+						}
 					}
 				}
 				return 16777215;
@@ -159,12 +164,17 @@ public class DecorClientProxy extends DecorCommonProxy {
 				if (stack != null && stack.hasTagCompound()) {
 					if (stack.getTagCompound().hasKey("blockID")) {
 						Block block = Block.getBlockById(NBTHelper.getInt(stack, "blockID"));
-						if (block != null)
-							try {
-								return Minecraft.getMinecraft().getItemColors().getColorFromItemstack(new ItemStack(block), tintIndex);
-							} catch (Exception e) {
-								return 16777215;
+						if (stack.getTagCompound().hasKey("blockMeta")) {
+							ItemStack colorStack = new ItemStack(block, 1, NBTHelper.getInt(stack, "blockMeta"));
+							if (colorStack.getItem() != null) {
+								return Minecraft.getMinecraft().getItemColors().getColorFromItemstack(colorStack, tintIndex);
 							}
+						} else {
+							ItemStack colorStack = new ItemStack(block);
+							if (colorStack.getItem() != null) {
+								return Minecraft.getMinecraft().getItemColors().getColorFromItemstack(colorStack, tintIndex);
+							}
+						}
 					}
 				}
 				return 16777215;
