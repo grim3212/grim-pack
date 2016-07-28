@@ -91,11 +91,6 @@ public abstract class GrimPart {
 			this.items.get(i).initItems();
 		}
 
-		// Then render and create recipes
-		for (int i = 0; i < this.items.size(); i++) {
-			this.items.get(i).addRecipes();
-		}
-
 		for (int i = 0; i < this.entities.size(); i++) {
 			this.entities.get(i).initEntities();
 		}
@@ -108,6 +103,11 @@ public abstract class GrimPart {
 	 *            event
 	 */
 	public void init(FMLInitializationEvent event) {
+		// Then create recipes after all blocks are loaded
+		for (int i = 0; i < this.items.size(); i++) {
+			this.items.get(i).addRecipes();
+		}
+
 		for (int i = 0; i < this.tileentities.size(); i++) {
 			this.tileentities.get(i).initTileEntities();
 		}

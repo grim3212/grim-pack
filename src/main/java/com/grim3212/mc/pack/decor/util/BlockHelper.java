@@ -48,7 +48,8 @@ public class BlockHelper {
 
 				if (!block.getDefaultState().getProperties().isEmpty()) {
 					for (IProperty prop : (ImmutableSet<IProperty<?>>) (block.getDefaultState().getProperties().keySet())) {
-						if ((prop.getName().equals("variant") || prop.getName().equals("color") || prop.getName().equals("type")) && !(block instanceof BlockHugeMushroom)) {
+						// Shade is used by Flat Colored Blocks
+						if ((prop.getName().equals("variant") || prop.getName().equals("color") || prop.getName().equals("type") || prop.getName().equals("shade")) && !(block instanceof BlockHugeMushroom)) {
 							loadedBlocks.put(block, prop.getAllowedValues().size());
 						} else {
 							loadedBlocks.put(block, 0);
@@ -67,7 +68,8 @@ public class BlockHelper {
 
 					if (!block.getDefaultState().getProperties().isEmpty()) {
 						for (IProperty prop : (ImmutableSet<IProperty<?>>) (block.getDefaultState().getProperties().keySet())) {
-							if ((prop.getName().equals("variant") || prop.getName().equals("color") || prop.getName().equals("type")) && !(block instanceof BlockHugeMushroom)) {
+							// Shade is used by Flat Colored Blocks
+							if ((prop.getName().equals("variant") || prop.getName().equals("color") || prop.getName().equals("type") || prop.getName().equals("shade")) && !(block instanceof BlockHugeMushroom)) {
 								loadedBlocks.put(block, prop.getAllowedValues().size());
 
 							} else {
