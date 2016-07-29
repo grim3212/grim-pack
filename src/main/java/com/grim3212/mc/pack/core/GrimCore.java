@@ -2,15 +2,18 @@ package com.grim3212.mc.pack.core;
 
 import com.grim3212.mc.pack.core.config.CoreConfig;
 import com.grim3212.mc.pack.core.config.GrimConfig;
+import com.grim3212.mc.pack.core.config.MessageSyncConfig;
+import com.grim3212.mc.pack.core.config.SyncConfigEvent;
 import com.grim3212.mc.pack.core.item.CoreItems;
-import com.grim3212.mc.pack.core.manual.event.LoginEvent;
+import com.grim3212.mc.pack.core.manual.GiveManualEvent;
+import com.grim3212.mc.pack.core.network.PacketDispatcher;
 import com.grim3212.mc.pack.core.part.GrimPart;
 import com.grim3212.mc.pack.core.proxy.CommonProxy;
 
 import net.minecraft.item.Item;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.SidedProxy;
-import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
 public class GrimCore extends GrimPart {
@@ -32,16 +35,20 @@ public class GrimCore extends GrimPart {
 	public void preInit(FMLPreInitializationEvent event) {
 		super.preInit(event);
 
-		// Register LoginEvent for receiving the Instruction Manual
-		MinecraftForge.EVENT_BUS.register(new LoginEvent());
+		// Register config syncing
+		PacketDispatcher.registerMessage(MessageSyncConfig.class);
 
+		// Register LoginEvent for receiving the Instruction Manual
+		MinecraftForge.EVENT_BUS.register(new GiveManualEvent());
 		proxy.registerModels();
 	}
 
 	@Override
-	public void init(FMLInitializationEvent event) {
-		super.init(event);
-		proxy.registerManual(getModSection());
+	public void postInit(FMLPostInitializationEvent event) {
+		super.postInit(event);
+
+		// Register Syncing config
+		MinecraftForge.EVENT_BUS.register(new SyncConfigEvent());
 	}
 
 	@Override

@@ -19,8 +19,6 @@ public class WorldConfig extends GrimConfig {
 	public static final String FLOATING_ISLANDS_CONFIG_NAME = "floating-islands";
 	public static final String FUNGUS_CONFIG_NAME = "fungus";
 
-	public static boolean fire;
-	public static boolean corruption;
 	public static int frequencyWheatField;
 	public static int frequencySaplings;
 	public static int frequencyTreeStumps;
@@ -28,11 +26,16 @@ public class WorldConfig extends GrimConfig {
 	public static int frequencySandstonePillars;
 	public static int frequencySandPits;
 	public static int frequencyMelons;
-
 	public static int spawnrate;
 	public static int sizevariancefrom7;
-	public static boolean generateFI;
+	public static boolean fire;
 
+	// Sync to client
+	public static boolean generateFlatBedRockSurface;
+	public static boolean generateFlatBedRockNether;
+	public static boolean generateFI;
+	public static boolean replaceDesertWells;
+	public static boolean corruption;
 	public static boolean spawnMorePeople;
 
 	public static String[] DIRT_EATING_BLOCKS_POSSIBLE;
@@ -57,6 +60,10 @@ public class WorldConfig extends GrimConfig {
 		frequencySandstonePillars = config.get(CONFIG_NAME, "Frequency Sandstone Pillars", 400).getInt();
 		frequencySandPits = config.get(CONFIG_NAME, "Frequency Sand Pits", 600).getInt();
 		frequencyMelons = config.get(CONFIG_NAME, "Frequency Melons", 200).getInt();
+
+		generateFlatBedRockSurface = config.get(CONFIG_NAME, "Generate Flat Bedrock Surface", true).getBoolean();
+		generateFlatBedRockNether = config.get(CONFIG_NAME, "Generate Flat Bedrock Nether", true).getBoolean();
+		replaceDesertWells = config.get(CONFIG_NAME, "Replace Desert Wells", true).getBoolean();
 
 		config.addCustomCategoryComment(FLOATING_ISLANDS_CONFIG_NAME, "Floating Islands configuration options. Spawn rate becomes more rare as the number grows.");
 		spawnrate = config.get(FLOATING_ISLANDS_CONFIG_NAME, "Spawn Rate", 100).getInt();

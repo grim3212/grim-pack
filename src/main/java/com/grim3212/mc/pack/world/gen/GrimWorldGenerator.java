@@ -37,7 +37,8 @@ public class GrimWorldGenerator extends GrimWorldGen {
 
 		FloatingIslandsBlacklist.generateFloatingIslands(world, random, i, j);
 
-		surfaceFlatBedrock(world, i, j);
+		if (WorldConfig.generateFlatBedRockSurface)
+			surfaceFlatBedrock(world, i, j);
 
 		generateExtras(world, random, i, j);
 	}
@@ -119,7 +120,8 @@ public class GrimWorldGenerator extends GrimWorldGen {
 
 	@Override
 	protected void generateNether(World world, Random random, int i, int j) {
-		netherFlatBedrock(world, i, j);
+		if (WorldConfig.generateFlatBedRockNether)
+			netherFlatBedrock(world, i, j);
 
 		for (int var5 = 0; var5 < 39; ++var5) {
 			int var6 = i + random.nextInt(16);

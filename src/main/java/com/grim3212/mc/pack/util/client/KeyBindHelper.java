@@ -42,15 +42,15 @@ public class KeyBindHelper {
 			}
 		}
 
-		if (fusrodah.isPressed()) {
+		if (fusrodah.isPressed() && UtilConfig.enableFusRoDah) {
 			if (mc.inGameHasFocus) {
 				World world = mc.theWorld;
 				EntityPlayerSP player = mc.thePlayer;
 				float yaw = player.rotationYaw * 0.01745329F;
 				double xPower = (double) (-MathHelper.sin(yaw)) * UtilConfig.frd_power;
 				double zPower = (double) MathHelper.cos(yaw) * UtilConfig.frd_power;
-				// Wait 5 seconds to FusRoDah again
-				if (lastPress + 5000 <= System.currentTimeMillis()) {
+				// Every thousand is a second
+				if (lastPress + (UtilConfig.fusrodahCooldown * 1000) <= System.currentTimeMillis()) {
 					PacketDispatcher.sendToServer(new MessageFusRoDah());
 					lastPress = System.currentTimeMillis();
 

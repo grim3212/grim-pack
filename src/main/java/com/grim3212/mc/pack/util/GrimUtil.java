@@ -14,7 +14,6 @@ import net.minecraft.util.SoundEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.SidedProxy;
-import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
 public class GrimUtil extends GrimPart {
@@ -46,13 +45,6 @@ public class GrimUtil extends GrimPart {
 		fusrodahOldSound = Utils.registerSound("fusrodah-old");
 
 		proxy.registerModels();
-	}
-
-	@Override
-	@EventHandler
-	public void init(FMLInitializationEvent event) {
-		super.init(event);
-		proxy.registerManual(getModSection());
 	}
 
 	@Override

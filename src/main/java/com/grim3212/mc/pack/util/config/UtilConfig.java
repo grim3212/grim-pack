@@ -13,13 +13,19 @@ public class UtilConfig extends GrimConfig {
 
 	public static final String CONFIG_NAME = "util";
 
+	// Sync to client
 	public static double frd_power;
 	public static double frd_lift;
-	public static boolean soundEnabled;
-	public static boolean useOldSound;
+	public static boolean enableFusRoDah;
 	public static boolean spawnGraves;
 	public static boolean infiniteLava;
 	public static boolean doubleDoors;
+	public static double fusrodahCooldown;
+
+	// Client Only
+	public static boolean soundEnabled;
+	public static boolean useOldSound;
+	public static boolean enableAutoReplace;
 
 	@Override
 	public void syncConfig() {
@@ -28,8 +34,11 @@ public class UtilConfig extends GrimConfig {
 		soundEnabled = config.get(CONFIG_NAME, "Sound Enabled", true).getBoolean();
 		useOldSound = config.get(CONFIG_NAME, "Use Original FusRoDah Sound", false).getBoolean();
 		spawnGraves = config.get(CONFIG_NAME, "Spawn graves on player death", true).getBoolean();
+		enableFusRoDah = config.get(CONFIG_NAME, "Enable FusRoDah", true).getBoolean();
+		fusrodahCooldown = config.get(CONFIG_NAME, "FusRoDah cooldown (seconds)", 5).getDouble();
 		infiniteLava = config.get(CONFIG_NAME, "Use Infinite Lava", false).getBoolean();
 		doubleDoors = config.get(CONFIG_NAME, "Use Double Doors", true).getBoolean();
+		enableAutoReplace = config.get(CONFIG_NAME, "Enable Automatic Item Replacer", true).getBoolean();
 
 		super.syncConfig();
 	}

@@ -58,7 +58,6 @@ public class GrimTools extends GrimPart {
 	@Override
 	public void init(FMLInitializationEvent event) {
 		super.init(event);
-		proxy.registerManual(getModSection());
 		proxy.initColors();
 	}
 

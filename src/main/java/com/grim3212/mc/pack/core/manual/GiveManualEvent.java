@@ -1,4 +1,4 @@
-package com.grim3212.mc.pack.core.manual.event;
+package com.grim3212.mc.pack.core.manual;
 
 import com.grim3212.mc.pack.core.config.CoreConfig;
 import com.grim3212.mc.pack.core.item.CoreItems;
@@ -8,7 +8,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
 
-public class LoginEvent {
+public class GiveManualEvent {
 
 	@SubscribeEvent
 	public void onPlayerLogin(PlayerLoggedInEvent event) {

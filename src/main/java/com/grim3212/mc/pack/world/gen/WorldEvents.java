@@ -2,6 +2,8 @@ package com.grim3212.mc.pack.world.gen;
 
 import java.util.Random;
 
+import com.grim3212.mc.pack.world.config.WorldConfig;
+
 import net.minecraft.init.Biomes;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -15,8 +17,10 @@ public class WorldEvents {
 	@SubscribeEvent
 	public void populateDesertWells(BiomeEvent.CreateDecorator event) {
 		// TODO: Replace in 1.10 if PR is accepted
-		if (event.getBiome() == Biomes.DESERT || event.getBiome() == Biomes.MUTATED_DESERT) {
-			event.setNewBiomeDecorator(new BiomeDecoratorWells());
+		if (WorldConfig.replaceDesertWells) {
+			if (event.getBiome() == Biomes.DESERT || event.getBiome() == Biomes.MUTATED_DESERT) {
+				event.setNewBiomeDecorator(new BiomeDecoratorWells());
+			}
 		}
 	}
 

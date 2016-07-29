@@ -99,9 +99,7 @@ public class RenderWallpaper extends Render<EntityWallpaper> {
 		float blue = entitywallpaper.getWallpaperColor()[2] / 256.0F;
 
 		tessellator.getBuffer().begin(GL11.GL_QUADS, RenderHelper.POSITION_TEX_COLOR_LIGHTMAP_NORMAL);
-		
-		//System.out.println(entitywallpaper.facingDirection);
-		
+
 		if (Minecraft.isAmbientOcclusionEnabled()) {
 			renderWithAmbientOcclusion(new BlockPos(x, y, z), red, green, blue, entitywallpaper.facingDirection);
 

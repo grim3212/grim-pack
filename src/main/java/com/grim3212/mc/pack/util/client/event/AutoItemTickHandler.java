@@ -1,5 +1,7 @@
 package com.grim3212.mc.pack.util.client.event;
 
+import com.grim3212.mc.pack.util.config.UtilConfig;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.multiplayer.PlayerControllerMP;
@@ -18,11 +20,13 @@ public class AutoItemTickHandler {
 
 	@SubscribeEvent
 	public void tick(ClientTickEvent event) {
-		GuiScreen guiscreen = Minecraft.getMinecraft().currentScreen;
-		if (guiscreen != null) {
-			return;
-		} else {
-			onTickInGame();
+		if (UtilConfig.enableAutoReplace) {
+			GuiScreen guiscreen = Minecraft.getMinecraft().currentScreen;
+			if (guiscreen != null) {
+				return;
+			} else {
+				onTickInGame();
+			}
 		}
 	}
 
