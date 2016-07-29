@@ -32,7 +32,7 @@ public class EntityIcePixie extends EntityMob implements IRangedAttackMob {
 		height = 1.25F;
 		this.tasks.taskEntries.clear();
 		this.tasks.addTask(1, new EntityAISwimming(this));
-		this.tasks.addTask(1, new EntityAIAvoidBlock(this, 1.4D, Blocks.TORCH, 2));
+		this.tasks.addTask(1, new EntityAIAvoidBlock(this, 1.4D, Blocks.TORCH, 1));
 		this.tasks.addTask(4, new EntityAIAttackRanged(this, 1.0D, 20, 40, 10.0F));
 		this.tasks.addTask(4, new EntityAIWander(this, 1.0D));
 		this.tasks.addTask(6, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
@@ -75,6 +75,8 @@ public class EntityIcePixie extends EntityMob implements IRangedAttackMob {
 
 	@Override
 	public void onLivingUpdate() {
+		super.onLivingUpdate();
+		
 		int i = 0;
 		for (int j = (int) (-3D + posX); (double) j <= 3D + posX; j++) {
 			for (int k = (int) (-3D + posY); (double) k <= 3D + posY; k++) {
@@ -87,7 +89,7 @@ public class EntityIcePixie extends EntityMob implements IRangedAttackMob {
 			}
 		}
 
-		if (i >= 2) {
+		if (i >= 1) {
 			attackEntityFrom(DamageSource.generic, i / 2);
 		}
 
@@ -97,7 +99,6 @@ public class EntityIcePixie extends EntityMob implements IRangedAttackMob {
 		} else {
 			this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.25D);
 		}
-		super.onLivingUpdate();
 	}
 
 	@Override
@@ -128,7 +129,7 @@ public class EntityIcePixie extends EntityMob implements IRangedAttackMob {
 		if (entity instanceof EntityPlayer) {
 			EntityPlayer entityplayer = (EntityPlayer) entity;
 			// TODO: Probably will need to be changed
-			ItemStack itemstack = entityplayer.getActiveItemStack();
+			ItemStack itemstack = entityplayer.getHeldItemMainhand();
 			if (itemstack != null && (itemstack.getItem() == Items.FLINT_AND_STEEL || itemstack.getItem() == Item.getItemFromBlock(Blocks.TORCH))) {
 				return super.attackEntityFrom(damagesource, i);
 			}

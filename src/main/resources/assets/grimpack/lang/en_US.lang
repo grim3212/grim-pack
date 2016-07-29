@@ -411,14 +411,14 @@ entity.LumberJack.name=Lumber Jack
 entity.Miner.name=Miner
 entity.SuicideBomber.name=Suicide Bomber
 
-entity.grimworld.IcePixie.name=Ice Pixie
-entity.grimworld.Treasure.name=Treasure Mob
-entity.grimworld.Notch.name=Notch
-entity.grimworld.Psychopath.name=Psychopath
-entity.grimworld.Farmer.name=Farmer
-entity.grimworld.LumberJack.name=Lumber Jack
-entity.grimworld.Miner.name=Miner
-entity.grimworld.SuicideBomber.name=Suicide Bomber
+entity.grimpack.IcePixie.name=Ice Pixie
+entity.grimpack.Treasure.name=Treasure Mob
+entity.grimpack.Notch.name=Notch
+entity.grimpack.Psychopath.name=Psychopath
+entity.grimpack.Farmer.name=Farmer
+entity.grimpack.LumberJack.name=Lumber Jack
+entity.grimpack.Miner.name=Miner
+entity.grimpack.SuicideBomber.name=Suicide Bomber
 
 grimpack.subtitle.raygun=Raygun fired
 grimpack.subtitle.fusrodah=FusRoDah used

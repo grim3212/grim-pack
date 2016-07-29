@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import com.grim3212.mc.pack.GrimPack;
 import com.grim3212.mc.pack.core.part.IPartEntities;
 import com.grim3212.mc.pack.core.util.GrimLog;
+import com.grim3212.mc.pack.core.util.Utils;
 import com.grim3212.mc.pack.world.GrimWorld;
 import com.grim3212.mc.pack.world.config.WorldConfig;
 
@@ -21,22 +21,19 @@ public class WorldEntities implements IPartEntities {
 	@Override
 	public void initEntities() {
 		// Ice Pixie
-		EntityRegistry.registerModEntity(EntityIcePixie.class, "IcePixie", 0, GrimPack.INSTANCE, 80, 3, true, 13887466, 7121318);
-		EntityRegistry.registerModEntity(EntityIceCube.class, "IceCube", 1, GrimPack.INSTANCE, 80, 3, true);
+		Utils.registerEntity(EntityIcePixie.class, "IcePixie", 80, 3, true, 13887466, 7121318);
+		Utils.registerEntity(EntityIceCube.class, "IceCube", 80, 3, true);
 
 		// Treasure Mob
-		EntityRegistry.registerModEntity(EntityTreasureMob.class, "Treasure", 2, GrimPack.INSTANCE, 80, 3, true, 10777127, 16776192);
+		Utils.registerEntity(EntityTreasureMob.class, "Treasure", 80, 3, true, 10777127, 16776192);
 
 		// More People
-		if (WorldConfig.spawnMorePeople) {
-			EntityRegistry.registerModEntity(EntityNotch.class, "Notch", 3, GrimPack.INSTANCE, 80, 3, true, 16744319, 848639);
-			EntityRegistry.registerModEntity(EntityPsycho.class, "Psychopath", 4, GrimPack.INSTANCE, 80, 3, true, 16744319, 16711680);
-			EntityRegistry.registerModEntity(EntityFarmer.class, "Farmer", 5, GrimPack.INSTANCE, 80, 3, true, 16744319, 8336128);
-			EntityRegistry.registerModEntity(EntityLumberJack.class, "LumberJack", 6, GrimPack.INSTANCE, 80, 3, true, 16744319, 10836174);
-			EntityRegistry.registerModEntity(EntityMiner.class, "Miner", 7, GrimPack.INSTANCE, 80, 3, true, 16744319, 16753920);
-			EntityRegistry.registerModEntity(EntityBomber.class, "SuicideBomber", 8, GrimPack.INSTANCE, 80, 3, true, 16744319, 4210752);
-		}
-
+		Utils.registerEntity(EntityNotch.class, "Notch", 80, 3, true, 16744319, 848639);
+		Utils.registerEntity(EntityPsycho.class, "Psychopath", 80, 3, true, 16744319, 16711680);
+		Utils.registerEntity(EntityFarmer.class, "Farmer", 80, 3, true, 16744319, 8336128);
+		Utils.registerEntity(EntityLumberJack.class, "LumberJack", 80, 3, true, 16744319, 10836174);
+		Utils.registerEntity(EntityMiner.class, "Miner", 80, 3, true, 16744319, 16753920);
+		Utils.registerEntity(EntityBomber.class, "SuicideBomber", 80, 3, true, 16744319, 4210752);
 	}
 
 	public void addSpawns() {

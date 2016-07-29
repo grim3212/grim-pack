@@ -6,6 +6,7 @@ import com.grim3212.mc.pack.GrimPack;
 import com.grim3212.mc.pack.core.item.ItemBlockGrim;
 
 import net.minecraft.block.Block;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
@@ -16,6 +17,7 @@ import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
+import net.minecraftforge.fml.common.registry.EntityRegistry;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
@@ -25,8 +27,16 @@ import net.minecraftforge.items.wrapper.RangedWrapper;
 
 public class Utils {
 
-	public static int entityID = 0;
+	private static int entityID = 0;
 	public static final AxisAlignedBB NULL_AABB = new AxisAlignedBB(0f, 0f, 0f, 0f, 0f, 0f);
+
+	public static void registerEntity(Class<? extends Entity> entityClass, String entityName, int trackingRange, int updateFrequency, boolean sendsVelocityUpdates) {
+		EntityRegistry.registerModEntity(entityClass, entityName, entityID++, GrimPack.INSTANCE, trackingRange, updateFrequency, sendsVelocityUpdates);
+	}
+
+	public static void registerEntity(Class<? extends Entity> entityClass, String entityName, int trackingRange, int updateFrequency, boolean sendsVelocityUpdates, int eggPrimary, int eggSecondary) {
+		EntityRegistry.registerModEntity(entityClass, entityName, entityID++, GrimPack.INSTANCE, trackingRange, updateFrequency, sendsVelocityUpdates, eggPrimary, eggSecondary);
+	}
 
 	public static void registerBlock(Block block, String name) {
 		GameRegistry.register(block, new ResourceLocation(GrimPack.modID, name));
