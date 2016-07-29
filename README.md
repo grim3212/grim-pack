@@ -1,4 +1,4 @@
-# Grim Pack #
+#[Grim Pack](http://minecraft.curseforge.com/projects/grim-pack)
 
 This is the combined mods previously known as Grims Mods.
 
@@ -14,10 +14,6 @@ Tools is tools and weapons.
 Util is utilities like FusRoDah.
 World is for world gen and entities.
 
-=======================================
-
-Since all of these mods used to be completely separate from each other please report any bugs or issues you find.
-
-Also I am looking for ideas. Since this was pretty much a combination of the mods in their previous state they probably won't go together that well. 
-For 1.9 I am going to try and get all of them interacting and fitting together.
-So, if you have any ideas or thoughts send me a message or open an issue.
+## Versioning
+For the most part I am using the versioning conventions found at [http://mcforge.readthedocs.io/en/latest/conventions/versioning/](http://mcforge.readthedocs.io/en/latest/conventions/versioning/).
+But instead of resetting all lesser values to 0 I will only do that when updating to a new version. Or, using that page, when incrementing MAJORMOD.
