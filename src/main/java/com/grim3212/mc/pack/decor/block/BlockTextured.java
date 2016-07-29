@@ -40,6 +40,8 @@ import net.minecraft.world.WorldServer;
 import net.minecraftforge.common.property.ExtendedBlockState;
 import net.minecraftforge.common.property.IExtendedBlockState;
 import net.minecraftforge.common.property.IUnlistedProperty;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public abstract class BlockTextured extends Block implements ITileEntityProvider {
 
@@ -231,6 +233,7 @@ public abstract class BlockTextured extends Block implements ITileEntityProvider
 	}
 
 	@Override
+	@SideOnly(Side.CLIENT)
 	@SuppressWarnings("deprecation")
 	public boolean addHitEffects(IBlockState state, World worldObj, RayTraceResult target, ParticleManager manager) {
 		TileEntityTextured tileentity = (TileEntityTextured) worldObj.getTileEntity(target.getBlockPos());
@@ -288,6 +291,7 @@ public abstract class BlockTextured extends Block implements ITileEntityProvider
 	}
 
 	@Override
+	@SideOnly(Side.CLIENT)
 	@SuppressWarnings("deprecation")
 	public boolean addDestroyEffects(World world, BlockPos pos, ParticleManager manager) {
 		TileEntityTextured tileentity = (TileEntityTextured) world.getTileEntity(pos);
@@ -303,7 +307,7 @@ public abstract class BlockTextured extends Block implements ITileEntityProvider
 		TileEntity tileentity = (TileEntity) worldObj.getTileEntity(blockPosition);
 		if (tileentity instanceof TileEntityTextured) {
 			TileEntityTextured te = (TileEntityTextured) tileentity;
-			((WorldServer) worldObj).spawnParticle(EnumParticleTypes.BLOCK_DUST, entity.posX, entity.posY, entity.posZ, numberOfParticles, 0.0D, 0.0D, 0.0D, 0.15000000596046448D, new int[] { Block.getStateId(Block.getBlockById(te.getBlockID()).getStateFromMeta(te.getBlockMeta())) });
+			worldObj.spawnParticle(EnumParticleTypes.BLOCK_DUST, entity.posX, entity.posY, entity.posZ, numberOfParticles, 0.0D, 0.0D, 0.0D, 0.15000000596046448D, new int[] { Block.getStateId(Block.getBlockById(te.getBlockID()).getStateFromMeta(te.getBlockMeta())) });
 		}
 		return true;
 	}

@@ -13,7 +13,6 @@ import net.minecraft.block.BlockPressurePlate;
 import net.minecraft.block.BlockSign;
 import net.minecraft.block.BlockTorch;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -22,9 +21,12 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.Fluid;
 
+@SuppressWarnings("deprecation")
 public class ItemBuildingWand extends ItemWand {
 
 	private static final int BUILD_BOX = 100;
@@ -119,7 +121,7 @@ public class ItemBuildingWand extends ItemWand {
 			}
 		}
 		if (neededItems > invItems) {
-			sendMessage(entityplayer, I18n.format("error.wand.toofewitems") + "(" + I18n.format("error.wand.toofewitems.needed") + " " + neededItems + ", " + I18n.format("error.wand.toofewitems.have") + " " + invItems + ").", false);
+			sendMessage(entityplayer, new TextComponentString(I18n.translateToLocal("error.wand.toofewitems") + "(" + I18n.translateToLocal("error.wand.toofewitems.needed") + " " + neededItems + ", " + I18n.translateToLocal("error.wand.toofewitems.have") + " " + invItems + ")."));
 			return false; // abort
 		}
 		// remove blocks from inventory, highest positions first (quickbar last)
@@ -608,7 +610,7 @@ public class ItemBuildingWand extends ItemWand {
 			}
 			if (cnt > 0L) {
 				if (!world.isRemote)
-					sendMessage(entityplayer, cnt + I18n.format("result.wand.fill"), false);
+					sendMessage(entityplayer, new TextComponentString(cnt + I18n.translateToLocal("result.wand.fill")));
 				return true;
 			} else {
 				if (!world.isRemote)

@@ -21,6 +21,8 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.fluids.Fluid;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ItemBetterMilkBucket extends Item {
 
@@ -48,6 +50,7 @@ public class ItemBetterMilkBucket extends Item {
 	}
 
 	@Override
+	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack stack, EntityPlayer playerIn, List<String> tooltip, boolean advanced) {
 		tooltip.add(I18n.format("tooltip.buckets.contains") + ": " + NBTHelper.getInt(stack, "Amount") + "/" + parent.maxCapacity);
 	}

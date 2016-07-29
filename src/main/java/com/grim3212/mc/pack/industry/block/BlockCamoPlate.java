@@ -34,6 +34,8 @@ import net.minecraft.world.WorldServer;
 import net.minecraftforge.common.property.ExtendedBlockState;
 import net.minecraftforge.common.property.IExtendedBlockState;
 import net.minecraftforge.common.property.IUnlistedProperty;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class BlockCamoPlate extends BlockPressurePlate implements ITileEntityProvider {
 
@@ -83,6 +85,7 @@ public class BlockCamoPlate extends BlockPressurePlate implements ITileEntityPro
 	}
 
 	@Override
+	@SideOnly(Side.CLIENT)
 	@SuppressWarnings("deprecation")
 	public boolean addHitEffects(IBlockState state, World worldObj, RayTraceResult target, ParticleManager manager) {
 		TileEntityCamo tileentity = (TileEntityCamo) worldObj.getTileEntity(target.getBlockPos());
@@ -140,6 +143,7 @@ public class BlockCamoPlate extends BlockPressurePlate implements ITileEntityPro
 	}
 
 	@Override
+	@SideOnly(Side.CLIENT)
 	@SuppressWarnings("deprecation")
 	public boolean addDestroyEffects(World world, BlockPos pos, ParticleManager manager) {
 		TileEntityCamo tileentity = (TileEntityCamo) world.getTileEntity(pos);
@@ -155,7 +159,7 @@ public class BlockCamoPlate extends BlockPressurePlate implements ITileEntityPro
 		TileEntity tileentity = (TileEntity) worldObj.getTileEntity(blockPosition);
 		if (tileentity instanceof TileEntityCamo) {
 			TileEntityCamo te = (TileEntityCamo) tileentity;
-			((WorldServer) worldObj).spawnParticle(EnumParticleTypes.BLOCK_DUST, entity.posX, entity.posY, entity.posZ, numberOfParticles, 0.0D, 0.0D, 0.0D, 0.15000000596046448D, new int[] { Block.getStateId(Block.getBlockById(te.getBlockID()).getStateFromMeta(te.getBlockMeta())) });
+			worldObj.spawnParticle(EnumParticleTypes.BLOCK_DUST, entity.posX, entity.posY, entity.posZ, numberOfParticles, 0.0D, 0.0D, 0.0D, 0.15000000596046448D, new int[] { Block.getStateId(Block.getBlockById(te.getBlockID()).getStateFromMeta(te.getBlockMeta())) });
 		}
 		return true;
 	}

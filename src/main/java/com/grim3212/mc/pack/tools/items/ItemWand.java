@@ -22,7 +22,7 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.world.World;
 
@@ -77,18 +77,15 @@ public abstract class ItemWand extends Item {
 
 	protected abstract boolean doEffect(World world, EntityPlayer entityplayer, WandCoord3D start, WandCoord3D end, WandCoord3D clicked, int keys, IBlockState state);
 
-	protected void sendMessage(EntityPlayer player, String message, boolean autoTranslate) {
+	protected void sendMessage(EntityPlayer player, ITextComponent message) {
 		if (!player.worldObj.isRemote) {
-			if (autoTranslate)
-				player.addChatComponentMessage(new TextComponentTranslation(message));
-			else
-				player.addChatComponentMessage(new TextComponentString(message));
+			player.addChatComponentMessage(message);
 		}
 	}
 
 	protected void error(EntityPlayer entityplayer, WandCoord3D p, String reason) {
 		entityplayer.worldObj.playSound(entityplayer, p.pos, SoundEvents.BLOCK_LAVA_EXTINGUISH, SoundCategory.BLOCKS, (entityplayer.worldObj.rand.nextFloat() + 0.7F) / 2.0F, 0.5F + entityplayer.worldObj.rand.nextFloat() * 0.3F);
-		sendMessage(entityplayer, "error.wand." + reason, true);
+		sendMessage(entityplayer, new TextComponentTranslation("error.wand." + reason));
 		particles(entityplayer.worldObj, p.pos, 3);
 	}
 

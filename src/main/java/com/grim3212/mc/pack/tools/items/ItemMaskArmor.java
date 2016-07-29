@@ -5,14 +5,15 @@ import java.util.List;
 import com.grim3212.mc.pack.GrimPack;
 import com.grim3212.mc.pack.tools.GrimTools;
 
-import net.minecraft.client.resources.I18n;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.text.translation.I18n;
 
+@SuppressWarnings("deprecation")
 public class ItemMaskArmor extends ItemArmor {
 
 	public static final String[] types = new String[] { "empty", "blaze", "cave_spider", "chicken", "cow", "creeper", "enderman", "ghast", "magmacube", "mooshroom", "pig", "sheep", "skeleton", "slime", "spider", "squid", "villager", "wolf", "zombie_pigman", "zombie" };
@@ -31,7 +32,7 @@ public class ItemMaskArmor extends ItemArmor {
 
 	@Override
 	public String getItemStackDisplayName(ItemStack stack) {
-		return I18n.format("mask." + types[stack.getItemDamage()]) + " " + I18n.format(ToolsItems.mask.getUnlocalizedName() + ".name");
+		return I18n.translateToLocal("mask." + types[stack.getItemDamage()]) + " " + I18n.translateToLocal(ToolsItems.mask.getUnlocalizedName() + ".name");
 	}
 
 	@Override

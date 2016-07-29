@@ -11,7 +11,6 @@ import com.grim3212.mc.pack.decor.util.BlockHelper;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockSnow;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.resources.I18n;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -24,8 +23,10 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.World;
 
+@SuppressWarnings("deprecation")
 public class ItemLampPost extends Item {
 
 	public ItemLampPost() {
@@ -115,7 +116,7 @@ public class ItemLampPost extends Item {
 		ItemStack toPlaceStack = new ItemStack(Block.getBlockById(NBTHelper.getInt(stack, "blockID")), 1, NBTHelper.getInt(stack, "blockMeta"));
 
 		if (toPlaceStack.getItem() != Item.getItemFromBlock(Blocks.AIR)) {
-			return I18n.format(toPlaceStack.getDisplayName() + " " + I18n.format(this.getUnlocalizedName() + ".name"));
+			return I18n.translateToLocal(toPlaceStack.getDisplayName() + " " + I18n.translateToLocal(this.getUnlocalizedName() + ".name"));
 		}
 
 		return super.getItemStackDisplayName(stack);

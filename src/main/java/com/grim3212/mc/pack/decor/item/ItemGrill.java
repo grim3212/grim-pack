@@ -6,9 +6,6 @@ import com.grim3212.mc.pack.decor.tile.TileEntityGrill;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockSnow;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.color.IItemColor;
-import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -21,9 +18,11 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.World;
 
-public class ItemGrill extends ItemBlock implements IItemColor {
+@SuppressWarnings("deprecation")
+public class ItemGrill extends ItemBlock {
 
 	private Block block;
 
@@ -82,18 +81,9 @@ public class ItemGrill extends ItemBlock implements IItemColor {
 		ItemStack toPlaceStack = new ItemStack(Block.getBlockById(NBTHelper.getInt(stack, "blockID")), 1, NBTHelper.getInt(stack, "blockMeta"));
 
 		if (toPlaceStack.getItem() != Item.getItemFromBlock(Blocks.AIR)) {
-			return I18n.format(toPlaceStack.getDisplayName() + " " + I18n.format(this.block.getUnlocalizedName() + ".name"));
+			return I18n.translateToLocal(toPlaceStack.getDisplayName() + " " + I18n.translateToLocal(this.block.getUnlocalizedName() + ".name"));
 		}
 
 		return super.getItemStackDisplayName(stack);
-	}
-
-	@Override
-	public int getColorFromItemstack(ItemStack stack, int tintIndex) {
-		int blockID = NBTHelper.getInt(stack, "blockID");
-		if (stack != null && stack.hasTagCompound()) {
-			return Minecraft.getMinecraft().getItemColors().getColorFromItemstack(new ItemStack(Block.getBlockById(blockID)), tintIndex);
-		}
-		return 16777215;
 	}
 }

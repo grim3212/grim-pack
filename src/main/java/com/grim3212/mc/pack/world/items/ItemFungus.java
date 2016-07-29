@@ -20,9 +20,4 @@ public class ItemFungus extends ItemBlock {
 	public String getUnlocalizedName(ItemStack itemstack) {
 		return (new StringBuilder()).append(super.getUnlocalizedName()).append(".").append(Integer.toString(itemstack.getItemDamage())).toString();
 	}
-
-	@Override
-	public String getItemStackDisplayName(ItemStack stack) {
-		return super.getItemStackDisplayName(stack);
-	}
 }

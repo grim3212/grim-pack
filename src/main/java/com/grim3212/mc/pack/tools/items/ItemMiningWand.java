@@ -9,15 +9,18 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockFlower;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.World;
 
+@SuppressWarnings("deprecation")
 public class ItemMiningWand extends ItemWand {
 
 	public static ArrayList<Block> m_ores = new ArrayList<Block>();
@@ -114,7 +117,7 @@ public class ItemMiningWand extends ItemWand {
 				}
 			}
 			if (blocks2Dig - max > 10) {// 10 blocks tolerance
-				this.sendMessage(entityplayer, I18n.format("error.wand.toomany") + " (" + blocks2Dig + ", " + I18n.format("error.wand.toomany.limit") + " = " + max + ").", false);
+				this.sendMessage(entityplayer, new TextComponentString(I18n.translateToLocal("error.wand.toomany") + " (" + blocks2Dig + ", " + I18n.translateToLocal("error.wand.toomany.limit") + " = " + max + ")."));
 				return true;
 			}
 			// harvesting the ores
@@ -149,7 +152,7 @@ public class ItemMiningWand extends ItemWand {
 			}
 			if (cnt == 0) {
 				if (!world.isRemote)
-					sendMessage(entityplayer, "result.wand.mine", true);
+					sendMessage(entityplayer, new TextComponentTranslation("result.wand.mine"));
 				return false;
 			}
 			return true;
@@ -168,7 +171,7 @@ public class ItemMiningWand extends ItemWand {
 			}
 		}
 		if (blocks2Dig >= max) {
-			this.sendMessage(entityplayer, I18n.format("error.wand.toomany") + " (" + blocks2Dig + ", " + I18n.format("error.wand.toomany.limit") + " = " + Integer.toString((this.reinforced) || (FREE) ? 1024 : 512) + ").", false);
+			this.sendMessage(entityplayer, new TextComponentString(I18n.translateToLocal("error.wand.toomany") + " (" + blocks2Dig + ", " + I18n.translateToLocal("error.wand.toomany.limit") + " = " + Integer.toString((this.reinforced) || (FREE) ? 1024 : 512) + ")."));
 			return false;
 		}
 		// now the mining itself.

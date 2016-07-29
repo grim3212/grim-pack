@@ -107,6 +107,7 @@ public class ItemBetterBucket extends Item {
 	}
 
 	@Override
+	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack stack, EntityPlayer playerIn, List<String> tooltip, boolean advanced) {
 		if (NBTHelper.getInt(stack, "Amount") <= 0) {
 			tooltip.add(I18n.format("tooltip.buckets.empty"));
