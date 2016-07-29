@@ -25,4 +25,10 @@ public class ManualRegistry {
 		ManualRegistry.addPage(modSection, section);
 		return section;
 	}
+
+	public static void clearManual() {
+		pages.clear();
+		for (ModSection mod : getLoadedMods())
+			mod.getPages().clear();
+	}
 }
