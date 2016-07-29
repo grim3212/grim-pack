@@ -18,7 +18,7 @@ public class WorldGenFloatingIslands extends WorldGenerator {
 		int var5 = 7 + rand.nextInt(WorldConfig.sizevariancefrom7);
 		int var6 = rand.nextInt(25) + 20;
 
-		if (!(world.getBiomeGenForCoords(pos) instanceof BiomeHell))
+		if (!(world.getBiomeForCoordsBody(pos) instanceof BiomeHell))
 			if (128 - pos.getY() < 45) {
 				return false;
 			} else {

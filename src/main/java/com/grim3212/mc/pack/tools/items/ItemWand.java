@@ -174,7 +174,7 @@ public abstract class ItemWand extends Item {
 
 		int keys = NBTHelper.getInt(stack, "keys");
 		if (keys == 0) {
-			worldIn.playSound((EntityPlayer) null, pos, state.getBlock().getSoundType().getBreakSound(), SoundCategory.BLOCKS, (state.getBlock().getSoundType().getVolume() + 1.0F) / 2.0F, state.getBlock().getSoundType().getPitch() * 0.8F);
+			worldIn.playSound((EntityPlayer) null, pos, state.getBlock().getSoundType(state, worldIn, pos, null).getBreakSound(), SoundCategory.BLOCKS, (state.getBlock().getSoundType(state, worldIn, pos, null).getVolume() + 1.0F) / 2.0F, state.getBlock().getSoundType(state, worldIn, pos, null).getPitch() * 0.8F);
 
 			this.stateClicked = state;
 			clicked_current.writeToNBT(stack.getTagCompound(), "Start");

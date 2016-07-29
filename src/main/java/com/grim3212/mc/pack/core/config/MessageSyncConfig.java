@@ -11,6 +11,7 @@ import com.grim3212.mc.pack.cuisine.GrimCuisine;
 import com.grim3212.mc.pack.decor.GrimDecor;
 import com.grim3212.mc.pack.decor.config.DecorConfig;
 import com.grim3212.mc.pack.industry.GrimIndustry;
+import com.grim3212.mc.pack.industry.config.IndustryConfig;
 import com.grim3212.mc.pack.tools.GrimTools;
 import com.grim3212.mc.pack.util.GrimUtil;
 import com.grim3212.mc.pack.util.config.UtilConfig;
@@ -36,6 +37,9 @@ public class MessageSyncConfig extends AbstractClientMessage<MessageSyncConfig> 
 		DecorConfig.decorationBlocks = ByteBufUtils.readUTF8String(buffer).split(",");
 		DecorConfig.numWallpapers = buffer.readInt();
 		DecorConfig.useAllBlocks = buffer.readBoolean();
+
+		// Industry
+		IndustryConfig.useWorkbenchUpgrades = buffer.readBoolean();
 
 		// Util
 		UtilConfig.doubleDoors = buffer.readBoolean();
@@ -65,6 +69,9 @@ public class MessageSyncConfig extends AbstractClientMessage<MessageSyncConfig> 
 		buffer.writeString(builder.toString());
 		buffer.writeInt(DecorConfig.numWallpapers);
 		buffer.writeBoolean(DecorConfig.useAllBlocks);
+
+		// Industry
+		buffer.writeBoolean(IndustryConfig.useWorkbenchUpgrades);
 
 		// Util
 		buffer.writeBoolean(UtilConfig.doubleDoors);

@@ -57,7 +57,7 @@ public class BlockIceMaker extends Block {
 		if (!worldIn.isRemote) {
 			int l = 2;
 
-			double temp = worldIn.getBiomeGenForCoords(pos).getFloatTemperature(pos);
+			double temp = worldIn.getBiomeForCoordsBody(pos).getFloatTemperature(pos);
 			if (temp < 0.5D) {
 				l = 10;
 			}

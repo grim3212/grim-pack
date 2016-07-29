@@ -1,42 +1,28 @@
 package com.grim3212.mc.pack.world.gen;
 
-import java.util.Random;
-
 import com.grim3212.mc.pack.world.config.WorldConfig;
 
-import net.minecraft.init.Biomes;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
-import net.minecraft.world.biome.Biome;
-import net.minecraft.world.biome.BiomeDecorator;
-import net.minecraftforge.event.terraingen.BiomeEvent;
+import net.minecraftforge.event.terraingen.DecorateBiomeEvent;
+import net.minecraftforge.event.terraingen.DecorateBiomeEvent.Decorate.EventType;
+import net.minecraftforge.fml.common.eventhandler.Event.Result;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class WorldEvents {
 
 	@SubscribeEvent
-	public void populateDesertWells(BiomeEvent.CreateDecorator event) {
-		// TODO: Replace in 1.10 if PR is accepted
+	public void replaceDesertWell(DecorateBiomeEvent.Decorate event) {
 		if (WorldConfig.replaceDesertWells) {
-			if (event.getBiome() == Biomes.DESERT || event.getBiome() == Biomes.MUTATED_DESERT) {
-				event.setNewBiomeDecorator(new BiomeDecoratorWells());
+			if (event.getType() == EventType.DESERT_WELL) {
+				event.setResult(Result.DENY);
+
+				if (event.getRand().nextInt(1000) == 0) {
+					int i = event.getRand().nextInt(16) + 8;
+					int j = event.getRand().nextInt(16) + 8;
+					BlockPos blockpos1 = event.getWorld().getHeight(event.getPos().add(i, 0, j)).up();
+					(new WorldGenBetterDesertWells()).generate(event.getWorld(), event.getRand(), blockpos1);
+				}
 			}
 		}
-	}
-
-	private static class BiomeDecoratorWells extends BiomeDecorator {
-
-		@Override
-		public void decorate(World worldIn, Random random, Biome biome, BlockPos pos) {
-			super.decorate(worldIn, random, biome, pos);
-
-			if (random.nextInt(1000) == 0) {
-				int i = random.nextInt(16) + 8;
-				int j = random.nextInt(16) + 8;
-				BlockPos blockpos1 = worldIn.getHeight(pos.add(i, 0, j)).up();
-				(new WorldGenBetterDesertWells()).generate(worldIn, random, blockpos1);
-			}
-		}
-
 	}
 }

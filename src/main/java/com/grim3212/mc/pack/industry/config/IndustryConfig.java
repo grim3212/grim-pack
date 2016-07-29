@@ -16,12 +16,14 @@ public class IndustryConfig extends GrimConfig {
 	public static boolean generateUranium;
 	public static boolean generateAluminum;
 	public static boolean generateOilOre;
+	public static boolean useWorkbenchUpgrades;
 
 	@Override
 	public void syncConfig() {
 		generateUranium = config.get(CONFIG_NAME, "Generate Uranium", true).getBoolean();
 		generateAluminum = config.get(CONFIG_NAME, "Generate Aluminum", true).getBoolean();
 		generateOilOre = config.get(CONFIG_NAME, "Generate Oil Ore", true).getBoolean();
+		useWorkbenchUpgrades = config.get(CONFIG_NAME, "Do workbench upgrades double result", true).getBoolean();
 
 		super.syncConfig();
 	}

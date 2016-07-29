@@ -66,7 +66,7 @@ public class GrimWorldGenerator extends GrimWorldGen {
 	}
 
 	private void generateExtras(World world, Random random, int blockX, int blockZ) {
-		Biome biome = world.getBiomeProvider().getBiomeGenerator(new BlockPos(blockX + 16, 60, blockZ + 16));
+		Biome biome = world.getBiomeProvider().getBiome(new BlockPos(blockX + 16, 60, blockZ + 16));
 
 		if (random.nextInt(WorldConfig.frequencyWheatField) == 0 && BiomeDictionary.isBiomeOfType(biome, Type.PLAINS)) {
 			for (int i = 0; i < 5; i++) {

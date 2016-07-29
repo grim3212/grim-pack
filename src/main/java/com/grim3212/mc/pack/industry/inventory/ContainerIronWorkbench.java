@@ -1,5 +1,7 @@
 package com.grim3212.mc.pack.industry.inventory;
 
+import com.grim3212.mc.pack.industry.config.IndustryConfig;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.ContainerWorkbench;
@@ -22,11 +24,12 @@ public class ContainerIronWorkbench extends ContainerWorkbench {
 	public void onCraftMatrixChanged(IInventory iinventory) {
 		this.craftResult.setInventorySlotContents(0, CraftingManager.getInstance().findMatchingRecipe(this.craftMatrix, this.worldObj));
 		if (craftResult.getStackInSlot(0) != null) {
-			if (craftResult.getStackInSlot(0).stackSize >= 64) {
-				craftResult.getStackInSlot(0).stackSize = 127;
-			} else {
-				craftResult.getStackInSlot(0).stackSize *= 2;
-			}
+			if (IndustryConfig.useWorkbenchUpgrades)
+				if (craftResult.getStackInSlot(0).stackSize >= 64) {
+					craftResult.getStackInSlot(0).stackSize = 127;
+				} else {
+					craftResult.getStackInSlot(0).stackSize *= 2;
+				}
 		}
 	}
 
