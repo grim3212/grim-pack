@@ -23,7 +23,7 @@ public class WorldGenGunReeds extends WorldGenerator {
 					int j = 2 + rand.nextInt(rand.nextInt(3) + 1);
 
 					for (int k = 0; k < j; ++k) {
-						if (WorldBlocks.gunpowder_reed_block.canPlaceBlockAt(worldIn, blockpos1)) {
+						if (WorldBlocks.gunpowder_reed_block.canBlockStay(worldIn, blockpos1)) {
 							worldIn.setBlockState(blockpos1.up(k), WorldBlocks.gunpowder_reed_block.getDefaultState(), 2);
 						}
 					}

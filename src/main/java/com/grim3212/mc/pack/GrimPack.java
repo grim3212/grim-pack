@@ -27,7 +27,7 @@ public class GrimPack {
 
 	public static final String modID = "grimpack";
 	public static final String modName = "Grim Pack";
-	public static final String modVersion = "1.10.2-3.0.0.0";
+	public static final String modVersion = "3.0.0.1";
 
 	static {
 		PartRegistry.registerPart(GrimCore.INSTANCE);

@@ -23,7 +23,7 @@ public class WorldBlocks implements IPartItems {
 
 	public static Block randomite;
 	public static Block corruption_block;
-	public static Block gunpowder_reed_block;
+	public static BlockGunpowderReed gunpowder_reed_block;
 	public static Block glowstone_seeds;
 	public static Block fungus_growing;
 	public static Block fungus_building;
@@ -32,7 +32,7 @@ public class WorldBlocks implements IPartItems {
 	@Override
 	public void initItems() {
 		randomite = (new BlockRandomite()).setHardness(1.6F).setResistance(1.0F).setUnlocalizedName("randomite").setCreativeTab(GrimWorld.INSTANCE.getCreativeTab());
-		gunpowder_reed_block = (new BlockGunpowderReed()).setHardness(0.0F).setLightLevel(0.5F).setResistance(200F).setUnlocalizedName("gunpowder_reed_block");
+		gunpowder_reed_block = (BlockGunpowderReed) (new BlockGunpowderReed()).setHardness(0.0F).setLightLevel(0.5F).setResistance(200F).setUnlocalizedName("gunpowder_reed_block");
 		glowstone_seeds = new BlockGlowstoneSeed().setHardness(0.0F).setResistance(0.0F).setUnlocalizedName("glowstone_seeds").setLightLevel(0.8F);
 		corruption_block = (new BlockCorruption()).setHardness(1.0F).setUnlocalizedName("corruption_block");
 		fungus_growing = new BlockFungusGrowing().setHardness(0.0F).setResistance(0.0F).setUnlocalizedName("fungus_growing").setLightLevel(0.8F).setLightOpacity(10);
