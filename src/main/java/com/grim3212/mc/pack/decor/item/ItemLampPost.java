@@ -1,17 +1,12 @@
 package com.grim3212.mc.pack.decor.item;
 
-import java.util.LinkedHashMap;
-import java.util.List;
-
 import com.grim3212.mc.pack.core.util.NBTHelper;
 import com.grim3212.mc.pack.decor.block.DecorBlocks;
 import com.grim3212.mc.pack.decor.tile.TileEntityTextured;
-import com.grim3212.mc.pack.decor.util.BlockHelper;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockSnow;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -85,30 +80,8 @@ public class ItemLampPost extends Item {
 	}
 
 	@Override
-	public void getSubItems(Item item, CreativeTabs tabs, List<ItemStack> list) {
-		LinkedHashMap<Block, Integer> loadedBlocks = BlockHelper.getBlocks();
-		Block[] blocks = loadedBlocks.keySet().toArray(new Block[loadedBlocks.keySet().size()]);
-
-		for (int i = 0; i < blocks.length; i++) {
-			if (loadedBlocks.get(blocks[i]) == 0) {
-				ItemStack stack = new ItemStack(item, 1);
-				NBTHelper.setInteger(stack, "blockID", Block.getIdFromBlock(blocks[i]));
-				NBTHelper.setInteger(stack, "blockMeta", 0);
-				list.add(stack);
-			} else {
-				for (int j = 0; j < loadedBlocks.get(blocks[i]); j++) {
-					ItemStack stack = new ItemStack(item, 1);
-					NBTHelper.setInteger(stack, "blockID", Block.getIdFromBlock(blocks[i]));
-					NBTHelper.setInteger(stack, "blockMeta", j);
-					list.add(stack);
-				}
-			}
-		}
-	}
-
-	@Override
 	public String getUnlocalizedName(ItemStack stack) {
-		return Block.getBlockById(NBTHelper.getInt(stack, "blockID")).getUnlocalizedName() + " " + DecorItems.lamp_item.getUnlocalizedName();
+		return DecorItems.lamp_item.getUnlocalizedName();
 	}
 
 	@Override
@@ -117,8 +90,8 @@ public class ItemLampPost extends Item {
 
 		if (toPlaceStack.getItem() != Item.getItemFromBlock(Blocks.AIR)) {
 			return I18n.translateToLocal(toPlaceStack.getDisplayName() + " " + I18n.translateToLocal(this.getUnlocalizedName() + ".name"));
+		} else {
+			return I18n.translateToLocal(this.getUnlocalizedName() + ".name");
 		}
-
-		return super.getItemStackDisplayName(stack);
 	}
 }

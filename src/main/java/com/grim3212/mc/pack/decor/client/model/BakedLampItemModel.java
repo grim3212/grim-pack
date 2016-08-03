@@ -52,7 +52,7 @@ public class BakedLampItemModel extends BakedTexturedModel {
 				return BakedLampItemModel.this.getCachedModel(blockID, blockMeta);
 			}
 
-			return BakedLampItemModel.this;
+			return BakedLampItemModel.this.getCachedModel(0, 0);
 		}
 	};
 
@@ -73,7 +73,9 @@ public class BakedLampItemModel extends BakedTexturedModel {
 		if (!this.cache.containsKey(key)) {
 			ImmutableMap.Builder<String, String> newTexture = ImmutableMap.builder();
 
-			if (Block.getBlockById(blockID) == Blocks.GRASS) {
+			if (blockID == 0 && blockMeta == 0) {
+				newTexture.put("texture", "grimpack:blocks/colorizer");
+			} else if (Block.getBlockById(blockID) == Blocks.GRASS) {
 				newTexture.put("texture", "minecraft:blocks/grass_top");
 			} else if (Block.getBlockById(blockID) == Blocks.DIRT && blockMeta == 2) {
 				newTexture.put("texture", "minecraft:blocks/dirt_podzol_top");

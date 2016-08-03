@@ -22,13 +22,13 @@ public enum DecorModelLoader implements ICustomModelLoader {
 	@Override
 	public IModel loadModel(ResourceLocation modelLocation) throws IOException {
 		if (modelLocation.getResourcePath().equals("models/block/decor_furniture")) {
-			return new DecorModel(ImmutableList.<ResourceLocation> of(), new ResourceLocation("minecraft:blocks/portal"), EnumDecorModelType.Furniture);
+			return new DecorModel(ImmutableList.<ResourceLocation> of(), new ResourceLocation("grimpack:blocks/colorizer"), EnumDecorModelType.Furniture);
 		} else if (modelLocation.getResourcePath().equals("models/block/decor_fireplace")) {
-			return new DecorModel(ImmutableList.<ResourceLocation> of(), new ResourceLocation("minecraft:blocks/portal"), EnumDecorModelType.Fireplace);
+			return new DecorModel(ImmutableList.<ResourceLocation> of(), new ResourceLocation("grimpack:blocks/colorizer"), EnumDecorModelType.Fireplace);
 		} else if (modelLocation.getResourcePath().equals("models/block/decor_lamppost")) {
-			return new DecorModel(ImmutableList.<ResourceLocation> of(), new ResourceLocation("minecraft:blocks/portal"), EnumDecorModelType.LampPost);
+			return new DecorModel(ImmutableList.<ResourceLocation> of(), new ResourceLocation("grimpack:blocks/colorizer"), EnumDecorModelType.LampPost);
 		} else if (modelLocation.getResourcePath().equals("models/block/decor_lampitem")) {
-			return new DecorModel(ImmutableList.<ResourceLocation> of(), new ResourceLocation("minecraft:blocks/portal"), EnumDecorModelType.LampPostItem);
+			return new DecorModel(ImmutableList.<ResourceLocation> of(), new ResourceLocation("grimpack:blocks/colorizer"), EnumDecorModelType.LampPostItem);
 		}
 
 		return DecorModel.MODEL;

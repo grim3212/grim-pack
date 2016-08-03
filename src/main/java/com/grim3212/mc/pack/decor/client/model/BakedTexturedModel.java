@@ -98,7 +98,9 @@ public class BakedTexturedModel implements IPerspectiveAwareModel, IResourceMana
 		if (!this.cache.containsKey(key)) {
 			ImmutableMap.Builder<String, String> newTexture = ImmutableMap.builder();
 
-			if (Block.getBlockById(blockID) == Blocks.GRASS) {
+			if (blockID == 0 && blockMeta == 0) {
+				newTexture.put("texture", "grimpack:blocks/colorizer");
+			} else if (Block.getBlockById(blockID) == Blocks.GRASS) {
 				newTexture.put("texture", "minecraft:blocks/grass_top");
 			} else if (Block.getBlockById(blockID) == Blocks.DIRT && blockMeta == 2) {
 				newTexture.put("texture", "minecraft:blocks/dirt_podzol_top");
@@ -191,7 +193,7 @@ public class BakedTexturedModel implements IPerspectiveAwareModel, IResourceMana
 				int blockMeta = NBTHelper.getInt(stack, "blockMeta");
 				return BakedTexturedModel.this.getCachedModel(Block.getBlockFromItem(stack.getItem()).getDefaultState(), blockID, blockMeta);
 			}
-			return BakedTexturedModel.this;
+			return BakedTexturedModel.this.getCachedModel(Block.getBlockFromItem(stack.getItem()).getDefaultState(), 0, 0);
 		}
 	};
 

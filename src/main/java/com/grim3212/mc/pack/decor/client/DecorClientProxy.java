@@ -98,6 +98,8 @@ public class DecorClientProxy extends DecorCommonProxy {
 		RenderHelper.renderBlock(DecorBlocks.lamp_post_bottom);
 		RenderHelper.renderBlock(DecorBlocks.lamp_post_middle);
 		RenderHelper.renderBlock(DecorBlocks.lamp_post_top);
+		RenderHelper.renderBlock(DecorBlocks.hardened_wood);
+		RenderHelper.renderBlock(DecorBlocks.colorizer);
 
 		// TILE ENTITYS
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityCalendar.class, new TileEntityCalendarRenderer());

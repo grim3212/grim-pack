@@ -5,6 +5,7 @@ import java.util.Random;
 import com.grim3212.mc.pack.core.util.NBTHelper;
 import com.grim3212.mc.pack.decor.item.DecorItems;
 import com.grim3212.mc.pack.decor.tile.TileEntityTextured;
+import com.grim3212.mc.pack.decor.util.BlockHelper;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
@@ -12,6 +13,9 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
@@ -47,20 +51,88 @@ public class BlockLampPost extends BlockTextured {
 	}
 
 	@Override
-	public ItemStack getPickBlock(IBlockState state, RayTraceResult target, World world, BlockPos pos, EntityPlayer player) {
-		TileEntity te = world.getTileEntity(pos);
-		if (te instanceof TileEntityTextured) {
-			ItemStack itemstack = new ItemStack(DecorItems.lamp_item, 1);
-			NBTHelper.setInteger(itemstack, "blockID", ((TileEntityTextured) te).getBlockID());
-			NBTHelper.setInteger(itemstack, "blockMeta", ((TileEntityTextured) te).getBlockMeta());
-			return itemstack;
-		}
-		return super.getPickBlock(state, target, world, pos, player);
+	public Item getItemDropped(IBlockState state, Random rand, int fortune) {
+		return DecorItems.lamp_item;
 	}
 
 	@Override
-	public Item getItemDropped(IBlockState state, Random rand, int fortune) {
-		return DecorItems.lamp_item;
+	@SuppressWarnings("deprecation")
+	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ) {
+		if (heldItem != null && heldItem.getItem() != null) {
+			Block block = Block.getBlockFromItem(heldItem.getItem());
+			if (block != null) {
+				if (BlockHelper.getBlocks().containsKey(block)) {
+					TileEntity tileentity = worldIn.getTileEntity(pos);
+					if (tileentity instanceof TileEntityTextured) {
+						setTileEntityData(worldIn, pos, state, block, heldItem);
+
+						if (state.getBlock() == DecorBlocks.lamp_post_top) {
+							setTileEntityData(worldIn, pos.down(), DecorBlocks.lamp_post_middle.getDefaultState(), block, heldItem);
+							setTileEntityData(worldIn, pos.down(2), DecorBlocks.lamp_post_bottom.getDefaultState(), block, heldItem);
+							if (!worldIn.isRemote) {
+								worldIn.markBlockRangeForRenderUpdate(pos, pos.down(2));
+							}
+						} else if (state.getBlock() == DecorBlocks.lamp_post_middle) {
+							setTileEntityData(worldIn, pos.down(), DecorBlocks.lamp_post_bottom.getDefaultState(), block, heldItem);
+							setTileEntityData(worldIn, pos.up(), DecorBlocks.lamp_post_top.getDefaultState(), block, heldItem);
+							if (!worldIn.isRemote) {
+								worldIn.markBlockRangeForRenderUpdate(pos.up(), pos.down());
+							}
+						} else if (state.getBlock() == DecorBlocks.lamp_post_bottom) {
+							setTileEntityData(worldIn, pos.up(2), DecorBlocks.lamp_post_top.getDefaultState(), block, heldItem);
+							setTileEntityData(worldIn, pos.up(), DecorBlocks.lamp_post_middle.getDefaultState(), block, heldItem);
+							if (!worldIn.isRemote) {
+								worldIn.markBlockRangeForRenderUpdate(pos, pos.up(2));
+							}
+						}
+
+						worldIn.playSound(playerIn, pos, block.getSoundType().getPlaceSound(), SoundCategory.BLOCKS, (block.getSoundType().getVolume() + 1.0F) / 2.0F, block.getSoundType().getPitch() * 0.8F);
+						return true;
+					}
+				}
+			}
+		} else {
+			if (playerIn.isSneaking()) {
+				TileEntity tileentity = worldIn.getTileEntity(pos);
+				if (tileentity instanceof TileEntityTextured) {
+					setTileEntityData(worldIn, pos, state, null, null);
+
+					if (state.getBlock() == DecorBlocks.lamp_post_top) {
+						setTileEntityData(worldIn, pos.down(), DecorBlocks.lamp_post_middle.getDefaultState(), null, null);
+						setTileEntityData(worldIn, pos.down(2), DecorBlocks.lamp_post_bottom.getDefaultState(), null, null);
+						if (!worldIn.isRemote) {
+							worldIn.markBlockRangeForRenderUpdate(pos, pos.down(2));
+						}
+					} else if (state.getBlock() == DecorBlocks.lamp_post_middle) {
+						setTileEntityData(worldIn, pos.down(), DecorBlocks.lamp_post_bottom.getDefaultState(), null, null);
+						setTileEntityData(worldIn, pos.up(), DecorBlocks.lamp_post_top.getDefaultState(), null, null);
+						if (!worldIn.isRemote) {
+							worldIn.markBlockRangeForRenderUpdate(pos.up(), pos.down());
+						}
+					} else if (state.getBlock() == DecorBlocks.lamp_post_bottom) {
+						setTileEntityData(worldIn, pos.up(2), DecorBlocks.lamp_post_top.getDefaultState(), null, null);
+						setTileEntityData(worldIn, pos.up(), DecorBlocks.lamp_post_middle.getDefaultState(), null, null);
+						if (!worldIn.isRemote) {
+							worldIn.markBlockRangeForRenderUpdate(pos, pos.up(2));
+						}
+					}
+
+					worldIn.playSound(playerIn, pos, this.getSoundType().getPlaceSound(), SoundCategory.BLOCKS, (this.getSoundType().getVolume() + 1.0F) / 2.0F, this.getSoundType().getPitch() * 0.8F);
+					return true;
+				}
+			}
+		}
+
+		return false;
+	}
+
+	private void setTileEntityData(World worldIn, BlockPos pos, IBlockState state, Block block, ItemStack stack) {
+		TileEntity te = worldIn.getTileEntity(pos);
+		if (te instanceof TileEntityTextured) {
+			((TileEntityTextured) te).setBlockID(block != null ? Block.getIdFromBlock(block) : 0);
+			((TileEntityTextured) te).setBlockMeta(stack != null ? stack.getMetadata() : 0);
+			worldIn.setBlockState(pos, this.getExtendedState(state, worldIn, pos));
+		}
 	}
 
 	@Override
@@ -114,27 +186,10 @@ public class BlockLampPost extends BlockTextured {
 	}
 
 	@Override
-	public void dropBlockAsItemWithChance(World worldIn, BlockPos pos, IBlockState state, float chance, int fortune) {
-		TileEntity tileentity = worldIn.getTileEntity(pos);
+	public ItemStack getPickBlock(IBlockState state, RayTraceResult target, World world, BlockPos pos, EntityPlayer player) {
 		ItemStack itemstack = new ItemStack(DecorItems.lamp_item, 1);
-		if (tileentity instanceof TileEntityTextured) {
-			NBTHelper.setInteger(itemstack, "blockID", ((TileEntityTextured) tileentity).getBlockID());
-			NBTHelper.setInteger(itemstack, "blockMeta", ((TileEntityTextured) tileentity).getBlockMeta());
-			spawnAsEntity(worldIn, pos, itemstack);
-		} else {
-			super.dropBlockAsItemWithChance(worldIn, pos, state, chance, fortune);
-		}
-	}
-
-	@Override
-	public void harvestBlock(World worldIn, EntityPlayer player, BlockPos pos, IBlockState state, TileEntity te, ItemStack stack) {
-		if (te instanceof TileEntityTextured) {
-			ItemStack itemstack = new ItemStack(DecorItems.lamp_item, 1);
-			NBTHelper.setInteger(itemstack, "blockID", ((TileEntityTextured) te).getBlockID());
-			NBTHelper.setInteger(itemstack, "blockMeta", ((TileEntityTextured) te).getBlockMeta());
-			spawnAsEntity(worldIn, pos, itemstack);
-		} else {
-			super.harvestBlock(worldIn, player, pos, state, te, stack);
-		}
+		NBTHelper.setInteger(itemstack, "blockID", 0);
+		NBTHelper.setInteger(itemstack, "blockMeta", 0);
+		return itemstack;
 	}
 }

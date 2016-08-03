@@ -1,8 +1,6 @@
 package com.grim3212.mc.pack.decor.block;
 
 import java.lang.reflect.Constructor;
-import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Random;
 
 import com.grim3212.mc.pack.core.property.UnlistedPropertyInteger;
@@ -19,8 +17,6 @@ import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.particle.ParticleDigging;
 import net.minecraft.client.particle.ParticleManager;
-import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -29,11 +25,12 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
 import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.world.Explosion;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
@@ -77,40 +74,11 @@ public abstract class BlockTextured extends Block implements ITileEntityProvider
 	}
 
 	@Override
-	public void dropBlockAsItemWithChance(World worldIn, BlockPos pos, IBlockState state, float chance, int fortune) {
-		TileEntity tileentity = worldIn.getTileEntity(pos);
-		ItemStack itemstack = new ItemStack(this, 1);
-		if (tileentity instanceof TileEntityTextured) {
-			NBTHelper.setInteger(itemstack, "blockID", ((TileEntityTextured) tileentity).getBlockID());
-			NBTHelper.setInteger(itemstack, "blockMeta", ((TileEntityTextured) tileentity).getBlockMeta());
-			spawnAsEntity(worldIn, pos, itemstack);
-		} else {
-			super.dropBlockAsItemWithChance(worldIn, pos, state, chance, fortune);
-		}
-	}
-
-	@Override
-	public void harvestBlock(World worldIn, EntityPlayer player, BlockPos pos, IBlockState state, TileEntity te, ItemStack stack) {
-		if (te instanceof TileEntityTextured) {
-			ItemStack itemstack = new ItemStack(this, 1);
-			NBTHelper.setInteger(itemstack, "blockID", ((TileEntityTextured) te).getBlockID());
-			NBTHelper.setInteger(itemstack, "blockMeta", ((TileEntityTextured) te).getBlockMeta());
-			spawnAsEntity(worldIn, pos, itemstack);
-		} else {
-			super.harvestBlock(worldIn, player, pos, state, te, stack);
-		}
-	}
-
-	@Override
 	public ItemStack getPickBlock(IBlockState state, RayTraceResult target, World world, BlockPos pos, EntityPlayer player) {
-		TileEntity te = world.getTileEntity(pos);
-		if (te instanceof TileEntityTextured) {
-			ItemStack itemstack = new ItemStack(this, 1);
-			NBTHelper.setInteger(itemstack, "blockID", ((TileEntityTextured) te).getBlockID());
-			NBTHelper.setInteger(itemstack, "blockMeta", ((TileEntityTextured) te).getBlockMeta());
-			return itemstack;
-		}
-		return super.getPickBlock(state, target, world, pos, player);
+		ItemStack itemstack = new ItemStack(this, 1);
+		NBTHelper.setInteger(itemstack, "blockID", 0);
+		NBTHelper.setInteger(itemstack, "blockMeta", 0);
+		return itemstack;
 	}
 
 	@Override
@@ -124,25 +92,42 @@ public abstract class BlockTextured extends Block implements ITileEntityProvider
 	}
 
 	@Override
-	public void getSubBlocks(Item itemIn, CreativeTabs tab, List<ItemStack> list) {
-		LinkedHashMap<Block, Integer> loadedBlocks = BlockHelper.getBlocks();
-		Block[] blocks = loadedBlocks.keySet().toArray(new Block[loadedBlocks.keySet().size()]);
-
-		for (int i = 0; i < blocks.length; i++) {
-			if (loadedBlocks.get(blocks[i]) == 0) {
-				ItemStack stack = new ItemStack(itemIn, 1);
-				NBTHelper.setInteger(stack, "blockID", Block.getIdFromBlock(blocks[i]));
-				NBTHelper.setInteger(stack, "blockMeta", 0);
-				list.add(stack);
-			} else {
-				for (int j = 0; j < loadedBlocks.get(blocks[i]); j++) {
-					ItemStack stack = new ItemStack(itemIn, 1);
-					NBTHelper.setInteger(stack, "blockID", Block.getIdFromBlock(blocks[i]));
-					NBTHelper.setInteger(stack, "blockMeta", j);
-					list.add(stack);
+	@SuppressWarnings("deprecation")
+	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ) {
+		if (heldItem != null && heldItem.getItem() != null) {
+			Block block = Block.getBlockFromItem(heldItem.getItem());
+			if (block != null) {
+				if (BlockHelper.getBlocks().containsKey(block)) {
+					TileEntity tileentity = worldIn.getTileEntity(pos);
+					if (tileentity instanceof TileEntityTextured) {
+						((TileEntityTextured) tileentity).setBlockID(Block.getIdFromBlock(block));
+						((TileEntityTextured) tileentity).setBlockMeta(heldItem.getMetadata());
+						worldIn.setBlockState(pos, this.getExtendedState(state, worldIn, pos));
+						worldIn.playSound(playerIn, pos, block.getSoundType().getPlaceSound(), SoundCategory.BLOCKS, (block.getSoundType().getVolume() + 1.0F) / 2.0F, block.getSoundType().getPitch() * 0.8F);
+						if (!worldIn.isRemote) {
+							worldIn.markBlockRangeForRenderUpdate(pos, pos);
+						}
+						return true;
+					}
+				}
+			}
+		} else {
+			if (playerIn.isSneaking()) {
+				TileEntity tileentity = worldIn.getTileEntity(pos);
+				if (tileentity instanceof TileEntityTextured) {
+					((TileEntityTextured) tileentity).setBlockID(0);
+					((TileEntityTextured) tileentity).setBlockMeta(0);
+					worldIn.setBlockState(pos, this.getExtendedState(state, worldIn, pos));
+					worldIn.playSound(playerIn, pos, this.getSoundType().getPlaceSound(), SoundCategory.BLOCKS, (this.getSoundType().getVolume() + 1.0F) / 2.0F, this.getSoundType().getPitch() * 0.8F);
+					if (!worldIn.isRemote) {
+						worldIn.markBlockRangeForRenderUpdate(pos, pos);
+					}
+					return true;
 				}
 			}
 		}
+
+		return false;
 	}
 
 	@Override
@@ -158,78 +143,6 @@ public abstract class BlockTextured extends Block implements ITileEntityProvider
 	@Override
 	public TileEntity createNewTileEntity(World worldIn, int meta) {
 		return new TileEntityTextured();
-	}
-
-	@Override
-	@SuppressWarnings("deprecation")
-	public float getBlockHardness(IBlockState blockState, World worldIn, BlockPos pos) {
-		TileEntity tileentity = worldIn.getTileEntity(pos);
-		if (tileentity instanceof TileEntityTextured) {
-			IBlockState heldState = Block.getBlockById(((TileEntityTextured) tileentity).getBlockID()).getStateFromMeta(((TileEntityTextured) tileentity).getBlockMeta());
-			return heldState.getBlockHardness(worldIn, pos);
-		} else {
-			return super.getBlockHardness(blockState, worldIn, pos);
-		}
-	}
-
-	@Override
-	@SuppressWarnings("deprecation")
-	public float getExplosionResistance(World world, BlockPos pos, Entity exploder, Explosion explosion) {
-		TileEntity tileentity = world.getTileEntity(pos);
-		if (tileentity instanceof TileEntityTextured) {
-			IBlockState blockState = Block.getBlockById(((TileEntityTextured) tileentity).getBlockID()).getStateFromMeta(((TileEntityTextured) tileentity).getBlockMeta());
-			return blockState.getBlock().getExplosionResistance(world, pos, exploder, explosion);
-		} else {
-			return super.getExplosionResistance(world, pos, exploder, explosion);
-		}
-	}
-
-	@Override
-	@SuppressWarnings("deprecation")
-	public float getPlayerRelativeBlockHardness(IBlockState state, EntityPlayer player, World worldIn, BlockPos pos) {
-		TileEntity tileentity = worldIn.getTileEntity(pos);
-		if (tileentity instanceof TileEntityTextured) {
-			IBlockState blockState = Block.getBlockById(((TileEntityTextured) tileentity).getBlockID()).getStateFromMeta(((TileEntityTextured) tileentity).getBlockMeta());
-			return BlockHelper.blockStrength(blockState, player, worldIn, pos);
-		} else {
-			return super.getPlayerRelativeBlockHardness(state, player, worldIn, pos);
-		}
-	}
-
-	@Override
-	@SuppressWarnings("deprecation")
-	public boolean isWood(IBlockAccess world, BlockPos pos) {
-		TileEntity tileentity = world.getTileEntity(pos);
-		if (tileentity instanceof TileEntityTextured) {
-			IBlockState blockState = Block.getBlockById(((TileEntityTextured) tileentity).getBlockID()).getStateFromMeta(((TileEntityTextured) tileentity).getBlockMeta());
-			return blockState.getBlock().isWood(world, pos);
-		} else {
-			return super.isWood(world, pos);
-		}
-	}
-
-	@Override
-	@SuppressWarnings("deprecation")
-	public boolean canEntityDestroy(IBlockState state, IBlockAccess world, BlockPos pos, Entity entity) {
-		TileEntity tileentity = world.getTileEntity(pos);
-		if (tileentity instanceof TileEntityTextured) {
-			IBlockState blockState = Block.getBlockById(((TileEntityTextured) tileentity).getBlockID()).getStateFromMeta(((TileEntityTextured) tileentity).getBlockMeta());
-			return blockState.getBlock().canEntityDestroy(state, world, pos, entity);
-		} else {
-			return super.canEntityDestroy(state, world, pos, entity);
-		}
-	}
-
-	@Override
-	@SuppressWarnings("deprecation")
-	public boolean canHarvestBlock(IBlockAccess world, BlockPos pos, EntityPlayer player) {
-		TileEntity tileentity = world.getTileEntity(pos);
-		if (tileentity instanceof TileEntityTextured) {
-			IBlockState blockState = Block.getBlockById(((TileEntityTextured) tileentity).getBlockID()).getStateFromMeta(((TileEntityTextured) tileentity).getBlockMeta());
-			return BlockHelper.canHarvestBlock(blockState, player, world, pos);
-		} else {
-			return super.canHarvestBlock(world, pos, player);
-		}
 	}
 
 	@Override
@@ -282,6 +195,7 @@ public abstract class BlockTextured extends Block implements ITileEntityProvider
 				ParticleDigging digging = constructor.newInstance(worldObj, d0, d1, d2, 0.0D, 0.0D, 0.0D, iblockstate);
 				digging.setBlockPos(target.getBlockPos()).multiplyVelocity(0.2f).multipleParticleScaleBy(0.6f);
 				manager.addEffect(digging);
+				return true;
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -294,9 +208,16 @@ public abstract class BlockTextured extends Block implements ITileEntityProvider
 	@SideOnly(Side.CLIENT)
 	@SuppressWarnings("deprecation")
 	public boolean addDestroyEffects(World world, BlockPos pos, ParticleManager manager) {
-		TileEntityTextured tileentity = (TileEntityTextured) world.getTileEntity(pos);
-		manager.clearEffects(world);
-		manager.addBlockDestroyEffects(pos, Block.getBlockById(tileentity.getBlockID()).getStateFromMeta(tileentity.getBlockMeta()));
+		TileEntity te = world.getTileEntity(pos);
+		if (te != null && te instanceof TileEntityTextured) {
+			TileEntityTextured tileentity = (TileEntityTextured) te;
+			if (tileentity.getBlockID() == 0 && tileentity.getBlockMeta() == 0) {
+				return super.addDestroyEffects(world, pos, manager);
+			} else {
+				manager.clearEffects(world);
+				manager.addBlockDestroyEffects(pos, Block.getBlockById(tileentity.getBlockID()).getStateFromMeta(tileentity.getBlockMeta()));
+			}
+		}
 
 		return true;
 	}
@@ -307,7 +228,11 @@ public abstract class BlockTextured extends Block implements ITileEntityProvider
 		TileEntity tileentity = (TileEntity) worldObj.getTileEntity(blockPosition);
 		if (tileentity instanceof TileEntityTextured) {
 			TileEntityTextured te = (TileEntityTextured) tileentity;
-			worldObj.spawnParticle(EnumParticleTypes.BLOCK_DUST, entity.posX, entity.posY, entity.posZ, numberOfParticles, 0.0D, 0.0D, 0.0D, 0.15000000596046448D, new int[] { Block.getStateId(Block.getBlockById(te.getBlockID()).getStateFromMeta(te.getBlockMeta())) });
+			if (te.getBlockID() == 0 && te.getBlockMeta() == 0) {
+				return super.addLandingEffects(state, worldObj, blockPosition, iblockstate, entity, numberOfParticles);
+			} else {
+				worldObj.spawnParticle(EnumParticleTypes.BLOCK_DUST, entity.posX, entity.posY, entity.posZ, numberOfParticles, 0.0D, 0.0D, 0.0D, 0.15000000596046448D, new int[] { Block.getStateId(Block.getBlockById(te.getBlockID()).getStateFromMeta(te.getBlockMeta())) });
+			}
 		}
 		return true;
 	}

@@ -26,6 +26,7 @@ import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.vertex.VertexFormat;
 import net.minecraft.client.resources.IResourceManager;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
@@ -56,7 +57,7 @@ public class BakedFireplaceModel extends BakedTexturedModel {
 				return BakedFireplaceModel.this.getCachedModel(Block.getBlockFromItem(stack.getItem()).getDefaultState(), blockID, blockMeta);
 			}
 
-			return BakedFireplaceModel.this;
+			return BakedFireplaceModel.this.getCachedModel(Block.getBlockFromItem(stack.getItem()).getDefaultState(), 0, 0);
 		}
 	};
 
@@ -92,11 +93,21 @@ public class BakedFireplaceModel extends BakedTexturedModel {
 
 		if (state.getBlock() == DecorBlocks.firepit) {
 			if (!this.firepitCache.containsKey(firepitKey)) {
-				BlockModelShapes blockModel = Minecraft.getMinecraft().getBlockRendererDispatcher().getBlockModelShapes();
-				IBlockState blockState = Block.getBlockById(blockID).getStateFromMeta(blockMeta);
-				TextureAtlasSprite blockTexture = blockModel.getTexture(blockState);
+				if (blockID == 0 && blockMeta == 0) {
+					newTexture.put("texture", "grimpack:blocks/colorizer");
+				} else if (Block.getBlockById(blockID) == Blocks.GRASS) {
+					newTexture.put("texture", "minecraft:blocks/grass_top");
+				} else if (Block.getBlockById(blockID) == Blocks.DIRT && blockMeta == 2) {
+					newTexture.put("texture", "minecraft:blocks/dirt_podzol_top");
+				} else if (Block.getBlockById(blockID) == Blocks.MYCELIUM) {
+					newTexture.put("texture", "minecraft:blocks/mycelium_top");
+				} else {
+					BlockModelShapes blockModel = Minecraft.getMinecraft().getBlockRendererDispatcher().getBlockModelShapes();
+					IBlockState blockState = Block.getBlockById(blockID).getStateFromMeta(blockMeta);
+					TextureAtlasSprite blockTexture = blockModel.getTexture(blockState);
 
-				newTexture.put("texture", blockTexture.getIconName());
+					newTexture.put("texture", blockTexture.getIconName());
+				}
 
 				if (DecorConfig.enableFirepitNet) {
 					this.firepitCache.put(firepitKey, generateModel(newTexture.build(), ModelLoaderRegistry.getModelOrLogError(FIREPIT_COVERED, "Model part not found " + FIREPIT_COVERED)));
@@ -109,11 +120,22 @@ public class BakedFireplaceModel extends BakedTexturedModel {
 		}
 
 		if (!this.cache.containsKey(key)) {
-			BlockModelShapes blockModel = Minecraft.getMinecraft().getBlockRendererDispatcher().getBlockModelShapes();
-			IBlockState blockState = Block.getBlockById(blockID).getStateFromMeta(blockMeta);
-			TextureAtlasSprite blockTexture = blockModel.getTexture(blockState);
+			if (blockID == 0 && blockMeta == 0) {
+				newTexture.put("texture", "grimpack:blocks/colorizer");
+			} else if (Block.getBlockById(blockID) == Blocks.GRASS) {
+				newTexture.put("texture", "minecraft:blocks/grass_top");
+			} else if (Block.getBlockById(blockID) == Blocks.DIRT && blockMeta == 2) {
+				newTexture.put("texture", "minecraft:blocks/dirt_podzol_top");
+			} else if (Block.getBlockById(blockID) == Blocks.MYCELIUM) {
+				newTexture.put("texture", "minecraft:blocks/mycelium_top");
+			} else {
+				BlockModelShapes blockModel = Minecraft.getMinecraft().getBlockRendererDispatcher().getBlockModelShapes();
+				IBlockState blockState = Block.getBlockById(blockID).getStateFromMeta(blockMeta);
+				TextureAtlasSprite blockTexture = blockModel.getTexture(blockState);
 
-			newTexture.put("texture", blockTexture.getIconName());
+				newTexture.put("texture", blockTexture.getIconName());
+			}
+
 			this.cache.put(key, generateModel(newTexture.build()));
 		}
 

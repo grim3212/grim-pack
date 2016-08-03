@@ -38,7 +38,6 @@ public class GrimDecor extends GrimPart {
 		super.preInit(event);
 
 		PacketDispatcher.registerMessage(MessageParticles.class);
-
 		proxy.registerModels();
 	}
 

@@ -77,7 +77,7 @@ public class ItemFurniture extends ItemBlock {
 
 	@Override
 	public String getUnlocalizedName(ItemStack stack) {
-		return Block.getBlockById(NBTHelper.getInt(stack, "blockID")).getUnlocalizedName() + " " + this.block.getUnlocalizedName();
+		return this.block.getUnlocalizedName();
 	}
 
 	@Override
@@ -86,8 +86,8 @@ public class ItemFurniture extends ItemBlock {
 
 		if (toPlaceStack.getItem() != Item.getItemFromBlock(Blocks.AIR)) {
 			return I18n.translateToLocal(toPlaceStack.getDisplayName() + " " + I18n.translateToLocal(this.block.getUnlocalizedName() + ".name"));
+		} else {
+			return I18n.translateToLocal(this.block.getUnlocalizedName() + ".name");
 		}
-
-		return super.getItemStackDisplayName(stack);
 	}
 }

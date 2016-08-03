@@ -1,26 +1,18 @@
 package com.grim3212.mc.pack.decor.block;
 
-import java.util.LinkedHashMap;
-import java.util.List;
-
 import com.grim3212.mc.pack.core.network.PacketDispatcher;
-import com.grim3212.mc.pack.core.util.NBTHelper;
 import com.grim3212.mc.pack.decor.GrimDecor;
 import com.grim3212.mc.pack.decor.network.MessageParticles;
 import com.grim3212.mc.pack.decor.tile.TileEntityTextured;
-import com.grim3212.mc.pack.decor.util.BlockHelper;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.init.SoundEvents;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
@@ -72,6 +64,13 @@ public class BlockFireplaceBase extends BlockTextured {
 
 	@Override
 	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ) {
+		if (heldItem != null && heldItem.getItem() != null) {
+			Block block = Block.getBlockFromItem(heldItem.getItem());
+			if (block != null) {
+				return super.onBlockActivated(worldIn, pos, state, playerIn, hand, heldItem, side, hitX, hitY, hitZ);
+			}
+		}
+
 		if (worldIn.isRemote)
 			return true;
 
@@ -108,32 +107,6 @@ public class BlockFireplaceBase extends BlockTextured {
 			return blockState.withProperty(BLOCKID, tef.getBlockID()).withProperty(BLOCKMETA, tef.getBlockMeta());
 		}
 		return state;
-	}
-
-	@Override
-	public void getSubBlocks(Item itemIn, CreativeTabs tab, List<ItemStack> list) {
-		LinkedHashMap<Block, Integer> loadedBlocks = BlockHelper.getBlocks();
-		Block[] blocks = loadedBlocks.keySet().toArray(new Block[loadedBlocks.keySet().size()]);
-
-		for (int i = 0; i < blocks.length; i++) {
-			if (blocks[i].getDefaultState().getMaterial() == Material.WOOD || blocks[i].getDefaultState().getMaterial() == Material.CLOTH || blocks[i].getDefaultState().getMaterial() == Material.GOURD || blocks[i].getDefaultState().getMaterial() == Material.ICE || blocks[i].getDefaultState().getMaterial() == Material.GLASS || blocks[i].getDefaultState().getMaterial() == Material.PACKED_ICE || blocks[i].getDefaultState().getMaterial() == Material.SPONGE || blocks[i].getDefaultState().getMaterial() == Material.GRASS || blocks[i].getDefaultState().getMaterial() == Material.GROUND) {
-				continue;
-			}
-
-			if (loadedBlocks.get(blocks[i]) == 0) {
-				ItemStack stack = new ItemStack(itemIn, 1);
-				NBTHelper.setInteger(stack, "blockID", Block.getIdFromBlock(blocks[i]));
-				NBTHelper.setInteger(stack, "blockMeta", 0);
-				list.add(stack);
-			} else {
-				for (int j = 0; j < loadedBlocks.get(blocks[i]); j++) {
-					ItemStack stack = new ItemStack(itemIn, 1);
-					NBTHelper.setInteger(stack, "blockID", Block.getIdFromBlock(blocks[i]));
-					NBTHelper.setInteger(stack, "blockMeta", j);
-					list.add(stack);
-				}
-			}
-		}
 	}
 
 	@Override
