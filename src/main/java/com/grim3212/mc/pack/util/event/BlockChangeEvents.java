@@ -22,16 +22,15 @@ public class BlockChangeEvents {
 	@SubscribeEvent
 	public void playerInteract(RightClickBlock event) {
 		if (UtilConfig.doubleDoors) {
-			IBlockState state = event.getWorld().getBlockState(event.getPos());
-			if (state.getBlock() instanceof BlockDoor) {
-				BlockPos blockpos1 = state.getValue(BlockDoor.HALF) == BlockDoor.EnumDoorHalf.LOWER ? event.getPos() : event.getPos().down();
-				IBlockState iblockstate1 = event.getPos().equals(blockpos1) ? state : event.getWorld().getBlockState(blockpos1);
-				state = iblockstate1.cycleProperty(BlockDoor.OPEN);
-				DoubleDoor.activateDoubleDoor(event.getWorld(), blockpos1, state);
-			} else if (state.getBlock() instanceof BlockTrapDoor) {
-				DoubleTrapDoor.activateDoubleTrap(event.getWorld(), event.getPos(), state, true);
-			} else if (state.getBlock() instanceof BlockFenceGate) {
-				DoubleFenceGate.updateFenceGate(event.getWorld(), event.getPos(), state);
+			if (!event.getEntityPlayer().isSneaking()) {
+				IBlockState state = event.getWorld().getBlockState(event.getPos());
+				if (state.getBlock() instanceof BlockDoor) {
+					DoubleDoor.activateDoubleDoor(event.getWorld(), event.getPos(), state, event.getEntityPlayer(), event.getHand(), event.getItemStack(), event.getFace(), event.getHitVec());
+				} else if (state.getBlock() instanceof BlockTrapDoor) {
+					DoubleTrapDoor.activateDoubleTrap(event.getWorld(), event.getPos(), state, true, event.getEntityPlayer(), event.getHand(), event.getItemStack(), event.getFace(), event.getHitVec());
+				} else if (state.getBlock() instanceof BlockFenceGate) {
+					DoubleFenceGate.updateFenceGate(event.getWorld(), event.getPos(), state, event.getEntityPlayer(), event.getHand(), event.getItemStack(), event.getFace(), event.getHitVec());
+				}
 			}
 		}
 	}
