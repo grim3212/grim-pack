@@ -36,6 +36,7 @@ public class WorldConfig extends GrimConfig {
 	public static boolean generateFI;
 	public static boolean replaceDesertWells;
 	public static boolean corruption;
+	public static boolean generateCorruption;
 	public static boolean spawnMorePeople;
 
 	public static String[] DIRT_EATING_BLOCKS_POSSIBLE;
@@ -50,6 +51,7 @@ public class WorldConfig extends GrimConfig {
 	public void syncConfig() {
 		fire = config.get(CONFIG_NAME, "Enable Fire", true).getBoolean();
 		corruption = config.get(CONFIG_NAME, "Enable Corruption", false).getBoolean();
+		generateCorruption = config.get(CONFIG_NAME, "Generate Corruption Blocks", false).getBoolean();
 		spawnMorePeople = config.get(CONFIG_NAME, "Spawn more people", true).getBoolean();
 
 		config.addCustomCategoryComment(CONFIG_NAME, "Change the values to decide how rare or common the different world gen items spawn. Larger values means rarer.");

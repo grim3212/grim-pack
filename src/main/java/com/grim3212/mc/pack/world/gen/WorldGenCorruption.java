@@ -2,6 +2,8 @@ package com.grim3212.mc.pack.world.gen;
 
 import java.util.Random;
 
+import com.grim3212.mc.pack.world.config.WorldConfig;
+
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.math.BlockPos;
@@ -22,6 +24,9 @@ public class WorldGenCorruption extends WorldGenerator {
 
 	@Override
 	public boolean generate(World var1, Random var2, BlockPos pos) {
+		if (!WorldConfig.generateCorruption)
+			return true;
+
 		float var6 = var2.nextFloat() * 3.141593F;
 		double var7 = (double) ((float) (pos.getX() + 8) + MathHelper.sin(var6) * (float) this.numberOfBlocks / 8.0F);
 		double var9 = (double) ((float) (pos.getX() + 8) - MathHelper.sin(var6) * (float) this.numberOfBlocks / 8.0F);
