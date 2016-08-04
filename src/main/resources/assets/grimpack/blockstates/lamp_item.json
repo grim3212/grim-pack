@@ -2,7 +2,7 @@
     "forge_marker": 1,
     "defaults": {
         "transform": "forge:default-item",
-        "model": "grimpack:decor_lampitem",
+        "model": "grimpack:decor_colorizer",
 		"custom": {
 			"models": ["grimpack:item/lamp_item_model", "grimpack:item/lamp_item_lamp"]
 		}

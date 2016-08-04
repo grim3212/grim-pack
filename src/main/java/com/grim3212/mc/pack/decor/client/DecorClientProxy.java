@@ -22,7 +22,7 @@ import com.grim3212.mc.pack.decor.entity.EntityFrame;
 import com.grim3212.mc.pack.decor.entity.EntityWallpaper;
 import com.grim3212.mc.pack.decor.item.DecorItems;
 import com.grim3212.mc.pack.decor.tile.TileEntityCalendar;
-import com.grim3212.mc.pack.decor.tile.TileEntityTextured;
+import com.grim3212.mc.pack.decor.tile.TileEntityColorizer;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
@@ -34,6 +34,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
@@ -63,6 +64,7 @@ public class DecorClientProxy extends DecorCommonProxy {
 		ModelLoader.setCustomStateMapper(DecorBlocks.chimney, new StateMap.Builder().ignore(BlockChimney.ACTIVE).build());
 
 		// ITEMS
+		RenderHelper.renderItem(DecorItems.brush);
 		RenderHelper.renderItem(DecorItems.glass_shard);
 		RenderHelper.renderItem(DecorItems.wallpaper);
 		RenderHelper.renderVariantForge(DecorItems.frame, new String[] { "wood", "iron" });
@@ -123,28 +125,27 @@ public class DecorClientProxy extends DecorCommonProxy {
 	}
 
 	@Override
-	@SuppressWarnings("deprecation")
 	public void initColors() {
 		Minecraft.getMinecraft().getBlockColors().registerBlockColorHandler(new IBlockColor() {
 			public int colorMultiplier(IBlockState state, IBlockAccess worldIn, BlockPos pos, int tintIndex) {
 				if (pos != null) {
 					TileEntity te = worldIn.getTileEntity(pos);
-					if (te != null && te instanceof TileEntityTextured) {
-						return Minecraft.getMinecraft().getBlockColors().colorMultiplier(Block.getBlockById(((TileEntityTextured) te).getBlockID()).getStateFromMeta(((TileEntityTextured) te).getBlockMeta()), worldIn, pos, tintIndex);
+					if (te != null && te instanceof TileEntityColorizer) {
+						return Minecraft.getMinecraft().getBlockColors().colorMultiplier(((TileEntityColorizer) te).getBlockState(), worldIn, pos, tintIndex);
 					}
 				}
 				return 16777215;
 			}
-		}, DecorBlocks.grill, DecorBlocks.chimney, DecorBlocks.stove, DecorBlocks.firepit, DecorBlocks.firering, DecorBlocks.fireplace, DecorBlocks.counter, DecorBlocks.table, DecorBlocks.stool, DecorBlocks.chair, DecorBlocks.wall, DecorBlocks.fence, DecorBlocks.fence_gate, DecorBlocks.lamp_post_bottom, DecorBlocks.lamp_post_middle, DecorBlocks.lamp_post_top);
+		}, DecorBlocks.colorizer, DecorBlocks.counter, DecorBlocks.table, DecorBlocks.stool, DecorBlocks.chair, DecorBlocks.wall, DecorBlocks.fence, DecorBlocks.fence_gate, DecorBlocks.lamp_post_bottom, DecorBlocks.lamp_post_middle, DecorBlocks.lamp_post_top, DecorBlocks.grill, DecorBlocks.chimney, DecorBlocks.stove, DecorBlocks.firepit, DecorBlocks.firering, DecorBlocks.fireplace);
 
 		Minecraft.getMinecraft().getItemColors().registerItemColorHandler(new IItemColor() {
 			@Override
 			public int getColorFromItemstack(ItemStack stack, int tintIndex) {
 				if (stack != null && stack.hasTagCompound()) {
-					if (stack.getTagCompound().hasKey("blockID")) {
-						Block block = Block.getBlockById(NBTHelper.getInt(stack, "blockID"));
-						if (stack.getTagCompound().hasKey("blockMeta")) {
-							ItemStack colorStack = new ItemStack(block, 1, NBTHelper.getInt(stack, "blockMeta"));
+					if (stack.getTagCompound().hasKey("registryName")) {
+						Block block = Block.REGISTRY.getObject(new ResourceLocation(NBTHelper.getString(stack, "registryName")));
+						if (stack.getTagCompound().hasKey("meta")) {
+							ItemStack colorStack = new ItemStack(block, 1, NBTHelper.getInt(stack, "meta"));
 							if (colorStack.getItem() != null) {
 								return Minecraft.getMinecraft().getItemColors().getColorFromItemstack(colorStack, tintIndex);
 							}
@@ -164,10 +165,10 @@ public class DecorClientProxy extends DecorCommonProxy {
 			@Override
 			public int getColorFromItemstack(ItemStack stack, int tintIndex) {
 				if (stack != null && stack.hasTagCompound()) {
-					if (stack.getTagCompound().hasKey("blockID")) {
-						Block block = Block.getBlockById(NBTHelper.getInt(stack, "blockID"));
-						if (stack.getTagCompound().hasKey("blockMeta")) {
-							ItemStack colorStack = new ItemStack(block, 1, NBTHelper.getInt(stack, "blockMeta"));
+					if (stack.getTagCompound().hasKey("registryName")) {
+						Block block = Block.REGISTRY.getObject(new ResourceLocation(NBTHelper.getString(stack, "registryName")));
+						if (stack.getTagCompound().hasKey("meta")) {
+							ItemStack colorStack = new ItemStack(block, 1, NBTHelper.getInt(stack, "meta"));
 							if (colorStack.getItem() != null) {
 								return Minecraft.getMinecraft().getItemColors().getColorFromItemstack(colorStack, tintIndex);
 							}

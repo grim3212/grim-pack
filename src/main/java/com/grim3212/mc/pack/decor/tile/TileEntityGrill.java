@@ -6,7 +6,6 @@ import com.grim3212.mc.pack.decor.config.DecorConfig;
 import com.grim3212.mc.pack.decor.inventory.ContainerGrill;
 import com.grim3212.mc.pack.decor.network.MessageParticles;
 
-import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
@@ -36,7 +35,7 @@ import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.wrapper.InvWrapper;
 
-public class TileEntityGrill extends TileEntityTextured implements ITickable, IInventory, IInteractionObject, ILockableContainer {
+public class TileEntityGrill extends TileEntityColorizer implements ITickable, IInventory, IInteractionObject, ILockableContainer {
 
 	private LockCode code = LockCode.EMPTY_CODE;
 	public ItemStack[] inventory = new ItemStack[5];
@@ -44,9 +43,6 @@ public class TileEntityGrill extends TileEntityTextured implements ITickable, II
 	public int grillCoal = 0;
 	private String customName;
 	private int nextUpdate = 0;
-
-	protected int blockID = 0;
-	protected int blockMeta = 0;
 
 	public TileEntityGrill() {
 	}
@@ -69,8 +65,6 @@ public class TileEntityGrill extends TileEntityTextured implements ITickable, II
 	@Override
 	public NBTTagCompound writeToNBT(NBTTagCompound compound) {
 		super.writeToNBT(compound);
-		compound.setInteger("blockID", this.blockID);
-		compound.setInteger("blockMeta", this.blockMeta);
 		if (this.code != null) {
 			this.code.toNBT(compound);
 		}
@@ -104,8 +98,6 @@ public class TileEntityGrill extends TileEntityTextured implements ITickable, II
 	@Override
 	public void readFromNBT(NBTTagCompound compound) {
 		super.readFromNBT(compound);
-		this.blockID = compound.getInteger("blockID");
-		this.blockMeta = compound.getInteger("blockMeta");
 		this.code = LockCode.fromNBT(compound);
 
 		this.grillCoal = compound.getInteger("GrillCoal");
@@ -263,9 +255,8 @@ public class TileEntityGrill extends TileEntityTextured implements ITickable, II
 		return false;
 	}
 
-	@SuppressWarnings("deprecation")
 	public int getTier() {
-		IBlockState grillType = Block.getBlockById(blockID).getStateFromMeta(blockMeta);
+		IBlockState grillType = this.getBlockState();
 
 		if (grillType.getBlock() == Blocks.DIAMOND_BLOCK || grillType.getBlock() == Blocks.EMERALD_BLOCK) {
 			return 6;
@@ -351,22 +342,6 @@ public class TileEntityGrill extends TileEntityTextured implements ITickable, II
 	@Override
 	public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity pkt) {
 		readFromNBT(pkt.getNbtCompound());
-	}
-
-	public int getBlockID() {
-		return blockID;
-	}
-
-	public void setBlockID(int blockID) {
-		this.blockID = blockID;
-	}
-
-	public int getBlockMeta() {
-		return blockMeta;
-	}
-
-	public void setBlockMeta(int blockMeta) {
-		this.blockMeta = blockMeta;
 	}
 
 	@Override

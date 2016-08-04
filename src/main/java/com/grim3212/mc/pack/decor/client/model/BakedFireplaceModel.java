@@ -9,11 +9,13 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 import com.grim3212.mc.pack.core.util.NBTHelper;
-import com.grim3212.mc.pack.decor.block.BlockFireplaceBase;
+import com.grim3212.mc.pack.decor.block.BlockColorizer;
 import com.grim3212.mc.pack.decor.block.DecorBlocks;
 import com.grim3212.mc.pack.decor.config.DecorConfig;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockDirt;
+import net.minecraft.block.BlockDirt.DirtType;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BlockModelShapes;
@@ -37,7 +39,7 @@ import net.minecraftforge.common.model.TRSRTransformation;
 import net.minecraftforge.common.property.IExtendedBlockState;
 
 @SuppressWarnings("deprecation")
-public class BakedFireplaceModel extends BakedTexturedModel {
+public class BakedFireplaceModel extends BakedColorizerModel {
 
 	public BakedFireplaceModel(IModelState modelState, ImmutableList<ResourceLocation> modelLocation, ResourceLocation textureLocation, VertexFormat fmt, ImmutableMap<TransformType, TRSRTransformation> transforms) {
 		super(modelState, modelLocation, textureLocation, fmt, transforms);
@@ -51,33 +53,30 @@ public class BakedFireplaceModel extends BakedTexturedModel {
 	private final ItemOverrideList itemHandler = new ItemOverrideList(Lists.<ItemOverride> newArrayList()) {
 		@Override
 		public IBakedModel handleItemState(IBakedModel model, ItemStack stack, World world, EntityLivingBase entity) {
-			if (stack.hasTagCompound() && stack.getTagCompound().hasKey("blockID") && stack.getTagCompound().hasKey("blockMeta")) {
-				int blockID = NBTHelper.getInt(stack, "blockID");
-				int blockMeta = NBTHelper.getInt(stack, "blockMeta");
-				return BakedFireplaceModel.this.getCachedModel(Block.getBlockFromItem(stack.getItem()).getDefaultState(), blockID, blockMeta);
+			if (stack.hasTagCompound() && stack.getTagCompound().hasKey("registryName") && stack.getTagCompound().hasKey("meta")) {
+				Block block = Block.REGISTRY.getObject(new ResourceLocation(NBTHelper.getString(stack, "registryName")));
+				IBlockState state = block.getStateFromMeta(NBTHelper.getInt(stack, "meta"));
+				return BakedFireplaceModel.this.getCachedModel(Block.getBlockFromItem(stack.getItem()).getDefaultState(), state);
 			}
 
-			return BakedFireplaceModel.this.getCachedModel(Block.getBlockFromItem(stack.getItem()).getDefaultState(), 0, 0);
+			return BakedFireplaceModel.this.getCachedModel(Block.getBlockFromItem(stack.getItem()).getDefaultState(), Blocks.AIR.getDefaultState());
 		}
 	};
 
 	public List<BakedQuad> getQuads(IBlockState state, EnumFacing side, long rand) {
 		if (state instanceof IExtendedBlockState) {
 			IExtendedBlockState exState = (IExtendedBlockState) state;
-			if (exState.getBlock() instanceof BlockFireplaceBase) {
-				if (exState.getValue(BlockFireplaceBase.BLOCKID) != null && exState.getValue(BlockFireplaceBase.BLOCKMETA) != null) {
-					int blockID = exState.getValue(BlockFireplaceBase.BLOCKID);
-					int blockMeta = exState.getValue(BlockFireplaceBase.BLOCKMETA);
-					return this.getCachedModel(state, blockID, blockMeta).getQuads(state, side, rand);
-				}
+			if (exState.getValue(BlockColorizer.BLOCK_STATE) != null) {
+				IBlockState blockState = exState.getValue(BlockColorizer.BLOCK_STATE);
+				return this.getCachedModel(blockState).getQuads(state, side, rand);
 			}
 		}
 
 		return ImmutableList.of();
 	}
 
-	private final Map<List<Integer>, IBakedModel> cache = new HashMap<List<Integer>, IBakedModel>();
-	private final Map<List<Integer>, IBakedModel> firepitCache = new HashMap<List<Integer>, IBakedModel>();
+	private final Map<IBlockState, IBakedModel> cache = new HashMap<IBlockState, IBakedModel>();
+	private final Map<List<Object>, IBakedModel> firepitCache = new HashMap<List<Object>, IBakedModel>();
 	private static final ResourceLocation FIREPIT_COVERED = new ResourceLocation("grimpack:block/firepit_covered");
 
 	@Override
@@ -86,24 +85,22 @@ public class BakedFireplaceModel extends BakedTexturedModel {
 		firepitCache.clear();
 	}
 
-	public IBakedModel getCachedModel(IBlockState state, int blockID, int blockMeta) {
-		List<Integer> key = Arrays.asList(blockID, blockMeta);
-		List<Integer> firepitKey = Arrays.asList(blockID, blockMeta, DecorConfig.enableFirepitNet ? 1 : 0);
+	public IBakedModel getCachedModel(IBlockState state, IBlockState blockState) {
+		List<Object> firepitKey = Arrays.asList(blockState, DecorConfig.enableFirepitNet ? 1 : 0);
 		ImmutableMap.Builder<String, String> newTexture = ImmutableMap.builder();
 
 		if (state.getBlock() == DecorBlocks.firepit) {
 			if (!this.firepitCache.containsKey(firepitKey)) {
-				if (blockID == 0 && blockMeta == 0) {
+				if (blockState == Blocks.AIR.getDefaultState()) {
 					newTexture.put("texture", "grimpack:blocks/colorizer");
-				} else if (Block.getBlockById(blockID) == Blocks.GRASS) {
+				} else if (blockState.getBlock() == Blocks.GRASS) {
 					newTexture.put("texture", "minecraft:blocks/grass_top");
-				} else if (Block.getBlockById(blockID) == Blocks.DIRT && blockMeta == 2) {
+				} else if (blockState.getBlock() == Blocks.DIRT && blockState.getValue(BlockDirt.VARIANT) == DirtType.PODZOL) {
 					newTexture.put("texture", "minecraft:blocks/dirt_podzol_top");
-				} else if (Block.getBlockById(blockID) == Blocks.MYCELIUM) {
+				} else if (blockState.getBlock() == Blocks.MYCELIUM) {
 					newTexture.put("texture", "minecraft:blocks/mycelium_top");
 				} else {
 					BlockModelShapes blockModel = Minecraft.getMinecraft().getBlockRendererDispatcher().getBlockModelShapes();
-					IBlockState blockState = Block.getBlockById(blockID).getStateFromMeta(blockMeta);
 					TextureAtlasSprite blockTexture = blockModel.getTexture(blockState);
 
 					newTexture.put("texture", blockTexture.getIconName());
@@ -119,26 +116,25 @@ public class BakedFireplaceModel extends BakedTexturedModel {
 			return this.firepitCache.get(firepitKey);
 		}
 
-		if (!this.cache.containsKey(key)) {
-			if (blockID == 0 && blockMeta == 0) {
+		if (!this.cache.containsKey(blockState)) {
+			if (blockState == Blocks.AIR.getDefaultState()) {
 				newTexture.put("texture", "grimpack:blocks/colorizer");
-			} else if (Block.getBlockById(blockID) == Blocks.GRASS) {
+			} else if (blockState.getBlock() == Blocks.GRASS) {
 				newTexture.put("texture", "minecraft:blocks/grass_top");
-			} else if (Block.getBlockById(blockID) == Blocks.DIRT && blockMeta == 2) {
+			} else if (blockState.getBlock() == Blocks.DIRT && blockState.getValue(BlockDirt.VARIANT) == DirtType.PODZOL) {
 				newTexture.put("texture", "minecraft:blocks/dirt_podzol_top");
-			} else if (Block.getBlockById(blockID) == Blocks.MYCELIUM) {
+			} else if (blockState.getBlock() == Blocks.MYCELIUM) {
 				newTexture.put("texture", "minecraft:blocks/mycelium_top");
 			} else {
 				BlockModelShapes blockModel = Minecraft.getMinecraft().getBlockRendererDispatcher().getBlockModelShapes();
-				IBlockState blockState = Block.getBlockById(blockID).getStateFromMeta(blockMeta);
 				TextureAtlasSprite blockTexture = blockModel.getTexture(blockState);
 
 				newTexture.put("texture", blockTexture.getIconName());
 			}
 
-			this.cache.put(key, generateModel(newTexture.build()));
+			this.cache.put(blockState, generateModel(newTexture.build()));
 		}
 
-		return this.cache.get(key);
+		return this.cache.get(blockState);
 	}
 }

@@ -20,7 +20,7 @@ import net.minecraftforge.common.model.TRSRTransformation;
 
 public class DecorModel implements IRetexturableModel, IModelCustomData {
 
-	public static final DecorModel MODEL = new DecorModel(ImmutableList.<ResourceLocation> of(), new ResourceLocation("minecraft:blocks/portal"), EnumDecorModelType.Unknown);
+	public static final DecorModel MODEL = new DecorModel(ImmutableList.<ResourceLocation> of(), new ResourceLocation("grimpack:blocks/colorizer"), EnumDecorModelType.Unknown);
 
 	private final ImmutableList<ResourceLocation> modelLocation;
 	private final ResourceLocation textureLocation;
@@ -48,17 +48,13 @@ public class DecorModel implements IRetexturableModel, IModelCustomData {
 
 	@Override
 	public IBakedModel bake(IModelState state, VertexFormat format, Function<ResourceLocation, TextureAtlasSprite> bakedTextureGetter) {
-		if (this.modelType == EnumDecorModelType.Furniture) {
-			return new BakedTexturedModel(state, modelLocation, textureLocation, format, IPerspectiveAwareModel.MapWrapper.getTransforms(state));
+		if (this.modelType == EnumDecorModelType.Colorizer) {
+			return new BakedColorizerModel(state, modelLocation, textureLocation, format, IPerspectiveAwareModel.MapWrapper.getTransforms(state));
 		} else if (this.modelType == EnumDecorModelType.Fireplace) {
 			return new BakedFireplaceModel(state, modelLocation, textureLocation, format, IPerspectiveAwareModel.MapWrapper.getTransforms(state));
-		} else if (this.modelType == EnumDecorModelType.LampPost) {
-			return new BakedTexturedModel(state, modelLocation, textureLocation, format, IPerspectiveAwareModel.MapWrapper.getTransforms(state));
-		} else if (this.modelType == EnumDecorModelType.LampPostItem) {
-			return new BakedLampItemModel(state, modelLocation, textureLocation, format, IPerspectiveAwareModel.MapWrapper.getTransforms(state));
 		}
 
-		return new BakedTexturedModel(state, modelLocation, textureLocation, format, IPerspectiveAwareModel.MapWrapper.getTransforms(state));
+		return new BakedColorizerModel(state, modelLocation, textureLocation, format, IPerspectiveAwareModel.MapWrapper.getTransforms(state));
 	}
 
 	@Override
@@ -93,6 +89,6 @@ public class DecorModel implements IRetexturableModel, IModelCustomData {
 	}
 
 	public static enum EnumDecorModelType {
-		Furniture, Fireplace, LampPostItem, LampPost, Unknown
+		Fireplace, Colorizer, Unknown
 	}
 }

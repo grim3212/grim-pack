@@ -2,14 +2,15 @@ package com.grim3212.mc.pack.decor.block;
 
 import java.util.Random;
 
-import com.grim3212.mc.pack.core.util.NBTHelper;
 import com.grim3212.mc.pack.decor.item.DecorItems;
-import com.grim3212.mc.pack.decor.tile.TileEntityTextured;
+import com.grim3212.mc.pack.decor.item.ItemBrush;
+import com.grim3212.mc.pack.decor.tile.TileEntityColorizer;
 import com.grim3212.mc.pack.decor.util.BlockHelper;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -18,11 +19,10 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
-public class BlockLampPost extends BlockTextured {
+public class BlockLampPost extends BlockColorizer {
 
 	public BlockLampPost(boolean isGlowing) {
 		this.setHardness(1.0F);
@@ -58,81 +58,50 @@ public class BlockLampPost extends BlockTextured {
 	@Override
 	@SuppressWarnings("deprecation")
 	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ) {
-		if (heldItem != null && heldItem.getItem() != null) {
-			Block block = Block.getBlockFromItem(heldItem.getItem());
-			if (block != null) {
-				if (BlockHelper.getBlocks().containsKey(block)) {
-					TileEntity tileentity = worldIn.getTileEntity(pos);
-					if (tileentity instanceof TileEntityTextured) {
-						setTileEntityData(worldIn, pos, state, block, heldItem);
+		TileEntity tileentity = worldIn.getTileEntity(pos);
 
-						if (state.getBlock() == DecorBlocks.lamp_post_top) {
-							setTileEntityData(worldIn, pos.down(), DecorBlocks.lamp_post_middle.getDefaultState(), block, heldItem);
-							setTileEntityData(worldIn, pos.down(2), DecorBlocks.lamp_post_bottom.getDefaultState(), block, heldItem);
-							if (!worldIn.isRemote) {
-								worldIn.markBlockRangeForRenderUpdate(pos, pos.down(2));
-							}
-						} else if (state.getBlock() == DecorBlocks.lamp_post_middle) {
-							setTileEntityData(worldIn, pos.down(), DecorBlocks.lamp_post_bottom.getDefaultState(), block, heldItem);
-							setTileEntityData(worldIn, pos.up(), DecorBlocks.lamp_post_top.getDefaultState(), block, heldItem);
-							if (!worldIn.isRemote) {
-								worldIn.markBlockRangeForRenderUpdate(pos.up(), pos.down());
-							}
-						} else if (state.getBlock() == DecorBlocks.lamp_post_bottom) {
-							setTileEntityData(worldIn, pos.up(2), DecorBlocks.lamp_post_top.getDefaultState(), block, heldItem);
-							setTileEntityData(worldIn, pos.up(), DecorBlocks.lamp_post_middle.getDefaultState(), block, heldItem);
-							if (!worldIn.isRemote) {
-								worldIn.markBlockRangeForRenderUpdate(pos, pos.up(2));
-							}
+		if (heldItem != null && heldItem.getItem() != null && tileentity instanceof TileEntityColorizer) {
+			TileEntityColorizer te = (TileEntityColorizer) tileentity;
+			Block block = Block.getBlockFromItem(heldItem.getItem());
+
+			if (block != null && !(block instanceof BlockColorizer)) {
+				if (BlockHelper.getUsableBlocks().contains(block)) {
+					// Can only set blockstate if it contains nothing or if
+					// in creative mode
+					if (te.getBlockState() == Blocks.AIR.getDefaultState() || playerIn.capabilities.isCreativeMode) {
+						if (!playerIn.capabilities.isCreativeMode)
+							--heldItem.stackSize;
+
+						// Set self data
+						Block self = state.getBlock();
+						IBlockState toPlaceState = block.getStateFromMeta(heldItem.getMetadata());
+						ItemBrush.setTileEntityData(worldIn, pos, state, toPlaceState);
+
+						if (self == DecorBlocks.lamp_post_bottom) {
+							ItemBrush.setTileEntityData(worldIn, pos.up(), state, toPlaceState);
+							ItemBrush.setTileEntityData(worldIn, pos.up(2), state, toPlaceState);
+						} else if (self == DecorBlocks.lamp_post_middle) {
+							ItemBrush.setTileEntityData(worldIn, pos.up(), state, toPlaceState);
+							ItemBrush.setTileEntityData(worldIn, pos.down(), state, toPlaceState);
+						} else if (self == DecorBlocks.lamp_post_top) {
+							ItemBrush.setTileEntityData(worldIn, pos.down(), state, toPlaceState);
+							ItemBrush.setTileEntityData(worldIn, pos.down(2), state, toPlaceState);
 						}
 
 						worldIn.playSound(playerIn, pos, block.getSoundType().getPlaceSound(), SoundCategory.BLOCKS, (block.getSoundType().getVolume() + 1.0F) / 2.0F, block.getSoundType().getPitch() * 0.8F);
 						return true;
+					} else if (te.getBlockState() != Blocks.AIR.getDefaultState()) {
+						return false;
 					}
+				} else {
+					return false;
 				}
-			}
-		} else {
-			if (playerIn.isSneaking()) {
-				TileEntity tileentity = worldIn.getTileEntity(pos);
-				if (tileentity instanceof TileEntityTextured) {
-					setTileEntityData(worldIn, pos, state, null, null);
-
-					if (state.getBlock() == DecorBlocks.lamp_post_top) {
-						setTileEntityData(worldIn, pos.down(), DecorBlocks.lamp_post_middle.getDefaultState(), null, null);
-						setTileEntityData(worldIn, pos.down(2), DecorBlocks.lamp_post_bottom.getDefaultState(), null, null);
-						if (!worldIn.isRemote) {
-							worldIn.markBlockRangeForRenderUpdate(pos, pos.down(2));
-						}
-					} else if (state.getBlock() == DecorBlocks.lamp_post_middle) {
-						setTileEntityData(worldIn, pos.down(), DecorBlocks.lamp_post_bottom.getDefaultState(), null, null);
-						setTileEntityData(worldIn, pos.up(), DecorBlocks.lamp_post_top.getDefaultState(), null, null);
-						if (!worldIn.isRemote) {
-							worldIn.markBlockRangeForRenderUpdate(pos.up(), pos.down());
-						}
-					} else if (state.getBlock() == DecorBlocks.lamp_post_bottom) {
-						setTileEntityData(worldIn, pos.up(2), DecorBlocks.lamp_post_top.getDefaultState(), null, null);
-						setTileEntityData(worldIn, pos.up(), DecorBlocks.lamp_post_middle.getDefaultState(), null, null);
-						if (!worldIn.isRemote) {
-							worldIn.markBlockRangeForRenderUpdate(pos, pos.up(2));
-						}
-					}
-
-					worldIn.playSound(playerIn, pos, this.getSoundType().getPlaceSound(), SoundCategory.BLOCKS, (this.getSoundType().getVolume() + 1.0F) / 2.0F, this.getSoundType().getPitch() * 0.8F);
-					return true;
-				}
+			} else {
+				return false;
 			}
 		}
 
-		return false;
-	}
-
-	private void setTileEntityData(World worldIn, BlockPos pos, IBlockState state, Block block, ItemStack stack) {
-		TileEntity te = worldIn.getTileEntity(pos);
-		if (te instanceof TileEntityTextured) {
-			((TileEntityTextured) te).setBlockID(block != null ? Block.getIdFromBlock(block) : 0);
-			((TileEntityTextured) te).setBlockMeta(stack != null ? stack.getMetadata() : 0);
-			worldIn.setBlockState(pos, this.getExtendedState(state, worldIn, pos));
-		}
+		return true;
 	}
 
 	@Override
@@ -183,13 +152,5 @@ public class BlockLampPost extends BlockTextured {
 	@Override
 	public ItemStack getItem(World worldIn, BlockPos pos, IBlockState state) {
 		return new ItemStack(DecorItems.lamp_item);
-	}
-
-	@Override
-	public ItemStack getPickBlock(IBlockState state, RayTraceResult target, World world, BlockPos pos, EntityPlayer player) {
-		ItemStack itemstack = new ItemStack(DecorItems.lamp_item, 1);
-		NBTHelper.setInteger(itemstack, "blockID", 0);
-		NBTHelper.setInteger(itemstack, "blockMeta", 0);
-		return itemstack;
 	}
 }

@@ -9,8 +9,7 @@ import com.grim3212.mc.pack.core.util.RecipeHelper;
 import com.grim3212.mc.pack.core.util.Utils;
 import com.grim3212.mc.pack.decor.GrimDecor;
 import com.grim3212.mc.pack.decor.item.DecorItems;
-import com.grim3212.mc.pack.decor.item.ItemFireplaceBase;
-import com.grim3212.mc.pack.decor.item.ItemFurniture;
+import com.grim3212.mc.pack.decor.item.ItemColorizer;
 import com.grim3212.mc.pack.decor.item.ItemGrill;
 import com.grim3212.mc.pack.decor.item.ItemLantern;
 
@@ -88,7 +87,7 @@ public class DecorBlocks implements IPartItems {
 		stove = new BlockStove().setUnlocalizedName("stove");
 		grill = new BlockGrill().setUnlocalizedName("grill");
 		hardened_wood = (new BlockSound(Material.ROCK, SoundType.STONE)).setHardness(1.5F).setResistance(12F).setUnlocalizedName("hardened_wood").setCreativeTab(GrimDecor.INSTANCE.getCreativeTab());
-		colorizer = (new BlockSound(Material.ROCK, SoundType.STONE)).setHardness(1.5F).setResistance(12F).setUnlocalizedName("colorizer").setCreativeTab(GrimDecor.INSTANCE.getCreativeTab());
+		colorizer = (new BlockColorizer()).setUnlocalizedName("colorizer");
 
 		Utils.registerBlock(calendar, "calendar");
 		Utils.registerBlock(wall_clock, "wall_clock");
@@ -104,21 +103,21 @@ public class DecorBlocks implements IPartItems {
 		Utils.registerBlock(craft_clay, "craft_clay");
 		Utils.registerBlock(craft_bone, "craft_bone");
 		Utils.registerBlock(hardened_wood, "hardened_wood");
-		Utils.registerBlock(colorizer, "colorizer");
+		Utils.registerBlock(colorizer, "colorizer", new ItemColorizer(colorizer));
 		Utils.registerBlock(grill, "grill", new ItemGrill(grill));
 		Utils.registerBlock(lantern, "lantern", new ItemLantern(lantern));
-		Utils.registerBlock(fireplace, "fireplace", new ItemFireplaceBase(fireplace));
-		Utils.registerBlock(firering, "firering", new ItemFireplaceBase(firering));
-		Utils.registerBlock(firepit, "firepit", new ItemFireplaceBase(firepit));
-		Utils.registerBlock(chimney, "chimney", new ItemFireplaceBase(chimney));
-		Utils.registerBlock(stove, "stove", new ItemFireplaceBase(stove));
-		Utils.registerBlock(table, "table", new ItemFurniture(table));
-		Utils.registerBlock(counter, "counter", new ItemFurniture(counter));
-		Utils.registerBlock(stool, "stool", new ItemFurniture(stool));
-		Utils.registerBlock(chair, "chair", new ItemFurniture(chair));
-		Utils.registerBlock(wall, "wall", new ItemFurniture(wall));
-		Utils.registerBlock(fence, "fence", new ItemFurniture(fence));
-		Utils.registerBlock(fence_gate, "fence_gate", new ItemFurniture(fence_gate));
+		Utils.registerBlock(fireplace, "fireplace", new ItemColorizer(fireplace));
+		Utils.registerBlock(firering, "firering", new ItemColorizer(firering));
+		Utils.registerBlock(firepit, "firepit", new ItemColorizer(firepit));
+		Utils.registerBlock(chimney, "chimney", new ItemColorizer(chimney));
+		Utils.registerBlock(stove, "stove", new ItemColorizer(stove));
+		Utils.registerBlock(table, "table", new ItemColorizer(table));
+		Utils.registerBlock(counter, "counter", new ItemColorizer(counter));
+		Utils.registerBlock(stool, "stool", new ItemColorizer(stool));
+		Utils.registerBlock(chair, "chair", new ItemColorizer(chair));
+		Utils.registerBlock(wall, "wall", new ItemColorizer(wall));
+		Utils.registerBlock(fence, "fence", new ItemColorizer(fence));
+		Utils.registerBlock(fence_gate, "fence_gate", new ItemColorizer(fence_gate));
 	}
 
 	public static IRecipe mossy;
@@ -158,7 +157,7 @@ public class DecorBlocks implements IPartItems {
 		chains = RecipeHelper.getLatestIRecipes(2);
 
 		GameRegistry.addSmelting(Blocks.GRAVEL, new ItemStack(road, 1), 0.15F);
-		
+
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(hardened_wood, 9), new Object[] { "###", "#W#", "###", '#', "stone", 'W', "plankWood" }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(colorizer, 4), new Object[] { " # ", "#W#", " # ", '#', "dye", 'W', hardened_wood }));
 

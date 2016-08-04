@@ -38,6 +38,19 @@ public class RenderHelper {
 	}
 
 	/**
+	 * Render an item without meta that all share the same model
+	 * 
+	 * @param item
+	 *            to render
+	 * @param meta
+	 *            number of meta values
+	 */
+	public static void renderItem(Item item, int meta) {
+		for (int i = 0; i < meta; i++)
+			ModelLoader.setCustomModelResourceLocation(item, i, new ModelResourceLocation(item.getRegistryName(), "inventory"));
+	}
+
+	/**
 	 * Uses the forge single blockstate for variants
 	 * 
 	 * @param item

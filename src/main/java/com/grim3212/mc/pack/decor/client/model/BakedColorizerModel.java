@@ -1,6 +1,5 @@
 package com.grim3212.mc.pack.decor.client.model;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,9 +13,11 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 import com.grim3212.mc.pack.core.client.model.CompositeModel;
 import com.grim3212.mc.pack.core.util.NBTHelper;
-import com.grim3212.mc.pack.decor.block.BlockTextured;
+import com.grim3212.mc.pack.decor.block.BlockColorizer;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockDirt;
+import net.minecraft.block.BlockDirt.DirtType;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BlockModelShapes;
@@ -46,7 +47,7 @@ import net.minecraftforge.common.model.TRSRTransformation;
 import net.minecraftforge.common.property.IExtendedBlockState;
 
 @SuppressWarnings("deprecation")
-public class BakedTexturedModel implements IPerspectiveAwareModel, IResourceManagerReloadListener {
+public class BakedColorizerModel implements IPerspectiveAwareModel, IResourceManagerReloadListener {
 
 	protected final IModelState modelState;
 	protected final ImmutableList<ResourceLocation> modelLocation;
@@ -56,7 +57,7 @@ public class BakedTexturedModel implements IPerspectiveAwareModel, IResourceMana
 	protected final IModel baseModel;
 	protected final ImmutableList<IModel> modelParts;
 
-	public BakedTexturedModel(IModelState modelState, ImmutableList<ResourceLocation> modelLocation, ResourceLocation textureLocation, VertexFormat fmt, ImmutableMap<ItemCameraTransforms.TransformType, TRSRTransformation> transforms) {
+	public BakedColorizerModel(IModelState modelState, ImmutableList<ResourceLocation> modelLocation, ResourceLocation textureLocation, VertexFormat fmt, ImmutableMap<ItemCameraTransforms.TransformType, TRSRTransformation> transforms) {
 		this.modelState = modelState;
 		this.modelLocation = modelLocation;
 		this.textureLocation = textureLocation;
@@ -81,43 +82,40 @@ public class BakedTexturedModel implements IPerspectiveAwareModel, IResourceMana
 	public List<BakedQuad> getQuads(IBlockState state, EnumFacing side, long rand) {
 		if (state instanceof IExtendedBlockState) {
 			IExtendedBlockState exState = (IExtendedBlockState) state;
-			if (exState.getValue(BlockTextured.BLOCKID) != null && exState.getValue(BlockTextured.BLOCKMETA) != null) {
-				int blockID = exState.getValue(BlockTextured.BLOCKID);
-				int blockMeta = exState.getValue(BlockTextured.BLOCKMETA);
-				return this.getCachedModel(state, blockID, blockMeta).getQuads(state, side, rand);
+			if (exState.getValue(BlockColorizer.BLOCK_STATE) != null) {
+				IBlockState blockState = exState.getValue(BlockColorizer.BLOCK_STATE);
+				return this.getCachedModel(blockState).getQuads(state, side, rand);
 			}
 		}
 		return ImmutableList.of();
 	}
 
-	private final Map<List<Integer>, IBakedModel> cache = new HashMap<List<Integer>, IBakedModel>();
+	private final Map<IBlockState, IBakedModel> cache = new HashMap<IBlockState, IBakedModel>();
 
-	public IBakedModel getCachedModel(IBlockState state, int blockID, int blockMeta) {
-		List<Integer> key = Arrays.asList(blockID, blockMeta);
+	public IBakedModel getCachedModel(IBlockState blockState) {
 
-		if (!this.cache.containsKey(key)) {
+		if (!this.cache.containsKey(blockState)) {
 			ImmutableMap.Builder<String, String> newTexture = ImmutableMap.builder();
 
-			if (blockID == 0 && blockMeta == 0) {
+			if (blockState == Blocks.AIR.getDefaultState()) {
 				newTexture.put("texture", "grimpack:blocks/colorizer");
-			} else if (Block.getBlockById(blockID) == Blocks.GRASS) {
+			} else if (blockState.getBlock() == Blocks.GRASS) {
 				newTexture.put("texture", "minecraft:blocks/grass_top");
-			} else if (Block.getBlockById(blockID) == Blocks.DIRT && blockMeta == 2) {
+			} else if (blockState.getBlock() == Blocks.DIRT && blockState.getValue(BlockDirt.VARIANT) == DirtType.PODZOL) {
 				newTexture.put("texture", "minecraft:blocks/dirt_podzol_top");
-			} else if (Block.getBlockById(blockID) == Blocks.MYCELIUM) {
+			} else if (blockState.getBlock() == Blocks.MYCELIUM) {
 				newTexture.put("texture", "minecraft:blocks/mycelium_top");
 			} else {
 				BlockModelShapes blockModel = Minecraft.getMinecraft().getBlockRendererDispatcher().getBlockModelShapes();
-				IBlockState blockState = Block.getBlockById(blockID).getStateFromMeta(blockMeta);
 				TextureAtlasSprite blockTexture = blockModel.getTexture(blockState);
 
 				newTexture.put("texture", blockTexture.getIconName());
 			}
 
-			this.cache.put(key, generateModel(newTexture.build()));
+			this.cache.put(blockState, generateModel(newTexture.build()));
 		}
 
-		return this.cache.get(key);
+		return this.cache.get(blockState);
 	}
 
 	/**
@@ -188,12 +186,13 @@ public class BakedTexturedModel implements IPerspectiveAwareModel, IResourceMana
 	private final ItemOverrideList itemHandler = new ItemOverrideList(Lists.<ItemOverride> newArrayList()) {
 		@Override
 		public IBakedModel handleItemState(IBakedModel model, ItemStack stack, World world, EntityLivingBase entity) {
-			if (stack.hasTagCompound() && stack.getTagCompound().hasKey("blockID") && stack.getTagCompound().hasKey("blockMeta")) {
-				int blockID = NBTHelper.getInt(stack, "blockID");
-				int blockMeta = NBTHelper.getInt(stack, "blockMeta");
-				return BakedTexturedModel.this.getCachedModel(Block.getBlockFromItem(stack.getItem()).getDefaultState(), blockID, blockMeta);
+			if (stack.hasTagCompound() && stack.getTagCompound().hasKey("registryName") && stack.getTagCompound().hasKey("meta")) {
+				Block block = Block.REGISTRY.getObject(new ResourceLocation(NBTHelper.getString(stack, "registryName")));
+				IBlockState state = block.getStateFromMeta(NBTHelper.getInt(stack, "meta"));
+				return BakedColorizerModel.this.getCachedModel(state);
 			}
-			return BakedTexturedModel.this.getCachedModel(Block.getBlockFromItem(stack.getItem()).getDefaultState(), 0, 0);
+
+			return BakedColorizerModel.this.getCachedModel(Blocks.AIR.getDefaultState());
 		}
 	};
 

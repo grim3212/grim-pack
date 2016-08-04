@@ -4,10 +4,10 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.glu.GLU;
 
 import com.grim3212.mc.pack.GrimPack;
-import com.grim3212.mc.pack.core.util.NBTHelper;
 import com.grim3212.mc.pack.decor.block.DecorBlocks;
 import com.grim3212.mc.pack.decor.inventory.ContainerGrill;
 import com.grim3212.mc.pack.decor.tile.TileEntityGrill;
+import com.grim3212.mc.pack.decor.util.DecorUtil;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
@@ -19,7 +19,6 @@ import net.minecraft.client.renderer.block.model.ItemCameraTransforms.TransformT
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.IInventory;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -98,10 +97,7 @@ public class GuiGrill extends GuiContainer {
 		GlStateManager.enableRescaleNormal();
 
 		if (this.grillInventory != null) {
-			ItemStack grill = new ItemStack(DecorBlocks.grill);
-			NBTHelper.setInteger(grill, "blockID", grillInventory.getBlockID());
-			NBTHelper.setInteger(grill, "blockMeta", grillInventory.getBlockMeta());
-			renderItems.renderItem(grill, TransformType.FIXED);
+			renderItems.renderItem(DecorUtil.createFurnitureWithState(DecorBlocks.grill, grillInventory.getBlockState()), TransformType.FIXED);
 		}
 
 		GlStateManager.disableRescaleNormal();

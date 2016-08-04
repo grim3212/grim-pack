@@ -6,6 +6,7 @@ import com.grim3212.mc.pack.core.network.PacketDispatcher;
 import com.grim3212.mc.pack.decor.network.MessageParticles;
 import com.grim3212.mc.pack.decor.tile.TileEntityGrill;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
@@ -44,6 +45,15 @@ public class BlockGrill extends BlockFireplaceBase {
 
 	@Override
 	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ) {
+		if (heldItem != null && heldItem.getItem() != null) {
+			Block block = Block.getBlockFromItem(heldItem.getItem());
+			if (block != null) {
+				if (super.onBlockActivated(worldIn, pos, state, playerIn, hand, heldItem, side, hitX, hitY, hitZ)) {
+					return true;
+				}
+			}
+		}
+
 		if (worldIn.isRemote)
 			return true;
 

@@ -39,7 +39,7 @@ public class BlockFireplace extends BlockFireplaceBase {
 
 	@Override
 	protected BlockStateContainer createBlockState() {
-		return new ExtendedBlockState(this, new IProperty[] { NORTH, SOUTH, WEST, EAST, ACTIVE }, new IUnlistedProperty[] { BLOCKID, BLOCKMETA });
+		return new ExtendedBlockState(this, new IProperty[] { NORTH, SOUTH, WEST, EAST, ACTIVE }, new IUnlistedProperty[] { BLOCK_STATE });
 	}
 
 	@Override

@@ -2,7 +2,7 @@
 	"forge_marker": 1,
     "defaults": {
 		"transform": "forge:default-block",
-		"model": "grimpack:decor_furniture"
+		"model": "grimpack:decor_colorizer"
     },
     "variants": {
         "east=false,north=false,south=false,west=false": [{ "custom": {"models": ["grimpack:block/fence_post"]} }],

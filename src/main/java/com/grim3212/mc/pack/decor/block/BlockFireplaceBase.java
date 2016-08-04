@@ -3,7 +3,7 @@ package com.grim3212.mc.pack.decor.block;
 import com.grim3212.mc.pack.core.network.PacketDispatcher;
 import com.grim3212.mc.pack.decor.GrimDecor;
 import com.grim3212.mc.pack.decor.network.MessageParticles;
-import com.grim3212.mc.pack.decor.tile.TileEntityTextured;
+import com.grim3212.mc.pack.decor.tile.TileEntityColorizer;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.properties.IProperty;
@@ -22,10 +22,9 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.property.ExtendedBlockState;
-import net.minecraftforge.common.property.IExtendedBlockState;
 import net.minecraftforge.common.property.IUnlistedProperty;
 
-public class BlockFireplaceBase extends BlockTextured {
+public class BlockFireplaceBase extends BlockColorizer {
 
 	public static final PropertyBool ACTIVE = PropertyBool.create("active");
 
@@ -36,7 +35,7 @@ public class BlockFireplaceBase extends BlockTextured {
 
 	@Override
 	protected BlockStateContainer createBlockState() {
-		return new ExtendedBlockState(this, new IProperty[] { ACTIVE }, new IUnlistedProperty[] { BLOCKID, BLOCKMETA });
+		return new ExtendedBlockState(this, new IProperty[] { ACTIVE }, new IUnlistedProperty[] { BLOCK_STATE });
 	}
 
 	@Override
@@ -67,7 +66,9 @@ public class BlockFireplaceBase extends BlockTextured {
 		if (heldItem != null && heldItem.getItem() != null) {
 			Block block = Block.getBlockFromItem(heldItem.getItem());
 			if (block != null) {
-				return super.onBlockActivated(worldIn, pos, state, playerIn, hand, heldItem, side, hitX, hitY, hitZ);
+				if (super.onBlockActivated(worldIn, pos, state, playerIn, hand, heldItem, side, hitX, hitY, hitZ)) {
+					return true;
+				}
 			}
 		}
 
@@ -87,7 +88,7 @@ public class BlockFireplaceBase extends BlockTextured {
 				return true;
 			}
 		}
-		return true;
+		return false;
 	}
 
 	@Override
@@ -99,18 +100,7 @@ public class BlockFireplaceBase extends BlockTextured {
 	}
 
 	@Override
-	public IBlockState getExtendedState(IBlockState state, IBlockAccess world, BlockPos pos) {
-		TileEntity te = world.getTileEntity(pos);
-		if (te instanceof TileEntityTextured && state instanceof IExtendedBlockState) {
-			IExtendedBlockState blockState = (IExtendedBlockState) state;
-			TileEntityTextured tef = (TileEntityTextured) te;
-			return blockState.withProperty(BLOCKID, tef.getBlockID()).withProperty(BLOCKMETA, tef.getBlockMeta());
-		}
-		return state;
-	}
-
-	@Override
 	public TileEntity createNewTileEntity(World world, int var2) {
-		return new TileEntityTextured();
+		return new TileEntityColorizer();
 	}
 }

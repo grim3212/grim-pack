@@ -11,7 +11,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.property.ExtendedBlockState;
 import net.minecraftforge.common.property.IUnlistedProperty;
 
-public class BlockStool extends BlockTextured {
+public class BlockStool extends BlockColorizer {
 
 	public static final PropertyBool UP = PropertyBool.create("up");
 	private static final AxisAlignedBB STOOL_AABB = new AxisAlignedBB(0.18F, 0.0F, 0.18F, 0.82F, 0.63F, 0.82F);
@@ -30,7 +30,7 @@ public class BlockStool extends BlockTextured {
 
 	@Override
 	protected BlockStateContainer createBlockState() {
-		return new ExtendedBlockState(this, new IProperty[] { UP }, new IUnlistedProperty[] { BLOCKID, BLOCKMETA });
+		return new ExtendedBlockState(this, new IProperty[] { UP }, new IUnlistedProperty[] { BLOCK_STATE });
 	}
 
 	@Override

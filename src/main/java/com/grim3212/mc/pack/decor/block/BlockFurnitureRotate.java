@@ -8,17 +8,18 @@ import net.minecraft.util.EnumFacing;
 import net.minecraftforge.common.property.ExtendedBlockState;
 import net.minecraftforge.common.property.IUnlistedProperty;
 
-public class BlockFurnitureRotate extends BlockTextured {
+public class BlockFurnitureRotate extends BlockColorizer {
 
 	public static final PropertyDirection FACING = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
 
 	public BlockFurnitureRotate() {
+		super();
 		this.setDefaultState(getDefaultState().withProperty(FACING, EnumFacing.NORTH));
 	}
 
 	@Override
 	protected BlockStateContainer createBlockState() {
-		return new ExtendedBlockState(this, new IProperty[] { FACING }, new IUnlistedProperty[] { BLOCKID, BLOCKMETA });
+		return new ExtendedBlockState(this, new IProperty[] { FACING }, new IUnlistedProperty[] { BLOCK_STATE });
 	}
 
 	@Override

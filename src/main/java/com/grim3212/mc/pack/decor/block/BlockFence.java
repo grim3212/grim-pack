@@ -24,7 +24,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.property.ExtendedBlockState;
 import net.minecraftforge.common.property.IUnlistedProperty;
 
-public class BlockFence extends BlockTextured {
+public class BlockFence extends BlockColorizer {
 
 	public static final PropertyBool NORTH = PropertyBool.create("north");
 	public static final PropertyBool EAST = PropertyBool.create("east");
@@ -32,7 +32,7 @@ public class BlockFence extends BlockTextured {
 	public static final PropertyBool WEST = PropertyBool.create("west");
 
 	@Override
-	public boolean canPlaceTorchOnTop(IBlockState state, IBlockAccess world, net.minecraft.util.math.BlockPos pos) {
+	public boolean canPlaceTorchOnTop(IBlockState state, IBlockAccess world, BlockPos pos) {
 		return true;
 	}
 
@@ -105,6 +105,13 @@ public class BlockFence extends BlockTextured {
 
 	@Override
 	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, @Nullable ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ) {
+		if (heldItem != null && heldItem.getItem() != null) {
+			Block block = Block.getBlockFromItem(heldItem.getItem());
+			if (block != null) {
+				return super.onBlockActivated(worldIn, pos, state, playerIn, hand, heldItem, side, hitX, hitY, hitZ);
+			}
+		}
+
 		return worldIn.isRemote ? true : ItemLead.attachToFence(playerIn, worldIn, pos);
 	}
 
@@ -120,6 +127,6 @@ public class BlockFence extends BlockTextured {
 
 	@Override
 	protected BlockStateContainer createBlockState() {
-		return new ExtendedBlockState(this, new IProperty[] { NORTH, SOUTH, WEST, EAST }, new IUnlistedProperty[] { BLOCKID, BLOCKMETA });
+		return new ExtendedBlockState(this, new IProperty[] { NORTH, SOUTH, WEST, EAST }, new IUnlistedProperty[] { BLOCK_STATE });
 	}
 }

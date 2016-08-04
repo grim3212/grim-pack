@@ -1,8 +1,6 @@
 package com.grim3212.mc.pack.decor.item;
 
-import com.grim3212.mc.pack.core.util.NBTHelper;
 import com.grim3212.mc.pack.decor.block.DecorBlocks;
-import com.grim3212.mc.pack.decor.tile.TileEntityTextured;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockSnow;
@@ -12,13 +10,11 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.World;
 
 @SuppressWarnings("deprecation")
@@ -54,44 +50,11 @@ public class ItemLampPost extends Item {
 
 			--stack.stackSize;
 
-			TileEntity te_bottom = worldIn.getTileEntity(pos);
-			TileEntity te_middle = worldIn.getTileEntity(pos.up());
-			TileEntity te_top = worldIn.getTileEntity(pos.up(2));
-
-			Block blockType = Block.getBlockById(NBTHelper.getInt(stack, "blockID"));
-			if (te_bottom instanceof TileEntityTextured && te_middle instanceof TileEntityTextured && te_top instanceof TileEntityTextured) {
-				((TileEntityTextured) te_bottom).setBlockID(NBTHelper.getInt(stack, "blockID"));
-				((TileEntityTextured) te_bottom).setBlockMeta(NBTHelper.getInt(stack, "blockMeta"));
-
-				((TileEntityTextured) te_middle).setBlockID(NBTHelper.getInt(stack, "blockID"));
-				((TileEntityTextured) te_middle).setBlockMeta(NBTHelper.getInt(stack, "blockMeta"));
-
-				((TileEntityTextured) te_top).setBlockID(NBTHelper.getInt(stack, "blockID"));
-				((TileEntityTextured) te_top).setBlockMeta(NBTHelper.getInt(stack, "blockMeta"));
-
-				worldIn.playSound(playerIn, pos, blockType.getSoundType().getPlaceSound(), SoundCategory.BLOCKS, (blockType.getSoundType().getVolume() + 1.0F) / 2.0F, blockType.getSoundType().getPitch() * 0.8F);
-			}
+			worldIn.playSound(playerIn, pos, DecorBlocks.lamp_post_bottom.getSoundType().getPlaceSound(), SoundCategory.BLOCKS, (DecorBlocks.lamp_post_bottom.getSoundType().getVolume() + 1.0F) / 2.0F, DecorBlocks.lamp_post_bottom.getSoundType().getPitch() * 0.8F);
 
 			return EnumActionResult.SUCCESS;
-
 		} else {
 			return EnumActionResult.FAIL;
-		}
-	}
-
-	@Override
-	public String getUnlocalizedName(ItemStack stack) {
-		return DecorItems.lamp_item.getUnlocalizedName();
-	}
-
-	@Override
-	public String getItemStackDisplayName(ItemStack stack) {
-		ItemStack toPlaceStack = new ItemStack(Block.getBlockById(NBTHelper.getInt(stack, "blockID")), 1, NBTHelper.getInt(stack, "blockMeta"));
-
-		if (toPlaceStack.getItem() != Item.getItemFromBlock(Blocks.AIR)) {
-			return I18n.translateToLocal(toPlaceStack.getDisplayName() + " " + I18n.translateToLocal(this.getUnlocalizedName() + ".name"));
-		} else {
-			return I18n.translateToLocal(this.getUnlocalizedName() + ".name");
 		}
 	}
 }

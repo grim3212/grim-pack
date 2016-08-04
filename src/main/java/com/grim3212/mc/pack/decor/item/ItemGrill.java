@@ -9,13 +9,13 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.translation.I18n;
@@ -56,12 +56,10 @@ public class ItemGrill extends ItemBlock {
 			--stack.stackSize;
 			TileEntity tileentity = worldIn.getTileEntity(pos);
 
-			Block blockType = Block.getBlockById(NBTHelper.getInt(stack, "blockID"));
 			if (tileentity instanceof TileEntityGrill) {
-				((TileEntityGrill) tileentity).setBlockID(NBTHelper.getInt(stack, "blockID"));
-				((TileEntityGrill) tileentity).setBlockMeta(NBTHelper.getInt(stack, "blockMeta"));
+				((TileEntityGrill) tileentity).setBlockState(NBTHelper.getString(stack, "registryName"), NBTHelper.getInt(stack, "meta"));
 				((TileEntityGrill) tileentity).setCustomName(stack.getDisplayName());
-				worldIn.playSound(playerIn, pos, blockType.getSoundType().getPlaceSound(), SoundCategory.BLOCKS, (blockType.getSoundType().getVolume() + 1.0F) / 2.0F, blockType.getSoundType().getPitch() * 0.8F);
+				worldIn.playSound(playerIn, pos, this.block.getSoundType().getPlaceSound(), SoundCategory.BLOCKS, (this.block.getSoundType().getVolume() + 1.0F) / 2.0F, this.block.getSoundType().getPitch() * 0.8F);
 			}
 
 			return EnumActionResult.SUCCESS;
@@ -73,17 +71,17 @@ public class ItemGrill extends ItemBlock {
 
 	@Override
 	public String getUnlocalizedName(ItemStack stack) {
-		return Block.getBlockById(NBTHelper.getInt(stack, "blockID")).getUnlocalizedName() + " " + this.block.getUnlocalizedName();
+		return this.block.getUnlocalizedName();
 	}
 
 	@Override
 	public String getItemStackDisplayName(ItemStack stack) {
-		ItemStack toPlaceStack = new ItemStack(Block.getBlockById(NBTHelper.getInt(stack, "blockID")), 1, NBTHelper.getInt(stack, "blockMeta"));
+		ItemStack toPlaceStack = new ItemStack(Block.REGISTRY.getObject(new ResourceLocation(NBTHelper.getString(stack, "registryName"))), 1, NBTHelper.getInt(stack, "meta"));
 
-		if (toPlaceStack.getItem() != Item.getItemFromBlock(Blocks.AIR)) {
+		if (toPlaceStack.getItem() != null) {
 			return I18n.translateToLocal(toPlaceStack.getDisplayName() + " " + I18n.translateToLocal(this.block.getUnlocalizedName() + ".name"));
+		} else {
+			return I18n.translateToLocal(this.block.getUnlocalizedName() + ".name");
 		}
-
-		return super.getItemStackDisplayName(stack);
 	}
 }

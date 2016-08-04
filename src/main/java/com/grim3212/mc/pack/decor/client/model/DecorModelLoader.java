@@ -16,19 +16,15 @@ public enum DecorModelLoader implements ICustomModelLoader {
 
 	@Override
 	public boolean accepts(ResourceLocation modelLocation) {
-		return modelLocation.getResourceDomain().equals(GrimPack.modID) && (modelLocation.getResourcePath().equals("models/block/decor_furniture") || modelLocation.getResourcePath().equals("models/block/decor_fireplace") || modelLocation.getResourcePath().equals("models/block/decor_lampitem") || modelLocation.getResourcePath().equals("models/block/decor_lamppost"));
+		return modelLocation.getResourceDomain().equals(GrimPack.modID) && (modelLocation.getResourcePath().equals("models/block/decor_fireplace") || modelLocation.getResourcePath().equals("models/block/decor_colorizer"));
 	}
 
 	@Override
 	public IModel loadModel(ResourceLocation modelLocation) throws IOException {
-		if (modelLocation.getResourcePath().equals("models/block/decor_furniture")) {
-			return new DecorModel(ImmutableList.<ResourceLocation> of(), new ResourceLocation("grimpack:blocks/colorizer"), EnumDecorModelType.Furniture);
+		if (modelLocation.getResourcePath().equals("models/block/decor_colorizer")) {
+			return new DecorModel(ImmutableList.<ResourceLocation> of(), new ResourceLocation("grimpack:blocks/colorizer"), EnumDecorModelType.Colorizer);
 		} else if (modelLocation.getResourcePath().equals("models/block/decor_fireplace")) {
 			return new DecorModel(ImmutableList.<ResourceLocation> of(), new ResourceLocation("grimpack:blocks/colorizer"), EnumDecorModelType.Fireplace);
-		} else if (modelLocation.getResourcePath().equals("models/block/decor_lamppost")) {
-			return new DecorModel(ImmutableList.<ResourceLocation> of(), new ResourceLocation("grimpack:blocks/colorizer"), EnumDecorModelType.LampPost);
-		} else if (modelLocation.getResourcePath().equals("models/block/decor_lampitem")) {
-			return new DecorModel(ImmutableList.<ResourceLocation> of(), new ResourceLocation("grimpack:blocks/colorizer"), EnumDecorModelType.LampPostItem);
 		}
 
 		return DecorModel.MODEL;

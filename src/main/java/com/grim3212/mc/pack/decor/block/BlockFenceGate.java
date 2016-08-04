@@ -53,6 +53,15 @@ public class BlockFenceGate extends BlockFurnitureRotate {
 
 	@Override
 	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, @Nullable ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ) {
+		if (heldItem != null && heldItem.getItem() != null) {
+			Block block = Block.getBlockFromItem(heldItem.getItem());
+			if (block != null) {
+				if (super.onBlockActivated(worldIn, pos, state, playerIn, hand, heldItem, side, hitX, hitY, hitZ)) {
+					return true;
+				}
+			}
+		}
+
 		if (state.getValue(OPEN)) {
 			state = state.withProperty(OPEN, false);
 			worldIn.setBlockState(pos, state, 10);
@@ -98,7 +107,7 @@ public class BlockFenceGate extends BlockFurnitureRotate {
 	@Override
 	public int getMetaFromState(IBlockState state) {
 		byte b0 = 0;
-		int i = b0 | ((EnumFacing) state.getValue(FACING)).getHorizontalIndex();
+		int i = b0 | state.getValue(FACING).getHorizontalIndex();
 
 		if (state.getValue(POWERED)) {
 			i |= 8;
@@ -113,6 +122,6 @@ public class BlockFenceGate extends BlockFurnitureRotate {
 
 	@Override
 	protected BlockStateContainer createBlockState() {
-		return new ExtendedBlockState(this, new IProperty[] { FACING, OPEN, POWERED }, new IUnlistedProperty[] { BLOCKID, BLOCKMETA });
+		return new ExtendedBlockState(this, new IProperty[] { FACING, OPEN, POWERED }, new IUnlistedProperty[] { BLOCK_STATE });
 	}
 }

@@ -1,5 +1,6 @@
 package com.grim3212.mc.pack.decor.util;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 
@@ -82,6 +83,35 @@ public class BlockHelper {
 				}
 			}
 
+		}
+		return loadedBlocks;
+	}
+
+	public static ArrayList<Block> getUsableBlocks() {
+		ArrayList<Block> loadedBlocks = new ArrayList<Block>();
+
+		if (DecorConfig.useAllBlocks) {
+			Iterator<Block> i = Block.REGISTRY.iterator();
+			while (i.hasNext()) {
+				Block block = (Block) i.next();
+
+				if (block == Blocks.GLASS || block == Blocks.REDSTONE_ORE || block == Blocks.REDSTONE_LAMP) {
+					// Do nothing!
+				} else if (block == null || block == Blocks.AIR || block instanceof BlockSlab || block instanceof BlockSilverfish || block.hasTileEntity(block.getDefaultState()) || !block.getDefaultState().isNormalCube() || !block.getDefaultState().isOpaqueCube() || block instanceof BlockRedstoneOre || block instanceof BlockRedstoneLight) {
+					continue;
+				}
+
+				loadedBlocks.add(block);
+			}
+		} else {
+			String[] blocks = DecorConfig.decorationBlocks;
+
+			if (blocks.length > 0) {
+				for (String u : blocks) {
+					Block block = Block.REGISTRY.getObject(new ResourceLocation(u));
+					loadedBlocks.add(block);
+				}
+			}
 		}
 		return loadedBlocks;
 	}

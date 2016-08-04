@@ -5,7 +5,7 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 
-public class BlockCounter extends BlockTextured {
+public class BlockCounter extends BlockColorizer {
 
 	public static final AxisAlignedBB COUNTER_AABB = new AxisAlignedBB(0.0F, 1.0F, 0.0F, 1.0F, 0.81F, 1.0F);
 

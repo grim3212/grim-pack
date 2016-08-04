@@ -1,26 +1,28 @@
 package com.grim3212.mc.pack.decor.tile;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class TileEntityTextured extends TileEntity {
+public class TileEntityColorizer extends TileEntity {
 
-	protected int blockID = 0;
-	protected int blockMeta = 0;
+	protected IBlockState blockState = Blocks.AIR.getDefaultState();
 
-	public TileEntityTextured() {
+	public TileEntityColorizer() {
 	}
-	
+
 	@Override
 	public NBTTagCompound getUpdateTag() {
 		return writeToNBT(new NBTTagCompound());
 	}
-	
+
 	@Override
 	public void handleUpdateTag(NBTTagCompound tag) {
 		readFromNBT(tag);
@@ -29,16 +31,18 @@ public class TileEntityTextured extends TileEntity {
 	@Override
 	public NBTTagCompound writeToNBT(NBTTagCompound compound) {
 		super.writeToNBT(compound);
-		compound.setInteger("blockID", this.blockID);
-		compound.setInteger("blockMeta", this.blockMeta);
+		compound.setString("registryName", this.blockState.getBlock().getRegistryName().toString());
+		compound.setInteger("meta", this.blockState.getBlock().getMetaFromState(blockState));
+
 		return compound;
 	}
 
 	@Override
+	@SuppressWarnings("deprecation")
 	public void readFromNBT(NBTTagCompound compound) {
 		super.readFromNBT(compound);
-		this.blockID = compound.getInteger("blockID");
-		this.blockMeta = compound.getInteger("blockMeta");
+		Block block = Block.REGISTRY.getObject(new ResourceLocation(compound.getString("registryName")));
+		this.blockState = block.getStateFromMeta(compound.getInteger("meta"));
 	}
 
 	@Override
@@ -52,26 +56,25 @@ public class TileEntityTextured extends TileEntity {
 	@Override
 	public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity pkt) {
 		readFromNBT(pkt.getNbtCompound());
+		worldObj.markBlockRangeForRenderUpdate(pos, pos);
+		worldObj.notifyBlockOfStateChange(pos, blockType);
 	}
 
 	@Override
 	public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newSate) {
 		return oldState.getBlock() != newSate.getBlock();
 	}
-	
-	public int getBlockID() {
-		return blockID;
+
+	public IBlockState getBlockState() {
+		return blockState;
 	}
 
-	public void setBlockID(int blockID) {
-		this.blockID = blockID;
+	public void setBlockState(IBlockState blockState) {
+		this.blockState = blockState;
 	}
 
-	public int getBlockMeta() {
-		return blockMeta;
-	}
-
-	public void setBlockMeta(int blockMeta) {
-		this.blockMeta = blockMeta;
+	@SuppressWarnings("deprecation")
+	public void setBlockState(String registryName, int meta) {
+		this.blockState = Block.REGISTRY.getObject(new ResourceLocation(registryName)).getStateFromMeta(meta);
 	}
 }
