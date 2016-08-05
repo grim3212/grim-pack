@@ -1,9 +1,11 @@
 package com.grim3212.mc.pack.decor.block;
 
 import java.lang.reflect.Constructor;
-import java.util.Random;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.grim3212.mc.pack.core.property.UnlistedPropertyBlockState;
+import com.grim3212.mc.pack.core.util.NBTHelper;
 import com.grim3212.mc.pack.decor.GrimDecor;
 import com.grim3212.mc.pack.decor.item.ItemBrush;
 import com.grim3212.mc.pack.decor.tile.TileEntityColorizer;
@@ -18,11 +20,13 @@ import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.particle.ParticleDigging;
 import net.minecraft.client.particle.ParticleManager;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.stats.StatList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumBlockRenderType;
@@ -71,8 +75,36 @@ public class BlockColorizer extends BlockContainer {
 	}
 
 	@Override
-	public Item getItemDropped(IBlockState state, Random rand, int fortune) {
-		return Item.getItemFromBlock(this);
+	public List<ItemStack> getDrops(IBlockAccess world, BlockPos pos, IBlockState state, int fortune) {
+		TileEntity te = world.getTileEntity(pos);
+
+		List<ItemStack> ret = new ArrayList<ItemStack>();
+		if (te instanceof TileEntityColorizer) {
+			ItemStack item = new ItemStack(this);
+			NBTHelper.setString(item, "registryName", Block.REGISTRY.getNameForObject(Blocks.AIR).toString());
+			NBTHelper.setInteger(item, "meta", 0);
+			ret.add(item);
+		} else {
+			ret.add(new ItemStack(this));
+		}
+		return ret;
+	}
+
+	@Override
+	public void harvestBlock(World worldIn, EntityPlayer player, BlockPos pos, IBlockState state, TileEntity te, ItemStack stack) {
+		if (te instanceof TileEntityColorizer) {
+			player.addStat(StatList.getBlockStats(this));
+			player.addExhaustion(0.025F);
+
+			harvesters.set(player);
+			ItemStack itemstack = new ItemStack(this);
+			NBTHelper.setString(itemstack, "registryName", Block.REGISTRY.getNameForObject(Blocks.AIR).toString());
+			NBTHelper.setInteger(itemstack, "meta", 0);
+			spawnAsEntity(worldIn, pos, itemstack);
+			harvesters.set(null);
+		} else {
+			super.harvestBlock(worldIn, player, pos, state, (TileEntity) null, stack);
+		}
 	}
 
 	@Override
@@ -83,6 +115,22 @@ public class BlockColorizer extends BlockContainer {
 				spawnAsEntity(worldIn, pos, new ItemStack(blockState.getBlock(), 1, blockState.getBlock().getMetaFromState(blockState)));
 			}
 		}
+	}
+
+	@Override
+	public ItemStack getPickBlock(IBlockState state, RayTraceResult target, World world, BlockPos pos, EntityPlayer player) {
+		ItemStack itemstack = new ItemStack(this);
+		NBTHelper.setString(itemstack, "registryName", Block.REGISTRY.getNameForObject(Blocks.AIR).toString());
+		NBTHelper.setInteger(itemstack, "meta", 0);
+		return itemstack;
+	}
+
+	@Override
+	public void getSubBlocks(Item itemIn, CreativeTabs tab, List<ItemStack> list) {
+		ItemStack itemstack = new ItemStack(this);
+		NBTHelper.setString(itemstack, "registryName", Block.REGISTRY.getNameForObject(Blocks.AIR).toString());
+		NBTHelper.setInteger(itemstack, "meta", 0);
+		list.add(itemstack);
 	}
 
 	@Override

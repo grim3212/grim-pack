@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.grim3212.mc.pack.core.block.BlockSound;
 import com.grim3212.mc.pack.core.part.IPartItems;
+import com.grim3212.mc.pack.core.util.NBTHelper;
 import com.grim3212.mc.pack.core.util.RecipeHelper;
 import com.grim3212.mc.pack.core.util.Utils;
 import com.grim3212.mc.pack.decor.GrimDecor;
@@ -56,6 +57,7 @@ public class DecorBlocks implements IPartItems {
 	public static Block grill;
 	public static Block hardened_wood;
 	public static Block colorizer;
+	public static Block burning_wood;
 
 	@Override
 	public void initItems() {
@@ -88,6 +90,7 @@ public class DecorBlocks implements IPartItems {
 		grill = new BlockGrill().setUnlocalizedName("grill");
 		hardened_wood = (new BlockSound(Material.ROCK, SoundType.STONE)).setHardness(1.5F).setResistance(12F).setUnlocalizedName("hardened_wood").setCreativeTab(GrimDecor.INSTANCE.getCreativeTab());
 		colorizer = (new BlockColorizer()).setUnlocalizedName("colorizer");
+		burning_wood = (new BlockBurningWood()).setHardness(0.8F).setResistance(5F).setUnlocalizedName("burning_wood").setCreativeTab(GrimDecor.INSTANCE.getCreativeTab());
 
 		Utils.registerBlock(calendar, "calendar");
 		Utils.registerBlock(wall_clock, "wall_clock");
@@ -103,9 +106,10 @@ public class DecorBlocks implements IPartItems {
 		Utils.registerBlock(craft_clay, "craft_clay");
 		Utils.registerBlock(craft_bone, "craft_bone");
 		Utils.registerBlock(hardened_wood, "hardened_wood");
+		Utils.registerBlock(burning_wood, "burning_wood");
+		Utils.registerBlock(lantern, "lantern", new ItemLantern(lantern));
 		Utils.registerBlock(colorizer, "colorizer", new ItemColorizer(colorizer));
 		Utils.registerBlock(grill, "grill", new ItemGrill(grill));
-		Utils.registerBlock(lantern, "lantern", new ItemLantern(lantern));
 		Utils.registerBlock(fireplace, "fireplace", new ItemColorizer(fireplace));
 		Utils.registerBlock(firering, "firering", new ItemColorizer(firering));
 		Utils.registerBlock(firepit, "firepit", new ItemColorizer(firepit));
@@ -125,6 +129,7 @@ public class DecorBlocks implements IPartItems {
 	public static List<IRecipe> chains;
 	public static List<IRecipe> crafts = new ArrayList<IRecipe>();
 	public static List<IRecipe> clocks;
+	public static List<IRecipe> colorizers;
 	public static List<IRecipe> lights = new ArrayList<IRecipe>();
 
 	@Override
@@ -152,14 +157,19 @@ public class DecorBlocks implements IPartItems {
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Blocks.STONE, 8), new Object[] { "#", '#', fancy_stone }));
 		stone = RecipeHelper.getLatestIRecipes(2);
 
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(cage, 2), new Object[] { "###", "# #", "###", '#', "ingotIron" }));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(chain, 2), new Object[] { "#", "#", '#', "ingotIron" }));
-		chains = RecipeHelper.getLatestIRecipes(2);
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(cage, 2), new Object[] { "###", "# #", "###", '#', "rodMetal" }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(cage, 2), new Object[] { "###", "# #", "###", '#', "stickMetal" }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(chain, 2), new Object[] { "#", "#", '#', "rodMetal" }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(chain, 2), new Object[] { "#", "#", '#', "stickMetal" }));
+		chains = RecipeHelper.getLatestIRecipes(4);
 
 		GameRegistry.addSmelting(Blocks.GRAVEL, new ItemStack(road, 1), 0.15F);
 
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(hardened_wood, 9), new Object[] { "###", "#W#", "###", '#', "stone", 'W', "plankWood" }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(colorizer, 2), new Object[] { " # ", "#W#", " # ", '#', "dye", 'W', hardened_wood }));
+		colorizers = RecipeHelper.getLatestIRecipes(2);
+
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(burning_wood, 5), new Object[] { " # ", "#W#", " # ", '#', "netherrack", 'W', "plankWood" }));
 
 		addFurnitureRecipe(stool, 4, "###", "S S");
 		addFurnitureRecipe(counter, 4, "###", " S ");
@@ -183,6 +193,10 @@ public class DecorBlocks implements IPartItems {
 	}
 
 	private void addFurnitureRecipe(Item furnType, int amount, String... pattern) {
-		GameRegistry.addRecipe(new ShapedOreRecipe(furnType, new Object[] { pattern, '#', colorizer, 'S', "stickWood", 'G', "glowstone", 'P', "netherrack", 'I', "ingotIron", 'C', Items.COAL, 'H', new ItemStack(Items.COAL, 1, 1), 'B', Blocks.IRON_BARS }));
+		ItemStack itemstack = new ItemStack(furnType, amount);
+		NBTHelper.setString(itemstack, "registryName", Block.REGISTRY.getNameForObject(Blocks.AIR).toString());
+		NBTHelper.setInteger(itemstack, "meta", 0);
+
+		GameRegistry.addRecipe(new ShapedOreRecipe(itemstack, new Object[] { pattern, '#', colorizer, 'S', "stickWood", 'G', "glowstone", 'P', burning_wood, 'I', "ingotIron", 'C', Items.COAL, 'H', new ItemStack(Items.COAL, 1, 1), 'B', Blocks.IRON_BARS }));
 	}
 }

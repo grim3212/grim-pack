@@ -2,6 +2,7 @@ package com.grim3212.mc.pack.decor.block;
 
 import java.util.Random;
 
+import com.grim3212.mc.pack.core.util.NBTHelper;
 import com.grim3212.mc.pack.decor.item.DecorItems;
 import com.grim3212.mc.pack.decor.item.ItemBrush;
 import com.grim3212.mc.pack.decor.tile.TileEntityColorizer;
@@ -13,12 +14,14 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.stats.StatList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
@@ -105,6 +108,23 @@ public class BlockLampPost extends BlockColorizer {
 	}
 
 	@Override
+	public void harvestBlock(World worldIn, EntityPlayer player, BlockPos pos, IBlockState state, TileEntity te, ItemStack stack) {
+		if (te instanceof TileEntityColorizer) {
+			player.addStat(StatList.getBlockStats(this));
+			player.addExhaustion(0.025F);
+
+			harvesters.set(player);
+			ItemStack itemstack = new ItemStack(DecorItems.lamp_item);
+			NBTHelper.setString(itemstack, "registryName", Block.REGISTRY.getNameForObject(Blocks.AIR).toString());
+			NBTHelper.setInteger(itemstack, "meta", 0);
+			spawnAsEntity(worldIn, pos, itemstack);
+			harvesters.set(null);
+		} else {
+			super.harvestBlock(worldIn, player, pos, state, (TileEntity) null, stack);
+		}
+	}
+
+	@Override
 	public void breakBlock(World worldIn, BlockPos pos, IBlockState state) {
 		Block block = worldIn.getBlockState(pos).getBlock();
 		if (block == DecorBlocks.lamp_post_bottom) {
@@ -154,7 +174,10 @@ public class BlockLampPost extends BlockColorizer {
 	}
 
 	@Override
-	public ItemStack getItem(World worldIn, BlockPos pos, IBlockState state) {
-		return new ItemStack(DecorItems.lamp_item);
+	public ItemStack getPickBlock(IBlockState state, RayTraceResult target, World world, BlockPos pos, EntityPlayer player) {
+		ItemStack itemstack = new ItemStack(DecorItems.lamp_item);
+		NBTHelper.setString(itemstack, "registryName", Block.REGISTRY.getNameForObject(Blocks.AIR).toString());
+		NBTHelper.setInteger(itemstack, "meta", 0);
+		return itemstack;
 	}
 }

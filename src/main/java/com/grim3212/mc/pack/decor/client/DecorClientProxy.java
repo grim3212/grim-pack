@@ -73,6 +73,9 @@ public class DecorClientProxy extends DecorCommonProxy {
 		RenderHelper.renderItem(DecorItems.lamp_item);
 
 		// BLOCKS
+		RenderHelper.renderBlock(DecorBlocks.burning_wood);
+		RenderHelper.renderBlock(DecorBlocks.hardened_wood);
+		RenderHelper.renderBlock(DecorBlocks.colorizer);
 		RenderHelper.renderBlock(DecorBlocks.calendar);
 		RenderHelper.renderBlock(DecorBlocks.wall_clock);
 		RenderHelper.renderBlockWithMetaInInventory(DecorBlocks.light_bulb, 2);
@@ -100,8 +103,6 @@ public class DecorClientProxy extends DecorCommonProxy {
 		RenderHelper.renderBlock(DecorBlocks.lamp_post_bottom);
 		RenderHelper.renderBlock(DecorBlocks.lamp_post_middle);
 		RenderHelper.renderBlock(DecorBlocks.lamp_post_top);
-		RenderHelper.renderBlock(DecorBlocks.hardened_wood);
-		RenderHelper.renderBlock(DecorBlocks.colorizer);
 
 		// TILE ENTITYS
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityCalendar.class, new TileEntityCalendarRenderer());
@@ -116,12 +117,11 @@ public class DecorClientProxy extends DecorCommonProxy {
 		ManualRegistry.addSection("intro", modSection).addSubSectionPages(new PageInfo("fancy"), new PageCrafting("moss", DecorBlocks.mossy), new PageCrafting("stone", DecorBlocks.stone, 25), new PageFurnace("road", new ItemStack(Blocks.GRAVEL)));
 		ManualRegistry.addSection("hanging", modSection).addSubSectionPages(new PageCrafting("calendar", new ItemStack(DecorBlocks.calendar)), new PageCrafting("clock", DecorBlocks.clocks, 20), new PageInfo("wallpaperinfo"), new PageCrafting("wallpaper", new ItemStack(DecorItems.wallpaper)), new PageImageText("frameinfo", "framesInfoPage.png"), new PageCrafting("frames", DecorItems.frames, 25));
 		ManualRegistry.addSection("deco", modSection).addSubSectionPages(new PageCrafting("cage", DecorBlocks.chains, 20), new PageCrafting("lantern", RecipeHelper.getAllIRecipesForItem(new ItemStack(DecorBlocks.lantern)), 20), new PageCrafting("crafts", DecorBlocks.crafts, 25), new PageFurnace("firing", new ItemStack[] { new ItemStack(DecorItems.unfired_craft), new ItemStack(DecorItems.unfired_pot) }, 20), new PageCrafting("lights", DecorBlocks.lights, 25));
-		ManualRegistry.addSection("furniture", modSection).addSubSectionPages(new PageCrafting("table", RecipeHelper.getAllIRecipesForItem(new ItemStack(DecorBlocks.table)), 15), new PageCrafting("chair", RecipeHelper.getAllIRecipesForItem(new ItemStack(DecorBlocks.chair)), 15), new PageCrafting("stool", RecipeHelper.getAllIRecipesForItem(new ItemStack(DecorBlocks.stool)), 15), new PageCrafting("counter", RecipeHelper.getAllIRecipesForItem(new ItemStack(DecorBlocks.counter)), 15));
-		ManualRegistry.addSection("other", modSection).addSubSectionPages(new PageCrafting("fence", RecipeHelper.getAllIRecipesForItem(new ItemStack(DecorBlocks.fence)), 15), new PageCrafting("fencegate", RecipeHelper.getAllIRecipesForItem(new ItemStack(DecorBlocks.fence_gate)), 15), new PageCrafting("wall", RecipeHelper.getAllIRecipesForItem(new ItemStack(DecorBlocks.wall)), 20));
-		ManualRegistry.addSection("fires", modSection).addSubSectionPages(new PageCrafting("fireplace", RecipeHelper.getAllIRecipesForItem(new ItemStack(DecorBlocks.fireplace)), 15), new PageCrafting("chimney", RecipeHelper.getAllIRecipesForItem(new ItemStack(DecorBlocks.chimney)), 15), new PageCrafting("stove", RecipeHelper.getAllIRecipesForItem(new ItemStack(DecorBlocks.stove)), 15), new PageCrafting("firepit", RecipeHelper.getAllIRecipesForItem(new ItemStack(DecorBlocks.firepit)), 15),
-				new PageCrafting("firering", RecipeHelper.getAllIRecipesForItem(new ItemStack(DecorBlocks.firering)), 15));
-		ManualRegistry.addSection("grill", modSection).addSubSectionPages(new PageCrafting("grill", RecipeHelper.getAllIRecipesForItem(new ItemStack(DecorBlocks.grill)), 15));
-		ManualRegistry.addSection("lamps", modSection).addSubSectionPages(new PageCrafting("recipes", RecipeHelper.getAllIRecipesForItem(new ItemStack(DecorItems.lamp_item)), 10));
+		ManualRegistry.addSection("furniture", modSection).addSubSectionPages(new PageCrafting("colorizer", DecorBlocks.colorizers, 20), new PageCrafting("brush", new ItemStack(DecorItems.brush)), new PageCrafting("table", new ItemStack(DecorBlocks.table)), new PageCrafting("chair", new ItemStack(DecorBlocks.chair)), new PageCrafting("stool", new ItemStack(DecorBlocks.stool)), new PageCrafting("counter", new ItemStack(DecorBlocks.counter)));
+		ManualRegistry.addSection("other", modSection).addSubSectionPages(new PageCrafting("fence", new ItemStack(DecorBlocks.fence)), new PageCrafting("fencegate", new ItemStack(DecorBlocks.fence_gate)), new PageCrafting("wall", new ItemStack(DecorBlocks.wall)));
+		ManualRegistry.addSection("fires", modSection).addSubSectionPages(new PageCrafting("burning_wood", new ItemStack(DecorBlocks.burning_wood)), new PageCrafting("fireplace", new ItemStack(DecorBlocks.fireplace)), new PageCrafting("chimney", new ItemStack(DecorBlocks.chimney)), new PageCrafting("stove", new ItemStack(DecorBlocks.stove)), new PageCrafting("firepit", new ItemStack(DecorBlocks.firepit)), new PageCrafting("firering", new ItemStack(DecorBlocks.firering)));
+		ManualRegistry.addSection("grill", modSection).addSubSectionPages(new PageCrafting("grill", new ItemStack(DecorBlocks.grill)));
+		ManualRegistry.addSection("lamps", modSection).addSubSectionPages(new PageCrafting("recipes", new ItemStack(DecorItems.lamp_item)));
 	}
 
 	@Override

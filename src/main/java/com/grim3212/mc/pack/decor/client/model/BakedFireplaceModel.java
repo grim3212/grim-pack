@@ -68,7 +68,7 @@ public class BakedFireplaceModel extends BakedColorizerModel {
 			IExtendedBlockState exState = (IExtendedBlockState) state;
 			if (exState.getValue(BlockColorizer.BLOCK_STATE) != null) {
 				IBlockState blockState = exState.getValue(BlockColorizer.BLOCK_STATE);
-				return this.getCachedModel(blockState).getQuads(state, side, rand);
+				return this.getCachedModel(state, blockState).getQuads(state, side, rand);
 			}
 		}
 

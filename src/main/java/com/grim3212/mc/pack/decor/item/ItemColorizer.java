@@ -30,8 +30,6 @@ public class ItemColorizer extends ItemBlock {
 	public ItemColorizer(Block block) {
 		super(block);
 		this.block = block;
-		this.setHasSubtypes(true);
-		this.setMaxDamage(0);
 	}
 
 	@Override

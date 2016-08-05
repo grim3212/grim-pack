@@ -1,10 +1,14 @@
 package com.grim3212.mc.pack.decor.item;
 
+import java.util.List;
+
+import com.grim3212.mc.pack.core.util.NBTHelper;
 import com.grim3212.mc.pack.decor.block.DecorBlocks;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockSnow;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -56,5 +60,13 @@ public class ItemLampPost extends Item {
 		} else {
 			return EnumActionResult.FAIL;
 		}
+	}
+
+	@Override
+	public void getSubItems(Item itemIn, CreativeTabs tab, List<ItemStack> subItems) {
+		ItemStack itemstack = new ItemStack(this);
+		NBTHelper.setString(itemstack, "registryName", Block.REGISTRY.getNameForObject(Blocks.AIR).toString());
+		NBTHelper.setInteger(itemstack, "meta", 0);
+		subItems.add(itemstack);
 	}
 }

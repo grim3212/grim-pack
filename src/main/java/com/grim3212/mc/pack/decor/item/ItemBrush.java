@@ -10,6 +10,7 @@ import com.grim3212.mc.pack.decor.block.DecorBlocks;
 import com.grim3212.mc.pack.decor.tile.TileEntityColorizer;
 
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -21,9 +22,11 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.FakePlayer;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ItemBrush extends Item {
 
@@ -32,8 +35,9 @@ public class ItemBrush extends Item {
 	}
 
 	@Override
+	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack stack, EntityPlayer playerIn, List<String> tooltip, boolean advanced) {
-		tooltip.add("Clear block information from furniture");
+		tooltip.add(I18n.format("grimpack.decor.brush_info"));
 	}
 
 	@Override
@@ -52,9 +56,9 @@ public class ItemBrush extends Item {
 
 					ItemStack storedstack = new ItemStack(storedState.getBlock(), 1, storedState.getBlock().getMetaFromState(storedState));
 					if (storedstack.getItem() != null)
-						player.addChatMessage(new TextComponentString("Stored: " + storedstack.getDisplayName()));
+						player.addChatMessage(new TextComponentTranslation("grimpack.decor.brush.stored", storedstack.getDisplayName()));
 					else
-						player.addChatMessage(new TextComponentString("Stored: " + "Empty"));
+						player.addChatMessage(new TextComponentTranslation("grimpack.decor.brush.empty"));
 				}
 				return EnumActionResult.SUCCESS;
 			}

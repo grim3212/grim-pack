@@ -8,6 +8,7 @@ grim.creative.grimutil=Grim Util
 grim.creative.grimworld=Grim World
 
 #================= BLOCKS =================#
+tile.burning_wood.name=Burning Wood
 tile.black_diamond_ore.name=Black Diamond Ore
 tile.black_diamond_block.name=Black Block of Diamond
 tile.element_115_ore.name=Element 115 Ore
@@ -167,7 +168,7 @@ tile.fungus_killing.15.name=Glass Layer Building Fungus
 
 #================= ITEMS =================#
 item.instruction_manual.name=Instruction Manual
-item.iron_stick.name=Iron Stick
+item.iron_stick.name=Iron Rod
 item.brush.name=Brush
 item.soda.apple.name=Apple Soda
 item.soda.bottle.name=Soda Bottle
@@ -381,6 +382,7 @@ grimpack.tools.cfg=Tools Config
 grimpack.util.cfg=Util Config
 grimpack.world.cfg=World Config
 
+grimpack.core.cfg.parts=Grim Parts
 grimpack.decor.cfg.general=General Options
 grimpack.decor.cfg.grillrecipes=Custom Grill Recipes
 grimpack.decor.cfg.recipes=Grill Recipes
@@ -395,6 +397,10 @@ grimpack.decor.cfg.IsFireParticles.tooltip=When False the fire when blocks are a
 grimpack.world.cfg.general=General Options
 grimpack.world.cfg.fungus=Fungus Options
 grimpack.world.cfg.floatingIslands=Floating Islands Options
+
+grimpack.decor.brush.empty=Stored: Empty
+grimpack.decor.brush.stored=Stored: %s
+grimpack.decor.brush_info=Clear block information from furniture
 
 container.crafting_iron=Iron Crafting (2x)
 container.crafting_diamond=Diamond Crafting (4x)
@@ -450,6 +456,20 @@ mask.wolf=Wolf
 mask.zombie=Zombie
 mask.zombie_pigman=Zombie Pig
 
+grimpack.cuisine.soda.tooltip.apple=Pretty basic soda
+grimpack.cuisine.soda.tooltip.bottle=Used to bottle your favorite soda
+grimpack.cuisine.soda.tooltip.slurm=Delicious ooze, I wonder where it comes from. Doesn't heal much
+grimpack.cuisine.soda.tooltip.co2=Used to add some carbonation
+grimpack.cuisine.soda.tooltip.golden_apple=One of the best tasting soda and the best for you
+grimpack.cuisine.soda.tooltip.spiked_orange=Give to those who did you wrong
+grimpack.cuisine.soda.tooltip.root_beer=Tastes good but is not good for you
+grimpack.cuisine.soda.tooltip.cream_orange=Tastes amazing but really sugary
+grimpack.cuisine.soda.tooltip.diamond=One of the best sodas for you but tastes gross
+grimpack.cuisine.soda.tooltip.orange=Pretty basic soda
+grimpack.cuisine.soda.tooltip.cocoa=One of the better sodas
+grimpack.cuisine.soda.tooltip.carbonated_water=CO2 and water
+grimpack.cuisine.soda.tooltip.mushroom=Doesn't heal much and doesn't taste good
+
 #================= INSTRUCTION MANUAL =================#
 grim.manual.title=Grim Instruction Manual
 grim.manual.shapeless=Shapeless Recipe
@@ -477,7 +497,7 @@ grim.manual.grimcuisine.subsection.health=Health Regeneration
 grim.manual.grimcuisine.subsection.health.page.recipes=Health items are hard to come by. So, if you need to heal your wounds right away use these. The Bandage, Health Pack, and Super Health Pack which requires the Super Sugar from the previous sub-section. These can come in handy in battles because you won't have to wait for you hearts to slowly regenerate.
 grim.manual.grimcuisine.subsection.health.page.recipes.title=Recipes
 grim.manual.grimcuisine.subsection.dairy=Dairy
-grim.manual.grimcuisine.subsection.dairy.page.butter=The butter churn is very simple to use. Simply right click it with any milk bucket (including tools buckets) in your hand and then punch to get cheese back out. Then eat cheese!
+grim.manual.grimcuisine.subsection.dairy.page.butter=The butter churn is very simple to use. Simply right click it with any milk bucket (including tools buckets) in your hand and then punch to get butter back out. Then eat butter!
 grim.manual.grimcuisine.subsection.dairy.page.butter.title=Butter Churn Recipe
 grim.manual.grimcuisine.subsection.dairy.page.cheese=The cheese maker is slightly more complex than the butter churn. Right click with any milk bucket (including tools buckets) in your hand and it will start processing. Wait for it to turn to a yellowish orange and then punch it and you get a block of cheese.
 grim.manual.grimcuisine.subsection.dairy.page.cheese.title=Cheese Maker Recipe
@@ -522,6 +542,8 @@ grim.manual.grimcuisine.subsection.choco.page.bars=The chocolate bars that you j
 grim.manual.grimcuisine.subsection.choco.page.bars.title=Storage
 grim.manual.grimcuisine.subsection.choco.page.candy=To craft a legitimate candy bar you will need to craft a wrapper first. THen using that wrapper and a regular chocolate bar you can create a wrapped chocolate bar. Using the power of a wrapper this can be eaten and is a better food then plain chocolate bars.
 grim.manual.grimcuisine.subsection.choco.page.candy.title=Bars
+
+grim.manual.grimdecor.modinfo=Adds in many different decorative items and blocks to spice up your Minecraft world.
 #Start Hanging
 grim.manual.grimdecor.subsection.hanging=Hangeables
 grim.manual.grimdecor.subsection.hanging.page.calendar=Need to know how long you've been in your Minecraft world or when to get more porkchops. If you do then the calendar will help keep track of those things for you.
@@ -540,6 +562,8 @@ grim.manual.grimdecor.subsection.hanging.page.frames.title=Recipes
 
 #Start Fires
 grim.manual.grimdecor.subsection.fires=Fireplaces
+grim.manual.grimdecor.subsection.fires.page.burning_wood=To be able to have fireplaces burn indefinitely a netherrack infused wood will need to be constructed. This allows the fire never to run out.
+grim.manual.grimdecor.subsection.fires.page.burning_wood.title=Burning Wood
 grim.manual.grimdecor.subsection.fires.page.fireplace=Fireplaces when right clicked with Flint and Steel burns and provides light, punch to put it out. Chimneys produce smoke when on top of a lit fireplace. Fireplaces also re-orient their corner posts when multiple are placed next to each other.
 grim.manual.grimdecor.subsection.fires.page.fireplace.title=Fireplace
 grim.manual.grimdecor.subsection.fires.page.chimney=Chimneys produce smoke when placed on top of either a Fireplace or Stove and can be stacked on top of each other. 
@@ -588,6 +612,10 @@ grim.manual.grimdecor.subsection.intro.page.road.title=Roads
 
 #Start Furniture
 grim.manual.grimdecor.subsection.furniture=Furniture
+grim.manual.grimdecor.subsection.furniture.page.colorizer=Any block crafted with colorizer inherits it's properties and allows for it to take on the texture of other blocks. These blocks include all the furniture, lamp posts, and fireplace blocks.
+grim.manual.grimdecor.subsection.furniture.page.colorizer.title=Colorizer
+grim.manual.grimdecor.subsection.furniture.page.brush=Once a colorizer block has changed to a block you will not be able to change it again without breaking it. Unless you have the brush which with a right click can remove the stored block and with shift right click will tell you what is stored.
+grim.manual.grimdecor.subsection.furniture.page.brush.title=Brush
 grim.manual.grimdecor.subsection.furniture.page.table=Tables are part of some of the new furniture. Tables when placed to one another automatically place the legs at the correct positions for a table so you can have enough room to eat your cereal.
 grim.manual.grimdecor.subsection.furniture.page.table.title=Tables
 grim.manual.grimdecor.subsection.furniture.page.chair=Chairs go with your tables. These chairs re-orient depending on which way you place them. 
@@ -678,6 +706,8 @@ grim.manual.grimindustry.subsection.explosives.page.c4.title=C4
 grim.manual.grimindustry.subsection.explosives.page.nuclear_bomb=The second explosive added is a Nuclear Bomb. The Nuclear Bomb is stronger than both TNT and C4 and makes a huge explosion once activated with redstone. Once activated it explodes immediately like C4. Enjoy!
 grim.manual.grimindustry.subsection.explosives.page.nuclear_bomb.title=Nuclear Bomb
 grim.manual.grimindustry.subsection.gates=Gates
+grim.manual.grimindustry.subsection.gates.page.iron_stick=Before you can build castle gates you will need to make iron sticks to support them.
+grim.manual.grimindustry.subsection.gates.page.iron_stick.title=Iron Grating
 grim.manual.grimindustry.subsection.gates.page.gate=Castle gates when placed will place more gate blocks until they reach the ground. They can be retracted when paired with the Gate Trumpet.
 grim.manual.grimindustry.subsection.gates.page.gate.title=Castle Gate
 grim.manual.grimindustry.subsection.gates.page.trumpet=The Gate Trumpet is used to retract Castle Gates, just right click in the area of a Castle Gate and it will retract all gate blocks that are in the area.

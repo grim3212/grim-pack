@@ -1,7 +1,7 @@
 {
 "__comment": "Designed by Grim3212 with BDcraft Cubik PRO 0.93 Beta - http://bdcraft.net",
 "textures": {
-		"texture": "blocks/planks_oak"
+		"texture": "grimpack:blocks/burning_wood"
 	},
 "elements": [ 
 {

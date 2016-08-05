@@ -29,8 +29,6 @@ public class ItemGrill extends ItemBlock {
 	public ItemGrill(Block block) {
 		super(block);
 		this.block = block;
-		this.setHasSubtypes(true);
-		this.setMaxDamage(0);
 	}
 
 	@Override
