@@ -5,7 +5,6 @@ import java.util.List;
 
 import com.grim3212.mc.pack.GrimPack;
 import com.grim3212.mc.pack.core.config.GrimConfig;
-import com.grim3212.mc.pack.core.manual.ManualRegistry;
 import com.grim3212.mc.pack.core.manual.ModSection;
 import com.grim3212.mc.pack.core.part.IPartEntities.IPartTileEntities;
 
@@ -22,30 +21,28 @@ public abstract class GrimPart {
 
 	public static final String COMMON_PROXY = "com.grim3212.mc.pack.core.proxy.CommonProxy";
 
-	private GrimConfig config;
 	private String partId;
 	private String partName;
+	private GrimConfig config;
 	private GrimPartCreativeTab creativeTab;
 	private ModSection modSection;
 	private List<IPartItems> items;
 	private List<IPartEntities> entities;
 	private List<IPartTileEntities> tileentities;
+	private boolean useCreativeTab;
 
 	public GrimPart(String partId, String partName) {
 		this(partId, partName, true);
 	}
 
-	public GrimPart(String partId, String partName, boolean creativeTab) {
+	public GrimPart(String partId, String partName, boolean useCreativeTab) {
 		this.partId = partId;
 		this.partName = partName;
-		if (creativeTab)
-			this.creativeTab = new GrimPartCreativeTab(this);
-		ManualRegistry.registerMod(modSection = new ModSection(getPartName(), getPartId()));
+		this.useCreativeTab = useCreativeTab;
 		this.items = new ArrayList<IPartItems>();
 		this.entities = new ArrayList<IPartEntities>();
 		this.tileentities = new ArrayList<IPartTileEntities>();
-		this.config = setConfig();
-
+		this.config = this.setConfig();
 	}
 
 	@SubscribeEvent
@@ -55,10 +52,26 @@ public abstract class GrimPart {
 		}
 	}
 
+	public boolean shouldUseCreativeTab() {
+		return useCreativeTab;
+	}
+
+	public void setCreativeTab(GrimPartCreativeTab creativeTab) {
+		this.creativeTab = creativeTab;
+	}
+
 	public abstract GrimConfig setConfig();
 
+	public GrimConfig getGrimConfig() {
+		return this.config;
+	}
+
 	public Configuration getConfig() {
-		return config.config;
+		return this.config.config;
+	}
+
+	public ModSection setModSection(ModSection modSection) {
+		return this.modSection = modSection;
 	}
 
 	public ModSection getModSection() {

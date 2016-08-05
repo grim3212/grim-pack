@@ -17,6 +17,7 @@ import net.minecraftforge.fml.client.config.IConfigElement;
 public class ToolsConfig extends GrimConfig {
 
 	public static final String CONFIG_NAME = "tools";
+	public static final String CONFIG_GENERAL_NAME = "tools.general";
 
 	public static boolean ENABLE_free_build_mode;
 	public static boolean ENABLE_bedrock_breaking;
@@ -31,18 +32,18 @@ public class ToolsConfig extends GrimConfig {
 
 	@Override
 	public void syncConfig() {
-		fistEntityDamage = config.get(CONFIG_NAME, "Ultimate Fist Damage Against Entity's", 1561).getDouble();
-		fistBlockBreakSpeed = config.get(CONFIG_NAME, "Ultime Fist Block Breaking Speed", 64).getInt();
+		fistEntityDamage = config.get(CONFIG_GENERAL_NAME, "Ultimate Fist Damage Against Entity's", 1561).getDouble();
+		fistBlockBreakSpeed = config.get(CONFIG_GENERAL_NAME, "Ultime Fist Block Breaking Speed", 64).getInt();
 
-		ENABLE_free_build_mode = config.get(CONFIG_NAME, "Enable Free Build Mode", false).getBoolean();
-		ENABLE_bedrock_breaking = config.get(CONFIG_NAME, "Enable Bedrock Breaking", false).getBoolean();
-		ENABLE_easy_mining_obsidian = config.get(CONFIG_NAME, "Enable Easy Mining Obsidian", false).getBoolean();
+		ENABLE_free_build_mode = config.get(CONFIG_GENERAL_NAME, "Enable Free Build Mode", false).getBoolean();
+		ENABLE_bedrock_breaking = config.get(CONFIG_GENERAL_NAME, "Enable Bedrock Breaking", false).getBoolean();
+		ENABLE_easy_mining_obsidian = config.get(CONFIG_GENERAL_NAME, "Enable Easy Mining Obsidian", false).getBoolean();
 
-		BLOCKS_Destructive_wand_spared_ores = config.get(CONFIG_NAME, "Destructive Wand Spared Ores", new String[] { "gold_ore", "iron_ore", "coal_ore", "lapis_ore", "mossy_cobblestone", "mob_spawner", "chest", "diamond_ore", "redstone_ore", "lit_redstone_ore", "emerald_ore", "quartz_ore" }).getStringList();
-		BLOCKS_Mining_wand_ores_for_surface_mining = config.get(CONFIG_NAME, "Mining Wand Ores for Surface Mining", new String[] { "gold_ore", "iron_ore", "coal_ore", "lapis_ore", "diamond_ore", "redstone_ore", "lit_redstone_ore", "emerald_ore", "quartz_ore" }).getStringList();
+		BLOCKS_Destructive_wand_spared_ores = config.get(CONFIG_GENERAL_NAME, "Destructive Wand Spared Ores", new String[] { "gold_ore", "iron_ore", "coal_ore", "lapis_ore", "mossy_cobblestone", "mob_spawner", "chest", "diamond_ore", "redstone_ore", "lit_redstone_ore", "emerald_ore", "quartz_ore" }).getStringList();
+		BLOCKS_Mining_wand_ores_for_surface_mining = config.get(CONFIG_GENERAL_NAME, "Mining Wand Ores for Surface Mining", new String[] { "gold_ore", "iron_ore", "coal_ore", "lapis_ore", "diamond_ore", "redstone_ore", "lit_redstone_ore", "emerald_ore", "quartz_ore" }).getStringList();
 
-		restrictPowerStaffBlocks = config.get(CONFIG_NAME, "Restrict powerstaff blocks", false).getBoolean();
-		powerstaff_pull_push_blocks = config.get(CONFIG_NAME, "Blocks allowed when restrict powerstaff is active", new String[] { "dirt" }).getStringList();
+		restrictPowerStaffBlocks = config.get(CONFIG_GENERAL_NAME, "Restrict powerstaff blocks", false).getBoolean();
+		powerstaff_pull_push_blocks = config.get(CONFIG_GENERAL_NAME, "Blocks allowed when restrict powerstaff is active", new String[] { "dirt" }).getStringList();
 
 		registerBlocksPossible(powerstaff_pull_push_blocks, ItemPowerStaff.allowedBlocks);
 		registerBlocksPossible(BLOCKS_Destructive_wand_spared_ores, ItemBreakingWand.ores);
@@ -53,8 +54,13 @@ public class ToolsConfig extends GrimConfig {
 
 	public static List<IConfigElement> getConfigItems() {
 		List<IConfigElement> list = new ArrayList<IConfigElement>();
-		list.addAll(new ConfigElement(GrimTools.INSTANCE.getConfig().getCategory(CONFIG_NAME)).getChildElements());
+		list.addAll(new ConfigElement(GrimTools.INSTANCE.getConfig().getCategory(CONFIG_GENERAL_NAME)).getChildElements());
 		return list;
+	}
+
+	@Override
+	public void updateManual() {
+		GrimTools.proxy.registerManual(GrimTools.INSTANCE.getModSection());
 	}
 
 	public void registerBlocksPossible(String[] string, ArrayList<Block> blocklist) {

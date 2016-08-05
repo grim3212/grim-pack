@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.minecraft.network.PacketBuffer;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fml.client.config.IConfigElement;
 import net.minecraftforge.fml.common.Loader;
@@ -26,5 +27,17 @@ public class GrimConfig {
 	public static List<IConfigElement> getConfigItems() {
 		List<IConfigElement> list = new ArrayList<IConfigElement>();
 		return list;
+	}
+
+	public void readFromServer(PacketBuffer buffer) {
+
+	}
+
+	public void writeToClient(PacketBuffer buffer) {
+
+	}
+	
+	public void updateManual(){
+		
 	}
 }

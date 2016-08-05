@@ -2,6 +2,7 @@ package com.grim3212.mc.pack;
 
 import com.grim3212.mc.pack.core.GrimCore;
 import com.grim3212.mc.pack.core.client.gui.PackGuiHandler;
+import com.grim3212.mc.pack.core.config.CoreConfig;
 import com.grim3212.mc.pack.core.part.PartRegistry;
 import com.grim3212.mc.pack.cuisine.GrimCuisine;
 import com.grim3212.mc.pack.decor.GrimDecor;
@@ -30,12 +31,18 @@ public class GrimPack {
 
 	static {
 		PartRegistry.registerPart(GrimCore.INSTANCE);
-		PartRegistry.registerPart(GrimCuisine.INSTANCE);
-		PartRegistry.registerPart(GrimDecor.INSTANCE);
-		PartRegistry.registerPart(GrimIndustry.INSTANCE);
-		PartRegistry.registerPart(GrimTools.INSTANCE);
-		PartRegistry.registerPart(GrimUtil.INSTANCE);
-		PartRegistry.registerPart(GrimWorld.INSTANCE);
+		if (CoreConfig.useCuisine)
+			PartRegistry.registerPart(GrimCuisine.INSTANCE);
+		if (CoreConfig.useDecor)
+			PartRegistry.registerPart(GrimDecor.INSTANCE);
+		if (CoreConfig.useIndustry)
+			PartRegistry.registerPart(GrimIndustry.INSTANCE);
+		if (CoreConfig.useTools)
+			PartRegistry.registerPart(GrimTools.INSTANCE);
+		if (CoreConfig.useUtil)
+			PartRegistry.registerPart(GrimUtil.INSTANCE);
+		if (CoreConfig.useWorld)
+			PartRegistry.registerPart(GrimWorld.INSTANCE);
 	}
 
 	@EventHandler

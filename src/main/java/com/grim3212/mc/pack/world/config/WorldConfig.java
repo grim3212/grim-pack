@@ -8,6 +8,7 @@ import com.grim3212.mc.pack.world.GrimWorld;
 import com.grim3212.mc.pack.world.util.KillingFungusWhitelist;
 
 import net.minecraft.block.Block;
+import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.config.ConfigElement;
 import net.minecraftforge.fml.client.config.DummyConfigElement.DummyCategoryElement;
@@ -16,8 +17,9 @@ import net.minecraftforge.fml.client.config.IConfigElement;
 public class WorldConfig extends GrimConfig {
 
 	public static final String CONFIG_NAME = "world";
-	public static final String FLOATING_ISLANDS_CONFIG_NAME = "floating-islands";
-	public static final String FUNGUS_CONFIG_NAME = "fungus";
+	public static final String CONFIG_GENERAL_NAME = "world.general";
+	public static final String FLOATING_ISLANDS_CONFIG_NAME = "world.floating-islands";
+	public static final String FUNGUS_CONFIG_NAME = "world.fungus";
 
 	public static int frequencyWheatField;
 	public static int frequencySaplings;
@@ -49,23 +51,23 @@ public class WorldConfig extends GrimConfig {
 
 	@Override
 	public void syncConfig() {
-		fire = config.get(CONFIG_NAME, "Enable Fire", true).getBoolean();
-		corruption = config.get(CONFIG_NAME, "Enable Corruption", false).getBoolean();
-		generateCorruption = config.get(CONFIG_NAME, "Generate Corruption Blocks", false).getBoolean();
-		spawnMorePeople = config.get(CONFIG_NAME, "Spawn more people", true).getBoolean();
+		fire = config.get(CONFIG_GENERAL_NAME, "Enable Fire", true).getBoolean();
+		corruption = config.get(CONFIG_GENERAL_NAME, "Enable Corruption", false).getBoolean();
+		generateCorruption = config.get(CONFIG_GENERAL_NAME, "Generate Corruption Blocks", false).getBoolean();
+		spawnMorePeople = config.get(CONFIG_GENERAL_NAME, "Spawn more people", true).getBoolean();
 
-		config.addCustomCategoryComment(CONFIG_NAME, "Change the values to decide how rare or common the different world gen items spawn. Larger values means rarer.");
-		frequencyWheatField = config.get(CONFIG_NAME, "Frequency Wheat Field", 350).getInt();
-		frequencySaplings = config.get(CONFIG_NAME, "Frequency Saplings", 200).getInt();
-		frequencyTreeStumps = config.get(CONFIG_NAME, "Frequency Tree Stumps", 200).getInt();
-		frequencyCactusFields = config.get(CONFIG_NAME, "Frequency Cactus Fields", 400).getInt();
-		frequencySandstonePillars = config.get(CONFIG_NAME, "Frequency Sandstone Pillars", 400).getInt();
-		frequencySandPits = config.get(CONFIG_NAME, "Frequency Sand Pits", 600).getInt();
-		frequencyMelons = config.get(CONFIG_NAME, "Frequency Melons", 200).getInt();
+		config.addCustomCategoryComment(CONFIG_GENERAL_NAME, "Change the values to decide how rare or common the different world gen items spawn. Larger values means rarer.");
+		frequencyWheatField = config.get(CONFIG_GENERAL_NAME, "Frequency Wheat Field", 350).getInt();
+		frequencySaplings = config.get(CONFIG_GENERAL_NAME, "Frequency Saplings", 200).getInt();
+		frequencyTreeStumps = config.get(CONFIG_GENERAL_NAME, "Frequency Tree Stumps", 200).getInt();
+		frequencyCactusFields = config.get(CONFIG_GENERAL_NAME, "Frequency Cactus Fields", 400).getInt();
+		frequencySandstonePillars = config.get(CONFIG_GENERAL_NAME, "Frequency Sandstone Pillars", 400).getInt();
+		frequencySandPits = config.get(CONFIG_GENERAL_NAME, "Frequency Sand Pits", 600).getInt();
+		frequencyMelons = config.get(CONFIG_GENERAL_NAME, "Frequency Melons", 200).getInt();
 
-		generateFlatBedRockSurface = config.get(CONFIG_NAME, "Generate Flat Bedrock Surface", true).getBoolean();
-		generateFlatBedRockNether = config.get(CONFIG_NAME, "Generate Flat Bedrock Nether", true).getBoolean();
-		replaceDesertWells = config.get(CONFIG_NAME, "Replace Desert Wells", true).getBoolean();
+		generateFlatBedRockSurface = config.get(CONFIG_GENERAL_NAME, "Generate Flat Bedrock Surface", true).getBoolean();
+		generateFlatBedRockNether = config.get(CONFIG_GENERAL_NAME, "Generate Flat Bedrock Nether", true).getBoolean();
+		replaceDesertWells = config.get(CONFIG_GENERAL_NAME, "Replace Desert Wells", true).getBoolean();
 
 		config.addCustomCategoryComment(FLOATING_ISLANDS_CONFIG_NAME, "Floating Islands configuration options. Spawn rate becomes more rare as the number grows.");
 		spawnrate = config.get(FLOATING_ISLANDS_CONFIG_NAME, "Spawn Rate", 100).getInt();
@@ -94,10 +96,35 @@ public class WorldConfig extends GrimConfig {
 
 	public static List<IConfigElement> getConfigItems() {
 		List<IConfigElement> list = new ArrayList<IConfigElement>();
-		list.add(new DummyCategoryElement("worldGeneralCfg", "grimpack.world.cfg.general", new ConfigElement(GrimWorld.INSTANCE.getConfig().getCategory(CONFIG_NAME)).getChildElements()));
+		list.add(new DummyCategoryElement("worldGeneralCfg", "grimpack.world.cfg.general", new ConfigElement(GrimWorld.INSTANCE.getConfig().getCategory(CONFIG_GENERAL_NAME)).getChildElements()));
 		list.add(new DummyCategoryElement("worldFungusCfg", "grimpack.world.cfg.fungus", new ConfigElement(GrimWorld.INSTANCE.getConfig().getCategory(FUNGUS_CONFIG_NAME)).getChildElements()));
 		list.add(new DummyCategoryElement("worldFloatingIslandsCfg", "grimpack.world.cfg.floatingIslands", new ConfigElement(GrimWorld.INSTANCE.getConfig().getCategory(FLOATING_ISLANDS_CONFIG_NAME)).getChildElements()));
 		return list;
+	}
+
+	@Override
+	public void readFromServer(PacketBuffer buffer) {
+		generateFlatBedRockSurface = buffer.readBoolean();
+		generateFlatBedRockNether = buffer.readBoolean();
+		generateFI = buffer.readBoolean();
+		replaceDesertWells = buffer.readBoolean();
+		corruption = buffer.readBoolean();
+		spawnMorePeople = buffer.readBoolean();
+	}
+
+	@Override
+	public void writeToClient(PacketBuffer buffer) {
+		buffer.writeBoolean(generateFlatBedRockSurface);
+		buffer.writeBoolean(generateFlatBedRockNether);
+		buffer.writeBoolean(generateFI);
+		buffer.writeBoolean(replaceDesertWells);
+		buffer.writeBoolean(corruption);
+		buffer.writeBoolean(spawnMorePeople);
+	}
+
+	@Override
+	public void updateManual() {
+		GrimWorld.proxy.registerManual(GrimWorld.INSTANCE.getModSection());
 	}
 
 	public static void registerBlocksPossible(String[] string, ArrayList<Block> blocklist) {
