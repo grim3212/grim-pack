@@ -23,16 +23,16 @@ public class BlockUraniumOre extends Block {
 	public void onEntityCollidedWithBlock(World worldIn, BlockPos pos, IBlockState state, Entity entityIn) {
 		int damage = 4;
 		if (entityIn instanceof EntityPlayer) {
-			if (((EntityPlayer) entityIn).inventory.armorItemInSlot(0) != null && ((EntityPlayer) entityIn).inventory.armorItemInSlot(0).getItem() == IndustryItems.anti_radiation_boots) {
+			if (((EntityPlayer) entityIn).inventory.armorInventory[0] != null && ((EntityPlayer) entityIn).inventory.armorInventory[0].getItem() == IndustryItems.anti_radiation_boots) {
 				damage--;
 			}
-			if (((EntityPlayer) entityIn).inventory.armorItemInSlot(1) != null && ((EntityPlayer) entityIn).inventory.armorItemInSlot(1).getItem() == IndustryItems.anti_radiation_legs) {
+			if (((EntityPlayer) entityIn).inventory.armorInventory[1] != null && ((EntityPlayer) entityIn).inventory.armorInventory[1].getItem() == IndustryItems.anti_radiation_legs) {
 				damage--;
 			}
-			if (((EntityPlayer) entityIn).inventory.armorItemInSlot(2) != null && ((EntityPlayer) entityIn).inventory.armorItemInSlot(2).getItem() == IndustryItems.anti_radiation_chest) {
+			if (((EntityPlayer) entityIn).inventory.armorInventory[2] != null && ((EntityPlayer) entityIn).inventory.armorInventory[2].getItem() == IndustryItems.anti_radiation_chest) {
 				damage--;
 			}
-			if (((EntityPlayer) entityIn).inventory.armorItemInSlot(3) != null && ((EntityPlayer) entityIn).inventory.armorItemInSlot(3).getItem() == IndustryItems.anti_radiation_helmet) {
+			if (((EntityPlayer) entityIn).inventory.armorInventory[3] != null && ((EntityPlayer) entityIn).inventory.armorInventory[3].getItem() == IndustryItems.anti_radiation_helmet) {
 				damage--;
 			}
 			if (damage != 0) {
@@ -48,16 +48,16 @@ public class BlockUraniumOre extends Block {
 	@Override
 	public void onBlockClicked(World worldIn, BlockPos pos, EntityPlayer playerIn) {
 		int damage = 4;
-		if (playerIn.inventory.armorItemInSlot(3) != null && playerIn.inventory.armorItemInSlot(3).getItem() == IndustryItems.anti_radiation_helmet) {
+		if (playerIn.inventory.armorInventory[3] != null && playerIn.inventory.armorInventory[3].getItem() == IndustryItems.anti_radiation_helmet) {
 			damage--;
 		}
-		if (playerIn.inventory.armorItemInSlot(2) != null && playerIn.inventory.armorItemInSlot(2).getItem() == IndustryItems.anti_radiation_chest) {
+		if (playerIn.inventory.armorInventory[2] != null && playerIn.inventory.armorInventory[2].getItem() == IndustryItems.anti_radiation_chest) {
 			damage--;
 		}
-		if (playerIn.inventory.armorItemInSlot(1) != null && playerIn.inventory.armorItemInSlot(1).getItem() == IndustryItems.anti_radiation_legs) {
+		if (playerIn.inventory.armorInventory[1] != null && playerIn.inventory.armorInventory[1].getItem() == IndustryItems.anti_radiation_legs) {
 			damage--;
 		}
-		if (playerIn.inventory.armorItemInSlot(0) != null && playerIn.inventory.armorItemInSlot(0).getItem() == IndustryItems.anti_radiation_boots) {
+		if (playerIn.inventory.armorInventory[0] != null && playerIn.inventory.armorInventory[0].getItem() == IndustryItems.anti_radiation_boots) {
 			damage--;
 		}
 		if (damage != 0) {
