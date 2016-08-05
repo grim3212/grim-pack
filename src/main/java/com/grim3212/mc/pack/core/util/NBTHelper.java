@@ -29,6 +29,14 @@ public class NBTHelper {
 		}
 	}
 
+	public static NBTTagCompound getTagCompound(NBTTagCompound compound, String keyName) {
+		if (compound == null || !compound.hasKey(keyName)) {
+			return new NBTTagCompound();
+		}
+
+		return compound.getCompoundTag(keyName);
+	}
+
 	// =============== STRING ===============
 	public static String getString(ItemStack itemStack, String keyName) {
 		initNBTTagCompound(itemStack);
