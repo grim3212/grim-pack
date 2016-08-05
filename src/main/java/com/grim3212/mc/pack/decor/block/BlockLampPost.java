@@ -117,10 +117,14 @@ public class BlockLampPost extends BlockColorizer {
 			worldIn.setBlockToAir(pos.down());
 			worldIn.setBlockToAir(pos.down(2));
 		}
+
+		super.breakBlock(worldIn, pos, state);
 	}
 
 	@Override
 	public void onBlockHarvested(World worldIn, BlockPos pos, IBlockState state, EntityPlayer player) {
+		super.onBlockHarvested(worldIn, pos, state, player);
+
 		Block block = worldIn.getBlockState(pos).getBlock();
 		if (block == DecorBlocks.lamp_post_bottom) {
 			worldIn.setBlockToAir(pos.up());

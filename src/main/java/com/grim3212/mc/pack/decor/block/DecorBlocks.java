@@ -159,7 +159,7 @@ public class DecorBlocks implements IPartItems {
 		GameRegistry.addSmelting(Blocks.GRAVEL, new ItemStack(road, 1), 0.15F);
 
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(hardened_wood, 9), new Object[] { "###", "#W#", "###", '#', "stone", 'W', "plankWood" }));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(colorizer, 4), new Object[] { " # ", "#W#", " # ", '#', "dye", 'W', hardened_wood }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(colorizer, 2), new Object[] { " # ", "#W#", " # ", '#', "dye", 'W', hardened_wood }));
 
 		addFurnitureRecipe(stool, 4, "###", "S S");
 		addFurnitureRecipe(counter, 4, "###", " S ");
@@ -168,14 +168,14 @@ public class DecorBlocks implements IPartItems {
 		addFurnitureRecipe(wall, 4, "#", "#", "#");
 		addFurnitureRecipe(fence, 4, "###", "#S#");
 		addFurnitureRecipe(fence_gate, 4, "S#S", "SSS");
-		addFurnitureRecipe(DecorItems.lamp_item, 1, "#G#", "###", " # ");
-		addFurnitureRecipe(fireplace, 1, "###", "#P#", "###");
+		addFurnitureRecipe(DecorItems.lamp_item, 2, "#G#", "###", " # ");
+		addFurnitureRecipe(fireplace, 2, "###", "#P#", "###");
 		addFurnitureRecipe(chimney, 6, "# #", "# #", "#I#");
-		addFurnitureRecipe(firepit, 1, " I ", "#P#", "###");
-		addFurnitureRecipe(firering, 1, " # ", "#P#", " # ");
-		addFurnitureRecipe(stove, 1, "###", "BPB", "###");
-		addFurnitureRecipe(grill, 1, "#C#", "###", " # ");
-		addFurnitureRecipe(grill, 1, "#H#", "###", " # ");
+		addFurnitureRecipe(firepit, 2, " I ", "#P#", "###");
+		addFurnitureRecipe(firering, 2, " # ", "#P#", " # ");
+		addFurnitureRecipe(stove, 2, "###", "BPB", "###");
+		addFurnitureRecipe(grill, 2, "#C#", "#P#", " # ");
+		addFurnitureRecipe(grill, 2, "#H#", "#P#", " # ");
 	}
 
 	private void addFurnitureRecipe(Block furnType, int amount, String... pattern) {
@@ -183,6 +183,6 @@ public class DecorBlocks implements IPartItems {
 	}
 
 	private void addFurnitureRecipe(Item furnType, int amount, String... pattern) {
-		GameRegistry.addRecipe(new ShapedOreRecipe(furnType, new Object[] { pattern, '#', colorizer, 'S', "stickWood", 'G', "glowstone", 'P', "plankWood", 'I', "ingotIron", 'C', Items.COAL, 'H', new ItemStack(Items.COAL, 1, 1), 'B', Blocks.IRON_BARS }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(furnType, new Object[] { pattern, '#', colorizer, 'S', "stickWood", 'G', "glowstone", 'P', "netherrack", 'I', "ingotIron", 'C', Items.COAL, 'H', new ItemStack(Items.COAL, 1, 1), 'B', Blocks.IRON_BARS }));
 	}
 }
