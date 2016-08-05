@@ -156,7 +156,7 @@ public class CuisineItems implements IPartItems {
 		GameRegistry.addSmelting(eggs_mixed, new ItemStack(eggs_cooked), 0.35F);
 
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(soda, 1, 1), new Object[] { " X ", "X X", "XXX", 'X', "paneGlass" }));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(soda, 1, 3), new Object[] { " X ", "X0X", " X ", 'X', "ingotIron", '0', Items.FLINT }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(soda, 4, 3), new Object[] { " X ", "X0X", " X ", 'X', "ingotIron", '0', Items.FLINT }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(soda, 1, 11), new Object[] { "X", "Y", "Z", 'X', new ItemStack(soda, 1, 3), 'Y', Items.WATER_BUCKET, 'Z', new ItemStack(soda, 1, 1) }));
 		carbon = RecipeHelper.getLatestIRecipes(3);
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(soda, 1, 2), new Object[] { "X", "Y", 'X', "slimeball", 'Y', new ItemStack(soda, 1, 11) }));
