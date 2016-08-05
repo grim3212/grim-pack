@@ -7,7 +7,7 @@
 		}
     },
     "variants": {
-        "east=false,north=false,south=false,west=false": [{ "model": "grimpack:chain_nsew" }],
+        "east=false,north=false,south=false,west=false": [{ "model": "grimpack:chain_post" }],
         "east=false,north=true,south=false,west=false": [{ "model": "grimpack:chain_n" }],
         "east=true,north=false,south=false,west=false": [{ "model": "grimpack:chain_n", "y": 90 }],
         "east=false,north=false,south=true,west=false": [{ "model": "grimpack:chain_n", "y": 180 }],
