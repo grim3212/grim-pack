@@ -19,7 +19,7 @@ public class ItemMachete extends ItemTool {
 	public static Material[] material = new Material[] { Material.LEAVES, Material.CLOTH, Material.CACTUS, Material.VINE, Material.WEB };
 
 	protected ItemMachete(ToolMaterial material) {
-		super(3.0f, -2.2f, material, blocksEffectiveAgainst);
+		super(3.2f, -2.15f, material, blocksEffectiveAgainst);
 		setMaxStackSize(1);
 		setCreativeTab(GrimTools.INSTANCE.getCreativeTab());
 	}

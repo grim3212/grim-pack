@@ -167,6 +167,7 @@ tile.fungus_killing.15.name=Glass Layer Building Fungus
 
 #================= ITEMS =================#
 item.instruction_manual.name=Instruction Manual
+item.iron_stick.name=Iron Stick
 item.brush.name=Brush
 item.soda.apple.name=Apple Soda
 item.soda.bottle.name=Soda Bottle

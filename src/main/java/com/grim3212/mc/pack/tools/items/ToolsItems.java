@@ -324,6 +324,9 @@ public class ToolsItems implements IPartItems {
 		OreDictionary.registerOre("bucketMilk", golden_milk_bucket);
 		OreDictionary.registerOre("bucketMilk", diamond_milk_bucket);
 		OreDictionary.registerOre("bucketMilk", obsidian_milk_bucket);
+		OreDictionary.registerOre("rod", rod_part);
+		OreDictionary.registerOre("rodIron", rod_part);
+		OreDictionary.registerOre("stickIron", rod_part);
 
 		// Register chiseleable blocks
 		ChiselRegistry.registerBlock(Blocks.DIAMOND_ORE, Blocks.STONE, Items.DIAMOND, 1, 0);
@@ -360,7 +363,7 @@ public class ToolsItems implements IPartItems {
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(spring_part, 1), new Object[] { "#  ", " ! ", "  #", '#', "ingotIron", '!', "string" }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(button_part, 1), new Object[] { " # ", "#!#", " # ", '#', "dustRedstone", '!', Blocks.STONE_BUTTON }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(unloaded_knife, 1), new Object[] { " #", "! ", " @", '#', button_part, '!', spring_part, '@', grip }));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(rod_part, 1), new Object[] { "#", "#", '#', "ingotIron" }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(rod_part, 1), new Object[] { "#", "#", '#', "rod" }));
 
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(black_diamond_pickaxe, 1), new Object[] { "###", " X ", " X ", 'X', "stickWood", '#', black_diamond }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(black_diamond_sword, 1), new Object[] { "#", "#", "X", 'X', "stickWood", '#', black_diamond }));
@@ -393,14 +396,14 @@ public class ToolsItems implements IPartItems {
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(diamond_hammer, 1), new Object[] { "MMM", "MMM", " G ", 'M', "gemDiamond", 'G', "stickWood" }));
 		hammers = RecipeHelper.getLatestIRecipes(5);
 
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(machete_wood, 1), new Object[] { "  X", " X ", "#  ", 'X', "plankWood", '#', "stickWood" }));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(machete_stone, 1), new Object[] { "  X", " X ", "#  ", 'X', "cobblestone", '#', "stickWood" }));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(machete_gold, 1), new Object[] { "  X", " X ", "#  ", 'X', "ingotGold", '#', "stickWood" }));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(machete_iron, 1), new Object[] { "  X", " X ", "#  ", 'X', "ingotIron", '#', "stickWood" }));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(machete_diamond, 1), new Object[] { "  X", " X ", "#  ", 'X', "gemDiamond", '#', "stickWood" }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(machete_wood, 1), new Object[] { " XX", "XX ", "#  ", 'X', "plankWood", '#', "stickWood" }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(machete_stone, 1), new Object[] { " XX", "XX ", "#  ", 'X', "cobblestone", '#', "stickWood" }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(machete_gold, 1), new Object[] { " XX", "XX ", "#  ", 'X', "ingotGold", '#', "stickWood" }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(machete_iron, 1), new Object[] { " XX", "XX ", "#  ", 'X', "ingotIron", '#', "stickWood" }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(machete_diamond, 1), new Object[] { " XX", "XX ", "#  ", 'X', "gemDiamond", '#', "stickWood" }));
 		machetes = RecipeHelper.getLatestIRecipes(5);
 
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(machete_slime, 1), new Object[] { "  X", " X ", "#  ", 'X', "slimeball", '#', "stickWood" }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(machete_slime, 1), new Object[] { " XX", "XX ", "#  ", 'X', "slimeball", '#', "stickWood" }));
 
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(building_wand), new Object[] { "PXP", "PXP", "PXP", 'P', "plankWood", 'X', "ingotGold" }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(breaking_wand), new Object[] { "PXP", "PXP", "PXP", 'P', "plankWood", 'X', "ingotIron" }));

@@ -41,6 +41,7 @@ public class IndustryClientProxy extends ClientProxy {
 		ModelLoader.setCustomStateMapper(IndustryBlocks.vertical_siding, new StateMap.Builder().ignore(BlockSiding.COLOR).build());
 
 		// ITEMS
+		RenderHelper.renderItem(IndustryItems.iron_stick);
 		RenderHelper.renderItem(IndustryItems.gravity_boots);
 		RenderHelper.renderItem(IndustryItems.graphite);
 		RenderHelper.renderItem(IndustryItems.graphite_rod);

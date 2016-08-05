@@ -81,6 +81,7 @@ public class IndustryItems implements IPartItems {
 	public static Item steel_sword;
 	public static Item super_crude_oil;
 	public static Item rubber;
+	public static Item iron_stick;
 
 	public static ToolMaterial steel = EnumHelper.addToolMaterial("steel", 3, 1200, 7.5F, 2.5F, 12);
 	public static ArmorMaterial antiRadiation = EnumHelper.addArmorMaterial("antiRadiation", GrimPack.modID + ":radiation", 5, new int[] { 2, 5, 3, 1 }, 15, SoundEvents.BLOCK_CLOTH_PLACE, 0.0F);
@@ -88,6 +89,7 @@ public class IndustryItems implements IPartItems {
 
 	@Override
 	public void initItems() {
+		iron_stick = (new Item()).setUnlocalizedName("iron_stick").setCreativeTab(GrimIndustry.INSTANCE.getCreativeTab());
 		rubber = (new Item()).setUnlocalizedName("rubber").setCreativeTab(GrimIndustry.INSTANCE.getCreativeTab());
 		aluminum_can = (new Item()).setUnlocalizedName("aluminum_can").setCreativeTab(GrimIndustry.INSTANCE.getCreativeTab());
 		aluminum_shaft = (new Item()).setUnlocalizedName("aluminum_shaft").setCreativeTab(GrimIndustry.INSTANCE.getCreativeTab());
@@ -136,6 +138,7 @@ public class IndustryItems implements IPartItems {
 		paint_roller_green = (ItemPaintRollerColor) (new ItemPaintRollerColor(EnumSidingColor.green)).setUnlocalizedName("paint_roller_green");
 		paint_roller_blue = (ItemPaintRollerColor) (new ItemPaintRollerColor(EnumSidingColor.blue)).setUnlocalizedName("paint_roller_blue");
 
+		Utils.registerItem(iron_stick, "iron_stick");
 		Utils.registerItem(rubber, "rubber");
 		Utils.registerItem(aluminum_can, "aluminum_can");
 		Utils.registerItem(aluminum_shaft, "aluminum_shaft");
@@ -206,6 +209,8 @@ public class IndustryItems implements IPartItems {
 		OreDictionary.registerOre("ingotPlutonium", plutonium_ingot);
 		OreDictionary.registerOre("ingotRefinedPlutonium", refined_plutonium);
 		OreDictionary.registerOre("ingotAluminum", aluminum_ingot);
+		OreDictionary.registerOre("stickIron", iron_stick);
+		OreDictionary.registerOre("rodIron", iron_stick);
 
 		GameRegistry.addSmelting(tarball, new ItemStack(asphalt, 1), 0.35F);
 		GameRegistry.addSmelting(Items.FLINT, new ItemStack(graphite), 0.35F);
@@ -252,9 +257,12 @@ public class IndustryItems implements IPartItems {
 
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(tarball, 16), new Object[] { "C", "G", "W", 'C', Items.COAL, 'G', Blocks.GRAVEL, 'W', Items.WATER_BUCKET }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(paint_roller, 1), new Object[] { "WWW", " S ", " S ", 'W', Blocks.WOOL, 'S', "stickWood" }));
-
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(gate_grating, 4), new Object[] { " i ", "iii", " i ", 'i', "ingotIron" }));
-		gates.add(RecipeHelper.getLatestIRecipe());
+		
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(iron_stick, 4), new Object[] { " i ", "iSi", " i ", 'i', "ingotIron", 'S', "stickWood" }));
+		
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(gate_grating, 4), new Object[] { " i ", "iii", " i ", 'i', "stickIron" }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(gate_grating, 4), new Object[] { " i ", "iii", " i ", 'i', "rodIron" }));
+		gates.addAll(RecipeHelper.getLatestIRecipes(2));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(gate_trumpet, 1), new Object[] { "g  ", "wg ", " wi", 'w', Blocks.WOOL, 'g', "ingotGold", 'i', "ingotIron" }));
 
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(garage_panel, 4), new Object[] { "i", "G", "i", 'i', "ingotIron", 'G', "blockGlass" }));

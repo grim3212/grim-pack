@@ -287,7 +287,6 @@ public class IndustryBlocks implements IPartItems {
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(uranium_ore, 1), new Object[] { "RDR", "DGD", "RDR", 'R', "dustRedstone", 'G', "glowstone", 'D', "gemDiamond" }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(reactor, 1), new Object[] { "GMG", "CRC", "GMG", 'G', IndustryItems.graphite, 'M', IndustryItems.iron_parts, 'C', IndustryItems.reactor_core_case, 'R', IndustryItems.reactor_core }));
 
-		// No possible way to obtain aluminum
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(bomb_shell, 1), new Object[] { "A A", " A ", "A A", 'A', "ingotAluminum" }));
 
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(c4, 1), new Object[] { "GGG", "RRR", "GGG", 'G', Items.GUNPOWDER, 'R', "dustRedstone" }));
