@@ -26,6 +26,7 @@ public class ToolsConfig extends GrimConfig {
 	public static String[] BLOCKS_Mining_wand_ores_for_surface_mining;
 	public static double fistEntityDamage;
 	public static float fistBlockBreakSpeed;
+	public static float multiToolDurabilityMultiplier;
 
 	public static boolean restrictPowerStaffBlocks;
 	public static String[] powerstaff_pull_push_blocks;
@@ -34,6 +35,7 @@ public class ToolsConfig extends GrimConfig {
 	public void syncConfig() {
 		fistEntityDamage = config.get(CONFIG_GENERAL_NAME, "Ultimate Fist Damage Against Entity's", 1561).getDouble();
 		fistBlockBreakSpeed = config.get(CONFIG_GENERAL_NAME, "Ultime Fist Block Breaking Speed", 64).getInt();
+		multiToolDurabilityMultiplier = (float) config.get(CONFIG_GENERAL_NAME, "Multitool durability multiplier", 3).getDouble();
 
 		ENABLE_free_build_mode = config.get(CONFIG_GENERAL_NAME, "Enable Free Build Mode", false).getBoolean();
 		ENABLE_bedrock_breaking = config.get(CONFIG_GENERAL_NAME, "Enable Bedrock Breaking", false).getBoolean();

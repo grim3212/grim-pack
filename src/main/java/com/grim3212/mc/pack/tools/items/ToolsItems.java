@@ -10,6 +10,7 @@ import com.grim3212.mc.pack.core.util.OreDictionaryHelper;
 import com.grim3212.mc.pack.core.util.RecipeHelper;
 import com.grim3212.mc.pack.core.util.Utils;
 import com.grim3212.mc.pack.tools.GrimTools;
+import com.grim3212.mc.pack.tools.config.ToolsConfig;
 import com.grim3212.mc.pack.tools.items.ItemBetterBucket.BucketType;
 import com.grim3212.mc.pack.tools.util.BackpackRecipeHandler;
 import com.grim3212.mc.pack.tools.util.ChiselRegistry;
@@ -121,8 +122,9 @@ public class ToolsItems implements IPartItems {
 	public static Item ultimate_fist;
 	public static Item mask;
 
+	public static ToolMaterial multitool = EnumHelper.addToolMaterial("black_diamond", 4, 5122, 15F, 5F, 20);
 	public static ToolMaterial blackdiamond = EnumHelper.addToolMaterial("black_diamond", 4, 5122, 15F, 5F, 20);
-	public static ToolMaterial obsidianToolMaterial = EnumHelper.addToolMaterial("obsidian", 3, 10000, 9.5F, 7f, 14);
+	public static ToolMaterial obsidianToolMaterial = EnumHelper.addToolMaterial("obsidian", 3, 3333, 9.5F, 7f, 14);
 	public static ArmorMaterial masks = EnumHelper.addArmorMaterial("mask", GrimPack.modID + ":masks", 5, new int[] { 1, 3, 2, 1 }, 15, SoundEvents.BLOCK_CLOTH_PLACE, 0.0F);
 	public static ArmorMaterial blackarmor = EnumHelper.addArmorMaterial("blackarmor", GrimPack.modID + ":blackarmor", 35, new int[] { 3, 8, 6, 3 }, 20, SoundEvents.ITEM_ARMOR_EQUIP_DIAMOND, 2.5F);
 
@@ -181,12 +183,12 @@ public class ToolsItems implements IPartItems {
 		reinforced_building_wand = (new ItemBuildingWand(true)).setUnlocalizedName("reinforced_building_wand");
 		reinforced_breaking_wand = (new ItemBreakingWand(true)).setUnlocalizedName("reinforced_breaking_wand");
 		reinforced_mining_wand = (new ItemMiningWand(true)).setUnlocalizedName("reinforced_mining_wand");
-		diamond_multi_tool = (new ItemMultiTool(ToolMaterial.DIAMOND)).setUnlocalizedName("diamond_multi_tool");
-		wooden_multi_tool = (new ItemMultiTool(ToolMaterial.WOOD)).setUnlocalizedName("wooden_multi_tool");
-		stone_multi_tool = (new ItemMultiTool(ToolMaterial.STONE)).setUnlocalizedName("stone_multi_tool");
-		iron_multi_tool = (new ItemMultiTool(ToolMaterial.IRON)).setUnlocalizedName("iron_multi_tool");
-		golden_multi_tool = (new ItemMultiTool(ToolMaterial.GOLD)).setUnlocalizedName("golden_multi_tool");
-		obsidian_multi_tool = (new ItemMultiTool(obsidianToolMaterial)).setUnlocalizedName("obsidian_multi_tool");
+		diamond_multi_tool = (new ItemMultiTool(addMultiToolMaterial(ToolMaterial.DIAMOND))).setUnlocalizedName("diamond_multi_tool");
+		wooden_multi_tool = (new ItemMultiTool(addMultiToolMaterial(ToolMaterial.WOOD))).setUnlocalizedName("wooden_multi_tool");
+		stone_multi_tool = (new ItemMultiTool(addMultiToolMaterial(ToolMaterial.STONE))).setUnlocalizedName("stone_multi_tool");
+		iron_multi_tool = (new ItemMultiTool(addMultiToolMaterial(ToolMaterial.IRON))).setUnlocalizedName("iron_multi_tool");
+		golden_multi_tool = (new ItemMultiTool(addMultiToolMaterial(ToolMaterial.GOLD))).setUnlocalizedName("golden_multi_tool");
+		obsidian_multi_tool = (new ItemMultiTool(addMultiToolMaterial(obsidianToolMaterial))).setUnlocalizedName("obsidian_multi_tool");
 		pokeball = (new ItemPokeball()).setUnlocalizedName("pokeball");
 		powerstaff = (new ItemPowerStaff()).setUnlocalizedName("powerstaff").setCreativeTab(GrimTools.INSTANCE.getCreativeTab());
 		energy_canister = (new Item()).setUnlocalizedName("energy_canister").setCreativeTab(GrimTools.INSTANCE.getCreativeTab());
@@ -496,5 +498,9 @@ public class ToolsItems implements IPartItems {
 		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(mask, 1, 18), new Object[] { emptyStack, "dyeGreen", "dyeBlack" }));
 		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(mask, 1, 19), new Object[] { emptyStack, "dyeLime", "dyePink", "dyeGray" }));
 		mobs = RecipeHelper.getLatestIRecipes(19);
+	}
+
+	private static ToolMaterial addMultiToolMaterial(ToolMaterial material) {
+		return EnumHelper.addToolMaterial(material.name() + "_multitool", material.getHarvestLevel(), (int) (material.getMaxUses() * ToolsConfig.multiToolDurabilityMultiplier), material.getEfficiencyOnProperMaterial(), material.getDamageVsEntity(), material.getEnchantability());
 	}
 }
