@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import com.grim3212.mc.pack.core.manual.ModSection;
 import com.grim3212.mc.pack.core.manual.ModSubSection;
 import com.grim3212.mc.pack.core.manual.button.GuiButtonChangePage;
+import com.grim3212.mc.pack.core.manual.button.GuiButtonHome;
 import com.grim3212.mc.pack.core.manual.button.GuiButtonModSection;
 import com.grim3212.mc.pack.core.util.GrimLog;
 
@@ -96,6 +97,7 @@ public class GuiSubSection extends GuiManualIndex {
 		buttonList.clear();
 		buttonList.add(this.changeForward = new GuiButtonChangePage(0, x + manualWidth - 20, y + manualHeight - 12, true));
 		buttonList.add(this.changeBack = new GuiButtonChangePage(1, x + 2, y + manualHeight - 12, false));
+		buttonList.add(this.goHome = new GuiButtonHome(2, width / 2 - 9 / 2, y + manualHeight - 11));
 
 		if (page == 0) {
 			changeForward.visible = subsections.size() > 12;
@@ -107,12 +109,12 @@ public class GuiSubSection extends GuiManualIndex {
 
 		if (page == 0) {
 			for (int i = 0; i < subsections.size() && i < 12; i++) {
-				buttonList.add(new GuiButtonModSection(i + 2, x + 15, y + (58 + i * 14), 10, subsections.get(i).getSubSectionName()));
+				buttonList.add(new GuiButtonModSection(i + 3, x + 15, y + (58 + i * 14), 10, subsections.get(i).getSubSectionName()));
 			}
 		} else {
 			for (int i = 0; i < 14; i++) {
 				if ((12 + ((page - 1) * 14 + i)) < subsections.size()) {
-					buttonList.add(new GuiButtonModSection(i + 2, x + 15, y + (30 + i * 14), 10, subsections.get(12 + ((page - 1) * 14 + i)).getSubSectionName()));
+					buttonList.add(new GuiButtonModSection(i + 3, x + 15, y + (30 + i * 14), 10, subsections.get(12 + ((page - 1) * 14 + i)).getSubSectionName()));
 				}
 			}
 		}
@@ -133,11 +135,15 @@ public class GuiSubSection extends GuiManualIndex {
 				this.updateButtons();
 			}
 			break;
+
+		case 2:
+			mc.displayGuiScreen(new GuiManualIndex(0));
+			break;
 		default:
 			if (page == 0)
-				mc.displayGuiScreen(new GuiSubSectionPage(subsections.get(button.id - 2), this));
+				mc.displayGuiScreen(new GuiSubSectionPage(subsections.get(button.id - 3), this));
 			else
-				mc.displayGuiScreen(new GuiSubSectionPage(subsections.get(12 + ((page - 1) * 14 + (button.id - 2))), this));
+				mc.displayGuiScreen(new GuiSubSectionPage(subsections.get(12 + ((page - 1) * 14 + (button.id - 3))), this));
 		}
 	}
 

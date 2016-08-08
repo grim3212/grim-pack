@@ -2,6 +2,7 @@ package com.grim3212.mc.pack.core.manual.gui;
 
 import com.grim3212.mc.pack.core.manual.ModSubSection;
 import com.grim3212.mc.pack.core.manual.button.GuiButtonChangePage;
+import com.grim3212.mc.pack.core.manual.button.GuiButtonHome;
 import com.grim3212.mc.pack.core.manual.button.GuiButtonPause;
 import com.grim3212.mc.pack.core.manual.pages.Page;
 import com.grim3212.mc.pack.core.manual.pages.PageCrafting;
@@ -59,7 +60,8 @@ public class GuiSubSectionPage extends GuiManualIndex {
 		buttonList.clear();
 		buttonList.add(changeForward = new GuiButtonChangePage(0, x + manualWidth - 20, y + manualHeight - 12, true));
 		buttonList.add(changeBack = new GuiButtonChangePage(1, x + 2, y + manualHeight - 12, false));
-		buttonList.add(pauseButton = new GuiButtonPause(2, 0, 0));
+		buttonList.add(goHome = new GuiButtonHome(2, width / 2 - 9 / 2, y + manualHeight - 11));
+		buttonList.add(pauseButton = new GuiButtonPause(3, 0, 0));
 
 		changeForward.visible = subsection.getPages().size() > page + 1;
 		changeForward.enabled = subsection.getPages().size() > page + 1;
@@ -134,6 +136,9 @@ public class GuiSubSectionPage extends GuiManualIndex {
 			}
 			break;
 		case 2:
+			mc.displayGuiScreen(new GuiManualIndex(0));
+			break;
+		case 3:
 			if (!isPaused) {
 				isPaused = true;
 				pauseButton.setIsPaused(true);
