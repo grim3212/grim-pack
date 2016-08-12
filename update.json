@@ -1,8 +1,8 @@
 {
 	"homepage": "http://mods.grim3212.com/grim-pack/",
 	"promos": {
-		"1.10.2-latest": "3.2.2.10",
-		"1.10.2-recommended": "3.2.2.10",
+		"1.10.2-latest": "3.4.4.13",
+		"1.10.2-recommended": "3.4.4.13",
 		"1.9-latest": "2.1.3.7",
 		"1.9-recommended": "2.1.3.7",
 		"1.8.9-latest": "1.0.0.1",
@@ -19,7 +19,8 @@
 		"2.0.0.0": "Combines all parts mods into 1 mod and combine a lot of the logic. Lots of bugfixes and changes."
 	},
 	"1.10.2": {
-		"3.2.2.8": "Add a config option for multitool durability. Add a home button to the manual",
+		"3.4.4.13": "Big refactoring. Huge changes to Instruction manual as well as fixes to buckets and changes to camo plate.",
+		"3.2.2.10": "Add a config option for multitool durability. Add a home button to the manual",
 		"3.2.2.8": "A huge amount of changes. Many of these change recipes as well as a overhaul of decor furniture.",
 		"3.0.0.1": "Fix a world generation crash that would sometimes happen with Biomes O' Plenty. Also change version to actually be what the update is looking for.",
 		"3.0.0.0": "Fix vanilla desert wells from spawning. Add a config option for workbench upgrades. Requires Forge 12.18.1.2039."
