@@ -2,6 +2,9 @@ package com.grim3212.mc.pack.decor.item;
 
 import java.util.List;
 
+import com.grim3212.mc.pack.core.item.ItemManual;
+import com.grim3212.mc.pack.core.manual.pages.Page;
+import com.grim3212.mc.pack.decor.client.ManualDecor;
 import com.grim3212.mc.pack.decor.entity.EntityFrame;
 
 import net.minecraft.creativetab.CreativeTabs;
@@ -14,7 +17,7 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class ItemFrame extends Item {
+public class ItemFrame extends ItemManual {
 
 	public ItemFrame() {
 		setMaxDamage(0);
@@ -50,5 +53,10 @@ public class ItemFrame extends Item {
 		} else {
 			return EnumActionResult.FAIL;
 		}
+	}
+
+	@Override
+	public Page getPage(ItemStack stack) {
+		return ManualDecor.frames_page;
 	}
 }

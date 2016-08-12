@@ -4,6 +4,9 @@ import java.util.List;
 
 import com.grim3212.mc.pack.GrimPack;
 import com.grim3212.mc.pack.core.client.gui.PackGuiHandler;
+import com.grim3212.mc.pack.core.item.ItemManual;
+import com.grim3212.mc.pack.core.manual.pages.Page;
+import com.grim3212.mc.pack.tools.client.ManualTools;
 import com.grim3212.mc.pack.tools.inventory.ContainerBackpack;
 
 import net.minecraft.creativetab.CreativeTabs;
@@ -19,12 +22,17 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class ItemBackpack extends Item {
+public class ItemBackpack extends ItemManual {
 
 	public static final String[] colorNumbers = new String[] { "454554", "BE3030", "667F33", "704425", "3366CC", "B266E5", "4C99B2", "999999", "4C4C4C", "F2B2CC", "7FCC19", "E5E533", "99B2F2", "E57FD8", "F4B33F", "FFFFFF" };
 
 	public ItemBackpack() {
 		this.maxStackSize = 1;
+	}
+
+	@Override
+	public Page getPage(ItemStack stack) {
+		return ManualTools.backpack_page;
 	}
 
 	@SideOnly(Side.CLIENT)

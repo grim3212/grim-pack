@@ -2,7 +2,10 @@ package com.grim3212.mc.pack.cuisine.item;
 
 import java.util.List;
 
+import com.grim3212.mc.pack.core.item.ItemManual;
+import com.grim3212.mc.pack.core.manual.pages.Page;
 import com.grim3212.mc.pack.cuisine.GrimCuisine;
+import com.grim3212.mc.pack.cuisine.client.ManualCuisine;
 
 import net.minecraft.client.resources.I18n;
 import net.minecraft.creativetab.CreativeTabs;
@@ -16,7 +19,7 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 
-public class ItemSodaBottle extends Item {
+public class ItemSodaBottle extends ItemManual {
 
 	public static final String[] sodaTypes = new String[] { "apple", "bottle", "slurm", "co2", "golden_apple", "spiked_orange", "root_beer", "cream_orange", "diamond", "orange", "cocoa", "carbonated_water", "mushroom" };
 
@@ -87,5 +90,13 @@ public class ItemSodaBottle extends Item {
 		for (int j = 0; j < 13; ++j) {
 			list.add(new ItemStack(item, 1, j));
 		}
+	}
+
+	@Override
+	public Page getPage(ItemStack stack) {
+		if (stack.getMetadata() == 1 || stack.getMetadata() == 3 || stack.getMetadata() == 11)
+			return ManualCuisine.carbon_page;
+
+		return ManualCuisine.soda_page;
 	}
 }

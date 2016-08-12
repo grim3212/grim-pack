@@ -16,6 +16,7 @@ import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
+import net.minecraft.util.IStringSerializable;
 
 public class MachineRecipes {
 
@@ -26,22 +27,22 @@ public class MachineRecipes {
 
 	private MachineRecipes() {
 		// Modern furnace recipes
-		addRecipeForBlock(Blocks.GLASS, new ItemStack(IndustryBlocks.tempered_glass), 0.25f, 0);
-		addRecipeForBlock(Blocks.CLAY, new ItemStack(IndustryBlocks.modern_tile), 0.25f, 0);
+		addRecipeForBlock(Blocks.GLASS, new ItemStack(IndustryBlocks.tempered_glass), 0.25f, MachineType.MODERN_FURNACE);
+		addRecipeForBlock(Blocks.CLAY, new ItemStack(IndustryBlocks.modern_tile), 0.25f, MachineType.MODERN_FURNACE);
 
 		// Add vanilla furnace recipes to modern furnace
 		for (Entry<ItemStack, ItemStack> entry : FurnaceRecipes.instance().getSmeltingList().entrySet())
 			addModernFurnaceRecipe(entry.getKey(), entry.getValue(), FurnaceRecipes.instance().getSmeltingExperience(entry.getValue()));
 
-		//Derrick recipes
-		addRecipe(IndustryItems.aluminum_can, new ItemStack(IndustryItems.crude_oil), 0.1f, 1);
-		
+		// Derrick recipes
+		addRecipe(IndustryItems.aluminum_can, new ItemStack(IndustryItems.crude_oil), 0.1f, MachineType.DERRICK);
+
 		// Refinery recipes
-		addRecipe(IndustryItems.crude_oil, new ItemStack(IndustryItems.fuel), 0.25f, 2);
-		addRecipe(IndustryItems.super_crude_oil, new ItemStack(IndustryItems.crude_oil), 0.1f, 2);
-		addRecipeForBlock(Blocks.LOG, new ItemStack(IndustryItems.rubber), 0.1f, 2);
-		addRecipeForBlock(Blocks.LOG2, new ItemStack(IndustryItems.rubber), 0.1f, 2);
-		addRecipeForBlock(Blocks.DIRT, new ItemStack(Items.CLAY_BALL), 0.25f, 2);
+		addRecipe(IndustryItems.crude_oil, new ItemStack(IndustryItems.fuel), 0.25f, MachineType.REFINERY);
+		addRecipe(IndustryItems.super_crude_oil, new ItemStack(IndustryItems.crude_oil), 0.1f, MachineType.REFINERY);
+		addRecipeForBlock(Blocks.LOG, new ItemStack(IndustryItems.rubber), 0.1f, MachineType.REFINERY);
+		addRecipeForBlock(Blocks.LOG2, new ItemStack(IndustryItems.rubber), 0.1f, MachineType.REFINERY);
+		addRecipeForBlock(Blocks.DIRT, new ItemStack(Items.CLAY_BALL), 0.25f, MachineType.REFINERY);
 	}
 
 	/**
@@ -55,8 +56,8 @@ public class MachineRecipes {
 	 * @param recipeList
 	 *            0 = modern furnace, 1 = derrick, 2 = refinery
 	 */
-	public void addRecipeForBlock(Block input, ItemStack output, float experience, int recipeList) {
-		this.addRecipe(Item.getItemFromBlock(input), output, experience, recipeList);
+	public void addRecipeForBlock(Block input, ItemStack output, float experience, MachineType type) {
+		this.addRecipe(Item.getItemFromBlock(input), output, experience, type);
 	}
 
 	/**
@@ -70,40 +71,52 @@ public class MachineRecipes {
 	 * @param recipeList
 	 *            0 = modern furnace, 1 = derrick, 2 = refinery
 	 */
-	public void addRecipe(Item input, ItemStack output, float experience, int recipeList) {
-		if (recipeList == 0)
+	public void addRecipe(Item input, ItemStack output, float experience, MachineType type) {
+		if (type == MachineType.MODERN_FURNACE)
 			this.addModernFurnaceRecipe(new ItemStack(input, 1, 32767), output, experience);
-		else if (recipeList == 1)
+		else if (type == MachineType.DERRICK)
 			this.addDerrickRecipe(new ItemStack(input, 1, 32767), output, experience);
-		else if (recipeList == 2)
+		else if (type == MachineType.REFINERY)
 			this.addRefineryRecipe(new ItemStack(input, 1, 32767), output, experience);
 	}
 
 	public void addModernFurnaceRecipe(ItemStack input, ItemStack stack, float experience) {
-		if (getResult(input, this.getModernFurnaceList()) != null)
+		if (getResult(input, MachineType.MODERN_FURNACE) != null)
 			return;
 
 		this.getModernFurnaceList().add(new ImmutableTriple<ItemStack, ItemStack, Float>(input, stack, experience));
 	}
 
 	public void addDerrickRecipe(ItemStack input, ItemStack stack, float experience) {
-		if (getResult(input, this.getDerrickList()) != null)
+		if (getResult(input, MachineType.DERRICK) != null)
 			return;
 
 		this.getDerrickList().add(new ImmutableTriple<ItemStack, ItemStack, Float>(input, stack, experience));
 	}
 
 	public void addRefineryRecipe(ItemStack input, ItemStack stack, float experience) {
-		if (getResult(input, this.getRefineryList()) != null)
+		if (getResult(input, MachineType.REFINERY) != null)
 			return;
 
 		this.getRefineryList().add(new ImmutableTriple<ItemStack, ItemStack, Float>(input, stack, experience));
 	}
 
-	public ItemStack getResult(ItemStack stack, List<Triple<ItemStack, ItemStack, Float>> recipeList) {
-		for (Triple<ItemStack, ItemStack, Float> triple : recipeList) {
-			if (this.compareItemStacks(stack, triple.getLeft())) {
-				return triple.getMiddle();
+	public ItemStack getResult(ItemStack stack, MachineType type) {
+		List<Triple<ItemStack, ItemStack, Float>> recipeList = null;
+
+		if (type == MachineType.MODERN_FURNACE) {
+			recipeList = this.getModernFurnaceList();
+		} else if (type == MachineType.DERRICK) {
+			recipeList = this.getDerrickList();
+		} else if (type == MachineType.REFINERY) {
+			recipeList = this.getRefineryList();
+		}
+
+		if (recipeList != null) {
+			for (Triple<ItemStack, ItemStack, Float> triple : recipeList) {
+				if (this.compareItemStacks(stack, triple.getLeft())) {
+					return triple.getMiddle();
+				}
 			}
 		}
 
@@ -142,5 +155,16 @@ public class MachineRecipes {
 		}
 
 		return 0.0F;
+	}
+
+	public enum MachineType  implements IStringSerializable {
+		MODERN_FURNACE, DERRICK, REFINERY;
+
+		public static final MachineType values[] = MachineType.values();
+		
+		@Override
+		public String getName() {
+			return this.name();
+		}
 	}
 }

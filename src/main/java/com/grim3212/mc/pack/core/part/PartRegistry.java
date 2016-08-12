@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.grim3212.mc.pack.GrimPack;
+import com.grim3212.mc.pack.core.manual.ManualPart;
 import com.grim3212.mc.pack.core.manual.ManualRegistry;
-import com.grim3212.mc.pack.core.manual.ModSection;
 import com.grim3212.mc.pack.core.util.GrimLog;
 
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -18,7 +18,7 @@ public class PartRegistry {
 
 	public static void registerPart(GrimPart part) {
 		partsToLoad.add(part);
-		ManualRegistry.registerMod(part.setModSection(new ModSection(part.getPartName(), part.getPartId())));
+		ManualRegistry.registerMod(part.setModSection(new ManualPart(part.getPartName(), part.getPartId())));
 		if (part.shouldUseCreativeTab())
 			part.setCreativeTab(new GrimPartCreativeTab(part));
 		GrimLog.info(GrimPack.modName, "Registered Grim Part: { " + part.getPartName() + " }");
@@ -41,4 +41,5 @@ public class PartRegistry {
 			part.postInit(event);
 		}
 	}
+
 }

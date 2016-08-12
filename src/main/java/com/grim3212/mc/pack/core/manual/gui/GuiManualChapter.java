@@ -2,8 +2,8 @@ package com.grim3212.mc.pack.core.manual.gui;
 
 import java.util.ArrayList;
 
-import com.grim3212.mc.pack.core.manual.ModSection;
-import com.grim3212.mc.pack.core.manual.ModSubSection;
+import com.grim3212.mc.pack.core.manual.ManualPart;
+import com.grim3212.mc.pack.core.manual.ManualChapter;
 import com.grim3212.mc.pack.core.manual.button.GuiButtonChangePage;
 import com.grim3212.mc.pack.core.manual.button.GuiButtonHome;
 import com.grim3212.mc.pack.core.manual.button.GuiButtonModSection;
@@ -13,23 +13,29 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
 
-public class GuiSubSection extends GuiManualIndex {
+public class GuiManualChapter extends GuiManualIndex {
 
-	private ModSection mod;
+	private ManualPart part;
 	private int page = 0;
 	private int storedPage = 0;
 
-	private ArrayList<ModSubSection> subsections = new ArrayList<ModSubSection>();
+	private ArrayList<ManualChapter> chapters = new ArrayList<ManualChapter>();
 
-	public GuiSubSection(ModSection mod, int storedPage) {
-		this.mod = mod;
+	public GuiManualChapter(ManualPart part, int storedPage) {
+		this.part = part;
 		this.storedPage = storedPage;
 	}
 
-	public GuiSubSection(ModSection mod, int page, int storedPage) {
-		this.mod = mod;
+	public GuiManualChapter(ManualPart part, int page, int storedPage) {
+		this.part = part;
 		this.page = page;
 		this.storedPage = storedPage;
+	}
+
+	public GuiManualChapter(GuiManualChapter chapter) {
+		this.part = chapter.part;
+		this.page = chapter.page;
+		this.storedPage = chapter.storedPage;
 	}
 
 	@Override
@@ -39,21 +45,21 @@ public class GuiSubSection extends GuiManualIndex {
 		x = (width - manualWidth) / 2;
 		y = (height - manualHeight) / 2;
 
-		subsections.clear();
-		subsections.addAll(mod.getPages());
+		chapters.clear();
+		chapters.addAll(part.getChapters());
 
 		this.updateButtons();
 	}
 
 	@Override
 	protected void drawFooter() {
-		if (subsections.size() != 0) {
+		if (chapters.size() != 0) {
 			int numPages = 1;
 
-			if (subsections.size() > 12) {
+			if (chapters.size() > 12) {
 				numPages = 2;
-				if (subsections.size() > 26) {
-					numPages = ((subsections.size() - 12) / 14) + 2;
+				if (chapters.size() > 26) {
+					numPages = ((chapters.size() - 12) / 14) + 2;
 				}
 			}
 
@@ -70,7 +76,7 @@ public class GuiSubSection extends GuiManualIndex {
 	protected void drawTitle() {
 		boolean unicode = fontRendererObj.getUnicodeFlag();
 		fontRendererObj.setUnicodeFlag(false);
-		String title = mod.getModName();
+		String title = part.getPartName();
 		fontRendererObj.drawString(title, width / 2 - fontRendererObj.getStringWidth(title) / 2, this.y + 14, 0x0026FF, false);
 		fontRendererObj.setUnicodeFlag(unicode);
 	}
@@ -80,15 +86,15 @@ public class GuiSubSection extends GuiManualIndex {
 		if (page == 0) {
 			boolean unicode = fontRendererObj.getUnicodeFlag();
 			fontRendererObj.setUnicodeFlag(true);
-			fontRendererObj.drawSplitString(this.mod.getModSectionInfo(), x + 15, y + 28, 162, 0);
+			fontRendererObj.drawSplitString(this.part.getPartInfo(), x + 15, y + 28, 162, 0);
 			fontRendererObj.setUnicodeFlag(unicode);
 		}
 	}
 
 	@Override
 	protected void drawImage() {
-		if (subsections.size() == 0) {
-			GrimLog.error(mod.getModName(), "No subsections found!");
+		if (chapters.size() == 0) {
+			GrimLog.error(part.getPartName(), "No subsections found!");
 		}
 	}
 
@@ -100,21 +106,21 @@ public class GuiSubSection extends GuiManualIndex {
 		buttonList.add(this.goHome = new GuiButtonHome(2, width / 2 - 9 / 2, y + manualHeight - 11));
 
 		if (page == 0) {
-			changeForward.visible = subsections.size() > 12;
-			changeForward.enabled = subsections.size() > 12;
+			changeForward.visible = chapters.size() > 12;
+			changeForward.enabled = chapters.size() > 12;
 		} else {
-			changeForward.visible = (subsections.size() - 12 > (page * 14));
-			changeForward.enabled = (subsections.size() - 12 > (page * 14));
+			changeForward.visible = (chapters.size() - 12 > (page * 14));
+			changeForward.enabled = (chapters.size() - 12 > (page * 14));
 		}
 
 		if (page == 0) {
-			for (int i = 0; i < subsections.size() && i < 12; i++) {
-				buttonList.add(new GuiButtonModSection(i + 3, x + 15, y + (58 + i * 14), 10, subsections.get(i).getSubSectionName()));
+			for (int i = 0; i < chapters.size() && i < 12; i++) {
+				buttonList.add(new GuiButtonModSection(i + 3, x + 15, y + (58 + i * 14), 10, chapters.get(i).getName()));
 			}
 		} else {
 			for (int i = 0; i < 14; i++) {
-				if ((12 + ((page - 1) * 14 + i)) < subsections.size()) {
-					buttonList.add(new GuiButtonModSection(i + 3, x + 15, y + (30 + i * 14), 10, subsections.get(12 + ((page - 1) * 14 + i)).getSubSectionName()));
+				if ((12 + ((page - 1) * 14 + i)) < chapters.size()) {
+					buttonList.add(new GuiButtonModSection(i + 3, x + 15, y + (30 + i * 14), 10, chapters.get(12 + ((page - 1) * 14 + i)).getName()));
 				}
 			}
 		}
@@ -141,15 +147,15 @@ public class GuiSubSection extends GuiManualIndex {
 			break;
 		default:
 			if (page == 0)
-				mc.displayGuiScreen(new GuiSubSectionPage(subsections.get(button.id - 3), this));
+				mc.displayGuiScreen(new GuiManualPage(chapters.get(button.id - 3), this));
 			else
-				mc.displayGuiScreen(new GuiSubSectionPage(subsections.get(12 + ((page - 1) * 14 + (button.id - 3))), this));
+				mc.displayGuiScreen(new GuiManualPage(chapters.get(12 + ((page - 1) * 14 + (button.id - 3))), this));
 		}
 	}
 
 	@Override
 	public void onGuiClosed() {
-		activeManualPage = new GuiSubSection(mod, page, storedPage);
+		activeManualPage = new GuiManualChapter(part, page, storedPage);
 	}
 
 	public int getPage() {

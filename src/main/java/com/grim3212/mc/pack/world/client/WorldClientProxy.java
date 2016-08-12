@@ -2,10 +2,6 @@ package com.grim3212.mc.pack.world.client;
 
 import com.grim3212.mc.pack.GrimPack;
 import com.grim3212.mc.pack.core.client.RenderHelper;
-import com.grim3212.mc.pack.core.manual.ManualRegistry;
-import com.grim3212.mc.pack.core.manual.ModSection;
-import com.grim3212.mc.pack.core.manual.pages.PageCrafting;
-import com.grim3212.mc.pack.core.manual.pages.PageImageText;
 import com.grim3212.mc.pack.core.proxy.ClientProxy;
 import com.grim3212.mc.pack.world.blocks.BlockFungusBuilding;
 import com.grim3212.mc.pack.world.blocks.BlockFungusGrowing;
@@ -17,7 +13,6 @@ import com.grim3212.mc.pack.world.client.entity.RenderIceCube.RenderIceCubeFacto
 import com.grim3212.mc.pack.world.client.entity.RenderIcePixie.RenderIcePixieFactory;
 import com.grim3212.mc.pack.world.client.entity.RenderPerson.RenderPersonFactory;
 import com.grim3212.mc.pack.world.client.entity.RenderTreasureMob.RenderTreasureMobFactory;
-import com.grim3212.mc.pack.world.config.WorldConfig;
 import com.grim3212.mc.pack.world.entity.EntityBomber;
 import com.grim3212.mc.pack.world.entity.EntityFarmer;
 import com.grim3212.mc.pack.world.entity.EntityIceCube;
@@ -45,7 +40,7 @@ import net.minecraftforge.fml.client.registry.RenderingRegistry;
 public class WorldClientProxy extends ClientProxy {
 
 	@Override
-	public void registerModels() {
+	public void preInit() {
 		ModelLoader.setCustomStateMapper(WorldBlocks.gunpowder_reed_block, new StateMap.Builder().ignore(BlockGunpowderReed.AGE).build());
 		ModelLoader.setCustomStateMapper(WorldBlocks.glowstone_seeds, new StateMap.Builder().ignore(BlockGlowstoneSeed.STEP).build());
 		ModelLoader.setCustomStateMapper(WorldBlocks.fungus_building, new StateMap.Builder().ignore(BlockFungusBuilding.TYPE).build());
@@ -73,28 +68,6 @@ public class WorldClientProxy extends ClientProxy {
 		RenderingRegistry.registerEntityRenderingHandler(EntityLumberJack.class, new RenderPersonFactory(new ResourceLocation(GrimPack.modID, "textures/entities/lumberjack.png")));
 		RenderingRegistry.registerEntityRenderingHandler(EntityMiner.class, new RenderPersonFactory(new ResourceLocation(GrimPack.modID, "textures/entities/miner.png")));
 		RenderingRegistry.registerEntityRenderingHandler(EntityBomber.class, new RenderPersonFactory(new ResourceLocation(GrimPack.modID, "textures/entities/bomber.png")));
-	}
-
-	@Override
-	public void registerManual(ModSection modSection) {
-		ManualRegistry.addSection("randomite", modSection).addSubSectionPages(new PageImageText("info", "randomite.png"));
-		if (WorldConfig.generateFlatBedRockSurface || WorldConfig.generateFlatBedRockNether)
-			ManualRegistry.addSection("bedrock", modSection).addSubSectionPages(new PageImageText("info", "flat.png"));
-		if (WorldConfig.replaceDesertWells)
-			ManualRegistry.addSection("wells", modSection).addSubSectionPages(new PageImageText("info", "well.png"));
-		ManualRegistry.addSection("pixie", modSection).addSubSectionPages(new PageImageText("info", "pixie.png"));
-		ManualRegistry.addSection("treasure", modSection).addSubSectionPages(new PageImageText("info", "treasure.png"));
-		ManualRegistry.addSection("worldgen", modSection).addSubSectionPages(new PageImageText("info", "worldgen.png"));
-		if (WorldConfig.corruption)
-			ManualRegistry.addSection("corruption", modSection).addSubSectionPages(new PageImageText("info", "corruption.png"));
-		if (WorldConfig.generateFI)
-			ManualRegistry.addSection("floating", modSection).addSubSectionPages(new PageImageText("info", "floating.png"));
-		if (WorldConfig.spawnMorePeople)
-			ManualRegistry.addSection("people", modSection).addSubSectionPages(new PageImageText("notch", "notch.png"), new PageImageText("farmer", "farmer.png"), new PageImageText("lumber", "lumber.png"), new PageImageText("miner", "miner.png"), new PageImageText("psycho", "psycho.png"), new PageImageText("suicide", "suicide.png"));
-		ManualRegistry.addSection("greed", modSection).addSubSectionPages(new PageCrafting("recipes", WorldItems.greed, 25));
-		ManualRegistry.addSection("glowseeds", modSection).addSubSectionPages(new PageCrafting("recipe", new ItemStack(WorldBlocks.glowstone_seeds)));
-		ManualRegistry.addSection("fungus", modSection).addSubSectionPages(new PageCrafting("green", WorldBlocks.greenFungus, 25), new PageCrafting("color", WorldBlocks.coloredFungus, 15), new PageCrafting("build", WorldBlocks.buildingFungus, 15), new PageCrafting("maze", WorldBlocks.mazeFungusRecipe), new PageCrafting("kill", WorldBlocks.acidFungus, 25), new PageCrafting("blockEater", WorldBlocks.breakingFungus, 15), new PageCrafting("vert", WorldBlocks.vertFungus, 20));
-		ManualRegistry.addSection("fungicide", modSection).addSubSectionPages(new PageCrafting("fungicide", new ItemStack(WorldItems.fungicide)));
 	}
 
 	@Override

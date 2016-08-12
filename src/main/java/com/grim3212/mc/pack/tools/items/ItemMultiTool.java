@@ -4,7 +4,10 @@ import java.util.HashSet;
 
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Sets;
+import com.grim3212.mc.pack.core.manual.IManualEntry.IManualItem;
+import com.grim3212.mc.pack.core.manual.pages.Page;
 import com.grim3212.mc.pack.tools.GrimTools;
+import com.grim3212.mc.pack.tools.client.ManualTools;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockDirt;
@@ -27,7 +30,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.oredict.OreDictionary;
 
-public class ItemMultiTool extends ItemTool {
+public class ItemMultiTool extends ItemTool implements IManualItem {
 
 	private float attackDamage;
 
@@ -37,6 +40,11 @@ public class ItemMultiTool extends ItemTool {
 	protected ItemMultiTool(ToolMaterial toolMaterial) {
 		super(4.0f + toolMaterial.getDamageVsEntity(), -2.8f, toolMaterial, blocksEffectiveAgainst);
 		this.setCreativeTab(GrimTools.INSTANCE.getCreativeTab());
+	}
+
+	@Override
+	public Page getPage(ItemStack stack) {
+		return ManualTools.multiTool_page;
 	}
 
 	@Override

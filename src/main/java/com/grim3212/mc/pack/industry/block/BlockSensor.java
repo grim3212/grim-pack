@@ -1,8 +1,10 @@
 package com.grim3212.mc.pack.industry.block;
 
+import com.grim3212.mc.pack.core.block.BlockManual;
+import com.grim3212.mc.pack.core.manual.pages.Page;
+import com.grim3212.mc.pack.industry.client.ManualIndustry;
 import com.grim3212.mc.pack.industry.tile.TileEntitySensor;
 
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockPistonBase;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.SoundType;
@@ -17,18 +19,20 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.Mirror;
+import net.minecraft.util.Rotation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
-public class BlockSensor extends Block implements ITileEntityProvider {
+public class BlockSensor extends BlockManual implements ITileEntityProvider {
 
 	public static final PropertyBool ACTIVE = PropertyBool.create("active");
 	public static final PropertyEnum<EnumFacing> FACING = PropertyEnum.create("facing", EnumFacing.class);
 	private int triggerType;
 
 	public BlockSensor(int triggerType) {
-		super(Material.ROCK);
+		super(Material.ROCK, null);
 		this.triggerType = triggerType;
 		if (triggerType == 0)
 			this.setSoundType(SoundType.WOOD);
@@ -53,9 +57,9 @@ public class BlockSensor extends Block implements ITileEntityProvider {
 	@Override
 	public int getMetaFromState(IBlockState state) {
 		byte b0 = 0;
-		int i = b0 | ((EnumFacing) state.getValue(FACING)).getIndex();
+		int i = b0 | state.getValue(FACING).getIndex();
 
-		if (((Boolean) state.getValue(ACTIVE))) {
+		if (state.getValue(ACTIVE)) {
 			i |= 8;
 		}
 
@@ -80,7 +84,7 @@ public class BlockSensor extends Block implements ITileEntityProvider {
 
 	private void setDefaultDirection(World worldIn, BlockPos pos, IBlockState state) {
 		if (!worldIn.isRemote) {
-			EnumFacing enumfacing = (EnumFacing) state.getValue(FACING);
+			EnumFacing enumfacing = state.getValue(FACING);
 			boolean flag = worldIn.getBlockState(pos.north()).isFullBlock();
 			boolean flag1 = worldIn.getBlockState(pos.south()).isFullBlock();
 
@@ -129,5 +133,20 @@ public class BlockSensor extends Block implements ITileEntityProvider {
 	@Override
 	public TileEntity createNewTileEntity(World worldIn, int meta) {
 		return new TileEntitySensor(triggerType);
+	}
+	
+	@Override
+	public IBlockState withRotation(IBlockState state, Rotation rot) {
+		return state.withProperty(FACING, rot.rotate(state.getValue(FACING)));
+	}
+
+	@Override
+	public IBlockState withMirror(IBlockState state, Mirror mirrorIn) {
+		return state.withRotation(mirrorIn.toRotation(state.getValue(FACING)));
+	}
+
+	@Override
+	public Page getPage(IBlockState state) {
+		return ManualIndustry.sensor_page;
 	}
 }

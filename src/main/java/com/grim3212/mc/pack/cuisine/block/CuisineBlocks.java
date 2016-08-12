@@ -37,7 +37,7 @@ public class CuisineBlocks implements IPartItems {
 		cocoa_tree_sapling = (new BlockCocoaSapling()).setHardness(0.0F).setUnlocalizedName("cocoa_tree_sapling");
 		chocolate_bar_mould = (new BlockCBarMould()).setHardness(1.0F).setUnlocalizedName("chocolate_bar_mould").setCreativeTab(GrimCuisine.INSTANCE.getCreativeTab());
 		chocolate_cake = (new BlockChocolateCake()).setHardness(0.5F).setUnlocalizedName("chocolate_cake").setCreativeTab(GrimCuisine.INSTANCE.getCreativeTab());
-		chocolate_block = (new BlockChocolate()).setHardness(0.5F).setUnlocalizedName("chocolate_block").setCreativeTab(GrimCuisine.INSTANCE.getCreativeTab());
+		chocolate_block = (new BlockChocolateBlock()).setHardness(0.5F).setUnlocalizedName("chocolate_block").setCreativeTab(GrimCuisine.INSTANCE.getCreativeTab());
 		apple_pie = (new BlockPie()).setHardness(0.5f).setUnlocalizedName("apple_pie").setCreativeTab(GrimCuisine.INSTANCE.getCreativeTab());
 		melon_pie = (new BlockPie()).setHardness(0.5f).setUnlocalizedName("melon_pie").setCreativeTab(GrimCuisine.INSTANCE.getCreativeTab());
 		pumpkin_pie = (new BlockPie()).setHardness(0.5f).setUnlocalizedName("pumpkin_pie").setCreativeTab(GrimCuisine.INSTANCE.getCreativeTab());

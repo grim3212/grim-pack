@@ -4,6 +4,7 @@ import com.grim3212.mc.pack.industry.block.BlockModernFurnace;
 import com.grim3212.mc.pack.industry.inventory.ContainerMFurnace;
 import com.grim3212.mc.pack.industry.item.IndustryItems;
 import com.grim3212.mc.pack.industry.util.MachineRecipes;
+import com.grim3212.mc.pack.industry.util.MachineRecipes.MachineType;
 
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
@@ -17,6 +18,8 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.network.NetworkManager;
+import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntityLockable;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
@@ -52,6 +55,7 @@ public class TileEntityMFurnace extends TileEntityLockable implements ITickable,
 	/**
 	 * Returns the number of slots in the inventory.
 	 */
+	@Override
 	public int getSizeInventory() {
 		return this.furnaceItemStacks.length;
 	}
@@ -59,6 +63,7 @@ public class TileEntityMFurnace extends TileEntityLockable implements ITickable,
 	/**
 	 * Returns the stack in the given slot.
 	 */
+	@Override
 	public ItemStack getStackInSlot(int index) {
 		return this.furnaceItemStacks[index];
 	}
@@ -67,6 +72,7 @@ public class TileEntityMFurnace extends TileEntityLockable implements ITickable,
 	 * Removes up to a specified number of items from an inventory slot and
 	 * returns them in a new stack.
 	 */
+	@Override
 	public ItemStack decrStackSize(int index, int count) {
 		if (this.furnaceItemStacks[index] != null) {
 			if (this.furnaceItemStacks[index].stackSize <= count) {
@@ -90,6 +96,7 @@ public class TileEntityMFurnace extends TileEntityLockable implements ITickable,
 	/**
 	 * Removes a stack from the given slot and returns it.
 	 */
+	@Override
 	public ItemStack removeStackFromSlot(int index) {
 		if (this.furnaceItemStacks[index] != null) {
 			ItemStack itemstack = this.furnaceItemStacks[index];
@@ -104,6 +111,7 @@ public class TileEntityMFurnace extends TileEntityLockable implements ITickable,
 	 * Sets the given item stack to the specified slot in the inventory (can be
 	 * crafting or armor sections).
 	 */
+	@Override
 	public void setInventorySlotContents(int index, ItemStack stack) {
 		boolean flag = stack != null && stack.isItemEqual(this.furnaceItemStacks[index]) && ItemStack.areItemStackTagsEqual(stack, this.furnaceItemStacks[index]);
 		this.furnaceItemStacks[index] = stack;
@@ -122,6 +130,7 @@ public class TileEntityMFurnace extends TileEntityLockable implements ITickable,
 	/**
 	 * Get the name of this object. For players this returns their username
 	 */
+	@Override
 	public String getName() {
 		return this.hasCustomName() ? this.furnaceCustomName : "container.modern_furnace";
 	}
@@ -129,14 +138,16 @@ public class TileEntityMFurnace extends TileEntityLockable implements ITickable,
 	/**
 	 * Returns true if this thing is named
 	 */
+	@Override
 	public boolean hasCustomName() {
 		return this.furnaceCustomName != null && this.furnaceCustomName.length() > 0;
 	}
 
-	public void setCustomInventoryName(String p_145951_1_) {
-		this.furnaceCustomName = p_145951_1_;
+	public void setCustomInventoryName(String name) {
+		this.furnaceCustomName = name;
 	}
 
+	@Override
 	public void readFromNBT(NBTTagCompound compound) {
 		super.readFromNBT(compound);
 		NBTTagList nbttaglist = compound.getTagList("Items", 10);
@@ -161,6 +172,7 @@ public class TileEntityMFurnace extends TileEntityLockable implements ITickable,
 		}
 	}
 
+	@Override
 	public NBTTagCompound writeToNBT(NBTTagCompound compound) {
 		super.writeToNBT(compound);
 		compound.setInteger("BurnTime", this.furnaceBurnTime);
@@ -190,6 +202,7 @@ public class TileEntityMFurnace extends TileEntityLockable implements ITickable,
 	 * Returns the maximum stack size for a inventory slot. Seems to always be
 	 * 64, possibly will be extended.
 	 */
+	@Override
 	public int getInventoryStackLimit() {
 		return 64;
 	}
@@ -202,13 +215,14 @@ public class TileEntityMFurnace extends TileEntityLockable implements ITickable,
 	}
 
 	@SideOnly(Side.CLIENT)
-	public static boolean isBurning(IInventory p_174903_0_) {
-		return p_174903_0_.getField(0) > 0;
+	public static boolean isBurning(IInventory inv) {
+		return inv.getField(0) > 0;
 	}
 
 	/**
 	 * Like the old updateEntity(), except more generic.
 	 */
+	@Override
 	public void update() {
 		boolean flag = this.isBurning();
 		boolean flag1 = false;
@@ -262,8 +276,15 @@ public class TileEntityMFurnace extends TileEntityLockable implements ITickable,
 		}
 	}
 
+	/**
+	 * Possibly end up making this variable
+	 * 
+	 * @param stack
+	 *            Stack to check for
+	 * @return How long it takes to smelt this stack
+	 */
 	public int getCookTime(ItemStack stack) {
-		return 200;
+		return 140;
 	}
 
 	/**
@@ -274,7 +295,7 @@ public class TileEntityMFurnace extends TileEntityLockable implements ITickable,
 		if (this.furnaceItemStacks[0] == null) {
 			return false;
 		} else {
-			ItemStack itemstack = MachineRecipes.INSTANCE.getResult(this.furnaceItemStacks[0], MachineRecipes.INSTANCE.getModernFurnaceList());
+			ItemStack itemstack = MachineRecipes.INSTANCE.getResult(this.furnaceItemStacks[0], MachineType.MODERN_FURNACE);
 			if (itemstack == null)
 				return false;
 			if (this.furnaceItemStacks[2] == null)
@@ -292,7 +313,7 @@ public class TileEntityMFurnace extends TileEntityLockable implements ITickable,
 	 */
 	public void smeltItem() {
 		if (this.canSmelt()) {
-			ItemStack itemstack = MachineRecipes.INSTANCE.getResult(this.furnaceItemStacks[0], MachineRecipes.INSTANCE.getModernFurnaceList());
+			ItemStack itemstack = MachineRecipes.INSTANCE.getResult(this.furnaceItemStacks[0], MachineType.MODERN_FURNACE);
 
 			if (this.furnaceItemStacks[2] == null) {
 				this.furnaceItemStacks[2] = itemstack.copy();
@@ -333,13 +354,16 @@ public class TileEntityMFurnace extends TileEntityLockable implements ITickable,
 	 * Do not make give this method the name canInteractWith because it clashes
 	 * with Container
 	 */
+	@Override
 	public boolean isUseableByPlayer(EntityPlayer player) {
 		return this.worldObj.getTileEntity(this.pos) != this ? false : player.getDistanceSq((double) this.pos.getX() + 0.5D, (double) this.pos.getY() + 0.5D, (double) this.pos.getZ() + 0.5D) <= 64.0D;
 	}
 
+	@Override
 	public void openInventory(EntityPlayer player) {
 	}
 
+	@Override
 	public void closeInventory(EntityPlayer player) {
 	}
 
@@ -347,10 +371,12 @@ public class TileEntityMFurnace extends TileEntityLockable implements ITickable,
 	 * Returns true if automation is allowed to insert the given stack (ignoring
 	 * stack size) into the given slot.
 	 */
+	@Override
 	public boolean isItemValidForSlot(int index, ItemStack stack) {
 		return index == 2 ? false : (index != 1 ? true : isItemFuel(stack));
 	}
 
+	@Override
 	public int[] getSlotsForFace(EnumFacing side) {
 		return side == EnumFacing.DOWN ? slotsBottom : (side == EnumFacing.UP ? slotsTop : slotsSides);
 	}
@@ -359,6 +385,7 @@ public class TileEntityMFurnace extends TileEntityLockable implements ITickable,
 	 * Returns true if automation can insert the given item in the given slot
 	 * from the given side. Args: slot, item, side
 	 */
+	@Override
 	public boolean canInsertItem(int index, ItemStack itemStackIn, EnumFacing direction) {
 		return this.isItemValidForSlot(index, itemStackIn);
 	}
@@ -367,6 +394,7 @@ public class TileEntityMFurnace extends TileEntityLockable implements ITickable,
 	 * Returns true if automation can extract the given item in the given slot
 	 * from the given side. Args: slot, item, side
 	 */
+	@Override
 	public boolean canExtractItem(int index, ItemStack stack, EnumFacing direction) {
 		if (direction == EnumFacing.DOWN && index == 1) {
 			Item item = stack.getItem();
@@ -379,14 +407,17 @@ public class TileEntityMFurnace extends TileEntityLockable implements ITickable,
 		return true;
 	}
 
+	@Override
 	public String getGuiID() {
 		return "grimindustry:modern_furnace";
 	}
 
+	@Override
 	public Container createContainer(InventoryPlayer playerInventory, EntityPlayer playerIn) {
 		return new ContainerMFurnace(playerInventory, this);
 	}
 
+	@Override
 	public int getField(int id) {
 		switch (id) {
 		case 0:
@@ -407,6 +438,7 @@ public class TileEntityMFurnace extends TileEntityLockable implements ITickable,
 		return oldState.getBlock() != newSate.getBlock();
 	}
 
+	@Override
 	public void setField(int id, int value) {
 		switch (id) {
 		case 0:
@@ -423,14 +455,39 @@ public class TileEntityMFurnace extends TileEntityLockable implements ITickable,
 		}
 	}
 
+	@Override
 	public int getFieldCount() {
 		return 4;
 	}
 
+	@Override
 	public void clear() {
 		for (int i = 0; i < this.furnaceItemStacks.length; ++i) {
 			this.furnaceItemStacks[i] = null;
 		}
+	}
+
+	@Override
+	public SPacketUpdateTileEntity getUpdatePacket() {
+		NBTTagCompound nbtTagCompound = new NBTTagCompound();
+		writeToNBT(nbtTagCompound);
+		int metadata = getBlockMetadata();
+		return new SPacketUpdateTileEntity(this.pos, metadata, nbtTagCompound);
+	}
+
+	@Override
+	public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity pkt) {
+		readFromNBT(pkt.getNbtCompound());
+	}
+
+	@Override
+	public NBTTagCompound getUpdateTag() {
+		return writeToNBT(new NBTTagCompound());
+	}
+
+	@Override
+	public void handleUpdateTag(NBTTagCompound tag) {
+		readFromNBT(tag);
 	}
 
 	net.minecraftforge.items.IItemHandler handlerTop = new net.minecraftforge.items.wrapper.SidedInvWrapper(this, net.minecraft.util.EnumFacing.UP);

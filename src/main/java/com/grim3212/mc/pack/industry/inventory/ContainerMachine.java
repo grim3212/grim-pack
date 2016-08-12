@@ -88,7 +88,7 @@ public class ContainerMachine extends Container {
 
 				slot.onSlotChange(itemstack1, itemstack);
 			} else if (index != 0) {
-				if (MachineRecipes.INSTANCE.getResult(itemstack1, machine.getMachineType() == 0 ? MachineRecipes.INSTANCE.getDerrickList() : MachineRecipes.INSTANCE.getRefineryList()) != null) {
+				if (MachineRecipes.INSTANCE.getResult(itemstack1, machine.getMachineType()) != null) {
 					if (!this.mergeItemStack(itemstack1, 0, 1, false)) {
 						return null;
 					}

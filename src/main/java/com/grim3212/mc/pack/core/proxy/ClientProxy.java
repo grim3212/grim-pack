@@ -1,7 +1,5 @@
 package com.grim3212.mc.pack.core.proxy;
 
-import com.grim3212.mc.pack.core.manual.ModSection;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.IThreadListener;
@@ -20,8 +18,5 @@ public abstract class ClientProxy extends CommonProxy {
 	}
 
 	@Override
-	public abstract void registerModels();
-
-	@Override
-	public abstract void registerManual(ModSection modSection);
+	public abstract void preInit();
 }

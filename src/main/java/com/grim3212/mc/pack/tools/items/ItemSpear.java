@@ -1,6 +1,9 @@
 package com.grim3212.mc.pack.tools.items;
 
 import com.google.common.collect.Multimap;
+import com.grim3212.mc.pack.core.item.ItemManual;
+import com.grim3212.mc.pack.core.manual.pages.Page;
+import com.grim3212.mc.pack.tools.client.ManualTools;
 import com.grim3212.mc.pack.tools.entity.EntitySlimeSpear;
 import com.grim3212.mc.pack.tools.entity.EntitySpear;
 import com.grim3212.mc.pack.tools.util.EnumSpearType;
@@ -10,7 +13,6 @@ import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.EntityEquipmentSlot;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
@@ -18,13 +20,21 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.world.World;
 
-public class ItemSpear extends Item {
+public class ItemSpear extends ItemManual {
 
 	private EnumSpearType type;
 
 	public ItemSpear(EnumSpearType type) {
 		setMaxStackSize(16);
 		this.type = type;
+	}
+
+	@Override
+	public Page getPage(ItemStack stack) {
+		if (stack.getItem() == ToolsItems.spear || stack.getItem() == ToolsItems.iron_spear || stack.getItem() == ToolsItems.diamond_spear)
+			return ManualTools.spears_page;
+
+		return ManualTools.specialSpears_page;
 	}
 
 	@Override

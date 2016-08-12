@@ -13,6 +13,7 @@ import net.minecraftforge.fml.client.config.IConfigElement;
 public class CoreConfig extends GrimConfig {
 
 	public static boolean giveManualOnJoin;
+	public static boolean showCheckmark;
 	public static final String CONFIG_NAME = "core";
 	public static final String CONFIG_GENERAL_NAME = "core.general";
 	public static final String CONFIG_PARTS_NAME = "core.parts";
@@ -27,6 +28,7 @@ public class CoreConfig extends GrimConfig {
 	@Override
 	public void syncConfig() {
 		giveManualOnJoin = config.get(CONFIG_GENERAL_NAME, "Give Instruction Manual on World Join", true).getBoolean();
+		showCheckmark = config.get(CONFIG_GENERAL_NAME, "Show checkmark if available manual page", true).getBoolean();
 
 		useCuisine = config.get(CONFIG_PARTS_NAME, "Enable cuisine part", true).setRequiresMcRestart(true).getBoolean();
 		useDecor = config.get(CONFIG_PARTS_NAME, "Enable decor part", true).setRequiresMcRestart(true).getBoolean();
@@ -37,7 +39,8 @@ public class CoreConfig extends GrimConfig {
 		super.syncConfig();
 	}
 
-	public static List<IConfigElement> getConfigItems() {
+	@Override
+	public List<IConfigElement> getConfigItems() {
 		List<IConfigElement> list = new ArrayList<IConfigElement>();
 		list.addAll(new ConfigElement(GrimCore.INSTANCE.getConfig().getCategory(CONFIG_GENERAL_NAME)).getChildElements());
 		list.add(new DummyCategoryElement("coreParts", "grimpack.core.cfg.parts", new ConfigElement(GrimCore.INSTANCE.getConfig().getCategory(CONFIG_PARTS_NAME)).getChildElements()));
@@ -62,10 +65,5 @@ public class CoreConfig extends GrimConfig {
 		buffer.writeBoolean(useTools);
 		buffer.writeBoolean(useUtil);
 		buffer.writeBoolean(useWorld);
-	}
-
-	@Override
-	public void updateManual() {
-		GrimCore.proxy.registerManual(GrimCore.INSTANCE.getModSection());
 	}
 }

@@ -2,7 +2,10 @@ package com.grim3212.mc.pack.decor.block;
 
 import java.util.Random;
 
+import com.grim3212.mc.pack.core.manual.IManualEntry.IManualBlock;
+import com.grim3212.mc.pack.core.manual.pages.Page;
 import com.grim3212.mc.pack.decor.GrimDecor;
+import com.grim3212.mc.pack.decor.client.ManualDecor;
 import com.grim3212.mc.pack.decor.item.DecorItems;
 
 import net.minecraft.block.Block;
@@ -23,7 +26,7 @@ import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
-public class BlockLightBulb extends BlockBreakable {
+public class BlockLightBulb extends BlockBreakable implements IManualBlock {
 
 	protected static final AxisAlignedBB BULB_AABB = new AxisAlignedBB(0.2D, 0.3D, 0.2D, 0.8D, 1.0D, 0.8D);
 	public static final PropertyBool ACTIVE = PropertyBool.create("active");
@@ -126,5 +129,10 @@ public class BlockLightBulb extends BlockBreakable {
 	@Override
 	public int getLightValue(IBlockState state, IBlockAccess world, BlockPos pos) {
 		return state.getValue(ACTIVE) ? 15 : 0;
+	}
+
+	@Override
+	public Page getPage(IBlockState state) {
+		return ManualDecor.lights_page;
 	}
 }

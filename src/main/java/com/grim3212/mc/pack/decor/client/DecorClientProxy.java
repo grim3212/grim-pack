@@ -1,14 +1,7 @@
 package com.grim3212.mc.pack.decor.client;
 
 import com.grim3212.mc.pack.core.client.RenderHelper;
-import com.grim3212.mc.pack.core.manual.ManualRegistry;
-import com.grim3212.mc.pack.core.manual.ModSection;
-import com.grim3212.mc.pack.core.manual.pages.PageCrafting;
-import com.grim3212.mc.pack.core.manual.pages.PageFurnace;
-import com.grim3212.mc.pack.core.manual.pages.PageImageText;
-import com.grim3212.mc.pack.core.manual.pages.PageInfo;
 import com.grim3212.mc.pack.core.util.NBTHelper;
-import com.grim3212.mc.pack.core.util.RecipeHelper;
 import com.grim3212.mc.pack.decor.DecorCommonProxy;
 import com.grim3212.mc.pack.decor.block.BlockChimney;
 import com.grim3212.mc.pack.decor.block.BlockFenceGate;
@@ -30,7 +23,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.statemap.StateMap;
 import net.minecraft.client.renderer.color.IBlockColor;
 import net.minecraft.client.renderer.color.IItemColor;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumParticleTypes;
@@ -56,7 +48,7 @@ public class DecorClientProxy extends DecorCommonProxy {
 	}
 
 	@Override
-	public void registerModels() {
+	public void preInit() {
 		// Register all custom models for furniture, fireplaces, and lamp posts
 		ModelLoaderRegistry.registerLoader(DecorModelLoader.instance);
 
@@ -110,18 +102,6 @@ public class DecorClientProxy extends DecorCommonProxy {
 		// ENTITYS
 		RenderingRegistry.registerEntityRenderingHandler(EntityFrame.class, new FrameFactory());
 		RenderingRegistry.registerEntityRenderingHandler(EntityWallpaper.class, new WallpaperFactory());
-	}
-
-	@Override
-	public void registerManual(ModSection modSection) {
-		ManualRegistry.addSection("intro", modSection).addSubSectionPages(new PageInfo("fancy"), new PageCrafting("moss", DecorBlocks.mossy), new PageCrafting("stone", DecorBlocks.stone, 25), new PageFurnace("road", new ItemStack(Blocks.GRAVEL)));
-		ManualRegistry.addSection("hanging", modSection).addSubSectionPages(new PageCrafting("calendar", new ItemStack(DecorBlocks.calendar)), new PageCrafting("clock", DecorBlocks.clocks, 20), new PageInfo("wallpaperinfo"), new PageCrafting("wallpaper", new ItemStack(DecorItems.wallpaper)), new PageImageText("frameinfo", "framesInfoPage.png"), new PageCrafting("frames", DecorItems.frames, 25));
-		ManualRegistry.addSection("deco", modSection).addSubSectionPages(new PageCrafting("cage", DecorBlocks.chains, 20), new PageCrafting("lantern", RecipeHelper.getAllIRecipesForItem(new ItemStack(DecorBlocks.lantern)), 20), new PageCrafting("crafts", DecorBlocks.crafts, 25), new PageFurnace("firing", new ItemStack[] { new ItemStack(DecorItems.unfired_craft), new ItemStack(DecorItems.unfired_pot) }, 20), new PageCrafting("lights", DecorBlocks.lights, 25));
-		ManualRegistry.addSection("furniture", modSection).addSubSectionPages(new PageCrafting("colorizer", DecorBlocks.colorizers, 20), new PageCrafting("brush", new ItemStack(DecorItems.brush)), new PageCrafting("table", new ItemStack(DecorBlocks.table)), new PageCrafting("chair", new ItemStack(DecorBlocks.chair)), new PageCrafting("stool", new ItemStack(DecorBlocks.stool)), new PageCrafting("counter", new ItemStack(DecorBlocks.counter)));
-		ManualRegistry.addSection("other", modSection).addSubSectionPages(new PageCrafting("fence", new ItemStack(DecorBlocks.fence)), new PageCrafting("fencegate", new ItemStack(DecorBlocks.fence_gate)), new PageCrafting("wall", new ItemStack(DecorBlocks.wall)));
-		ManualRegistry.addSection("fires", modSection).addSubSectionPages(new PageCrafting("burning_wood", new ItemStack(DecorBlocks.burning_wood)), new PageCrafting("fireplace", new ItemStack(DecorBlocks.fireplace)), new PageCrafting("chimney", new ItemStack(DecorBlocks.chimney)), new PageCrafting("stove", new ItemStack(DecorBlocks.stove)), new PageCrafting("firepit", new ItemStack(DecorBlocks.firepit)), new PageCrafting("firering", new ItemStack(DecorBlocks.firering)));
-		ManualRegistry.addSection("grill", modSection).addSubSectionPages(new PageCrafting("grill", new ItemStack(DecorBlocks.grill)));
-		ManualRegistry.addSection("lamps", modSection).addSubSectionPages(new PageCrafting("recipes", new ItemStack(DecorItems.lamp_item)));
 	}
 
 	@Override

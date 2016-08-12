@@ -2,6 +2,10 @@ package com.grim3212.mc.pack.industry.block;
 
 import java.util.Random;
 
+import com.grim3212.mc.pack.core.block.BlockManual;
+import com.grim3212.mc.pack.core.manual.pages.Page;
+import com.grim3212.mc.pack.industry.client.ManualIndustry;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
@@ -10,11 +14,10 @@ import net.minecraft.item.Item;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class BlockRwayLight extends Block {
+public class BlockRwayLight extends BlockManual {
 
 	public BlockRwayLight() {
-		super(Material.ROCK);
-		this.setSoundType(SoundType.STONE);
+		super(Material.ROCK, SoundType.STONE);
 	}
 
 	@Override
@@ -30,5 +33,10 @@ public class BlockRwayLight extends Block {
 	@Override
 	public Item getItemDropped(IBlockState state, Random rand, int fortune) {
 		return Item.getItemFromBlock(IndustryBlocks.rway_light_off);
+	}
+
+	@Override
+	public Page getPage(IBlockState state) {
+		return ManualIndustry.rways_page;
 	}
 }

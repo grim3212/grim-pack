@@ -2,6 +2,7 @@ package com.grim3212.mc.pack.world.items;
 
 import java.util.List;
 
+import com.grim3212.mc.pack.core.item.ItemManualBlockSpecial;
 import com.grim3212.mc.pack.core.part.IPartItems;
 import com.grim3212.mc.pack.core.util.RecipeHelper;
 import com.grim3212.mc.pack.core.util.Utils;
@@ -10,7 +11,6 @@ import com.grim3212.mc.pack.world.blocks.WorldBlocks;
 
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemBlockSpecial;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraftforge.fml.common.registry.GameRegistry;
@@ -23,7 +23,7 @@ public class WorldItems implements IPartItems {
 
 	@Override
 	public void initItems() {
-		gunpowder_reed_item = (new ItemBlockSpecial(WorldBlocks.gunpowder_reed_block)).setUnlocalizedName("gunpowder_reed_item").setCreativeTab(GrimWorld.INSTANCE.getCreativeTab());
+		gunpowder_reed_item = (new ItemManualBlockSpecial(WorldBlocks.gunpowder_reed_block)).setUnlocalizedName("gunpowder_reed_item").setCreativeTab(GrimWorld.INSTANCE.getCreativeTab());
 		fungicide = (new ItemFungicide()).setUnlocalizedName("fungicide");
 
 		Utils.registerItem(gunpowder_reed_item, "gunpowder_reed_item");

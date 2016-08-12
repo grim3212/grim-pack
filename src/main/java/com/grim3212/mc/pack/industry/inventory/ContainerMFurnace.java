@@ -2,6 +2,7 @@ package com.grim3212.mc.pack.industry.inventory;
 
 import com.grim3212.mc.pack.industry.tile.TileEntityMFurnace;
 import com.grim3212.mc.pack.industry.util.MachineRecipes;
+import com.grim3212.mc.pack.industry.util.MachineRecipes.MachineType;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -108,7 +109,7 @@ public class ContainerMFurnace extends Container {
 
 				slot.onSlotChange(itemstack1, itemstack);
 			} else if (index != 1 && index != 0) {
-				if (MachineRecipes.INSTANCE.getResult(itemstack1, MachineRecipes.INSTANCE.getModernFurnaceList()) != null) {
+				if (MachineRecipes.INSTANCE.getResult(itemstack1, MachineType.MODERN_FURNACE) != null) {
 					if (!this.mergeItemStack(itemstack1, 0, 1, false)) {
 						return null;
 					}

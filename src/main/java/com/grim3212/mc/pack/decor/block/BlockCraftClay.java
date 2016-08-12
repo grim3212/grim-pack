@@ -1,6 +1,10 @@
 package com.grim3212.mc.pack.decor.block;
 
-import net.minecraft.block.Block;
+import com.grim3212.mc.pack.core.block.BlockManual;
+import com.grim3212.mc.pack.core.manual.pages.Page;
+import com.grim3212.mc.pack.decor.client.ManualDecor;
+
+import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyInteger;
@@ -15,13 +19,13 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class BlockCraftClay extends Block {
+public class BlockCraftClay extends BlockManual {
 
 	private static final int numCycles = 7;
 	public static final PropertyInteger CYCLE = PropertyInteger.create("cycle", 0, numCycles);
 
 	protected BlockCraftClay() {
-		super(Material.CIRCUITS);
+		super(Material.CIRCUITS, SoundType.GROUND);
 		this.setDefaultState(this.blockState.getBaseState().withProperty(CYCLE, 0));
 	}
 
@@ -44,7 +48,7 @@ public class BlockCraftClay extends Block {
 
 	@Override
 	public int getMetaFromState(IBlockState state) {
-		return (Integer) state.getValue(CYCLE);
+		return state.getValue(CYCLE);
 	}
 
 	@Override
@@ -70,5 +74,10 @@ public class BlockCraftClay extends Block {
 	@Override
 	public boolean isOpaqueCube(IBlockState blockState) {
 		return false;
+	}
+
+	@Override
+	public Page getPage(IBlockState state) {
+		return ManualDecor.firing_page;
 	}
 }

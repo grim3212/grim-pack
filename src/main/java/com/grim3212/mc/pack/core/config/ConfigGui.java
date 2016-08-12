@@ -5,12 +5,8 @@ import java.util.List;
 
 import com.grim3212.mc.pack.GrimPack;
 import com.grim3212.mc.pack.core.GrimCore;
-import com.grim3212.mc.pack.cuisine.config.CuisineConfig;
-import com.grim3212.mc.pack.decor.config.DecorConfig;
-import com.grim3212.mc.pack.industry.config.IndustryConfig;
-import com.grim3212.mc.pack.tools.config.ToolsConfig;
-import com.grim3212.mc.pack.util.config.UtilConfig;
-import com.grim3212.mc.pack.world.config.WorldConfig;
+import com.grim3212.mc.pack.core.part.GrimPart;
+import com.grim3212.mc.pack.core.part.PartRegistry;
 
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraftforge.fml.client.config.DummyConfigElement.DummyCategoryElement;
@@ -26,26 +22,8 @@ public class ConfigGui extends GuiConfig {
 	private static List<IConfigElement> getConfigItems() {
 		List<IConfigElement> list = new ArrayList<IConfigElement>();
 
-		// Add core config category
-		list.add(new DummyCategoryElement("core", "grimpack.core.cfg", CoreConfig.getConfigItems()));
-
-		// Add cuisine config category
-		list.add(new DummyCategoryElement("cuisine", "grimpack.cuisine.cfg", CuisineConfig.getConfigItems()));
-
-		// Add decor config category
-		list.add(new DummyCategoryElement("decor", "grimpack.decor.cfg", DecorConfig.getConfigItems()));
-
-		// Add industry config category
-		list.add(new DummyCategoryElement("industry", "grimpack.industry.cfg", IndustryConfig.getConfigItems()));
-
-		// Add tools config category
-		list.add(new DummyCategoryElement("tools", "grimpack.tools.cfg", ToolsConfig.getConfigItems()));
-
-		// Add util config category
-		list.add(new DummyCategoryElement("util", "grimpack.util.cfg", UtilConfig.getConfigItems()));
-
-		// Add world config category
-		list.add(new DummyCategoryElement("world", "grimpack.world.cfg", WorldConfig.getConfigItems()));
+		for (GrimPart part : PartRegistry.partsToLoad)
+			list.add(new DummyCategoryElement(part.getPartId(), "grimpack." + part.getPartId() + ".cfg", part.getGrimConfig().getConfigItems()));
 
 		return list;
 	}

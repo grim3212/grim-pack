@@ -2,6 +2,9 @@ package com.grim3212.mc.pack.industry.block;
 
 import java.util.Random;
 
+import com.grim3212.mc.pack.core.manual.IManualEntry.IManualBlock;
+import com.grim3212.mc.pack.core.manual.pages.Page;
+import com.grim3212.mc.pack.industry.client.ManualIndustry;
 import com.grim3212.mc.pack.industry.item.IndustryItems;
 
 import net.minecraft.block.Block;
@@ -16,7 +19,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 
-public class BlockModernDoor extends BlockDoor {
+public class BlockModernDoor extends BlockDoor implements IManualBlock {
 
 	protected BlockModernDoor(Material material) {
 		super(material);
@@ -54,5 +57,10 @@ public class BlockModernDoor extends BlockDoor {
 		}
 
 		return super.getItemDropped(state, rand, fortune);
+	}
+
+	@Override
+	public Page getPage(IBlockState state) {
+		return ManualIndustry.doors_page;
 	}
 }

@@ -1,7 +1,7 @@
 package com.grim3212.mc.pack.core.item;
 
 import com.grim3212.mc.pack.core.GrimCore;
-import com.grim3212.mc.pack.core.manual.ItemManual;
+import com.grim3212.mc.pack.core.manual.ItemInstructionManual;
 import com.grim3212.mc.pack.core.part.IPartItems;
 import com.grim3212.mc.pack.core.util.Utils;
 
@@ -17,7 +17,7 @@ public class CoreItems implements IPartItems {
 
 	@Override
 	public void initItems() {
-		instruction_manual = (new ItemManual()).setUnlocalizedName("instruction_manual").setCreativeTab(GrimCore.INSTANCE.getCreativeTab());
+		instruction_manual = (new ItemInstructionManual()).setUnlocalizedName("instruction_manual").setCreativeTab(GrimCore.INSTANCE.getCreativeTab());
 		Utils.registerItem(instruction_manual, "instruction_manual");
 	}
 

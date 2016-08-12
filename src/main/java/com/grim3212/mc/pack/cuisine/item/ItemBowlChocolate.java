@@ -1,17 +1,20 @@
 package com.grim3212.mc.pack.cuisine.item;
 
+import com.grim3212.mc.pack.core.item.ItemManual;
+import com.grim3212.mc.pack.core.manual.pages.Page;
+import com.grim3212.mc.pack.cuisine.client.ManualCuisine;
+
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.EnumAction;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
 import net.minecraft.world.World;
 
-public class ItemBowlChocolate extends Item {
+public class ItemBowlChocolate extends ItemManual {
 
 	public ItemBowlChocolate(int stacksize) {
 		super();
@@ -45,5 +48,16 @@ public class ItemBowlChocolate extends Item {
 	@Override
 	public EnumAction getItemUseAction(ItemStack par1ItemStack) {
 		return EnumAction.DRINK;
+	}
+
+	@Override
+	public Page getPage(ItemStack stack) {
+		if (stack.getItem() == CuisineItems.chocolate_bowl) {
+			return ManualCuisine.chocolateBowl_page;
+		} else if (stack.getItem() == CuisineItems.chocolate_bowl_hot) {
+			return ManualCuisine.hotChocolate_page;
+		}
+
+		return null;
 	}
 }

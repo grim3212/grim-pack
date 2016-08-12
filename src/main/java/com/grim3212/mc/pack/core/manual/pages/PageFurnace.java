@@ -8,7 +8,7 @@ import org.lwjgl.opengl.GL11;
 
 import com.grim3212.mc.pack.GrimPack;
 import com.grim3212.mc.pack.core.client.TooltipHelper;
-import com.grim3212.mc.pack.core.manual.gui.GuiSubSectionPage;
+import com.grim3212.mc.pack.core.manual.gui.GuiManualPage;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
@@ -46,7 +46,7 @@ public class PageFurnace extends Page {
 	}
 
 	@Override
-	public void drawScreen(GuiSubSectionPage gui, int mouseX, int mouseY) {
+	public void drawScreen(GuiManualPage gui, int mouseX, int mouseY) {
 		super.drawScreen(gui, mouseX, mouseY);
 
 		relativeMouseX = mouseX;
@@ -54,7 +54,7 @@ public class PageFurnace extends Page {
 
 		int x = gui.getX() + 15;
 		int y = gui.getY() + 28;
-		PageInfo.drawText(x, y, this.getPageName());
+		PageInfo.drawText(x, y, this.getInfo());
 
 		TextureManager render = Minecraft.getMinecraft().renderEngine;
 		render.bindTexture(furnaceOverlay);

@@ -1,7 +1,6 @@
 package com.grim3212.mc.pack.industry.client.model;
 
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -18,9 +17,12 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
 import com.grim3212.mc.pack.GrimPack;
 import com.grim3212.mc.pack.core.client.model.CompositeModel;
+import com.grim3212.mc.pack.core.util.NBTHelper;
 import com.grim3212.mc.pack.industry.block.BlockCamoPlate;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockDirt;
+import net.minecraft.block.BlockDirt.DirtType;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BlockModelShapes;
@@ -54,7 +56,7 @@ import net.minecraftforge.common.property.IExtendedBlockState;
 
 public class CamoPlateModel implements IRetexturableModel, IModelCustomData {
 
-	public static final CamoPlateModel MODEL = new CamoPlateModel(ImmutableList.<ResourceLocation> of(), new ResourceLocation("minecraft:blocks/portal"));
+	public static final CamoPlateModel MODEL = new CamoPlateModel(ImmutableList.<ResourceLocation> of(), new ResourceLocation("grimpack:blocks/colorizer"));
 
 	private final ImmutableList<ResourceLocation> modelLocation;
 	private final ResourceLocation textureLocation;
@@ -150,43 +152,40 @@ public class CamoPlateModel implements IRetexturableModel, IModelCustomData {
 		public List<BakedQuad> getQuads(IBlockState state, EnumFacing side, long rand) {
 			if (state instanceof IExtendedBlockState) {
 				IExtendedBlockState exState = (IExtendedBlockState) state;
-				if (exState.getValue(BlockCamoPlate.BLOCKID) != null && exState.getValue(BlockCamoPlate.BLOCKMETA) != null) {
-					int blockID = exState.getValue(BlockCamoPlate.BLOCKID);
-					int blockMeta = exState.getValue(BlockCamoPlate.BLOCKMETA);
-					return this.getCachedModel(state, blockID, blockMeta).getQuads(state, side, rand);
+				if (exState.getValue(BlockCamoPlate.BLOCK_STATE) != null) {
+					IBlockState blockState = exState.getValue(BlockCamoPlate.BLOCK_STATE);
+					return this.getCachedModel(blockState).getQuads(state, side, rand);
 				}
 			}
 			return ImmutableList.of();
 		}
 
-		private final Map<List<Integer>, IBakedModel> cache = new HashMap<List<Integer>, IBakedModel>();
+		private final Map<IBlockState, IBakedModel> cache = new HashMap<IBlockState, IBakedModel>();
 
-		public IBakedModel getCachedModel(IBlockState state, int blockID, int blockMeta) {
-			List<Integer> key = Arrays.asList(blockID, blockMeta);
+		public IBakedModel getCachedModel(IBlockState blockState) {
 
-			if (!this.cache.containsKey(key)) {
+			if (!this.cache.containsKey(blockState)) {
 				ImmutableMap.Builder<String, String> newTexture = ImmutableMap.builder();
 
-				if (blockID == 0 && blockMeta == 0) {
-					newTexture.put("texture", "minecraft:blocks/portal");
-				} else if (Block.getBlockById(blockID) == Blocks.GRASS) {
+				if (blockState == Blocks.AIR.getDefaultState()) {
+					newTexture.put("texture", "grimpack:blocks/colorizer");
+				} else if (blockState.getBlock() == Blocks.GRASS) {
 					newTexture.put("texture", "minecraft:blocks/grass_top");
-				} else if (Block.getBlockById(blockID) == Blocks.DIRT && blockMeta == 2) {
+				} else if (blockState.getBlock() == Blocks.DIRT && blockState.getValue(BlockDirt.VARIANT) == DirtType.PODZOL) {
 					newTexture.put("texture", "minecraft:blocks/dirt_podzol_top");
-				} else if (Block.getBlockById(blockID) == Blocks.MYCELIUM) {
+				} else if (blockState.getBlock() == Blocks.MYCELIUM) {
 					newTexture.put("texture", "minecraft:blocks/mycelium_top");
 				} else {
 					BlockModelShapes blockModel = Minecraft.getMinecraft().getBlockRendererDispatcher().getBlockModelShapes();
-					IBlockState blockState = Block.getBlockById(blockID).getStateFromMeta(blockMeta);
 					TextureAtlasSprite blockTexture = blockModel.getTexture(blockState);
 
 					newTexture.put("texture", blockTexture.getIconName());
 				}
 
-				this.cache.put(key, generateModel(newTexture.build()));
+				this.cache.put(blockState, generateModel(newTexture.build()));
 			}
 
-			return this.cache.get(key);
+			return this.cache.get(blockState);
 		}
 
 		/**
@@ -257,7 +256,13 @@ public class CamoPlateModel implements IRetexturableModel, IModelCustomData {
 		private final ItemOverrideList itemHandler = new ItemOverrideList(Lists.<ItemOverride> newArrayList()) {
 			@Override
 			public IBakedModel handleItemState(IBakedModel model, ItemStack stack, World world, EntityLivingBase entity) {
-				return BakedCamoPlateModel.this.getCachedModel(Block.getBlockFromItem(stack.getItem()).getDefaultState(), 0, 0);
+				if (stack.hasTagCompound() && stack.getTagCompound().hasKey("registryName") && stack.getTagCompound().hasKey("meta")) {
+					Block block = Block.REGISTRY.getObject(new ResourceLocation(NBTHelper.getString(stack, "registryName")));
+					IBlockState state = block.getStateFromMeta(NBTHelper.getInt(stack, "meta"));
+					return BakedCamoPlateModel.this.getCachedModel(state);
+				}
+
+				return BakedCamoPlateModel.this.getCachedModel(Blocks.AIR.getDefaultState());
 			}
 		};
 
@@ -278,7 +283,7 @@ public class CamoPlateModel implements IRetexturableModel, IModelCustomData {
 		@Override
 		public IModel loadModel(ResourceLocation modelLocation) throws IOException {
 			if (modelLocation.getResourcePath().equals("models/block/dynamic_camo_plate")) {
-				return new CamoPlateModel(ImmutableList.<ResourceLocation> of(), new ResourceLocation("minecraft:blocks/portal"));
+				return new CamoPlateModel(ImmutableList.<ResourceLocation> of(), new ResourceLocation("grimpack:blocks/colorizer"));
 			}
 
 			return CamoPlateModel.MODEL;

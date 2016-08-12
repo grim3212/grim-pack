@@ -1,11 +1,12 @@
 package com.grim3212.mc.pack.tools;
 
-import com.grim3212.mc.pack.core.config.GrimConfig;
+import com.grim3212.mc.pack.core.manual.IManualPart;
 import com.grim3212.mc.pack.core.network.PacketDispatcher;
 import com.grim3212.mc.pack.core.part.GrimPart;
 import com.grim3212.mc.pack.core.proxy.CommonProxy;
 import com.grim3212.mc.pack.core.util.Utils;
 import com.grim3212.mc.pack.tools.blocks.ToolsBlocks;
+import com.grim3212.mc.pack.tools.client.ManualTools;
 import com.grim3212.mc.pack.tools.config.ToolsConfig;
 import com.grim3212.mc.pack.tools.entity.ToolsEntities;
 import com.grim3212.mc.pack.tools.event.MilkingEvent;
@@ -21,6 +22,8 @@ import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class GrimTools extends GrimPart {
 
@@ -29,13 +32,13 @@ public class GrimTools extends GrimPart {
 	@SidedProxy(clientSide = "com.grim3212.mc.pack.tools.client.ToolsClientProxy", serverSide = COMMON_PROXY)
 	public static CommonProxy proxy;
 
-	public static final String partId = "grimtools";
+	public static final String partId = "tools";
 	public static final String partName = "Grim Tools";
 
 	public static SoundEvent raygunSound;
 
 	public GrimTools() {
-		super(GrimTools.partId, GrimTools.partName);
+		super(GrimTools.partId, GrimTools.partName, new ToolsConfig());
 		addItem(new ToolsItems());
 		addItem(new ToolsBlocks());
 		addEntity(new ToolsEntities());
@@ -52,7 +55,7 @@ public class GrimTools extends GrimPart {
 		GameRegistry.registerWorldGenerator(new ToolsGenerate(), 25);
 		raygunSound = Utils.registerSound("raysh");
 
-		proxy.registerModels();
+		proxy.preInit();
 	}
 
 	@Override
@@ -67,7 +70,8 @@ public class GrimTools extends GrimPart {
 	}
 
 	@Override
-	public GrimConfig setConfig() {
-		return new ToolsConfig();
+	@SideOnly(Side.CLIENT)
+	public IManualPart getManual() {
+		return ManualTools.INSTANCE;
 	}
 }

@@ -2,8 +2,11 @@ package com.grim3212.mc.pack.decor.item;
 
 import java.util.List;
 
+import com.grim3212.mc.pack.core.item.ItemManual;
+import com.grim3212.mc.pack.core.manual.pages.Page;
 import com.grim3212.mc.pack.core.util.NBTHelper;
 import com.grim3212.mc.pack.decor.block.DecorBlocks;
+import com.grim3212.mc.pack.decor.client.ManualDecor;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockSnow;
@@ -22,7 +25,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 @SuppressWarnings("deprecation")
-public class ItemLampPost extends Item {
+public class ItemLampPost extends ItemManual {
 
 	public ItemLampPost() {
 		this.setHasSubtypes(true);
@@ -68,5 +71,10 @@ public class ItemLampPost extends Item {
 		NBTHelper.setString(itemstack, "registryName", Block.REGISTRY.getNameForObject(Blocks.AIR).toString());
 		NBTHelper.setInteger(itemstack, "meta", 0);
 		subItems.add(itemstack);
+	}
+
+	@Override
+	public Page getPage(ItemStack stack) {
+		return ManualDecor.lamps_page;
 	}
 }

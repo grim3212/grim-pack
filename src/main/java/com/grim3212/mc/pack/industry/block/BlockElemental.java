@@ -1,5 +1,9 @@
 package com.grim3212.mc.pack.industry.block;
 
+import com.grim3212.mc.pack.core.block.BlockManual;
+import com.grim3212.mc.pack.core.manual.pages.Page;
+import com.grim3212.mc.pack.industry.client.ManualIndustry;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
@@ -8,7 +12,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class BlockElemental extends Block {
+public class BlockElemental extends BlockManual {
 
 	public static enum ElementType {
 		WATER, FIRE, LAVA
@@ -17,9 +21,8 @@ public class BlockElemental extends Block {
 	private ElementType type;
 
 	protected BlockElemental(ElementType type) {
-		super(Material.IRON);
+		super(Material.IRON, SoundType.METAL);
 		this.type = type;
-		setSoundType(SoundType.METAL);
 	}
 
 	@Override
@@ -57,5 +60,16 @@ public class BlockElemental extends Block {
 		if (upBlock == Blocks.FLOWING_WATER || upBlock == Blocks.WATER || upBlock == Blocks.LAVA || upBlock == Blocks.FLOWING_LAVA || upBlock == Blocks.FIRE) {
 			worldIn.setBlockToAir(pos.up());
 		}
+	}
+
+	@Override
+	public Page getPage(IBlockState state) {
+		if (state.getBlock() == IndustryBlocks.fire_block) {
+			return ManualIndustry.fireBlock_page;
+		} else if (state.getBlock() == IndustryBlocks.water_block) {
+			return ManualIndustry.waterBlock_page;
+		}
+
+		return ManualIndustry.lavaBlock_page;
 	}
 }

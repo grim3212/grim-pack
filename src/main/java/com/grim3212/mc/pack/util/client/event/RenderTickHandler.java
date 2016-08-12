@@ -6,12 +6,11 @@ import java.util.Date;
 import org.lwjgl.opengl.GL11;
 
 import com.grim3212.mc.pack.GrimPack;
+import com.grim3212.mc.pack.core.client.ClientUtil;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.ScaledResolution;
-import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.RenderTickEvent;
@@ -40,8 +39,8 @@ public class RenderTickHandler {
 		FontRenderer fontrenderer = game.fontRendererObj;
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		game.renderEngine.bindTexture(resourceLocation);
-		drawTexturedModalRect(timeWidth - 245, scrollHeight, 0, 0, 176 - 43, 200);
-		drawTexturedModalRect(timeWidth - 325, scrollHeight, 0, 0, 176 - 50, 200);
+		ClientUtil.drawTexturedModalRect(timeWidth - 245, scrollHeight, 0, 0, 176 - 43, 200, zLevel);
+		ClientUtil.drawTexturedModalRect(timeWidth - 325, scrollHeight, 0, 0, 176 - 50, 200, zLevel);
 		Date today;
 		String result;
 		SimpleDateFormat formatter;
@@ -59,17 +58,5 @@ public class RenderTickHandler {
 				retracting = false;
 		}
 		return;
-	}
-
-	public void drawTexturedModalRect(int i, int j, int k, int l, int i1, int j1) {
-		float f = 0.00390625F;
-		float f1 = 0.00390625F;
-		Tessellator tessellator = Tessellator.getInstance();
-		tessellator.getBuffer().begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
-		tessellator.getBuffer().pos(i + 0, j + j1, zLevel).tex((float) (k + 0) * f, (float) (l + j1) * f1).endVertex();
-		tessellator.getBuffer().pos(i + i1, j + j1, zLevel).tex((float) (k + i1) * f, (float) (l + j1) * f1).endVertex();
-		tessellator.getBuffer().pos(i + i1, j + 0, zLevel).tex((float) (k + i1) * f, (float) (l + 0) * f1).endVertex();
-		tessellator.getBuffer().pos(i + 0, j + 0, zLevel).tex((float) (k + 0) * f, (float) (l + 0) * f1).endVertex();
-		tessellator.draw();
 	}
 }

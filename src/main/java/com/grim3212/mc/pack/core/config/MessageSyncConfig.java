@@ -44,7 +44,7 @@ public class MessageSyncConfig extends AbstractClientMessage<MessageSyncConfig> 
 
 			// Load manual pages after config has been synced
 			for (GrimPart part : PartRegistry.partsToLoad)
-				part.getGrimConfig().updateManual();
+				part.getManual().registerChapters(part.getManualPart());
 		}
 	}
 

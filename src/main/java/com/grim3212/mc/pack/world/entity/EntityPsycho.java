@@ -1,5 +1,10 @@
 package com.grim3212.mc.pack.world.entity;
 
+import com.grim3212.mc.pack.core.manual.IManualEntry.IManualEntity;
+import com.grim3212.mc.pack.core.manual.pages.Page;
+import com.grim3212.mc.pack.world.client.ManualWorld;
+
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIAttackMelee;
 import net.minecraft.entity.ai.EntityAILookIdle;
@@ -13,7 +18,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.pathfinding.PathNavigateGround;
 import net.minecraft.world.World;
 
-public class EntityPsycho extends EntityMob {
+public class EntityPsycho extends EntityMob implements IManualEntity {
 
 	protected int attackStrength;
 
@@ -37,5 +42,10 @@ public class EntityPsycho extends EntityMob {
 		this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(18.0D);
 		this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.27000000417232513D);
 		this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(6.0D);
+	}
+
+	@Override
+	public Page getPage(Entity entity) {
+		return ManualWorld.psycho_page;
 	}
 }

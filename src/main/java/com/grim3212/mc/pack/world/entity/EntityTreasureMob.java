@@ -1,5 +1,10 @@
 package com.grim3212.mc.pack.world.entity;
 
+import com.grim3212.mc.pack.core.manual.IManualEntry.IManualEntity;
+import com.grim3212.mc.pack.core.manual.pages.Page;
+import com.grim3212.mc.pack.world.client.ManualWorld;
+
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIAvoidEntity;
@@ -13,7 +18,7 @@ import net.minecraft.init.Items;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 
-public class EntityTreasureMob extends EntityAnimal {
+public class EntityTreasureMob extends EntityAnimal implements IManualEntity {
 
 	public EntityTreasureMob(World world) {
 		super(world);
@@ -98,5 +103,10 @@ public class EntityTreasureMob extends EntityAnimal {
 	@Override
 	public EntityAgeable createChild(EntityAgeable entityageable) {
 		return null;
+	}
+
+	@Override
+	public Page getPage(Entity entity) {
+		return ManualWorld.treasureChest_page;
 	}
 }

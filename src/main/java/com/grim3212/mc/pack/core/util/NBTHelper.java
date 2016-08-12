@@ -29,6 +29,12 @@ public class NBTHelper {
 		}
 	}
 
+	private static void initNBTTagCompound(NBTTagCompound compound) {
+		if (compound == null) {
+			compound = new NBTTagCompound();
+		}
+	}
+
 	public static NBTTagCompound getTagCompound(NBTTagCompound compound, String keyName) {
 		if (compound == null || !compound.hasKey(keyName)) {
 			return new NBTTagCompound();
@@ -37,7 +43,39 @@ public class NBTHelper {
 		return compound.getCompoundTag(keyName);
 	}
 
+	public static NBTTagCompound getTagCompound(ItemStack stack, String keyName) {
+		initNBTTagCompound(stack);
+
+		if (!stack.getTagCompound().hasKey(keyName)) {
+			setTagCompound(stack, keyName, new NBTTagCompound());
+		}
+
+		return stack.getTagCompound().getCompoundTag(keyName);
+	}
+
+	public static void setTagCompound(ItemStack stack, String keyName, NBTTagCompound compound) {
+		initNBTTagCompound(stack);
+
+		stack.getTagCompound().setTag(keyName, compound);
+	}
+
 	// =============== STRING ===============
+	public static String getString(NBTTagCompound compound, String keyName) {
+		initNBTTagCompound(compound);
+
+		if (compound == null || !compound.hasKey(keyName)) {
+			setString(compound, keyName, "");
+		}
+
+		return compound.getString(keyName);
+	}
+
+	public static void setString(NBTTagCompound compound, String keyName, String keyValue) {
+		initNBTTagCompound(compound);
+
+		compound.setString(keyName, keyValue);
+	}
+
 	public static String getString(ItemStack itemStack, String keyName) {
 		initNBTTagCompound(itemStack);
 
@@ -141,6 +179,22 @@ public class NBTHelper {
 	// =============== END SHORT ===============
 
 	// =============== INTEGER ===============
+	public static int getInt(NBTTagCompound compound, String keyName) {
+		initNBTTagCompound(compound);
+
+		if (compound == null || !compound.hasKey(keyName)) {
+			setInt(compound, keyName, 0);
+		}
+
+		return compound.getInteger(keyName);
+	}
+
+	public static void setInt(NBTTagCompound compound, String keyName, int keyValue) {
+		initNBTTagCompound(compound);
+
+		compound.setInteger(keyName, keyValue);
+	}
+
 	public static int getInt(ItemStack itemStack, String keyName) {
 		initNBTTagCompound(itemStack);
 

@@ -3,7 +3,7 @@ package com.grim3212.mc.pack.industry.block;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.grim3212.mc.pack.core.block.BlockSound;
+import com.grim3212.mc.pack.core.block.BlockManualPage;
 import com.grim3212.mc.pack.core.part.IPartItems;
 import com.grim3212.mc.pack.core.util.RecipeHelper;
 import com.grim3212.mc.pack.core.util.Utils;
@@ -81,14 +81,14 @@ public class IndustryBlocks implements IPartItems {
 
 	@Override
 	public void initItems() {
-		modern_tile = (new BlockSound(Material.ROCK, SoundType.STONE)).setHardness(1.0F).setResistance(15.0F).setUnlocalizedName("modern_tile").setCreativeTab(GrimIndustry.INSTANCE.getCreativeTab());
+		modern_tile = (new BlockManualPage(Material.ROCK, SoundType.STONE, "industry:metalworks.mfurnace_recipes")).setHardness(1.0F).setResistance(15.0F).setUnlocalizedName("modern_tile").setCreativeTab(GrimIndustry.INSTANCE.getCreativeTab());
 		tempered_glass = (new BlockTemperedGlass(Material.GLASS, false)).setHardness(1.0F).setResistance(15.0F).setLightOpacity(0).setUnlocalizedName("tempered_glass").setCreativeTab(GrimIndustry.INSTANCE.getCreativeTab());
 		horizontal_siding = (new BlockSiding()).setHardness(1.0F).setResistance(10.0F).setUnlocalizedName("horizontal_siding").setCreativeTab(GrimIndustry.INSTANCE.getCreativeTab());
 		vertical_siding = (new BlockSiding()).setHardness(1.0F).setResistance(10.0F).setUnlocalizedName("vertical_siding").setCreativeTab(GrimIndustry.INSTANCE.getCreativeTab());
 		door_chain = (new BlockModernDoor(Material.CIRCUITS)).setHardness(0.5F).setResistance(5.0F).setUnlocalizedName("door_chain");
 		door_glass = (new BlockModernDoor(Material.GLASS)).setHardness(1.0F).setResistance(10.0F).setUnlocalizedName("door_glass");
 		door_steel = (new BlockModernDoor(Material.ANVIL)).setHardness(1.0F).setResistance(10.0F).setUnlocalizedName("door_steel");
-		concrete = (new BlockSound(Material.ROCK, SoundType.STONE)).setHardness(1.0F).setResistance(30.0F).setUnlocalizedName("concrete").setCreativeTab(GrimIndustry.INSTANCE.getCreativeTab());
+		concrete = (new BlockManualPage(Material.ROCK, SoundType.STONE, "industry:moderntech.decoration")).setHardness(1.0F).setResistance(30.0F).setUnlocalizedName("concrete").setCreativeTab(GrimIndustry.INSTANCE.getCreativeTab());
 		togglerack = new BlockToggleRack().setUnlocalizedName("togglerack").setCreativeTab(GrimIndustry.INSTANCE.getCreativeTab());
 		iron_workbench = (new BlockIronWorkbench()).setHardness(3F).setResistance(5F).setUnlocalizedName("iron_workbench").setCreativeTab(GrimIndustry.INSTANCE.getCreativeTab());
 		diamond_workbench = (new BlockDiamondWorkbench()).setHardness(5F).setResistance(5F).setUnlocalizedName("diamond_workbench").setCreativeTab(GrimIndustry.INSTANCE.getCreativeTab());
@@ -109,7 +109,7 @@ public class IndustryBlocks implements IPartItems {
 		direction_gravitor = (new BlockDGravity(0)).setHardness(0.3F).setUnlocalizedName("direction_gravitor");
 		nuclear_bomb = (new BlockNuclearBomb()).setHardness(1.0F).setCreativeTab(GrimIndustry.INSTANCE.getCreativeTab()).setUnlocalizedName("nuclear_bomb");
 		reactor = (new BlockNuclearReactor()).setHardness(1.0F).setCreativeTab(GrimIndustry.INSTANCE.getCreativeTab()).setUnlocalizedName("reactor");
-		bomb_shell = (new BlockSound(Material.IRON, SoundType.METAL)).setHardness(1.0F).setCreativeTab(GrimIndustry.INSTANCE.getCreativeTab()).setUnlocalizedName("bomb_shell");
+		bomb_shell = (new BlockManualPage(Material.IRON, SoundType.METAL, "industry:explosives.bomb_shell")).setHardness(1.0F).setCreativeTab(GrimIndustry.INSTANCE.getCreativeTab()).setUnlocalizedName("bomb_shell");
 		c4 = (new BlockC4()).setHardness(1.0F).setCreativeTab(GrimIndustry.INSTANCE.getCreativeTab()).setUnlocalizedName("c4");
 		uranium_ore = (new BlockUraniumOre()).setHardness(1.0F).setLightLevel(0.55F).setCreativeTab(GrimIndustry.INSTANCE.getCreativeTab()).setUnlocalizedName("uranium_ore");
 		castle_gate = new BlockGate().setHardness(1.0F).setResistance(10.0F).setUnlocalizedName("castle_gate").setCreativeTab(GrimIndustry.INSTANCE.getCreativeTab());
@@ -125,12 +125,12 @@ public class IndustryBlocks implements IPartItems {
 		camo_plate = (new BlockCamoPlate()).setHardness(0.5F).setResistance(5.0F).setUnlocalizedName("camo_plate").setCreativeTab(GrimIndustry.INSTANCE.getCreativeTab());
 		chain_fence = (new BlockChainFence(Material.CIRCUITS)).setHardness(0.5F).setResistance(5.0F).setUnlocalizedName("chain_fence").setCreativeTab(GrimIndustry.INSTANCE.getCreativeTab());
 		aluminum_ladder = (new BlockAluminumLadder()).setHardness(1.0F).setResistance(5.0F).setUnlocalizedName("aluminum_ladder").setCreativeTab(GrimIndustry.INSTANCE.getCreativeTab());
-		aluminum_ore = (new BlockSound(Material.ROCK, SoundType.STONE)).setHardness(1.0F).setResistance(5.0F).setUnlocalizedName("aluminum_ore").setCreativeTab(GrimIndustry.INSTANCE.getCreativeTab());
+		aluminum_ore = (new BlockManualPage(Material.ROCK, SoundType.STONE, "industry:metalworks.alumingot")).setHardness(1.0F).setResistance(5.0F).setUnlocalizedName("aluminum_ore").setCreativeTab(GrimIndustry.INSTANCE.getCreativeTab());
 		oil_ore = (new BlockOilOre()).setHardness(1.0F).setResistance(5.0F).setUnlocalizedName("oil_ore").setCreativeTab(GrimIndustry.INSTANCE.getCreativeTab());
 		derrick = (new BlockDerrick()).setHardness(1.0F).setResistance(10.0F).setLightLevel(0.5F).setUnlocalizedName("derrick").setCreativeTab(GrimIndustry.INSTANCE.getCreativeTab());
 		modern_furnace = (new BlockModernFurnace()).setHardness(10.0F).setResistance(2.0F).setUnlocalizedName("modern_furnace").setCreativeTab(GrimIndustry.INSTANCE.getCreativeTab());
 		refinery = (new BlockRefinery()).setHardness(1.0F).setResistance(10.0F).setLightLevel(0.0F).setUnlocalizedName("refinery").setCreativeTab(GrimIndustry.INSTANCE.getCreativeTab());
-		steel_block = (new BlockSound(Material.IRON, SoundType.METAL)).setHardness(1.0F).setResistance(20.0F).setUnlocalizedName("steel_block").setCreativeTab(GrimIndustry.INSTANCE.getCreativeTab());
+		steel_block = (new BlockManualPage(Material.IRON, SoundType.METAL, "industry:metalworks.steelstuff")).setHardness(1.0F).setResistance(20.0F).setUnlocalizedName("steel_block").setCreativeTab(GrimIndustry.INSTANCE.getCreativeTab());
 		steel_pipe = (new BlockSteelPipe()).setHardness(1.0F).setResistance(10.0F).setUnlocalizedName("steel_pipe").setCreativeTab(GrimIndustry.INSTANCE.getCreativeTab());
 		steel_frame = (new BlockSteelFrame()).setHardness(1.0F).setResistance(10.0F).setLightOpacity(0).setUnlocalizedName("steel_frame").setCreativeTab(GrimIndustry.INSTANCE.getCreativeTab());
 		fuel_tank = (new BlockFuel()).setHardness(1.0F).setResistance(5.0F).setUnlocalizedName("fuel_tank").setCreativeTab(GrimIndustry.INSTANCE.getCreativeTab());

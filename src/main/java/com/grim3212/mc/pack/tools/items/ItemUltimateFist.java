@@ -1,6 +1,9 @@
 package com.grim3212.mc.pack.tools.items;
 
 import com.google.common.collect.Multimap;
+import com.grim3212.mc.pack.core.item.ItemManual;
+import com.grim3212.mc.pack.core.manual.pages.Page;
+import com.grim3212.mc.pack.tools.client.ManualTools;
 import com.grim3212.mc.pack.tools.config.ToolsConfig;
 
 import net.minecraft.block.state.IBlockState;
@@ -9,15 +12,19 @@ import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.EnumRarity;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class ItemUltimateFist extends Item {
+public class ItemUltimateFist extends ItemManual {
 
 	public ItemUltimateFist() {
 		setMaxStackSize(1);
+	}
+
+	@Override
+	public Page getPage(ItemStack stack) {
+		return ManualTools.ultimateFist_page;
 	}
 
 	@Override

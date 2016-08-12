@@ -1,10 +1,11 @@
 package com.grim3212.mc.pack.world.items;
 
+import com.grim3212.mc.pack.core.item.ItemManualBlock;
+
 import net.minecraft.block.Block;
-import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 
-public class ItemFungus extends ItemBlock {
+public class ItemFungus extends ItemManualBlock {
 
 	public ItemFungus(Block block) {
 		super(block);

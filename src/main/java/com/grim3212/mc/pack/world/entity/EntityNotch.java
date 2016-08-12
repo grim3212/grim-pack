@@ -1,5 +1,10 @@
 package com.grim3212.mc.pack.world.entity;
 
+import com.grim3212.mc.pack.core.manual.IManualEntry.IManualEntity;
+import com.grim3212.mc.pack.core.manual.pages.Page;
+import com.grim3212.mc.pack.world.client.ManualWorld;
+
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIAttackMelee;
 import net.minecraft.entity.ai.EntityAIHurtByTarget;
@@ -14,7 +19,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
-public class EntityNotch extends EntityMob {
+public class EntityNotch extends EntityMob implements IManualEntity {
 
 	public EntityNotch(World world) {
 		super(world);
@@ -44,5 +49,10 @@ public class EntityNotch extends EntityMob {
 	@Override
 	protected Item getDropItem() {
 		return Items.GOLDEN_APPLE;
+	}
+
+	@Override
+	public Page getPage(Entity entity) {
+		return ManualWorld.notch_page;
 	}
 }

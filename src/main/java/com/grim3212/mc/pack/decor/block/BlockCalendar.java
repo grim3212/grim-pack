@@ -2,6 +2,9 @@ package com.grim3212.mc.pack.decor.block;
 
 import java.util.Iterator;
 
+import com.grim3212.mc.pack.core.block.BlockManual;
+import com.grim3212.mc.pack.core.manual.pages.Page;
+import com.grim3212.mc.pack.decor.client.ManualDecor;
 import com.grim3212.mc.pack.decor.tile.TileEntityCalendar;
 
 import net.minecraft.block.Block;
@@ -21,7 +24,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
-public class BlockCalendar extends Block implements ITileEntityProvider {
+public class BlockCalendar extends BlockManual implements ITileEntityProvider {
 
 	protected static final AxisAlignedBB CALENDAR_NORTH_AABB = new AxisAlignedBB(0.25D, 0.13D, 0.935D, 0.75D, 0.935D, 1.0D);
 	protected static final AxisAlignedBB CALENDAR_SOUTH_AABB = new AxisAlignedBB(0.25D, 0.13D, 0.0D, 0.75D, 0.935D, 0.065D);
@@ -30,9 +33,8 @@ public class BlockCalendar extends Block implements ITileEntityProvider {
 	public static final PropertyDirection FACING = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
 
 	protected BlockCalendar() {
-		super(Material.WOOD);
+		super(Material.WOOD, SoundType.WOOD);
 		this.setDefaultState(getDefaultState().withProperty(FACING, EnumFacing.NORTH));
-		setSoundType(SoundType.WOOD);
 	}
 
 	@Override
@@ -65,7 +67,7 @@ public class BlockCalendar extends Block implements ITileEntityProvider {
 	public boolean isOpaqueCube(IBlockState state) {
 		return false;
 	}
-	
+
 	@Override
 	public boolean isFullCube(IBlockState state) {
 		return false;
@@ -144,5 +146,10 @@ public class BlockCalendar extends Block implements ITileEntityProvider {
 		}
 
 		return this.getDefaultState().withProperty(FACING, enumfacing);
+	}
+
+	@Override
+	public Page getPage(IBlockState state) {
+		return ManualDecor.calendar_page;
 	}
 }

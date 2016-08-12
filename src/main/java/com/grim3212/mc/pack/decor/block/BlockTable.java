@@ -1,5 +1,9 @@
 package com.grim3212.mc.pack.decor.block;
 
+import com.grim3212.mc.pack.core.manual.IManualEntry.IManualBlock;
+import com.grim3212.mc.pack.core.manual.pages.Page;
+import com.grim3212.mc.pack.decor.client.ManualDecor;
+
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.state.BlockStateContainer;
@@ -11,7 +15,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.property.ExtendedBlockState;
 import net.minecraftforge.common.property.IUnlistedProperty;
 
-public class BlockTable extends BlockColorizer {
+public class BlockTable extends BlockColorizer implements IManualBlock {
 
 	public static final PropertyBool NORTH = PropertyBool.create("north");
 	public static final PropertyBool EAST = PropertyBool.create("east");
@@ -51,5 +55,10 @@ public class BlockTable extends BlockColorizer {
 	@Override
 	public boolean canPlaceTorchOnTop(IBlockState state, IBlockAccess world, BlockPos pos) {
 		return true;
+	}
+	
+	@Override
+	public Page getPage(IBlockState state) {
+		return ManualDecor.table_page;
 	}
 }

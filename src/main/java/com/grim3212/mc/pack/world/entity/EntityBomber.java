@@ -1,5 +1,9 @@
 package com.grim3212.mc.pack.world.entity;
 
+import com.grim3212.mc.pack.core.manual.IManualEntry.IManualEntity;
+import com.grim3212.mc.pack.core.manual.pages.Page;
+import com.grim3212.mc.pack.world.client.ManualWorld;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -16,7 +20,7 @@ import net.minecraft.item.Item;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
 
-public class EntityBomber extends EntityMob {
+public class EntityBomber extends EntityMob implements IManualEntity {
 
 	public EntityBomber(World world) {
 		super(world);
@@ -53,5 +57,10 @@ public class EntityBomber extends EntityMob {
 		}
 
 		return true;
+	}
+
+	@Override
+	public Page getPage(Entity entity) {
+		return ManualWorld.suicide_page;
 	}
 }

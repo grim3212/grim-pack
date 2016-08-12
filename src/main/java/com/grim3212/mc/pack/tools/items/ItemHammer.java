@@ -1,22 +1,29 @@
 package com.grim3212.mc.pack.tools.items;
 
+import com.grim3212.mc.pack.core.item.ItemManual;
+import com.grim3212.mc.pack.core.manual.pages.Page;
 import com.grim3212.mc.pack.tools.GrimTools;
+import com.grim3212.mc.pack.tools.client.ManualTools;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.stats.StatList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class ItemHammer extends Item {
+public class ItemHammer extends ItemManual {
 
 	public ItemHammer(ToolMaterial toolMaterial) {
 		setMaxStackSize(1);
 		setCreativeTab(GrimTools.INSTANCE.getCreativeTab());
 		this.setMaxDamage(toolMaterial.getMaxUses());
+	}
+
+	@Override
+	public Page getPage(ItemStack stack) {
+		return ManualTools.hammer_page;
 	}
 
 	@Override

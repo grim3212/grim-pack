@@ -1,11 +1,13 @@
 package com.grim3212.mc.pack.industry.item;
 
+import com.grim3212.mc.pack.core.item.ItemManual;
+import com.grim3212.mc.pack.core.manual.pages.Page;
 import com.grim3212.mc.pack.industry.block.IndustryBlocks;
+import com.grim3212.mc.pack.industry.client.ManualIndustry;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
@@ -13,9 +15,14 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class ItemAsphalt extends Item {
+public class ItemAsphalt extends ItemManual {
 
 	public ItemAsphalt() {
+	}
+
+	@Override
+	public Page getPage(ItemStack stack) {
+		return ManualIndustry.asphalt_page;
 	}
 
 	@Override

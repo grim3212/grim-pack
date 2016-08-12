@@ -1,12 +1,7 @@
 package com.grim3212.mc.pack.industry.client;
 
 import com.grim3212.mc.pack.core.client.RenderHelper;
-import com.grim3212.mc.pack.core.manual.ManualRegistry;
-import com.grim3212.mc.pack.core.manual.ModSection;
-import com.grim3212.mc.pack.core.manual.pages.PageCrafting;
-import com.grim3212.mc.pack.core.manual.pages.PageFurnace;
 import com.grim3212.mc.pack.core.proxy.ClientProxy;
-import com.grim3212.mc.pack.core.util.RecipeHelper;
 import com.grim3212.mc.pack.industry.block.BlockFountain;
 import com.grim3212.mc.pack.industry.block.BlockModernDoor;
 import com.grim3212.mc.pack.industry.block.BlockSiding;
@@ -19,8 +14,6 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.statemap.StateMap;
 import net.minecraft.client.renderer.color.IBlockColor;
-import net.minecraft.init.Items;
-import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
@@ -30,7 +23,7 @@ import net.minecraftforge.client.model.ModelLoaderRegistry;
 public class IndustryClientProxy extends ClientProxy {
 
 	@Override
-	public void registerModels() {
+	public void preInit() {
 		// Register all custom models for camo plates
 		ModelLoaderRegistry.registerLoader(CamoPlateModelLoader.instance);
 
@@ -145,26 +138,6 @@ public class IndustryClientProxy extends ClientProxy {
 		RenderHelper.renderBlock(IndustryBlocks.refinery);
 		RenderHelper.renderBlock(IndustryBlocks.modern_furnace);
 		RenderHelper.renderBlock(IndustryBlocks.camo_plate);
-	}
-
-	@Override
-	public void registerManual(ModSection modSection) {
-		ManualRegistry.addSection("benches", modSection).addSubSectionPages(new PageCrafting("recipes", IndustryBlocks.workbenches, 25));
-		ManualRegistry.addSection("ice", modSection).addSubSectionPages(new PageCrafting("recipes", new ItemStack(IndustryBlocks.ice_maker)));
-		ManualRegistry.addSection("elemental", modSection).addSubSectionPages(new PageCrafting("toggle", new ItemStack(IndustryBlocks.togglerack)), new PageCrafting("fire", new ItemStack(IndustryBlocks.fire_block)), new PageCrafting("water", new ItemStack(IndustryBlocks.water_block)), new PageCrafting("lava", new ItemStack(IndustryBlocks.lava_block)));
-		ManualRegistry.addSection("spikes", modSection).addSubSectionPages(new PageCrafting("recipe", RecipeHelper.getAllIRecipesForItem(new ItemStack(IndustryBlocks.spike)), 30));
-		ManualRegistry.addSection("sensors", modSection).addSubSectionPages(new PageCrafting("recipes", IndustryBlocks.sensors, 20));
-		ManualRegistry.addSection("gravity", modSection).addSubSectionPages(new PageCrafting("boots", new ItemStack(IndustryItems.gravity_boots)), new PageCrafting("control", IndustryItems.control, 25), new PageCrafting("attract", IndustryBlocks.attracting, 25), new PageCrafting("repulse", IndustryBlocks.repulsing, 25), new PageCrafting("gravitor", IndustryBlocks.gravitoring, 25));
-		ManualRegistry.addSection("refining", modSection).addSubSectionPages(new PageCrafting("uranium", new ItemStack(IndustryBlocks.uranium_ore)), new PageCrafting("armor", IndustryItems.armor, 20), new PageFurnace("uranium_smelt", new ItemStack(IndustryBlocks.uranium_ore)), new PageCrafting("refined_uranium", new ItemStack(IndustryItems.refined_uranium)), new PageCrafting("plutonium", new ItemStack(IndustryItems.plutonium_ingot)), new PageCrafting("refined_plutonium", new ItemStack(IndustryItems.refined_plutonium)),
-				new PageCrafting("reactor_core", new ItemStack(IndustryItems.reactor_core)));
-		ManualRegistry.addSection("reactor", modSection).addSubSectionPages(new PageFurnace("graphite", new ItemStack(Items.FLINT)), new PageCrafting("graphite_rod", new ItemStack(IndustryItems.graphite_rod)), new PageCrafting("reactor_case", new ItemStack(IndustryItems.reactor_core_case)), new PageCrafting("iron_parts", new ItemStack(IndustryItems.iron_parts)), new PageCrafting("reactor", new ItemStack(IndustryBlocks.reactor)));
-		ManualRegistry.addSection("explosives", modSection).addSubSectionPages(new PageFurnace("aluminium", new ItemStack(IndustryBlocks.aluminum_ore)), new PageCrafting("bomb_shell", new ItemStack(IndustryBlocks.bomb_shell)), new PageCrafting("c4", new ItemStack(IndustryBlocks.c4)), new PageCrafting("nuclear_bomb", new ItemStack(IndustryBlocks.nuclear_bomb)));
-		ManualRegistry.addSection("gates", modSection).addSubSectionPages(new PageCrafting("iron_stick", new ItemStack(IndustryItems.iron_stick)), new PageCrafting("gate", IndustryItems.gates, 25), new PageCrafting("trumpet", new ItemStack(IndustryItems.gate_trumpet)), new PageCrafting("garage", IndustryItems.garages, 25), new PageCrafting("remote", new ItemStack(IndustryItems.garage_remote)));
-		ManualRegistry.addSection("hlights", modSection).addSubSectionPages(new PageCrafting("hlight", new ItemStack(IndustryBlocks.halogen_light)), new PageCrafting("htorch", IndustryBlocks.htorches, 25));
-		ManualRegistry.addSection("rways", modSection).addSubSectionPages(new PageCrafting("swalk", new ItemStack(IndustryBlocks.sidewalk)), new PageCrafting("tarball", new ItemStack(IndustryItems.tarball)), new PageFurnace("asphalt", new ItemStack(IndustryItems.tarball)), new PageCrafting("rways", IndustryBlocks.rways, 20), new PageCrafting("paint", new ItemStack(IndustryItems.paint_roller)));
-		ManualRegistry.addSection("moderntech", modSection).addSubSectionPages(new PageCrafting("doors", IndustryItems.doors, 25), new PageCrafting("others", IndustryBlocks.others, 25), new PageCrafting("decoration", IndustryBlocks.decoration, 25), new PageCrafting("paint", IndustryItems.paint, 25));
-		ManualRegistry.addSection("metalworks", modSection).addSubSectionPages(new PageFurnace("alumingot", new ItemStack(IndustryBlocks.aluminum_ore)), new PageCrafting("alumstuff", IndustryItems.alumstuff, 25), new PageCrafting("buckladd", IndustryBlocks.buckladd, 25), new PageCrafting("coaliron", IndustryItems.coaliron, 25), new PageFurnace("steelingot", new ItemStack(IndustryItems.coal_iron_ingot)), new PageCrafting("steelstuff", IndustryBlocks.steelstuff, 20), new PageCrafting("steeltools", IndustryItems.steeltools, 20), new PageCrafting("fuel", IndustryItems.fuelstuff, 25),
-				new PageCrafting("refinery", new ItemStack(IndustryBlocks.refinery)), new PageCrafting("derrick", new ItemStack(IndustryBlocks.derrick)), new PageCrafting("mfurnace", new ItemStack(IndustryBlocks.modern_furnace)));
 	}
 
 	@Override

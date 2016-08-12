@@ -1,5 +1,9 @@
 package com.grim3212.mc.pack.industry.block;
 
+import com.grim3212.mc.pack.core.block.BlockManual;
+import com.grim3212.mc.pack.core.manual.pages.Page;
+import com.grim3212.mc.pack.industry.client.ManualIndustry;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
@@ -16,7 +20,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
-public class BlockHLight extends Block {
+public class BlockHLight extends BlockManual {
 
 	private static final AxisAlignedBB UP_AABB = new AxisAlignedBB(0.25F, 0.0F, 0.25F, 0.75F, 0.125F, 0.75F);
 	private static final AxisAlignedBB DOWN_AABB = new AxisAlignedBB(0.25F, 0.875F, 0.25F, 0.75F, 1.0F, 0.75F);
@@ -27,8 +31,7 @@ public class BlockHLight extends Block {
 	public static final PropertyEnum<EnumFacing> FACING = PropertyEnum.create("facing", EnumFacing.class);
 
 	protected BlockHLight() {
-		super(Material.GLASS);
-		this.setSoundType(SoundType.GLASS);
+		super(Material.GLASS, SoundType.GLASS);
 		this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.SOUTH));
 	}
 
@@ -39,7 +42,7 @@ public class BlockHLight extends Block {
 
 	@Override
 	public int getMetaFromState(IBlockState state) {
-		return ((EnumFacing) state.getValue(FACING)).getIndex();
+		return state.getValue(FACING).getIndex();
 	}
 
 	@Override
@@ -112,5 +115,10 @@ public class BlockHLight extends Block {
 			this.dropBlockAsItem(worldIn, pos, getDefaultState(), 0);
 			worldIn.setBlockToAir(pos);
 		}
+	}
+
+	@Override
+	public Page getPage(IBlockState state) {
+		return ManualIndustry.hLight_page;
 	}
 }

@@ -1,5 +1,9 @@
 package com.grim3212.mc.pack.industry.block;
 
+import com.grim3212.mc.pack.core.block.BlockManual;
+import com.grim3212.mc.pack.core.manual.pages.Page;
+import com.grim3212.mc.pack.industry.client.ManualIndustry;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
@@ -19,7 +23,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
-public class BlockSpike extends Block {
+public class BlockSpike extends BlockManual {
 
 	private static final AxisAlignedBB UP_AABB = new AxisAlignedBB(0.0F, 0.0F, 0.0F, 1.0F, 0.0625F, 1.0F);
 	private static final AxisAlignedBB DOWN_AABB = new AxisAlignedBB(0.0F, 0.9375F, 0.0F, 1.0F, 1.0F, 1.0F);
@@ -31,8 +35,7 @@ public class BlockSpike extends Block {
 	public static final PropertyEnum<EnumFacing> FACING = PropertyEnum.create("facing", EnumFacing.class);
 
 	protected BlockSpike() {
-		super(Material.IRON);
-		this.setSoundType(SoundType.METAL);
+		super(Material.IRON, SoundType.METAL);
 		this.setDefaultState(this.blockState.getBaseState().withProperty(ACTIVE, false).withProperty(FACING, EnumFacing.NORTH));
 	}
 
@@ -165,5 +168,10 @@ public class BlockSpike extends Block {
 		if ((Boolean) worldIn.getBlockState(pos).getValue(ACTIVE) && entityIn instanceof EntityLivingBase) {
 			entityIn.attackEntityFrom(DamageSource.inWall, 10);
 		}
+	}
+
+	@Override
+	public Page getPage(IBlockState state) {
+		return ManualIndustry.spike_page;
 	}
 }

@@ -1,6 +1,9 @@
 package com.grim3212.mc.pack.industry.block;
 
+import com.grim3212.mc.pack.core.block.BlockManual;
+import com.grim3212.mc.pack.core.manual.pages.Page;
 import com.grim3212.mc.pack.industry.GrimIndustry;
+import com.grim3212.mc.pack.industry.client.ManualIndustry;
 import com.grim3212.mc.pack.industry.tile.TileEntityGravity;
 
 import net.minecraft.block.Block;
@@ -17,16 +20,15 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class BlockGravity extends Block implements ITileEntityProvider {
+public class BlockGravity extends BlockManual implements ITileEntityProvider {
 
 	public static final PropertyBool POWERED = PropertyBool.create("powered");
 
 	private int type;
 
 	public BlockGravity(int type) {
-		super(Material.IRON);
+		super(Material.IRON, SoundType.METAL);
 		this.type = type;
-		setSoundType(SoundType.METAL);
 		setCreativeTab(GrimIndustry.INSTANCE.getCreativeTab());
 		this.setDefaultState(this.blockState.getBaseState().withProperty(POWERED, false));
 	}
@@ -72,5 +74,16 @@ public class BlockGravity extends Block implements ITileEntityProvider {
 	@Override
 	public TileEntity createNewTileEntity(World worldIn, int meta) {
 		return new TileEntityGravity(type);
+	}
+
+	@Override
+	public Page getPage(IBlockState state) {
+		if (state.getBlock() == IndustryBlocks.gravitor) {
+			return ManualIndustry.gravitor_page;
+		} else if (state.getBlock() == IndustryBlocks.attractor) {
+			return ManualIndustry.attract_page;
+		}
+
+		return ManualIndustry.repulse_page;
 	}
 }

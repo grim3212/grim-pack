@@ -4,9 +4,12 @@ import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.grim3212.mc.pack.core.manual.IManualEntry.IManualBlock;
+import com.grim3212.mc.pack.core.manual.pages.Page;
 import com.grim3212.mc.pack.core.property.UnlistedPropertyBlockState;
 import com.grim3212.mc.pack.core.util.NBTHelper;
 import com.grim3212.mc.pack.decor.GrimDecor;
+import com.grim3212.mc.pack.decor.client.ManualDecor;
 import com.grim3212.mc.pack.decor.item.ItemBrush;
 import com.grim3212.mc.pack.decor.tile.TileEntityColorizer;
 import com.grim3212.mc.pack.decor.util.BlockHelper;
@@ -46,7 +49,7 @@ import net.minecraftforge.common.property.IUnlistedProperty;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class BlockColorizer extends BlockContainer {
+public class BlockColorizer extends BlockContainer implements IManualBlock {
 
 	public static final UnlistedPropertyBlockState BLOCK_STATE = UnlistedPropertyBlockState.create("blockstate");
 
@@ -289,5 +292,10 @@ public class BlockColorizer extends BlockContainer {
 			}
 		}
 		return true;
+	}
+
+	@Override
+	public Page getPage(IBlockState state) {
+		return ManualDecor.colorizer_page;
 	}
 }

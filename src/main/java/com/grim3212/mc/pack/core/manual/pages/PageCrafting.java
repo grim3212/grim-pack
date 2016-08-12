@@ -8,12 +8,13 @@ import org.lwjgl.opengl.GL11;
 
 import com.grim3212.mc.pack.GrimPack;
 import com.grim3212.mc.pack.core.client.TooltipHelper;
-import com.grim3212.mc.pack.core.manual.gui.GuiSubSectionPage;
+import com.grim3212.mc.pack.core.manual.gui.GuiManualPage;
 import com.grim3212.mc.pack.core.util.NBTHelper;
 import com.grim3212.mc.pack.core.util.RecipeHelper;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.texture.TextureManager;
@@ -63,7 +64,11 @@ public class PageCrafting extends Page {
 	}
 
 	@Override
-	public void drawScreen(GuiSubSectionPage gui, int mouseX, int mouseY) {
+	public void addButtons(GuiManualPage gui, List<GuiButton> buttonList) {
+	}
+
+	@Override
+	public void drawScreen(GuiManualPage gui, int mouseX, int mouseY) {
 		super.drawScreen(gui, mouseX, mouseY);
 
 		relativeMouseX = mouseX;
@@ -71,7 +76,7 @@ public class PageCrafting extends Page {
 
 		int x = gui.getX() + 15;
 		int y = gui.getY() + 28;
-		PageInfo.drawText(x, y, this.getPageName());
+		PageInfo.drawText(x, y, this.getInfo());
 
 		TextureManager render = Minecraft.getMinecraft().renderEngine;
 		render.bindTexture(craftingOverlay);
@@ -88,7 +93,7 @@ public class PageCrafting extends Page {
 		tooltipItem = null;
 	}
 
-	public void renderRecipe(GuiSubSectionPage gui, List<IRecipe> output) {
+	public void renderRecipe(GuiManualPage gui, List<IRecipe> output) {
 		this.drawIngredientList(gui, output.get(recipeShown));
 
 		if (isShapeless) {
@@ -104,7 +109,7 @@ public class PageCrafting extends Page {
 
 		ItemStack outstack = output.get(recipeShown).getRecipeOutput();
 		if (isShapeless)
-			NBTHelper.setString(outstack, "customTooltip", I18n.format("grim.manual.shapeless"));
+			NBTHelper.setString(outstack, "customTooltip", I18n.format("grimpack.manual.shapeless"));
 		this.renderItem(gui, outstack, gui.getX() + 143, gui.getY() + 154);
 
 		FontRenderer renderer = Minecraft.getMinecraft().fontRendererObj;
@@ -112,7 +117,7 @@ public class PageCrafting extends Page {
 	}
 
 	@SuppressWarnings("unchecked")
-	public void drawOreDictionaryItem(GuiSubSectionPage gui, Object item, int x, int y) {
+	public void drawOreDictionaryItem(GuiManualPage gui, Object item, int x, int y) {
 		if (item instanceof ItemStack) {
 			this.renderItemCutWild(gui, (ItemStack) item, x - 1, y - 1);
 		} else if (item instanceof List<?>) {
@@ -125,7 +130,7 @@ public class PageCrafting extends Page {
 			GlStateManager.disableBlend();
 			GlStateManager.popMatrix();
 
-			this.renderItemCutWild(gui, NBTHelper.setStringItemStack(((List<ItemStack>) item).get(0), "customTooltip", I18n.format("grim.manual.oredictionary") + " : " + RecipeHelper.getOreDict((List<ItemStack>) item)), x - 1, y - 1);
+			this.renderItemCutWild(gui, NBTHelper.setStringItemStack(((List<ItemStack>) item).get(0), "customTooltip", I18n.format("grimpack.manual.oredictionary") + " : " + RecipeHelper.getOreDict((List<ItemStack>) item)), x - 1, y - 1);
 		}
 	}
 
@@ -140,7 +145,7 @@ public class PageCrafting extends Page {
 		++update;
 	}
 
-	public void drawIngredientList(GuiSubSectionPage gui, IRecipe recipe) {
+	public void drawIngredientList(GuiManualPage gui, IRecipe recipe) {
 		// vanilla recipe classes
 		if (recipe instanceof ShapedRecipes) {
 			ShapedRecipes shaped = (ShapedRecipes) recipe;

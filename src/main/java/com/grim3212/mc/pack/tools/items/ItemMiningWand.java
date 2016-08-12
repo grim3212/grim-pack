@@ -2,6 +2,8 @@ package com.grim3212.mc.pack.tools.items;
 
 import java.util.ArrayList;
 
+import com.grim3212.mc.pack.core.manual.pages.Page;
+import com.grim3212.mc.pack.tools.client.ManualTools;
 import com.grim3212.mc.pack.tools.config.ToolsConfig;
 import com.grim3212.mc.pack.tools.util.WandCoord3D;
 
@@ -12,6 +14,7 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.SoundEvents;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
@@ -33,6 +36,14 @@ public class ItemMiningWand extends ItemWand {
 	public ItemMiningWand(boolean reinforced) {
 		super(reinforced);
 		this.setMaxDamage(reinforced ? 120 : 15);
+	}
+
+	@Override
+	public Page getPage(ItemStack stack) {
+		if (stack.getItem() == ToolsItems.mining_wand)
+			return ManualTools.regularWand_page;
+
+		return ManualTools.reinforcedWand_page;
 	}
 
 	private static boolean isMiningOre(Block block) {

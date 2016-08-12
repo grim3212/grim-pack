@@ -2,6 +2,9 @@ package com.grim3212.mc.pack.world.blocks;
 
 import java.util.Random;
 
+import com.grim3212.mc.pack.core.manual.IManualEntry.IManualBlock;
+import com.grim3212.mc.pack.core.manual.pages.Page;
+import com.grim3212.mc.pack.world.client.ManualWorld;
 import com.grim3212.mc.pack.world.items.WorldItems;
 
 import net.minecraft.block.BlockReed;
@@ -12,7 +15,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class BlockGunpowderReed extends BlockReed {
+public class BlockGunpowderReed extends BlockReed implements IManualBlock {
 
 	protected BlockGunpowderReed() {
 		super();
@@ -51,5 +54,10 @@ public class BlockGunpowderReed extends BlockReed {
 	@Override
 	public ItemStack getItem(World worldIn, BlockPos pos, IBlockState state) {
 		return new ItemStack(WorldItems.gunpowder_reed_item);
+	}
+
+	@Override
+	public Page getPage(IBlockState state) {
+		return ManualWorld.greed_page;
 	}
 }

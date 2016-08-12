@@ -2,7 +2,10 @@ package com.grim3212.mc.pack.decor.block;
 
 import com.grim3212.mc.pack.GrimPack;
 import com.grim3212.mc.pack.core.client.gui.PackGuiHandler;
+import com.grim3212.mc.pack.core.manual.IManualEntry.IManualBlock;
+import com.grim3212.mc.pack.core.manual.pages.Page;
 import com.grim3212.mc.pack.core.network.PacketDispatcher;
+import com.grim3212.mc.pack.decor.client.ManualDecor;
 import com.grim3212.mc.pack.decor.network.MessageParticles;
 import com.grim3212.mc.pack.decor.tile.TileEntityGrill;
 
@@ -21,7 +24,7 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class BlockGrill extends BlockFireplaceBase {
+public class BlockGrill extends BlockFireplaceBase implements IManualBlock {
 
 	public BlockGrill() {
 		super();
@@ -108,5 +111,10 @@ public class BlockGrill extends BlockFireplaceBase {
 			}
 		}
 		super.breakBlock(worldIn, pos, state);
+	}
+
+	@Override
+	public Page getPage(IBlockState state) {
+		return ManualDecor.grill_page;
 	}
 }

@@ -1,5 +1,8 @@
 package com.grim3212.mc.pack.decor.block;
 
+import com.grim3212.mc.pack.core.block.BlockManual;
+import com.grim3212.mc.pack.core.manual.pages.Page;
+import com.grim3212.mc.pack.decor.client.ManualDecor;
 import com.grim3212.mc.pack.decor.tile.TileEntityWallClock;
 
 import net.minecraft.block.Block;
@@ -19,7 +22,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
-public class BlockWallClock extends Block implements ITileEntityProvider {
+public class BlockWallClock extends BlockManual implements ITileEntityProvider {
 
 	protected static final AxisAlignedBB CLOCK_NORTH_AABB = new AxisAlignedBB(0.0D, 0.0D, 0.875D, 1.0D, 1.0D, 1.0D);
 	protected static final AxisAlignedBB CLOCK_SOUTH_AABB = new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 1.0D, 0.125D);
@@ -29,9 +32,8 @@ public class BlockWallClock extends Block implements ITileEntityProvider {
 	public static final PropertyInteger TIME = PropertyInteger.create("time", 0, 63);
 
 	protected BlockWallClock() {
-		super(Material.CIRCUITS);
+		super(Material.CIRCUITS, SoundType.WOOD);
 		this.setDefaultState(blockState.getBaseState().withProperty(FACING, EnumFacing.SOUTH));
-		setSoundType(SoundType.WOOD);
 	}
 
 	@Override
@@ -47,7 +49,7 @@ public class BlockWallClock extends Block implements ITileEntityProvider {
 
 	@Override
 	public int getMetaFromState(IBlockState state) {
-		return ((EnumFacing) state.getValue(FACING)).getIndex();
+		return state.getValue(FACING).getIndex();
 	}
 
 	@Override
@@ -63,7 +65,7 @@ public class BlockWallClock extends Block implements ITileEntityProvider {
 
 	@Override
 	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
-		switch ((EnumFacing) state.getValue(FACING)) {
+		switch (state.getValue(FACING)) {
 		case EAST:
 			return CLOCK_EAST_AABB;
 		case WEST:
@@ -152,5 +154,10 @@ public class BlockWallClock extends Block implements ITileEntityProvider {
 	@Override
 	public TileEntity createNewTileEntity(World worldIn, int meta) {
 		return new TileEntityWallClock();
+	}
+
+	@Override
+	public Page getPage(IBlockState state) {
+		return ManualDecor.clock_page;
 	}
 }

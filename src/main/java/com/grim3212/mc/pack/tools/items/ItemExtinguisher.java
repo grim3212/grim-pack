@@ -2,12 +2,15 @@ package com.grim3212.mc.pack.tools.items;
 
 import java.util.Random;
 
+import com.grim3212.mc.pack.core.item.ItemManual;
+import com.grim3212.mc.pack.core.manual.pages.Page;
+import com.grim3212.mc.pack.tools.client.ManualTools;
+
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.SoundEvents;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
@@ -17,11 +20,16 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class ItemExtinguisher extends Item {
+public class ItemExtinguisher extends ItemManual {
 
 	public ItemExtinguisher() {
 		setMaxDamage(1);
 		setMaxStackSize(1);
+	}
+
+	@Override
+	public Page getPage(ItemStack stack) {
+		return ManualTools.extinguisher_page;
 	}
 
 	@Override

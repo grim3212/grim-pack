@@ -94,7 +94,8 @@ public class WorldConfig extends GrimConfig {
 		super.syncConfig();
 	}
 
-	public static List<IConfigElement> getConfigItems() {
+	@Override
+	public List<IConfigElement> getConfigItems() {
 		List<IConfigElement> list = new ArrayList<IConfigElement>();
 		list.add(new DummyCategoryElement("worldGeneralCfg", "grimpack.world.cfg.general", new ConfigElement(GrimWorld.INSTANCE.getConfig().getCategory(CONFIG_GENERAL_NAME)).getChildElements()));
 		list.add(new DummyCategoryElement("worldFungusCfg", "grimpack.world.cfg.fungus", new ConfigElement(GrimWorld.INSTANCE.getConfig().getCategory(FUNGUS_CONFIG_NAME)).getChildElements()));
@@ -120,11 +121,6 @@ public class WorldConfig extends GrimConfig {
 		buffer.writeBoolean(replaceDesertWells);
 		buffer.writeBoolean(corruption);
 		buffer.writeBoolean(spawnMorePeople);
-	}
-
-	@Override
-	public void updateManual() {
-		GrimWorld.proxy.registerManual(GrimWorld.INSTANCE.getModSection());
 	}
 
 	public static void registerBlocksPossible(String[] string, ArrayList<Block> blocklist) {

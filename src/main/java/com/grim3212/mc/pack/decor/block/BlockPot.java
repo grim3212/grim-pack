@@ -2,8 +2,13 @@ package com.grim3212.mc.pack.decor.block;
 
 import java.util.Random;
 
+import com.grim3212.mc.pack.core.block.BlockManual;
+import com.grim3212.mc.pack.core.manual.pages.Page;
+import com.grim3212.mc.pack.decor.client.ManualDecor;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFlower;
+import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyBool;
@@ -22,14 +27,14 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.EnumPlantType;
 import net.minecraftforge.common.IPlantable;
 
-public class BlockPot extends Block {
+public class BlockPot extends BlockManual {
 
 	protected static final AxisAlignedBB STOOL_POT_AABB = new AxisAlignedBB(0.18F, 0.0F, 0.18F, 0.82F, 1F, 0.82F);
 	public static final PropertyInteger TOP = PropertyInteger.create("top", 0, 6);
 	public static final PropertyBool DOWN = PropertyBool.create("down");
 
 	protected BlockPot() {
-		super(Material.CLAY);
+		super(Material.CLAY, SoundType.GROUND);
 		this.setTickRandomly(true);
 		this.setDefaultState(blockState.getBaseState().withProperty(TOP, 0));
 	}
@@ -159,5 +164,10 @@ public class BlockPot extends Block {
 
 	private boolean isStool(IBlockAccess worldIn, BlockPos pos) {
 		return worldIn.getBlockState(pos.down()).getBlock() == DecorBlocks.stool;
+	}
+
+	@Override
+	public Page getPage(IBlockState state) {
+		return ManualDecor.firing_page;
 	}
 }

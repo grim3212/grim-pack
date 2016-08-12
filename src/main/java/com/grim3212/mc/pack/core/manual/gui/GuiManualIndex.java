@@ -13,7 +13,10 @@ import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
+@SideOnly(Side.CLIENT)
 public class GuiManualIndex extends GuiScreen {
 
 	public static GuiManualIndex activeManualPage = new GuiManualIndex();
@@ -37,6 +40,10 @@ public class GuiManualIndex extends GuiScreen {
 
 	public GuiManualIndex(int page) {
 		this.page = page;
+	}
+
+	public GuiManualIndex(GuiManualIndex manual) {
+		this.page = manual.page;
 	}
 
 	@Override
@@ -81,7 +88,7 @@ public class GuiManualIndex extends GuiScreen {
 	protected void drawTitle() {
 		boolean unicode = fontRendererObj.getUnicodeFlag();
 		fontRendererObj.setUnicodeFlag(false);
-		String title = I18n.format("grim.manual.title");
+		String title = I18n.format("grimpack.manual.title");
 		fontRendererObj.drawString(title, width / 2 - fontRendererObj.getStringWidth(title) / 2, this.y + 14, 0x0026FF, false);
 		fontRendererObj.setUnicodeFlag(unicode);
 	}
@@ -90,7 +97,7 @@ public class GuiManualIndex extends GuiScreen {
 		if (page == 0) {
 			boolean unicode = fontRendererObj.getUnicodeFlag();
 			fontRendererObj.setUnicodeFlag(true);
-			fontRendererObj.drawSplitString(I18n.format("grim.manual.header"), x + 15, y + 28, 162, 0);
+			fontRendererObj.drawSplitString(I18n.format("grimpack.manual.header"), x + 15, y + 28, 162, 0);
 			fontRendererObj.setUnicodeFlag(unicode);
 		}
 	}
@@ -123,12 +130,12 @@ public class GuiManualIndex extends GuiScreen {
 
 		if (page == 0) {
 			for (int i = 0; i < ManualRegistry.getLoadedMods().size() && i < 12; i++) {
-				buttonList.add(new GuiButtonModSection(i + 3, x + 15, y + (58 + i * 14), 10, ManualRegistry.getLoadedMods().get(i).getModName()));
+				buttonList.add(new GuiButtonModSection(i + 3, x + 15, y + (58 + i * 14), 10, ManualRegistry.getLoadedMods().get(i).getPartName()));
 			}
 		} else {
 			for (int i = 0; i < 14; i++) {
 				if ((12 + ((page - 1) * 14 + i)) < ManualRegistry.getLoadedMods().size())
-					buttonList.add(new GuiButtonModSection(i + 3, x + 15, y + (30 + i * 14), 10, ManualRegistry.getLoadedMods().get(12 + ((page - 1) * 14 + i)).getModName()));
+					buttonList.add(new GuiButtonModSection(i + 3, x + 15, y + (30 + i * 14), 10, ManualRegistry.getLoadedMods().get(12 + ((page - 1) * 14 + i)).getPartName()));
 			}
 		}
 	}
@@ -149,9 +156,9 @@ public class GuiManualIndex extends GuiScreen {
 			break;
 		default:
 			if (page == 0)
-				mc.displayGuiScreen(new GuiSubSection(ManualRegistry.getLoadedMods().get(button.id - 3), this.page));
+				mc.displayGuiScreen(new GuiManualChapter(ManualRegistry.getLoadedMods().get(button.id - 3), this.page));
 			else
-				mc.displayGuiScreen(new GuiSubSection(ManualRegistry.getLoadedMods().get(12 + ((page - 1) * 14 + (button.id - 3))), this.page));
+				mc.displayGuiScreen(new GuiManualChapter(ManualRegistry.getLoadedMods().get(12 + ((page - 1) * 14 + (button.id - 3))), this.page));
 		}
 	}
 

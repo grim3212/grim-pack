@@ -24,7 +24,7 @@ public class GrimConfig {
 		}
 	}
 
-	public static List<IConfigElement> getConfigItems() {
+	public List<IConfigElement> getConfigItems() {
 		List<IConfigElement> list = new ArrayList<IConfigElement>();
 		return list;
 	}
@@ -35,9 +35,5 @@ public class GrimConfig {
 
 	public void writeToClient(PacketBuffer buffer) {
 
-	}
-	
-	public void updateManual(){
-		
 	}
 }

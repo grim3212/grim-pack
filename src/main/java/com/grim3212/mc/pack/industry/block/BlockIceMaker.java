@@ -2,9 +2,11 @@ package com.grim3212.mc.pack.industry.block;
 
 import java.util.Random;
 
+import com.grim3212.mc.pack.core.block.BlockManual;
+import com.grim3212.mc.pack.core.manual.pages.Page;
 import com.grim3212.mc.pack.core.util.Utils;
+import com.grim3212.mc.pack.industry.client.ManualIndustry;
 
-import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
@@ -25,14 +27,13 @@ import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 
-public class BlockIceMaker extends Block {
+public class BlockIceMaker extends BlockManual {
 
 	public static final PropertyInteger STAGE = PropertyInteger.create("stage", 0, 15);
 
 	protected BlockIceMaker() {
-		super(Material.ROCK);
+		super(Material.ROCK, SoundType.STONE);
 		setTickRandomly(true);
-		setSoundType(SoundType.STONE);
 		setDefaultState(this.blockState.getBaseState().withProperty(STAGE, 0));
 	}
 
@@ -116,5 +117,10 @@ public class BlockIceMaker extends Block {
 		}
 
 		return true;
+	}
+
+	@Override
+	public Page getPage(IBlockState state) {
+		return ManualIndustry.iceMaker_page;
 	}
 }

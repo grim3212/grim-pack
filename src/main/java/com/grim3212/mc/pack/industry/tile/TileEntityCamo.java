@@ -1,17 +1,19 @@
 package com.grim3212.mc.pack.industry.tile;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public class TileEntityCamo extends TileEntity {
 
-	protected int blockID = 0;
-	protected int blockMeta = 0;
+	protected IBlockState blockState = Blocks.AIR.getDefaultState();
 
 	public TileEntityCamo() {
 	}
@@ -36,17 +38,18 @@ public class TileEntityCamo extends TileEntity {
 	}
 
 	@Override
+	@SuppressWarnings("deprecation")
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
-		this.blockID = nbt.getInteger("blockID");
-		this.blockMeta = nbt.getInteger("blockMeta");
+		Block block = Block.REGISTRY.getObject(new ResourceLocation(nbt.getString("registryName")));
+		this.blockState = block.getStateFromMeta(nbt.getInteger("meta"));
 	}
 
 	@Override
 	public NBTTagCompound writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
-		nbt.setInteger("blockID", this.blockID);
-		nbt.setInteger("blockMeta", this.blockMeta);
+		nbt.setString("registryName", this.blockState.getBlock().getRegistryName().toString());
+		nbt.setInteger("meta", this.blockState.getBlock().getMetaFromState(blockState));
 		return nbt;
 	}
 
@@ -63,19 +66,16 @@ public class TileEntityCamo extends TileEntity {
 		readFromNBT(pkt.getNbtCompound());
 	}
 
-	public int getBlockID() {
-		return blockID;
+	public IBlockState getBlockState() {
+		return blockState;
 	}
 
-	public void setBlockID(int blockID) {
-		this.blockID = blockID;
+	public void setBlockState(IBlockState blockState) {
+		this.blockState = blockState;
 	}
 
-	public int getBlockMeta() {
-		return blockMeta;
-	}
-
-	public void setBlockMeta(int blockMeta) {
-		this.blockMeta = blockMeta;
+	@SuppressWarnings("deprecation")
+	public void setBlockState(String registryName, int meta) {
+		this.blockState = Block.REGISTRY.getObject(new ResourceLocation(registryName)).getStateFromMeta(meta);
 	}
 }

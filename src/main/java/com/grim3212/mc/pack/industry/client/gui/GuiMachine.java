@@ -3,6 +3,7 @@ package com.grim3212.mc.pack.industry.client.gui;
 import com.grim3212.mc.pack.GrimPack;
 import com.grim3212.mc.pack.industry.inventory.ContainerMachine;
 import com.grim3212.mc.pack.industry.tile.TileEntityMachine;
+import com.grim3212.mc.pack.industry.util.MachineRecipes.MachineType;
 
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.GlStateManager;
@@ -20,9 +21,9 @@ public class GuiMachine extends GuiContainer {
 		this.machineInventory = te;
 		this.playerInventory = playerInv;
 
-		if (te.getMachineType() == 0) {
+		if (te.getMachineType() == MachineType.DERRICK) {
 			gui = new ResourceLocation(GrimPack.modID, "textures/gui/guiDerrick.png");
-		} else if (te.getMachineType() == 1) {
+		} else if (te.getMachineType() == MachineType.REFINERY) {
 			gui = new ResourceLocation(GrimPack.modID, "textures/gui/guiRefinery.png");
 		}
 	}
@@ -37,7 +38,8 @@ public class GuiMachine extends GuiContainer {
 	@Override
 	protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
 		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-		this.mc.renderEngine.bindTexture(this.gui);
+		if (this.gui != null)
+			this.mc.renderEngine.bindTexture(this.gui);
 		int var5 = (this.width - this.xSize) / 2;
 		int var6 = (this.height - this.ySize) / 2;
 		this.drawTexturedModalRect(var5, var6, 0, 0, this.xSize, this.ySize);

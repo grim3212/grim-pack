@@ -2,7 +2,10 @@ package com.grim3212.mc.pack.world.blocks;
 
 import java.util.Random;
 
+import com.grim3212.mc.pack.core.block.BlockManual;
+import com.grim3212.mc.pack.core.manual.pages.Page;
 import com.grim3212.mc.pack.world.GrimWorld;
+import com.grim3212.mc.pack.world.client.ManualWorld;
 import com.grim3212.mc.pack.world.config.WorldConfig;
 
 import net.minecraft.block.Block;
@@ -21,14 +24,13 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class BlockCorruption extends Block {
+public class BlockCorruption extends BlockManual {
 
 	public Block newBlock;
 
 	protected BlockCorruption() {
-		super(Material.WOOD);
+		super(Material.WOOD, SoundType.CLOTH);
 		this.setTickRandomly(true);
-		this.setSoundType(SoundType.CLOTH);
 		this.setCreativeTab(GrimWorld.INSTANCE.getCreativeTab());
 	}
 
@@ -217,5 +219,10 @@ public class BlockCorruption extends Block {
 			return true;
 		}
 		return false;
+	}
+
+	@Override
+	public Page getPage(IBlockState state) {
+		return ManualWorld.corruption_page;
 	}
 }

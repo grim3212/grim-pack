@@ -5,7 +5,8 @@ import java.util.List;
 
 import com.grim3212.mc.pack.GrimPack;
 import com.grim3212.mc.pack.core.config.GrimConfig;
-import com.grim3212.mc.pack.core.manual.ModSection;
+import com.grim3212.mc.pack.core.manual.IManualPart;
+import com.grim3212.mc.pack.core.manual.ManualPart;
 import com.grim3212.mc.pack.core.part.IPartEntities.IPartTileEntities;
 
 import net.minecraft.item.Item;
@@ -16,6 +17,8 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public abstract class GrimPart {
 
@@ -23,32 +26,32 @@ public abstract class GrimPart {
 
 	private String partId;
 	private String partName;
-	private GrimConfig config;
 	private GrimPartCreativeTab creativeTab;
-	private ModSection modSection;
+	private GrimConfig config;
+	private ManualPart manualPart;
 	private List<IPartItems> items;
 	private List<IPartEntities> entities;
 	private List<IPartTileEntities> tileentities;
 	private boolean useCreativeTab;
 
-	public GrimPart(String partId, String partName) {
-		this(partId, partName, true);
+	public GrimPart(String partId, String partName, GrimConfig config) {
+		this(partId, partName, config, true);
 	}
 
-	public GrimPart(String partId, String partName, boolean useCreativeTab) {
+	public GrimPart(String partId, String partName, GrimConfig config, boolean useCreativeTab) {
 		this.partId = partId;
 		this.partName = partName;
 		this.useCreativeTab = useCreativeTab;
+		this.config = config;
 		this.items = new ArrayList<IPartItems>();
 		this.entities = new ArrayList<IPartEntities>();
 		this.tileentities = new ArrayList<IPartTileEntities>();
-		this.config = this.setConfig();
 	}
 
 	@SubscribeEvent
 	public void onConfigChanged(OnConfigChangedEvent event) {
 		if (event.getModID().equals(GrimPack.modID)) {
-			this.config.syncConfig();
+			this.getGrimConfig().syncConfig();
 		}
 	}
 
@@ -60,22 +63,23 @@ public abstract class GrimPart {
 		this.creativeTab = creativeTab;
 	}
 
-	public abstract GrimConfig setConfig();
-
 	public GrimConfig getGrimConfig() {
 		return this.config;
 	}
 
+	@SideOnly(Side.CLIENT)
+	public abstract IManualPart getManual();
+
 	public Configuration getConfig() {
-		return this.config.config;
+		return this.getGrimConfig().config;
 	}
 
-	public ModSection setModSection(ModSection modSection) {
-		return this.modSection = modSection;
+	public ManualPart setModSection(ManualPart manualPart) {
+		return this.manualPart = manualPart;
 	}
 
-	public ModSection getModSection() {
-		return modSection;
+	public ManualPart getManualPart() {
+		return manualPart;
 	}
 
 	public void addEntity(IPartEntities entity) {
@@ -124,6 +128,9 @@ public abstract class GrimPart {
 		for (int i = 0; i < this.tileentities.size(); i++) {
 			this.tileentities.get(i).initTileEntities();
 		}
+
+		if (event.getSide() == Side.CLIENT)
+			getManual().initPages();
 	}
 
 	/**

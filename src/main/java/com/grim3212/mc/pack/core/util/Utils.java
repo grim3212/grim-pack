@@ -3,7 +3,7 @@ package com.grim3212.mc.pack.core.util;
 import java.util.function.Predicate;
 
 import com.grim3212.mc.pack.GrimPack;
-import com.grim3212.mc.pack.core.item.ItemBlockGrim;
+import com.grim3212.mc.pack.core.item.ItemManualBlock;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
@@ -40,7 +40,7 @@ public class Utils {
 
 	public static void registerBlock(Block block, String name) {
 		GameRegistry.register(block, new ResourceLocation(GrimPack.modID, name));
-		GameRegistry.register(new ItemBlockGrim(block), block.getRegistryName());
+		GameRegistry.register(new ItemManualBlock(block), block.getRegistryName());
 	}
 
 	public static void registerBlock(Block block, String name, ItemBlock item) {

@@ -71,7 +71,8 @@ public class DecorConfig extends GrimConfig {
 		super.syncConfig();
 	}
 
-	public static List<IConfigElement> getConfigItems() {
+	@Override
+	public List<IConfigElement> getConfigItems() {
 		List<IConfigElement> list = new ArrayList<IConfigElement>();
 		list.add(new DummyCategoryElement("decorGeneralCfg", "grimpack.decor.cfg.general", new ConfigElement(GrimDecor.INSTANCE.getConfig().getCategory(CONFIG_GENERAL_NAME)).getChildElements()));
 		list.add(new DummyCategoryElement("decorGrillRecipesCfg", "grimpack.decor.cfg.grillrecipes", new ConfigElement(GrimDecor.INSTANCE.getConfig().getCategory(CONFIG_GRILL_RECIPES_NAME)).getChildElements()));
@@ -94,10 +95,5 @@ public class DecorConfig extends GrimConfig {
 		buffer.writeString(builder.toString());
 		buffer.writeInt(numWallpapers);
 		buffer.writeBoolean(useAllBlocks);
-	}
-
-	@Override
-	public void updateManual() {
-		GrimDecor.proxy.registerManual(GrimDecor.INSTANCE.getModSection());
 	}
 }

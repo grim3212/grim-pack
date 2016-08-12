@@ -1,6 +1,9 @@
 package com.grim3212.mc.pack.industry.block;
 
-import net.minecraft.block.Block;
+import com.grim3212.mc.pack.core.block.BlockManual;
+import com.grim3212.mc.pack.core.manual.pages.Page;
+import com.grim3212.mc.pack.industry.client.ManualIndustry;
+
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
@@ -19,13 +22,12 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
-public class BlockRwayManhole extends Block {
+public class BlockRwayManhole extends BlockManual {
 
 	public static final PropertyBool ACTIVE = PropertyBool.create("active");
 
 	public BlockRwayManhole() {
-		super(Material.ROCK);
-		this.setSoundType(SoundType.STONE);
+		super(Material.ROCK, SoundType.STONE);
 		this.setDefaultState(this.blockState.getBaseState().withProperty(ACTIVE, false));
 	}
 
@@ -84,5 +86,10 @@ public class BlockRwayManhole extends Block {
 	@Override
 	public boolean shouldSideBeRendered(IBlockState blockState, IBlockAccess blockAccess, BlockPos pos, EnumFacing side) {
 		return true;
+	}
+
+	@Override
+	public Page getPage(IBlockState state) {
+		return ManualIndustry.rways_page;
 	}
 }

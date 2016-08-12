@@ -1,11 +1,13 @@
 package com.grim3212.mc.pack.industry.item;
 
+import com.grim3212.mc.pack.core.item.ItemManual;
+import com.grim3212.mc.pack.core.manual.pages.Page;
 import com.grim3212.mc.pack.industry.block.BlockGate;
 import com.grim3212.mc.pack.industry.block.IndustryBlocks;
+import com.grim3212.mc.pack.industry.client.ManualIndustry;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
@@ -15,13 +17,21 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 
-public class ItemActivator extends Item {
+public class ItemActivator extends ItemManual {
 
 	private static final int maxRange = 32;
 	private static final int vertRange = 3;
 
 	public ItemActivator() {
 		this.maxStackSize = 1;
+	}
+
+	@Override
+	public Page getPage(ItemStack stack) {
+		if (stack.getItem() == IndustryItems.gate_trumpet)
+			return ManualIndustry.gateTrumpet_page;
+
+		return ManualIndustry.garageRemote_page;
 	}
 
 	@Override

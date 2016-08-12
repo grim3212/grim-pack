@@ -2,7 +2,10 @@ package com.grim3212.mc.pack.decor.block;
 
 import java.util.Random;
 
+import com.grim3212.mc.pack.core.manual.IManualEntry.IManualBlock;
+import com.grim3212.mc.pack.core.manual.pages.Page;
 import com.grim3212.mc.pack.core.util.NBTHelper;
+import com.grim3212.mc.pack.decor.client.ManualDecor;
 import com.grim3212.mc.pack.decor.item.DecorItems;
 import com.grim3212.mc.pack.decor.item.ItemBrush;
 import com.grim3212.mc.pack.decor.tile.TileEntityColorizer;
@@ -25,7 +28,7 @@ import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
-public class BlockLampPost extends BlockColorizer {
+public class BlockLampPost extends BlockColorizer implements IManualBlock {
 
 	public BlockLampPost(boolean isGlowing) {
 		this.setHardness(1.0F);
@@ -179,5 +182,10 @@ public class BlockLampPost extends BlockColorizer {
 		NBTHelper.setString(itemstack, "registryName", Block.REGISTRY.getNameForObject(Blocks.AIR).toString());
 		NBTHelper.setInteger(itemstack, "meta", 0);
 		return itemstack;
+	}
+
+	@Override
+	public Page getPage(IBlockState state) {
+		return ManualDecor.lamps_page;
 	}
 }

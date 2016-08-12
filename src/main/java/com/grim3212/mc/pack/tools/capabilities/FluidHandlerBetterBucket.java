@@ -1,4 +1,4 @@
-package com.grim3212.mc.pack.tools.inventory;
+package com.grim3212.mc.pack.tools.capabilities;
 
 import javax.annotation.Nullable;
 
@@ -76,8 +76,10 @@ public class FluidHandlerBetterBucket implements IFluidHandler, ICapabilityProvi
 
 		// fill the container
 		if (doFill) {
-			NBTHelper.setString(container, "FluidName", FluidRegistry.getFluidName(resource.getFluid()));
-			NBTHelper.setInteger(container, "Amount", NBTHelper.getInt(container, "Amount") + resource.amount);
+			int fillAmount = NBTHelper.getInt(container, "Amount") + resource.amount;
+			NBTHelper.setString(container, "Fluid", FluidRegistry.getFluidName(resource.getFluid()));
+			NBTHelper.setInteger(container, "Amount", fillAmount);
+			return fillAmount;
 		} else {
 			if (!ItemBetterBucket.isEmptyOrContains(container, FluidRegistry.getFluidName(resource.getFluid()))) {
 				return 0;
@@ -106,11 +108,11 @@ public class FluidHandlerBetterBucket implements IFluidHandler, ICapabilityProvi
 			NBTHelper.setInteger(container, "Amount", amount - maxDrain);
 
 			if (NBTHelper.getInt(container, "Amount") <= 0) {
-				
-				if(container.getItem() instanceof ItemBetterMilkBucket){
+
+				if (container.getItem() instanceof ItemBetterMilkBucket) {
 					container.setItem(emptyContainer.getItem());
 					container.setTagCompound(emptyContainer.getTagCompound());
-				}else{
+				} else {
 					container.setTagCompound(emptyContainer.getTagCompound());
 				}
 			}

@@ -3,8 +3,12 @@ package com.grim3212.mc.pack.industry.block;
 import java.util.Random;
 
 import com.grim3212.mc.pack.GrimPack;
+import com.grim3212.mc.pack.core.block.BlockManual;
 import com.grim3212.mc.pack.core.client.gui.PackGuiHandler;
+import com.grim3212.mc.pack.core.manual.pages.Page;
+import com.grim3212.mc.pack.industry.client.ManualIndustry;
 import com.grim3212.mc.pack.industry.tile.TileEntityMachine;
+import com.grim3212.mc.pack.industry.util.MachineRecipes.MachineType;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.ITileEntityProvider;
@@ -23,11 +27,10 @@ import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class BlockDerrick extends Block implements ITileEntityProvider {
+public class BlockDerrick extends BlockManual implements ITileEntityProvider {
 
 	protected BlockDerrick() {
-		super(Material.IRON);
-		this.setSoundType(SoundType.METAL);
+		super(Material.IRON, SoundType.METAL);
 	}
 
 	@Override
@@ -98,7 +101,7 @@ public class BlockDerrick extends Block implements ITileEntityProvider {
 
 	@Override
 	public TileEntity createNewTileEntity(World worldIn, int meta) {
-		return new TileEntityMachine(0);
+		return new TileEntityMachine(MachineType.DERRICK);
 	}
 
 	@Override
@@ -109,5 +112,10 @@ public class BlockDerrick extends Block implements ITileEntityProvider {
 	@Override
 	public int getComparatorInputOverride(IBlockState blockState, World worldIn, BlockPos pos) {
 		return Container.calcRedstone(worldIn.getTileEntity(pos));
+	}
+
+	@Override
+	public Page getPage(IBlockState state) {
+		return ManualIndustry.derrick_page;
 	}
 }

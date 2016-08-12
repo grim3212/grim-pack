@@ -1,6 +1,6 @@
 package com.grim3212.mc.pack.core.manual.pages;
 
-import com.grim3212.mc.pack.core.manual.gui.GuiSubSectionPage;
+import com.grim3212.mc.pack.core.manual.gui.GuiManualPage;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
@@ -13,11 +13,23 @@ public class PageInfo extends Page {
 	}
 
 	@Override
-	public void drawScreen(GuiSubSectionPage gui, int mouseX, int mouseY) {
+	public void drawScreen(GuiManualPage gui, int mouseX, int mouseY) {
 		super.drawScreen(gui, mouseX, mouseY);
-		drawText(gui.getX() + 15, gui.getY() + 28, this.getPageName());
+		drawText(gui.getX() + 15, gui.getY() + 28, this.getInfo());
 	}
 
+	/**
+	 * Draws text to the screen formatted and with color codes and line breaks
+	 * removed and changed
+	 * 
+	 * @param x
+	 *            X position
+	 * @param y
+	 *            Y position
+	 * @param pageInfo
+	 *            Where to find the info to localize and break up into colors
+	 *            and line breaks
+	 */
 	public static void drawText(int x, int y, String pageInfo) {
 		String pageText = I18n.format(pageInfo).replaceAll("<f>", "\u00a7");
 		String[] paragraphs = pageText.split("<br>");
@@ -27,7 +39,6 @@ public class PageInfo extends Page {
 		renderer.setUnicodeFlag(true);
 
 		for (int i = 0; i < paragraphs.length; i++) {
-
 			int length = renderer.splitStringWidth(paragraphs[i], 162);
 			renderer.drawSplitString(paragraphs[i], x, y, 162, 0);
 

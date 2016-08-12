@@ -2,7 +2,6 @@ package com.grim3212.mc.pack.tools.blocks;
 
 import java.util.List;
 
-import com.grim3212.mc.pack.core.block.BlockSound;
 import com.grim3212.mc.pack.core.part.IPartItems;
 import com.grim3212.mc.pack.core.util.RecipeHelper;
 import com.grim3212.mc.pack.core.util.Utils;
@@ -25,8 +24,8 @@ public class ToolsBlocks implements IPartItems {
 
 	@Override
 	public void initItems() {
-		black_diamond_ore = (new BlockSound(Material.ROCK, SoundType.STONE)).setHardness(2.0F).setResistance(5F).setUnlocalizedName("black_diamond_ore").setCreativeTab(GrimTools.INSTANCE.getCreativeTab());
-		black_diamond_block = (new BlockSound(Material.IRON, SoundType.METAL)).setHardness(2.0F).setResistance(5F).setUnlocalizedName("black_diamond_block").setCreativeTab(GrimTools.INSTANCE.getCreativeTab());
+		black_diamond_ore = (new BlockBlackDiamond(Material.ROCK, SoundType.STONE)).setHardness(2.0F).setResistance(5F).setUnlocalizedName("black_diamond_ore").setCreativeTab(GrimTools.INSTANCE.getCreativeTab());
+		black_diamond_block = (new BlockBlackDiamond(Material.IRON, SoundType.METAL)).setHardness(2.0F).setResistance(5F).setUnlocalizedName("black_diamond_block").setCreativeTab(GrimTools.INSTANCE.getCreativeTab());
 		element_115_ore = (new BlockElement()).setHardness(2.5F).setResistance(30.0F).setLightLevel(0.4F).setUnlocalizedName("element_115_ore").setCreativeTab(GrimTools.INSTANCE.getCreativeTab());
 
 		Utils.registerBlock(element_115_ore, "element_115_ore");

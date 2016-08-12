@@ -2,6 +2,10 @@ package com.grim3212.mc.pack.decor.block;
 
 import javax.annotation.Nullable;
 
+import com.grim3212.mc.pack.core.manual.IManualEntry.IManualBlock;
+import com.grim3212.mc.pack.core.manual.pages.Page;
+import com.grim3212.mc.pack.decor.client.ManualDecor;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyBool;
@@ -18,7 +22,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.property.ExtendedBlockState;
 import net.minecraftforge.common.property.IUnlistedProperty;
 
-public class BlockFenceGate extends BlockFurnitureRotate {
+public class BlockFenceGate extends BlockFurnitureRotate implements IManualBlock {
 
 	public static final PropertyBool OPEN = PropertyBool.create("open");
 	public static final PropertyBool POWERED = PropertyBool.create("powered");
@@ -123,5 +127,10 @@ public class BlockFenceGate extends BlockFurnitureRotate {
 	@Override
 	protected BlockStateContainer createBlockState() {
 		return new ExtendedBlockState(this, new IProperty[] { FACING, OPEN, POWERED }, new IUnlistedProperty[] { BLOCK_STATE });
+	}
+
+	@Override
+	public Page getPage(IBlockState state) {
+		return ManualDecor.fenceGate_page;
 	}
 }

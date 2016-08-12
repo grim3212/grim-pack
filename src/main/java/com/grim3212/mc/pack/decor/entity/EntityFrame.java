@@ -4,7 +4,10 @@ import java.util.List;
 
 import org.apache.commons.lang3.Validate;
 
+import com.grim3212.mc.pack.core.manual.IManualEntry.IManualEntity;
+import com.grim3212.mc.pack.core.manual.pages.Page;
 import com.grim3212.mc.pack.core.util.WorldHelper;
+import com.grim3212.mc.pack.decor.client.ManualDecor;
 import com.grim3212.mc.pack.decor.config.DecorConfig;
 import com.grim3212.mc.pack.decor.item.DecorItems;
 import com.grim3212.mc.pack.decor.util.EnumFrame;
@@ -39,7 +42,7 @@ import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class EntityFrame extends EntityHanging implements IEntityAdditionalSpawnData {
+public class EntityFrame extends EntityHanging implements IEntityAdditionalSpawnData, IManualEntity {
 
 	public int material = 0;
 	public float resistance = 0.0F;
@@ -514,5 +517,10 @@ public class EntityFrame extends EntityHanging implements IEntityAdditionalSpawn
 		case 1:
 			this.playSound(SoundEvents.BLOCK_STONE_STEP, 1.0F, 1.2F);
 		}
+	}
+
+	@Override
+	public Page getPage(Entity entity) {
+		return ManualDecor.framesInfo_page;
 	}
 }

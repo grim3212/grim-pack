@@ -2,13 +2,15 @@ package com.grim3212.mc.pack.world.items;
 
 import java.util.Random;
 
+import com.grim3212.mc.pack.core.item.ItemManual;
+import com.grim3212.mc.pack.core.manual.pages.Page;
 import com.grim3212.mc.pack.world.GrimWorld;
 import com.grim3212.mc.pack.world.blocks.BlockFungusBase;
+import com.grim3212.mc.pack.world.client.ManualWorld;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
@@ -20,7 +22,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 
-public class ItemFungicide extends Item {
+public class ItemFungicide extends ItemManual {
 
 	public ItemFungicide() {
 		setMaxDamage(0);
@@ -80,5 +82,10 @@ public class ItemFungicide extends Item {
 		for (int ci = 0; ci < 500; ci++) {
 			world.spawnParticle(EnumParticleTypes.REDSTONE, pos.getX() + (rand.nextDouble() * 16D) - (rand.nextDouble() * 16D), pos.getY() + (rand.nextDouble() * 16D) - (rand.nextDouble() * 16D), pos.getZ() + (rand.nextDouble() * 16D) - (rand.nextDouble() * 16D), 0.1D, 0.6D, 0.2D);
 		}
+	}
+
+	@Override
+	public Page getPage(ItemStack stack) {
+		return ManualWorld.fungicide_page;
 	}
 }

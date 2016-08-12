@@ -2,9 +2,12 @@ package com.grim3212.mc.pack.industry.item;
 
 import java.util.List;
 
+import com.grim3212.mc.pack.core.item.ItemManual;
+import com.grim3212.mc.pack.core.manual.pages.Page;
+import com.grim3212.mc.pack.industry.client.ManualIndustry;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
@@ -12,7 +15,7 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.world.World;
 
-public class ItemLowGravityController extends Item {
+public class ItemLowGravityController extends ItemManual {
 
 	public boolean On;
 	private int tickCount;
@@ -28,6 +31,11 @@ public class ItemLowGravityController extends Item {
 		}
 
 		return ActionResult.newResult(EnumActionResult.SUCCESS, itemStackIn);
+	}
+
+	@Override
+	public Page getPage(ItemStack stack) {
+		return ManualIndustry.controller_page;
 	}
 
 	@Override

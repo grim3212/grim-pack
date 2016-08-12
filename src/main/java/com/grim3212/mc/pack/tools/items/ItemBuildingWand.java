@@ -1,6 +1,8 @@
 package com.grim3212.mc.pack.tools.items;
 
+import com.grim3212.mc.pack.core.manual.pages.Page;
 import com.grim3212.mc.pack.core.util.NBTHelper;
+import com.grim3212.mc.pack.tools.client.ManualTools;
 import com.grim3212.mc.pack.tools.config.ToolsConfig;
 import com.grim3212.mc.pack.tools.util.WandCoord3D;
 
@@ -40,6 +42,14 @@ public class ItemBuildingWand extends ItemWand {
 	public ItemBuildingWand(boolean reinforced) {
 		super(reinforced);
 		this.setMaxDamage(reinforced ? 200 : 30);
+	}
+
+	@Override
+	public Page getPage(ItemStack stack) {
+		if (stack.getItem() == ToolsItems.building_wand)
+			return ManualTools.regularWand_page;
+
+		return ManualTools.reinforcedWand_page;
 	}
 
 	@Override

@@ -3,6 +3,7 @@ package com.grim3212.mc.pack.industry.tile;
 import com.grim3212.mc.pack.industry.block.BlockRefinery;
 import com.grim3212.mc.pack.industry.inventory.ContainerMachine;
 import com.grim3212.mc.pack.industry.util.MachineRecipes;
+import com.grim3212.mc.pack.industry.util.MachineRecipes.MachineType;
 
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
@@ -14,6 +15,8 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.network.NetworkManager;
+import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntityLockable;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
@@ -33,16 +36,16 @@ public class TileEntityMachine extends TileEntityLockable implements ISidedInven
 	private int runTime;
 	private int totalRunTime;
 	private String customName;
-	private int machineType;
+	private MachineType machineType;
 
 	public TileEntityMachine() {
 	}
 
-	public TileEntityMachine(int machineType) {
+	public TileEntityMachine(MachineType machineType) {
 		this.machineType = machineType;
 	}
 
-	public int getMachineType() {
+	public MachineType getMachineType() {
 		return machineType;
 	}
 
@@ -130,7 +133,7 @@ public class TileEntityMachine extends TileEntityLockable implements ISidedInven
 	 */
 	@Override
 	public String getName() {
-		return this.hasCustomName() ? this.customName : "container." + (getMachineType() == 0 ? "derrick" : "refinery");
+		return this.hasCustomName() ? this.customName : "container." + (getMachineType() == MachineType.DERRICK ? "derrick" : "refinery");
 	}
 
 	/**
@@ -158,7 +161,7 @@ public class TileEntityMachine extends TileEntityLockable implements ISidedInven
 
 		this.runTime = compound.getInteger("RunTime");
 		this.totalRunTime = compound.getInteger("RunTimeTotal");
-		this.machineType = compound.getInteger("MachineType");
+		this.machineType = MachineType.values[compound.getInteger("MachineType")];
 
 		if (compound.hasKey("CustomName", 8)) {
 			this.customName = compound.getString("CustomName");
@@ -170,7 +173,7 @@ public class TileEntityMachine extends TileEntityLockable implements ISidedInven
 		super.writeToNBT(compound);
 		compound.setInteger("RunTime", this.runTime);
 		compound.setInteger("RunTimeTotal", this.totalRunTime);
-		compound.setInteger("MachineType", getMachineType());
+		compound.setInteger("MachineType", getMachineType().ordinal());
 		NBTTagList nbttaglist = new NBTTagList();
 
 		for (int i = 0; i < this.itemstacks.length; ++i) {
@@ -209,7 +212,7 @@ public class TileEntityMachine extends TileEntityLockable implements ISidedInven
 
 		if (!this.worldObj.isRemote) {
 
-			if (this.getMachineType() == 1) {
+			if (this.getMachineType() == MachineType.REFINERY) {
 				if (this.getWorld().getBlockState(getPos()).getValue(BlockRefinery.ACTIVE) != isWorking()) {
 					this.getWorld().setBlockState(getPos(), this.getWorld().getBlockState(getPos()).withProperty(BlockRefinery.ACTIVE, isWorking()));
 				}
@@ -260,7 +263,7 @@ public class TileEntityMachine extends TileEntityLockable implements ISidedInven
 		if (this.itemstacks[0] == null) {
 			return false;
 		} else {
-			ItemStack itemstack = MachineRecipes.INSTANCE.getResult(this.itemstacks[0], getMachineType() == 0 ? MachineRecipes.INSTANCE.getDerrickList() : MachineRecipes.INSTANCE.getRefineryList());
+			ItemStack itemstack = MachineRecipes.INSTANCE.getResult(this.itemstacks[0], machineType);
 			if (itemstack == null)
 				return false;
 			if (this.itemstacks[1] == null)
@@ -278,7 +281,7 @@ public class TileEntityMachine extends TileEntityLockable implements ISidedInven
 	 */
 	public void changeItem() {
 		if (this.canChange()) {
-			ItemStack itemstack = MachineRecipes.INSTANCE.getResult(this.itemstacks[0], getMachineType() == 0 ? MachineRecipes.INSTANCE.getDerrickList() : MachineRecipes.INSTANCE.getRefineryList());
+			ItemStack itemstack = MachineRecipes.INSTANCE.getResult(this.itemstacks[0], machineType);
 
 			if (this.itemstacks[1] == null) {
 				this.itemstacks[1] = itemstack.copy();
@@ -353,7 +356,7 @@ public class TileEntityMachine extends TileEntityLockable implements ISidedInven
 
 	@Override
 	public String getGuiID() {
-		return "grimindustry:" + (getMachineType() == 0 ? "derrick" : "refinery");
+		return "grimindustry:" + (getMachineType() == MachineType.DERRICK ? "derrick" : "refinery");
 	}
 
 	@Override
@@ -402,6 +405,29 @@ public class TileEntityMachine extends TileEntityLockable implements ISidedInven
 
 	@Override
 	public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newState) {
-		return getMachineType() == 1 ? oldState.getBlock() != newState.getBlock() : super.shouldRefresh(world, pos, oldState, newState);
+		return getMachineType() == MachineType.REFINERY ? oldState.getBlock() != newState.getBlock() : super.shouldRefresh(world, pos, oldState, newState);
+	}
+
+	@Override
+	public SPacketUpdateTileEntity getUpdatePacket() {
+		NBTTagCompound nbtTagCompound = new NBTTagCompound();
+		writeToNBT(nbtTagCompound);
+		int metadata = getBlockMetadata();
+		return new SPacketUpdateTileEntity(this.pos, metadata, nbtTagCompound);
+	}
+
+	@Override
+	public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity pkt) {
+		readFromNBT(pkt.getNbtCompound());
+	}
+
+	@Override
+	public NBTTagCompound getUpdateTag() {
+		return writeToNBT(new NBTTagCompound());
+	}
+
+	@Override
+	public void handleUpdateTag(NBTTagCompound tag) {
+		readFromNBT(tag);
 	}
 }

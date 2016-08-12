@@ -2,6 +2,7 @@ package com.grim3212.mc.pack.decor.item;
 
 import java.util.List;
 
+import com.grim3212.mc.pack.core.item.ItemManualPage;
 import com.grim3212.mc.pack.core.part.IPartItems;
 import com.grim3212.mc.pack.core.util.RecipeHelper;
 import com.grim3212.mc.pack.core.util.Utils;
@@ -31,11 +32,11 @@ public class DecorItems implements IPartItems {
 	@Override
 	public void initItems() {
 		brush = (new ItemBrush()).setUnlocalizedName("brush");
-		glass_shard = (new Item()).setUnlocalizedName("glass_shard").setCreativeTab(GrimDecor.INSTANCE.getCreativeTab());
+		glass_shard = (new ItemManualPage("decor:deco.lights")).setUnlocalizedName("glass_shard").setCreativeTab(GrimDecor.INSTANCE.getCreativeTab());
 		frame = new ItemFrame().setUnlocalizedName("frame").setCreativeTab(GrimDecor.INSTANCE.getCreativeTab());
 		wallpaper = new ItemWallpaper().setUnlocalizedName("wallpaper").setCreativeTab(GrimDecor.INSTANCE.getCreativeTab());
-		unfired_pot = (new Item()).setUnlocalizedName("unfired_pot").setCreativeTab(GrimDecor.INSTANCE.getCreativeTab());
-		unfired_craft = (new Item()).setUnlocalizedName("unfired_craft").setCreativeTab(GrimDecor.INSTANCE.getCreativeTab());
+		unfired_pot = (new ItemManualPage("decor:deco.crafts")).setUnlocalizedName("unfired_pot").setCreativeTab(GrimDecor.INSTANCE.getCreativeTab());
+		unfired_craft = (new ItemManualPage("decor:deco.crafts")).setUnlocalizedName("unfired_craft").setCreativeTab(GrimDecor.INSTANCE.getCreativeTab());
 		lamp_item = new ItemLampPost().setUnlocalizedName("lamp_item").setCreativeTab(GrimDecor.INSTANCE.getCreativeTab());
 
 		Utils.registerItem(brush, "brush");

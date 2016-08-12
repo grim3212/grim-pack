@@ -3,6 +3,9 @@ package com.grim3212.mc.pack.tools.items;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.grim3212.mc.pack.core.item.ItemManual;
+import com.grim3212.mc.pack.core.manual.pages.Page;
+import com.grim3212.mc.pack.tools.client.ManualTools;
 import com.grim3212.mc.pack.tools.config.ToolsConfig;
 import com.grim3212.mc.pack.tools.entity.EntityBlockPushPull;
 
@@ -22,7 +25,7 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class ItemPowerStaff extends Item {
+public class ItemPowerStaff extends ItemManual {
 
 	public static ArrayList<Block> allowedBlocks = new ArrayList<Block>();
 
@@ -30,6 +33,11 @@ public class ItemPowerStaff extends Item {
 		setMaxStackSize(1);
 		setMaxDamage(0);
 		setHasSubtypes(true);
+	}
+
+	@Override
+	public Page getPage(ItemStack stack) {
+		return ManualTools.powerstaff_page;
 	}
 
 	@Override

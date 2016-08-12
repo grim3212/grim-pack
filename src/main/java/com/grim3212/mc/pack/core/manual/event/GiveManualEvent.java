@@ -1,4 +1,4 @@
-package com.grim3212.mc.pack.core.manual;
+package com.grim3212.mc.pack.core.manual.event;
 
 import com.grim3212.mc.pack.core.config.CoreConfig;
 import com.grim3212.mc.pack.core.item.CoreItems;

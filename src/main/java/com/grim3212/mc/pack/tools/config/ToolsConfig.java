@@ -54,15 +54,11 @@ public class ToolsConfig extends GrimConfig {
 		super.syncConfig();
 	}
 
-	public static List<IConfigElement> getConfigItems() {
+	@Override
+	public List<IConfigElement> getConfigItems() {
 		List<IConfigElement> list = new ArrayList<IConfigElement>();
 		list.addAll(new ConfigElement(GrimTools.INSTANCE.getConfig().getCategory(CONFIG_GENERAL_NAME)).getChildElements());
 		return list;
-	}
-
-	@Override
-	public void updateManual() {
-		GrimTools.proxy.registerManual(GrimTools.INSTANCE.getModSection());
 	}
 
 	public void registerBlocksPossible(String[] string, ArrayList<Block> blocklist) {

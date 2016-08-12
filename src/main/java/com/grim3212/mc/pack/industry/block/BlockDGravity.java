@@ -1,11 +1,15 @@
 package com.grim3212.mc.pack.industry.block;
 
+import com.grim3212.mc.pack.core.block.BlockManual;
+import com.grim3212.mc.pack.core.manual.pages.Page;
 import com.grim3212.mc.pack.industry.GrimIndustry;
+import com.grim3212.mc.pack.industry.client.ManualIndustry;
 import com.grim3212.mc.pack.industry.tile.TileEntityDGravity;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockPistonBase;
 import net.minecraft.block.ITileEntityProvider;
+import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyBool;
@@ -19,7 +23,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class BlockDGravity extends Block implements ITileEntityProvider {
+public class BlockDGravity extends BlockManual implements ITileEntityProvider {
 
 	public static final PropertyDirection FACING = PropertyDirection.create("facing");
 	public static final PropertyBool POWERED = PropertyBool.create("powered");
@@ -27,7 +31,7 @@ public class BlockDGravity extends Block implements ITileEntityProvider {
 	private int type;
 
 	protected BlockDGravity(int type) {
-		super(Material.IRON);
+		super(Material.IRON, SoundType.METAL);
 		this.type = type;
 		setCreativeTab(GrimIndustry.INSTANCE.getCreativeTab());
 		this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.EAST).withProperty(POWERED, false));
@@ -122,5 +126,16 @@ public class BlockDGravity extends Block implements ITileEntityProvider {
 	@Override
 	public TileEntity createNewTileEntity(World worldIn, int meta) {
 		return new TileEntityDGravity(type, getFacing(meta).getIndex());
+	}
+
+	@Override
+	public Page getPage(IBlockState state) {
+		if (state.getBlock() == IndustryBlocks.direction_gravitor) {
+			return ManualIndustry.gravitor_page;
+		} else if (state.getBlock() == IndustryBlocks.direction_attractor) {
+			return ManualIndustry.attract_page;
+		}
+
+		return ManualIndustry.repulse_page;
 	}
 }

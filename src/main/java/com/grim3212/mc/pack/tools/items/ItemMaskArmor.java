@@ -3,7 +3,10 @@ package com.grim3212.mc.pack.tools.items;
 import java.util.List;
 
 import com.grim3212.mc.pack.GrimPack;
+import com.grim3212.mc.pack.core.manual.IManualEntry.IManualItem;
+import com.grim3212.mc.pack.core.manual.pages.Page;
 import com.grim3212.mc.pack.tools.GrimTools;
+import com.grim3212.mc.pack.tools.client.ManualTools;
 
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
@@ -14,7 +17,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.translation.I18n;
 
 @SuppressWarnings("deprecation")
-public class ItemMaskArmor extends ItemArmor {
+public class ItemMaskArmor extends ItemArmor implements IManualItem {
 
 	public static final String[] types = new String[] { "empty", "blaze", "cave_spider", "chicken", "cow", "creeper", "enderman", "ghast", "magmacube", "mooshroom", "pig", "sheep", "skeleton", "slime", "spider", "squid", "villager", "wolf", "zombie_pigman", "zombie" };
 
@@ -23,6 +26,14 @@ public class ItemMaskArmor extends ItemArmor {
 		setCreativeTab(GrimTools.INSTANCE.getCreativeTab());
 		this.setHasSubtypes(true);
 		setMaxDamage(0);
+	}
+
+	@Override
+	public Page getPage(ItemStack stack) {
+		if (stack.getMetadata() == 0)
+			return ManualTools.emptyMask_page;
+
+		return ManualTools.mobMask_page;
 	}
 
 	@Override

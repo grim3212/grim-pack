@@ -2,7 +2,10 @@ package com.grim3212.mc.pack.decor.block;
 
 import java.util.Random;
 
+import com.grim3212.mc.pack.core.manual.IManualEntry.IManualBlock;
+import com.grim3212.mc.pack.core.manual.pages.Page;
 import com.grim3212.mc.pack.decor.GrimDecor;
+import com.grim3212.mc.pack.decor.client.ManualDecor;
 
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyBool;
@@ -14,7 +17,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.property.ExtendedBlockState;
 import net.minecraftforge.common.property.IUnlistedProperty;
 
-public class BlockFireplace extends BlockFireplaceBase {
+public class BlockFireplace extends BlockFireplaceBase implements IManualBlock {
 
 	public static final PropertyBool NORTH = PropertyBool.create("north");
 	public static final PropertyBool EAST = PropertyBool.create("east");
@@ -60,5 +63,10 @@ public class BlockFireplace extends BlockFireplaceBase {
 	public boolean canConnectTo(IBlockAccess worldIn, BlockPos pos) {
 		IBlockState blockState = worldIn.getBlockState(pos).getBlock().getDefaultState();
 		return blockState == this.getDefaultState();
+	}
+
+	@Override
+	public Page getPage(IBlockState state) {
+		return ManualDecor.fireplace_page;
 	}
 }

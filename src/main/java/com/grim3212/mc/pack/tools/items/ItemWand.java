@@ -2,6 +2,7 @@ package com.grim3212.mc.pack.tools.items;
 
 import java.util.Random;
 
+import com.grim3212.mc.pack.core.item.ItemManual;
 import com.grim3212.mc.pack.core.util.NBTHelper;
 import com.grim3212.mc.pack.tools.GrimTools;
 import com.grim3212.mc.pack.tools.config.ToolsConfig;
@@ -14,7 +15,6 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.SoundEvents;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
@@ -26,7 +26,7 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.world.World;
 
-public abstract class ItemWand extends Item {
+public abstract class ItemWand extends ItemManual {
 
 	protected boolean FREE = ToolsConfig.ENABLE_free_build_mode;
 	protected boolean BEDROCK = ToolsConfig.ENABLE_bedrock_breaking;

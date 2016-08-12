@@ -18,7 +18,6 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Maps;
 import com.grim3212.mc.pack.GrimPack;
-import com.grim3212.mc.pack.core.util.NBTHelper;
 import com.grim3212.mc.pack.core.util.Utils;
 import com.grim3212.mc.pack.tools.items.ItemBetterBucket;
 import com.grim3212.mc.pack.tools.items.ItemBetterMilkBucket;
@@ -263,8 +262,8 @@ public class BetterBucketModel implements IModel, IModelCustomData, IRetexturabl
 
 			// not a fluid item apparently
 			if (fluidStack == null) {
-				if (ItemBetterBucket.extraPickups.contains(NBTHelper.getString(stack, "FluidName")) || stack.getItem() instanceof ItemBetterMilkBucket) {
-					String name = NBTHelper.getString(stack, "FluidName");
+				if (ItemBetterBucket.extraPickups.contains(ItemBetterBucket.getFluid(stack)) || stack.getItem() instanceof ItemBetterMilkBucket) {
+					String name = ItemBetterBucket.getFluid(stack);
 					if (name.isEmpty() && stack.getItem() instanceof ItemBetterMilkBucket)
 						name = "milk";
 
@@ -305,7 +304,7 @@ public class BetterBucketModel implements IModel, IModelCustomData, IRetexturabl
 				}
 			}
 
-			return stack.getItem() instanceof ItemBetterMilkBucket ? bucketModel.cache.get("milk") : bucketModel.cache.get(NBTHelper.getString(stack, "FluidName"));
+			return stack.getItem() instanceof ItemBetterMilkBucket ? bucketModel.cache.get("milk") : bucketModel.cache.get(ItemBetterBucket.getFluid(stack));
 		}
 	}
 

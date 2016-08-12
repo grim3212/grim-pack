@@ -4,7 +4,10 @@ import java.util.List;
 
 import org.apache.commons.lang3.Validate;
 
+import com.grim3212.mc.pack.core.manual.IManualEntry.IManualEntity;
+import com.grim3212.mc.pack.core.manual.pages.Page;
 import com.grim3212.mc.pack.core.util.WorldHelper;
+import com.grim3212.mc.pack.decor.client.ManualDecor;
 import com.grim3212.mc.pack.decor.config.DecorConfig;
 import com.grim3212.mc.pack.decor.item.DecorItems;
 
@@ -35,7 +38,7 @@ import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class EntityWallpaper extends EntityHanging implements IEntityAdditionalSpawnData {
+public class EntityWallpaper extends EntityHanging implements IEntityAdditionalSpawnData, IManualEntity {
 
 	public static final int[] colorValues = { 1973019, 11743532, 3887386, 5320730, 2437522, 8073150, 2651799, 8816262, 4408131, 14188952, 4312372, 14602026, 6719955, 12801229, 15435844, 16777215, 2236962 };
 	public boolean isBlockUp;
@@ -409,5 +412,10 @@ public class EntityWallpaper extends EntityHanging implements IEntityAdditionalS
 	@Override
 	public void playPlaceSound() {
 		this.playSound(SoundEvents.BLOCK_CLOTH_STEP, 1.0F, 0.8F);
+	}
+
+	@Override
+	public Page getPage(Entity entity) {
+		return ManualDecor.wallpaperInfo_page;
 	}
 }

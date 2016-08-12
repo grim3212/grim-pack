@@ -14,7 +14,7 @@ public class GrimPartCreativeTab extends CreativeTabs {
 
 	@Override
 	public String getTranslatedTabLabel() {
-		return "grim.creative." + this.getTabLabel();
+		return "grimpack.creative." + this.getTabLabel();
 	}
 
 	@Override

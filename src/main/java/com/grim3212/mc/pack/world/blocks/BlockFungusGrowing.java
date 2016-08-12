@@ -2,6 +2,10 @@ package com.grim3212.mc.pack.world.blocks;
 
 import java.util.Random;
 
+import com.grim3212.mc.pack.core.manual.IManualEntry.IManualBlock;
+import com.grim3212.mc.pack.core.manual.pages.Page;
+import com.grim3212.mc.pack.world.client.ManualWorld;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockBush;
 import net.minecraft.block.state.IBlockState;
@@ -14,7 +18,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class BlockFungusGrowing extends BlockFungusBase {
+public class BlockFungusGrowing extends BlockFungusBase implements IManualBlock {
 
 	protected BlockFungusGrowing() {
 		super(false);
@@ -28,10 +32,10 @@ public class BlockFungusGrowing extends BlockFungusBase {
 
 	@Override
 	public void updateTick(World worldIn, BlockPos pos, IBlockState state, Random rand) {
-		if ((Integer) state.getValue(TYPE) < 8 && rand.nextInt(3) != 0) {
+		if (state.getValue(TYPE) < 8 && rand.nextInt(3) != 0) {
 			return;
 		}
-		if ((Integer) state.getValue(TYPE) >= 8 && rand.nextInt(5) == 0) {
+		if (state.getValue(TYPE) >= 8 && rand.nextInt(5) == 0) {
 			return;
 		}
 		spreadToSide(worldIn, pos, state, true, true);
@@ -63,8 +67,8 @@ public class BlockFungusGrowing extends BlockFungusBase {
 			return;
 		}
 
-		int ometa = (Integer) world.getBlockState(pos).getValue(TYPE);
-		int colorMeta = (Integer) state.getValue(TYPE);
+		int ometa = world.getBlockState(pos).getValue(TYPE);
+		int colorMeta = state.getValue(TYPE);
 		int color = colorMeta & 7;
 		int ocolor = ometa & 7;
 		boolean fast = colorMeta > 7;
@@ -110,4 +114,13 @@ public class BlockFungusGrowing extends BlockFungusBase {
 			0xFF80BB, // 14 pink
 			0x00ffee // 15 cyan
 	};
+
+	@Override
+	public Page getPage(IBlockState state) {
+		if(state.getValue(TYPE) == 0 || state.getValue(TYPE) == 8){
+			return ManualWorld.greenFungus_page;
+		}
+		
+		return ManualWorld.colorFungus_page;
+	}
 }

@@ -2,6 +2,8 @@ package com.grim3212.mc.pack.tools.items;
 
 import java.util.ArrayList;
 
+import com.grim3212.mc.pack.core.manual.pages.Page;
+import com.grim3212.mc.pack.tools.client.ManualTools;
 import com.grim3212.mc.pack.tools.config.ToolsConfig;
 import com.grim3212.mc.pack.tools.util.WandCoord3D;
 
@@ -13,6 +15,7 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.SoundEvents;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -30,6 +33,14 @@ public class ItemBreakingWand extends ItemWand {
 		this.setMaxDamage(reinforced ? 120 : 15);
 	}
 
+	@Override
+	public Page getPage(ItemStack stack) {
+		if (stack.getItem() == ToolsItems.breaking_wand)
+			return ManualTools.regularWand_page;
+
+		return ManualTools.reinforcedWand_page;
+	}
+
 	protected static boolean isOre(Block id) {
 		return ores.contains(id);
 	}
@@ -37,7 +48,7 @@ public class ItemBreakingWand extends ItemWand {
 	@Override
 	protected boolean canBreak(int keys, World worldIn, BlockPos pos) {
 		IBlockState state = worldIn.getBlockState(pos);
-		
+
 		switch (keys) {
 		case BREAK_XORES:
 			return (state.getBlock() != Blocks.BEDROCK || ToolsConfig.ENABLE_bedrock_breaking) && !isOre(state.getBlock());

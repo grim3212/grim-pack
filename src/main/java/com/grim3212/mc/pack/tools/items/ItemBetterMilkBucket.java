@@ -2,8 +2,10 @@ package com.grim3212.mc.pack.tools.items;
 
 import java.util.List;
 
-import com.grim3212.mc.pack.core.util.NBTHelper;
-import com.grim3212.mc.pack.tools.inventory.FluidHandlerBetterBucket;
+import com.grim3212.mc.pack.core.item.ItemManual;
+import com.grim3212.mc.pack.core.manual.pages.Page;
+import com.grim3212.mc.pack.tools.client.ManualTools;
+import com.grim3212.mc.pack.tools.items.ItemBetterBucket.BucketFluidHandler;
 
 import net.minecraft.client.resources.I18n;
 import net.minecraft.creativetab.CreativeTabs;
@@ -24,13 +26,18 @@ import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class ItemBetterMilkBucket extends Item {
+public class ItemBetterMilkBucket extends ItemManual {
 
 	private final ItemBetterBucket parent;
 	private boolean milkPause = false;
 
 	public ItemBetterMilkBucket(ItemBetterBucket parent) {
 		this.parent = parent;
+	}
+
+	@Override
+	public Page getPage(ItemStack stack) {
+		return ManualTools.milkBucket_page;
 	}
 
 	public void pauseForMilk() {
@@ -44,15 +51,15 @@ public class ItemBetterMilkBucket extends Item {
 	@Override
 	public void getSubItems(Item itemIn, CreativeTabs tab, List<ItemStack> subItems) {
 		ItemStack stack = new ItemStack(this);
-		NBTHelper.setString(stack, "FluidName", "milk");
-		NBTHelper.setInteger(stack, "Amount", parent.maxCapacity);
+		ItemBetterBucket.setFluid(stack, "milk");
+		ItemBetterBucket.setAmount(stack, parent.maxCapacity);
 		subItems.add(stack);
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack stack, EntityPlayer playerIn, List<String> tooltip, boolean advanced) {
-		tooltip.add(I18n.format("tooltip.buckets.contains") + ": " + NBTHelper.getInt(stack, "Amount") + "/" + parent.maxCapacity);
+		tooltip.add(I18n.format("tooltip.buckets.contains") + ": " + ItemBetterBucket.getAmount(stack) + "/" + parent.maxCapacity);
 	}
 
 	@Override
@@ -61,8 +68,8 @@ public class ItemBetterMilkBucket extends Item {
 		// when you are finished drinking them
 		if (entityLiving instanceof EntityPlayer && !((EntityPlayer) entityLiving).capabilities.isCreativeMode) {
 			// Set amount and type, if empty
-			int amount = NBTHelper.getInt(stack, "Amount");
-			NBTHelper.setInteger(stack, "Amount", amount - Fluid.BUCKET_VOLUME);
+			int amount = ItemBetterBucket.getAmount(stack);
+			ItemBetterBucket.setAmount(stack, amount - Fluid.BUCKET_VOLUME);
 		}
 
 		if (!worldIn.isRemote) {
@@ -80,15 +87,15 @@ public class ItemBetterMilkBucket extends Item {
 
 	@Override
 	public ItemStack getContainerItem(ItemStack itemStack) {
-		int amount = NBTHelper.getInt(itemStack, "Amount");
-		NBTHelper.setInteger(itemStack, "Amount", amount - Fluid.BUCKET_VOLUME);
+		int amount = ItemBetterBucket.getAmount(itemStack);
+		ItemBetterBucket.setAmount(itemStack, amount - Fluid.BUCKET_VOLUME);
 
 		return parent.tryBreakBucket(itemStack);
 	}
 
 	@Override
 	public boolean hasContainerItem(ItemStack stack) {
-		return NBTHelper.getInt(stack, "Amount") >= Fluid.BUCKET_VOLUME;
+		return ItemBetterBucket.getAmount(stack) >= Fluid.BUCKET_VOLUME;
 	}
 
 	@Override
@@ -115,7 +122,7 @@ public class ItemBetterMilkBucket extends Item {
 	@Override
 	public boolean showDurabilityBar(ItemStack stack) {
 		// Don't show if the bucket is empty
-		if (NBTHelper.getInt(stack, "Amount") <= 0)
+		if (ItemBetterBucket.getAmount(stack) <= 0)
 			return false;
 		return true;
 	}
@@ -123,13 +130,13 @@ public class ItemBetterMilkBucket extends Item {
 	@Override
 	public double getDurabilityForDisplay(ItemStack stack) {
 		// Get remainder calculations from stored and maxAmount
-		int reversedAmount = parent.maxCapacity - NBTHelper.getInt(stack, "Amount");
+		int reversedAmount = parent.maxCapacity - ItemBetterBucket.getAmount(stack);
 		return (double) reversedAmount / (double) parent.maxCapacity;
 	}
 
 	@Override
 	public ICapabilityProvider initCapabilities(ItemStack stack, NBTTagCompound nbt) {
-		return new FluidHandlerBetterBucket(stack, parent.empty, parent.maxCapacity);
+		return new BucketFluidHandler(stack, parent.empty, parent.maxCapacity);
 	}
 
 }

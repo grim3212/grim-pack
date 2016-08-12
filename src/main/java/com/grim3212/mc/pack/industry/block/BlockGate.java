@@ -1,6 +1,9 @@
 package com.grim3212.mc.pack.industry.block;
 
+import com.grim3212.mc.pack.core.block.BlockManual;
+import com.grim3212.mc.pack.core.manual.pages.Page;
 import com.grim3212.mc.pack.core.util.Utils;
+import com.grim3212.mc.pack.industry.client.ManualIndustry;
 import com.grim3212.mc.pack.industry.item.IndustryItems;
 
 import net.minecraft.block.Block;
@@ -26,7 +29,7 @@ import net.minecraft.world.Explosion;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
-public class BlockGate extends Block {
+public class BlockGate extends BlockManual {
 
 	private static final float WIDTH = 0.125F;
 	private static final AxisAlignedBB EAST_AABB = new AxisAlignedBB(1.0F - 2.0F * WIDTH, 0.0F, 0.0F, 1.0F - WIDTH, 1.0F, 1.0F);
@@ -42,8 +45,7 @@ public class BlockGate extends Block {
 	public static final PropertyBool TOP = PropertyBool.create("top");
 
 	protected BlockGate() {
-		super(Material.IRON);
-		this.setSoundType(SoundType.METAL);
+		super(Material.IRON, SoundType.METAL);
 		this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.SOUTH).withProperty(ACTIVE, false).withProperty(TOP, false));
 	}
 
@@ -176,7 +178,7 @@ public class BlockGate extends Block {
 			if (worldIn.isRemote) {
 				return true;
 			} else {
-				if ((Boolean) getActualState(state, worldIn, pos).getValue(TOP)) {
+				if (getActualState(state, worldIn, pos).getValue(TOP)) {
 					// Update top gate block
 					worldIn.setBlockState(pos, state.cycleProperty(ACTIVE), 2);
 
@@ -314,5 +316,13 @@ public class BlockGate extends Block {
 	@Override
 	public EnumPushReaction getMobilityFlag(IBlockState state) {
 		return EnumPushReaction.BLOCK;
+	}
+
+	@Override
+	public Page getPage(IBlockState state) {
+		if (state.getBlock() == IndustryBlocks.garage)
+			return ManualIndustry.garage_page;
+
+		return ManualIndustry.gate_page;
 	}
 }

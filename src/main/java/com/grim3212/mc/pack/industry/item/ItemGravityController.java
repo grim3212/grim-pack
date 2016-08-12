@@ -2,6 +2,10 @@ package com.grim3212.mc.pack.industry.item;
 
 import java.util.List;
 
+import com.grim3212.mc.pack.core.item.ItemManual;
+import com.grim3212.mc.pack.core.manual.pages.Page;
+import com.grim3212.mc.pack.industry.client.ManualIndustry;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
@@ -13,7 +17,7 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.world.World;
 
-public class ItemGravityController extends Item {
+public class ItemGravityController extends ItemManual {
 
 	public boolean On;
 	private int tickCount;
@@ -30,6 +34,11 @@ public class ItemGravityController extends Item {
 		}
 
 		return ActionResult.newResult(EnumActionResult.SUCCESS, itemStackIn);
+	}
+
+	@Override
+	public Page getPage(ItemStack stack) {
+		return ManualIndustry.controller_page;
 	}
 
 	@Override

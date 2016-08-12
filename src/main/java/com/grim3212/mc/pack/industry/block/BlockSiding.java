@@ -1,6 +1,9 @@
 package com.grim3212.mc.pack.industry.block;
 
-import net.minecraft.block.Block;
+import com.grim3212.mc.pack.core.block.BlockManual;
+import com.grim3212.mc.pack.core.manual.pages.Page;
+import com.grim3212.mc.pack.industry.client.ManualIndustry;
+
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
@@ -9,13 +12,12 @@ import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.IStringSerializable;
 
-public class BlockSiding extends Block {
+public class BlockSiding extends BlockManual {
 
 	public static final PropertyEnum<EnumSidingColor> COLOR = PropertyEnum.<EnumSidingColor> create("color", EnumSidingColor.class);
 
 	public BlockSiding() {
-		super(Material.IRON);
-		this.setSoundType(SoundType.STONE);
+		super(Material.IRON, SoundType.STONE);
 		this.setDefaultState(this.blockState.getBaseState().withProperty(COLOR, EnumSidingColor.white));
 	}
 
@@ -60,5 +62,10 @@ public class BlockSiding extends Block {
 		public String getName() {
 			return this.name();
 		}
+	}
+
+	@Override
+	public Page getPage(IBlockState state) {
+		return ManualIndustry.decoration_page;
 	}
 }

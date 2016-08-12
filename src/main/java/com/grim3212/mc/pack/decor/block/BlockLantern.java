@@ -2,7 +2,11 @@ package com.grim3212.mc.pack.decor.block;
 
 import java.util.List;
 
-import net.minecraft.block.Block;
+import com.grim3212.mc.pack.core.block.BlockManual;
+import com.grim3212.mc.pack.core.manual.pages.Page;
+import com.grim3212.mc.pack.decor.client.ManualDecor;
+
+import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyEnum;
@@ -17,12 +21,12 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class BlockLantern extends Block {
+public class BlockLantern extends BlockManual {
 
 	public static final PropertyEnum<BlockLantern.EnumLanternType> VARIANT = PropertyEnum.create("variant", BlockLantern.EnumLanternType.class);
 
 	protected BlockLantern() {
-		super(Material.CIRCUITS);
+		super(Material.CIRCUITS, SoundType.STONE);
 		this.setDefaultState(this.blockState.getBaseState().withProperty(VARIANT, EnumLanternType.paper));
 	}
 
@@ -33,7 +37,7 @@ public class BlockLantern extends Block {
 
 	@Override
 	public void getSubBlocks(Item item, CreativeTabs tabs, List<ItemStack> list) {
-		for (int i = 0; i < EnumLanternType.values().length; i++) {
+		for (int i = 0; i < EnumLanternType.values.length; i++) {
 			list.add(new ItemStack(item, 1, i));
 		}
 	}
@@ -90,5 +94,10 @@ public class BlockLantern extends Block {
 		public String getName() {
 			return this.name();
 		}
+	}
+
+	@Override
+	public Page getPage(IBlockState state) {
+		return ManualDecor.lantern_page;
 	}
 }

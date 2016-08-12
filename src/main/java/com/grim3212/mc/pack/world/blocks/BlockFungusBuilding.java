@@ -2,6 +2,10 @@ package com.grim3212.mc.pack.world.blocks;
 
 import java.util.Random;
 
+import com.grim3212.mc.pack.core.manual.IManualEntry.IManualBlock;
+import com.grim3212.mc.pack.core.manual.pages.Page;
+import com.grim3212.mc.pack.world.client.ManualWorld;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockBush;
 import net.minecraft.block.BlockStoneBrick;
@@ -10,7 +14,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class BlockFungusBuilding extends BlockFungusBase {
+public class BlockFungusBuilding extends BlockFungusBase implements IManualBlock {
 
 	protected BlockFungusBuilding() {
 		super(true);
@@ -232,4 +236,13 @@ public class BlockFungusBuilding extends BlockFungusBase {
 			0x888888, // 14 stonebri
 			0xFFDB87 // 15 sandst
 	};
+
+	@Override
+	public Page getPage(IBlockState state) {
+		if(state.getValue(TYPE) == 11){
+			return ManualWorld.mazeFungus_page;
+		}
+		
+		return ManualWorld.buildFungus_page;
+	}
 }

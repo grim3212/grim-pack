@@ -1,8 +1,10 @@
 package com.grim3212.mc.pack.industry.block;
 
+import com.grim3212.mc.pack.core.block.BlockManual;
+import com.grim3212.mc.pack.core.manual.pages.Page;
+import com.grim3212.mc.pack.industry.client.ManualIndustry;
 import com.grim3212.mc.pack.industry.item.ItemPaintRollerColor;
 
-import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
@@ -13,13 +15,12 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class BlockRway extends Block {
+public class BlockRway extends BlockManual {
 
 	public static final PropertyInteger TYPE = PropertyInteger.create("type", 0, 14);
 
 	public BlockRway() {
-		super(Material.ROCK);
-		this.setSoundType(SoundType.STONE);
+		super(Material.ROCK, SoundType.STONE);
 		this.setDefaultState(this.blockState.getBaseState().withProperty(TYPE, 0));
 	}
 
@@ -30,7 +31,7 @@ public class BlockRway extends Block {
 
 	@Override
 	public int getMetaFromState(IBlockState state) {
-		return (Integer) state.getValue(TYPE);
+		return state.getValue(TYPE);
 	}
 
 	@Override
@@ -45,5 +46,10 @@ public class BlockRway extends Block {
 				worldIn.setBlockState(pos, worldIn.getBlockState(pos).cycleProperty(TYPE));
 			}
 		}
+	}
+
+	@Override
+	public Page getPage(IBlockState state) {
+		return ManualIndustry.rways_page;
 	}
 }

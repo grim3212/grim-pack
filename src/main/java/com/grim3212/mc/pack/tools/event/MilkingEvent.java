@@ -5,7 +5,6 @@ import java.util.Collections;
 import java.util.List;
 
 import com.google.common.collect.Lists;
-import com.grim3212.mc.pack.core.util.NBTHelper;
 import com.grim3212.mc.pack.tools.items.ItemBetterBucket;
 import com.grim3212.mc.pack.tools.items.ItemBetterMilkBucket;
 import com.grim3212.mc.pack.tools.items.ToolsItems;
@@ -74,13 +73,12 @@ public class MilkingEvent {
 						for (int i = 0; i <= milkingLevel; i++) {
 							for (int j = 0; j < levels.get(i).size(); j++) {
 								if (levels.get(i).contains(event.getTarget().getClass())) {
-									if (NBTHelper.getInt(stack, "Amount") < bucket.getParent().maxCapacity) {
+									if (ItemBetterBucket.getAmount(stack) < bucket.getParent().maxCapacity) {
 										event.getEntityPlayer().playSound(SoundEvents.ENTITY_COW_MILK, 1.0F, 1.0F);
 
-										int amount = NBTHelper.getInt(stack, "Amount");
-
-										NBTHelper.setInteger(stack, "Amount", amount + Fluid.BUCKET_VOLUME);
-										NBTHelper.setString(stack, "FluidName", "milk");
+										int amount = ItemBetterBucket.getAmount(stack);
+										ItemBetterBucket.setFluid(stack, "milk");
+										ItemBetterBucket.setAmount(stack, amount + Fluid.BUCKET_VOLUME);
 
 										bucket.pauseForMilk();
 									}
@@ -97,7 +95,7 @@ public class MilkingEvent {
 							for (int j = 0; j < levels.get(i).size(); j++) {
 								if (levels.get(i).contains(event.getTarget().getClass())) {
 									if (ItemBetterBucket.isEmptyOrContains(stack, "milk")) {
-										if (NBTHelper.getInt(stack, "Amount") < bucket.maxCapacity) {
+										if (ItemBetterBucket.getAmount(stack) < bucket.maxCapacity) {
 											event.getEntityPlayer().playSound(SoundEvents.ENTITY_COW_MILK, 1.0F, 1.0F);
 
 											ItemStack milkBucket = null;
@@ -119,8 +117,9 @@ public class MilkingEvent {
 												break;
 
 											}
-											NBTHelper.setInteger(milkBucket, "Amount", Fluid.BUCKET_VOLUME);
-											NBTHelper.setString(milkBucket, "FluidName", "milk");
+
+											ItemBetterBucket.setFluid(milkBucket, "milk");
+											ItemBetterBucket.setAmount(milkBucket, Fluid.BUCKET_VOLUME);
 
 											if (event.getHand() == EnumHand.MAIN_HAND)
 												event.getEntityPlayer().inventory.setInventorySlotContents(event.getEntityPlayer().inventory.currentItem, milkBucket);

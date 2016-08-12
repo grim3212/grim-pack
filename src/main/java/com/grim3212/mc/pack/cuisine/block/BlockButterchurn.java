@@ -1,9 +1,11 @@
 package com.grim3212.mc.pack.cuisine.block;
 
+import com.grim3212.mc.pack.core.block.BlockManual;
+import com.grim3212.mc.pack.core.manual.pages.Page;
 import com.grim3212.mc.pack.core.util.Utils;
+import com.grim3212.mc.pack.cuisine.client.ManualCuisine;
 import com.grim3212.mc.pack.cuisine.item.CuisineItems;
 
-import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
@@ -22,13 +24,12 @@ import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.oredict.OreDictionary;
 
-public class BlockButterchurn extends Block {
+public class BlockButterchurn extends BlockManual {
 
 	public static final PropertyInteger ACTIVE = PropertyInteger.create("active", 0, 1);
 
 	protected BlockButterchurn() {
-		super(Material.WOOD);
-		setSoundType(SoundType.WOOD);
+		super(Material.WOOD, SoundType.WOOD);
 		this.setDefaultState(this.blockState.getBaseState().withProperty(ACTIVE, 0));
 	}
 
@@ -98,5 +99,10 @@ public class BlockButterchurn extends Block {
 	@Override
 	protected BlockStateContainer createBlockState() {
 		return new BlockStateContainer(this, new IProperty[] { ACTIVE });
+	}
+
+	@Override
+	public Page getPage(IBlockState state) {
+		return ManualCuisine.butterChurn_page;
 	}
 }

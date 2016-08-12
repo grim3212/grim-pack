@@ -1,6 +1,5 @@
 package com.grim3212.mc.pack.decor;
 
-import com.grim3212.mc.pack.core.manual.ModSection;
 import com.grim3212.mc.pack.core.proxy.CommonProxy;
 
 import net.minecraft.util.math.BlockPos;
@@ -12,10 +11,6 @@ public class DecorCommonProxy extends CommonProxy {
 	}
 
 	@Override
-	public void registerModels() {
-	}
-
-	@Override
-	public void registerManual(ModSection modSection) {
+	public void preInit() {
 	}
 }

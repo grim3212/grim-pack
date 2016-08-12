@@ -2,6 +2,9 @@ package com.grim3212.mc.pack.cuisine.block;
 
 import java.util.Random;
 
+import com.grim3212.mc.pack.core.block.BlockManual;
+import com.grim3212.mc.pack.core.manual.pages.Page;
+import com.grim3212.mc.pack.cuisine.client.ManualCuisine;
 import com.grim3212.mc.pack.cuisine.item.CuisineItems;
 
 import net.minecraft.block.Block;
@@ -19,13 +22,12 @@ import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
-public class BlockCocoa extends Block {
+public class BlockCocoa extends BlockManual {
 
 	protected static final AxisAlignedBB COCOA_AABB = new AxisAlignedBB(0.28F, 0.25F, 0.28F, 0.72F, 1F, 0.72F);
 
 	protected BlockCocoa() {
-		super(Material.CIRCUITS);
-		setSoundType(SoundType.CLOTH);
+		super(Material.CIRCUITS, SoundType.CLOTH);
 	}
 
 	@Override
@@ -63,7 +65,7 @@ public class BlockCocoa extends Block {
 		Block block = worldIn.getBlockState(pos.up()).getBlock();
 		return block instanceof BlockLeaves;
 	}
-	
+
 	@Override
 	public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn) {
 		this.checkBlock(worldIn, pos);
@@ -78,5 +80,10 @@ public class BlockCocoa extends Block {
 
 	public boolean canBlockStay(World world, BlockPos pos) {
 		return canPlaceBlockAt(world, pos);
+	}
+
+	@Override
+	public Page getPage(IBlockState state) {
+		return ManualCuisine.cocoaFruit_page;
 	}
 }

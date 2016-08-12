@@ -1,6 +1,9 @@
 package com.grim3212.mc.pack.tools.items;
 
+import com.grim3212.mc.pack.core.item.ItemManual;
+import com.grim3212.mc.pack.core.manual.pages.Page;
 import com.grim3212.mc.pack.tools.GrimTools;
+import com.grim3212.mc.pack.tools.client.ManualTools;
 import com.grim3212.mc.pack.tools.util.ChiselRegistry;
 
 import net.minecraft.block.Block;
@@ -16,7 +19,7 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class ItemChisel extends Item {
+public class ItemChisel extends ItemManual {
 
 	private int type;
 
@@ -24,6 +27,11 @@ public class ItemChisel extends Item {
 		maxStackSize = 1;
 		setMaxDamage(32 * multiplier);
 		setCreativeTab(GrimTools.INSTANCE.getCreativeTab());
+	}
+
+	@Override
+	public Page getPage(ItemStack stack) {
+		return ManualTools.chisel_page;
 	}
 
 	@Override

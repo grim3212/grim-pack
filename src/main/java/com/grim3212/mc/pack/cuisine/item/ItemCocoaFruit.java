@@ -1,12 +1,14 @@
 package com.grim3212.mc.pack.cuisine.item;
 
+import com.grim3212.mc.pack.core.item.ItemManual;
+import com.grim3212.mc.pack.core.manual.pages.Page;
 import com.grim3212.mc.pack.cuisine.block.CuisineBlocks;
+import com.grim3212.mc.pack.cuisine.client.ManualCuisine;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
@@ -15,7 +17,7 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class ItemCocoaFruit extends Item {
+public class ItemCocoaFruit extends ItemManual {
 
 	public ItemCocoaFruit() {
 		maxStackSize = 16;
@@ -72,5 +74,10 @@ public class ItemCocoaFruit extends Item {
 		}
 
 		return true;
+	}
+
+	@Override
+	public Page getPage(ItemStack stack) {
+		return ManualCuisine.cocoaFruit_page;
 	}
 }

@@ -45,7 +45,8 @@ public class UtilConfig extends GrimConfig {
 		super.syncConfig();
 	}
 
-	public static List<IConfigElement> getConfigItems() {
+	@Override
+	public List<IConfigElement> getConfigItems() {
 		List<IConfigElement> list = new ArrayList<IConfigElement>();
 		list.addAll(new ConfigElement(GrimUtil.INSTANCE.getConfig().getCategory(CONFIG_GENERAL_NAME)).getChildElements());
 		return list;
@@ -71,10 +72,5 @@ public class UtilConfig extends GrimConfig {
 		buffer.writeDouble(frd_power);
 		buffer.writeBoolean(infiniteLava);
 		buffer.writeBoolean(spawnGraves);
-	}
-
-	@Override
-	public void updateManual() {
-		GrimUtil.proxy.registerManual(GrimUtil.INSTANCE.getModSection());
 	}
 }

@@ -1,6 +1,9 @@
 package com.grim3212.mc.pack.industry.block;
 
-import net.minecraft.block.Block;
+import com.grim3212.mc.pack.core.block.BlockManual;
+import com.grim3212.mc.pack.core.manual.pages.Page;
+import com.grim3212.mc.pack.industry.client.ManualIndustry;
+
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
@@ -17,13 +20,12 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
-public class BlockNuclearReactor extends Block {
+public class BlockNuclearReactor extends BlockManual {
 
 	public static final PropertyBool ACTIVE = PropertyBool.create("active");
 
 	public BlockNuclearReactor() {
-		super(Material.IRON);
-		this.setSoundType(SoundType.METAL);
+		super(Material.IRON, SoundType.METAL);
 		this.setDefaultState(this.blockState.getBaseState().withProperty(ACTIVE, false));
 	}
 
@@ -48,7 +50,7 @@ public class BlockNuclearReactor extends Block {
 			return true;
 		} else {
 			worldIn.setBlockState(pos, state.cycleProperty(ACTIVE));
-			worldIn.playSound((EntityPlayer)null, pos, SoundEvents.BLOCK_STONE_BUTTON_CLICK_ON, SoundCategory.BLOCKS, 0.3F, state.getValue(ACTIVE) ? 0.6F : 0.5F);
+			worldIn.playSound((EntityPlayer) null, pos, SoundEvents.BLOCK_STONE_BUTTON_CLICK_ON, SoundCategory.BLOCKS, 0.3F, state.getValue(ACTIVE) ? 0.6F : 0.5F);
 			worldIn.notifyNeighborsOfStateChange(pos, this);
 			return true;
 		}
@@ -70,16 +72,15 @@ public class BlockNuclearReactor extends Block {
 
 	@Override
 	public int getMetaFromState(IBlockState state) {
-		int i = 0;
-
-		if ((Boolean) state.getValue(ACTIVE)) {
-			i = 1;
-		}
-
-		return i;
+		return state.getValue(ACTIVE) ? 1 : 0;
 	}
 
 	protected BlockStateContainer createBlockState() {
 		return new BlockStateContainer(this, new IProperty[] { ACTIVE });
+	}
+
+	@Override
+	public Page getPage(IBlockState state) {
+		return ManualIndustry.reactor_page;
 	}
 }

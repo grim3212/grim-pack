@@ -2,7 +2,10 @@ package com.grim3212.mc.pack.world.blocks;
 
 import java.util.Random;
 
+import com.grim3212.mc.pack.core.block.BlockManual;
+import com.grim3212.mc.pack.core.manual.pages.Page;
 import com.grim3212.mc.pack.world.GrimWorld;
+import com.grim3212.mc.pack.world.client.ManualWorld;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
@@ -21,15 +24,14 @@ import net.minecraft.world.DimensionType;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenGlowStone1;
 
-public class BlockGlowstoneSeed extends Block {
+public class BlockGlowstoneSeed extends BlockManual {
 
 	private static final int RATE = 10;
 	public static final PropertyInteger STEP = PropertyInteger.create("step", 0, 8);
 
 	protected BlockGlowstoneSeed() {
-		super(Material.PLANTS);
+		super(Material.PLANTS, SoundType.GLASS);
 		disableStats();
-		this.setSoundType(SoundType.GLASS);
 		setTickRandomly(true);
 		setCreativeTab(GrimWorld.INSTANCE.getCreativeTab());
 		this.setDefaultState(this.blockState.getBaseState().withProperty(STEP, 0));
@@ -42,7 +44,7 @@ public class BlockGlowstoneSeed extends Block {
 
 	@Override
 	public int getMetaFromState(IBlockState state) {
-		return (Integer) state.getValue(STEP);
+		return state.getValue(STEP);
 	}
 
 	@Override
@@ -53,7 +55,7 @@ public class BlockGlowstoneSeed extends Block {
 	@Override
 	public void updateTick(World worldIn, BlockPos pos, IBlockState state, Random rand) {
 		super.updateTick(worldIn, pos, state, rand);
-		int growth = (Integer) state.getValue(STEP);
+		int growth = state.getValue(STEP);
 
 		if (growth < 8) {
 			if (rand.nextInt(RATE) == 0) {
@@ -112,5 +114,10 @@ public class BlockGlowstoneSeed extends Block {
 	@Override
 	public boolean isNormalCube(IBlockState state) {
 		return false;
+	}
+
+	@Override
+	public Page getPage(IBlockState state) {
+		return ManualWorld.glowSeeds_page;
 	}
 }

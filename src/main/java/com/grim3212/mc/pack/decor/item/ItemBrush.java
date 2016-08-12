@@ -4,9 +4,12 @@ import java.util.List;
 
 import javax.annotation.Nullable;
 
+import com.grim3212.mc.pack.core.item.ItemManual;
+import com.grim3212.mc.pack.core.manual.pages.Page;
 import com.grim3212.mc.pack.decor.GrimDecor;
 import com.grim3212.mc.pack.decor.block.BlockColorizer;
 import com.grim3212.mc.pack.decor.block.DecorBlocks;
+import com.grim3212.mc.pack.decor.client.ManualDecor;
 import com.grim3212.mc.pack.decor.tile.TileEntityColorizer;
 
 import net.minecraft.block.state.IBlockState;
@@ -14,7 +17,6 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumActionResult;
@@ -28,7 +30,7 @@ import net.minecraftforge.common.util.FakePlayer;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class ItemBrush extends Item {
+public class ItemBrush extends ItemManual {
 
 	public ItemBrush() {
 		this.setCreativeTab(GrimDecor.INSTANCE.getCreativeTab());
@@ -122,5 +124,10 @@ public class ItemBrush extends Item {
 			te.setBlockState(toSetState != null ? toSetState : Blocks.AIR.getDefaultState());
 			worldIn.setBlockState(pos, state.getBlock().getExtendedState(worldIn.getBlockState(pos), worldIn, pos));
 		}
+	}
+
+	@Override
+	public Page getPage(ItemStack stack) {
+		return ManualDecor.brush_page;
 	}
 }

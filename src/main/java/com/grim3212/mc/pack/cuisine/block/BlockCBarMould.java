@@ -2,6 +2,9 @@ package com.grim3212.mc.pack.cuisine.block;
 
 import java.util.Random;
 
+import com.grim3212.mc.pack.core.block.BlockManual;
+import com.grim3212.mc.pack.core.manual.pages.Page;
+import com.grim3212.mc.pack.cuisine.client.ManualCuisine;
 import com.grim3212.mc.pack.cuisine.item.CuisineItems;
 
 import net.minecraft.block.Block;
@@ -23,15 +26,14 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
-public class BlockCBarMould extends Block {
+public class BlockCBarMould extends BlockManual {
 
 	protected static final AxisAlignedBB MOULD_AABB = new AxisAlignedBB(0.0625D, 0.0D, 0.0625D, 0.9375D, 0.5D, 0.9375D);
 	public static final PropertyInteger STAGE = PropertyInteger.create("stage", 0, 15);
 
 	protected BlockCBarMould() {
-		super(Material.WOOD);
+		super(Material.WOOD, SoundType.STONE);
 		setTickRandomly(true);
-		setSoundType(SoundType.STONE);
 		this.setDefaultState(this.blockState.getBaseState().withProperty(STAGE, 0));
 	}
 
@@ -42,7 +44,7 @@ public class BlockCBarMould extends Block {
 
 	@Override
 	public int getMetaFromState(IBlockState state) {
-		return ((Integer) state.getValue(STAGE));
+		return state.getValue(STAGE);
 	}
 
 	@Override
@@ -54,7 +56,7 @@ public class BlockCBarMould extends Block {
 	public boolean canPlaceBlockAt(World worldIn, BlockPos pos) {
 		return super.canPlaceBlockAt(worldIn, pos) ? this.canBlockStay(worldIn, pos) : false;
 	}
-	
+
 	@Override
 	public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn) {
 		if (!this.canBlockStay(worldIn, pos)) {
@@ -75,7 +77,7 @@ public class BlockCBarMould extends Block {
 			current_stage = 4;
 		}
 
-		int meta = (Integer) worldIn.getBlockState(pos).getValue(STAGE);
+		int meta = worldIn.getBlockState(pos).getValue(STAGE);
 		if (meta >= 12) {
 			current_stage = (current_stage + (15 - meta)) - current_stage;
 		}
@@ -90,7 +92,7 @@ public class BlockCBarMould extends Block {
 
 	@Override
 	public void onBlockClicked(World worldIn, BlockPos pos, EntityPlayer playerIn) {
-		if ((Integer) worldIn.getBlockState(pos).getValue(STAGE) == 15) {
+		if (worldIn.getBlockState(pos).getValue(STAGE) == 15) {
 			if (!worldIn.isRemote) {
 				worldIn.setBlockState(pos, CuisineBlocks.chocolate_bar_mould.getDefaultState(), 3);
 				float f = 0.7F;
@@ -107,7 +109,7 @@ public class BlockCBarMould extends Block {
 	@Override
 	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ) {
 		if (heldItem != null && heldItem.getItem() == CuisineItems.chocolate_bowl_hot) {
-			if ((Integer) worldIn.getBlockState(pos).getValue(STAGE) == 0) {
+			if (worldIn.getBlockState(pos).getValue(STAGE) == 0) {
 				worldIn.setBlockState(pos, state.withProperty(STAGE, 1), 2);
 
 				--heldItem.stackSize;
@@ -126,11 +128,6 @@ public class BlockCBarMould extends Block {
 	}
 
 	@Override
-	public AxisAlignedBB getCollisionBoundingBox(IBlockState state, World worldIn, BlockPos pos) {
-		return state.getSelectedBoundingBox(worldIn, pos);
-	}
-
-	@Override
 	public boolean isOpaqueCube(IBlockState state) {
 		return false;
 	}
@@ -138,5 +135,10 @@ public class BlockCBarMould extends Block {
 	@Override
 	public boolean isNormalCube(IBlockState state) {
 		return false;
+	}
+
+	@Override
+	public Page getPage(IBlockState state) {
+		return ManualCuisine.chocolateMould_page;
 	}
 }

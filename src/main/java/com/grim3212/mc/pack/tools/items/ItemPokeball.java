@@ -2,7 +2,10 @@ package com.grim3212.mc.pack.tools.items;
 
 import java.util.List;
 
+import com.grim3212.mc.pack.core.manual.IManualEntry.IManualItem;
+import com.grim3212.mc.pack.core.manual.pages.Page;
 import com.grim3212.mc.pack.tools.GrimTools;
+import com.grim3212.mc.pack.tools.client.ManualTools;
 import com.grim3212.mc.pack.tools.entity.EntityPokeball;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -15,12 +18,17 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.world.World;
 
-public class ItemPokeball extends ItemEgg {
+public class ItemPokeball extends ItemEgg implements IManualItem {
 
 	public ItemPokeball() {
 		this.setMaxStackSize(1);
 		this.setMaxDamage(10);
 		this.setCreativeTab(GrimTools.INSTANCE.getCreativeTab());
+	}
+
+	@Override
+	public Page getPage(ItemStack stack) {
+		return ManualTools.pokeball_page;
 	}
 
 	@Override

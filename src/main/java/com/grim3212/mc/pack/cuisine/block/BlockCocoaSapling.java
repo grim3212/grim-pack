@@ -2,6 +2,9 @@ package com.grim3212.mc.pack.cuisine.block;
 
 import java.util.Random;
 
+import com.grim3212.mc.pack.core.manual.IManualEntry.IManualBlock;
+import com.grim3212.mc.pack.core.manual.pages.Page;
+import com.grim3212.mc.pack.cuisine.client.ManualCuisine;
 import com.grim3212.mc.pack.cuisine.item.CuisineItems;
 import com.grim3212.mc.pack.cuisine.world.WorldGenCocoaTrees;
 
@@ -22,7 +25,7 @@ import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
-public class BlockCocoaSapling extends BlockBush implements IGrowable {
+public class BlockCocoaSapling extends BlockBush implements IGrowable, IManualBlock {
 
 	protected static final AxisAlignedBB COCOA_SAPLING_AABB = new AxisAlignedBB(0.1f, 0.0F, 0.1F, 0.9F, 0.8F, 0.9f);
 	public static final PropertyInteger STAGE = PropertyInteger.create("stage", 0, 1);
@@ -58,7 +61,7 @@ public class BlockCocoaSapling extends BlockBush implements IGrowable {
 
 	@Override
 	public void grow(World world, Random rand, BlockPos pos, IBlockState state) {
-		if (((Integer) state.getValue(STAGE)).intValue() == 0) {
+		if (state.getValue(STAGE) == 0) {
 			world.setBlockState(pos, state.cycleProperty(STAGE), 4);
 		} else {
 			this.generateTree(world, pos, state, rand);
@@ -80,7 +83,7 @@ public class BlockCocoaSapling extends BlockBush implements IGrowable {
 
 	@Override
 	public int getMetaFromState(IBlockState state) {
-		return ((Integer) state.getValue(STAGE));
+		return state.getValue(STAGE);
 	}
 
 	@Override
@@ -101,5 +104,10 @@ public class BlockCocoaSapling extends BlockBush implements IGrowable {
 	@Override
 	public boolean canUseBonemeal(World worldIn, Random rand, BlockPos pos, IBlockState state) {
 		return (double) worldIn.rand.nextFloat() < 0.45D;
+	}
+
+	@Override
+	public Page getPage(IBlockState state) {
+		return ManualCuisine.cocoaFruit_page;
 	}
 }

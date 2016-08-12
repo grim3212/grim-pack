@@ -2,6 +2,9 @@ package com.grim3212.mc.pack.world.blocks;
 
 import java.util.Random;
 
+import com.grim3212.mc.pack.core.manual.IManualEntry.IManualBlock;
+import com.grim3212.mc.pack.core.manual.pages.Page;
+import com.grim3212.mc.pack.world.client.ManualWorld;
 import com.grim3212.mc.pack.world.util.KillingFungusWhitelist;
 
 import net.minecraft.block.Block;
@@ -13,7 +16,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class BlockFungusKilling extends BlockFungusBase {
+public class BlockFungusKilling extends BlockFungusBase implements IManualBlock {
 
 	protected BlockFungusKilling() {
 		super(true);
@@ -175,4 +178,23 @@ public class BlockFungusKilling extends BlockFungusBase {
 			0x4F964F, // 14 x forest blob
 			0xbbbbcf // 15 layer glass
 	};
+
+	@Override
+	public Page getPage(IBlockState state) {
+		int type = state.getValue(TYPE);
+
+		if (type == 0 || type == 1) {
+			return ManualWorld.killingFungus_page;
+		}
+
+		if ((type >= 2 && type <= 6) || type == 14) {
+			return ManualWorld.eatingFungus_page;
+		}
+
+		if (type == 7 || type == 15) {
+			return ManualWorld.buildFungus_page;
+		}
+
+		return ManualWorld.verticalFungus_page;
+	}
 }

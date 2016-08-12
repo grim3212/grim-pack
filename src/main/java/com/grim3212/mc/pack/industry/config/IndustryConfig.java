@@ -30,7 +30,8 @@ public class IndustryConfig extends GrimConfig {
 		super.syncConfig();
 	}
 
-	public static List<IConfigElement> getConfigItems() {
+	@Override
+	public List<IConfigElement> getConfigItems() {
 		List<IConfigElement> list = new ArrayList<IConfigElement>();
 		list.addAll(new ConfigElement(GrimIndustry.INSTANCE.getConfig().getCategory(CONFIG_GENERAL_NAME)).getChildElements());
 		return list;
@@ -44,10 +45,5 @@ public class IndustryConfig extends GrimConfig {
 	@Override
 	public void writeToClient(PacketBuffer buffer) {
 		buffer.writeBoolean(useWorkbenchUpgrades);
-	}
-
-	@Override
-	public void updateManual() {
-		GrimIndustry.proxy.registerManual(GrimIndustry.INSTANCE.getModSection());
 	}
 }

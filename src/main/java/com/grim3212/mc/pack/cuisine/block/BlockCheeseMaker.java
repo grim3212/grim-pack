@@ -2,9 +2,11 @@ package com.grim3212.mc.pack.cuisine.block;
 
 import java.util.Random;
 
+import com.grim3212.mc.pack.core.block.BlockManual;
+import com.grim3212.mc.pack.core.manual.pages.Page;
 import com.grim3212.mc.pack.core.util.Utils;
+import com.grim3212.mc.pack.cuisine.client.ManualCuisine;
 
-import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
@@ -23,13 +25,12 @@ import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.oredict.OreDictionary;
 
-public class BlockCheeseMaker extends Block {
+public class BlockCheeseMaker extends BlockManual {
 
 	public static final PropertyInteger STAGE = PropertyInteger.create("stage", 0, 15);
 
 	protected BlockCheeseMaker() {
-		super(Material.GROUND);
-		setSoundType(SoundType.STONE);
+		super(Material.GROUND, SoundType.STONE);
 		setTickRandomly(true);
 		this.setDefaultState(this.blockState.getBaseState().withProperty(STAGE, 0));
 	}
@@ -41,7 +42,7 @@ public class BlockCheeseMaker extends Block {
 
 	@Override
 	public int getMetaFromState(IBlockState state) {
-		return ((Integer) state.getValue(STAGE));
+		return state.getValue(STAGE);
 	}
 
 	@Override
@@ -53,7 +54,7 @@ public class BlockCheeseMaker extends Block {
 	public void updateTick(World worldIn, BlockPos pos, IBlockState state, Random rand) {
 		super.updateTick(worldIn, pos, state, rand);
 		if (!worldIn.isRemote) {
-			int meta = (Integer) worldIn.getBlockState(pos).getValue(STAGE);
+			int meta = worldIn.getBlockState(pos).getValue(STAGE);
 			if (meta == 0) {
 				worldIn.setBlockState(pos, state.withProperty(STAGE, 0), 2);
 			} else if (meta == 8) {
@@ -68,7 +69,7 @@ public class BlockCheeseMaker extends Block {
 
 	@Override
 	public void onBlockClicked(World worldIn, BlockPos pos, EntityPlayer playerIn) {
-		if (((Integer) worldIn.getBlockState(pos).getValue(STAGE)) == 15) {
+		if (worldIn.getBlockState(pos).getValue(STAGE) == 15) {
 			if (!worldIn.isRemote) {
 				worldIn.setBlockState(pos, this.getDefaultState());
 				float f = 0.7F;
@@ -111,5 +112,10 @@ public class BlockCheeseMaker extends Block {
 		}
 
 		return true;
+	}
+
+	@Override
+	public Page getPage(IBlockState state) {
+		return ManualCuisine.cheeseMaker_page;
 	}
 }

@@ -1,5 +1,9 @@
 package com.grim3212.mc.pack.decor.block;
 
+import com.grim3212.mc.pack.core.manual.IManualEntry.IManualBlock;
+import com.grim3212.mc.pack.core.manual.pages.Page;
+import com.grim3212.mc.pack.decor.client.ManualDecor;
+
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.state.BlockStateContainer;
@@ -11,7 +15,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.property.ExtendedBlockState;
 import net.minecraftforge.common.property.IUnlistedProperty;
 
-public class BlockStool extends BlockColorizer {
+public class BlockStool extends BlockColorizer implements IManualBlock {
 
 	public static final PropertyBool UP = PropertyBool.create("up");
 	private static final AxisAlignedBB STOOL_AABB = new AxisAlignedBB(0.18F, 0.0F, 0.18F, 0.82F, 0.63F, 0.82F);
@@ -45,5 +49,10 @@ public class BlockStool extends BlockColorizer {
 
 	private boolean isPot(IBlockAccess worldIn, BlockPos pos) {
 		return worldIn.getBlockState(pos).getBlock() == DecorBlocks.pot;
+	}
+
+	@Override
+	public Page getPage(IBlockState state) {
+		return ManualDecor.stool_page;
 	}
 }

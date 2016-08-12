@@ -1,5 +1,9 @@
 package com.grim3212.mc.pack.world.entity;
 
+import com.grim3212.mc.pack.core.manual.IManualEntry.IManualEntity;
+import com.grim3212.mc.pack.core.manual.pages.Page;
+import com.grim3212.mc.pack.world.client.ManualWorld;
+
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -25,7 +29,7 @@ import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class EntityIcePixie extends EntityMob implements IRangedAttackMob {
+public class EntityIcePixie extends EntityMob implements IRangedAttackMob, IManualEntity {
 
 	public EntityIcePixie(World world) {
 		super(world);
@@ -76,7 +80,7 @@ public class EntityIcePixie extends EntityMob implements IRangedAttackMob {
 	@Override
 	public void onLivingUpdate() {
 		super.onLivingUpdate();
-		
+
 		int i = 0;
 		for (int j = (int) (-3D + posX); (double) j <= 3D + posX; j++) {
 			for (int k = (int) (-3D + posY); (double) k <= 3D + posY; k++) {
@@ -128,7 +132,6 @@ public class EntityIcePixie extends EntityMob implements IRangedAttackMob {
 		Entity entity = damagesource.getEntity();
 		if (entity instanceof EntityPlayer) {
 			EntityPlayer entityplayer = (EntityPlayer) entity;
-			// TODO: Probably will need to be changed
 			ItemStack itemstack = entityplayer.getHeldItemMainhand();
 			if (itemstack != null && (itemstack.getItem() == Items.FLINT_AND_STEEL || itemstack.getItem() == Item.getItemFromBlock(Blocks.TORCH))) {
 				return super.attackEntityFrom(damagesource, i);
@@ -146,5 +149,10 @@ public class EntityIcePixie extends EntityMob implements IRangedAttackMob {
 		EntityIceCube entityicecube = new EntityIceCube(this.worldObj, this, entity, 1.2F, (float) (14 - this.worldObj.getDifficulty().getDifficultyId() * 4));
 		worldObj.playSound((EntityPlayer) null, this.getPosition(), SoundEvents.ENTITY_SLIME_ATTACK, SoundCategory.HOSTILE, 1.0F, 1.0F / (rand.nextFloat() * 0.4F + 0.8F));
 		worldObj.spawnEntityInWorld(entityicecube);
+	}
+
+	@Override
+	public Page getPage(Entity entity) {
+		return ManualWorld.icePixie_page;
 	}
 }
