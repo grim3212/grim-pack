@@ -27,8 +27,8 @@ public class CoreConfig extends GrimConfig {
 
 	@Override
 	public void syncConfig() {
-		giveManualOnJoin = config.get(CONFIG_GENERAL_NAME, "Give Instruction Manual on World Join", true).getBoolean();
-		showCheckmark = config.get(CONFIG_GENERAL_NAME, "Show checkmark if available manual page", true).getBoolean();
+		giveManualOnJoin = config.get(CONFIG_GENERAL_NAME, "Give Instruction Manual on World Join", true, "grimpack.core.cfg.giveManual").getBoolean();
+		showCheckmark = config.get(CONFIG_GENERAL_NAME, "Show checkmark if available manual page", true, "grimpack.core.cfg.showCheckMark").getBoolean();
 
 		useCuisine = config.get(CONFIG_PARTS_NAME, "Enable cuisine part", true).setRequiresMcRestart(true).getBoolean();
 		useDecor = config.get(CONFIG_PARTS_NAME, "Enable decor part", true).setRequiresMcRestart(true).getBoolean();
