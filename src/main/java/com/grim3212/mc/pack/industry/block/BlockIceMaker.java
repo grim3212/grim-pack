@@ -109,9 +109,12 @@ public class BlockIceMaker extends BlockManual {
 			if (state.getValue(STAGE) == 0) {
 				IFluidHandler fluidBucket = Utils.getFluidHandler(heldItem);
 				FluidStack fluid = fluidBucket.drain(Fluid.BUCKET_VOLUME, false);
-				if (fluid.getFluid() != null && fluid.getFluid() == FluidRegistry.WATER) {
-					worldIn.setBlockState(pos, state.withProperty(STAGE, 1), 2);
-					fluidBucket.drain(Fluid.BUCKET_VOLUME, true);
+				// Make sure FluidStack itself is not null or it leads to problems
+				if (fluid != null) {
+					if (fluid.getFluid() != null && fluid.getFluid() == FluidRegistry.WATER) {
+						worldIn.setBlockState(pos, state.withProperty(STAGE, 1), 2);
+						fluidBucket.drain(Fluid.BUCKET_VOLUME, true);
+					}
 				}
 			}
 		}
