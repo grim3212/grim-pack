@@ -19,6 +19,7 @@ import com.grim3212.mc.pack.tools.config.ToolsConfig;
 import com.grim3212.mc.pack.tools.items.ItemBetterBucket.BucketType;
 import com.grim3212.mc.pack.tools.util.BackpackRecipeHandler;
 import com.grim3212.mc.pack.tools.util.ChiselRegistry;
+import com.grim3212.mc.pack.tools.util.DispenseBehaviors;
 import com.grim3212.mc.pack.tools.util.EnumSpearType;
 
 import net.minecraft.init.Blocks;
@@ -294,6 +295,9 @@ public class ToolsItems implements IPartItems {
 		Utils.registerItem(black_diamond_shovel, "black_diamond_shovel");
 		Utils.registerItem(black_diamond_pickaxe, "black_diamond_pickaxe");
 		Utils.registerItem(black_diamond, "black_diamond");
+
+		// Register all of the dispenser behaviors
+		DispenseBehaviors.register();
 	}
 
 	public static List<IRecipe> blackTools;

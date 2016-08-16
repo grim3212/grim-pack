@@ -29,6 +29,10 @@ public class ItemSpear extends ItemManual {
 		this.type = type;
 	}
 
+	public EnumSpearType getType() {
+		return type;
+	}
+
 	@Override
 	public Page getPage(ItemStack stack) {
 		if (stack.getItem() == ToolsItems.spear || stack.getItem() == ToolsItems.iron_spear || stack.getItem() == ToolsItems.diamond_spear)
@@ -61,7 +65,6 @@ public class ItemSpear extends ItemManual {
 		if (slot == EntityEquipmentSlot.MAINHAND) {
 			multimap.put(SharedMonsterAttributes.ATTACK_DAMAGE.getAttributeUnlocalizedName(), new AttributeModifier(ATTACK_DAMAGE_MODIFIER, "Weapon modifier", this.type.getItemDamage(), 0));
 			multimap.put(SharedMonsterAttributes.ATTACK_SPEED.getAttributeUnlocalizedName(), new AttributeModifier(ATTACK_SPEED_MODIFIER, "Weapon modifier", -2.8f, 0));
-
 		}
 		return multimap;
 	}
