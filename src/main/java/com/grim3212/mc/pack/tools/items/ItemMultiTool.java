@@ -1,7 +1,9 @@
 package com.grim3212.mc.pack.tools.items;
 
 import java.util.HashSet;
+import java.util.Set;
 
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Sets;
 import com.grim3212.mc.pack.core.manual.IManualEntry.IManualItem;
@@ -172,6 +174,11 @@ public class ItemMultiTool extends ItemTool implements IManualItem {
 	@Override
 	public int getItemEnchantability() {
 		return toolMaterial.getEnchantability();
+	}
+
+	@Override
+	public Set<String> getToolClasses(ItemStack stack) {
+		return ImmutableSet.<String> of("pickaxe", "shovel", "axe");
 	}
 
 	@Override
