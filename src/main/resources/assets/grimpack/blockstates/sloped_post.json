@@ -1,0 +1,25 @@
+{
+	"forge_marker": 1,
+    "defaults": {
+		"transform": "forge:default-block",
+        "model": "grimpack:decor_slope",
+		"textures": {
+		  "#None": "grimpack:blocks/colorizer"
+		},
+		"custom": {
+			"models": { 
+				"pyramid": {
+					"model": "grimpack:block/sloped_post.obj",
+					"custom": { "flip-v": true }
+				}
+			}
+		}
+    },
+    "variants": {
+		"half": {
+			"top": { "x": 180 },
+			"bottom": {}
+		},
+		"inventory": [{}]
+    }
+}

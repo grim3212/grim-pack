@@ -89,6 +89,6 @@ public class DecorModel implements IRetexturableModel, IModelCustomData {
 	}
 
 	public static enum EnumDecorModelType {
-		Fireplace, Colorizer, Unknown
+		Fireplace, Colorizer, Slope, Unknown
 	}
 }

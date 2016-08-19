@@ -47,30 +47,34 @@ import net.minecraftforge.common.model.TRSRTransformation;
 import net.minecraftforge.common.property.IExtendedBlockState;
 
 @SuppressWarnings("deprecation")
-public class BakedColorizerModel implements IPerspectiveAwareModel, IResourceManagerReloadListener {
+public class BakedColorizerOBJModel implements IPerspectiveAwareModel, IResourceManagerReloadListener {
 
 	protected final IModelState modelState;
-	protected final ImmutableList<ResourceLocation> modelLocation;
+	protected final ImmutableList<ModelData> modelData;
 	protected final ResourceLocation textureLocation;
 	protected final ImmutableMap<ItemCameraTransforms.TransformType, TRSRTransformation> transforms;
 	protected final VertexFormat format;
 	protected final IModel baseModel;
 	protected final ImmutableList<IModel> modelParts;
 
-	public BakedColorizerModel(IModelState modelState, ImmutableList<ResourceLocation> modelLocation, ResourceLocation textureLocation, VertexFormat fmt, ImmutableMap<ItemCameraTransforms.TransformType, TRSRTransformation> transforms) {
+	public BakedColorizerOBJModel(IModelState modelState, ImmutableList<ModelData> modelData, ResourceLocation textureLocation, VertexFormat fmt, ImmutableMap<ItemCameraTransforms.TransformType, TRSRTransformation> transforms) {
 		this.modelState = modelState;
-		this.modelLocation = modelLocation;
+		this.modelData = modelData;
 		this.textureLocation = textureLocation;
 		this.format = fmt;
 		this.transforms = transforms;
 
-		this.baseModel = ModelLoaderRegistry.getModelOrLogError(this.modelLocation.get(0), "Base model not found " + this.modelLocation.get(0));
+		this.baseModel = processModel(this.modelData.get(0));
 
 		ImmutableList.Builder<IModel> builder = ImmutableList.builder();
-		for (int i = 1; i < modelLocation.size(); i++) {
-			builder.add(ModelLoaderRegistry.getModelOrLogError(this.modelLocation.get(i), "Model part not found " + this.modelLocation.get(i)));
+		for (int i = 1; i < modelData.size(); i++) {
+			builder.add(processModel(this.modelData.get(i)));
 		}
 		this.modelParts = builder.build();
+	}
+
+	public IModel processModel(ModelData modelData) {
+		return ModelProcessingHelper.customData(ModelLoaderRegistry.getModelOrLogError(modelData.getModelLocation(), "Model not found for {" + modelData.getName() + "}"), modelData.getCustomData());
 	}
 
 	@Override
@@ -84,7 +88,15 @@ public class BakedColorizerModel implements IPerspectiveAwareModel, IResourceMan
 			IExtendedBlockState exState = (IExtendedBlockState) state;
 			if (exState.getValue(BlockColorizer.BLOCK_STATE) != null) {
 				IBlockState blockState = exState.getValue(BlockColorizer.BLOCK_STATE);
-				return this.getCachedModel(blockState).getQuads(state, side, rand);
+
+				ImmutableList.Builder<BakedQuad> tintedQuads = ImmutableList.builder();
+
+				// Make it so that hasTintIndex will return true so that tinting
+				// the block can happen
+				for (BakedQuad quad : this.getCachedModel(blockState).getQuads(state, side, rand))
+					tintedQuads.add(new BakedQuad(quad.getVertexData(), 0xFFFFFF, quad.getFace(), quad.getSprite(), quad.shouldApplyDiffuseLighting(), quad.getFormat()));
+
+				return tintedQuads.build();
 			}
 		}
 		return ImmutableList.of();
@@ -98,18 +110,18 @@ public class BakedColorizerModel implements IPerspectiveAwareModel, IResourceMan
 			ImmutableMap.Builder<String, String> newTexture = ImmutableMap.builder();
 
 			if (blockState == Blocks.AIR.getDefaultState()) {
-				newTexture.put("texture", "grimpack:blocks/colorizer");
+				newTexture.put("#None", "grimpack:blocks/colorizer");
 			} else if (blockState.getBlock() == Blocks.GRASS) {
-				newTexture.put("texture", "minecraft:blocks/grass_top");
+				newTexture.put("#None", "minecraft:blocks/grass_top");
 			} else if (blockState.getBlock() == Blocks.DIRT && blockState.getValue(BlockDirt.VARIANT) == DirtType.PODZOL) {
-				newTexture.put("texture", "minecraft:blocks/dirt_podzol_top");
+				newTexture.put("#None", "minecraft:blocks/dirt_podzol_top");
 			} else if (blockState.getBlock() == Blocks.MYCELIUM) {
-				newTexture.put("texture", "minecraft:blocks/mycelium_top");
+				newTexture.put("#None", "minecraft:blocks/mycelium_top");
 			} else {
 				BlockModelShapes blockModel = Minecraft.getMinecraft().getBlockRendererDispatcher().getBlockModelShapes();
 				TextureAtlasSprite blockTexture = blockModel.getTexture(blockState);
 
-				newTexture.put("texture", blockTexture.getIconName());
+				newTexture.put("#None", blockTexture.getIconName());
 			}
 
 			this.cache.put(blockState, generateModel(newTexture.build()));
@@ -118,9 +130,6 @@ public class BakedColorizerModel implements IPerspectiveAwareModel, IResourceMan
 		return this.cache.get(blockState);
 	}
 
-	
-	//TODO: Add support for IModelCustomData
-	
 	/**
 	 * Generate the model defined in json that is a combination of all models
 	 * defined
@@ -187,15 +196,16 @@ public class BakedColorizerModel implements IPerspectiveAwareModel, IResourceMan
 	}
 
 	private final ItemOverrideList itemHandler = new ItemOverrideList(Lists.<ItemOverride> newArrayList()) {
+
 		@Override
 		public IBakedModel handleItemState(IBakedModel model, ItemStack stack, World world, EntityLivingBase entity) {
 			if (stack.hasTagCompound() && stack.getTagCompound().hasKey("registryName") && stack.getTagCompound().hasKey("meta")) {
 				Block block = Block.REGISTRY.getObject(new ResourceLocation(NBTHelper.getString(stack, "registryName")));
 				IBlockState state = block.getStateFromMeta(NBTHelper.getInt(stack, "meta"));
-				return BakedColorizerModel.this.getCachedModel(state);
+				return BakedColorizerOBJModel.this.getCachedModel(state);
 			}
 
-			return BakedColorizerModel.this.getCachedModel(Blocks.AIR.getDefaultState());
+			return BakedColorizerOBJModel.this.getCachedModel(Blocks.AIR.getDefaultState());
 		}
 	};
 

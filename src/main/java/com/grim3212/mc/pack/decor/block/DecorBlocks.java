@@ -10,8 +10,10 @@ import com.grim3212.mc.pack.core.util.Utils;
 import com.grim3212.mc.pack.decor.GrimDecor;
 import com.grim3212.mc.pack.decor.item.DecorItems;
 import com.grim3212.mc.pack.decor.item.ItemColorizer;
+import com.grim3212.mc.pack.decor.item.ItemDecorStairs;
 import com.grim3212.mc.pack.decor.item.ItemGrill;
 import com.grim3212.mc.pack.decor.item.ItemLantern;
+import com.grim3212.mc.pack.decor.item.ItemSloped;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -56,6 +58,17 @@ public class DecorBlocks implements IPartItems {
 	public static Block hardened_wood;
 	public static Block colorizer;
 	public static Block burning_wood;
+	// Super slope shapes
+	public static Block corner;
+	public static Block slope;
+	public static Block sloped_angle;
+	public static Block slanted_corner;
+	public static Block oblique_slope;
+	public static Block sloped_intersection;
+	public static Block pyramid;
+	public static Block full_pyramid;
+	public static Block sloped_post;
+	public static Block decor_stairs;
 
 	@Override
 	public void initItems() {
@@ -89,6 +102,16 @@ public class DecorBlocks implements IPartItems {
 		hardened_wood = (new BlockHardenedWood()).setHardness(1.5F).setResistance(12F).setUnlocalizedName("hardened_wood").setCreativeTab(GrimDecor.INSTANCE.getCreativeTab());
 		colorizer = (new BlockColorizer()).setUnlocalizedName("colorizer");
 		burning_wood = (new BlockBurningWood()).setHardness(0.8F).setResistance(5F).setUnlocalizedName("burning_wood").setCreativeTab(GrimDecor.INSTANCE.getCreativeTab());
+		corner = (new BlockCorner()).setUnlocalizedName("corner");
+		pyramid = (new BlockPyramidHalf()).setUnlocalizedName("pyramid");
+		full_pyramid = (new BlockPyramidFull()).setUnlocalizedName("full_pyramid");
+		slope = (new BlockSlope()).setUnlocalizedName("slope");
+		sloped_angle = (new BlockSlopedAngle()).setUnlocalizedName("sloped_angle");
+		slanted_corner = (new BlockSlantedCorner()).setUnlocalizedName("slanted_corner");
+		oblique_slope = (new BlockObliqueSlope()).setUnlocalizedName("oblique_slope");
+		sloped_intersection = (new BlockSlopedIntersection()).setUnlocalizedName("sloped_intersection");
+		sloped_post = (new BlockSlopedPost()).setUnlocalizedName("sloped_post");
+		decor_stairs = (new BlockDecorStairs()).setUnlocalizedName("decor_stairs");
 
 		Utils.registerBlock(calendar, "calendar");
 		Utils.registerBlock(wall_clock, "wall_clock");
@@ -120,6 +143,16 @@ public class DecorBlocks implements IPartItems {
 		Utils.registerBlock(wall, "wall", new ItemColorizer(wall));
 		Utils.registerBlock(fence, "fence", new ItemColorizer(fence));
 		Utils.registerBlock(fence_gate, "fence_gate", new ItemColorizer(fence_gate));
+		Utils.registerBlock(corner, "corner", new ItemSloped(corner));
+		Utils.registerBlock(slope, "slope", new ItemSloped(slope, true));
+		Utils.registerBlock(sloped_angle, "sloped_angle", new ItemSloped(sloped_angle));
+		Utils.registerBlock(slanted_corner, "slanted_corner", new ItemSloped(slanted_corner));
+		Utils.registerBlock(oblique_slope, "oblique_slope", new ItemSloped(oblique_slope));
+		Utils.registerBlock(sloped_intersection, "sloped_intersection", new ItemSloped(sloped_intersection));
+		Utils.registerBlock(pyramid, "pyramid", new ItemSloped(pyramid));
+		Utils.registerBlock(full_pyramid, "full_pyramid", new ItemSloped(full_pyramid));
+		Utils.registerBlock(sloped_post, "sloped_post", new ItemSloped(sloped_post));
+		Utils.registerBlock(decor_stairs, "decor_stairs", new ItemDecorStairs(decor_stairs));
 	}
 
 	public static IRecipe mossy;
@@ -169,6 +202,16 @@ public class DecorBlocks implements IPartItems {
 
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(burning_wood, 5), new Object[] { " # ", "#W#", " # ", '#', "netherrack", 'W', "plankWood" }));
 
+		addFurnitureRecipe(corner, 4, "###", "## ", "#  ");
+		addFurnitureRecipe(slope, 4, "#  ", "## ", "###");
+		addFurnitureRecipe(sloped_angle, 5, " ##", "###");
+		addFurnitureRecipe(slanted_corner, 5, "  #", "  #", "###");
+		addFurnitureRecipe(oblique_slope, 4, "  #", "###");
+		addFurnitureRecipe(sloped_post, 6, "# ", "##", "##");
+		addFurnitureRecipe(sloped_intersection, 4, "## ", "# #");
+		addFurnitureRecipe(pyramid, 4, " # ", "###");
+		addFurnitureRecipe(full_pyramid, 4, " # ", " # ", "###");
+		addFurnitureRecipe(decor_stairs, 4, "  #", " ##", "###");
 		addFurnitureRecipe(stool, 4, "###", "S S");
 		addFurnitureRecipe(counter, 4, "###", " S ");
 		addFurnitureRecipe(table, 4, "###", "S S", "S S");

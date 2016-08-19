@@ -8,6 +8,16 @@ grimpack.creative.util=Grim Util
 grimpack.creative.world=Grim World
 
 #================= BLOCKS =================#
+tile.decor_stairs.name=Stairs
+tile.corner.name=Corner
+tile.sloped_post.name=Sloped Post
+tile.full_pyramid.name=Large Pyramid
+tile.pyramid.name=Pyramid
+tile.slope.name=Slope
+tile.sloped_angle.name=Sloped Angle
+tile.slanted_corner.name=Slanted Corner
+tile.oblique_slope.name=Oblique Slope
+tile.sloped_intersection.name=Sloped Intersection
 tile.burning_wood.name=Burning Wood
 tile.black_diamond_ore.name=Black Diamond Ore
 tile.black_diamond_block.name=Black Block of Diamond
@@ -168,6 +178,7 @@ tile.fungus_killing.15.name=Glass Layer Building Fungus
 
 #================= ITEMS =================#
 item.instruction_manual.name=Instruction Manual
+item.pruners.name=Pruners
 item.iron_stick.name=Iron Rod
 item.brush.name=Brush
 item.soda.apple.name=Apple Soda
@@ -725,7 +736,33 @@ grimpack.manual.decor.subsection.other.page.wall=Walls are basically counters bu
 grimpack.manual.decor.subsection.other.page.wall.title=Walls
 #End Other
 
-#Grim Industry
+grimpack.manual.decor.subsection.superslopes=Super Slopes
+grimpack.manual.decor.subsection.superslopes.page.slope_info=All of the following blocks work the same as colorizers in which they can take on the texture of other blocks by right clicking them with the block. Some of these blocks allow for rotation while all of the blocks can be flipped upside down in the same way half slabs and stairs can be. Simply place them on the upper half of a block. Almost all of these blocks can be used as an alternative to stairs.
+grimpack.manual.decor.subsection.superslopes.page.slope_info.title=Info
+grimpack.manual.decor.subsection.superslopes.page.slope=Slopes are half of a full block and operate the same as straight stairs.
+grimpack.manual.decor.subsection.superslopes.page.slope.title=Slopes
+grimpack.manual.decor.subsection.superslopes.page.sloped_angle=Sloped angles can be walk up only on the point that is facing. 
+grimpack.manual.decor.subsection.superslopes.page.sloped_angle.title=Sloped Angles
+grimpack.manual.decor.subsection.superslopes.page.slanted_corner=Slanted corners are a sharper incline the sloped angles but can still be walked up.
+grimpack.manual.decor.subsection.superslopes.page.slanted_corner.title=Slanted Corners
+grimpack.manual.decor.subsection.superslopes.page.oblique_slope=Oblique slopes act as a corner piece on stairs and are basically missing a slanted corner.
+grimpack.manual.decor.subsection.superslopes.page.oblique_slope.title=Oblique Slopes
+grimpack.manual.decor.subsection.superslopes.page.sloped_intersection=Sloped intersections are what would happen if two slopes were combined and act as corner stairs.
+grimpack.manual.decor.subsection.superslopes.page.sloped_intersection.title=Sloped Intersections
+grimpack.manual.decor.subsection.superslopes.page.pyramid=Pyramids only count as half a block. Can be acquired as leaves using the pruners on a large pyramid.
+grimpack.manual.decor.subsection.superslopes.page.pyramid.title=Pyramids
+grimpack.manual.decor.subsection.superslopes.page.full_pyramid=Large pyramids can be climbed up but the highest point is in the middle as you would suspect. Can be acquired as leaves using the pruners on a sloped post.
+grimpack.manual.decor.subsection.superslopes.page.full_pyramid.title=Large Pyramids
+grimpack.manual.decor.subsection.superslopes.page.sloped_post=Sloped post can not be climbed up. These blocks can also be found as leaves if you use the pruners on any leaf block.
+grimpack.manual.decor.subsection.superslopes.page.sloped_post.title=Sloped Posts
+grimpack.manual.decor.subsection.superslopes.page.stairs=These have all the same functionality as regular stairs but can be textured like any of the other colorizer blocks.
+grimpack.manual.decor.subsection.superslopes.page.stairs.title=Stairs
+grimpack.manual.decor.subsection.superslopes.page.pruners=Pruners are used to convert leaf blocks into sloped posts, then large pyramids, and finally pyramids. You can right click on a leaf block to cycle through these modes and shift right click to flip them upside down.
+grimpack.manual.decor.subsection.superslopes.page.pruners.title=Pruners
+grimpack.manual.decor.subsection.superslopes.page.corner=Corners are a sideways cut of a full block.
+grimpack.manual.decor.subsection.superslopes.page.corner.title=Corners
+
+### Grim Industry ###
 grimpack.manual.industry.modinfo=Adds a bunch of tech stuff.
 grimpack.manual.industry.subsection.gravity=Gravity 
 grimpack.manual.industry.subsection.gravity.page.boots=Gravity Boots are made so that while wearing them you will not be effected by any of the different blocks when they are active. So you will be able to freely move around. 
