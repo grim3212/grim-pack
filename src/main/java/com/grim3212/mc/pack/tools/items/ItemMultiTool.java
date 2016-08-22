@@ -36,8 +36,8 @@ public class ItemMultiTool extends ItemTool implements IManualItem {
 
 	private float attackDamage;
 
-	private static HashSet<Block> blocksEffectiveAgainst = Sets.newHashSet(new Block[] { Blocks.GRASS, Blocks.DIRT, Blocks.SAND, Blocks.GRAVEL, Blocks.SNOW, Blocks.SNOW_LAYER, Blocks.CLAY, Blocks.FARMLAND, Blocks.PLANKS, Blocks.BOOKSHELF, Blocks.LOG, Blocks.LOG2, Blocks.CHEST, Blocks.COBBLESTONE, Blocks.STONE, Blocks.SANDSTONE, Blocks.MOSSY_COBBLESTONE, Blocks.IRON_ORE, Blocks.IRON_BLOCK, Blocks.COAL_ORE, Blocks.GOLD_BLOCK, Blocks.GOLD_ORE, Blocks.DIAMOND_BLOCK, Blocks.DIAMOND_ORE, Blocks.ICE, Blocks.NETHERRACK, Blocks.LAPIS_ORE, Blocks.LAPIS_BLOCK, Blocks.BRICK_STAIRS,
-			Blocks.NETHER_BRICK_STAIRS, Blocks.SANDSTONE_STAIRS, Blocks.BIRCH_STAIRS, Blocks.JUNGLE_STAIRS, Blocks.STONE_STAIRS, Blocks.STONE_SLAB, Blocks.OBSIDIAN, Blocks.STONE_STAIRS, Blocks.QUARTZ_STAIRS, Blocks.STONE_BRICK_STAIRS, Blocks.DARK_OAK_STAIRS, Blocks.ACACIA_STAIRS });
+	private static HashSet<Block> blocksEffectiveAgainst = Sets.newHashSet(new Block[] { Blocks.ACTIVATOR_RAIL, Blocks.COAL_ORE, Blocks.COBBLESTONE, Blocks.DETECTOR_RAIL, Blocks.DIAMOND_BLOCK, Blocks.DIAMOND_ORE, Blocks.DOUBLE_STONE_SLAB, Blocks.GOLDEN_RAIL, Blocks.GOLD_BLOCK, Blocks.GOLD_ORE, Blocks.ICE, Blocks.IRON_BLOCK, Blocks.IRON_ORE, Blocks.LAPIS_BLOCK, Blocks.LAPIS_ORE, Blocks.LIT_REDSTONE_ORE, Blocks.MOSSY_COBBLESTONE, Blocks.NETHERRACK, Blocks.PACKED_ICE, Blocks.RAIL, Blocks.REDSTONE_ORE, Blocks.SANDSTONE, Blocks.RED_SANDSTONE, Blocks.STONE, Blocks.STONE_SLAB, Blocks.STONE_BUTTON,
+			Blocks.STONE_PRESSURE_PLATE, Blocks.CLAY, Blocks.DIRT, Blocks.FARMLAND, Blocks.GRASS, Blocks.GRAVEL, Blocks.MYCELIUM, Blocks.SAND, Blocks.SNOW, Blocks.SNOW_LAYER, Blocks.SOUL_SAND, Blocks.GRASS_PATH, Blocks.PLANKS, Blocks.BOOKSHELF, Blocks.LOG, Blocks.LOG2, Blocks.CHEST, Blocks.PUMPKIN, Blocks.LIT_PUMPKIN, Blocks.MELON_BLOCK, Blocks.LADDER, Blocks.WOODEN_BUTTON, Blocks.WOODEN_PRESSURE_PLATE, });
 
 	protected ItemMultiTool(ToolMaterial toolMaterial) {
 		super(4.0f + toolMaterial.getDamageVsEntity(), -2.8f, toolMaterial, blocksEffectiveAgainst);
@@ -58,7 +58,8 @@ public class ItemMultiTool extends ItemTool implements IManualItem {
 			return 5F;
 		}
 
-		return super.getStrVsBlock(stack, state);
+		Material material = state.getMaterial();
+		return material != Material.WOOD && material != Material.PLANTS && material != Material.VINE && material != Material.IRON && material != Material.ANVIL && material != Material.ROCK ? super.getStrVsBlock(stack, state) : this.efficiencyOnProperMaterial;
 	}
 
 	@Override
@@ -69,10 +70,8 @@ public class ItemMultiTool extends ItemTool implements IManualItem {
 
 	@Override
 	public boolean onBlockDestroyed(ItemStack stack, World worldIn, IBlockState state, BlockPos pos, EntityLivingBase entityLiving) {
-		if (state.getBlock() == Blocks.LEAVES || state.getBlock() == Blocks.WEB || state.getBlock() == Blocks.LEAVES2) {
+		if (state.getBlockHardness(worldIn, pos) != 0.0D)
 			stack.damageItem(1, entityLiving);
-		}
-		stack.damageItem(1, entityLiving);
 		return true;
 	}
 
@@ -83,7 +82,7 @@ public class ItemMultiTool extends ItemTool implements IManualItem {
 		if (block == Blocks.WEB) {
 			return true;
 		}
-		if (block == Blocks.SNOW) {
+		if (block == Blocks.SNOW || block == Blocks.SNOW_LAYER) {
 			return true;
 		}
 		if (block == Blocks.OBSIDIAN) {
@@ -174,6 +173,16 @@ public class ItemMultiTool extends ItemTool implements IManualItem {
 	@Override
 	public int getItemEnchantability() {
 		return toolMaterial.getEnchantability();
+	}
+
+	@Override
+	public int getHarvestLevel(ItemStack stack, String toolClass) {
+		int level = super.getHarvestLevel(stack, toolClass);
+		if (level == -1 && toolClass != null && this.getToolClasses(stack).contains(toolClass)) {
+			return this.toolMaterial.getHarvestLevel();
+		} else {
+			return level;
+		}
 	}
 
 	@Override
