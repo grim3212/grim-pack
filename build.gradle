@@ -84,7 +84,7 @@ curseforge {
         changelogType = 'html'
         changelog = file("changelog.html")
         relations {
-            optionalLibrary 'jei'
+            optionalLibrary 'just-enough-items-jei'
         }
     }
 }
