@@ -5,8 +5,10 @@ import java.util.List;
 import com.grim3212.mc.pack.core.manual.IManualEntry.IManualBlock;
 import com.grim3212.mc.pack.core.manual.pages.Page;
 import com.grim3212.mc.pack.decor.block.BlockSloped.EnumHalf;
+import com.grim3212.mc.pack.decor.client.ManualDecor;
+import com.grim3212.mc.pack.decor.util.DecorUtil;
+import com.grim3212.mc.pack.decor.util.DecorUtil.SlopeType;
 
-import net.minecraft.block.Block;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
@@ -19,9 +21,12 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.property.ExtendedBlockState;
 import net.minecraftforge.common.property.IUnlistedProperty;
 
-public abstract class BlockSlopedRotate extends BlockFurnitureRotate implements IManualBlock {
+public class BlockSlopedRotate extends BlockFurnitureRotate implements IManualBlock {
 
-	public BlockSlopedRotate() {
+	private final SlopeType type;
+
+	public BlockSlopedRotate(SlopeType type) {
+		this.type = type;
 		this.blockState.getBaseState().withProperty(BlockSloped.HALF, EnumHalf.BOTTOM).withProperty(FACING, EnumFacing.NORTH);
 	}
 
@@ -60,22 +65,27 @@ public abstract class BlockSlopedRotate extends BlockFurnitureRotate implements 
 	}
 
 	@Override
-	public abstract Page getPage(IBlockState state);
+	public Page getPage(IBlockState state) {
+		switch (this.type) {
+		case Corner:
+			return ManualDecor.cornerPage;
+		case SlantedCorner:
+			return ManualDecor.slantedCorner_page;
+		case Slope:
+			return ManualDecor.slopePage;
+		case SlopedAngle:
+			return ManualDecor.slopedAngle_page;
+		case ObliqueSlope:
+			return ManualDecor.obliqueSlope_page;
+		case SlopedIntersection:
+			return ManualDecor.slopedIntersection_page;
+		default:
+			return null;
+		}
+	}
 
 	@Override
 	public void addCollisionBoxToList(IBlockState state, World worldIn, BlockPos pos, AxisAlignedBB entityBox, List<AxisAlignedBB> collidingBoxes, Entity entityIn) {
-		Block block = state.getBlock();
-
-		if (block == DecorBlocks.slope) {
-
-		} else if (block == DecorBlocks.sloped_angle) {
-
-		} else if (block == DecorBlocks.slanted_corner) {
-
-		} else if (block == DecorBlocks.oblique_slope) {
-
-		} else if (block == DecorBlocks.sloped_intersection) {
-
-		}
+		DecorUtil.addAxisAlignedBoxes(pos, entityBox, collidingBoxes, state, this.type.getNumPieces());
 	}
 }

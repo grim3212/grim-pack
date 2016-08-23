@@ -14,6 +14,7 @@ import com.grim3212.mc.pack.decor.item.ItemDecorStairs;
 import com.grim3212.mc.pack.decor.item.ItemGrill;
 import com.grim3212.mc.pack.decor.item.ItemLantern;
 import com.grim3212.mc.pack.decor.item.ItemSloped;
+import com.grim3212.mc.pack.decor.util.DecorUtil.SlopeType;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -102,15 +103,15 @@ public class DecorBlocks implements IPartItems {
 		hardened_wood = (new BlockHardenedWood()).setHardness(1.5F).setResistance(12F).setUnlocalizedName("hardened_wood").setCreativeTab(GrimDecor.INSTANCE.getCreativeTab());
 		colorizer = (new BlockColorizer()).setUnlocalizedName("colorizer");
 		burning_wood = (new BlockBurningWood()).setHardness(0.8F).setResistance(5F).setUnlocalizedName("burning_wood").setCreativeTab(GrimDecor.INSTANCE.getCreativeTab());
-		corner = (new BlockCorner()).setUnlocalizedName("corner");
-		pyramid = (new BlockPyramidHalf()).setUnlocalizedName("pyramid");
-		full_pyramid = (new BlockPyramidFull()).setUnlocalizedName("full_pyramid");
-		slope = (new BlockSlope()).setUnlocalizedName("slope");
-		sloped_angle = (new BlockSlopedAngle()).setUnlocalizedName("sloped_angle");
-		slanted_corner = (new BlockSlantedCorner()).setUnlocalizedName("slanted_corner");
-		oblique_slope = (new BlockObliqueSlope()).setUnlocalizedName("oblique_slope");
-		sloped_intersection = (new BlockSlopedIntersection()).setUnlocalizedName("sloped_intersection");
-		sloped_post = (new BlockSlopedPost()).setUnlocalizedName("sloped_post");
+		corner = (new BlockSlopedRotate(SlopeType.Corner)).setUnlocalizedName("corner");
+		pyramid = (new BlockHedge(SlopeType.Pyramid)).setUnlocalizedName("pyramid");
+		full_pyramid = (new BlockHedge(SlopeType.FullPyramid)).setUnlocalizedName("full_pyramid");
+		slope = (new BlockSlopedRotate(SlopeType.Slope)).setUnlocalizedName("slope");
+		sloped_angle = (new BlockSlopedRotate(SlopeType.SlopedAngle)).setUnlocalizedName("sloped_angle");
+		slanted_corner = (new BlockSlopedRotate(SlopeType.SlantedCorner)).setUnlocalizedName("slanted_corner");
+		oblique_slope = (new BlockSlopedRotate(SlopeType.ObliqueSlope)).setUnlocalizedName("oblique_slope");
+		sloped_intersection = (new BlockSlopedRotate(SlopeType.SlopedIntersection)).setUnlocalizedName("sloped_intersection");
+		sloped_post = (new BlockHedge(SlopeType.SlopedPost)).setUnlocalizedName("sloped_post");
 		decor_stairs = (new BlockDecorStairs()).setUnlocalizedName("decor_stairs");
 
 		Utils.registerBlock(calendar, "calendar");

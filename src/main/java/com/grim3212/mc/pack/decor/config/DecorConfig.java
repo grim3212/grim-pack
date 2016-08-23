@@ -33,6 +33,7 @@ public class DecorConfig extends GrimConfig {
 	// Client only
 	public static float widthWallpaper;
 	public static boolean enableFirepitNet;
+	public static int smoothness;
 
 	public static HashMap<Item, Item> grillRecipes = Maps.newHashMap();
 	public static final String CONFIG_NAME = "decor";
@@ -53,6 +54,7 @@ public class DecorConfig extends GrimConfig {
 
 		widthWallpaper = (float) config.get(CONFIG_GENERAL_NAME, "WallpaperWidth", 1.0D).getDouble();
 		enableFirepitNet = config.get(CONFIG_GENERAL_NAME, "grimpack.decor.cfg.EnableFirepitNet", true).getBoolean();
+		smoothness = config.get(CONFIG_GENERAL_NAME, "SlopeSmoothness", 2).getInt();
 
 		config.get(CONFIG_GRILL_RECIPES_NAME, "grimpack.decor.cfg.recipes", new String[] { "porkchop>cooked_porkchop", "beef>cooked_beef", "chicken>cooked_chicken", "potato>baked_potato", "rabbit>cooked_rabbit", "mutton>cooked_mutton", "fish>cooked_fish" });
 		config.addCustomCategoryComment(CONFIG_GRILL_RECIPES_NAME, "Use this to add new grill recipes. \nTo add a new recipe add a line then write out the [RawItemName] separated by a '>' then write out the [CookedItemName]. For mod items make sure to add the modID with a colon ':' and the then the item name. \nExample: grimcuisine:chocolate_ball>grimcuisine:chocolate_bar");
