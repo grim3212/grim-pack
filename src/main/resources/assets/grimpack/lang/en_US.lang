@@ -453,6 +453,10 @@ Mining Wand Ores for Surface Mining.tooltip=The ores that the mining wand can pu
 Restrict powerstaff blocks.tooltip=If the powerstaff can't move certain blocks that will be defined by the blocks that the powerstaff is allowed to move.
 Blocks allowed when restrict powerstaff is active.tooltip=If Restrict powerstaff blocks is true then the powerstaff will only be able to move these blocks
 
+grimpack.util.cfg.general=General Options
+grimpack.util.cfg.debug=Debug Options
+grimpack.util.cfg.general.tooltip=General options for configuring util
+grimpack.util.cfg.debug.tooltip=Useful options to help with debugging
 grimpack.util.cfg.tooltip=Config options for the utility part of the Grim Pack
 Horizontal Pushing Force.tooltip=The horizontal pushing force when using fusrodah
 Upward Pushing Force.tooltip=The upward pushing force when using a fusrodah
@@ -464,6 +468,7 @@ Spawn graves on player death.tooltip=If graves should be spawned when a player d
 Use Infinite Lava.tooltip=True if lava becomes infinite
 Use Double Doors.tooltip=True if doors, trap doors, and fence gates open as double doors
 Enable Automatic Item Replacer.tooltip=True if the automatic item replacer will replace items when you run out
+Show collision boxes.tooltip=True if when you shift click and hover over blocks that you can see that blocks collision boxes
 
 grimpack.world.cfg.tooltip=Config options for the world generation part of the Grim Pack
 grimpack.world.cfg.general=General Options

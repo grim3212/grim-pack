@@ -8,12 +8,14 @@ import com.grim3212.mc.pack.util.GrimUtil;
 
 import net.minecraft.network.PacketBuffer;
 import net.minecraftforge.common.config.ConfigElement;
+import net.minecraftforge.fml.client.config.DummyConfigElement.DummyCategoryElement;
 import net.minecraftforge.fml.client.config.IConfigElement;
 
 public class UtilConfig extends GrimConfig {
 
 	public static final String CONFIG_NAME = "util";
 	public static final String CONFIG_GENERAL_NAME = "util.general";
+	public static final String CONFIG_DEBUG_NAME = "util.debug";
 
 	// Sync to client
 	public static double frd_power;
@@ -29,6 +31,9 @@ public class UtilConfig extends GrimConfig {
 	public static boolean useOldSound;
 	public static boolean enableAutoReplace;
 
+	// Debug
+	public static boolean showCollisionBoxes;
+
 	@Override
 	public void syncConfig() {
 		frd_power = config.get(CONFIG_GENERAL_NAME, "Horizontal Pushing Force", 2.0D).getDouble();
@@ -41,6 +46,7 @@ public class UtilConfig extends GrimConfig {
 		infiniteLava = config.get(CONFIG_GENERAL_NAME, "Use Infinite Lava", false).getBoolean();
 		doubleDoors = config.get(CONFIG_GENERAL_NAME, "Use Double Doors", true).getBoolean();
 		enableAutoReplace = config.get(CONFIG_GENERAL_NAME, "Enable Automatic Item Replacer", true).getBoolean();
+		showCollisionBoxes = config.get(CONFIG_DEBUG_NAME, "Show collision boxes", false).getBoolean();
 
 		super.syncConfig();
 	}
@@ -48,7 +54,8 @@ public class UtilConfig extends GrimConfig {
 	@Override
 	public List<IConfigElement> getConfigItems() {
 		List<IConfigElement> list = new ArrayList<IConfigElement>();
-		list.addAll(new ConfigElement(GrimUtil.INSTANCE.getConfig().getCategory(CONFIG_GENERAL_NAME)).getChildElements());
+		list.add(new DummyCategoryElement("utilGeneralCfg", "grimpack.util.cfg.general", new ConfigElement(GrimUtil.INSTANCE.getConfig().getCategory(CONFIG_GENERAL_NAME)).getChildElements()));
+		list.add(new DummyCategoryElement("utilDebugCfg", "grimpack.util.cfg.debug", new ConfigElement(GrimUtil.INSTANCE.getConfig().getCategory(CONFIG_DEBUG_NAME)).getChildElements()));
 		return list;
 	}
 
