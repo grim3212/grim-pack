@@ -4,6 +4,7 @@
 // For those who want the bleeding edge
 buildscript {
     repositories {
+		mavenCentral()
         jcenter()
         maven {
             name = "forge"
@@ -87,4 +88,10 @@ curseforge {
             optionalLibrary 'just-enough-items-jei'
         }
     }
+}
+
+// Used to automatically upload update.json
+task deploy (type: Exec) { 
+	workingDir '/WinSCP'
+	commandLine 'cmd', '/C', 'deploy.bat'
 }
