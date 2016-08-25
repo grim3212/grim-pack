@@ -91,7 +91,8 @@ curseforge {
 }
 
 // Used to automatically upload update.json
-task deploy (type: Exec) { 
+task deploy (type: Exec) {
 	workingDir '/WinSCP'
 	commandLine 'cmd', '/C', 'deploy.bat'
 }
+deploy.dependsOn 'curseforge'
