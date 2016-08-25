@@ -178,6 +178,7 @@ tile.fungus_killing.15.name=Glass Layer Building Fungus
 
 #================= ITEMS =================#
 item.instruction_manual.name=Instruction Manual
+item.extruder.name=Extruder
 item.pruners.name=Pruners
 item.iron_stick.name=Iron Rod
 item.brush.name=Brush
@@ -516,6 +517,15 @@ container.grill=Grill
 container.grill.tier=Tier
 container.portable_workbench=Portable Workbench
 container.backpack=Backpack
+container.extruder=Extruder
+container.extruder.mined=Mined
+container.extruder.fuel=Fuel: %s
+container.extruder.north=North
+container.extruder.east=East
+container.extruder.south=South
+container.extruder.west=West
+container.extruder.up=Up
+container.extruder.down=Down
 
 entity.IcePixie.name=Ice Pixie
 entity.Treasure.name=Treasure Mob

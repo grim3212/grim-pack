@@ -83,6 +83,7 @@ public class IndustryItems implements IPartItems {
 	public static Item super_crude_oil;
 	public static Item rubber;
 	public static Item iron_stick;
+	public static Item extruder;
 
 	public static ToolMaterial steel = EnumHelper.addToolMaterial("steel", 3, 1200, 7.5F, 2.5F, 12);
 	public static ArmorMaterial antiRadiation = EnumHelper.addArmorMaterial("antiRadiation", GrimPack.modID + ":radiation", 5, new int[] { 2, 5, 3, 1 }, 15, SoundEvents.BLOCK_CLOTH_PLACE, 0.0F);
@@ -138,7 +139,9 @@ public class IndustryItems implements IPartItems {
 		paint_roller_red = (ItemPaintRollerColor) (new ItemPaintRollerColor(EnumSidingColor.red)).setUnlocalizedName("paint_roller_red");
 		paint_roller_green = (ItemPaintRollerColor) (new ItemPaintRollerColor(EnumSidingColor.green)).setUnlocalizedName("paint_roller_green");
 		paint_roller_blue = (ItemPaintRollerColor) (new ItemPaintRollerColor(EnumSidingColor.blue)).setUnlocalizedName("paint_roller_blue");
+		extruder = (new ItemExtruder()).setUnlocalizedName("extruder").setCreativeTab(GrimIndustry.INSTANCE.getCreativeTab());
 
+		Utils.registerItem(extruder, "extruder");
 		Utils.registerItem(iron_stick, "iron_stick");
 		Utils.registerItem(rubber, "rubber");
 		Utils.registerItem(aluminum_can, "aluminum_can");
@@ -217,6 +220,8 @@ public class IndustryItems implements IPartItems {
 		GameRegistry.addSmelting(tarball, new ItemStack(asphalt, 1), 0.35F);
 		GameRegistry.addSmelting(Items.FLINT, new ItemStack(graphite), 0.35F);
 		GameRegistry.addSmelting(coal_iron_ingot, new ItemStack(steel_ingot, 1), 0.5F);
+
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(extruder, 1), new Object[] { "PD", 'D', Blocks.DISPENSER, 'P', Blocks.PISTON }));
 
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(aluminum_can, 16), new Object[] { "a a", "a a", "a a", 'a', "ingotAluminum" }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(aluminum_shaft, 4), new Object[] { "a", "a", 'a', "ingotAluminum" }));

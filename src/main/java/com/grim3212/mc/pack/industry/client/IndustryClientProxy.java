@@ -6,7 +6,9 @@ import com.grim3212.mc.pack.industry.block.BlockFountain;
 import com.grim3212.mc.pack.industry.block.BlockModernDoor;
 import com.grim3212.mc.pack.industry.block.BlockSiding;
 import com.grim3212.mc.pack.industry.block.IndustryBlocks;
+import com.grim3212.mc.pack.industry.client.entity.RenderExtruder.ExtruderFactory;
 import com.grim3212.mc.pack.industry.client.model.CamoPlateModel.CamoPlateModelLoader;
+import com.grim3212.mc.pack.industry.entity.EntityExtruder;
 import com.grim3212.mc.pack.industry.item.IndustryItems;
 import com.grim3212.mc.pack.industry.tile.TileEntityCamo;
 
@@ -19,6 +21,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.client.model.ModelLoaderRegistry;
+import net.minecraftforge.fml.client.registry.RenderingRegistry;
 
 public class IndustryClientProxy extends ClientProxy {
 
@@ -35,6 +38,7 @@ public class IndustryClientProxy extends ClientProxy {
 		ModelLoader.setCustomStateMapper(IndustryBlocks.vertical_siding, new StateMap.Builder().ignore(BlockSiding.COLOR).build());
 
 		// ITEMS
+		RenderHelper.renderItem(IndustryItems.extruder);
 		RenderHelper.renderItem(IndustryItems.iron_stick);
 		RenderHelper.renderItem(IndustryItems.gravity_boots);
 		RenderHelper.renderItem(IndustryItems.graphite);
@@ -138,6 +142,9 @@ public class IndustryClientProxy extends ClientProxy {
 		RenderHelper.renderBlock(IndustryBlocks.refinery);
 		RenderHelper.renderBlock(IndustryBlocks.modern_furnace);
 		RenderHelper.renderBlock(IndustryBlocks.camo_plate);
+
+		// Entities
+		RenderingRegistry.registerEntityRenderingHandler(EntityExtruder.class, new ExtruderFactory());
 	}
 
 	@Override
