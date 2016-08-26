@@ -442,8 +442,15 @@ Generate Oil Ore.tooltip=True if oil ore should generate
 Do workbench upgrades double result.tooltip=True if upgraded workbenches should give you double or quadruple the result
 
 grimpack.tools.cfg.tooltip=Config options for the tools and weapons part of the Grim Pack
+grimpack.tools.cfg.general=General Options
+grimpack.tools.cfg.general.tooltip=This contains general options for the tools part.
+grimpack.tools.cfg.ultimatefist=Ultimate Fist Options
+grimpack.tools.cfg.ultimatefist.tooltip=This contains all the options to customize Ultimate Fist to make it even overpowered or less. It is highly configurable.
 Ultimate Fist Damage Against Entity's.tooltip=The amount of damage the the ultimate fist will do against entities
 Ultimate Fist Block Breaking Speed.tooltip=How fast the ultimate fist will break blocks
+Ultimate Fist Attack Speed.tooltip=The modifier for how fast you can attack with the ultimate fist
+Ultimate Fist Can Be Damaged.tooltip=If true the Ultimate fist can be damaged and eventually break
+Ultimate Fist Durability Amount.tooltip=If the ultimate fist can be damaged is true then this will be the value that is returned as the durability
 Multitool durability multiplier.tooltip=The amount that the default multitool durability should be multiplied by. So, if a multitool is diamond then it will be diamond tools base durability (1562) * this number
 Enable Free Build Mode.tooltip=If building with the wands doesn't require any blocks
 Enable Bedrock Breaking.tooltip=If the breaking wand can break through bedrock

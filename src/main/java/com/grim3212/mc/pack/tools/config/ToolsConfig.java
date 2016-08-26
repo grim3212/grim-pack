@@ -13,28 +13,37 @@ import net.minecraft.block.Block;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.config.ConfigElement;
 import net.minecraftforge.fml.client.config.IConfigElement;
+import net.minecraftforge.fml.client.config.DummyConfigElement.DummyCategoryElement;
 
 public class ToolsConfig extends GrimConfig {
 
 	public static final String CONFIG_NAME = "tools";
 	public static final String CONFIG_GENERAL_NAME = "tools.general";
+	public static final String CONFIG_FIST_NAME = "tools.ultimatefist";
 
 	public static boolean ENABLE_free_build_mode;
 	public static boolean ENABLE_bedrock_breaking;
 	public static boolean ENABLE_easy_mining_obsidian;
 	public static String[] BLOCKS_Destructive_wand_spared_ores;
 	public static String[] BLOCKS_Mining_wand_ores_for_surface_mining;
-	public static double fistEntityDamage;
-	public static float fistBlockBreakSpeed;
 	public static float multiToolDurabilityMultiplier;
+	public static double fistEntityDamage;
+	public static double fistAttackSpeed;
+	public static float fistBlockBreakSpeed;
+	public static boolean fistHasDurability;
+	public static int fistDurabilityAmount;
 
 	public static boolean restrictPowerStaffBlocks;
 	public static String[] powerstaff_pull_push_blocks;
 
 	@Override
 	public void syncConfig() {
-		fistEntityDamage = config.get(CONFIG_GENERAL_NAME, "Ultimate Fist Damage Against Entity's", 1561).getDouble();
-		fistBlockBreakSpeed = config.get(CONFIG_GENERAL_NAME, "Ultime Fist Block Breaking Speed", 64).getInt();
+		fistEntityDamage = config.get(CONFIG_FIST_NAME, "Ultimate Fist Damage Against Entity's", 1561).getDouble();
+		fistBlockBreakSpeed = config.get(CONFIG_FIST_NAME, "Ultimate Fist Block Breaking Speed", 64).getInt();
+		fistAttackSpeed = config.get(CONFIG_FIST_NAME, "Ultimate Fist Attack Speed", 0.0F).getDouble();
+		fistHasDurability = config.get(CONFIG_FIST_NAME, "Ultimate Fist Can Be Damaged", false).getBoolean();
+		fistDurabilityAmount = config.get(CONFIG_FIST_NAME, "Ultimate Fist Durability Amount", 1561).getInt();
+
 		multiToolDurabilityMultiplier = (float) config.get(CONFIG_GENERAL_NAME, "Multitool durability multiplier", 3).getDouble();
 
 		ENABLE_free_build_mode = config.get(CONFIG_GENERAL_NAME, "Enable Free Build Mode", false).getBoolean();
@@ -57,7 +66,8 @@ public class ToolsConfig extends GrimConfig {
 	@Override
 	public List<IConfigElement> getConfigItems() {
 		List<IConfigElement> list = new ArrayList<IConfigElement>();
-		list.addAll(new ConfigElement(GrimTools.INSTANCE.getConfig().getCategory(CONFIG_GENERAL_NAME)).getChildElements());
+		list.add(new DummyCategoryElement("toolsGeneralCfg", "grimpack.tools.cfg.general", new ConfigElement(GrimTools.INSTANCE.getConfig().getCategory(CONFIG_GENERAL_NAME)).getChildElements()));
+		list.add(new DummyCategoryElement("toolsUltimateFistCfg", "grimpack.tools.cfg.ultimatefist", new ConfigElement(GrimTools.INSTANCE.getConfig().getCategory(CONFIG_FIST_NAME)).getChildElements()));
 		return list;
 	}
 
