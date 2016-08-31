@@ -3,15 +3,16 @@ package com.grim3212.mc.pack.industry.client.gui;
 import java.io.IOException;
 
 import com.grim3212.mc.pack.GrimPack;
+import com.grim3212.mc.pack.core.network.PacketDispatcher;
 import com.grim3212.mc.pack.industry.inventory.ContainerExtruder;
 import com.grim3212.mc.pack.industry.inventory.InventoryExtruder;
+import com.grim3212.mc.pack.industry.network.MessageExtruderDirection;
 
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -49,7 +50,7 @@ public class GuiExtruder extends GuiContainer {
 
 	@Override
 	protected void actionPerformed(GuiButton button) throws IOException {
-		System.out.println(EnumFacing.getFront(button.id));
+		PacketDispatcher.sendToServer(new MessageExtruderDirection((byte) button.id, extruderInv.getExtruder().getEntityId()));
 	}
 
 	@Override
@@ -60,7 +61,7 @@ public class GuiExtruder extends GuiContainer {
 		this.fontRendererObj.drawString(this.playerInv.getDisplayName().getUnformattedText(), 8, this.ySize - 96 + 2, 4210752);
 
 		if (extruderInv.getExtruder() != null) {
-			this.fontRendererObj.drawString(I18n.format("container.extruder.fuel", extruderInv.getExtruder().getFuel()), 102, 24, 0x404040);
+			this.fontRendererObj.drawString(I18n.format("container.extruder.fuel", extruderInv.getExtruder().getFuelAmount()), 102, 24, 0x404040);
 		}
 	}
 

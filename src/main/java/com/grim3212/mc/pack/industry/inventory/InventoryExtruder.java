@@ -3,8 +3,10 @@ package com.grim3212.mc.pack.industry.inventory;
 import com.grim3212.mc.pack.industry.entity.EntityExtruder;
 
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.IInventory;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
@@ -22,7 +24,7 @@ public class InventoryExtruder implements IInventory {
 	 * Slot 10-37 : Extruder Mined contents
 	 */
 	private ItemStack[] extruderContents = new ItemStack[37];
-	public int contentHead = 0;
+	public int contentHead = 1;
 
 	public InventoryExtruder(EntityExtruder extruder) {
 		this.extruder = extruder;
@@ -73,6 +75,24 @@ public class InventoryExtruder implements IInventory {
 
 				return itemstack;
 			}
+		} else {
+			return null;
+		}
+	}
+
+	public ItemStack nextExtruderStack() {
+		int slot = contentHead++;
+		if (contentHead >= 10) {
+			contentHead = 1;
+		}
+		ItemStack itemstack = extruderContents[slot];
+		if (itemstack != null) {
+			if (itemstack.getItem() == Item.getItemFromBlock(Blocks.OBSIDIAN)) {
+				contentHead = 2;
+				slot = 1;
+			}
+			
+			return decrStackSize(slot, 1);
 		} else {
 			return null;
 		}
@@ -160,5 +180,24 @@ public class InventoryExtruder implements IInventory {
 
 	public void setExtruderContents(ItemStack[] extruderContents) {
 		this.extruderContents = extruderContents;
+	}
+
+	public void addToMinedInventory(ItemStack itemstack) {
+		int slot = 10;
+		do {
+			if (slot >= 37) {
+				break;
+			}
+			ItemStack itemstack1 = getStackInSlot(slot);
+			if (itemstack1 == null) {
+				setInventorySlotContents(slot, itemstack);
+				break;
+			}
+			if (ItemStack.areItemsEqual(itemstack1, itemstack) && itemstack1.stackSize < getInventoryStackLimit()) {
+				itemstack1.stackSize++;
+				break;
+			}
+			slot++;
+		} while (true);
 	}
 }

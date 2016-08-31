@@ -28,7 +28,7 @@ public class RenderExtruder extends Render<EntityExtruder> {
 		super.doRender(entity, x, y, z, entityYaw, partialTicks);
 
 		GlStateManager.pushMatrix();
-		GlStateManager.translate(x, y, z);
+		GlStateManager.translate(x, y + entity.height / 2, z);
 		GlStateManager.rotate(180f + entityYaw, 0.0F, 1.0F, 0.0F);
 		GlStateManager.rotate(entity.rotationPitch, 0.0F, 0.0F, 1.0F);
 
@@ -47,7 +47,7 @@ public class RenderExtruder extends Render<EntityExtruder> {
 		GlStateManager.scale(1.0F / scale, 1.0F / scale, 1.0F / scale);
 		this.bindEntityTexture(entity);
 		GlStateManager.scale(-1F, -1F, 1.0F);
-		extruderModel.render(entity, 0.0F, 0.0F, -0.1F, 0.0F, entity.extrusionWave, 0.0625F);
+		extruderModel.render(entity, 0.0F, 0.0F, -0.1F, 0.0F, entity.getExtrusionWave(), 0.0625F);
 		GlStateManager.popMatrix();
 	}
 

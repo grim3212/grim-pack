@@ -55,12 +55,19 @@ public class ContainerExtruder extends Container {
 			ItemStack itemstack1 = slot.getStack();
 			itemstack = itemstack1.copy();
 			if (index < 10) {
-				if (!mergeItemStack(itemstack1, 10, 45, true)) {
+				if (!mergeItemStack(itemstack1, 38, 73, false)) {
 					return null;
 				}
-			} else if (!mergeItemStack(itemstack1, 0, 10, false)) {
-				return null;
+			} else if (index >= 10 && index < 38) {
+				if (!mergeItemStack(itemstack1, 38, 73, false)) {
+					return null;
+				}
+			} else if (index >= 38 && index < 73) {
+				if (!mergeItemStack(itemstack1, 0, 38, false)) {
+					return null;
+				}
 			}
+
 			if (itemstack1.stackSize == 0) {
 				slot.putStack(null);
 			} else {

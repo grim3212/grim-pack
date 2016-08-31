@@ -22,8 +22,8 @@ public class IndustryConfig extends GrimConfig {
 	public static boolean useWorkbenchUpgrades;
 
 	// Extruder settings
-	public static float fuelPerMinedBlock;
-	public static float fuelPerExtrudedBlock;
+	public static int fuelPerMinedBlock;
+	public static int fuelPerExtrudedBlock;
 	public static float moveSpeed;
 	public static int fuelPerStick;
 	public static int fuelPerCoal;
@@ -43,8 +43,8 @@ public class IndustryConfig extends GrimConfig {
 		generateOilOre = config.get(CONFIG_GENERAL_NAME, "Generate Oil Ore", true).getBoolean();
 		useWorkbenchUpgrades = config.get(CONFIG_GENERAL_NAME, "Do workbench upgrades double result", false).getBoolean();
 
-		fuelPerMinedBlock = (float) config.get(CONFIG_EXTRUDER_NAME, "Fuel per mined block", 350f).getDouble();
-		fuelPerExtrudedBlock = (float) config.get(CONFIG_EXTRUDER_NAME, "Fuel per extruded block", 200f).getDouble();
+		fuelPerMinedBlock = config.get(CONFIG_EXTRUDER_NAME, "Fuel per mined block", 350).getInt();
+		fuelPerExtrudedBlock = config.get(CONFIG_EXTRUDER_NAME, "Fuel per extruded block", 200).getInt();
 		moveSpeed = (float) config.get(CONFIG_EXTRUDER_NAME, "Extruder move speed", 0.1f).getDouble();
 		fuelPerStick = config.get(CONFIG_EXTRUDER_NAME, "Fuel per stick", 75).getInt();
 		fuelPerCoal = config.get(CONFIG_EXTRUDER_NAME, "Fuel per coal", 1600).getInt();
