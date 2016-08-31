@@ -1,12 +1,15 @@
 package com.grim3212.mc.pack.industry;
 
 import com.grim3212.mc.pack.core.manual.IManualPart;
+import com.grim3212.mc.pack.core.network.PacketDispatcher;
 import com.grim3212.mc.pack.core.part.GrimPart;
 import com.grim3212.mc.pack.core.proxy.CommonProxy;
 import com.grim3212.mc.pack.industry.block.IndustryBlocks;
 import com.grim3212.mc.pack.industry.client.ManualIndustry;
 import com.grim3212.mc.pack.industry.config.IndustryConfig;
+import com.grim3212.mc.pack.industry.entity.IndustryEntities;
 import com.grim3212.mc.pack.industry.item.IndustryItems;
+import com.grim3212.mc.pack.industry.network.MessageExtruderDirection;
 import com.grim3212.mc.pack.industry.tile.IndustryTileEntities;
 import com.grim3212.mc.pack.industry.world.IndustryGenerate;
 
@@ -32,6 +35,7 @@ public class GrimIndustry extends GrimPart {
 		super(GrimIndustry.partId, GrimIndustry.partName, new IndustryConfig());
 		addItem(new IndustryBlocks());
 		addItem(new IndustryItems());
+		addEntity(new IndustryEntities());
 		addTileEntity(new IndustryTileEntities());
 	}
 
@@ -39,6 +43,7 @@ public class GrimIndustry extends GrimPart {
 	public void preInit(FMLPreInitializationEvent event) {
 		super.preInit(event);
 
+		PacketDispatcher.registerMessage(MessageExtruderDirection.class);
 		GameRegistry.registerWorldGenerator(new IndustryGenerate(), 10);
 		proxy.preInit();
 	}

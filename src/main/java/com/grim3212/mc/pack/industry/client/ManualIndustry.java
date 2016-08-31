@@ -81,9 +81,13 @@ public class ManualIndustry implements IManualPart {
 	public static Page derrickRecipes_page;
 	public static Page modernFurnace_page;
 	public static Page modernFurnaceRecipes_page;
+	public static Page extruder_page;
+	public static Page extruderInfo_page;
 
 	@Override
 	public void initPages() {
+		extruder_page = new PageCrafting("extruder", new ItemStack(IndustryItems.extruder));
+		extruderInfo_page = new PageInfo("info");
 		workbench_page = new PageCrafting("recipes", IndustryBlocks.workbenches, 25);
 		iceMaker_page = new PageCrafting("recipes", new ItemStack(IndustryBlocks.ice_maker));
 		togglerack_page = new PageCrafting("toggle", new ItemStack(IndustryBlocks.togglerack));
@@ -152,6 +156,7 @@ public class ManualIndustry implements IManualPart {
 		ManualRegistry.addChapter("ice", part).addPages(iceMaker_page);
 		ManualRegistry.addChapter("elemental", part).addPages(togglerack_page, fireBlock_page, waterBlock_page, lavaBlock_page);
 		ManualRegistry.addChapter("spikes", part).addPages(spike_page);
+		ManualRegistry.addChapter("extruders", part).addPages(extruder_page, extruderInfo_page);
 		ManualRegistry.addChapter("sensors", part).addPages(sensor_page);
 		ManualRegistry.addChapter("gravity", part).addPages(gravityBoots_page, controller_page, attract_page, gravitor_page, repulse_page);
 		ManualRegistry.addChapter("refining", part).addPages(uranium_page, radiationSuit_page, uraniumSmelt_page, refinedUranium_page, plutonium_page, refinedPlutonium_page, reactorCore_page);
