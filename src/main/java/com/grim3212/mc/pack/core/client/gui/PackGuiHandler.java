@@ -9,6 +9,7 @@ import com.grim3212.mc.pack.decor.tile.TileEntityGrill;
 import com.grim3212.mc.pack.industry.client.gui.GuiCraftingDiamond;
 import com.grim3212.mc.pack.industry.client.gui.GuiCraftingIron;
 import com.grim3212.mc.pack.industry.client.gui.GuiExtruder;
+import com.grim3212.mc.pack.industry.client.gui.GuiFan;
 import com.grim3212.mc.pack.industry.client.gui.GuiMFurnace;
 import com.grim3212.mc.pack.industry.client.gui.GuiMachine;
 import com.grim3212.mc.pack.industry.entity.EntityExtruder;
@@ -17,6 +18,7 @@ import com.grim3212.mc.pack.industry.inventory.ContainerExtruder;
 import com.grim3212.mc.pack.industry.inventory.ContainerIronWorkbench;
 import com.grim3212.mc.pack.industry.inventory.ContainerMFurnace;
 import com.grim3212.mc.pack.industry.inventory.ContainerMachine;
+import com.grim3212.mc.pack.industry.tile.TileEntityFan;
 import com.grim3212.mc.pack.industry.tile.TileEntityMFurnace;
 import com.grim3212.mc.pack.industry.tile.TileEntityMachine;
 import com.grim3212.mc.pack.tools.client.gui.GuiBackpack;
@@ -48,6 +50,7 @@ public class PackGuiHandler implements IGuiHandler {
 	public static final int PORTABLE_MAIN_GUI_ID = 9;
 	public static final int PORTABLE_OFF_GUI_ID = 10;
 	public static final int EXTRUDER_GUI_ID = 11;
+	public static final int FAN_GUI_ID = 12;
 
 	@Override
 	public Object getServerGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
@@ -108,6 +111,8 @@ public class PackGuiHandler implements IGuiHandler {
 			return new GuiPortable(player.inventory, world, pos, player.getHeldItemOffhand());
 		} else if (ID == EXTRUDER_GUI_ID) {
 			return new GuiExtruder(player.inventory, this.getEntityAt(world, x, y, z, EntityExtruder.class).getExtruderInv());
+		} else if ((ID == FAN_GUI_ID) && ((tileentity instanceof TileEntityFan))) {
+			return new GuiFan((TileEntityFan) tileentity);
 		}
 
 		return null;

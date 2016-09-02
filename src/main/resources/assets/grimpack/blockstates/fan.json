@@ -1,0 +1,28 @@
+{
+	"forge_marker": 1,
+    "defaults": {
+		"transform": "forge:default-block",
+        "model": "minecraft:orientable",
+		"textures": {
+			"top": "blocks/noteblock",
+			"front": "grimpack:blocks/fan",
+			"side": "blocks/noteblock"
+		}
+    },
+    "variants": {
+		"mode": {
+			"blow": {},
+			"suck": { "textures": { "front": "grimpack:blocks/fan_suck" } },
+			"off": { "textures": { "front": "grimpack:blocks/fan_stopped" } }
+		},
+        "facing": {
+			"up": { "model": "minecraft:orientable_vertical" },
+			"down": { "model": "minecraft:orientable_vertical", "x": 180 },
+			"north": {},
+			"south": { "y": 180 },
+			"west": { "y": 270 },
+			"east": { "y": 90 }
+		},
+		"inventory": [{}]
+    }
+}
