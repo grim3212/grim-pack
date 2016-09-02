@@ -6,6 +6,7 @@ import java.util.Random;
 
 import com.grim3212.mc.pack.industry.GrimIndustry;
 import com.grim3212.mc.pack.industry.block.BlockFan;
+import com.grim3212.mc.pack.industry.config.IndustryConfig;
 import com.grim3212.mc.pack.tools.entity.EntityBlockPushPull;
 
 import net.minecraft.block.material.Material;
@@ -171,18 +172,21 @@ public class TileEntityFan extends TileEntity implements ITickable {
 				}
 			} while (true);
 
-			BlockPos particlePos = pos.offset(facing);
+			if (worldObj.isRemote) {
+				if (IndustryConfig.showFanParticles) {
+					BlockPos particlePos = pos.offset(facing);
 
-			if (mode == FanMode.BLOW) {
-				for (int ii = 1; ii <= range / 4 + 1; ii++) {
-					GrimIndustry.proxy.airParticles(worldObj, particlePos.getX() + rand.nextDouble(), particlePos.getY() + rand.nextDouble(), particlePos.getZ() + rand.nextDouble(), io, jo, ko, this);
-				}
-			} else if (mode == FanMode.SUCK) {
-				for (int ii = 1; ii <= range / 4 + 1; ii++) {
-					GrimIndustry.proxy.airParticles(worldObj, particlePos.getX() + rand.nextDouble() + (i1 * rand.nextDouble()), particlePos.getY() + rand.nextDouble() + (j1 * rand.nextDouble()), particlePos.getZ() + rand.nextDouble() + (k1 * rand.nextDouble()), io, jo, ko, this);
+					if (mode == FanMode.BLOW) {
+						for (int ii = 1; ii <= range / 4 + 1; ii++) {
+							GrimIndustry.proxy.airParticles(worldObj, particlePos.getX() + rand.nextDouble(), particlePos.getY() + rand.nextDouble(), particlePos.getZ() + rand.nextDouble(), io, jo, ko, this);
+						}
+					} else if (mode == FanMode.SUCK) {
+						for (int ii = 1; ii <= range / 4 + 1; ii++) {
+							GrimIndustry.proxy.airParticles(worldObj, particlePos.getX() + rand.nextDouble() + (i1 * rand.nextDouble()), particlePos.getY() + rand.nextDouble() + (j1 * rand.nextDouble()), particlePos.getZ() + rand.nextDouble() + (k1 * rand.nextDouble()), io, jo, ko, this);
+						}
+					}
 				}
 			}
-
 		}
 	}
 
