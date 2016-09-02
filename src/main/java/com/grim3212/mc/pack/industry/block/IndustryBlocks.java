@@ -78,6 +78,7 @@ public class IndustryBlocks implements IPartItems {
 	public static Block refinery;
 	public static Block steel_frame;
 	public static Block fuel_tank;
+	public static Block fan;
 
 	@Override
 	public void initItems() {
@@ -134,7 +135,9 @@ public class IndustryBlocks implements IPartItems {
 		steel_pipe = (new BlockSteelPipe()).setHardness(1.0F).setResistance(10.0F).setUnlocalizedName("steel_pipe").setCreativeTab(GrimIndustry.INSTANCE.getCreativeTab());
 		steel_frame = (new BlockSteelFrame()).setHardness(1.0F).setResistance(10.0F).setLightOpacity(0).setUnlocalizedName("steel_frame").setCreativeTab(GrimIndustry.INSTANCE.getCreativeTab());
 		fuel_tank = (new BlockFuel()).setHardness(1.0F).setResistance(5.0F).setUnlocalizedName("fuel_tank").setCreativeTab(GrimIndustry.INSTANCE.getCreativeTab());
+		fan = (new BlockFan()).setHardness(1.5F).setResistance(10F).setUnlocalizedName("fan").setCreativeTab(GrimIndustry.INSTANCE.getCreativeTab());
 
+		Utils.registerBlock(fan, "fan");
 		Utils.registerBlock(aluminum_ladder, "aluminum_ladder");
 		Utils.registerBlock(aluminum_ore, "aluminum_ore");
 		Utils.registerBlock(oil_ore, "oil_ore");
@@ -211,6 +214,8 @@ public class IndustryBlocks implements IPartItems {
 
 		GameRegistry.addSmelting(aluminum_ore, new ItemStack(IndustryItems.aluminum_ingot, 1), 0.45F);
 		GameRegistry.addSmelting(uranium_ore, new ItemStack(IndustryItems.uranium_ingot), 0.7F);
+
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(fan, 1), new Object[] { "X X", "XYX", "XXX", 'X', "plankWood", 'Y', "dustRedstone" }));
 
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(refinery, 1), new Object[] { "sss", "ara", "sss", 's', "ingotSteel", 'r', "dustRedstone", 'a', IndustryItems.aluminum_can }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(derrick, 1), new Object[] { "s s", "sRs", "sPs", 's', "ingotSteel", 'R', refinery, 'P', steel_pipe }));

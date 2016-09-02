@@ -8,6 +8,7 @@ grimpack.creative.util=Grim Util
 grimpack.creative.world=Grim World
 
 #================= BLOCKS =================#
+tile.fan.name=Fan
 tile.decor_stairs.name=Stairs
 tile.corner.name=Corner
 tile.sloped_post.name=Sloped Post
@@ -514,6 +515,22 @@ Forest Eating Whitelist.tooltip=The blocks that forest eating fungus can eat
 grimpack.decor.brush.empty=Stored: Empty
 grimpack.decor.brush.stored=Stored: %s
 grimpack.decor.brush_info=Clear block information from furniture
+
+grimpack.gui.ok=Ok
+grimpack.gui.cancel=Cancel
+grimpack.gui.yes=Yes
+grimpack.gui.no=No
+grimpack.gui.max=Max
+grimpack.gui.min=Min
+
+grimpack.industry.fan.mode=Mode:
+grimpack.industry.fan.range=Range:
+grimpack.industry.fan.addOne=+1
+grimpack.industry.fan.addFive=+5
+grimpack.industry.fan.minusOne=-1
+grimpack.industry.fan.minusFive=-5
+grimpack.industry.fan.BLOW=Blow
+grimpack.industry.fan.SUCK=Suck
 
 container.crafting_iron=Iron Crafting (2x)
 container.crafting_diamond=Diamond Crafting (4x)

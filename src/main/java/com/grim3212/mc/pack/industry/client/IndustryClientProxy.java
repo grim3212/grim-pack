@@ -1,16 +1,19 @@
 package com.grim3212.mc.pack.industry.client;
 
 import com.grim3212.mc.pack.core.client.RenderHelper;
-import com.grim3212.mc.pack.core.proxy.ClientProxy;
+import com.grim3212.mc.pack.industry.IndustryCommonProxy;
 import com.grim3212.mc.pack.industry.block.BlockFountain;
 import com.grim3212.mc.pack.industry.block.BlockModernDoor;
 import com.grim3212.mc.pack.industry.block.BlockSiding;
 import com.grim3212.mc.pack.industry.block.IndustryBlocks;
 import com.grim3212.mc.pack.industry.client.entity.RenderExtruder.ExtruderFactory;
+import com.grim3212.mc.pack.industry.client.event.TextureStitch;
 import com.grim3212.mc.pack.industry.client.model.CamoPlateModel.CamoPlateModelLoader;
+import com.grim3212.mc.pack.industry.client.particle.ParticleAir;
 import com.grim3212.mc.pack.industry.entity.EntityExtruder;
 import com.grim3212.mc.pack.industry.item.IndustryItems;
 import com.grim3212.mc.pack.industry.tile.TileEntityCamo;
+import com.grim3212.mc.pack.industry.tile.TileEntityFan;
 
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
@@ -19,14 +22,23 @@ import net.minecraft.client.renderer.color.IBlockColor;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.World;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.client.model.ModelLoaderRegistry;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 
-public class IndustryClientProxy extends ClientProxy {
+public class IndustryClientProxy extends IndustryCommonProxy {
+
+	@Override
+	public void airParticles(World world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, TileEntityFan fan) {
+		Minecraft.getMinecraft().effectRenderer.addEffect(new ParticleAir(world, x, y, z, xSpeed, ySpeed, zSpeed, fan));
+	}
 
 	@Override
 	public void preInit() {
+		MinecraftForge.EVENT_BUS.register(new TextureStitch());
+
 		// Register all custom models for camo plates
 		ModelLoaderRegistry.registerLoader(CamoPlateModelLoader.instance);
 
@@ -89,6 +101,7 @@ public class IndustryClientProxy extends ClientProxy {
 		RenderHelper.renderItem(IndustryItems.steel_sword);
 
 		// BLOCKS
+		RenderHelper.renderBlock(IndustryBlocks.fan);
 		RenderHelper.renderBlock(IndustryBlocks.togglerack);
 		RenderHelper.renderBlock(IndustryBlocks.iron_workbench);
 		RenderHelper.renderBlock(IndustryBlocks.diamond_workbench);
