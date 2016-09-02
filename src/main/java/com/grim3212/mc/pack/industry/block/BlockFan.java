@@ -4,6 +4,7 @@ import com.grim3212.mc.pack.GrimPack;
 import com.grim3212.mc.pack.core.block.BlockManual;
 import com.grim3212.mc.pack.core.client.gui.PackGuiHandler;
 import com.grim3212.mc.pack.core.manual.pages.Page;
+import com.grim3212.mc.pack.industry.client.ManualIndustry;
 import com.grim3212.mc.pack.industry.tile.TileEntityFan;
 import com.grim3212.mc.pack.industry.tile.TileEntityFan.FanMode;
 
@@ -152,7 +153,7 @@ public class BlockFan extends BlockManual implements ITileEntityProvider {
 
 	@Override
 	public Page getPage(IBlockState state) {
-		return null;
+		return ManualIndustry.fan_page;
 	}
 
 }
