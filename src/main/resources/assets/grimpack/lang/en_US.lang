@@ -438,10 +438,29 @@ grimpack.decor.cfg.EnableFirepitNet.tooltip=True if you want the firepit to have
 grimpack.decor.cfg.IsFireParticles.tooltip=When False the fire when blocks are active are actual fire if true this uses particles instead.
 
 grimpack.industry.cfg.tooltip=Config options for the mechanical part of the Grim Pack
+grimpack.industry.cfg.general=General Options
+grimpack.industry.cfg.general.tooltip=This is just general industry options.
+grimpack.industry.cfg.extruder=Extruder Options
+grimpack.industry.cfg.extruder.tooltip=You can most of how the extruder works by changing the options here.
 Generate Uranium.tooltip=True if Uranium ore should generate
 Generate Aluminum.tooltip=True if aluminum ore should generate
 Generate Oil Ore.tooltip=True if oil ore should generate
+Show Fan Particles.tooltip=True if you want fans to generate the air particles.
 Do workbench upgrades double result.tooltip=True if upgraded workbenches should give you double or quadruple the result
+Fuel per mined block.tooltip=How much fuel it costs to mine each block
+Fuel per extruded block.tooltip=How much fuel it costs for each block to be extruder (or placed)
+Extruder move speed.tooltip=How fast the extruder moves by default
+Fuel per stick.tooltip=How much fuel a stick provides the Extruder
+Fuel per coal.tooltip=How much fuel a piece of coal provides the Extruder
+Fuel per redstone.tooltip=How much fuel a piece of redstone provides the Extruder
+Fuel per lava.tooltip=How much fuel a bucket of lava provides the Extruder
+Fuel per blazerod.tooltip=How much fuel a blazerod provides the Extruder
+Fuel per magma cream.tooltip=How much fuel magma cream provides the Extruder
+Stick speed modifier.tooltip=How much faster the Extruder will move with a stick. This can make it slower if below 1
+Coal speed modifier.tooltip=How much faster the Extruder will move with coal. This can make it slower if below 1
+Redstone speed modifier.tooltip=How much faster the Extruder will move with redstone. This can make it slower if below 1
+Magmacream speed modifier.tooltip=How much faster the Extruder will move with magmacream. This can make it slower if below 1
+
 
 grimpack.tools.cfg.tooltip=Config options for the tools and weapons part of the Grim Pack
 grimpack.tools.cfg.general=General Options
