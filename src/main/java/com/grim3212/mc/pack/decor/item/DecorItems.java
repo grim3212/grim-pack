@@ -27,6 +27,7 @@ public class DecorItems implements IPartItems {
 	public static Item lamp_item;
 	public static Item brush;
 	public static Item pruners;
+	public static Item flat_item_frame;
 
 	public static List<IRecipe> frames;
 
@@ -40,7 +41,9 @@ public class DecorItems implements IPartItems {
 		unfired_pot = (new ItemManualPage("decor:deco.crafts")).setUnlocalizedName("unfired_pot").setCreativeTab(GrimDecor.INSTANCE.getCreativeTab());
 		unfired_craft = (new ItemManualPage("decor:deco.crafts")).setUnlocalizedName("unfired_craft").setCreativeTab(GrimDecor.INSTANCE.getCreativeTab());
 		lamp_item = new ItemLampPost().setUnlocalizedName("lamp_item").setCreativeTab(GrimDecor.INSTANCE.getCreativeTab());
+		flat_item_frame = new ItemFlatItemFrame().setUnlocalizedName("flat_item_frame").setCreativeTab(GrimDecor.INSTANCE.getCreativeTab());
 
+		Utils.registerItem(flat_item_frame, "flat_item_frame");
 		Utils.registerItem(pruners, "pruners");
 		Utils.registerItem(brush, "brush");
 		Utils.registerItem(lamp_item, "lamp_item");
@@ -53,8 +56,9 @@ public class DecorItems implements IPartItems {
 
 	@Override
 	public void addRecipes() {
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(flat_item_frame, 4), new Object[] { "###", "#L#", "###", '#', DecorBlocks.hardened_wood, 'L', "leather" }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(pruners, 1), new Object[] { "  #", " ##", "SS ", '#', "ingotIron", 'S', "stickWood" }));
-		
+
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Blocks.GLASS, 1), new Object[] { "##", "##", '#', glass_shard }));
 		DecorBlocks.lights.add(RecipeHelper.getLatestIRecipe());
 

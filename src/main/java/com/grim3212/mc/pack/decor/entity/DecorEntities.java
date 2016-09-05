@@ -9,6 +9,7 @@ public class DecorEntities implements IPartEntities {
 	public void initEntities() {
 		Utils.registerEntity(EntityFrame.class, "Frames", 250, 2147483647, false);
 		Utils.registerEntity(EntityWallpaper.class, "Wallpaper", 250, 2147483647, false);
+		Utils.registerEntity(EntityFlatItemFrame.class, "FlatItemFrame", 250, 2147483647, false);
 	}
 
 }

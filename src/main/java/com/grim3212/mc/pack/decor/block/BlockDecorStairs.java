@@ -64,7 +64,7 @@ public class BlockDecorStairs extends BlockFurnitureRotate implements IManualBlo
 
 	@Override
 	public Page getPage(IBlockState state) {
-		return ManualDecor.stairsPage;
+		return ManualDecor.stairs_page;
 	}
 
 	@Override

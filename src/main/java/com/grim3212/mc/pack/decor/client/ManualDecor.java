@@ -51,9 +51,9 @@ public class ManualDecor implements IManualPart {
 	public static Page firering_page;
 	public static Page grill_page;
 	public static Page lamps_page;
-	public static Page slopeInfoPage;
-	public static Page cornerPage;
-	public static Page slopePage;
+	public static Page slopeInfo_page;
+	public static Page corner_page;
+	public static Page slope_page;
 	public static Page slopedAngle_page;
 	public static Page slantedCorner_page;
 	public static Page obliqueSlope_page;
@@ -61,12 +61,14 @@ public class ManualDecor implements IManualPart {
 	public static Page pyramid_page;
 	public static Page fullPyramid_page;
 	public static Page slopedPost_page;
-	public static Page stairsPage;
-	public static Page prunersPage;
+	public static Page stairs_page;
+	public static Page pruners_page;
+	public static Page flatItemFrame_page;
 
 	@Override
 	public void initPages() {
 		fancyPack_page = new PageInfo("fancy");
+		flatItemFrame_page = new PageCrafting("flat_item_frame", new ItemStack(DecorItems.flat_item_frame));
 		moss_page = new PageCrafting("moss", DecorBlocks.mossy);
 		fancyStone_page = new PageCrafting("stone", DecorBlocks.stone, 25);
 		road_page = new PageFurnace("road", new ItemStack(Blocks.GRAVEL));
@@ -98,9 +100,9 @@ public class ManualDecor implements IManualPart {
 		firering_page = new PageCrafting("firering", new ItemStack(DecorBlocks.firering));
 		grill_page = new PageCrafting("grill", new ItemStack(DecorBlocks.grill));
 		lamps_page = new PageCrafting("recipes", new ItemStack(DecorItems.lamp_item));
-		slopeInfoPage = new PageInfo("slope_info");
-		cornerPage = new PageCrafting("corner", new ItemStack(DecorBlocks.corner));
-		slopePage = new PageCrafting("slope", new ItemStack(DecorBlocks.slope));
+		slopeInfo_page = new PageInfo("slope_info");
+		corner_page = new PageCrafting("corner", new ItemStack(DecorBlocks.corner));
+		slope_page = new PageCrafting("slope", new ItemStack(DecorBlocks.slope));
 		slopedAngle_page = new PageCrafting("sloped_angle", new ItemStack(DecorBlocks.sloped_angle));
 		slantedCorner_page = new PageCrafting("slanted_corner", new ItemStack(DecorBlocks.slanted_corner));
 		obliqueSlope_page = new PageCrafting("oblique_slope", new ItemStack(DecorBlocks.oblique_slope));
@@ -108,21 +110,21 @@ public class ManualDecor implements IManualPart {
 		pyramid_page = new PageCrafting("pyramid", new ItemStack(DecorBlocks.pyramid));
 		fullPyramid_page = new PageCrafting("full_pyramid", new ItemStack(DecorBlocks.full_pyramid));
 		slopedPost_page = new PageCrafting("sloped_post", new ItemStack(DecorBlocks.sloped_post));
-		stairsPage = new PageCrafting("stairs", new ItemStack(DecorBlocks.decor_stairs));
-		prunersPage = new PageCrafting("pruners", new ItemStack(DecorItems.pruners));
+		stairs_page = new PageCrafting("stairs", new ItemStack(DecorBlocks.decor_stairs));
+		pruners_page = new PageCrafting("pruners", new ItemStack(DecorItems.pruners));
 	}
 
 	@Override
 	public void registerChapters(ManualPart part) {
 		ManualRegistry.addChapter("intro", part).addPages(fancyPack_page, moss_page, fancyStone_page, road_page);
-		ManualRegistry.addChapter("hanging", part).addPages(calendar_page, clock_page, wallpaperInfo_page, wallpaper_page, framesInfo_page, frames_page);
+		ManualRegistry.addChapter("hanging", part).addPages(calendar_page, clock_page, wallpaperInfo_page, wallpaper_page, framesInfo_page, frames_page, flatItemFrame_page);
 		ManualRegistry.addChapter("deco", part).addPages(cage_page, lantern_page, crafts_page, firing_page, lights_page);
 		ManualRegistry.addChapter("furniture", part).addPages(colorizer_page, brush_page, table_page, chair_page, stool_page, counter_page);
 		ManualRegistry.addChapter("other", part).addPages(fence_page, fenceGate_page, wall_page);
 		ManualRegistry.addChapter("fires", part).addPages(burningWood_page, fireplace_page, chimney_page, stove_page, firepit_page, firering_page);
 		ManualRegistry.addChapter("grill", part).addPages(grill_page);
 		ManualRegistry.addChapter("lamps", part).addPages(lamps_page);
-		ManualRegistry.addChapter("superslopes", part).addPages(slopeInfoPage, slopePage, slopedAngle_page, slantedCorner_page, cornerPage, obliqueSlope_page, slopedIntersection_page, stairsPage, pyramid_page, fullPyramid_page, slopedPost_page, prunersPage);
+		ManualRegistry.addChapter("superslopes", part).addPages(slopeInfo_page, slope_page, slopedAngle_page, slantedCorner_page, corner_page, obliqueSlope_page, slopedIntersection_page, stairs_page, pyramid_page, fullPyramid_page, slopedPost_page, pruners_page);
 	}
 
 }

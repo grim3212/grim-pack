@@ -68,11 +68,11 @@ public class BlockSlopedRotate extends BlockFurnitureRotate implements IManualBl
 	public Page getPage(IBlockState state) {
 		switch (this.type) {
 		case Corner:
-			return ManualDecor.cornerPage;
+			return ManualDecor.corner_page;
 		case SlantedCorner:
 			return ManualDecor.slantedCorner_page;
 		case Slope:
-			return ManualDecor.slopePage;
+			return ManualDecor.slope_page;
 		case SlopedAngle:
 			return ManualDecor.slopedAngle_page;
 		case ObliqueSlope:

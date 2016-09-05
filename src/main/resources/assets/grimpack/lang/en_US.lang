@@ -179,6 +179,7 @@ tile.fungus_killing.15.name=Glass Layer Building Fungus
 
 #================= ITEMS =================#
 item.instruction_manual.name=Instruction Manual
+item.flat_item_frame.name=Flat Item Frame
 item.extruder.name=Extruder
 item.pruners.name=Pruners
 item.iron_stick.name=Iron Rod
@@ -705,17 +706,19 @@ grimpack.manual.decor.modinfo=Adds in many different decorative items and blocks
 #Start Hanging
 grimpack.manual.decor.subsection.hanging=Hangeables
 grimpack.manual.decor.subsection.hanging.page.calendar=Need to know how long you've been in your Minecraft world or when to get more porkchops. If you do then the calendar will help keep track of those things for you.
-grimpack.manual.decor.subsection.hanging.page.calendar.title=Crafting
+grimpack.manual.decor.subsection.hanging.page.calendar.title=Calendar
 grimpack.manual.decor.subsection.hanging.page.clock=If you also would like to display the current time on the wall then use a wall clock.
-grimpack.manual.decor.subsection.hanging.page.clock.title=Recipe
+grimpack.manual.decor.subsection.hanging.page.clock.title=Clock
 grimpack.manual.decor.subsection.hanging.page.wallpaperinfo=Are your walls lacking substance? Maybe they need some wallpaper. Wallpaper gives you many options to decorate your home with. By default you have 24 different designs. <br>Other than just the default wallpaper you can also dye them by right clicking on a placed wallpaper with dye, if you would like to clear the wallpaper use Bonemeal. <br>If your house even catches on fire remember that you can remove the burned look from wallpaper.
-grimpack.manual.decor.subsection.hanging.page.wallpaperinfo.title=Information
+grimpack.manual.decor.subsection.hanging.page.wallpaperinfo.title=Wallpaper Info
 grimpack.manual.decor.subsection.hanging.page.wallpaper=Once placed right click on it again and it will cycle through the available options. When placed next to other wallpaper it will try and take on the texture of the surrounding wallpaper.
-grimpack.manual.decor.subsection.hanging.page.wallpaper.title=Recipe
+grimpack.manual.decor.subsection.hanging.page.wallpaper.title=Wallpaper
 grimpack.manual.decor.subsection.hanging.page.frameinfo=If you would also like to add depth to your house then frames are for you. Frames come in either wood or iron. <br>Frames are stronger then wallpaper so if their supporting block is removed they will still be there. To dye a frame you just need to right click with a dye in your hand on them. To break frames use an axe for wooden and a pickaxe for the iron.
-grimpack.manual.decor.subsection.hanging.page.frameinfo.title=More Info
+grimpack.manual.decor.subsection.hanging.page.frameinfo.title=Frame Info
 grimpack.manual.decor.subsection.hanging.page.frames=Similar to wallpaper, once placed keep right clicking for available patterns. 
-grimpack.manual.decor.subsection.hanging.page.frames.title=Recipes
+grimpack.manual.decor.subsection.hanging.page.frames.title=Frame
+grimpack.manual.decor.subsection.hanging.page.flat_item_frame=These "flat item frames" act exactly like regular item frames except that you can also place them on the top and bottom of blocks. These are slightly more expensive than regular item frames.
+grimpack.manual.decor.subsection.hanging.page.flat_item_frame.title=Flat Item Frame
 #End Hanging
 
 #Start Fires
