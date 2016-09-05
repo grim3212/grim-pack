@@ -1,5 +1,7 @@
 package com.grim3212.mc.pack.core.client;
 
+import com.grim3212.mc.pack.GrimPack;
+
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.block.model.ModelBakery;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
@@ -8,7 +10,6 @@ import net.minecraft.client.renderer.vertex.VertexFormat;
 import net.minecraft.item.Item;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.ModelLoader;
-import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -58,6 +59,20 @@ public class RenderHelper {
 	 * @param variants
 	 *            The different variant names
 	 */
+	public static void renderVariantForgeMeta(Item item, int meta, String... variants) {
+		for (int i = 0; i < variants.length; i++) {
+			ModelLoader.setCustomModelResourceLocation(item, meta, new ModelResourceLocation(item.getRegistryName(), variants[i]));
+		}
+	}
+
+	/**
+	 * Uses the forge single blockstate for variants
+	 * 
+	 * @param item
+	 *            With variants
+	 * @param variants
+	 *            The different variant names
+	 */
 	public static void renderVariantForge(Item item, String... variants) {
 		for (int i = 0; i < variants.length; i++) {
 			ModelLoader.setCustomModelResourceLocation(item, i, new ModelResourceLocation(item.getRegistryName(), variants[i]));
@@ -97,7 +112,7 @@ public class RenderHelper {
 	}
 
 	public static void registerExtraModel(Item item, String model) {
-		ModelBakery.registerItemVariants(item, new ResourceLocation(Loader.instance().activeModContainer().getModId() + ":" + model));
+		ModelBakery.registerItemVariants(item, new ResourceLocation(GrimPack.modID, model));
 	}
 
 	public static void registerExtraModels(Block item, String... models) {
@@ -106,6 +121,6 @@ public class RenderHelper {
 
 	public static void registerExtraModels(Item item, String... models) {
 		for (String model : models)
-			ModelBakery.registerItemVariants(item, new ResourceLocation(Loader.instance().activeModContainer().getModId() + ":" + model));
+			ModelBakery.registerItemVariants(item, new ResourceLocation(GrimPack.modID, model));
 	}
 }
