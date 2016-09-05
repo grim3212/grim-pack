@@ -1,8 +1,8 @@
 {
 	"homepage": "http://mods.grim3212.com/grim-pack/",
 	"promos": {
-		"1.10.2-latest": "3.4.8.19",
-		"1.10.2-recommended": "3.4.8.19",
+		"1.10.2-latest": "3.4.9.19",
+		"1.10.2-recommended": "3.4.9.19",
 		"1.9-latest": "2.1.3.7",
 		"1.9-recommended": "2.1.3.7",
 		"1.8.9-latest": "1.0.0.1",
@@ -19,6 +19,7 @@
 		"2.0.0.0": "Combines all parts mods into 1 mod and combine a lot of the logic. Lots of bugfixes and changes."
 	},
 	"1.10.2": {
+		"3.4.9.19": "Add in Flat Item Frames which can be placed on all sides of blocks.",
 		"3.4.8.19": "Added in the Fan block. This is similar to the Gravity Science blocks but more configurable.",
 		"3.4.7.19": "Added in the Extruder that I updated a long time ago.",
 		"3.4.6.19": "Made the Ultimate Fist more configurable so you can make more or less overpowered how you see fit.",
