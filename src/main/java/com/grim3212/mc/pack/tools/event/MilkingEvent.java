@@ -53,13 +53,12 @@ public class MilkingEvent {
 
 	@SubscribeEvent
 	public void interact(EntityInteract event) {
-		if (event.getTarget().processInitialInteract(event.getEntityPlayer(), event.getItemStack(), event.getHand())) {
-			return;
-		}
-		if (event.getEntityPlayer().getHeldItem(event.getHand()) != null) {
-			this.tryMilk(event.getEntityPlayer().getHeldItem(event.getHand()), event);
-		}
 
+		if (event.getEntityPlayer().getHeldItem(event.getHand()) != null) {
+			if (event.getEntityPlayer().getHeldItem(event.getHand()).getItem() instanceof ItemBetterBucket || event.getEntityPlayer().getHeldItem(event.getHand()).getItem() instanceof ItemBetterMilkBucket) {
+				this.tryMilk(event.getEntityPlayer().getHeldItem(event.getHand()), event);
+			}
+		}
 	}
 
 	private void tryMilk(ItemStack stack, EntityInteract event) {
