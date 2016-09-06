@@ -30,6 +30,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumFacing.Axis;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 import net.minecraft.world.storage.MapData;
 import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
@@ -47,6 +48,16 @@ public class EntityFlatItemFrame extends EntityItemFrame implements IEntityAddit
 
 	public EntityFlatItemFrame(World worldIn, BlockPos pos, EnumFacing facing) {
 		super(worldIn, pos, facing);
+	}
+
+	@Override
+	public ItemStack getPickedResult(RayTraceResult target) {
+		ItemStack held = this.getDisplayedItem();
+		if (held == null) {
+			return new ItemStack(DecorItems.flat_item_frame);
+		} else {
+			return held.copy();
+		}
 	}
 
 	@Override

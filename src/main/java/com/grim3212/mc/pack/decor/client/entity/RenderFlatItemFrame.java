@@ -3,7 +3,6 @@ package com.grim3212.mc.pack.decor.client.entity;
 import com.grim3212.mc.pack.decor.config.DecorConfig;
 import com.grim3212.mc.pack.decor.entity.EntityFlatItemFrame;
 
-import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BlockRendererDispatcher;
 import net.minecraft.client.renderer.GlStateManager;
@@ -133,14 +132,14 @@ public class RenderFlatItemFrame extends RenderItemFrame {
 					}
 
 					if (itemFrame.getHorizontalFacing().getAxis() == EnumFacing.Axis.Y) {
-						if (Block.getBlockFromItem(item) != null || item instanceof ItemSkull) {
-							if (DecorConfig.flipBlocks && this.itemRenderer.shouldRenderItemIn3D(entityitem.getEntityItem())) {
-								GlStateManager.rotate(-90.0F, 1.0F, 0.0F, 0.0F);
+						if (DecorConfig.flipBlocks && this.itemRenderer.shouldRenderItemIn3D(entityitem.getEntityItem()) || item instanceof ItemSkull) {
+							GlStateManager.rotate(-90.0F, 1.0F, 0.0F, 0.0F);
 
-								if (item instanceof ItemSkull) {
-									GlStateManager.translate(0.0F, -0.2F, 0.0F);
-									GlStateManager.rotate(180.0F, 0.0F, 0.0F, 1.0F);
-								}
+							if (item instanceof ItemSkull) {
+								GlStateManager.translate(0.0F, -0.2F, 0.0F);
+								GlStateManager.rotate(180.0F, 0.0F, 0.0F, 1.0F);
+							} else {
+								GlStateManager.translate(0.0F, 0.2F, 0.0F);
 							}
 						}
 					}
