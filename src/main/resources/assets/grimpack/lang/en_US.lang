@@ -437,6 +437,7 @@ grimpack.decor.cfg.EnableFirepitNet=Enable Firepit Net
 grimpack.decor.cfg.IsFireParticles=Is Fire Particles
 grimpack.decor.cfg.EnableFirepitNet.tooltip=True if you want the firepit to have the metal net around it.
 grimpack.decor.cfg.IsFireParticles.tooltip=When False the fire when blocks are active are actual fire if true this uses particles instead.
+Flip Blocks in Flat Item Frames.tooltip=If true then when a Flat Item Frame is placed on the ceiling or floor blocks will render with the top up.
 
 grimpack.industry.cfg.tooltip=Config options for the mechanical part of the Grim Pack
 grimpack.industry.cfg.general=General Options

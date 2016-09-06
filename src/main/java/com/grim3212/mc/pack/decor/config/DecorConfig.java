@@ -29,6 +29,7 @@ public class DecorConfig extends GrimConfig {
 	public static int numWallpapers;
 	public static boolean useAllBlocks;
 	public static String[] decorationBlocks;
+	public static boolean flipBlocks;
 
 	// Client only
 	public static float widthWallpaper;
@@ -51,6 +52,8 @@ public class DecorConfig extends GrimConfig {
 		useAllBlocks = config.get(CONFIG_GENERAL_NAME, "UseAllBlocks", true).getBoolean();
 		decorationBlocks = config.get(CONFIG_GENERAL_NAME, "DecorationBlocks", new String[] { "mossy_cobblestone", "diamond_ore" }).getStringList();
 		infiniteGrillFuel = config.get(CONFIG_GENERAL_NAME, "grimpack.decor.cfg.InfiniteGrillFuel", false).getBoolean();
+
+		flipBlocks = config.get(CONFIG_GENERAL_NAME, "Flip Blocks in Flat Item Frames", false).getBoolean();
 
 		widthWallpaper = (float) config.get(CONFIG_GENERAL_NAME, "WallpaperWidth", 1.0D).getDouble();
 		enableFirepitNet = config.get(CONFIG_GENERAL_NAME, "grimpack.decor.cfg.EnableFirepitNet", true).getBoolean();
@@ -86,6 +89,7 @@ public class DecorConfig extends GrimConfig {
 		decorationBlocks = ByteBufUtils.readUTF8String(buffer).split(",");
 		numWallpapers = buffer.readInt();
 		useAllBlocks = buffer.readBoolean();
+		flipBlocks = buffer.readBoolean();
 	}
 
 	@Override
@@ -97,5 +101,6 @@ public class DecorConfig extends GrimConfig {
 		buffer.writeString(builder.toString());
 		buffer.writeInt(numWallpapers);
 		buffer.writeBoolean(useAllBlocks);
+		buffer.writeBoolean(flipBlocks);
 	}
 }

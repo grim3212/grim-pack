@@ -1,7 +1,9 @@
 package com.grim3212.mc.pack.decor.client.entity;
 
+import com.grim3212.mc.pack.decor.config.DecorConfig;
 import com.grim3212.mc.pack.decor.entity.EntityFlatItemFrame;
 
+import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BlockRendererDispatcher;
 import net.minecraft.client.renderer.GlStateManager;
@@ -19,12 +21,15 @@ import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.item.EntityItemFrame;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemMap;
 import net.minecraft.item.ItemSkull;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.storage.MapData;
+import net.minecraftforge.client.event.RenderItemInFrameEvent;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
 
 public class RenderFlatItemFrame extends RenderItemFrame {
@@ -101,15 +106,15 @@ public class RenderFlatItemFrame extends RenderItemFrame {
 			GlStateManager.disableLighting();
 			int i = itemFrame.getRotation();
 
-			if (item instanceof net.minecraft.item.ItemMap) {
+			if (item instanceof ItemMap) {
 				i = i % 4 * 2;
 			}
 
 			GlStateManager.rotate((float) i * 360.0F / 8.0F, 0.0F, 0.0F, 1.0F);
 
-			net.minecraftforge.client.event.RenderItemInFrameEvent event = new net.minecraftforge.client.event.RenderItemInFrameEvent(itemFrame, this);
-			if (!net.minecraftforge.common.MinecraftForge.EVENT_BUS.post(event)) {
-				if (item instanceof net.minecraft.item.ItemMap) {
+			RenderItemInFrameEvent event = new RenderItemInFrameEvent(itemFrame, this);
+			if (!MinecraftForge.EVENT_BUS.post(event)) {
+				if (item instanceof ItemMap) {
 					this.renderManager.renderEngine.bindTexture(MAP_BACKGROUND_TEXTURES);
 					GlStateManager.rotate(180.0F, 0.0F, 0.0F, 1.0F);
 					GlStateManager.scale(0.0078125F, 0.0078125F, 0.0078125F);
@@ -125,6 +130,19 @@ public class RenderFlatItemFrame extends RenderItemFrame {
 
 					if (!this.itemRenderer.shouldRenderItemIn3D(entityitem.getEntityItem()) || item instanceof ItemSkull) {
 						GlStateManager.rotate(180.0F, 0.0F, 1.0F, 0.0F);
+					}
+
+					if (itemFrame.getHorizontalFacing().getAxis() == EnumFacing.Axis.Y) {
+						if (Block.getBlockFromItem(item) != null || item instanceof ItemSkull) {
+							if (DecorConfig.flipBlocks && this.itemRenderer.shouldRenderItemIn3D(entityitem.getEntityItem())) {
+								GlStateManager.rotate(-90.0F, 1.0F, 0.0F, 0.0F);
+
+								if (item instanceof ItemSkull) {
+									GlStateManager.translate(0.0F, -0.2F, 0.0F);
+									GlStateManager.rotate(180.0F, 0.0F, 0.0F, 1.0F);
+								}
+							}
+						}
 					}
 
 					GlStateManager.pushAttrib();
