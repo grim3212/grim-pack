@@ -67,9 +67,13 @@ public class ManualTools implements IManualPart {
 	public static Page ultimateFist_page;
 	public static Page emptyMask_page;
 	public static Page mobMask_page;
+	public static Page boomerang_page;
+	public static Page diamondBoomerang_page;
 
 	@Override
 	public void initPages() {
+		boomerang_page = new PageCrafting("wood", new ItemStack(ToolsItems.boomerang));
+		diamondBoomerang_page = new PageCrafting("diamond", new ItemStack(ToolsItems.diamond_boomerang));
 		backpack_page = new PageCrafting("backpacks", new ItemStack(ToolsItems.backpack));
 		backpackColors_page = new PageImageText("colors", "colorsImage.png");
 		portableWorkbench_page = new PageCrafting("portableworkbench", new ItemStack(ToolsItems.portable_workbench));
@@ -129,6 +133,7 @@ public class ManualTools implements IManualPart {
 		ManualRegistry.addChapter("buckets", part).addPages(woodBucket_page, stoneBucket_page, goldBucket_page, diamondBucket_page, obsidianBucket_page, milkBucket_page);
 		ManualRegistry.addChapter("ballistic", part).addPages(grip_page, spring_page, button_page, rod_page, ballistic_page, ballisticKnife_page);
 		ManualRegistry.addChapter("knives", part).addPages(throwingKnife_page, tomahawk_page);
+		ManualRegistry.addChapter("boomerang", part).addPages(boomerang_page, diamondBoomerang_page);
 		ManualRegistry.addChapter("chisels", part).addPages(chisel_page, chiselOre_page);
 		ManualRegistry.addChapter("extinguisher", part).addPages(extinguisher_page, extinguisherRefill_page);
 		ManualRegistry.addChapter("hammers", part).addPages(hammer_page);

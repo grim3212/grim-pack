@@ -123,6 +123,8 @@ public class ToolsItems implements IPartItems {
 	public static Item lightning_spear;
 	public static Item ultimate_fist;
 	public static Item mask;
+	public static Item boomerang;
+	public static Item diamond_boomerang;
 
 	public static ToolMaterial multitool = EnumHelper.addToolMaterial("black_diamond", 4, 5122, 15F, 5F, 20);
 	public static ToolMaterial blackdiamond = EnumHelper.addToolMaterial("black_diamond", 4, 5122, 15F, 5F, 20);
@@ -132,6 +134,8 @@ public class ToolsItems implements IPartItems {
 
 	@Override
 	public void initItems() {
+		boomerang = (new ItemBoomerang()).setUnlocalizedName("boomerang").setCreativeTab(GrimTools.INSTANCE.getCreativeTab());
+		diamond_boomerang = (new ItemDiamondBoomerang()).setUnlocalizedName("diamond_boomerang").setCreativeTab(GrimTools.INSTANCE.getCreativeTab());
 		backpack = new ItemBackpack().setUnlocalizedName("backpack").setCreativeTab(GrimTools.INSTANCE.getCreativeTab());
 		portable_workbench = new ItemPortableWorkbench().setUnlocalizedName("portable_workbench").setCreativeTab(GrimTools.INSTANCE.getCreativeTab());
 		loaded_knife = (new ItemBallisticKnife(true, false)).setUnlocalizedName("loaded_knife").setCreativeTab(GrimTools.INSTANCE.getCreativeTab());
@@ -214,6 +218,8 @@ public class ToolsItems implements IPartItems {
 		ultimate_fist = (new ItemUltimateFist()).setUnlocalizedName("ultimate_fist").setCreativeTab(GrimTools.INSTANCE.getCreativeTab());
 		mask = (new ItemMaskArmor(masks, 3)).setUnlocalizedName("mask");
 
+		Utils.registerItem(boomerang, "boomerang");
+		Utils.registerItem(diamond_boomerang, "diamond_boomerang");
 		Utils.registerItem(mask, "mask");
 		Utils.registerItem(ultimate_fist, "ultimate_fist");
 		Utils.registerItem(spear, "spear");
@@ -350,6 +356,9 @@ public class ToolsItems implements IPartItems {
 
 		// Replace milk buckets
 		OreDictionaryHelper.replaceRecipes(new ItemStack(Items.MILK_BUCKET), "bucketMilk", null);
+
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(boomerang, 1), new Object[] { "XX ", "X  ", "XX ", 'X', "plankWood" }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(diamond_boomerang, 1), new Object[] { "XX ", "XY ", "XX ", 'X', "gemDiamond", 'Y', boomerang }));
 
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(backpack, 1), new Object[] { "LLS", "LIS", "LLL", 'L', "leather", 'S', "string", 'I', "ingotIron" }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(portable_workbench, 1), new Object[] { "III", "IWI", "III", 'W', "workbench", 'I', "ingotIron" }));

@@ -179,6 +179,8 @@ tile.fungus_killing.15.name=Glass Layer Building Fungus
 
 #================= ITEMS =================#
 item.instruction_manual.name=Instruction Manual
+item.boomerang.name=Boomerang
+item.diamond_boomerang.name=Diamond Boomerang
 item.flat_item_frame.name=Flat Item Frame
 item.extruder.name=Extruder
 item.pruners.name=Pruners
@@ -467,6 +469,8 @@ Magmacream speed modifier.tooltip=How much faster the Extruder will move with ma
 grimpack.tools.cfg.tooltip=Config options for the tools and weapons part of the Grim Pack
 grimpack.tools.cfg.general=General Options
 grimpack.tools.cfg.general.tooltip=This contains general options for the tools part.
+grimpack.tools.cfg.boomerang=Boomerang Options
+grimpack.tools.cfg.boomerang.tooltip=The contains options to modify range, damage, and other options for boomerangs.
 grimpack.tools.cfg.ultimatefist=Ultimate Fist Options
 grimpack.tools.cfg.ultimatefist.tooltip=This contains all the options to customize Ultimate Fist to make it even overpowered or less. It is highly configurable.
 Ultimate Fist Damage Against Entity's.tooltip=The amount of damage the the ultimate fist will do against entities
@@ -482,6 +486,17 @@ Destructive Wand Spared Ores.tooltip=The default ores that the breaking wand won
 Mining Wand Ores for Surface Mining.tooltip=The ores that the mining wand can pull up from the surface
 Restrict powerstaff blocks.tooltip=If the powerstaff can't move certain blocks that will be defined by the blocks that the powerstaff is allowed to move.
 Blocks allowed when restrict powerstaff is active.tooltip=If Restrict powerstaff blocks is true then the powerstaff will only be able to move these blocks
+Turn Around Items.tooltip=If boomerangs will return to you after they hit an item
+Turn Around Mobs.tooltip=If boomerangs will return to you after they hit a mob
+Breaks Torches.tooltip=If boomerangs break torches on contact
+Breaks Plants.tooltip=If boomerangs break plants on contact
+Hits Buttons.tooltip=If boomerangs can activate levers and buttons on contact
+Turn Around Switch.tooltip=If boomerangs can hit buttons then if this is true they will return to you after they hit one
+Wood Boomerang Range.tooltip=The distance that wood boomerangs can travel
+Wood Boomerang Damage.tooltip=The amount of damage wood boomerangs do to entities
+Diamond Boomerang Range.tooltip=The distance that diamond boomerangs can travel
+Diamond Boomerang Damage.tooltip=The amount of damage diamond boomerangs do to entities
+Diamond Boomerang Follows.tooltip=True if when a diamond boomerang is thrown it will follow where the player is looking
 
 grimpack.util.cfg.general=General Options
 grimpack.util.cfg.debug=Debug Options
@@ -1023,6 +1038,13 @@ grimpack.manual.tools.subsection.knives.page.knife=To use simply right click whi
 grimpack.manual.tools.subsection.knives.page.knife.title=Throwing Knife
 grimpack.manual.tools.subsection.knives.page.tomahawk=This is how to craft the tomahawk. Like using the throwing knives just right click while holding it and it will be thrown.
 grimpack.manual.tools.subsection.knives.page.tomahawk.title=Tomahawk
+
+grimpack.manual.tools.subsection.boomerang=Boomerangs
+grimpack.manual.tools.subsection.boomerang.page.wood=Wooden boomerangs can be thrown with right click and will go once it hits it's maximum distance it will return to you.
+grimpack.manual.tools.subsection.boomerang.page.wood.title=Wooden
+grimpack.manual.tools.subsection.boomerang.page.diamond=Diamond boomerangs by default can be thrown farther and do more damage to entities. They work exactly like wooden ones but can be changed to be able to follow where you are looking.
+grimpack.manual.tools.subsection.boomerang.page.diamond.title=Diamond
+
 grimpack.manual.tools.subsection.black=Black Diamond
 grimpack.manual.tools.subsection.black.page.blackore=Black Diamond ore can be found deep in the ground and spawns in a cluster about the size of diamond but far less common.
 grimpack.manual.tools.subsection.black.page.blackore.title=Ore
