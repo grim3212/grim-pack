@@ -17,6 +17,8 @@ public class ToolsEntities implements IPartEntities {
 		Utils.registerEntity(EntitySlingpellet.class, "SlingPellet", 32, 5, true);
 		Utils.registerEntity(EntitySpear.class, "spear", 32, 5, true);
 		Utils.registerEntity(EntitySlimeSpear.class, "slime-spear", 32, 1, true);
+		Utils.registerEntity(EntityBoomerang.class, "boomerang", 32, 1, true);
+		Utils.registerEntity(EntityDiamondBoomerang.class, "diamond-boomerang", 32, 1, true);
 	}
 
 }

@@ -6,12 +6,15 @@ import com.grim3212.mc.pack.core.client.entity.RenderProjectile.RenderProjectile
 import com.grim3212.mc.pack.core.proxy.ClientProxy;
 import com.grim3212.mc.pack.tools.blocks.ToolsBlocks;
 import com.grim3212.mc.pack.tools.client.entity.RenderBlockPushPullFactory;
+import com.grim3212.mc.pack.tools.client.entity.RenderBoomerang.RenderBoomerangFactory;
 import com.grim3212.mc.pack.tools.client.entity.RenderRayGun.RenderRayGunFactory;
 import com.grim3212.mc.pack.tools.client.entity.RenderThrowableFactory;
 import com.grim3212.mc.pack.tools.client.model.BetterBucketModel;
 import com.grim3212.mc.pack.tools.entity.EntityAdvRayw;
 import com.grim3212.mc.pack.tools.entity.EntityBallisticKnife;
 import com.grim3212.mc.pack.tools.entity.EntityBlockPushPull;
+import com.grim3212.mc.pack.tools.entity.EntityBoomerang;
+import com.grim3212.mc.pack.tools.entity.EntityDiamondBoomerang;
 import com.grim3212.mc.pack.tools.entity.EntityKnife;
 import com.grim3212.mc.pack.tools.entity.EntityPokeball;
 import com.grim3212.mc.pack.tools.entity.EntityRayw;
@@ -120,6 +123,8 @@ public class ToolsClientProxy extends ClientProxy {
 		RenderHelper.renderItem(ToolsItems.lightning_spear);
 		RenderHelper.renderItem(ToolsItems.ultimate_fist);
 		RenderHelper.renderVariantForge(ToolsItems.mask, ItemMaskArmor.types);
+		RenderHelper.renderItem(ToolsItems.boomerang);
+		RenderHelper.renderItem(ToolsItems.diamond_boomerang);
 
 		setBucketModelDefinition(ToolsItems.wooden_bucket);
 		setBucketModelDefinition(ToolsItems.stone_bucket);
@@ -143,6 +148,8 @@ public class ToolsClientProxy extends ClientProxy {
 		RenderingRegistry.registerEntityRenderingHandler(EntityBallisticKnife.class, new RenderProjectileFactory(new ResourceLocation(GrimPack.modID, "textures/entities/ballistic_knife.png")));
 		RenderingRegistry.registerEntityRenderingHandler(EntityTomahawk.class, new RenderProjectileFactory(new ResourceLocation(GrimPack.modID, "textures/entities/tomahawk.png"), true));
 		RenderingRegistry.registerEntityRenderingHandler(EntityKnife.class, new RenderProjectileFactory(new ResourceLocation(GrimPack.modID, "textures/entities/throwing_knife.png"), true));
+		RenderingRegistry.registerEntityRenderingHandler(EntityBoomerang.class, new RenderBoomerangFactory(new ResourceLocation(GrimPack.modID, "textures/items/boomerang.png"), "grimpack:items/boomerang"));
+		RenderingRegistry.registerEntityRenderingHandler(EntityDiamondBoomerang.class, new RenderBoomerangFactory(new ResourceLocation(GrimPack.modID, "textures/items/diamond_boomerang.png"), "grimpack:items/diamond_boomerang"));
 
 		// Key bindings
 		MinecraftForge.EVENT_BUS.register(new KeyBindHelper());
