@@ -40,9 +40,8 @@ public class BlockHedge extends BlockSloped {
 		TileEntity te = world.getTileEntity(pos);
 
 		List<ItemStack> ret = new ArrayList<ItemStack>();
-
-		if (!(((IExtendedBlockState) this.getExtendedState(state, world, pos)).getValue(BLOCK_STATE).getBlock() instanceof BlockLeaves)) {
-			if (te instanceof TileEntityColorizer) {
+		if (te instanceof TileEntityColorizer) {
+			if (((TileEntityColorizer) te).getBlockState().getBlock() instanceof BlockLeaves) {
 				ItemStack item = new ItemStack(this);
 				NBTHelper.setString(item, "registryName", Block.REGISTRY.getNameForObject(Blocks.AIR).toString());
 				NBTHelper.setInteger(item, "meta", 0);
@@ -56,8 +55,8 @@ public class BlockHedge extends BlockSloped {
 
 	@Override
 	public void harvestBlock(World worldIn, EntityPlayer player, BlockPos pos, IBlockState state, TileEntity te, ItemStack stack) {
-		if (!(((IExtendedBlockState) this.getExtendedState(state, worldIn, pos)).getValue(BLOCK_STATE).getBlock() instanceof BlockLeaves)) {
-			if (te instanceof TileEntityColorizer) {
+		if (te instanceof TileEntityColorizer) {
+			if (!(((TileEntityColorizer) te).getBlockState().getBlock() instanceof BlockLeaves)) {
 				player.addStat(StatList.getBlockStats(this));
 				player.addExhaustion(0.025F);
 
@@ -68,16 +67,16 @@ public class BlockHedge extends BlockSloped {
 				spawnAsEntity(worldIn, pos, itemstack);
 				harvesters.set(null);
 			} else {
-				super.harvestBlock(worldIn, player, pos, state, (TileEntity) null, stack);
+				player.addStat(StatList.getBlockStats(this));
+				player.addExhaustion(0.025F);
+
+				harvesters.set(player);
+				int i = EnchantmentHelper.getEnchantmentLevel(Enchantments.FORTUNE, stack);
+				this.dropBlockAsItem(worldIn, pos, state, i);
+				harvesters.set(null);
 			}
 		} else {
-			player.addStat(StatList.getBlockStats(this));
-			player.addExhaustion(0.025F);
-
-			harvesters.set(player);
-			int i = EnchantmentHelper.getEnchantmentLevel(Enchantments.FORTUNE, stack);
-			this.dropBlockAsItem(worldIn, pos, state, i);
-			harvesters.set(null);
+			super.harvestBlock(worldIn, player, pos, state, (TileEntity) null, stack);
 		}
 	}
 
