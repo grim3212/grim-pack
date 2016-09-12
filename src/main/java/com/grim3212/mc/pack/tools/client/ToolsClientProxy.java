@@ -3,6 +3,7 @@ package com.grim3212.mc.pack.tools.client;
 import com.grim3212.mc.pack.GrimPack;
 import com.grim3212.mc.pack.core.client.RenderHelper;
 import com.grim3212.mc.pack.core.client.entity.RenderProjectile.RenderProjectileFactory;
+import com.grim3212.mc.pack.core.config.CoreConfig;
 import com.grim3212.mc.pack.core.proxy.ClientProxy;
 import com.grim3212.mc.pack.tools.blocks.ToolsBlocks;
 import com.grim3212.mc.pack.tools.client.entity.RenderBlockPushPullFactory;
@@ -101,6 +102,7 @@ public class ToolsClientProxy extends ClientProxy {
 		RenderHelper.renderItem(ToolsItems.iron_multi_tool);
 		RenderHelper.renderItem(ToolsItems.golden_multi_tool);
 		RenderHelper.renderItem(ToolsItems.obsidian_multi_tool);
+		RenderHelper.renderItem(ToolsItems.black_diamond_multi_tool);
 		RenderHelper.renderItem(ToolsItems.pokeball);
 		RenderHelper.renderVariantForge(ToolsItems.powerstaff, "push", "pull");
 		RenderHelper.renderItem(ToolsItems.advanced_empty_energy_canister);
@@ -136,6 +138,10 @@ public class ToolsClientProxy extends ClientProxy {
 		setBucketModelDefinition(ToolsItems.golden_milk_bucket);
 		setBucketModelDefinition(ToolsItems.diamond_milk_bucket);
 		setBucketModelDefinition(ToolsItems.obsidian_milk_bucket);
+
+		if (CoreConfig.useIndustry) {
+			RenderHelper.renderItem(ToolsItems.steel_multi_tool);
+		}
 
 		// ENTITYS
 		RenderingRegistry.registerEntityRenderingHandler(EntityBlockPushPull.class, new RenderBlockPushPullFactory());

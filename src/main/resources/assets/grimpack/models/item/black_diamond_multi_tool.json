@@ -1,0 +1,6 @@
+{
+    "parent": "item/generated",
+    "textures": {
+        "layer0": "grimpack:items/black_diamond_multi_tool"
+    }
+}
