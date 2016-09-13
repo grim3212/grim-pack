@@ -55,6 +55,7 @@ public class EntityPokeball extends EntityThrowable {
 					NBTTagCompound entity = new NBTTagCompound();
 					hitEntity.writeToNBT(entity);
 					entity.setString("id", (String) EntityList.CLASS_TO_NAME.get(hitEntity.getClass()));
+					entity.setString("name", hitEntity.getName());
 
 					this.currentPokeball.setTagCompound(entity);
 					this.currentPokeball.damageItem(1, (EntityLivingBase) hitEntity);

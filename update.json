@@ -1,8 +1,8 @@
 {
 	"homepage": "http://mods.grim3212.com/grim-pack/",
 	"promos": {
-		"1.10.2-latest": "3.4.10.22",
-		"1.10.2-recommended": "3.4.10.22",
+		"1.10.2-latest": "3.4.13.24",
+		"1.10.2-recommended": "3.4.13.24",
 		"1.9-latest": "2.1.3.7",
 		"1.9-recommended": "2.1.3.7",
 		"1.8.9-latest": "1.0.0.1",
@@ -19,6 +19,7 @@
 		"2.0.0.0": "Combines all parts mods into 1 mod and combine a lot of the logic. Lots of bugfixes and changes."
 	},
 	"1.10.2": {
+		"3.4.13.24": "Allow cages to render mobs using pokeballs. Add in black diamond and steel multitools. Fix some bugs with hedge blocks and buckets.",
 		"3.4.10.22": "Added in boomerangs. A previous update that I did from 1.2.5.",
 		"3.4.9.22": "Small change to Flat Item Frames that makes it so it renders all 3D models flipped if flipBlocks is true.",
 		"3.4.9.21": "Fix Milk Event and add in ability to flip blocks in Flat Item Frames.",

@@ -51,8 +51,11 @@ public class ItemPokeball extends ItemEgg implements IManualItem {
 	@Override
 	public void addInformation(ItemStack itemstack, EntityPlayer entityplayer, List<String> list, boolean flag) {
 		if (itemstack.hasTagCompound()) {
-			String entity = itemstack.getTagCompound().getString("id");
-			list.add("Stored: " + entity);
+			if (itemstack.getTagCompound().hasKey("name")) {
+				list.add("Stored: " + itemstack.getTagCompound().getString("name"));
+			} else {
+				list.add("Stored: " + itemstack.getTagCompound().getString("id"));
+			}
 		} else {
 			list.add("Stored: Empty");
 		}

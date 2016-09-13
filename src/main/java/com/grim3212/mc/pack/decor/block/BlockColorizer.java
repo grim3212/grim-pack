@@ -70,9 +70,8 @@ public class BlockColorizer extends BlockContainer implements IManualBlock {
 	public IBlockState getExtendedState(IBlockState state, IBlockAccess world, BlockPos pos) {
 		TileEntity te = world.getTileEntity(pos);
 		if (te instanceof TileEntityColorizer && state instanceof IExtendedBlockState) {
-			IExtendedBlockState blockState = (IExtendedBlockState) state;
 			TileEntityColorizer tef = (TileEntityColorizer) te;
-			return blockState.withProperty(BLOCK_STATE, tef.getBlockState());
+			return ((IExtendedBlockState) state).withProperty(BLOCK_STATE, tef.getBlockState());
 		}
 		return state;
 	}

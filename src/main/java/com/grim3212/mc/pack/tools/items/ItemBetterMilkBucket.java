@@ -33,6 +33,7 @@ public class ItemBetterMilkBucket extends ItemManual {
 
 	public ItemBetterMilkBucket(ItemBetterBucket parent) {
 		this.parent = parent;
+		this.setMaxStackSize(1);
 	}
 
 	@Override

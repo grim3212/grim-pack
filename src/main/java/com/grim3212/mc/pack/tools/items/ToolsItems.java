@@ -3,6 +3,7 @@ package com.grim3212.mc.pack.tools.items;
 import java.util.List;
 
 import com.grim3212.mc.pack.GrimPack;
+import com.grim3212.mc.pack.core.config.CoreConfig;
 import com.grim3212.mc.pack.core.item.ItemManualArmor;
 import com.grim3212.mc.pack.core.item.ItemManualAxe;
 import com.grim3212.mc.pack.core.item.ItemManualHoe;
@@ -14,6 +15,7 @@ import com.grim3212.mc.pack.core.part.IPartItems;
 import com.grim3212.mc.pack.core.util.OreDictionaryHelper;
 import com.grim3212.mc.pack.core.util.RecipeHelper;
 import com.grim3212.mc.pack.core.util.Utils;
+import com.grim3212.mc.pack.industry.item.IndustryItems;
 import com.grim3212.mc.pack.tools.GrimTools;
 import com.grim3212.mc.pack.tools.config.ToolsConfig;
 import com.grim3212.mc.pack.tools.items.ItemBetterBucket.BucketType;
@@ -101,6 +103,8 @@ public class ToolsItems implements IPartItems {
 	public static Item iron_multi_tool;
 	public static Item golden_multi_tool;
 	public static Item obsidian_multi_tool;
+	public static Item black_diamond_multi_tool;
+	public static Item steel_multi_tool;
 	public static Item pokeball;
 	public static Item powerstaff;
 	public static Item energy_canister;
@@ -126,7 +130,7 @@ public class ToolsItems implements IPartItems {
 	public static Item boomerang;
 	public static Item diamond_boomerang;
 
-	public static ToolMaterial multitool = EnumHelper.addToolMaterial("black_diamond", 4, 5122, 15F, 5F, 20);
+	public static ToolMaterial multitool = EnumHelper.addToolMaterial("multitool", 4, 5122, 15F, 5F, 20);
 	public static ToolMaterial blackdiamond = EnumHelper.addToolMaterial("black_diamond", 4, 5122, 15F, 5F, 20);
 	public static ToolMaterial obsidianToolMaterial = EnumHelper.addToolMaterial("obsidian", 3, 3333, 9.5F, 7f, 14);
 	public static ArmorMaterial masks = EnumHelper.addArmorMaterial("mask", GrimPack.modID + ":masks", 5, new int[] { 1, 3, 2, 1 }, 15, SoundEvents.BLOCK_CLOTH_PLACE, 0.0F);
@@ -195,6 +199,7 @@ public class ToolsItems implements IPartItems {
 		iron_multi_tool = (new ItemMultiTool(addMultiToolMaterial(ToolMaterial.IRON))).setUnlocalizedName("iron_multi_tool");
 		golden_multi_tool = (new ItemMultiTool(addMultiToolMaterial(ToolMaterial.GOLD))).setUnlocalizedName("golden_multi_tool");
 		obsidian_multi_tool = (new ItemMultiTool(addMultiToolMaterial(obsidianToolMaterial))).setUnlocalizedName("obsidian_multi_tool");
+		black_diamond_multi_tool = (new ItemMultiTool(addMultiToolMaterial(blackdiamond))).setUnlocalizedName("black_diamond_multi_tool");
 		pokeball = (new ItemPokeball()).setUnlocalizedName("pokeball");
 		powerstaff = (new ItemPowerStaff()).setUnlocalizedName("powerstaff").setCreativeTab(GrimTools.INSTANCE.getCreativeTab());
 		energy_canister = (new ItemManualPage("tools:raygun.canisters")).setUnlocalizedName("energy_canister").setCreativeTab(GrimTools.INSTANCE.getCreativeTab());
@@ -248,6 +253,7 @@ public class ToolsItems implements IPartItems {
 		Utils.registerItem(iron_multi_tool, "iron_multi_tool");
 		Utils.registerItem(golden_multi_tool, "golden_multi_tool");
 		Utils.registerItem(obsidian_multi_tool, "obsidian_multi_tool");
+		Utils.registerItem(black_diamond_multi_tool, "black_diamond_multi_tool");
 		Utils.registerItem(building_wand, "building_wand");
 		Utils.registerItem(breaking_wand, "breaking_wand");
 		Utils.registerItem(mining_wand, "mining_wand");
@@ -301,6 +307,11 @@ public class ToolsItems implements IPartItems {
 		Utils.registerItem(black_diamond_shovel, "black_diamond_shovel");
 		Utils.registerItem(black_diamond_pickaxe, "black_diamond_pickaxe");
 		Utils.registerItem(black_diamond, "black_diamond");
+
+		if (CoreConfig.useIndustry) {
+			steel_multi_tool = (new ItemMultiTool(addMultiToolMaterial(IndustryItems.steel))).setUnlocalizedName("steel_multi_tool");
+			Utils.registerItem(steel_multi_tool, "steel_multi_tool");
+		}
 
 		// Register all of the dispenser behaviors
 		DispenseBehaviors.register();
@@ -450,8 +461,14 @@ public class ToolsItems implements IPartItems {
 		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(iron_multi_tool, 1), new Object[] { Items.IRON_SWORD, Items.IRON_PICKAXE, Items.IRON_SHOVEL, Items.IRON_HOE, Items.IRON_AXE, "ingotIron", "ingotIron", "ingotIron", "ingotIron" }));
 		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(golden_multi_tool, 1), new Object[] { Items.GOLDEN_SWORD, Items.GOLDEN_PICKAXE, Items.GOLDEN_SHOVEL, Items.GOLDEN_HOE, Items.GOLDEN_AXE, "ingotGold", "ingotGold", "ingotGold", "ingotGold" }));
 		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(diamond_multi_tool, 1), new Object[] { Items.DIAMOND_SWORD, Items.DIAMOND_PICKAXE, Items.DIAMOND_SHOVEL, Items.DIAMOND_HOE, Items.DIAMOND_AXE, "gemDiamond", "gemDiamond", "gemDiamond", "gemDiamond" }));
-		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(obsidian_multi_tool, 1), new Object[] { diamond_multi_tool, golden_multi_tool, wooden_multi_tool, stone_multi_tool, iron_multi_tool, Blocks.OBSIDIAN, "obsidian", "obsidian", "obsidian" }));
-		tools = RecipeHelper.getLatestIRecipes(6);
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(obsidian_multi_tool, 1), new Object[] { diamond_multi_tool, golden_multi_tool, wooden_multi_tool, stone_multi_tool, iron_multi_tool, "obsidian", "obsidian", "obsidian", "obsidian" }));
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(black_diamond_multi_tool, 1), new Object[] { black_diamond_sword, black_diamond_pickaxe, black_diamond_shovel, black_diamond_hoe, black_diamond_axe, black_diamond, black_diamond, black_diamond, black_diamond }));
+		if (CoreConfig.useIndustry) {
+			GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(steel_multi_tool, 1), new Object[] { IndustryItems.steel_sword, IndustryItems.steel_pickaxe, IndustryItems.steel_shovel, IndustryItems.steel_hoe, IndustryItems.steel_axe, "ingotSteel", "ingotSteel", "ingotSteel", "ingotSteel" }));
+			tools = RecipeHelper.getLatestIRecipes(8);
+		} else {
+			tools = RecipeHelper.getLatestIRecipes(7);
+		}
 
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(pokeball), new Object[] { "RRR", "CBC", "III", 'R', "dustRedstone", 'C', Items.COAL, 'B', Blocks.STONE_BUTTON, 'I', "ingotIron" }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(powerstaff, 1), new Object[] { "IDI", "IRI", " I ", 'D', "gemDiamond", 'R', "dustRedstone", 'I', "ingotIron" }));
