@@ -3,8 +3,11 @@ package com.grim3212.mc.pack.core.client.gui;
 import java.util.List;
 
 import com.grim3212.mc.pack.core.manual.gui.GuiManualIndex;
+import com.grim3212.mc.pack.decor.client.gui.GuiCage;
 import com.grim3212.mc.pack.decor.client.gui.GuiGrill;
+import com.grim3212.mc.pack.decor.inventory.ContainerCage;
 import com.grim3212.mc.pack.decor.inventory.ContainerGrill;
+import com.grim3212.mc.pack.decor.tile.TileEntityCage;
 import com.grim3212.mc.pack.decor.tile.TileEntityGrill;
 import com.grim3212.mc.pack.industry.client.gui.GuiCraftingDiamond;
 import com.grim3212.mc.pack.industry.client.gui.GuiCraftingIron;
@@ -51,6 +54,7 @@ public class PackGuiHandler implements IGuiHandler {
 	public static final int PORTABLE_OFF_GUI_ID = 10;
 	public static final int EXTRUDER_GUI_ID = 11;
 	public static final int FAN_GUI_ID = 12;
+	public static final int CAGE_GUI_ID = 13;
 
 	@Override
 	public Object getServerGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
@@ -77,6 +81,8 @@ public class PackGuiHandler implements IGuiHandler {
 			return new ContainerCustomWorkbench(player.inventory, world, pos);
 		} else if (ID == EXTRUDER_GUI_ID) {
 			return new ContainerExtruder(player.inventory, this.getEntityAt(world, x, y, z, EntityExtruder.class).getExtruderInv());
+		} else if (ID == CAGE_GUI_ID) {
+			return new ContainerCage((TileEntityCage) tileentity, player.inventory);
 		}
 
 		return null;
@@ -113,6 +119,8 @@ public class PackGuiHandler implements IGuiHandler {
 			return new GuiExtruder(player.inventory, this.getEntityAt(world, x, y, z, EntityExtruder.class).getExtruderInv());
 		} else if ((ID == FAN_GUI_ID) && ((tileentity instanceof TileEntityFan))) {
 			return new GuiFan((TileEntityFan) tileentity);
+		} else if (ID == CAGE_GUI_ID) {
+			return new GuiCage(player.inventory, (TileEntityCage) tileentity);
 		}
 
 		return null;

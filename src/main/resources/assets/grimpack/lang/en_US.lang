@@ -575,6 +575,7 @@ container.crafting_diamond=Diamond Crafting (4x)
 container.derrick=Oil Derrick
 container.refinery=Refinery
 container.modern_furnace=Modern Furnace
+container.cage=Cage
 container.grill=Grill
 container.grill.tier=Tier
 container.portable_workbench=Portable Workbench

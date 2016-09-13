@@ -15,11 +15,13 @@ import com.grim3212.mc.pack.decor.client.entity.RenderFrame.FrameFactory;
 import com.grim3212.mc.pack.decor.client.entity.RenderWallpaper.WallpaperFactory;
 import com.grim3212.mc.pack.decor.client.model.DecorModelLoader;
 import com.grim3212.mc.pack.decor.client.model.SlopedModelLoader;
+import com.grim3212.mc.pack.decor.client.tile.TileEntityCageRenderer;
 import com.grim3212.mc.pack.decor.client.tile.TileEntityCalendarRenderer;
 import com.grim3212.mc.pack.decor.entity.EntityFlatItemFrame;
 import com.grim3212.mc.pack.decor.entity.EntityFrame;
 import com.grim3212.mc.pack.decor.entity.EntityWallpaper;
 import com.grim3212.mc.pack.decor.item.DecorItems;
+import com.grim3212.mc.pack.decor.tile.TileEntityCage;
 import com.grim3212.mc.pack.decor.tile.TileEntityCalendar;
 import com.grim3212.mc.pack.decor.tile.TileEntityColorizer;
 
@@ -122,6 +124,7 @@ public class DecorClientProxy extends DecorCommonProxy {
 
 		// TILE ENTITYS
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityCalendar.class, new TileEntityCalendarRenderer());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityCage.class, new TileEntityCageRenderer());
 
 		// ENTITYS
 		RenderingRegistry.registerEntityRenderingHandler(EntityFrame.class, new FrameFactory());
