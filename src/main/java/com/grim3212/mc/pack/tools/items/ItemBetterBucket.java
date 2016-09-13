@@ -433,7 +433,7 @@ public class ItemBetterBucket extends ItemManual {
 				return this.empty.copy();
 			}
 		}
-		return stack;
+		return stack.copy();
 	}
 
 	public static String getFluid(ItemStack stack) {
