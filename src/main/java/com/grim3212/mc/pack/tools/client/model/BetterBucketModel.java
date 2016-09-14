@@ -124,8 +124,14 @@ public class BetterBucketModel implements IModel, IModelCustomData, IRetexturabl
 		TextureAtlasSprite fluidSprite = null;
 		ImmutableList.Builder<BakedQuad> builder = ImmutableList.builder();
 
+		String extraName = this.customName;
+
 		if (fluid != null) {
 			fluidSprite = bakedTextureGetter.apply(fluid.getStill());
+
+			if (fluidSprite == Minecraft.getMinecraft().getTextureMapBlocks().getMissingSprite() && fluid.getUnlocalizedName().equals("fluid.milk")) {
+				extraName = "milk";
+			}
 		}
 
 		if (baseLocation != null) {
@@ -134,7 +140,7 @@ public class BetterBucketModel implements IModel, IModelCustomData, IRetexturabl
 			builder.addAll(model.getQuads(null, null, 0));
 		}
 
-		if (customName.isEmpty()) {
+		if (extraName.isEmpty()) {
 			if (liquidLocation != null && fluidSprite != null) {
 				TextureAtlasSprite liquid = bakedTextureGetter.apply(liquidLocation);
 				// build liquid layer (inside)
@@ -149,8 +155,8 @@ public class BetterBucketModel implements IModel, IModelCustomData, IRetexturabl
 				builder.add(ItemTextureQuadConverter.genQuad(format, transform, 0, 0, 16, 16, SOUTH_Z_BASE, base, EnumFacing.SOUTH, 0xffffffff));
 			}
 		} else {
-			if (ItemBetterBucket.extraPickups.contains(customName)) {
-				TextureAtlasSprite base = bakedTextureGetter.apply(overlays.get(customName));
+			if (ItemBetterBucket.extraPickups.contains(extraName)) {
+				TextureAtlasSprite base = bakedTextureGetter.apply(overlays.get(extraName));
 				builder.add(ItemTextureQuadConverter.genQuad(format, transform, 0, 0, 16, 16, NORTH_Z_BASE, base, EnumFacing.NORTH, 0xffffffff));
 				builder.add(ItemTextureQuadConverter.genQuad(format, transform, 0, 0, 16, 16, SOUTH_Z_BASE, base, EnumFacing.SOUTH, 0xffffffff));
 			}
@@ -269,8 +275,7 @@ public class BetterBucketModel implements IModel, IModelCustomData, IRetexturabl
 
 					if (!bucketModel.cache.containsKey(name)) {
 						IModel model = bucketModel.parent.process(ImmutableMap.of("fluid", name));
-						Function<ResourceLocation, TextureAtlasSprite> textureGetter;
-						textureGetter = new Function<ResourceLocation, TextureAtlasSprite>() {
+						Function<ResourceLocation, TextureAtlasSprite> textureGetter = new Function<ResourceLocation, TextureAtlasSprite>() {
 							public TextureAtlasSprite apply(ResourceLocation location) {
 								return Minecraft.getMinecraft().getTextureMapBlocks().getAtlasSprite(location.toString());
 							}

@@ -153,6 +153,9 @@ public class ItemBetterBucket extends ItemManual {
 
 		// Fluids
 		for (Fluid fluid : FluidRegistry.getRegisteredFluids().values()) {
+			if (fluid.getUnlocalizedName().equals("fluid.milk"))
+				continue;
+
 			// add all fluids that the bucket can be filled with
 			FluidStack fs = new FluidStack(fluid, maxCapacity);
 			if (fs.getFluid().getTemperature() < maxPickupTemp) {
