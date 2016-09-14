@@ -4,12 +4,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.grim3212.mc.pack.core.config.GrimConfig;
+import com.grim3212.mc.pack.core.util.GrimLog;
 import com.grim3212.mc.pack.industry.GrimIndustry;
 
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketBuffer;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.config.ConfigElement;
-import net.minecraftforge.fml.client.config.IConfigElement;
 import net.minecraftforge.fml.client.config.DummyConfigElement.DummyCategoryElement;
+import net.minecraftforge.fml.client.config.IConfigElement;
 
 public class IndustryConfig extends GrimConfig {
 
@@ -17,10 +21,16 @@ public class IndustryConfig extends GrimConfig {
 	public static final String CONFIG_GENERAL_NAME = "industry.general";
 	public static final String CONFIG_EXTRUDER_NAME = "industry.extruder";
 
+	public static List<ItemStack> workbenchUpgradeList = new ArrayList<ItemStack>();
+
 	public static boolean generateUranium;
 	public static boolean generateAluminum;
 	public static boolean generateOilOre;
+
+	// Workbench Upgrades
+	public static String[] workbenchList;
 	public static boolean useWorkbenchUpgrades;
+	public static boolean useWhitelist;
 
 	// Extruder settings
 	public static int fuelPerMinedBlock;
@@ -46,6 +56,8 @@ public class IndustryConfig extends GrimConfig {
 		generateAluminum = config.get(CONFIG_GENERAL_NAME, "Generate Aluminum", true).getBoolean();
 		generateOilOre = config.get(CONFIG_GENERAL_NAME, "Generate Oil Ore", true).getBoolean();
 		useWorkbenchUpgrades = config.get(CONFIG_GENERAL_NAME, "Do workbench upgrades double result", false).getBoolean();
+		useWhitelist = config.get(CONFIG_GENERAL_NAME, "Workbench whitelist else blacklist", false).getBoolean();
+		workbenchList = config.get(CONFIG_GENERAL_NAME, "Workbench black or white list", new String[] { "minecraft:diamond_block" }).getStringList();
 		showFanParticles = config.get(CONFIG_GENERAL_NAME, "Show Fan Particles", true).getBoolean();
 
 		fuelPerMinedBlock = config.get(CONFIG_EXTRUDER_NAME, "Fuel per mined block", 350).getInt();
@@ -61,6 +73,8 @@ public class IndustryConfig extends GrimConfig {
 		speedModifierCoal = (float) config.get(CONFIG_EXTRUDER_NAME, "Coal speed modifier", 0.8F).getDouble();
 		speedModifierRedstone = (float) config.get(CONFIG_EXTRUDER_NAME, "Redstone speed modifier", 1.4F).getDouble();
 		speedModifierMagmaCream = (float) config.get(CONFIG_EXTRUDER_NAME, "Magmacream speed modifier", 2.2F).getDouble();
+
+		registerWorkbenchList(workbenchList, IndustryConfig.workbenchUpgradeList);
 
 		super.syncConfig();
 	}
@@ -81,5 +95,32 @@ public class IndustryConfig extends GrimConfig {
 	@Override
 	public void writeToClient(PacketBuffer buffer) {
 		buffer.writeBoolean(useWorkbenchUpgrades);
+	}
+
+	public void registerWorkbenchList(String[] string, List<ItemStack> stacklist) {
+		if (string.length > 0) {
+			if (stacklist != null) {
+				stacklist.clear();
+
+				for (String name : string) {
+
+					String[] split = name.split(":");
+
+					if (split.length == 3) {
+						Item item = Item.REGISTRY.getObject(new ResourceLocation(split[0], split[1]));
+						if (item != null)
+							stacklist.add(new ItemStack(item, 1, Integer.valueOf(split[2])));
+						else
+							GrimLog.error(GrimIndustry.partName, "Tried to add [" + split[0] + ":" + split[1] + "] to Workbench List. ITEM NOT REGISTERED");
+					} else {
+						Item item = Item.REGISTRY.getObject(new ResourceLocation(name));
+						if (item != null)
+							stacklist.add(new ItemStack(item, 1, 0));
+						else
+							GrimLog.error(GrimIndustry.partName, "Tried to add [" + name + "] to Workbench List. ITEM NOT REGISTERED");
+					}
+				}
+			}
+		}
 	}
 }

@@ -466,7 +466,8 @@ Stick speed modifier.tooltip=How much faster the Extruder will move with a stick
 Coal speed modifier.tooltip=How much faster the Extruder will move with coal. This can make it slower if below 1
 Redstone speed modifier.tooltip=How much faster the Extruder will move with redstone. This can make it slower if below 1
 Magmacream speed modifier.tooltip=How much faster the Extruder will move with magmacream. This can make it slower if below 1
-
+Workbench black or white list.tooltip=These are where you will find either the whitelisted or blacklisted items and blocks that can be crafted and doubled using an iron or diamond workbench. You can specify mod:name (ex: grimpack:black_diamond) or mod:name:meta (ex: minecraft:wool:3).
+Workbench whitelist else blacklist.tooltip=If true then the workbench is in whitelist mode so all items listed are the only ones that can be crafted. But if false then blacklist mode will allow all items and blocks to be crafted except those listed in 'Workbench black or white list' config list.
 
 grimpack.tools.cfg.tooltip=Config options for the tools and weapons part of the Grim Pack
 grimpack.tools.cfg.general=General Options
