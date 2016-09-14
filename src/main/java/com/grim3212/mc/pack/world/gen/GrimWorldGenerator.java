@@ -44,22 +44,30 @@ public class GrimWorldGenerator extends GrimWorldGen {
 	}
 
 	private void surfaceFlatBedrock(World world, int blockX, int blockZ) {
+		// Used to determine if Flatbedrock should be generated
+		boolean foundStone = false;
+
 		for (int k = 1; k <= 5; k++) {
 			for (int i1 = blockX; i1 < blockX + 16; i1++) {
 				for (int k1 = blockZ; k1 < blockZ + 16; k1++) {
 					BlockPos pos = new BlockPos(i1, k, k1);
 					if (world.getBlockState(pos).getBlock() == Blocks.BEDROCK) {
+						if (!foundStone)
+							foundStone = true;
+
 						world.setBlockState(pos, Blocks.STONE.getDefaultState(), 2);
 					}
 				}
 			}
 		}
 
-		for (int l = blockX; l < blockX + 16; l++) {
-			for (int j1 = blockZ; j1 < blockZ + 16; j1++) {
-				BlockPos pos = new BlockPos(l, 0, j1);
-				if (world.getBlockState(pos).getBlock() != Blocks.BEDROCK) {
-					world.setBlockState(pos, Blocks.BEDROCK.getDefaultState(), 2);
+		if (foundStone) {
+			for (int l = blockX; l < blockX + 16; l++) {
+				for (int j1 = blockZ; j1 < blockZ + 16; j1++) {
+					BlockPos pos = new BlockPos(l, 0, j1);
+					if (world.getBlockState(pos).getBlock() != Blocks.BEDROCK) {
+						world.setBlockState(pos, Blocks.BEDROCK.getDefaultState(), 2);
+					}
 				}
 			}
 		}

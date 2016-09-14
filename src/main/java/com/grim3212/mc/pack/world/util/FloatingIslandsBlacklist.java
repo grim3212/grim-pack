@@ -40,6 +40,10 @@ public class FloatingIslandsBlacklist {
 				while (flag) {
 					if (world.isAirBlock(pos)) {
 						pos = pos.down();
+
+						if (pos.getY() <= 0)
+							flag = false;
+
 					} else {
 						flag = false;
 					}
