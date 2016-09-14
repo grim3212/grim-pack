@@ -6,6 +6,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
+import net.minecraft.item.ItemStack;
 
 public class ContainerCage extends Container {
 
@@ -32,4 +33,35 @@ public class ContainerCage extends Container {
 		return this.cage.isUseableByPlayer(playerIn);
 	}
 
+	@Override
+	public ItemStack transferStackInSlot(EntityPlayer playerIn, int index) {
+		ItemStack itemstack = null;
+		Slot slot = (Slot) inventorySlots.get(index);
+
+		if (slot != null && slot.getHasStack()) {
+			ItemStack itemstack1 = slot.getStack();
+			itemstack = itemstack1.copy();
+			if (index == 0) {
+				if (!mergeItemStack(itemstack1, 1, 37, false)) {
+					return null;
+				}
+			} else if (index >= 1 && index < 37) {
+				if (!mergeItemStack(itemstack1, 0, 1, false)) {
+					return null;
+				}
+			}
+
+			if (itemstack1.stackSize == 0) {
+				slot.putStack(null);
+			} else {
+				slot.onSlotChanged();
+			}
+			if (itemstack1.stackSize != itemstack.stackSize) {
+				slot.onPickupFromSlot(playerIn, itemstack1);
+			} else {
+				return null;
+			}
+		}
+		return itemstack;
+	}
 }
