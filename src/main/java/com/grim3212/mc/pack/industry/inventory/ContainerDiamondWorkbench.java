@@ -2,6 +2,7 @@ package com.grim3212.mc.pack.industry.inventory;
 
 import java.util.Iterator;
 
+import com.grim3212.mc.pack.industry.block.IndustryBlocks;
 import com.grim3212.mc.pack.industry.config.IndustryConfig;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -16,15 +17,19 @@ import net.minecraft.world.World;
 public class ContainerDiamondWorkbench extends ContainerWorkbench {
 
 	private World worldObj;
+	private BlockPos pos;
 
 	public ContainerDiamondWorkbench(InventoryPlayer invPlayer, World world, BlockPos pos) {
 		super(invPlayer, world, pos);
 		this.worldObj = world;
+		this.pos = pos;
 	}
 
 	@Override
 	public void onCraftMatrixChanged(IInventory iinventory) {
 		ItemStack found = CraftingManager.getInstance().findMatchingRecipe(this.craftMatrix, this.worldObj);
+		// Reset slot contents so that weird issues stop occuring
+		this.craftResult.setInventorySlotContents(0, null);
 
 		if (IndustryConfig.useWhitelist) {
 			Iterator<ItemStack> itr = IndustryConfig.workbenchUpgradeList.iterator();
@@ -63,16 +68,17 @@ public class ContainerDiamondWorkbench extends ContainerWorkbench {
 				} else {
 					craftResult.getStackInSlot(0).stackSize *= 4;
 				}
+		} else {
+			// If it returned a null value then it was either blacklisted,
+			// whitelisted or didn't have an item so just try and to craft
+			// with the default recipe
+			if (IndustryConfig.returnDefaultIfListed)
+				this.craftResult.setInventorySlotContents(0, CraftingManager.getInstance().findMatchingRecipe(this.craftMatrix, this.worldObj));
 		}
 	}
 
 	@Override
-	public void onContainerClosed(EntityPlayer par1EntityPlayer) {
-		super.onContainerClosed(par1EntityPlayer);
-	}
-
-	@Override
-	public boolean canInteractWith(EntityPlayer par1EntityPlayer) {
-		return true;
+	public boolean canInteractWith(EntityPlayer playerIn) {
+		return this.worldObj.getBlockState(this.pos).getBlock() != IndustryBlocks.diamond_workbench ? false : playerIn.getDistanceSq((double) this.pos.getX() + 0.5D, (double) this.pos.getY() + 0.5D, (double) this.pos.getZ() + 0.5D) <= 64.0D;
 	}
 }

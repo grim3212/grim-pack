@@ -31,6 +31,7 @@ public class IndustryConfig extends GrimConfig {
 	public static String[] workbenchList;
 	public static boolean useWorkbenchUpgrades;
 	public static boolean useWhitelist;
+	public static boolean returnDefaultIfListed;
 
 	// Extruder settings
 	public static int fuelPerMinedBlock;
@@ -58,6 +59,7 @@ public class IndustryConfig extends GrimConfig {
 		useWorkbenchUpgrades = config.get(CONFIG_GENERAL_NAME, "Do workbench upgrades double result", false).getBoolean();
 		useWhitelist = config.get(CONFIG_GENERAL_NAME, "Workbench whitelist else blacklist", false).getBoolean();
 		workbenchList = config.get(CONFIG_GENERAL_NAME, "Workbench black or white list", new String[] { "minecraft:diamond_block" }).getStringList();
+		returnDefaultIfListed = config.get(CONFIG_GENERAL_NAME, "Return Default Recipe If Listed", true).getBoolean();
 		showFanParticles = config.get(CONFIG_GENERAL_NAME, "Show Fan Particles", true).getBoolean();
 
 		fuelPerMinedBlock = config.get(CONFIG_EXTRUDER_NAME, "Fuel per mined block", 350).getInt();
