@@ -1,8 +1,8 @@
 {
 	"homepage": "http://mods.grim3212.com/grim-pack/",
 	"promos": {
-		"1.10.2-latest": "3.4.13.31",
-		"1.10.2-recommended": "3.4.13.31",
+		"1.10.2-latest": "3.4.13.32",
+		"1.10.2-recommended": "3.4.13.32",
 		"1.9-latest": "2.1.3.7",
 		"1.9-recommended": "2.1.3.7",
 		"1.8.9-latest": "1.0.0.1",
@@ -19,7 +19,8 @@
 		"2.0.0.0": "Combines all parts mods into 1 mod and combine a lot of the logic. Lots of bugfixes and changes."
 	},
 	"1.10.2": {
-		"3.4.13.31": "Fixes workbnehc upgrades returning wrong amounts and wrong items for recipes.",
+		"3.4.13.32": "Fix an crash with rayguns and adjust ice pixie height.",
+		"3.4.13.31": "Fixes workbench upgrades returning wrong amounts and wrong items for recipes.",
 		"3.4.13.30": "Add in the ability to blacklist or whitelist recipes to be used in Workbench upgrades.",
 		"3.4.13.29": "Fix some crashes with Cages. Fix milk bucket rendering. Fix bedrock and floating island generation in a void world",
 		"3.4.13.24": "Allow cages to render mobs using pokeballs. Add in black diamond and steel multitools. Fix some bugs with hedge blocks and buckets.",
