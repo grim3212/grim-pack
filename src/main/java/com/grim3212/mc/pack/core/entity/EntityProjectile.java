@@ -374,7 +374,8 @@ public abstract class EntityProjectile extends EntityArrow implements IThrowable
 
 				if (!this.worldObj.isRemote && this.motionX * this.motionX + this.motionY * this.motionY + this.motionZ * this.motionZ < 0.0010000000474974513D) {
 					if (this.pickupStatus == EntityArrow.PickupStatus.ALLOWED) {
-						this.entityDropItem(this.getArrowStack(), 0.1F);
+						if (this.getArrowStack() != null)
+							this.entityDropItem(this.getArrowStack(), 0.1F);
 					}
 
 					this.setDead();
