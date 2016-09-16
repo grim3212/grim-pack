@@ -33,7 +33,8 @@ public class EntityIcePixie extends EntityMob implements IRangedAttackMob, IManu
 
 	public EntityIcePixie(World world) {
 		super(world);
-		height = 1.25F;
+		this.setSize(0.35F, 0.5F);
+
 		this.tasks.taskEntries.clear();
 		this.tasks.addTask(1, new EntityAISwimming(this));
 		this.tasks.addTask(1, new EntityAIAvoidBlock(this, 1.4D, Blocks.TORCH, 1));
@@ -54,7 +55,7 @@ public class EntityIcePixie extends EntityMob implements IRangedAttackMob, IManu
 
 	@Override
 	public float getEyeHeight() {
-		return 0.8125F;
+		return 0.4425F;
 	}
 
 	@Override
