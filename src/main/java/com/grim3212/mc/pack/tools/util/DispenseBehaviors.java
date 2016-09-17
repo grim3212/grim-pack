@@ -14,6 +14,7 @@ import net.minecraft.block.BlockDispenser;
 import net.minecraft.dispenser.BehaviorProjectileDispense;
 import net.minecraft.dispenser.IPosition;
 import net.minecraft.entity.IProjectile;
+import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
@@ -34,7 +35,7 @@ public class DispenseBehaviors {
 			@Override
 			protected IProjectile getProjectileEntity(World worldIn, IPosition position, ItemStack stackIn) {
 				EntitySlimeSpear spear = new EntitySlimeSpear(worldIn, position.getX(), position.getY(), position.getZ());
-				spear.pickupStatus = EntitySlimeSpear.PickupStatus.ALLOWED;
+				spear.pickupStatus = EntityArrow.PickupStatus.ALLOWED;
 				return spear;
 			}
 		});
@@ -43,7 +44,7 @@ public class DispenseBehaviors {
 			@Override
 			protected IProjectile getProjectileEntity(World worldIn, IPosition position, ItemStack stackIn) {
 				EntityKnife knife = new EntityKnife(worldIn, position.getX(), position.getY(), position.getZ());
-				knife.pickupStatus = EntityKnife.PickupStatus.ALLOWED;
+				knife.pickupStatus = EntityArrow.PickupStatus.ALLOWED;
 				return knife;
 			}
 		});
@@ -52,7 +53,7 @@ public class DispenseBehaviors {
 			@Override
 			protected IProjectile getProjectileEntity(World worldIn, IPosition position, ItemStack stackIn) {
 				EntityTomahawk tomahawk = new EntityTomahawk(worldIn, position.getX(), position.getY(), position.getZ());
-				tomahawk.pickupStatus = EntityTomahawk.PickupStatus.ALLOWED;
+				tomahawk.pickupStatus = EntityArrow.PickupStatus.ALLOWED;
 				return tomahawk;
 			}
 		});
@@ -61,7 +62,7 @@ public class DispenseBehaviors {
 			@Override
 			protected IProjectile getProjectileEntity(World worldIn, IPosition position, ItemStack stackIn) {
 				EntityBallisticKnife knife = new EntityBallisticKnife(worldIn, position.getX(), position.getY(), position.getZ());
-				knife.pickupStatus = EntityBallisticKnife.PickupStatus.ALLOWED;
+				knife.pickupStatus = EntityArrow.PickupStatus.ALLOWED;
 				return knife;
 			}
 		});
@@ -76,7 +77,7 @@ public class DispenseBehaviors {
 				type = ((ItemSpear) stackIn.getItem()).getType();
 
 			EntitySpear spear = new EntitySpear(worldIn, position.getX(), position.getY(), position.getZ(), type);
-			spear.pickupStatus = EntitySpear.PickupStatus.ALLOWED;
+			spear.pickupStatus = EntityArrow.PickupStatus.ALLOWED;
 			return spear;
 		}
 

@@ -13,6 +13,7 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.IProjectile;
 import net.minecraft.entity.monster.EntityEnderman;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -35,7 +36,7 @@ import net.minecraftforge.fml.common.registry.IThrowableEntity;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public abstract class EntityProjectile extends EntityArrow implements IThrowableEntity {
+public abstract class EntityProjectile extends Entity implements IProjectile, IThrowableEntity {
 
 	@SuppressWarnings("unchecked")
 	private static final Predicate<Entity> ARROW_TARGETS = Predicates.and(new Predicate[] { EntitySelectors.NOT_SPECTATING, EntitySelectors.IS_ALIVE, new Predicate<Entity>() {
@@ -51,16 +52,16 @@ public abstract class EntityProjectile extends EntityArrow implements IThrowable
 	private int inData;
 	protected boolean inGround;
 	protected int timeInGround;
-	/** 1 if the player can pick up the arrow */
+	/** 1 if the player can pick up the projectile */
 	public EntityArrow.PickupStatus pickupStatus;
-	/** Seems to be some sort of timer for animating an arrow. */
-	public int arrowShake;
-	/** The owner of this arrow. */
+	/** Seems to be some sort of timer for animating an projectile. */
+	public int projectileShake;
+	/** The owner of this projectile. */
 	public Entity shootingEntity;
 	private int ticksInGround;
 	private int ticksInAir;
 	private double damage;
-	/** The amount of knockback an arrow applies when it hits a mob. */
+	/** The amount of knockback an projectile applies when it hits a mob. */
 	private int knockbackStrength;
 	protected float entityDrop = 0.05f;
 
@@ -112,7 +113,6 @@ public abstract class EntityProjectile extends EntityArrow implements IThrowable
 	protected void entityInit() {
 	}
 
-	@Override
 	public void setAim(Entity entity, float x, float y, float z, float velocity, float inaccuracy) {
 		float f = -MathHelper.sin(y * 0.017453292F) * MathHelper.cos(x * 0.017453292F);
 		float f1 = -MathHelper.sin(x * 0.017453292F);
@@ -207,8 +207,8 @@ public abstract class EntityProjectile extends EntityArrow implements IThrowable
 			}
 		}
 
-		if (this.arrowShake > 0) {
-			--this.arrowShake;
+		if (this.projectileShake > 0) {
+			--this.projectileShake;
 		}
 
 		if (this.inGround) {
@@ -311,9 +311,8 @@ public abstract class EntityProjectile extends EntityArrow implements IThrowable
 	}
 
 	/**
-	 * Called when the arrow hits a block or an entity
+	 * Called when the projectile hits a block or an entity
 	 */
-	@Override
 	protected void onHit(RayTraceResult raytraceResultIn) {
 		Entity entity = raytraceResultIn.entityHit;
 
@@ -324,9 +323,9 @@ public abstract class EntityProjectile extends EntityArrow implements IThrowable
 			DamageSource damagesource;
 
 			if (this.shootingEntity == null) {
-				damagesource = DamageSource.causeArrowDamage(this, this);
+				damagesource = DamageSource.causeThrownDamage(this, this);
 			} else {
-				damagesource = DamageSource.causeArrowDamage(this, this.shootingEntity);
+				damagesource = DamageSource.causeThrownDamage(this, this.shootingEntity);
 			}
 
 			if (this.isBurning() && !(entity instanceof EntityEnderman)) {
@@ -336,10 +335,6 @@ public abstract class EntityProjectile extends EntityArrow implements IThrowable
 			if (entity.attackEntityFrom(damagesource, (float) i)) {
 				if (entity instanceof EntityLivingBase) {
 					EntityLivingBase entitylivingbase = (EntityLivingBase) entity;
-
-					if (!this.worldObj.isRemote) {
-						entitylivingbase.setArrowCountInEntity(entitylivingbase.getArrowCountInEntity() + 1);
-					}
 
 					if (this.knockbackStrength > 0) {
 						float f1 = MathHelper.sqrt_double(this.motionX * this.motionX + this.motionZ * this.motionZ);
@@ -354,7 +349,7 @@ public abstract class EntityProjectile extends EntityArrow implements IThrowable
 						EnchantmentHelper.applyArthropodEnchantments((EntityLivingBase) this.shootingEntity, entitylivingbase);
 					}
 
-					this.arrowHit(entitylivingbase);
+					this.projectileHit(entitylivingbase);
 
 					if (this.shootingEntity != null && entitylivingbase != this.shootingEntity && entitylivingbase instanceof EntityPlayer && this.shootingEntity instanceof EntityPlayerMP) {
 						((EntityPlayerMP) this.shootingEntity).connection.sendPacket(new SPacketChangeGameState(6, 0.0F));
@@ -374,8 +369,8 @@ public abstract class EntityProjectile extends EntityArrow implements IThrowable
 
 				if (!this.worldObj.isRemote && this.motionX * this.motionX + this.motionY * this.motionY + this.motionZ * this.motionZ < 0.0010000000474974513D) {
 					if (this.pickupStatus == EntityArrow.PickupStatus.ALLOWED) {
-						if (this.getArrowStack() != null)
-							this.entityDropItem(this.getArrowStack(), 0.1F);
+						if (this.getPickupStack() != null)
+							this.entityDropItem(this.getPickupStack(), 0.1F);
 					}
 
 					this.setDead();
@@ -396,8 +391,8 @@ public abstract class EntityProjectile extends EntityArrow implements IThrowable
 			this.posX -= this.motionX / (double) f2 * 0.05000000074505806D;
 			this.posY -= this.motionY / (double) f2 * 0.05000000074505806D;
 			this.posZ -= this.motionZ / (double) f2 * 0.05000000074505806D;
-			this.arrowLand(raytraceResultIn, blockpos, iblockstate);
-			this.arrowShake = 7;
+			this.projectileLand(raytraceResultIn, blockpos, iblockstate);
+			this.projectileShake = 7;
 
 			if (iblockstate.getMaterial() != Material.AIR) {
 				this.inTile.onEntityCollidedWithBlock(this.worldObj, blockpos, iblockstate, this);
@@ -406,17 +401,16 @@ public abstract class EntityProjectile extends EntityArrow implements IThrowable
 		}
 	}
 
-	protected void arrowHit(EntityLivingBase living) {
+	protected void projectileHit(EntityLivingBase living) {
 		this.playSound(SoundEvents.ENTITY_ARROW_HIT, 1.0F, 1.2F / (this.rand.nextFloat() * 0.2F + 0.9F));
 	}
 
-	protected void arrowLand(RayTraceResult raytraceResultIn, BlockPos pos, IBlockState state) {
+	protected void projectileLand(RayTraceResult raytraceResultIn, BlockPos pos, IBlockState state) {
 		this.playSound(SoundEvents.ENTITY_ARROW_HIT, 1.0F, 1.2F / (this.rand.nextFloat() * 0.2F + 0.9F));
 		this.inGround = true;
 	}
 
 	@Nullable
-	@Override
 	protected Entity findEntityOnPath(Vec3d start, Vec3d end) {
 		Entity entity = null;
 		List<Entity> list = this.worldObj.getEntitiesInAABBexcluding(this, this.getEntityBoundingBox().addCoord(this.motionX, this.motionY, this.motionZ).expandXyz(1.0D), ARROW_TARGETS);
@@ -455,7 +449,7 @@ public abstract class EntityProjectile extends EntityArrow implements IThrowable
 		ResourceLocation resourcelocation = (ResourceLocation) Block.REGISTRY.getNameForObject(this.inTile);
 		compound.setString("inTile", resourcelocation == null ? "" : resourcelocation.toString());
 		compound.setByte("inData", (byte) this.inData);
-		compound.setByte("shake", (byte) this.arrowShake);
+		compound.setByte("shake", (byte) this.projectileShake);
 		compound.setByte("inGround", (byte) (this.inGround ? 1 : 0));
 		compound.setByte("pickup", (byte) this.pickupStatus.ordinal());
 		compound.setDouble("damage", this.damage);
@@ -478,7 +472,7 @@ public abstract class EntityProjectile extends EntityArrow implements IThrowable
 		}
 
 		this.inData = compound.getByte("inData") & 255;
-		this.arrowShake = compound.getByte("shake") & 255;
+		this.projectileShake = compound.getByte("shake") & 255;
 		this.inGround = compound.getByte("inGround") == 1;
 
 		if (compound.hasKey("damage", 99)) {
@@ -497,10 +491,10 @@ public abstract class EntityProjectile extends EntityArrow implements IThrowable
 	 */
 	@Override
 	public void onCollideWithPlayer(EntityPlayer entityIn) {
-		if (!this.worldObj.isRemote && this.inGround && this.arrowShake <= 0) {
+		if (!this.worldObj.isRemote && this.inGround && this.projectileShake <= 0) {
 			boolean flag = this.pickupStatus == EntityArrow.PickupStatus.ALLOWED || this.pickupStatus == EntityArrow.PickupStatus.CREATIVE_ONLY && entityIn.capabilities.isCreativeMode;
 
-			if (this.pickupStatus == EntityArrow.PickupStatus.ALLOWED && !entityIn.inventory.addItemStackToInventory(this.getArrowStack())) {
+			if (this.pickupStatus == EntityArrow.PickupStatus.ALLOWED && !entityIn.inventory.addItemStackToInventory(this.getPickupStack())) {
 				flag = false;
 			}
 
@@ -512,7 +506,7 @@ public abstract class EntityProjectile extends EntityArrow implements IThrowable
 		}
 	}
 
-	protected abstract ItemStack getArrowStack();
+	protected abstract ItemStack getPickupStack();
 
 	/**
 	 * returns if this entity triggers Block.onEntityWalking on the blocks they
@@ -529,20 +523,17 @@ public abstract class EntityProjectile extends EntityArrow implements IThrowable
 		return 15728880;
 	}
 
-	@Override
 	public void setDamage(double damageIn) {
 		this.damage = damageIn;
 	}
 
-	@Override
 	public double getDamage() {
 		return this.damage;
 	}
 
 	/**
-	 * Sets the amount of knockback the arrow applies when it hits a mob.
+	 * Sets the amount of knockback the projectile applies when it hits a mob.
 	 */
-	@Override
 	public void setKnockbackStrength(int knockbackStrengthIn) {
 		this.knockbackStrength = knockbackStrengthIn;
 	}

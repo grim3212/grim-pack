@@ -25,7 +25,7 @@ public class EntityKnife extends EntityProjectile {
 	}
 
 	@Override
-	protected ItemStack getArrowStack() {
+	protected ItemStack getPickupStack() {
 		return new ItemStack(ToolsItems.throwing_knife);
 	}
 }

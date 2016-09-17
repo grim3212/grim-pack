@@ -25,7 +25,7 @@ public class EntityTomahawk extends EntityProjectile {
 	}
 
 	@Override
-	protected ItemStack getArrowStack() {
+	protected ItemStack getPickupStack() {
 		return new ItemStack(ToolsItems.tomahawk);
 	}
 }

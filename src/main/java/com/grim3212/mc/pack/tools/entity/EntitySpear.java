@@ -38,7 +38,7 @@ public class EntitySpear extends EntityProjectile {
 	}
 
 	@Override
-	public ItemStack getArrowStack() {
+	public ItemStack getPickupStack() {
 		switch (type) {
 		case STONE:
 			return new ItemStack(ToolsItems.spear);
@@ -74,8 +74,8 @@ public class EntitySpear extends EntityProjectile {
 	}
 
 	@Override
-	protected void arrowHit(EntityLivingBase living) {
-		super.arrowHit(living);
+	protected void projectileHit(EntityLivingBase living) {
+		super.projectileHit(living);
 
 		if (this.type == EnumSpearType.EXPLOSIVE) {
 			if (!worldObj.isRemote)
@@ -99,8 +99,8 @@ public class EntitySpear extends EntityProjectile {
 	}
 
 	@Override
-	protected void arrowLand(RayTraceResult raytraceResultIn, BlockPos pos, IBlockState state) {
-		super.arrowLand(raytraceResultIn, pos, state);
+	protected void projectileLand(RayTraceResult raytraceResultIn, BlockPos pos, IBlockState state) {
+		super.projectileLand(raytraceResultIn, pos, state);
 
 		if (this.type == EnumSpearType.LIGHT) {
 			if (raytraceResultIn.sideHit == EnumFacing.UP) {

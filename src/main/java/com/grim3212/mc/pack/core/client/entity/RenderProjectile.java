@@ -75,7 +75,7 @@ public class RenderProjectile<T extends EntityProjectile> extends Render<T> {
 		float f7 = (float) (10 + i * 10) / 32.0F;
 		float f8 = 0.05625F;
 		GlStateManager.enableRescaleNormal();
-		float f9 = (float) entity.arrowShake - partialTicks;
+		float f9 = (float) entity.projectileShake - partialTicks;
 
 		if (f9 > 0.0F) {
 			float f10 = -MathHelper.sin(f9 * 3.0F) * f9;

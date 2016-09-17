@@ -29,7 +29,7 @@ public class EntitySlimeSpear extends EntitySpear {
 	}
 
 	@Override
-	protected void arrowLand(RayTraceResult raytraceResultIn, BlockPos pos, IBlockState state) {
+	protected void projectileLand(RayTraceResult raytraceResultIn, BlockPos pos, IBlockState state) {
 		if (bounceCount == 5) {
 			this.inGround = true;
 		} else {

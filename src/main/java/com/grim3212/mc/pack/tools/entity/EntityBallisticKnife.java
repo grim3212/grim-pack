@@ -25,7 +25,7 @@ public class EntityBallisticKnife extends EntityProjectile {
 	}
 
 	@Override
-	protected ItemStack getArrowStack() {
+	protected ItemStack getPickupStack() {
 		return new ItemStack(ToolsItems.ammo_part);
 	}
 }
