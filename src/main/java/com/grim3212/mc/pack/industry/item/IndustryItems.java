@@ -4,9 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.grim3212.mc.pack.GrimPack;
+import com.grim3212.mc.pack.core.client.gui.PackGuiHandler;
+import com.grim3212.mc.pack.core.item.ItemManualArmor;
 import com.grim3212.mc.pack.core.item.ItemManualAxe;
 import com.grim3212.mc.pack.core.item.ItemManualHoe;
-import com.grim3212.mc.pack.core.item.ItemManualArmor;
 import com.grim3212.mc.pack.core.item.ItemManualPage;
 import com.grim3212.mc.pack.core.item.ItemManualPickaxe;
 import com.grim3212.mc.pack.core.item.ItemManualSpade;
@@ -84,6 +85,8 @@ public class IndustryItems implements IPartItems {
 	public static Item rubber;
 	public static Item iron_stick;
 	public static Item extruder;
+	public static Item portable_diamond_workbench;
+	public static Item portable_iron_workbench;
 
 	public static ToolMaterial steel = EnumHelper.addToolMaterial("steel", 3, 1200, 7.5F, 2.5F, 12);
 	public static ArmorMaterial antiRadiation = EnumHelper.addArmorMaterial("antiRadiation", GrimPack.modID + ":radiation", 5, new int[] { 2, 5, 3, 1 }, 15, SoundEvents.BLOCK_CLOTH_PLACE, 0.0F);
@@ -140,7 +143,11 @@ public class IndustryItems implements IPartItems {
 		paint_roller_green = (ItemPaintRollerColor) (new ItemPaintRollerColor(EnumSidingColor.green)).setUnlocalizedName("paint_roller_green");
 		paint_roller_blue = (ItemPaintRollerColor) (new ItemPaintRollerColor(EnumSidingColor.blue)).setUnlocalizedName("paint_roller_blue");
 		extruder = (new ItemExtruder()).setUnlocalizedName("extruder").setCreativeTab(GrimIndustry.INSTANCE.getCreativeTab());
+		portable_diamond_workbench = (new ItemUpgradedPortableWorkbench(PackGuiHandler.PORTABLE_DIAMOND_MAIN_GUI_ID, PackGuiHandler.PORTABLE_DIAMOND_OFF_GUI_ID)).setUnlocalizedName("portable_diamond_workbench").setCreativeTab(GrimIndustry.INSTANCE.getCreativeTab());
+		portable_iron_workbench = (new ItemUpgradedPortableWorkbench(PackGuiHandler.PORTABLE_IRON_MAIN_GUI_ID, PackGuiHandler.PORTABLE_IRON_OFF_GUI_ID)).setUnlocalizedName("portable_iron_workbench").setCreativeTab(GrimIndustry.INSTANCE.getCreativeTab());
 
+		Utils.registerItem(portable_diamond_workbench, "portable_diamond_workbench");
+		Utils.registerItem(portable_iron_workbench, "portable_iron_workbench");
 		Utils.registerItem(extruder, "extruder");
 		Utils.registerItem(iron_stick, "iron_stick");
 		Utils.registerItem(rubber, "rubber");
@@ -201,6 +208,7 @@ public class IndustryItems implements IPartItems {
 	public static List<IRecipe> coaliron;
 	public static List<IRecipe> steeltools;
 	public static List<IRecipe> alumstuff;
+	public static List<IRecipe> portableUpgrades;
 	public static List<IRecipe> fuelstuff = new ArrayList<IRecipe>();
 
 	@Override
@@ -220,6 +228,10 @@ public class IndustryItems implements IPartItems {
 		GameRegistry.addSmelting(tarball, new ItemStack(asphalt, 1), 0.35F);
 		GameRegistry.addSmelting(Items.FLINT, new ItemStack(graphite), 0.35F);
 		GameRegistry.addSmelting(coal_iron_ingot, new ItemStack(steel_ingot, 1), 0.5F);
+
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(portable_diamond_workbench, 1), new Object[] { "IDI", "DWD", "IDI", 'W', IndustryBlocks.diamond_workbench, 'I', "ingotIron", 'D', "gemDiamond" }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(portable_iron_workbench, 1), new Object[] { "III", "IWI", "III", 'W', IndustryBlocks.iron_workbench, 'I', "ingotIron" }));
+		portableUpgrades = RecipeHelper.getLatestIRecipes(2);
 
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(extruder, 1), new Object[] { "PD", 'D', Blocks.DISPENSER, 'P', Blocks.PISTON }));
 

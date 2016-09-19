@@ -18,11 +18,13 @@ public class ContainerDiamondWorkbench extends ContainerWorkbench {
 
 	private World worldObj;
 	private BlockPos pos;
+	private boolean isPortable;
 
-	public ContainerDiamondWorkbench(InventoryPlayer invPlayer, World world, BlockPos pos) {
+	public ContainerDiamondWorkbench(InventoryPlayer invPlayer, World world, BlockPos pos, boolean isPortable) {
 		super(invPlayer, world, pos);
 		this.worldObj = world;
 		this.pos = pos;
+		this.isPortable = isPortable;
 	}
 
 	@Override
@@ -79,6 +81,6 @@ public class ContainerDiamondWorkbench extends ContainerWorkbench {
 
 	@Override
 	public boolean canInteractWith(EntityPlayer playerIn) {
-		return this.worldObj.getBlockState(this.pos).getBlock() != IndustryBlocks.diamond_workbench ? false : playerIn.getDistanceSq((double) this.pos.getX() + 0.5D, (double) this.pos.getY() + 0.5D, (double) this.pos.getZ() + 0.5D) <= 64.0D;
+		return isPortable ? true : this.worldObj.getBlockState(this.pos).getBlock() != IndustryBlocks.diamond_workbench ? false : playerIn.getDistanceSq((double) this.pos.getX() + 0.5D, (double) this.pos.getY() + 0.5D, (double) this.pos.getZ() + 0.5D) <= 64.0D;
 	}
 }

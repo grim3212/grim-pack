@@ -20,7 +20,7 @@ public class GuiCraftingDiamond extends GuiContainer {
 	private IInventory playerInv;
 
 	public GuiCraftingDiamond(EntityPlayer inventoryplayer, World world, BlockPos pos) {
-		super(new ContainerDiamondWorkbench(inventoryplayer.inventory, world, pos));
+		super(new ContainerDiamondWorkbench(inventoryplayer.inventory, world, pos, false));
 		this.playerInv = inventoryplayer.inventory;
 	}
 

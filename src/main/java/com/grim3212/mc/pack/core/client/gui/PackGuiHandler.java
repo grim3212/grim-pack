@@ -11,8 +11,10 @@ import com.grim3212.mc.pack.decor.tile.TileEntityCage;
 import com.grim3212.mc.pack.decor.tile.TileEntityGrill;
 import com.grim3212.mc.pack.industry.client.gui.GuiCraftingDiamond;
 import com.grim3212.mc.pack.industry.client.gui.GuiCraftingIron;
+import com.grim3212.mc.pack.industry.client.gui.GuiDiamondPortable;
 import com.grim3212.mc.pack.industry.client.gui.GuiExtruder;
 import com.grim3212.mc.pack.industry.client.gui.GuiFan;
+import com.grim3212.mc.pack.industry.client.gui.GuiIronPortable;
 import com.grim3212.mc.pack.industry.client.gui.GuiMFurnace;
 import com.grim3212.mc.pack.industry.client.gui.GuiMachine;
 import com.grim3212.mc.pack.industry.entity.EntityExtruder;
@@ -55,6 +57,10 @@ public class PackGuiHandler implements IGuiHandler {
 	public static final int EXTRUDER_GUI_ID = 11;
 	public static final int FAN_GUI_ID = 12;
 	public static final int CAGE_GUI_ID = 13;
+	public static final int PORTABLE_DIAMOND_MAIN_GUI_ID = 14;
+	public static final int PORTABLE_DIAMOND_OFF_GUI_ID = 15;
+	public static final int PORTABLE_IRON_MAIN_GUI_ID = 16;
+	public static final int PORTABLE_IRON_OFF_GUI_ID = 17;
 
 	@Override
 	public Object getServerGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
@@ -64,9 +70,9 @@ public class PackGuiHandler implements IGuiHandler {
 		if ((ID == GRILL_GUI_ID) && ((tileentity instanceof TileEntityGrill))) {
 			return new ContainerGrill(player.inventory, (TileEntityGrill) tileentity);
 		} else if (ID == IRON_GUI_ID) {
-			return new ContainerIronWorkbench(player.inventory, world, pos);
+			return new ContainerIronWorkbench(player.inventory, world, pos, false);
 		} else if (ID == DIAMOND_GUI_ID) {
-			return new ContainerDiamondWorkbench(player.inventory, world, pos);
+			return new ContainerDiamondWorkbench(player.inventory, world, pos, false);
 		} else if (ID == MODERN_FURNACE_GUI_ID) {
 			return new ContainerMFurnace(player.inventory, (TileEntityMFurnace) tileentity);
 		} else if (ID == DERRICK_GUI_ID || ID == REFINERY_GUI_ID) {
@@ -79,6 +85,10 @@ public class PackGuiHandler implements IGuiHandler {
 			return new ContainerBackpack(backpackInventory, player.inventory);
 		} else if (ID == PORTABLE_MAIN_GUI_ID || ID == PORTABLE_OFF_GUI_ID) {
 			return new ContainerCustomWorkbench(player.inventory, world, pos);
+		} else if (ID == PORTABLE_DIAMOND_MAIN_GUI_ID || ID == PORTABLE_DIAMOND_OFF_GUI_ID) {
+			return new ContainerDiamondWorkbench(player.inventory, world, pos, true);
+		} else if (ID == PORTABLE_IRON_MAIN_GUI_ID || ID == PORTABLE_IRON_OFF_GUI_ID) {
+			return new ContainerIronWorkbench(player.inventory, world, pos, true);
 		} else if (ID == EXTRUDER_GUI_ID) {
 			return new ContainerExtruder(player.inventory, this.getEntityAt(world, x, y, z, EntityExtruder.class).getExtruderInv());
 		} else if (ID == CAGE_GUI_ID) {
@@ -121,6 +131,14 @@ public class PackGuiHandler implements IGuiHandler {
 			return new GuiFan((TileEntityFan) tileentity);
 		} else if (ID == CAGE_GUI_ID) {
 			return new GuiCage(player.inventory, (TileEntityCage) tileentity);
+		} else if (ID == PORTABLE_DIAMOND_MAIN_GUI_ID) {
+			return new GuiDiamondPortable(player.inventory, world, pos, player.getHeldItemMainhand());
+		} else if (ID == PORTABLE_DIAMOND_OFF_GUI_ID) {
+			return new GuiDiamondPortable(player.inventory, world, pos, player.getHeldItemOffhand());
+		} else if (ID == PORTABLE_IRON_MAIN_GUI_ID) {
+			return new GuiIronPortable(player.inventory, world, pos, player.getHeldItemMainhand());
+		} else if (ID == PORTABLE_IRON_OFF_GUI_ID) {
+			return new GuiIronPortable(player.inventory, world, pos, player.getHeldItemOffhand());
 		}
 
 		return null;

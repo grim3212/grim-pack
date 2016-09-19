@@ -3,6 +3,7 @@ package com.grim3212.mc.pack.industry.compat.jei;
 import javax.annotation.Nonnull;
 
 import com.grim3212.mc.pack.industry.block.IndustryBlocks;
+import com.grim3212.mc.pack.industry.item.IndustryItems;
 
 import mezz.jei.api.IJeiRuntime;
 import mezz.jei.api.IModPlugin;
@@ -23,6 +24,8 @@ public class JEIIndustry implements IModPlugin {
 		// table
 		registry.addRecipeCategoryCraftingItem(new ItemStack(IndustryBlocks.iron_workbench, 1), VanillaRecipeCategoryUid.CRAFTING);
 		registry.addRecipeCategoryCraftingItem(new ItemStack(IndustryBlocks.diamond_workbench, 1), VanillaRecipeCategoryUid.CRAFTING);
+		registry.addRecipeCategoryCraftingItem(new ItemStack(IndustryItems.portable_iron_workbench, 1), VanillaRecipeCategoryUid.CRAFTING);
+		registry.addRecipeCategoryCraftingItem(new ItemStack(IndustryItems.portable_diamond_workbench, 1), VanillaRecipeCategoryUid.CRAFTING);
 	}
 
 	@Override

@@ -1,33 +1,40 @@
 package com.grim3212.mc.pack.industry.client.gui;
 
 import com.grim3212.mc.pack.industry.inventory.ContainerIronWorkbench;
+import com.grim3212.mc.pack.industry.item.IndustryItems;
 
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.resources.I18n;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.IInventory;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
-@SideOnly(Side.CLIENT)
-public class GuiCraftingIron extends GuiContainer {
+public class GuiIronPortable extends GuiContainer {
 
 	private static final ResourceLocation resourceLocation = new ResourceLocation("textures/gui/container/crafting_table.png");
 	private IInventory playerInv;
+	private ItemStack portableStack;
 
-	public GuiCraftingIron(EntityPlayer inventoryplayer, World world, BlockPos pos) {
-		super(new ContainerIronWorkbench(inventoryplayer.inventory, world, pos, false));
-		this.playerInv = inventoryplayer.inventory;
+	public GuiIronPortable(InventoryPlayer inventoryplayer, World world, BlockPos pos, ItemStack stack) {
+		super(new ContainerIronWorkbench(inventoryplayer, world, pos, true));
+		this.playerInv = inventoryplayer;
+
+		if (stack.getItem() == IndustryItems.portable_iron_workbench) {
+			this.portableStack = stack;
+		}
 	}
 
 	@Override
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
-		this.fontRendererObj.drawString(I18n.format("container.crafting_iron"), 28, 6, 4210752);
-		this.fontRendererObj.drawString(this.playerInv.getDisplayName().getUnformattedText(), 8, this.ySize - 96 + 2, 4210752);
+		if (this.portableStack.hasDisplayName())
+			fontRendererObj.drawString(this.portableStack.getDisplayName(), 8, 6, 4210752);
+		else
+			fontRendererObj.drawString(I18n.format("container.portable_iron_workbench"), 8, 6, 4210752);
+		fontRendererObj.drawString(this.playerInv.getDisplayName().getUnformattedText(), 8, this.ySize - 96 + 2, 4210752);
 	}
 
 	@Override

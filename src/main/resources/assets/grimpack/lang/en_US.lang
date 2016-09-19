@@ -179,6 +179,8 @@ tile.fungus_killing.15.name=Glass Layer Building Fungus
 
 #================= ITEMS =================#
 item.instruction_manual.name=Instruction Manual
+item.portable_diamond_workbench.name=Portable Diamond Workbench
+item.portable_iron_workbench.name=Portable Iron Workbench
 item.boomerang.name=Boomerang
 item.diamond_boomerang.name=Diamond Boomerang
 item.flat_item_frame.name=Flat Item Frame
@@ -550,6 +552,7 @@ Sand and Eating Fungus Whitelist.tooltip=The blocks that sand and gravel eating 
 Rocks Eating Whitelist.tooltip=The blocks that rock eating fungus can eat
 All Eating Blacklist.tooltip=The blocks that all eating fungus can't eat
 Forest Eating Whitelist.tooltip=The blocks that forest eating fungus can eat
+Glowstone seed plant height.tooltip=This is the distance from 0 - this that glowstone seeds can be planted on in dimensions besides the Nether. If this is 15 then you can only plant these on levels 0 - 15.
 ### END CONFIG TOOLTIPS ###
 
 grimpack.decor.brush.empty=Stored: Empty
@@ -591,6 +594,8 @@ container.extruder.south=South
 container.extruder.west=West
 container.extruder.up=Up
 container.extruder.down=Down
+container.portable_iron_workbench=Portable Iron Workbench
+container.portable_diamond_workbench=Portable Diamond Workbench
 
 entity.IcePixie.name=Ice Pixie
 entity.Treasure.name=Treasure Mob
