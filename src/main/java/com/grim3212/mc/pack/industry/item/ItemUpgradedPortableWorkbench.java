@@ -2,6 +2,7 @@ package com.grim3212.mc.pack.industry.item;
 
 import com.grim3212.mc.pack.GrimPack;
 import com.grim3212.mc.pack.core.manual.pages.Page;
+import com.grim3212.mc.pack.industry.client.ManualIndustry;
 import com.grim3212.mc.pack.tools.items.ItemPortableWorkbench;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -35,7 +36,6 @@ public class ItemUpgradedPortableWorkbench extends ItemPortableWorkbench {
 
 	@Override
 	public Page getPage(ItemStack stack) {
-		// TODO: Change
-		return super.getPage(stack);
+		return ManualIndustry.portableUpgrade_page;
 	}
 }

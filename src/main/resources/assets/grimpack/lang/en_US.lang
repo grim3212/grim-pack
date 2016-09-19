@@ -617,6 +617,8 @@ entity.grimpack.SuicideBomber.name=Suicide Bomber
 
 grimpack.subtitle.raygun=Raygun fired
 grimpack.subtitle.fusrodah=FusRoDah used
+grimpack.subtitle.spikeDeploy=Spike Deploy
+grimpack.subtitle.spikeClose=Spike Close
 
 tooltip.buckets.empty=Empty
 tooltip.buckets.contains=Contains
@@ -874,6 +876,8 @@ grimpack.manual.industry.subsection.elemental.page.lava.title=Lava
 grimpack.manual.industry.subsection.benches=Workbench Upgrades
 grimpack.manual.industry.subsection.benches.page.recipes=The two new Workbenches added are made out of Iron and Diamond. The Iron will double your output from crafting and the Diamond will quadruple the output.
 grimpack.manual.industry.subsection.benches.page.recipes.title=Recipes
+grimpack.manual.industry.subsection.benches.page.portable_upgrade=The two new Workbenches can also be made portable just like the regular portable workbench from tools.
+grimpack.manual.industry.subsection.benches.page.portable_upgrade.title=Portability
 grimpack.manual.industry.subsection.ice=Ice Maker
 grimpack.manual.industry.subsection.ice.page.recipes=Using a bucket of water you will be able to create ice using the Ice Maker. Once crafted right click on the Ice Maker with a Bowl of Water and the water will start the freezing process give it some time and once done it will have the texture of ice on top. Punch it to get your ice.
 grimpack.manual.industry.subsection.ice.page.recipes.title=Recipes

@@ -84,9 +84,11 @@ public class ManualIndustry implements IManualPart {
 	public static Page extruder_page;
 	public static Page extruderInfo_page;
 	public static Page fan_page;
+	public static Page portableUpgrade_page;
 
 	@Override
 	public void initPages() {
+		portableUpgrade_page = new PageCrafting("portable_upgrade", IndustryItems.portableUpgrades, 25);
 		fan_page = new PageCrafting("fan", new ItemStack(IndustryBlocks.fan));
 		extruder_page = new PageCrafting("extruder", new ItemStack(IndustryItems.extruder));
 		extruderInfo_page = new PageInfo("info");
@@ -154,7 +156,7 @@ public class ManualIndustry implements IManualPart {
 
 	@Override
 	public void registerChapters(ManualPart part) {
-		ManualRegistry.addChapter("benches", part).addPages(workbench_page);
+		ManualRegistry.addChapter("benches", part).addPages(workbench_page, portableUpgrade_page);
 		ManualRegistry.addChapter("ice", part).addPages(iceMaker_page);
 		ManualRegistry.addChapter("elemental", part).addPages(togglerack_page, fireBlock_page, waterBlock_page, lavaBlock_page);
 		ManualRegistry.addChapter("spikes", part).addPages(spike_page);
