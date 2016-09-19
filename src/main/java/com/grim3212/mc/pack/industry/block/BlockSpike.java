@@ -2,6 +2,7 @@ package com.grim3212.mc.pack.industry.block;
 
 import com.grim3212.mc.pack.core.block.BlockManual;
 import com.grim3212.mc.pack.core.manual.pages.Page;
+import com.grim3212.mc.pack.industry.GrimIndustry;
 import com.grim3212.mc.pack.industry.client.ManualIndustry;
 
 import net.minecraft.block.Block;
@@ -14,10 +15,12 @@ import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
@@ -51,9 +54,9 @@ public class BlockSpike extends BlockManual {
 	@Override
 	public int getMetaFromState(IBlockState state) {
 		byte b0 = 0;
-		int i = b0 | ((EnumFacing) state.getValue(FACING)).getIndex();
+		int i = b0 | state.getValue(FACING).getIndex();
 
-		if (((Boolean) state.getValue(ACTIVE))) {
+		if (state.getValue(ACTIVE)) {
 			i |= 8;
 		}
 
@@ -149,9 +152,11 @@ public class BlockSpike extends BlockManual {
 	public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn) {
 		this.checkForDrop(worldIn, pos);
 
-		if (!(Boolean) state.getValue(ACTIVE) && worldIn.isBlockPowered(pos)) {
+		if (!state.getValue(ACTIVE) && worldIn.isBlockPowered(pos)) {
+			worldIn.playSound((EntityPlayer) null, pos, GrimIndustry.spikeDeploySound, SoundCategory.BLOCKS, 0.3F, 0.6F);
 			worldIn.setBlockState(pos, state.withProperty(ACTIVE, true));
-		} else if ((Boolean) state.getValue(ACTIVE) && !worldIn.isBlockPowered(pos)) {
+		} else if (state.getValue(ACTIVE) && !worldIn.isBlockPowered(pos)) {
+			worldIn.playSound((EntityPlayer) null, pos, GrimIndustry.spikeCloseSound, SoundCategory.BLOCKS, 0.3F, 0.6F);
 			worldIn.setBlockState(pos, state.withProperty(ACTIVE, false));
 		}
 	}
@@ -165,7 +170,7 @@ public class BlockSpike extends BlockManual {
 
 	@Override
 	public void onEntityCollidedWithBlock(World worldIn, BlockPos pos, IBlockState state, Entity entityIn) {
-		if ((Boolean) worldIn.getBlockState(pos).getValue(ACTIVE) && entityIn instanceof EntityLivingBase) {
+		if (worldIn.getBlockState(pos).getValue(ACTIVE) && entityIn instanceof EntityLivingBase) {
 			entityIn.attackEntityFrom(DamageSource.inWall, 10);
 		}
 	}

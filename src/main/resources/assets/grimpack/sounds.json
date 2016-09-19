@@ -13,5 +13,15 @@
 		"category": "players",
 		"subtitle": "grimpack.subtitle.fusrodah",
 		"sounds": ["grimpack:fusrodah-old"]
+	},
+   "spikeDeploy": {
+		"category": "block",
+		"subtitle": "grimpack.subtitle.spikeDeploy",
+		"sounds": ["grimpack:spike_deploy"]
+	},
+   "spikeClose": {
+		"category": "block",
+		"subtitle": "grimpack.subtitle.spikeClose",
+		"sounds": ["grimpack:spike_close"]
 	}
 }
