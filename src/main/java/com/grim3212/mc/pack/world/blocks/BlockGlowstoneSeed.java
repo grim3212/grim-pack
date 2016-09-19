@@ -6,6 +6,7 @@ import com.grim3212.mc.pack.core.block.BlockManual;
 import com.grim3212.mc.pack.core.manual.pages.Page;
 import com.grim3212.mc.pack.world.GrimWorld;
 import com.grim3212.mc.pack.world.client.ManualWorld;
+import com.grim3212.mc.pack.world.config.WorldConfig;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
@@ -93,7 +94,7 @@ public class BlockGlowstoneSeed extends BlockManual {
 
 	@Override
 	public boolean canPlaceBlockAt(World worldIn, BlockPos pos) {
-		return worldIn.getBlockState(pos.up()).getBlock() == Blocks.NETHERRACK && (worldIn.provider.getDimensionType() == DimensionType.NETHER || pos.getY() <= 15);
+		return worldIn.getBlockState(pos.up()).getBlock() == Blocks.NETHERRACK && (worldIn.provider.getDimensionType() == DimensionType.NETHER || pos.getY() <= WorldConfig.glowstoneSeedPlantHeight);
 	}
 
 	@Override

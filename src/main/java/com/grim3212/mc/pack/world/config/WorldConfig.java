@@ -32,6 +32,8 @@ public class WorldConfig extends GrimConfig {
 	public static int sizevariancefrom7;
 	public static boolean fire;
 
+	public static int glowstoneSeedPlantHeight;
+
 	// Sync to client
 	public static boolean generateFlatBedRockSurface;
 	public static boolean generateFlatBedRockNether;
@@ -55,6 +57,8 @@ public class WorldConfig extends GrimConfig {
 		corruption = config.get(CONFIG_GENERAL_NAME, "Enable Corruption", false).getBoolean();
 		generateCorruption = config.get(CONFIG_GENERAL_NAME, "Generate Corruption Blocks", false).getBoolean();
 		spawnMorePeople = config.get(CONFIG_GENERAL_NAME, "Spawn more people", true).getBoolean();
+
+		glowstoneSeedPlantHeight = config.get(CONFIG_GENERAL_NAME, "Glowstone seed plant height", 15).getInt();
 
 		config.addCustomCategoryComment(CONFIG_GENERAL_NAME, "Change the values to decide how rare or common the different world gen items spawn. Larger values means rarer.");
 		frequencyWheatField = config.get(CONFIG_GENERAL_NAME, "Frequency Wheat Field", 350).getInt();
