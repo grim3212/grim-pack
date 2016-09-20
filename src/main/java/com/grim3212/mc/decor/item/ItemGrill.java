@@ -75,7 +75,13 @@ public class ItemGrill extends ItemBlock {
 
 	@Override
 	public String getItemStackDisplayName(ItemStack stack) {
-		return StatCollector.translateToLocal(new ItemStack(Block.getBlockById(NBTHelper.getInt(stack, "blockID")), 1, NBTHelper.getInt(stack, "blockMeta")).getDisplayName()) + " " + StatCollector.translateToLocal(this.block.getUnlocalizedName() + ".name");
+		ItemStack toPlaceStack = new ItemStack(Block.getBlockById(NBTHelper.getInt(stack, "blockID")), 1, NBTHelper.getInt(stack, "blockMeta"));
+
+		if (toPlaceStack.getItem() != null) {
+			return StatCollector.translateToLocal(toPlaceStack.getDisplayName() + " " + StatCollector.translateToLocal(this.block.getUnlocalizedName() + ".name"));
+		} else {
+			return StatCollector.translateToLocal(this.block.getUnlocalizedName() + ".name");
+		}
 	}
 
 	@Override

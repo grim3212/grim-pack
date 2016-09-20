@@ -111,7 +111,13 @@ public class ItemLampPost extends Item {
 
 	@Override
 	public String getItemStackDisplayName(ItemStack stack) {
-		return StatCollector.translateToLocal(new ItemStack(Block.getBlockById(NBTHelper.getInt(stack, "blockID")), 1, NBTHelper.getInt(stack, "blockMeta")).getDisplayName()) + " " + StatCollector.translateToLocal(DecorItems.lamp_item.getUnlocalizedName() + ".name");
+		ItemStack toPlaceStack = new ItemStack(Block.getBlockById(NBTHelper.getInt(stack, "blockID")), 1, NBTHelper.getInt(stack, "blockMeta"));
+
+		if (toPlaceStack.getItem() != null) {
+			return StatCollector.translateToLocal(toPlaceStack.getDisplayName() + " " + StatCollector.translateToLocal(DecorItems.lamp_item.getUnlocalizedName() + ".name"));
+		} else {
+			return StatCollector.translateToLocal(DecorItems.lamp_item.getUnlocalizedName() + ".name");
+		}
 	}
 
 	@Override

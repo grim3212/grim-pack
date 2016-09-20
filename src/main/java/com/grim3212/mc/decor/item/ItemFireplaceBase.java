@@ -9,7 +9,6 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -77,11 +76,11 @@ public class ItemFireplaceBase extends ItemBlock {
 	public String getItemStackDisplayName(ItemStack stack) {
 		ItemStack toPlaceStack = new ItemStack(Block.getBlockById(NBTHelper.getInt(stack, "blockID")), 1, NBTHelper.getInt(stack, "blockMeta"));
 
-		if (toPlaceStack.getItem() != Item.getItemFromBlock(Blocks.air)) {
+		if (toPlaceStack.getItem() != null) {
 			return StatCollector.translateToLocal(toPlaceStack.getDisplayName() + " " + StatCollector.translateToLocal(this.block.getUnlocalizedName() + ".name"));
+		} else {
+			return StatCollector.translateToLocal(this.block.getUnlocalizedName() + ".name");
 		}
-
-		return super.getItemStackDisplayName(stack);
 	}
 
 	@Override
