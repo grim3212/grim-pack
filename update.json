@@ -1,8 +1,8 @@
 {
 	"homepage": "http://mods.grim3212.com/grim-pack/",
 	"promos": {
-		"1.10.2-latest": "3.4.15.37",
-		"1.10.2-recommended": "3.4.15.37",
+		"1.10.2-latest": "3.4.15.38",
+		"1.10.2-recommended": "3.4.15.38",
 		"1.9-latest": "2.1.3.7",
 		"1.9-recommended": "2.1.3.7",
 		"1.8.9-latest": "1.0.0.1",
@@ -19,7 +19,8 @@
 		"2.0.0.0": "Combines all parts mods into 1 mod and combine a lot of the logic. Lots of bugfixes and changes."
 	},
 	"1.10.2": {
-		"3.4.14.33": "Add some new functionality for portable workbenches. Add some new sounds. Fix a chunk generation crash.",
+		"3.4.15.38": "Add in Chinese translations.",
+		"3.4.15.37": "Add some new functionality for portable workbenches. Add some new sounds. Fix a chunk generation crash.",
 		"3.4.14.33": "Fix a crash with projectiles hitting entities. Now includes a mcmod.info file.",
 		"3.4.13.32": "Fix an crash with rayguns and adjust ice pixie height.",
 		"3.4.13.31": "Fixes workbench upgrades returning wrong amounts and wrong items for recipes.",
