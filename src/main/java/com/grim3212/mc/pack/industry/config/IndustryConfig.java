@@ -49,7 +49,7 @@ public class IndustryConfig extends GrimConfig {
 	public static float speedModifierMagmaCream;
 	
 	//Uranium Damage - add by SH
-	public static int uraniumDamage;
+	public static float uraniumDamage;
 
 	// Client Only Settings
 	public static boolean showFanParticles;

@@ -23,19 +23,26 @@ public class BlockUraniumOre extends BlockManual {
 
 	@Override
 	public void onEntityCollidedWithBlock(World worldIn, BlockPos pos, IBlockState state, Entity entityIn) {
-		int damage = IndustryConfig.uraniumDamage;
+		float damage = IndustryConfig.uraniumDamage;
 		if (entityIn instanceof EntityPlayer) {
 			if (((EntityPlayer) entityIn).inventory.armorInventory[0] != null && ((EntityPlayer) entityIn).inventory.armorInventory[0].getItem() == IndustryItems.anti_radiation_boots) {
-				damage--;
+				damage = damage - damage/4;
+				if (damage < 0) damage = 0;
 			}
 			if (((EntityPlayer) entityIn).inventory.armorInventory[1] != null && ((EntityPlayer) entityIn).inventory.armorInventory[1].getItem() == IndustryItems.anti_radiation_legs) {
-				damage--;
+				//damage--;
+				damage = damage - damage/4;
+				if (damage < 0) damage = 0;
 			}
 			if (((EntityPlayer) entityIn).inventory.armorInventory[2] != null && ((EntityPlayer) entityIn).inventory.armorInventory[2].getItem() == IndustryItems.anti_radiation_chest) {
-				damage--;
+				//damage--;
+				damage = damage - damage/4;
+				if (damage < 0) damage = 0;
 			}
 			if (((EntityPlayer) entityIn).inventory.armorInventory[3] != null && ((EntityPlayer) entityIn).inventory.armorInventory[3].getItem() == IndustryItems.anti_radiation_helmet) {
-				damage--;
+				//damage--;
+				damage = damage - damage/4;
+				if (damage < 0) damage = 0;
 			}
 			if (damage != 0) {
 				entityIn.attackEntityFrom(DamageSource.magic, damage);
@@ -49,18 +56,27 @@ public class BlockUraniumOre extends BlockManual {
 
 	@Override
 	public void onBlockClicked(World worldIn, BlockPos pos, EntityPlayer playerIn) {
-		int damage = IndustryConfig.uraniumDamage;
+		float damage = IndustryConfig.uraniumDamage;
+		float damageFraction = damage/4;
 		if (playerIn.inventory.armorInventory[3] != null && playerIn.inventory.armorInventory[3].getItem() == IndustryItems.anti_radiation_helmet) {
-			damage--;
+			//damage--;
+			damage = damage - damageFraction;
+			if (damage < 0) damage = 0;
 		}
 		if (playerIn.inventory.armorInventory[2] != null && playerIn.inventory.armorInventory[2].getItem() == IndustryItems.anti_radiation_chest) {
-			damage--;
+			//damage--;
+			damage = damage - damageFraction;
+			if (damage < 0) damage = 0;
 		}
 		if (playerIn.inventory.armorInventory[1] != null && playerIn.inventory.armorInventory[1].getItem() == IndustryItems.anti_radiation_legs) {
-			damage--;
+			//damage--;
+			damage = damage - damageFraction;
+			if (damage < 0) damage = 0;
 		}
 		if (playerIn.inventory.armorInventory[0] != null && playerIn.inventory.armorInventory[0].getItem() == IndustryItems.anti_radiation_boots) {
-			damage--;
+			//damage--;
+			damage = damage - damageFraction;
+			if (damage < 0) damage = 0;
 		}
 		if (damage != 0) {
 			playerIn.attackEntityFrom(DamageSource.magic, damage);
