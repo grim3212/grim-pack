@@ -1,0 +1,20 @@
+{
+	"forge_marker": 1,
+    "defaults": {
+		"transform": "forge:default-block",
+        "model": "cube",
+		"textures": {
+			"particle": "grimpack:blocks/diamond_side",
+			"down": "grimpack:blocks/diamond_bottom",
+			"up": "grimpack:blocks/diamond_top",
+			"north": "grimpack:blocks/diamond_side",
+			"east": "grimpack:blocks/diamond_side",
+			"south": "grimpack:blocks/diamond_side",
+			"west": "grimpack:blocks/diamond_side"
+		}
+    },
+    "variants": {
+        "normal": [{}],
+		"inventory": [{}]
+    }
+}

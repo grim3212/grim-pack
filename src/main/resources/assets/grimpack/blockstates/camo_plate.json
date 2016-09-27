@@ -1,0 +1,17 @@
+{
+	"forge_marker": 1,
+    "defaults": {
+		"model": "grimpack:dynamic_camo_plate",
+		"transform": "forge:default-block",
+		"custom": {
+			"models": ["grimpack:block/camo_plate_up"]
+		}
+    },
+    "variants": {
+        "powered": { 
+			"true": { "custom": {"models": ["grimpack:block/camo_plate_down"]} },
+			"false": { }
+		},
+		"inventory": [{ "transform": "identity" }]
+    }
+}

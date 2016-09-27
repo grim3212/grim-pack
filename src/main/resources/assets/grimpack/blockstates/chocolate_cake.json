@@ -1,0 +1,25 @@
+{
+	"forge_marker": 1,
+    "defaults": {
+		"transform": "forge:default-block",
+		"model": "grimpack:cake_uneaten",
+		"textures": {
+			"bottom": "grimpack:blocks/chocolate_cake_bottom",
+			"top": "grimpack:blocks/chocolate_cake_top",
+			"side": "grimpack:blocks/chocolate_cake_side",
+			"inside": "grimpack:blocks/chocolate_cake_sidecut"
+		}
+    },
+	"variants": {
+		"bites": {
+			"0": { },
+			"1": { "model": "grimpack:cake_slice1" },
+			"2": { "model": "grimpack:cake_slice2" },
+			"3": { "model": "grimpack:cake_slice3" },
+			"4": { "model": "grimpack:cake_slice4" },
+			"5": { "model": "grimpack:cake_slice5" },
+			"6": { "model": "grimpack:cake_slice6" }
+		},
+		"inventory": [{}]
+	}
+}

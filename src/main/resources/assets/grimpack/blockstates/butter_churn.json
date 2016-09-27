@@ -1,0 +1,18 @@
+{
+	"forge_marker": 1,
+    "defaults": {
+		"transform": "forge:default-block",
+		"model": "cube_top",
+		"textures": {
+			"top": "grimpack:blocks/butter_churn_top",
+			"side": "grimpack:blocks/butter_churn_side"
+		}
+    },
+	"variants": {
+		"active": {
+			"0": { },
+			"1": { }
+		},
+		"inventory": [{}]
+	}
+}

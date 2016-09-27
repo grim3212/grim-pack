@@ -1,0 +1,22 @@
+{
+    "forge_marker": 1,
+    "defaults": {
+        "transform": "forge:default-item",
+        "model": "forge:item-layer"
+    },
+    "variants": {
+        "apple": [{ "textures": { "layer0": "grimpack:items/soda_apple" }}],
+        "bottle": [{ "textures": { "layer0": "grimpack:items/soda_bottle" }}],
+        "slurm": [{ "textures": { "layer0": "grimpack:items/soda_slurm" }}],
+        "co2": [{ "textures": { "layer0": "grimpack:items/soda_co2" }}],
+        "golden_apple": [{ "textures": { "layer0": "grimpack:items/soda_golden_apple" }}],
+        "spiked_orange": [{ "textures": { "layer0": "grimpack:items/soda_spiked_orange" }}],
+        "root_beer": [{ "textures": { "layer0": "grimpack:items/soda_root_beer" }}],
+        "cream_orange": [{ "textures": { "layer0": "grimpack:items/soda_cream_orange" }}],
+        "diamond": [{ "textures": { "layer0": "grimpack:items/soda_diamond" }}],
+        "orange": [{ "textures": { "layer0": "grimpack:items/soda_orange" }}],
+        "cocoa": [{ "textures": { "layer0": "grimpack:items/soda_cocoa" }}],
+        "carbonated_water": [{ "textures": { "layer0": "grimpack:items/soda_carbonated_water" }}],
+        "mushroom": [{ "textures": { "layer0": "grimpack:items/soda_mushroom" }}]
+    }
+}

@@ -1,0 +1,33 @@
+{
+	"forge_marker": 1,
+    "defaults": {
+		"transform": "forge:default-block",
+		"model": "cube_bottom_top",
+		"textures": {
+			"side": "grimpack:blocks/rway_side",
+			"bottom": "blocks/stone"
+		}
+    },
+    "variants": {
+        "type": {
+			"0": { "textures": { "top": "grimpack:blocks/rway_0"} },
+			"1": { "textures": { "top": "grimpack:blocks/rway_1"} },
+			"2": { "textures": { "top": "grimpack:blocks/rway_2"} },
+			"3": { "textures": { "top": "grimpack:blocks/rway_3"} },
+			"4": { "textures": { "top": "grimpack:blocks/rway_4"} },
+			"5": { "textures": { "top": "grimpack:blocks/rway_5"} },
+			"6": { "textures": { "top": "grimpack:blocks/rway_6"} },
+			"7": { "textures": { "top": "grimpack:blocks/rway_7"} },
+			"8": { "textures": { "top": "grimpack:blocks/rway_8"} },
+			"9": { "textures": { "top": "grimpack:blocks/rway_9"} },
+			"10": { "textures": { "top": "grimpack:blocks/rway_10"} },
+			"11": { "textures": { "top": "grimpack:blocks/rway_11"} },
+			"12": { "textures": { "top": "grimpack:blocks/rway_12"} },
+			"13": { "textures": { "top": "grimpack:blocks/rway_13"} },
+			"14": { "textures": { "top": "grimpack:blocks/rway_14"} }
+		},
+		"inventory": [{
+			"textures": { "top": "grimpack:blocks/rway_0"}
+		}]
+    }
+}

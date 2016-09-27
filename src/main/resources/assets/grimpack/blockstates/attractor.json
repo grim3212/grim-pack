@@ -1,0 +1,17 @@
+{
+	"forge_marker": 1,
+    "defaults": {
+		"transform": "forge:default-block",
+        "model": "minecraft:cube_all",
+		"textures": {
+		  "all": "grimpack:blocks/attractor_off"
+		}
+    },
+    "variants": {
+        "powered": {
+			"false": { "textures": { "all": "grimpack:blocks/attractor_off"} },
+			"true": { "textures": { "all": "grimpack:blocks/attractor_on"} }
+		},
+		"inventory": [{}]
+    }
+}

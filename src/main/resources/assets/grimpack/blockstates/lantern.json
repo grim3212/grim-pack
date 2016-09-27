@@ -1,0 +1,35 @@
+{
+	"forge_marker": 1,
+    "defaults": {
+		"transform": "forge:default-block",
+        "model": "cross"
+    },
+    "variants": {
+		"variant": { 
+			"paper": { "textures": { "cross": "grimpack:blocks/lantern_paper" } },
+			"bone": { "textures": { "cross": "grimpack:blocks/lantern_bone" } },
+			"iron": { "textures": { "cross": "grimpack:blocks/lantern_iron" } }
+		},
+		"paper": [{
+			"model": "builtin/generated",
+			"transform": "forge:default-item",
+			"textures": {
+				"layer0": "grimpack:blocks/lantern_paper"
+			}
+		}],
+		"bone": [{
+			"model": "builtin/generated",
+			"transform": "forge:default-item",
+			"textures": {
+				"layer0": "grimpack:blocks/lantern_bone"
+			}
+		}],
+		"iron": [{
+			"model": "builtin/generated",
+			"transform": "forge:default-item",
+			"textures": {
+				"layer0": "grimpack:blocks/lantern_iron"
+			}
+		}]
+    }
+}

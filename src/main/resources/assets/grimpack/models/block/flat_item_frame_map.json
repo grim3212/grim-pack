@@ -1,0 +1,7 @@
+{
+    "parent": "block/item_frame_map",
+	"textures": {
+		"wood": "grimpack:blocks/hardened_wood",
+		"back": "blocks/itemframe_background"
+	}
+}

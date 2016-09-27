@@ -1,0 +1,84 @@
+// Based off of Pahimar's build file
+// https://github.com/pahimar/Equivalent-Exchange-3/blob/master/build.gradle
+
+// For those who want the bleeding edge
+buildscript {
+    repositories {
+		mavenCentral()
+        jcenter()
+        maven {
+            name = "forge"
+            url = "http://files.minecraftforge.net/maven"
+        }
+		maven {
+            // Required for the curseforge task
+            url "https://plugins.gradle.org/m2/"
+        }
+    }
+    dependencies {
+        classpath 'net.minecraftforge.gradle:ForgeGradle:2.2-SNAPSHOT'
+		classpath "gradle.plugin.com.matthewprenger:CurseGradle:1.0.8"
+    }
+}
+apply plugin: 'net.minecraftforge.gradle.forge'
+apply plugin: 'com.matthewprenger.cursegradle'
+
+def Properties props = new Properties()
+props.load(new FileInputStream(new File('secrets.properties')))
+
+version = minecraft_version + "-" + mod_version
+group= mod_group
+archivesBaseName = mod_archives_base_name
+
+minecraft {
+    version = minecraft_version + "-" + forge_version
+    runDir = "run"
+	
+	// Set mod version in code prior to compilation
+    replaceIn "GrimPack.java"
+    replace "@MOD_VERSION@", mod_version
+	
+    // Specify the mcp mappings to use
+    mappings = mcp_mappings_version
+}
+
+repositories {
+  maven {
+    // location of the maven that hosts JEI files
+    url "http://dvs1.progwml6.com/files/maven"
+  }
+}
+
+dependencies {
+  // compile against the JEI API
+  deobfCompile "mezz.jei:jei_${minecraft_version}:${jei_version}:api"
+  // at runtime, use the full JEI jar
+  runtime "mezz.jei:jei_${minecraft_version}:${jei_version}"
+}
+
+processResources
+{
+    // this will ensure that this task is redone when the versions change.
+    inputs.property "version", project.version
+    inputs.property "mcversion", project.minecraft.version
+
+    // replace stuff in mcmod.info, nothing else
+    from(sourceSets.main.resources.srcDirs) {
+        include 'mcmod.info'
+                
+        // replace version and mcversion
+        expand 'version':project.version, 'mcversion':project.minecraft.version
+    }
+        
+    // copy everything else, thats not the mcmod.info
+    from(sourceSets.main.resources.srcDirs) {
+        exclude 'mcmod.info'
+    }
+}
+
+// Used to automatically upload update.json
+task deploy (type: Exec) {
+	workingDir '/WinSCP'
+	commandLine 'cmd', '/C', 'deploy.bat'
+}
+deploy.dependsOn 'curseforge'

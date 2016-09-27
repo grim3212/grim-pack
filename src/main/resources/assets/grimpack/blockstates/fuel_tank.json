@@ -1,0 +1,16 @@
+{
+	"forge_marker": 1,
+    "defaults": {
+		"transform": "forge:default-block",
+		"model": "cube_bottom_top",
+		"textures": {
+			"top": "grimpack:blocks/fuel_tank_top",
+			"side": "grimpack:blocks/fuel_tank_side",
+			"bottom": "grimpack:blocks/fuel_tank_top"
+		}
+    },
+    "variants": {
+        "normal": [{}],
+		"inventory": [{}]
+    }
+}

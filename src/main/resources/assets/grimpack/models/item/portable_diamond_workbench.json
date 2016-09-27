@@ -1,0 +1,8 @@
+{
+    "parent": "item/generated",
+    "textures": {
+        "layer0": "grimpack:items/portable_diamond_workbench"
+    }
+}
+
+

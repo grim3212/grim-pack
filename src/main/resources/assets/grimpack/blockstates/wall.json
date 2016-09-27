@@ -1,0 +1,19 @@
+{
+    "forge_marker": 1,
+    "defaults": {
+		"transform": "forge:default-block",
+		"model": "grimpack:decor_colorizer",
+		"custom": {
+			"models": ["grimpack:block/wall"]
+		}
+    },
+    "variants": {
+        "facing": {
+            "north": { },
+            "south": { "y": 180 },
+            "west": { "y": 270 },
+            "east": { "y": 90 }
+        },
+		"inventory": [{ }]
+    }
+}

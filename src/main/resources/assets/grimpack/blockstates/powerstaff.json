@@ -1,0 +1,19 @@
+{
+	"forge_marker": 1,
+    "defaults": {
+		"model": "builtin/generated",
+		"transform": "forge:default-item"
+    },
+    "variants": {
+		"push": [{ 
+			"textures": { 
+				"layer0": "grimpack:items/powerstaff_push" 
+			} 
+		}],
+		"pull": [{
+			"textures": {
+				"layer0": "grimpack:items/powerstaff_pull"
+			}
+		}]
+    }
+}
