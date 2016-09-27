@@ -12,6 +12,7 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
@@ -80,6 +81,11 @@ public class BlockUraniumOre extends BlockManual {
 			if (damage < 0) damage = 0;
 		}
 		if (damage != 0) {
+			worldIn.spawnParticle(EnumParticleTypes.REDSTONE, pos.getX() + 0.5D, pos.getY() + 1.0D, pos.getZ() + 0.5D, 0.0D, 4.0D, 0.0D, new int[0]);
+			worldIn.spawnParticle(EnumParticleTypes.REDSTONE, pos.getX() + 0.5D, pos.getY() + 1.25D, pos.getZ() + 0.5D, 0.0D, 4.0D, 0.0D, new int[0]);
+			worldIn.spawnParticle(EnumParticleTypes.REDSTONE, pos.getX() + 0.5D, pos.getY() + 1.5D, pos.getZ() + 0.5D, 0.0D, 4.0D, 0.0D, new int[0]);
+			worldIn.spawnParticle(EnumParticleTypes.REDSTONE, pos.getX() + 0.5D, pos.getY() + 1.75D, pos.getZ() + 0.5D, 0.0D, 4.0D, 0.0D, new int[0]);
+			worldIn.spawnParticle(EnumParticleTypes.REDSTONE, pos.getX() + 0.5D, pos.getY() + 2.0D, pos.getZ() + 0.5D, 0.0D, 4.0D, 0.0D, new int[0]);
 			playerIn.attackEntityFrom(DamageSource.magic, damage);
 		}
 	}
