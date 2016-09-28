@@ -51,6 +51,11 @@ public class BlockUraniumOre extends BlockManual {
 			}
 		} else {
 			if (damage != 0) {
+				worldIn.spawnParticle(EnumParticleTypes.REDSTONE, pos.getX() + 0.5D, pos.getY() + 1.0D, pos.getZ() + 0.5D, 0.0D, 4.0D, 0.0D, new int[0]);
+				worldIn.spawnParticle(EnumParticleTypes.REDSTONE, pos.getX() + 0.5D, pos.getY() + 1.25D, pos.getZ() + 0.5D, 0.0D, 4.0D, 0.0D, new int[0]);
+				worldIn.spawnParticle(EnumParticleTypes.REDSTONE, pos.getX() + 0.5D, pos.getY() + 1.5D, pos.getZ() + 0.5D, 0.0D, 4.0D, 0.0D, new int[0]);
+				worldIn.spawnParticle(EnumParticleTypes.REDSTONE, pos.getX() + 0.5D, pos.getY() + 1.75D, pos.getZ() + 0.5D, 0.0D, 4.0D, 0.0D, new int[0]);
+				worldIn.spawnParticle(EnumParticleTypes.REDSTONE, pos.getX() + 0.5D, pos.getY() + 2.0D, pos.getZ() + 0.5D, 0.0D, 4.0D, 0.0D, new int[0]);
 				entityIn.attackEntityFrom(DamageSource.magic, damage);
 			}
 		}
