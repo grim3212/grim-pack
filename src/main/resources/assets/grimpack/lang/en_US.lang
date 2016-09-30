@@ -418,8 +418,9 @@ Enable util part.tooltip=True to load Minecraft with the util part of the Grim P
 Enable world part.tooltip=True to load Minecraft with the world part of the Grim Pack
 
 grimpack.cuisine.cfg.tooltip=Config options for the food part of the Grim Pack
-grimpack.cuisine.cfg.general.blank=NO CONFIG OPTIONS
-grimpack.cuisine.cfg.general.blank.tooltip=Blank option to tell you that there are no config options
+grimpack.cuisine.cfg.general=General Options
+grimpack.cuisine.cfg.general.tooltip=Contains general options for customizing cuisine
+Generate Cocoa Trees.tooltip=Should cocoa trees be generated
 
 grimpack.decor.cfg.general=General Options
 grimpack.decor.cfg.grillrecipes=Custom Grill Recipes
@@ -503,6 +504,8 @@ Wood Boomerang Damage.tooltip=The amount of damage wood boomerangs do to entitie
 Diamond Boomerang Range.tooltip=The distance that diamond boomerangs can travel
 Diamond Boomerang Damage.tooltip=The amount of damage diamond boomerangs do to entities
 Diamond Boomerang Follows.tooltip=True if when a diamond boomerang is thrown it will follow where the player is looking
+Generate Black Diamond.tooltip=Should black diamond ore be generated
+Generate Element 115.tooltip=Should element 115 ore be generated
 
 grimpack.util.cfg.general=General Options
 grimpack.util.cfg.debug=Debug Options
@@ -528,6 +531,8 @@ grimpack.world.cfg.fungus=Fungus Options
 grimpack.world.cfg.fungus.tooltip=Options all about fungus
 grimpack.world.cfg.floatingIslands=Floating Islands Options
 grimpack.world.cfg.floatingIslands.tooltip=Options all about floating islands
+Generate Randomite.tooltip=Should randomite be generated
+Generate Gunpowder Reeds.tooltip=Should gunpowder reeds be generated
 Enable Fire.tooltip=Can corruption blocks spawn fire on top
 Enable Corruption.tooltip=Will corruption blocks corrupt other blocks
 Generate Corruption Blocks.tooltip=Should corruption blocks be generated

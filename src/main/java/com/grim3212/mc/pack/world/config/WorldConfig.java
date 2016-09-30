@@ -33,6 +33,8 @@ public class WorldConfig extends GrimConfig {
 	public static boolean fire;
 
 	public static int glowstoneSeedPlantHeight;
+	public static boolean generateRandomite;
+	public static boolean generateGunpowderReeds;
 
 	// Sync to client
 	public static boolean generateFlatBedRockSurface;
@@ -41,7 +43,7 @@ public class WorldConfig extends GrimConfig {
 	public static boolean replaceDesertWells;
 	public static boolean corruption;
 	public static boolean generateCorruption;
-	public static boolean spawnMorePeople;
+	public static boolean spawnMorePeople;	
 
 	public static String[] DIRT_EATING_BLOCKS_POSSIBLE;
 	public static String[] SMOOTHSTONE_EATING_BLOCKS_POSSIBLE;
@@ -56,6 +58,8 @@ public class WorldConfig extends GrimConfig {
 		fire = config.get(CONFIG_GENERAL_NAME, "Enable Fire", true).getBoolean();
 		corruption = config.get(CONFIG_GENERAL_NAME, "Enable Corruption", false).getBoolean();
 		generateCorruption = config.get(CONFIG_GENERAL_NAME, "Generate Corruption Blocks", false).getBoolean();
+		generateRandomite = config.get(CONFIG_GENERAL_NAME, "Generate Randomite", true).getBoolean();
+		generateGunpowderReeds = config.get(CONFIG_GENERAL_NAME, "Generate Gunpowder Reeds", true).getBoolean();
 		spawnMorePeople = config.get(CONFIG_GENERAL_NAME, "Spawn more people", true).getBoolean();
 
 		glowstoneSeedPlantHeight = config.get(CONFIG_GENERAL_NAME, "Glowstone seed plant height", 15).getInt();
