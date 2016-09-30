@@ -1,0 +1,69 @@
+{
+	"pools": [
+		{
+			"name": "main",
+			"rolls": {
+				"min": 2,
+				"max": 15
+			},
+			"entries": [
+				{
+					"type": "item",
+					"name": "minecraft:leather",
+					"weight": 2,
+					"functions": [
+						{
+							"function": "set_count",
+							"count": {
+								"min": 0,
+								"max": 4
+							}
+						}
+					]
+				},
+				{
+					"type": "item",
+					"name": "minecraft:iron_ingot",
+					"weight": 2,
+					"functions": [
+						{
+							"function": "set_count",
+							"count": {
+								"min": 0,
+								"max": 3
+							}
+						}
+					]
+				},
+				{
+					"type": "item",
+					"name": "minecraft:slime_ball",
+					"weight": 2,
+					"functions": [
+						{
+							"function": "set_count",
+							"count": {
+								"min": 0,
+								"max": 4
+							}
+						}
+					]
+				},
+				{
+					"type": "item",
+					"name": "minecraft:wheat_seeds",
+					"weight": 2,
+					"functions": [
+						{
+							"function": "set_count",
+							"count": {
+								"min": 0,
+								"max": 4
+							}
+						}
+					]
+				}
+			]
+		}
+	]
+}

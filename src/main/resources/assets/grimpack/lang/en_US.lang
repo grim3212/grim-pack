@@ -558,6 +558,8 @@ Rocks Eating Whitelist.tooltip=The blocks that rock eating fungus can eat
 All Eating Blacklist.tooltip=The blocks that all eating fungus can't eat
 Forest Eating Whitelist.tooltip=The blocks that forest eating fungus can eat
 Glowstone seed plant height.tooltip=This is the distance from 0 - this that glowstone seeds can be planted on in dimensions besides the Nether. If this is 15 then you can only plant these on levels 0 - 15.
+Spawn Treasure Mobs.tooltip=Should treasure mobs spawn in the world
+Spawn Ice Pixies.tooltip=Should ice pixies spawn in the world
 ### END CONFIG TOOLTIPS ###
 
 grimpack.decor.brush.empty=Stored: Empty
@@ -624,6 +626,12 @@ grimpack.subtitle.raygun=Raygun fired
 grimpack.subtitle.fusrodah=FusRoDah used
 grimpack.subtitle.spikeDeploy=Spike Deploy
 grimpack.subtitle.spikeClose=Spike Close
+
+grimpack.jer.dungeon.desert_level10=Level 10 Desert Well
+grimpack.jer.dungeon.desert_level15=Level 15 Desert Well
+grimpack.jer.dungeon.desert_level20=Level 20 Desert Well
+grimpack.jer.dungeon.desert_level25=Level 25 Desert Well
+grimpack.jer.dungeon.desert_level30=Level 30 Desert Well
 
 tooltip.buckets.empty=Empty
 tooltip.buckets.contains=Contains

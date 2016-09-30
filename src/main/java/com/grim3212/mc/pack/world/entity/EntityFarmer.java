@@ -3,6 +3,7 @@ package com.grim3212.mc.pack.world.entity;
 import com.grim3212.mc.pack.core.manual.IManualEntry.IManualEntity;
 import com.grim3212.mc.pack.core.manual.pages.Page;
 import com.grim3212.mc.pack.world.client.ManualWorld;
+import com.grim3212.mc.pack.world.util.LootTables;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityCreature;
@@ -15,8 +16,8 @@ import net.minecraft.entity.ai.EntityAIWander;
 import net.minecraft.entity.ai.EntityAIWatchClosest;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 
 public class EntityFarmer extends EntityCreature implements IManualEntity {
@@ -41,8 +42,8 @@ public class EntityFarmer extends EntityCreature implements IManualEntity {
 	}
 
 	@Override
-	protected Item getDropItem() {
-		return Items.WHEAT;
+	protected ResourceLocation getLootTable() {
+		return LootTables.ENTITIES_FARMER;
 	}
 
 	@Override

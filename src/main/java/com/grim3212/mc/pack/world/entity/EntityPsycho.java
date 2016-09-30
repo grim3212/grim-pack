@@ -1,8 +1,8 @@
 package com.grim3212.mc.pack.world.entity;
 
-import com.grim3212.mc.pack.core.manual.IManualEntry.IManualEntity;
 import com.grim3212.mc.pack.core.manual.pages.Page;
 import com.grim3212.mc.pack.world.client.ManualWorld;
+import com.grim3212.mc.pack.world.util.LootTables;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -13,12 +13,12 @@ import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
 import net.minecraft.entity.ai.EntityAISwimming;
 import net.minecraft.entity.ai.EntityAIWander;
 import net.minecraft.entity.ai.EntityAIWatchClosest;
-import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.pathfinding.PathNavigateGround;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 
-public class EntityPsycho extends EntityMob implements IManualEntity {
+public class EntityPsycho extends EntityDayMob {
 
 	protected int attackStrength;
 
@@ -42,6 +42,11 @@ public class EntityPsycho extends EntityMob implements IManualEntity {
 		this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(18.0D);
 		this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.27000000417232513D);
 		this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(6.0D);
+	}
+
+	@Override
+	protected ResourceLocation getLootTable() {
+		return LootTables.ENTITIES_PSYCHO;
 	}
 
 	@Override

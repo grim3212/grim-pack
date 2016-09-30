@@ -35,6 +35,8 @@ public class WorldConfig extends GrimConfig {
 	public static int glowstoneSeedPlantHeight;
 	public static boolean generateRandomite;
 	public static boolean generateGunpowderReeds;
+	public static boolean spawnIcePixies;
+	public static boolean spawnTreasureMobs;
 
 	// Sync to client
 	public static boolean generateFlatBedRockSurface;
@@ -60,6 +62,8 @@ public class WorldConfig extends GrimConfig {
 		generateCorruption = config.get(CONFIG_GENERAL_NAME, "Generate Corruption Blocks", false).getBoolean();
 		generateRandomite = config.get(CONFIG_GENERAL_NAME, "Generate Randomite", true).getBoolean();
 		generateGunpowderReeds = config.get(CONFIG_GENERAL_NAME, "Generate Gunpowder Reeds", true).getBoolean();
+		spawnIcePixies = config.get(CONFIG_GENERAL_NAME, "Spawn Ice Pixies", true).getBoolean();
+		spawnTreasureMobs = config.get(CONFIG_GENERAL_NAME, "Spawn Treasure Mobs", true).getBoolean();
 		spawnMorePeople = config.get(CONFIG_GENERAL_NAME, "Spawn more people", true).getBoolean();
 
 		glowstoneSeedPlantHeight = config.get(CONFIG_GENERAL_NAME, "Glowstone seed plant height", 15).getInt();

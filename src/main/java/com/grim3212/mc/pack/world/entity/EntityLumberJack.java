@@ -3,6 +3,7 @@ package com.grim3212.mc.pack.world.entity;
 import com.grim3212.mc.pack.core.manual.IManualEntry.IManualEntity;
 import com.grim3212.mc.pack.core.manual.pages.Page;
 import com.grim3212.mc.pack.world.client.ManualWorld;
+import com.grim3212.mc.pack.world.util.LootTables;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityCreature;
@@ -14,10 +15,9 @@ import net.minecraft.entity.ai.EntityAISwimming;
 import net.minecraft.entity.ai.EntityAIWander;
 import net.minecraft.entity.ai.EntityAIWatchClosest;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 
 public class EntityLumberJack extends EntityCreature implements IManualEntity {
@@ -42,17 +42,8 @@ public class EntityLumberJack extends EntityCreature implements IManualEntity {
 	}
 
 	@Override
-	protected void dropFewItems(boolean par1, int par2) {
-		int i = rand.nextInt(3);
-		for (int j = 0; j < i; j++) {
-			dropItem(Item.getItemFromBlock(Blocks.LOG), 1);
-		}
-
-		i = rand.nextInt(3);
-		for (int k = 0; k < i; k++) {
-			dropItem(Items.STICK, 1);
-		}
-
+	protected ResourceLocation getLootTable() {
+		return LootTables.ENTITIES_LUMBERJACK;
 	}
 
 	@Override

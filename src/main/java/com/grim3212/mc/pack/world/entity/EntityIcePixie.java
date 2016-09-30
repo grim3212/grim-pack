@@ -1,8 +1,8 @@
 package com.grim3212.mc.pack.world.entity;
 
-import com.grim3212.mc.pack.core.manual.IManualEntry.IManualEntity;
 import com.grim3212.mc.pack.core.manual.pages.Page;
 import com.grim3212.mc.pack.world.client.ManualWorld;
+import com.grim3212.mc.pack.world.util.LootTables;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
@@ -16,7 +16,6 @@ import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
 import net.minecraft.entity.ai.EntityAISwimming;
 import net.minecraft.entity.ai.EntityAIWander;
 import net.minecraft.entity.ai.EntityAIWatchClosest;
-import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -24,12 +23,13 @@ import net.minecraft.init.SoundEvents;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class EntityIcePixie extends EntityMob implements IRangedAttackMob, IManualEntity {
+public class EntityIcePixie extends EntityDayMob implements IRangedAttackMob {
 
 	public EntityIcePixie(World world) {
 		super(world);
@@ -56,6 +56,11 @@ public class EntityIcePixie extends EntityMob implements IRangedAttackMob, IManu
 	@Override
 	public float getEyeHeight() {
 		return 0.4425F;
+	}
+
+	@Override
+	protected ResourceLocation getLootTable() {
+		return LootTables.ENTITIES_ICE_PIXIE;
 	}
 
 	@Override
@@ -103,28 +108,6 @@ public class EntityIcePixie extends EntityMob implements IRangedAttackMob, IManu
 			this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.40D);
 		} else {
 			this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.25D);
-		}
-	}
-
-	@Override
-	protected Item getDropItem() {
-		return Item.getItemFromBlock(Blocks.ICE);
-	}
-
-	@Override
-	protected void dropFewItems(boolean flag, int par2) {
-		int i = rand.nextInt(3) + 1;
-		for (int j = 0; j < i; j++) {
-			dropItem(Items.STICK, 1);
-		}
-
-		i = rand.nextInt(4) + 2;
-		for (int k = 0; k < i; k++) {
-			dropItem(Item.getItemFromBlock(Blocks.ICE), 1);
-		}
-
-		if (rand.nextInt(10) == 5) {
-			dropItem(Items.FISH, 1);
 		}
 	}
 
