@@ -107,57 +107,61 @@ public class TileEntityGrill extends TileEntityLockable implements ITickable, II
 
 	@Override
 	public void update() {
-		if (this.nextUpdate <= 0) {
-			this.nextUpdate = 50;
-		} else {
-			this.nextUpdate -= 1;
-		}
+		IBlockState state = getWorld().getBlockState(getPos());
 
-		if (DecorConfig.infiniteGrillFuel)
-			this.grillCoal = 4000;
-
-		if ((this.grillCoal <= 1) && (getWorld().getBlockState(getPos()).getValue(BlockGrill.ACTIVE))) {
-			if ((getStackInSlot(4) != null) && (getStackInSlot(4).getItem() == Items.coal)) {
-				this.grillCoal = 4001;
-
-				if (getStackInSlot(4).stackSize > 1) {
-					getStackInSlot(4).stackSize -= 1;
-				} else
-					setInventorySlotContents(4, null);
+		if (state.getBlock() instanceof BlockGrill) {
+			if (this.nextUpdate <= 0) {
+				this.nextUpdate = 50;
+			} else {
+				this.nextUpdate -= 1;
 			}
-		}
 
-		if ((this.grillCoal <= 0) && (getWorld().getBlockState(getPos()).getValue(BlockGrill.ACTIVE)) && this.nextUpdate == 50) {
-			if (!worldObj.isRemote) {
-				PacketDispatcher.sendToDimension(new MessageParticles(pos), worldObj.provider.getDimensionId());
-				worldObj.setBlockState(getPos(), getWorld().getBlockState(getPos()).withProperty(BlockGrill.ACTIVE, false));
-			}
-			worldObj.playSoundEffect(pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D, "random.fizz", 1.0F, worldObj.rand.nextFloat() * 0.4F + 0.8F);
-		}
+			if (DecorConfig.infiniteGrillFuel)
+				this.grillCoal = 4000;
 
-		if (isGrillBurning()) {
-			this.grillCoal -= 1;
+			if ((this.grillCoal <= 1) && (state.getValue(BlockGrill.ACTIVE))) {
+				if ((getStackInSlot(4) != null) && (getStackInSlot(4).getItem() == Items.coal)) {
+					this.grillCoal = 4001;
 
-			int tiertime = (int) getTierTime();
-
-			for (int i = 0; i < 4; i++) {
-				if ((getStackInSlot(i) != null) && (DecorConfig.grillRecipes.keySet().contains(getStackInSlot(i).getItem()))) {
-					this.cookTimes[i] += 1;
-
-					if (this.cookTimes[i] > tiertime) {
-						this.inventory[i] = new ItemStack((DecorConfig.grillRecipes.get(this.inventory[i].getItem())));
-						this.cookTimes[i] = 0;
-					} else {
-						this.cookTimes[i] += 1;
-					}
-				} else {
-					this.cookTimes[i] = 0;
+					if (getStackInSlot(4).stackSize > 1) {
+						getStackInSlot(4).stackSize -= 1;
+					} else
+						setInventorySlotContents(4, null);
 				}
 			}
-		} else {
-			for (int i = 0; i < 4; i++) {
-				if (this.cookTimes[i] > 0) {
-					this.cookTimes[i] -= this.worldObj.rand.nextInt(2);
+
+			if ((this.grillCoal <= 0) && (state.getValue(BlockGrill.ACTIVE)) && this.nextUpdate == 50) {
+				if (!worldObj.isRemote) {
+					PacketDispatcher.sendToDimension(new MessageParticles(pos), worldObj.provider.getDimensionId());
+					worldObj.setBlockState(getPos(), state.withProperty(BlockGrill.ACTIVE, false));
+				}
+				worldObj.playSoundEffect(pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D, "random.fizz", 1.0F, worldObj.rand.nextFloat() * 0.4F + 0.8F);
+			}
+
+			if (isGrillBurning()) {
+				this.grillCoal -= 1;
+
+				int tiertime = (int) getTierTime();
+
+				for (int i = 0; i < 4; i++) {
+					if ((getStackInSlot(i) != null) && (DecorConfig.grillRecipes.keySet().contains(getStackInSlot(i).getItem()))) {
+						this.cookTimes[i] += 1;
+
+						if (this.cookTimes[i] > tiertime) {
+							this.inventory[i] = new ItemStack((DecorConfig.grillRecipes.get(this.inventory[i].getItem())));
+							this.cookTimes[i] = 0;
+						} else {
+							this.cookTimes[i] += 1;
+						}
+					} else {
+						this.cookTimes[i] = 0;
+					}
+				}
+			} else {
+				for (int i = 0; i < 4; i++) {
+					if (this.cookTimes[i] > 0) {
+						this.cookTimes[i] -= this.worldObj.rand.nextInt(2);
+					}
 				}
 			}
 		}
