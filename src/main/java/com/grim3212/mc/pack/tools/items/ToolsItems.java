@@ -133,8 +133,8 @@ public class ToolsItems implements IPartItems {
 	public static ToolMaterial multitool = EnumHelper.addToolMaterial("multitool", 4, 5122, 15F, 5F, 20);
 	public static ToolMaterial blackdiamond = EnumHelper.addToolMaterial("black_diamond", 4, 5122, 15F, 5F, 20);
 	public static ToolMaterial obsidianToolMaterial = EnumHelper.addToolMaterial("obsidian", 3, 3333, 9.5F, 7f, 14);
-	public static ArmorMaterial masks = EnumHelper.addArmorMaterial("mask", GrimPack.modID + ":masks", 5, new int[] { 1, 3, 2, 1 }, 15, SoundEvents.BLOCK_CLOTH_PLACE, 0.0F);
-	public static ArmorMaterial blackarmor = EnumHelper.addArmorMaterial("blackarmor", GrimPack.modID + ":blackarmor", 35, new int[] { 3, 8, 6, 3 }, 20, SoundEvents.ITEM_ARMOR_EQUIP_DIAMOND, 2.5F);
+	public static ArmorMaterial masks = EnumHelper.addArmorMaterial("mask", GrimPack.modID + ":masks", 5, new int[] { 1, 2, 3, 1 }, 15, SoundEvents.BLOCK_CLOTH_PLACE, 0.0F);
+	public static ArmorMaterial blackarmor = EnumHelper.addArmorMaterial("blackarmor", GrimPack.modID + ":blackarmor", 35, new int[] { 4, 8, 10, 4 }, 20, SoundEvents.ITEM_ARMOR_EQUIP_DIAMOND, 2.5F);
 
 	@Override
 	public void initItems() {
