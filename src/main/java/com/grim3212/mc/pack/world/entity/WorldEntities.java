@@ -1,9 +1,13 @@
 package com.grim3212.mc.pack.world.entity;
 
+<<<<<<< HEAD
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+=======
+import com.google.common.collect.Iterables;
+>>>>>>> 22fd8b1d8d5d5162d98e857979c97722f5731c37
 import com.grim3212.mc.pack.core.part.IPartEntities;
 import com.grim3212.mc.pack.core.util.GrimLog;
 import com.grim3212.mc.pack.core.util.Utils;
@@ -36,6 +40,7 @@ public class WorldEntities implements IPartEntities {
 		Utils.registerEntity(EntityBomber.class, "SuicideBomber", 80, 3, true, 16744319, 4210752);
 	}
 
+<<<<<<< HEAD
 	public void addSpawns() {
 		Iterator<Biome> itr = Biome.REGISTRY.iterator();
 		List<Biome> biomes = new ArrayList<Biome>();
@@ -61,6 +66,29 @@ public class WorldEntities implements IPartEntities {
 			EntityRegistry.addSpawn(EntityLumberJack.class, 15, 1, 2, EnumCreatureType.CREATURE, biomeArray);
 			EntityRegistry.addSpawn(EntityMiner.class, 15, 1, 2, EnumCreatureType.AMBIENT, biomeArray);
 			EntityRegistry.addSpawn(EntityBomber.class, 12, 1, 5, EnumCreatureType.MONSTER, biomeArray);
+=======
+	public static void addSpawns() {
+		Biome[] biomes = Iterables.toArray(Biome.REGISTRY, Biome.class);
+
+		GrimLog.info(GrimWorld.partName, "Biome array size " + biomes.length);
+
+		// Ice pixie
+		if (WorldConfig.spawnIcePixies)
+			EntityRegistry.addSpawn(EntityIcePixie.class, 100, 2, 5, EnumCreatureType.CREATURE, BiomeDictionary.getBiomesForType(Type.SNOWY));
+
+		// TreasureMob
+		if (WorldConfig.spawnTreasureMobs)
+			EntityRegistry.addSpawn(EntityTreasureMob.class, 10, 1, 1, EnumCreatureType.CREATURE, biomes);
+
+		// More People
+		if (WorldConfig.spawnMorePeople) {
+			EntityRegistry.addSpawn(EntityNotch.class, 4, 0, 1, EnumCreatureType.CREATURE, biomes);
+			EntityRegistry.addSpawn(EntityPsycho.class, 4, 1, 2, EnumCreatureType.CREATURE, biomes);
+			EntityRegistry.addSpawn(EntityFarmer.class, 8, 1, 2, EnumCreatureType.CREATURE, biomes);
+			EntityRegistry.addSpawn(EntityLumberJack.class, 8, 1, 2, EnumCreatureType.CREATURE, biomes);
+			EntityRegistry.addSpawn(EntityMiner.class, 4, 1, 2, EnumCreatureType.AMBIENT, biomes);
+			EntityRegistry.addSpawn(EntityBomber.class, 4, 1, 2, EnumCreatureType.CREATURE, biomes);
+>>>>>>> 22fd8b1d8d5d5162d98e857979c97722f5731c37
 		}
 	}
 }

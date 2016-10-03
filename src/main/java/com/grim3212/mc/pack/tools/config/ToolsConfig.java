@@ -35,6 +35,11 @@ public class ToolsConfig extends GrimConfig {
 	public static int fistDurabilityAmount;
 	public static boolean restrictPowerStaffBlocks;
 	public static String[] powerstaff_pull_push_blocks;
+<<<<<<< HEAD
+=======
+	public static boolean generateBlackDiamond;
+	public static boolean generateElement115;
+>>>>>>> 22fd8b1d8d5d5162d98e857979c97722f5731c37
 
 	// Boomerang config
 	public static boolean turnAroundItem;
@@ -68,7 +73,13 @@ public class ToolsConfig extends GrimConfig {
 
 		restrictPowerStaffBlocks = config.get(CONFIG_GENERAL_NAME, "Restrict powerstaff blocks", false).getBoolean();
 		powerstaff_pull_push_blocks = config.get(CONFIG_GENERAL_NAME, "Blocks allowed when restrict powerstaff is active", new String[] { "dirt" }).getStringList();
+<<<<<<< HEAD
 
+=======
+		generateBlackDiamond = config.get(CONFIG_GENERAL_NAME, "Generate Black Diamond", true).getBoolean();
+		generateElement115 = config.get(CONFIG_GENERAL_NAME, "Generate Element 115", true).getBoolean();
+		
+>>>>>>> 22fd8b1d8d5d5162d98e857979c97722f5731c37
 		turnAroundItem = config.get(CONFIG_BOOMERANG_NAME, "Turn Around Items", false).getBoolean();
 		turnAroundMob = config.get(CONFIG_BOOMERANG_NAME, "Turn Around Mobs", false).getBoolean();
 		breaksTorches = config.get(CONFIG_BOOMERANG_NAME, "Breaks Torches", false).getBoolean();

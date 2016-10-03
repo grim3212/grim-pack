@@ -29,7 +29,11 @@ public class EntitySlingpellet extends EntityThrowable {
 		}
 
 		for (int i = 0; i < 8; ++i) {
+<<<<<<< HEAD
 			this.worldObj.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, this.posX, this.posY, this.posZ, 0.0D, 0.0D, 0.0D);
+=======
+			this.worldObj.spawnParticle(EnumParticleTypes.SNOWBALL, this.posX, this.posY, this.posZ, 0.0D, 0.0D, 0.0D);
+>>>>>>> 22fd8b1d8d5d5162d98e857979c97722f5731c37
 		}
 
 		if (!this.worldObj.isRemote) {

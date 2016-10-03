@@ -3,8 +3,12 @@ package com.grim3212.mc.pack.world.gen;
 import java.util.Random;
 
 import com.google.common.base.Predicates;
+<<<<<<< HEAD
 import com.grim3212.mc.pack.world.util.DesertWellLoot;
 import com.grim3212.mc.pack.world.util.WellLootStorage;
+=======
+import com.grim3212.mc.pack.world.util.LootTables;
+>>>>>>> 22fd8b1d8d5d5162d98e857979c97722f5731c37
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockSand;
@@ -13,7 +17,10 @@ import net.minecraft.block.BlockStoneSlab;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.block.state.pattern.BlockStateMatcher;
 import net.minecraft.init.Blocks;
+<<<<<<< HEAD
 import net.minecraft.item.ItemStack;
+=======
+>>>>>>> 22fd8b1d8d5d5162d98e857979c97722f5731c37
 import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -125,6 +132,7 @@ public class WorldGenBetterDesertWells extends WorldGenerator {
 		}
 	}
 
+<<<<<<< HEAD
 	public void setChestContents(TileEntityChest chest, Random random) {
 		ItemStack stack = null;
 		for (int i = 0; i < chest.getSizeInventory(); i++) {
@@ -205,6 +213,25 @@ public class WorldGenBetterDesertWells extends WorldGenerator {
 					chest.setInventorySlotContents(i, stack.copy());
 				}
 			}
+=======
+	private void setChestContents(TileEntityChest chest, Random random) {
+		switch (this.randomType) {
+		case 1:
+			chest.setLootTable(LootTables.CHESTS_DESERT_LEVEL_10, random.nextLong());
+			break;
+		case 2:
+			chest.setLootTable(LootTables.CHESTS_DESERT_LEVEL_15, random.nextLong());
+			break;
+		case 3:
+			chest.setLootTable(LootTables.CHESTS_DESERT_LEVEL_20, random.nextLong());
+			break;
+		case 4:
+			chest.setLootTable(LootTables.CHESTS_DESERT_LEVEL_25, random.nextLong());
+			break;
+		case 5:
+			chest.setLootTable(LootTables.CHESTS_DESERT_LEVEL_30, random.nextLong());
+			break;
+>>>>>>> 22fd8b1d8d5d5162d98e857979c97722f5731c37
 		}
 	}
 }

@@ -1,8 +1,14 @@
 package com.grim3212.mc.pack.world.entity;
 
+<<<<<<< HEAD
 import com.grim3212.mc.pack.core.manual.IManualEntry.IManualEntity;
 import com.grim3212.mc.pack.core.manual.pages.Page;
 import com.grim3212.mc.pack.world.client.ManualWorld;
+=======
+import com.grim3212.mc.pack.core.manual.pages.Page;
+import com.grim3212.mc.pack.world.client.ManualWorld;
+import com.grim3212.mc.pack.world.util.LootTables;
+>>>>>>> 22fd8b1d8d5d5162d98e857979c97722f5731c37
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
@@ -16,7 +22,10 @@ import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
 import net.minecraft.entity.ai.EntityAISwimming;
 import net.minecraft.entity.ai.EntityAIWander;
 import net.minecraft.entity.ai.EntityAIWatchClosest;
+<<<<<<< HEAD
 import net.minecraft.entity.monster.EntityMob;
+=======
+>>>>>>> 22fd8b1d8d5d5162d98e857979c97722f5731c37
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -24,12 +33,20 @@ import net.minecraft.init.SoundEvents;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
+<<<<<<< HEAD
+=======
+import net.minecraft.util.ResourceLocation;
+>>>>>>> 22fd8b1d8d5d5162d98e857979c97722f5731c37
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
+<<<<<<< HEAD
 public class EntityIcePixie extends EntityMob implements IRangedAttackMob, IManualEntity {
+=======
+public class EntityIcePixie extends EntityDayMob implements IRangedAttackMob {
+>>>>>>> 22fd8b1d8d5d5162d98e857979c97722f5731c37
 
 	public EntityIcePixie(World world) {
 		super(world);
@@ -59,6 +76,14 @@ public class EntityIcePixie extends EntityMob implements IRangedAttackMob, IManu
 	}
 
 	@Override
+<<<<<<< HEAD
+=======
+	protected ResourceLocation getLootTable() {
+		return LootTables.ENTITIES_ICE_PIXIE;
+	}
+
+	@Override
+>>>>>>> 22fd8b1d8d5d5162d98e857979c97722f5731c37
 	protected SoundEvent getAmbientSound() {
 		return SoundEvents.BLOCK_SNOW_STEP;
 	}
@@ -107,6 +132,7 @@ public class EntityIcePixie extends EntityMob implements IRangedAttackMob, IManu
 	}
 
 	@Override
+<<<<<<< HEAD
 	protected Item getDropItem() {
 		return Item.getItemFromBlock(Blocks.ICE);
 	}
@@ -129,6 +155,8 @@ public class EntityIcePixie extends EntityMob implements IRangedAttackMob, IManu
 	}
 
 	@Override
+=======
+>>>>>>> 22fd8b1d8d5d5162d98e857979c97722f5731c37
 	public boolean attackEntityFrom(DamageSource damagesource, float i) {
 		Entity entity = damagesource.getEntity();
 		if (entity instanceof EntityPlayer) {

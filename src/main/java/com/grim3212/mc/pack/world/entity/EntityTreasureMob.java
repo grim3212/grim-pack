@@ -3,6 +3,10 @@ package com.grim3212.mc.pack.world.entity;
 import com.grim3212.mc.pack.core.manual.IManualEntry.IManualEntity;
 import com.grim3212.mc.pack.core.manual.pages.Page;
 import com.grim3212.mc.pack.world.client.ManualWorld;
+<<<<<<< HEAD
+=======
+import com.grim3212.mc.pack.world.util.LootTables;
+>>>>>>> 22fd8b1d8d5d5162d98e857979c97722f5731c37
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityAgeable;
@@ -14,8 +18,12 @@ import net.minecraft.entity.ai.EntityAIWander;
 import net.minecraft.entity.ai.EntityAIWatchClosest;
 import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.entity.player.EntityPlayer;
+<<<<<<< HEAD
 import net.minecraft.init.Items;
 import net.minecraft.nbt.NBTTagCompound;
+=======
+import net.minecraft.util.ResourceLocation;
+>>>>>>> 22fd8b1d8d5d5162d98e857979c97722f5731c37
 import net.minecraft.world.World;
 
 public class EntityTreasureMob extends EntityAnimal implements IManualEntity {
@@ -39,6 +47,7 @@ public class EntityTreasureMob extends EntityAnimal implements IManualEntity {
 	}
 
 	@Override
+<<<<<<< HEAD
 	public void writeEntityToNBT(NBTTagCompound nbttagcompound) {
 		super.writeEntityToNBT(nbttagcompound);
 	}
@@ -98,6 +107,10 @@ public class EntityTreasureMob extends EntityAnimal implements IManualEntity {
 				dropItem(Items.REDSTONE, 1 + rand.nextInt(8));
 			}
 		}
+=======
+	protected ResourceLocation getLootTable() {
+		return LootTables.ENTITIES_TREASURE_MOB;
+>>>>>>> 22fd8b1d8d5d5162d98e857979c97722f5731c37
 	}
 
 	@Override

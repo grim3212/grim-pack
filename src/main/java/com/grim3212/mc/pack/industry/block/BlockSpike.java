@@ -171,7 +171,11 @@ public class BlockSpike extends BlockManual {
 	@Override
 	public void onEntityCollidedWithBlock(World worldIn, BlockPos pos, IBlockState state, Entity entityIn) {
 		if (worldIn.getBlockState(pos).getValue(ACTIVE) && entityIn instanceof EntityLivingBase) {
+<<<<<<< HEAD
 			entityIn.attackEntityFrom(DamageSource.inWall, 15);
+=======
+			entityIn.attackEntityFrom(DamageSource.inWall, 10);
+>>>>>>> 22fd8b1d8d5d5162d98e857979c97722f5731c37
 		}
 	}
 

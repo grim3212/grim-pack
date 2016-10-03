@@ -79,6 +79,10 @@ public class IndustryBlocks implements IPartItems {
 	public static Block steel_frame;
 	public static Block fuel_tank;
 	public static Block fan;
+<<<<<<< HEAD
+=======
+	public static Block specific_sensor;
+>>>>>>> 22fd8b1d8d5d5162d98e857979c97722f5731c37
 
 	@Override
 	public void initItems() {
@@ -136,7 +140,13 @@ public class IndustryBlocks implements IPartItems {
 		steel_frame = (new BlockSteelFrame()).setHardness(1.0F).setResistance(10.0F).setLightOpacity(0).setUnlocalizedName("steel_frame").setCreativeTab(GrimIndustry.INSTANCE.getCreativeTab());
 		fuel_tank = (new BlockFuel()).setHardness(1.0F).setResistance(5.0F).setUnlocalizedName("fuel_tank").setCreativeTab(GrimIndustry.INSTANCE.getCreativeTab());
 		fan = (new BlockFan()).setHardness(1.5F).setResistance(10F).setUnlocalizedName("fan").setCreativeTab(GrimIndustry.INSTANCE.getCreativeTab());
+<<<<<<< HEAD
 
+=======
+		specific_sensor = (new BlockSpecificSensor()).setHardness(1.5F).setResistance(10F).setUnlocalizedName("specific_sensor").setCreativeTab(GrimIndustry.INSTANCE.getCreativeTab());
+
+		Utils.registerBlock(specific_sensor, "specific_sensor");
+>>>>>>> 22fd8b1d8d5d5162d98e857979c97722f5731c37
 		Utils.registerBlock(fan, "fan");
 		Utils.registerBlock(aluminum_ladder, "aluminum_ladder");
 		Utils.registerBlock(aluminum_ore, "aluminum_ore");

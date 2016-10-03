@@ -21,6 +21,7 @@ public class GrimWorldGenerator extends GrimWorldGen {
 
 	@Override
 	protected void generateSurface(World world, Random random, int i, int j) {
+<<<<<<< HEAD
 		for (int var5 = 0; var5 < 11; ++var5) {
 			int x = i + random.nextInt(16);
 			int y = random.nextInt(110);
@@ -33,6 +34,24 @@ public class GrimWorldGenerator extends GrimWorldGen {
 			int Ycoord1 = random.nextInt(128);
 			int Zcoord1 = j + random.nextInt(16) + 8;
 			(new WorldGenGunReeds()).generate(world, random, new BlockPos(Xcoord1, Ycoord1, Zcoord1));
+=======
+		if (WorldConfig.generateRandomite) {
+			for (int var5 = 0; var5 < 11; ++var5) {
+				int x = i + random.nextInt(16);
+				int y = random.nextInt(110);
+				int z = j + random.nextInt(16);
+				(new WorldGenMinable(WorldBlocks.randomite.getDefaultState(), 6)).generate(world, random, new BlockPos(x, y, z));
+			}
+		}
+
+		if (WorldConfig.generateGunpowderReeds) {
+			for (int reed = 0; reed < 5; ++reed) {
+				int Xcoord1 = i + random.nextInt(16) + 8;
+				int Ycoord1 = random.nextInt(128);
+				int Zcoord1 = j + random.nextInt(16) + 8;
+				(new WorldGenGunReeds()).generate(world, random, new BlockPos(Xcoord1, Ycoord1, Zcoord1));
+			}
+>>>>>>> 22fd8b1d8d5d5162d98e857979c97722f5731c37
 		}
 
 		FloatingIslandsBlacklist.generateFloatingIslands(world, random, i, j);

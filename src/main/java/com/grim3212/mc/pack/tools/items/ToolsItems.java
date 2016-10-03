@@ -23,8 +23,11 @@ import com.grim3212.mc.pack.tools.util.BackpackRecipeHandler;
 import com.grim3212.mc.pack.tools.util.ChiselRegistry;
 import com.grim3212.mc.pack.tools.util.DispenseBehaviors;
 import com.grim3212.mc.pack.tools.util.EnumSpearType;
+<<<<<<< HEAD
 import com.grim3212.mc.pack.tools.util.EnumSlingshotType;
 import com.grim3212.mc.pack.tools.util.EnumSlingpelletType; //maybe not needed?
+=======
+>>>>>>> 22fd8b1d8d5d5162d98e857979c97722f5731c37
 
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -118,6 +121,7 @@ public class ToolsItems implements IPartItems {
 	public static Item advanced_ray_gun;
 	public static Item dark_iron_ingot;
 	public static Item sling_shot;
+<<<<<<< HEAD
 	public static Item iron_sling_shot;
 	public static Item black_diamond_sling_shot;
 	public static Item sling_pellet;
@@ -127,6 +131,9 @@ public class ToolsItems implements IPartItems {
 	public static Item explosive_sling_pellet;
 	public static Item light_sling_pellet;
 	public static Item slime_sling_pellet;
+=======
+	public static Item sling_pellet;
+>>>>>>> 22fd8b1d8d5d5162d98e857979c97722f5731c37
 	public static Item spear;
 	public static Item iron_spear;
 	public static Item diamond_spear;
@@ -143,7 +150,11 @@ public class ToolsItems implements IPartItems {
 	public static ToolMaterial multitool = EnumHelper.addToolMaterial("multitool", 4, 5122, 15F, 5F, 20);
 	public static ToolMaterial blackdiamond = EnumHelper.addToolMaterial("black_diamond", 4, 5122, 15F, 5F, 20);
 	public static ToolMaterial obsidianToolMaterial = EnumHelper.addToolMaterial("obsidian", 3, 3333, 9.5F, 7f, 14);
+<<<<<<< HEAD
 	public static ArmorMaterial masks = EnumHelper.addArmorMaterial("mask", GrimPack.modID + ":masks", 5, new int[] { 1, 3, 2, 1 }, 15, SoundEvents.BLOCK_CLOTH_PLACE, 0.0F);
+=======
+	public static ArmorMaterial masks = EnumHelper.addArmorMaterial("mask", GrimPack.modID + ":masks", 5, new int[] { 1, 2, 3, 1 }, 15, SoundEvents.BLOCK_CLOTH_PLACE, 0.0F);
+>>>>>>> 22fd8b1d8d5d5162d98e857979c97722f5731c37
 	public static ArmorMaterial blackarmor = EnumHelper.addArmorMaterial("blackarmor", GrimPack.modID + ":blackarmor", 35, new int[] { 4, 8, 10, 4 }, 20, SoundEvents.ITEM_ARMOR_EQUIP_DIAMOND, 2.5F);
 
 	@Override
@@ -220,6 +231,7 @@ public class ToolsItems implements IPartItems {
 		advanced_energy_canister = (new ItemManualPage("tools:raygun.advCanisters")).setUnlocalizedName("advanced_energy_canister").setCreativeTab(GrimTools.INSTANCE.getCreativeTab());
 		advanced_ray_gun = (new ItemAdvRayg()).setUnlocalizedName("advanced_ray_gun").setCreativeTab(GrimTools.INSTANCE.getCreativeTab());
 		dark_iron_ingot = (new ItemManualPage("tools:raygun.darkIron")).setUnlocalizedName("dark_iron_ingot").setCreativeTab(GrimTools.INSTANCE.getCreativeTab());
+<<<<<<< HEAD
 		sling_shot = (new ItemSlingshot(EnumSlingshotType.STONE)).setUnlocalizedName("sling_shot").setCreativeTab(GrimTools.INSTANCE.getCreativeTab());
 		iron_sling_shot = (new ItemSlingshot(EnumSlingshotType.IRON)).setUnlocalizedName("iron_sling_shot").setCreativeTab(GrimTools.INSTANCE.getCreativeTab());
 		black_diamond_sling_shot = (new ItemSlingshot(EnumSlingshotType.BLACK_DIAMOND)).setUnlocalizedName("black_diamond_sling_shot").setCreativeTab(GrimTools.INSTANCE.getCreativeTab());
@@ -230,6 +242,10 @@ public class ToolsItems implements IPartItems {
 		fire_sling_pellet = (new ItemManualPage("tools:sling.pellets")).setUnlocalizedName("fire_sling_pellet").setCreativeTab(GrimTools.INSTANCE.getCreativeTab());
 		light_sling_pellet = (new ItemManualPage("tools:sling.pellets")).setUnlocalizedName("light_sling_pellet").setCreativeTab(GrimTools.INSTANCE.getCreativeTab());
 		slime_sling_pellet = (new ItemManualPage("tools:sling.pellets")).setUnlocalizedName("slime_sling_pellet").setCreativeTab(GrimTools.INSTANCE.getCreativeTab());
+=======
+		sling_shot = (new ItemSlingshot()).setUnlocalizedName("sling_shot").setCreativeTab(GrimTools.INSTANCE.getCreativeTab());
+		sling_pellet = (new ItemManualPage("tools:sling.pellets")).setUnlocalizedName("sling_pellet").setCreativeTab(GrimTools.INSTANCE.getCreativeTab());
+>>>>>>> 22fd8b1d8d5d5162d98e857979c97722f5731c37
 		spear = (new ItemSpear(EnumSpearType.STONE)).setUnlocalizedName("spear").setCreativeTab(GrimTools.INSTANCE.getCreativeTab());
 		iron_spear = (new ItemSpear(EnumSpearType.IRON)).setUnlocalizedName("iron_spear").setCreativeTab(GrimTools.INSTANCE.getCreativeTab());
 		diamond_spear = (new ItemSpear(EnumSpearType.DIAMOND)).setUnlocalizedName("diamond_spear").setCreativeTab(GrimTools.INSTANCE.getCreativeTab());
@@ -254,6 +270,7 @@ public class ToolsItems implements IPartItems {
 		Utils.registerItem(light_spear, "light_spear");
 		Utils.registerItem(lightning_spear, "lightning_spear");
 		Utils.registerItem(sling_shot, "sling_shot");
+<<<<<<< HEAD
 		Utils.registerItem(iron_sling_shot, "iron_sling_shot");
 		Utils.registerItem(black_diamond_sling_shot, "black_diamond_sling_shot");
 		Utils.registerItem(sling_pellet, "sling_pellet");
@@ -264,6 +281,9 @@ public class ToolsItems implements IPartItems {
 		Utils.registerItem(light_sling_pellet, "light_sling_pellet");
 		Utils.registerItem(slime_sling_pellet, "slime_sling_pellet");
 		
+=======
+		Utils.registerItem(sling_pellet, "sling_pellet");
+>>>>>>> 22fd8b1d8d5d5162d98e857979c97722f5731c37
 		Utils.registerItem(element_115, "element_115");
 		Utils.registerItem(energy_canister, "energy_canister");
 		Utils.registerItem(empty_energy_canister, "empty_energy_canister");
@@ -512,6 +532,7 @@ public class ToolsItems implements IPartItems {
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(advanced_ray_gun, 1), new Object[] { "XZ ", " XY", " XX", 'X', "ingotDarkIron", 'Y', ray_gun, 'Z', "dustRedstone" }));
 
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(sling_shot, 1), new Object[] { "#@#", " # ", " # ", '#', "stickWood", '@', Items.STRING }));
+<<<<<<< HEAD
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(iron_sling_shot, 1), new Object[] { "#", "X", '#', "ingotIron", 'X', sling_shot }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(black_diamond_sling_shot, 1), new Object[] { "#", "X", '#', black_diamond, 'X', iron_sling_shot }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(sling_pellet, 2), new Object[] { "#", '#', "dirt" }));
@@ -523,6 +544,11 @@ public class ToolsItems implements IPartItems {
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(fire_sling_pellet, 2), new Object[] { "#", "X", '#', netherrack_sling_pellet, 'X', "gunpowder" }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(light_sling_pellet, 1), new Object[] { "#", "X", '#', sling_pellet, 'X', "torch" }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(slime_sling_pellet, 2), new Object[] { "#", "X", '#', netherrack_sling_pellet, 'X', "slimeball" }));
+=======
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(sling_pellet, 2), new Object[] { "#", '#', "dirt" }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(sling_pellet, 2), new Object[] { "#", '#', "cobblestone" }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(sling_pellet, 4), new Object[] { "#", '#', "stone" }));
+>>>>>>> 22fd8b1d8d5d5162d98e857979c97722f5731c37
 		pellets = RecipeHelper.getLatestIRecipes(3);
 
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(spear, 1), new Object[] { "#  ", " X ", "  X", '#', Items.FLINT, 'X', "stickWood" }));

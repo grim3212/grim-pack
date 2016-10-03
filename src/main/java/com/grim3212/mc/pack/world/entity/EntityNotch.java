@@ -1,8 +1,14 @@
 package com.grim3212.mc.pack.world.entity;
 
+<<<<<<< HEAD
 import com.grim3212.mc.pack.core.manual.IManualEntry.IManualEntity;
 import com.grim3212.mc.pack.core.manual.pages.Page;
 import com.grim3212.mc.pack.world.client.ManualWorld;
+=======
+import com.grim3212.mc.pack.core.manual.pages.Page;
+import com.grim3212.mc.pack.world.client.ManualWorld;
+import com.grim3212.mc.pack.world.util.LootTables;
+>>>>>>> 22fd8b1d8d5d5162d98e857979c97722f5731c37
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -12,6 +18,7 @@ import net.minecraft.entity.ai.EntityAILookIdle;
 import net.minecraft.entity.ai.EntityAISwimming;
 import net.minecraft.entity.ai.EntityAIWander;
 import net.minecraft.entity.ai.EntityAIWatchClosest;
+<<<<<<< HEAD
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
@@ -20,6 +27,15 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
 public class EntityNotch extends EntityMob implements IManualEntity {
+=======
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Items;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.World;
+
+public class EntityNotch extends EntityDayMob {
+>>>>>>> 22fd8b1d8d5d5162d98e857979c97722f5731c37
 
 	public EntityNotch(World world) {
 		super(world);
@@ -42,6 +58,7 @@ public class EntityNotch extends EntityMob implements IManualEntity {
 	}
 
 	@Override
+<<<<<<< HEAD
 	public ItemStack getHeldItemMainhand() {
 		return new ItemStack(Items.DIAMOND_SWORD);
 	}
@@ -49,6 +66,15 @@ public class EntityNotch extends EntityMob implements IManualEntity {
 	@Override
 	protected Item getDropItem() {
 		return Items.GOLDEN_APPLE;
+=======
+	protected ResourceLocation getLootTable() {
+		return LootTables.ENTITIES_NOTCH;
+	}
+
+	@Override
+	public ItemStack getHeldItemMainhand() {
+		return new ItemStack(Items.DIAMOND_SWORD);
+>>>>>>> 22fd8b1d8d5d5162d98e857979c97722f5731c37
 	}
 
 	@Override

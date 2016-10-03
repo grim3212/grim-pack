@@ -24,6 +24,3 @@ run
 developmentMods
 secrets.properties
 WinSCP
-
-# mac
-.DS_Store

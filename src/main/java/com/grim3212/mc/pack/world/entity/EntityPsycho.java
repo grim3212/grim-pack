@@ -1,8 +1,14 @@
 package com.grim3212.mc.pack.world.entity;
 
+<<<<<<< HEAD
 import com.grim3212.mc.pack.core.manual.IManualEntry.IManualEntity;
 import com.grim3212.mc.pack.core.manual.pages.Page;
 import com.grim3212.mc.pack.world.client.ManualWorld;
+=======
+import com.grim3212.mc.pack.core.manual.pages.Page;
+import com.grim3212.mc.pack.world.client.ManualWorld;
+import com.grim3212.mc.pack.world.util.LootTables;
+>>>>>>> 22fd8b1d8d5d5162d98e857979c97722f5731c37
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -13,12 +19,21 @@ import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
 import net.minecraft.entity.ai.EntityAISwimming;
 import net.minecraft.entity.ai.EntityAIWander;
 import net.minecraft.entity.ai.EntityAIWatchClosest;
+<<<<<<< HEAD
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.pathfinding.PathNavigateGround;
 import net.minecraft.world.World;
 
 public class EntityPsycho extends EntityMob implements IManualEntity {
+=======
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.pathfinding.PathNavigateGround;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.World;
+
+public class EntityPsycho extends EntityDayMob {
+>>>>>>> 22fd8b1d8d5d5162d98e857979c97722f5731c37
 
 	protected int attackStrength;
 
@@ -45,6 +60,14 @@ public class EntityPsycho extends EntityMob implements IManualEntity {
 	}
 
 	@Override
+<<<<<<< HEAD
+=======
+	protected ResourceLocation getLootTable() {
+		return LootTables.ENTITIES_PSYCHO;
+	}
+
+	@Override
+>>>>>>> 22fd8b1d8d5d5162d98e857979c97722f5731c37
 	public Page getPage(Entity entity) {
 		return ManualWorld.psycho_page;
 	}
