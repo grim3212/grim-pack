@@ -5,11 +5,11 @@ import com.grim3212.mc.pack.core.manual.pages.Page;
 import com.grim3212.mc.pack.core.util.Utils;
 import com.grim3212.mc.pack.tools.client.ManualTools;
 import com.grim3212.mc.pack.tools.entity.EntitySlingpellet;
-import com.grim3212.mc.pack.tools.entity.EntitySlingpelletFire;
-import com.grim3212.mc.pack.tools.entity.EntitySlingpelletExplosive;
-import com.grim3212.mc.pack.tools.entity.EntitySlingpelletLight;
-import com.grim3212.mc.pack.tools.entity.EntitySlingpelletNetherrack;
-import com.grim3212.mc.pack.tools.entity.EntitySlingpelletSlime;
+import com.grim3212.mc.pack.tools.entity.EntityFireSlingpellet;
+import com.grim3212.mc.pack.tools.entity.EntityExplosiveSlingpellet;
+import com.grim3212.mc.pack.tools.entity.EntityLightSlingpellet;
+import com.grim3212.mc.pack.tools.entity.EntityNetherrackSlingpellet;
+import com.grim3212.mc.pack.tools.entity.EntitySlimeSlingpellet;
 import com.grim3212.mc.pack.tools.util.EnumSlingshotType;
 import com.grim3212.mc.pack.tools.util.EnumSpearType;
 

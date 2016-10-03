@@ -7,17 +7,17 @@ import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 
-public class EntitySlingpellet extends EntityThrowable {
+public class EntityIronSlingpellet extends EntityThrowable {
 
-	public EntitySlingpellet(World world) {
+	public EntityIronSlingpellet(World world) {
 		super(world);
 	}
 
-	public EntitySlingpellet(World world, EntityLivingBase entity) {
+	public EntityIronSlingpellet(World world, EntityLivingBase entity) {
 		super(world, entity);
 	}
 
-	public EntitySlingpellet(World world, double par2, double par4, double par6) {
+	public EntityIronSlingpellet(World world, double par2, double par4, double par6) {
 		super(world, par2, par4, par6);
 	}
 
@@ -25,7 +25,7 @@ public class EntitySlingpellet extends EntityThrowable {
 	protected void onImpact(RayTraceResult result) {
 		if (result.entityHit != null) {
 
-			result.entityHit.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getThrower()), 2);
+			result.entityHit.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getThrower()), 8);
 		}
 
 		for (int i = 0; i < 8; ++i) {

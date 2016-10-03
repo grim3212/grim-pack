@@ -7,17 +7,17 @@ import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 
-public class EntitySlingpelletFire extends EntityThrowable {
+public class EntitySlimeSlingpellet extends EntityThrowable {
 
-	public EntitySlingpelletFire(World world) {
+	public EntitySlimeSlingpellet(World world) {
 		super(world);
 	}
 
-	public EntitySlingpelletFire(World world, EntityLivingBase entity) {
+	public EntitySlimeSlingpellet(World world, EntityLivingBase entity) {
 		super(world, entity);
 	}
 
-	public EntitySlingpelletFire(World world, double par2, double par4, double par6) {
+	public EntitySlimeSlingpellet(World world, double par2, double par4, double par6) {
 		super(world, par2, par4, par6);
 	}
 
