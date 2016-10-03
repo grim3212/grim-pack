@@ -134,11 +134,7 @@ public class BlockSensor extends BlockManual implements ITileEntityProvider {
 	public TileEntity createNewTileEntity(World worldIn, int meta) {
 		return new TileEntitySensor(triggerType);
 	}
-<<<<<<< HEAD
-	
-=======
 
->>>>>>> 22fd8b1d8d5d5162d98e857979c97722f5731c37
 	@Override
 	public IBlockState withRotation(IBlockState state, Rotation rot) {
 		return state.withProperty(FACING, rot.rotate(state.getValue(FACING)));

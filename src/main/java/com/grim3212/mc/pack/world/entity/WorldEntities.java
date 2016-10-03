@@ -1,13 +1,6 @@
 package com.grim3212.mc.pack.world.entity;
 
-<<<<<<< HEAD
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
-=======
 import com.google.common.collect.Iterables;
->>>>>>> 22fd8b1d8d5d5162d98e857979c97722f5731c37
 import com.grim3212.mc.pack.core.part.IPartEntities;
 import com.grim3212.mc.pack.core.util.GrimLog;
 import com.grim3212.mc.pack.core.util.Utils;
@@ -40,33 +33,6 @@ public class WorldEntities implements IPartEntities {
 		Utils.registerEntity(EntityBomber.class, "SuicideBomber", 80, 3, true, 16744319, 4210752);
 	}
 
-<<<<<<< HEAD
-	public void addSpawns() {
-		Iterator<Biome> itr = Biome.REGISTRY.iterator();
-		List<Biome> biomes = new ArrayList<Biome>();
-		while (itr.hasNext()) {
-			biomes.add(itr.next());
-		}
-
-		Biome[] biomeArray = (Biome[]) biomes.toArray();
-
-		GrimLog.info(GrimWorld.partName, "Biome array size " + biomeArray.length);
-
-		// Ice pixie
-		EntityRegistry.addSpawn(EntityIcePixie.class, 100, 5, 5, EnumCreatureType.MONSTER, BiomeDictionary.getBiomesForType(Type.SNOWY));
-
-		// TreasureMob
-		EntityRegistry.addSpawn(EntityTreasureMob.class, 10, 1, 1, EnumCreatureType.CREATURE, biomeArray);
-
-		// More People
-		if (WorldConfig.spawnMorePeople) {
-			EntityRegistry.addSpawn(EntityNotch.class, 10, 0, 1, EnumCreatureType.CREATURE, biomeArray);
-			EntityRegistry.addSpawn(EntityPsycho.class, 100, 1, 2, EnumCreatureType.CREATURE, biomeArray);
-			EntityRegistry.addSpawn(EntityFarmer.class, 15, 1, 3, EnumCreatureType.CREATURE, biomeArray);
-			EntityRegistry.addSpawn(EntityLumberJack.class, 15, 1, 2, EnumCreatureType.CREATURE, biomeArray);
-			EntityRegistry.addSpawn(EntityMiner.class, 15, 1, 2, EnumCreatureType.AMBIENT, biomeArray);
-			EntityRegistry.addSpawn(EntityBomber.class, 12, 1, 5, EnumCreatureType.MONSTER, biomeArray);
-=======
 	public static void addSpawns() {
 		Biome[] biomes = Iterables.toArray(Biome.REGISTRY, Biome.class);
 
@@ -83,12 +49,11 @@ public class WorldEntities implements IPartEntities {
 		// More People
 		if (WorldConfig.spawnMorePeople) {
 			EntityRegistry.addSpawn(EntityNotch.class, 4, 0, 1, EnumCreatureType.CREATURE, biomes);
-			EntityRegistry.addSpawn(EntityPsycho.class, 4, 1, 2, EnumCreatureType.CREATURE, biomes);
+			EntityRegistry.addSpawn(EntityPsycho.class, 8, 1, 2, EnumCreatureType.CREATURE, biomes);
 			EntityRegistry.addSpawn(EntityFarmer.class, 8, 1, 2, EnumCreatureType.CREATURE, biomes);
 			EntityRegistry.addSpawn(EntityLumberJack.class, 8, 1, 2, EnumCreatureType.CREATURE, biomes);
-			EntityRegistry.addSpawn(EntityMiner.class, 4, 1, 2, EnumCreatureType.AMBIENT, biomes);
-			EntityRegistry.addSpawn(EntityBomber.class, 4, 1, 2, EnumCreatureType.CREATURE, biomes);
->>>>>>> 22fd8b1d8d5d5162d98e857979c97722f5731c37
+			EntityRegistry.addSpawn(EntityMiner.class, 8, 1, 2, EnumCreatureType.AMBIENT, biomes);
+			EntityRegistry.addSpawn(EntityBomber.class, 8, 1, 2, EnumCreatureType.CREATURE, biomes);
 		}
 	}
 }

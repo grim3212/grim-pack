@@ -3,10 +3,7 @@ package com.grim3212.mc.pack.industry.block;
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.List;
-<<<<<<< HEAD
 import java.util.Iterator;
-=======
->>>>>>> 22fd8b1d8d5d5162d98e857979c97722f5731c37
 
 import com.grim3212.mc.pack.core.manual.IManualEntry.IManualBlock;
 import com.grim3212.mc.pack.core.manual.pages.Page;
@@ -59,7 +56,6 @@ public class BlockCamoPlate extends BlockPressurePlate implements ITileEntityPro
 		super(Material.IRON, Sensitivity.EVERYTHING);
 		this.setSoundType(SoundType.METAL);
 	}
-<<<<<<< HEAD
 	
 	//Added by ScottoMotto
     @Override
@@ -83,8 +79,6 @@ public class BlockCamoPlate extends BlockPressurePlate implements ITileEntityPro
 
         return 0;
     }
-=======
->>>>>>> 22fd8b1d8d5d5162d98e857979c97722f5731c37
 
 	@Override
 	protected BlockStateContainer createBlockState() {

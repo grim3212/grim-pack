@@ -43,11 +43,6 @@ public class BlockChangeEvents {
 				int adjacent = checkAdjacentBlock(event.getWorld(), event.getPos());
 
 				if (adjacent >= 2) {
-<<<<<<< HEAD
-					event.getWorld().setBlockState(event.getPos(), Blocks.FLOWING_LAVA.getDefaultState(), 11);
-=======
-					event.getWorld().setBlockState(event.getPos(), Blocks.FLOWING_LAVA.getDefaultState());
->>>>>>> 22fd8b1d8d5d5162d98e857979c97722f5731c37
 				}
 
 				for (EnumFacing enumfacing : EnumFacing.Plane.HORIZONTAL) {
@@ -57,11 +52,7 @@ public class BlockChangeEvents {
 						int adjacent2 = checkAdjacentBlock(event.getWorld(), newPos);
 
 						if (adjacent2 >= 2) {
-<<<<<<< HEAD
-							event.getWorld().setBlockState(newPos, Blocks.FLOWING_LAVA.getDefaultState(), 11);
-=======
 							event.getWorld().setBlockState(newPos, Blocks.FLOWING_LAVA.getDefaultState());
->>>>>>> 22fd8b1d8d5d5162d98e857979c97722f5731c37
 						}
 					}
 				}

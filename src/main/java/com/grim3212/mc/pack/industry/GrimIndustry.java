@@ -11,13 +11,10 @@ import com.grim3212.mc.pack.industry.entity.IndustryEntities;
 import com.grim3212.mc.pack.industry.item.IndustryItems;
 import com.grim3212.mc.pack.industry.network.MessageExtruderDirection;
 import com.grim3212.mc.pack.industry.network.MessageSaveFan;
-<<<<<<< HEAD
-=======
 import com.grim3212.mc.pack.industry.network.MessageSensorChangeMode;
 import com.grim3212.mc.pack.industry.network.MessageSensorSetEntity;
 import com.grim3212.mc.pack.industry.network.MessageSensorSetPlayer;
 import com.grim3212.mc.pack.industry.network.MessageSensorSetPos;
->>>>>>> 22fd8b1d8d5d5162d98e857979c97722f5731c37
 import com.grim3212.mc.pack.industry.tile.IndustryTileEntities;
 import com.grim3212.mc.pack.industry.world.IndustryGenerate;
 
@@ -39,11 +36,6 @@ public class GrimIndustry extends GrimPart {
 
 	public static final String partId = "industry";
 	public static final String partName = "Grim Industry";
-<<<<<<< HEAD
-	
-=======
-
->>>>>>> 22fd8b1d8d5d5162d98e857979c97722f5731c37
 	public static SoundEvent spikeDeploySound;
 	public static SoundEvent spikeCloseSound;
 
@@ -59,7 +51,6 @@ public class GrimIndustry extends GrimPart {
 	public void preInit(FMLPreInitializationEvent event) {
 		super.preInit(event);
 
-<<<<<<< HEAD
 		PacketDispatcher.registerMessage(MessageSaveFan.class);
 		PacketDispatcher.registerMessage(MessageExtruderDirection.class);
 		GameRegistry.registerWorldGenerator(new IndustryGenerate(), 10);
@@ -67,7 +58,6 @@ public class GrimIndustry extends GrimPart {
 		spikeDeploySound = Utils.registerSound("spikeDeploy");
 		spikeCloseSound = Utils.registerSound("spikeClose");
 		
-=======
 		PacketDispatcher.registerMessage(MessageSensorChangeMode.class);
 		PacketDispatcher.registerMessage(MessageSensorSetEntity.class);
 		PacketDispatcher.registerMessage(MessageSensorSetPlayer.class);
@@ -80,7 +70,6 @@ public class GrimIndustry extends GrimPart {
 		spikeDeploySound = Utils.registerSound("spikeDeploy");
 		spikeCloseSound = Utils.registerSound("spikeClose");
 
->>>>>>> 22fd8b1d8d5d5162d98e857979c97722f5731c37
 		proxy.preInit();
 	}
 

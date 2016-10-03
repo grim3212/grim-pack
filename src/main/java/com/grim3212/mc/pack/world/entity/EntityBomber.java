@@ -1,14 +1,8 @@
 package com.grim3212.mc.pack.world.entity;
 
-<<<<<<< HEAD
-import com.grim3212.mc.pack.core.manual.IManualEntry.IManualEntity;
-import com.grim3212.mc.pack.core.manual.pages.Page;
-import com.grim3212.mc.pack.world.client.ManualWorld;
-=======
 import com.grim3212.mc.pack.core.manual.pages.Page;
 import com.grim3212.mc.pack.world.client.ManualWorld;
 import com.grim3212.mc.pack.world.util.LootTables;
->>>>>>> 22fd8b1d8d5d5162d98e857979c97722f5731c37
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -19,23 +13,12 @@ import net.minecraft.entity.ai.EntityAILookIdle;
 import net.minecraft.entity.ai.EntityAISwimming;
 import net.minecraft.entity.ai.EntityAIWander;
 import net.minecraft.entity.ai.EntityAIWatchClosest;
-<<<<<<< HEAD
-import net.minecraft.entity.monster.EntityMob;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
-import net.minecraft.item.Item;
-import net.minecraft.util.DamageSource;
-import net.minecraft.world.World;
-
-public class EntityBomber extends EntityMob implements IManualEntity {
-=======
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 
 public class EntityBomber extends EntityDayMob {
->>>>>>> 22fd8b1d8d5d5162d98e857979c97722f5731c37
 
 	public EntityBomber(World world) {
 		super(world);
@@ -57,13 +40,8 @@ public class EntityBomber extends EntityDayMob {
 	}
 
 	@Override
-<<<<<<< HEAD
-	protected Item getDropItem() {
-		return Item.getItemFromBlock(Blocks.TNT);
-=======
 	protected ResourceLocation getLootTable() {
 		return LootTables.ENTITIES_BOMBER;
->>>>>>> 22fd8b1d8d5d5162d98e857979c97722f5731c37
 	}
 
 	@Override

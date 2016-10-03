@@ -33,13 +33,10 @@ public class WorldConfig extends GrimConfig {
 	public static boolean fire;
 
 	public static int glowstoneSeedPlantHeight;
-<<<<<<< HEAD
-=======
 	public static boolean generateRandomite;
 	public static boolean generateGunpowderReeds;
 	public static boolean spawnIcePixies;
 	public static boolean spawnTreasureMobs;
->>>>>>> 22fd8b1d8d5d5162d98e857979c97722f5731c37
 
 	// Sync to client
 	public static boolean generateFlatBedRockSurface;
@@ -48,11 +45,7 @@ public class WorldConfig extends GrimConfig {
 	public static boolean replaceDesertWells;
 	public static boolean corruption;
 	public static boolean generateCorruption;
-<<<<<<< HEAD
-	public static boolean spawnMorePeople;
-=======
 	public static boolean spawnMorePeople;	
->>>>>>> 22fd8b1d8d5d5162d98e857979c97722f5731c37
 
 	public static String[] DIRT_EATING_BLOCKS_POSSIBLE;
 	public static String[] SMOOTHSTONE_EATING_BLOCKS_POSSIBLE;
@@ -67,15 +60,11 @@ public class WorldConfig extends GrimConfig {
 		fire = config.get(CONFIG_GENERAL_NAME, "Enable Fire", true).getBoolean();
 		corruption = config.get(CONFIG_GENERAL_NAME, "Enable Corruption", false).getBoolean();
 		generateCorruption = config.get(CONFIG_GENERAL_NAME, "Generate Corruption Blocks", false).getBoolean();
-<<<<<<< HEAD
-		spawnMorePeople = config.get(CONFIG_GENERAL_NAME, "Spawn more people", true).getBoolean();
-=======
 		generateRandomite = config.get(CONFIG_GENERAL_NAME, "Generate Randomite", true).getBoolean();
 		generateGunpowderReeds = config.get(CONFIG_GENERAL_NAME, "Generate Gunpowder Reeds", true).getBoolean();
 		spawnIcePixies = config.get(CONFIG_GENERAL_NAME, "Spawn Ice Pixies", true).getBoolean();
 		spawnTreasureMobs = config.get(CONFIG_GENERAL_NAME, "Spawn Treasure Mobs", true).getBoolean();
-		spawnMorePeople = config.get(CONFIG_GENERAL_NAME, "Spawn more people", false).getBoolean();
->>>>>>> 22fd8b1d8d5d5162d98e857979c97722f5731c37
+		spawnMorePeople = config.get(CONFIG_GENERAL_NAME, "Spawn more people", true).getBoolean();
 
 		glowstoneSeedPlantHeight = config.get(CONFIG_GENERAL_NAME, "Glowstone seed plant height", 15).getInt();
 
