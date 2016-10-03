@@ -5,6 +5,13 @@ import com.grim3212.mc.pack.core.manual.pages.Page;
 import com.grim3212.mc.pack.core.util.Utils;
 import com.grim3212.mc.pack.tools.client.ManualTools;
 import com.grim3212.mc.pack.tools.entity.EntitySlingpellet;
+import com.grim3212.mc.pack.tools.entity.EntitySlingpelletFire;
+import com.grim3212.mc.pack.tools.entity.EntitySlingpelletExplosive;
+import com.grim3212.mc.pack.tools.entity.EntitySlingpelletLight;
+import com.grim3212.mc.pack.tools.entity.EntitySlingpelletNetherrack;
+import com.grim3212.mc.pack.tools.entity.EntitySlingpelletSlime;
+import com.grim3212.mc.pack.tools.util.EnumSlingshotType;
+import com.grim3212.mc.pack.tools.util.EnumSpearType;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
@@ -16,14 +23,24 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.world.World;
 
 public class ItemSlingshot extends ItemManual {
+	
+	private EnumSlingshotType type;
 
-	public ItemSlingshot() {
+	public ItemSlingshot(EnumSlingshotType type) {
 		this.maxStackSize = 1;
+		this.type = type;
+	}
+	
+	public EnumSlingshotType getType() {
+		return type;
 	}
 
 	@Override
 	public Page getPage(ItemStack stack) {
-		return ManualTools.slingshot_page;
+		//if (stack.getItem() == ToolsItems.sling_shot || stack.getItem() == ToolsItems.iron_slingshot || stack.getItem() == ToolsItems.black_diamond_slingshot)
+		 return ManualTools.slingshot_page;
+		
+		//return ManualTools.specialSlingshots_page;
 	}
 
 	@Override
@@ -43,3 +60,5 @@ public class ItemSlingshot extends ItemManual {
 		return ActionResult.newResult(EnumActionResult.SUCCESS, itemStackIn);
 	}
 }
+
+//Do I need MAINHAND stuff as in spear?
