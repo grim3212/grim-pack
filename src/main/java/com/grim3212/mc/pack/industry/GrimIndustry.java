@@ -11,10 +11,6 @@ import com.grim3212.mc.pack.industry.entity.IndustryEntities;
 import com.grim3212.mc.pack.industry.item.IndustryItems;
 import com.grim3212.mc.pack.industry.network.MessageExtruderDirection;
 import com.grim3212.mc.pack.industry.network.MessageSaveFan;
-import com.grim3212.mc.pack.industry.network.MessageSensorChangeMode;
-import com.grim3212.mc.pack.industry.network.MessageSensorSetEntity;
-import com.grim3212.mc.pack.industry.network.MessageSensorSetPlayer;
-import com.grim3212.mc.pack.industry.network.MessageSensorSetPos;
 import com.grim3212.mc.pack.industry.tile.IndustryTileEntities;
 import com.grim3212.mc.pack.industry.world.IndustryGenerate;
 
@@ -36,6 +32,7 @@ public class GrimIndustry extends GrimPart {
 
 	public static final String partId = "industry";
 	public static final String partName = "Grim Industry";
+	
 	public static SoundEvent spikeDeploySound;
 	public static SoundEvent spikeCloseSound;
 
@@ -58,18 +55,6 @@ public class GrimIndustry extends GrimPart {
 		spikeDeploySound = Utils.registerSound("spikeDeploy");
 		spikeCloseSound = Utils.registerSound("spikeClose");
 		
-		PacketDispatcher.registerMessage(MessageSensorChangeMode.class);
-		PacketDispatcher.registerMessage(MessageSensorSetEntity.class);
-		PacketDispatcher.registerMessage(MessageSensorSetPlayer.class);
-		PacketDispatcher.registerMessage(MessageSensorSetPos.class);
-
-		PacketDispatcher.registerMessage(MessageSaveFan.class);
-		PacketDispatcher.registerMessage(MessageExtruderDirection.class);
-		GameRegistry.registerWorldGenerator(new IndustryGenerate(), 10);
-
-		spikeDeploySound = Utils.registerSound("spikeDeploy");
-		spikeCloseSound = Utils.registerSound("spikeClose");
-
 		proxy.preInit();
 	}
 
