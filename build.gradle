@@ -76,21 +76,6 @@ processResources
     }
 }
 
-curseforge {
-    apiKey = props.curseforge_apikey
-    project {
-        id = props.grimpack_id
-		mainArtifact jar
-        releaseType = mod_release_type
-        changelogType = 'html'
-        changelog = file("changelog.html")
-        relations {
-            optionalLibrary 'just-enough-items-jei'
-			optionalLibrary 'just-enough-resources-jer'
-        }
-    }
-}
-
 // Used to automatically upload update.json
 task deploy (type: Exec) {
 	workingDir '/WinSCP'
