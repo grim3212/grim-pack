@@ -64,7 +64,7 @@ public class WorldConfig extends GrimConfig {
 		generateGunpowderReeds = config.get(CONFIG_GENERAL_NAME, "Generate Gunpowder Reeds", true).getBoolean();
 		spawnIcePixies = config.get(CONFIG_GENERAL_NAME, "Spawn Ice Pixies", true).getBoolean();
 		spawnTreasureMobs = config.get(CONFIG_GENERAL_NAME, "Spawn Treasure Mobs", true).getBoolean();
-		spawnMorePeople = config.get(CONFIG_GENERAL_NAME, "Spawn more people", true).getBoolean();
+		spawnMorePeople = config.get(CONFIG_GENERAL_NAME, "Spawn more people", false).getBoolean();
 
 		glowstoneSeedPlantHeight = config.get(CONFIG_GENERAL_NAME, "Glowstone seed plant height", 15).getInt();
 

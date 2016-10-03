@@ -49,11 +49,11 @@ public class WorldEntities implements IPartEntities {
 		// More People
 		if (WorldConfig.spawnMorePeople) {
 			EntityRegistry.addSpawn(EntityNotch.class, 4, 0, 1, EnumCreatureType.CREATURE, biomes);
-			EntityRegistry.addSpawn(EntityPsycho.class, 8, 1, 2, EnumCreatureType.CREATURE, biomes);
+			EntityRegistry.addSpawn(EntityPsycho.class, 4, 1, 2, EnumCreatureType.CREATURE, biomes);
 			EntityRegistry.addSpawn(EntityFarmer.class, 8, 1, 2, EnumCreatureType.CREATURE, biomes);
 			EntityRegistry.addSpawn(EntityLumberJack.class, 8, 1, 2, EnumCreatureType.CREATURE, biomes);
-			EntityRegistry.addSpawn(EntityMiner.class, 8, 1, 2, EnumCreatureType.AMBIENT, biomes);
-			EntityRegistry.addSpawn(EntityBomber.class, 8, 1, 2, EnumCreatureType.CREATURE, biomes);
+			EntityRegistry.addSpawn(EntityMiner.class, 4, 1, 2, EnumCreatureType.AMBIENT, biomes);
+			EntityRegistry.addSpawn(EntityBomber.class, 4, 1, 2, EnumCreatureType.CREATURE, biomes);
 		}
 	}
 }
