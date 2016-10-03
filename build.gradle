@@ -76,14 +76,6 @@ processResources
     }
 }
 
-<<<<<<< HEAD
-// Used to automatically upload update.json
-task deploy (type: Exec) {
-	workingDir '/WinSCP'
-	commandLine 'cmd', '/C', 'deploy.bat'
-}
-deploy.dependsOn 'curseforge'
-=======
 curseforge {
     apiKey = props.curseforge_apikey
     project {
@@ -100,14 +92,8 @@ curseforge {
 }
 
 // Used to automatically upload update.json
-task uploadJSON (type: Exec) {
+task deploy (type: Exec) {
 	workingDir '/WinSCP'
 	commandLine 'cmd', '/C', 'deploy.bat'
 }
-
-// Builds the jar publishes it and pushes the update.json
-task deploy (type: Exec) {
-}
 deploy.dependsOn 'curseforge'
-deploy.dependsOn 'uploadJSON'
->>>>>>> 22fd8b1d8d5d5162d98e857979c97722f5731c37
