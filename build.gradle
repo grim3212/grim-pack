@@ -92,8 +92,13 @@ curseforge {
 }
 
 // Used to automatically upload update.json
-task deploy (type: Exec) {
+task uploadJSON (type: Exec) {
 	workingDir '/WinSCP'
 	commandLine 'cmd', '/C', 'deploy.bat'
 }
+
+// Builds the jar publishes it and pushes the update.json
+task deploy (type: Exec) {
+}
 deploy.dependsOn 'curseforge'
+deploy.dependsOn 'uploadJSON'
