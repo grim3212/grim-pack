@@ -103,6 +103,7 @@ public class IndustryClientProxy extends IndustryCommonProxy {
 		RenderHelper.renderItem(IndustryItems.steel_sword);
 
 		// BLOCKS
+		RenderHelper.renderBlock(IndustryBlocks.specific_sensor);
 		RenderHelper.renderBlock(IndustryBlocks.fan);
 		RenderHelper.renderBlock(IndustryBlocks.togglerack);
 		RenderHelper.renderBlock(IndustryBlocks.iron_workbench);
