@@ -17,6 +17,7 @@ import com.grim3212.mc.pack.industry.client.gui.GuiFan;
 import com.grim3212.mc.pack.industry.client.gui.GuiIronPortable;
 import com.grim3212.mc.pack.industry.client.gui.GuiMFurnace;
 import com.grim3212.mc.pack.industry.client.gui.GuiMachine;
+import com.grim3212.mc.pack.industry.client.gui.GuiSpecificSensor;
 import com.grim3212.mc.pack.industry.entity.EntityExtruder;
 import com.grim3212.mc.pack.industry.inventory.ContainerDiamondWorkbench;
 import com.grim3212.mc.pack.industry.inventory.ContainerExtruder;
@@ -26,6 +27,11 @@ import com.grim3212.mc.pack.industry.inventory.ContainerMachine;
 import com.grim3212.mc.pack.industry.tile.TileEntityFan;
 import com.grim3212.mc.pack.industry.tile.TileEntityMFurnace;
 import com.grim3212.mc.pack.industry.tile.TileEntityMachine;
+import com.grim3212.mc.pack.industry.inventory.ContainerSpecificSensor;
+import com.grim3212.mc.pack.industry.tile.TileEntityFan;
+import com.grim3212.mc.pack.industry.tile.TileEntityMFurnace;
+import com.grim3212.mc.pack.industry.tile.TileEntityMachine;
+import com.grim3212.mc.pack.industry.tile.TileEntitySpecificSensor;
 import com.grim3212.mc.pack.tools.client.gui.GuiBackpack;
 import com.grim3212.mc.pack.tools.client.gui.GuiPortable;
 import com.grim3212.mc.pack.tools.inventory.BackpackInventory;
@@ -61,6 +67,7 @@ public class PackGuiHandler implements IGuiHandler {
 	public static final int PORTABLE_DIAMOND_OFF_GUI_ID = 15;
 	public static final int PORTABLE_IRON_MAIN_GUI_ID = 16;
 	public static final int PORTABLE_IRON_OFF_GUI_ID = 17;
+	public static final int SPECIFIC_SENSOR_GUI_ID = 18;
 
 	@Override
 	public Object getServerGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
@@ -93,6 +100,8 @@ public class PackGuiHandler implements IGuiHandler {
 			return new ContainerExtruder(player.inventory, this.getEntityAt(world, x, y, z, EntityExtruder.class).getExtruderInv());
 		} else if (ID == CAGE_GUI_ID) {
 			return new ContainerCage((TileEntityCage) tileentity, player.inventory);
+		} else if (ID == SPECIFIC_SENSOR_GUI_ID) {
+			return new ContainerSpecificSensor(pos, player.inventory);
 		}
 
 		return null;
@@ -139,6 +148,8 @@ public class PackGuiHandler implements IGuiHandler {
 			return new GuiIronPortable(player.inventory, world, pos, player.getHeldItemMainhand());
 		} else if (ID == PORTABLE_IRON_OFF_GUI_ID) {
 			return new GuiIronPortable(player.inventory, world, pos, player.getHeldItemOffhand());
+		} else if (ID == SPECIFIC_SENSOR_GUI_ID) {
+			return new GuiSpecificSensor(player.inventory, (TileEntitySpecificSensor) tileentity, pos);
 		}
 
 		return null;

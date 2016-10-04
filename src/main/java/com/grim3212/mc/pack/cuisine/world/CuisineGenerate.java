@@ -3,6 +3,7 @@ package com.grim3212.mc.pack.cuisine.world;
 import java.util.Random;
 
 import com.grim3212.mc.pack.core.part.GrimWorldGen;
+
 import com.grim3212.mc.pack.cuisine.config.CuisineConfig;
 
 import net.minecraft.init.Blocks;

@@ -4,6 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.grim3212.mc.pack.core.config.GrimConfig;
+
+import net.minecraftforge.fml.client.config.ConfigGuiType;
+import net.minecraftforge.fml.client.config.DummyConfigElement;
+
 import com.grim3212.mc.pack.cuisine.GrimCuisine;
 
 import net.minecraftforge.common.config.ConfigElement;

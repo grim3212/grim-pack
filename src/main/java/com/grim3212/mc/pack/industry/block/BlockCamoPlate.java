@@ -3,6 +3,7 @@ package com.grim3212.mc.pack.industry.block;
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Iterator;
 
 import com.grim3212.mc.pack.core.manual.IManualEntry.IManualBlock;
 import com.grim3212.mc.pack.core.manual.pages.Page;
@@ -55,6 +56,29 @@ public class BlockCamoPlate extends BlockPressurePlate implements ITileEntityPro
 		super(Material.IRON, Sensitivity.EVERYTHING);
 		this.setSoundType(SoundType.METAL);
 	}
+	
+	//Added by ScottoMotto
+    @Override
+    public int computeRedstoneStrength(World worldIn, BlockPos pos) {
+        List list = worldIn.getEntitiesWithinAABB(EntityPlayer.class, PRESSURE_AABB.offset(pos));
+
+        if (list != null && !list.isEmpty()) {
+            Iterator iterator = list.iterator();
+
+            while (iterator.hasNext()) {
+                Object entity = iterator.next();
+
+                if (entity instanceof EntityPlayer) {
+                    EntityPlayer player = (EntityPlayer) entity;
+                    if (!player.doesEntityNotTriggerPressurePlate()) {
+                    	return 15;
+                    }
+                }
+            }
+        }
+
+        return 0;
+    }
 
 	@Override
 	protected BlockStateContainer createBlockState() {
