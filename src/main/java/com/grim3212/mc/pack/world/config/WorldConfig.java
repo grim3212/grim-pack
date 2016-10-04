@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.grim3212.mc.pack.core.config.GrimConfig;
+import com.grim3212.mc.pack.core.util.GrimLog;
+import com.grim3212.mc.pack.tools.GrimTools;
 import com.grim3212.mc.pack.world.GrimWorld;
 import com.grim3212.mc.pack.world.util.KillingFungusWhitelist;
 
@@ -45,7 +47,7 @@ public class WorldConfig extends GrimConfig {
 	public static boolean replaceDesertWells;
 	public static boolean corruption;
 	public static boolean generateCorruption;
-	public static boolean spawnMorePeople;	
+	public static boolean spawnMorePeople;
 
 	public static String[] DIRT_EATING_BLOCKS_POSSIBLE;
 	public static String[] SMOOTHSTONE_EATING_BLOCKS_POSSIBLE;
@@ -136,12 +138,16 @@ public class WorldConfig extends GrimConfig {
 	}
 
 	public static void registerBlocksPossible(String[] string, ArrayList<Block> blocklist) {
+		// Clear to make sure we are not getting duplicates
+		blocklist.clear();
+
 		if (string.length > 0) {
 			for (String u : string) {
-				try {
-					blocklist.add(Block.REGISTRY.getObject(new ResourceLocation(u)));
-				} catch (Exception e) {
-					e.printStackTrace();
+				Block block = Block.REGISTRY.getObject(new ResourceLocation(u));
+				if (block != null) {
+					blocklist.add(block);
+				} else {
+					GrimLog.error(GrimTools.partName, "Can't find block with name: " + u);
 				}
 			}
 		}

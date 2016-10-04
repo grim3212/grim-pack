@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.grim3212.mc.pack.core.config.GrimConfig;
+import com.grim3212.mc.pack.core.util.GrimLog;
 import com.grim3212.mc.pack.tools.GrimTools;
 import com.grim3212.mc.pack.tools.items.ItemBreakingWand;
 import com.grim3212.mc.pack.tools.items.ItemMiningWand;
@@ -72,7 +73,7 @@ public class ToolsConfig extends GrimConfig {
 		powerstaff_pull_push_blocks = config.get(CONFIG_GENERAL_NAME, "Blocks allowed when restrict powerstaff is active", new String[] { "dirt" }).getStringList();
 		generateBlackDiamond = config.get(CONFIG_GENERAL_NAME, "Generate Black Diamond", true).getBoolean();
 		generateElement115 = config.get(CONFIG_GENERAL_NAME, "Generate Element 115", true).getBoolean();
-		
+
 		turnAroundItem = config.get(CONFIG_BOOMERANG_NAME, "Turn Around Items", false).getBoolean();
 		turnAroundMob = config.get(CONFIG_BOOMERANG_NAME, "Turn Around Mobs", false).getBoolean();
 		breaksTorches = config.get(CONFIG_BOOMERANG_NAME, "Breaks Torches", false).getBoolean();
@@ -102,9 +103,17 @@ public class ToolsConfig extends GrimConfig {
 	}
 
 	public void registerBlocksPossible(String[] string, ArrayList<Block> blocklist) {
+		// Clear to make sure we are not getting duplicates
+		blocklist.clear();
+
 		if (string.length > 0) {
 			for (String u : string) {
-				blocklist.add(Block.REGISTRY.getObject(new ResourceLocation(u)));
+				Block block = Block.REGISTRY.getObject(new ResourceLocation(u));
+				if (block != null) {
+					blocklist.add(block);
+				} else {
+					GrimLog.error(GrimTools.partName, "Can't find block with name: " + u);
+				}
 			}
 		}
 	}

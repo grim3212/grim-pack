@@ -51,7 +51,7 @@ public class WorldEntities implements IPartEntities {
 		}
 		Biome[] biomes = Iterables.toArray(compatibleBiomes, Biome.class);
 
-		GrimLog.info(GrimWorld.partName, "Biome array size " + biomes);
+		GrimLog.info(GrimWorld.partName, "Biome array size " + biomes.length);
 
 		// Ice pixie
 		if (WorldConfig.spawnIcePixies)
