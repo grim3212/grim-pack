@@ -8,21 +8,21 @@ import net.minecraft.nbt.NBTTagCompound;
 public class Specific {
 
 	private ItemStack stack = null;
-	private int playerId = -1;
+	private String playerName = "";
 	private String entityName = "";
 
 	public Specific() {
 	}
 
-	public void setSpecific(ItemStack stack) {
+	public void setItemStackSpecific(ItemStack stack) {
 		this.stack = stack;
 	}
 
-	public void setSpecific(int playerId) {
-		this.playerId = playerId;
+	public void setPlayerSpecific(String playerName) {
+		this.playerName = playerName;
 	}
 
-	public void setSpecific(String entityName) {
+	public void setEntitySpecific(String entityName) {
 		this.entityName = entityName;
 	}
 
@@ -30,8 +30,8 @@ public class Specific {
 		return stack;
 	}
 
-	public int getPlayerId() {
-		return playerId;
+	public String getPlayerName() {
+		return playerName;
 	}
 
 	public String getEntityName() {
@@ -46,8 +46,8 @@ public class Specific {
 			this.stack.writeToNBT(itemTag);
 			specificTag.setTag("Specific_Item", itemTag);
 		}
-		if (playerId != -1) {
-			specificTag.setInteger("Specific_Player", playerId);
+		if (!playerName.isEmpty()) {
+			specificTag.setString("Specific_Player", playerName);
 		}
 		if (!entityName.isEmpty()) {
 			specificTag.setString("Specific_Entity", entityName);
@@ -63,7 +63,7 @@ public class Specific {
 			this.stack = ItemStack.loadItemStackFromNBT(specificTag.getCompoundTag("Specific_Item"));
 		}
 		if (specificTag.hasKey("Specific_Player")) {
-			this.playerId = specificTag.getInteger("Specific_Player");
+			this.playerName = specificTag.getString("Specific_Player");
 		}
 		if (specificTag.hasKey("Specific_Entity")) {
 			this.entityName = specificTag.getString("Specific_Entity");
@@ -71,14 +71,22 @@ public class Specific {
 	}
 
 	public boolean hasSpecific(SensorMode specificity) {
-		if (stack != null) {
-			return specificity == SensorMode.ITEM;
-		}
-		if (playerId != -1) {
-			return specificity == SensorMode.PLAYER;
-		}
-		if (!entityName.isEmpty()) {
-			return specificity == SensorMode.MOB;
+		switch (specificity) {
+		case ITEM:
+			if (stack != null) {
+				return true;
+			}
+			break;
+		case MOB:
+			if (!entityName.isEmpty()) {
+				return true;
+			}
+			break;
+		case PLAYER:
+			if (!entityName.isEmpty()) {
+				return true;
+			}
+			break;
 		}
 
 		return false;

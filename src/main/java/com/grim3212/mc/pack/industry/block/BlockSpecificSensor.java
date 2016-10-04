@@ -84,6 +84,8 @@ public class BlockSpecificSensor extends BlockManual implements ITileEntityProvi
 
 	@Override
 	public int getWeakPower(IBlockState blockState, IBlockAccess blockAccess, BlockPos pos, EnumFacing side) {
+		if (blockState.getValue(ACTIVE))
+			return 15;
 		return 0;
 	}
 

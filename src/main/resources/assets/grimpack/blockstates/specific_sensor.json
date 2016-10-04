@@ -10,7 +10,7 @@
     "variants": {
 		"active": {
 			"false": {},
-			"true": { "textures": { "front": "grimpack:blocks/specific_sensor_on" } }
+			"true": { "textures": { "all": "grimpack:blocks/specific_sensor_on" } }
 		},
 		"inventory": [{}]
     }

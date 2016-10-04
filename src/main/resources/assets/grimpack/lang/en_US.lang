@@ -617,6 +617,12 @@ grimpack.industry.sensor.playerName=Player Name:
 grimpack.industry.sensor.x=X:
 grimpack.industry.sensor.y=Y:
 grimpack.industry.sensor.z=Z:
+grimpack.industry.sensor.selecting=Selecting Item:
+grimpack.industry.sensor.selected=Selected Item:
+grimpack.industry.sensor.noitem=No Item:
+grimpack.industry.sensor.mode=Mode:
+grimpack.industry.sensor.goodPos=Good Position
+grimpack.industry.sensor.badPos=Bad Position
 
 entity.IcePixie.name=Ice Pixie
 entity.Treasure.name=Treasure Mob

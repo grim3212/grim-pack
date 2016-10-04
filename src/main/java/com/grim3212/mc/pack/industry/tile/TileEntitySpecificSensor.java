@@ -1,5 +1,6 @@
 package com.grim3212.mc.pack.industry.tile;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -9,6 +10,7 @@ import com.grim3212.mc.pack.industry.util.Specific;
 
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
@@ -57,81 +59,118 @@ public class TileEntitySpecificSensor extends TileEntityLockable implements ITic
 
 		List<Entity> entities = this.getWorld().getEntitiesWithinAABB(Entity.class, new AxisAlignedBB(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F).offset(sensorPos));
 
-		for (Entity e : entities) {
-			IBlockState self = this.getWorld().getBlockState(pos);
-			if (self.getBlock() instanceof BlockSpecificSensor) {
-				if (this.specific.hasSpecific(mode)) {
-					if (mode == SensorMode.ITEM) {
-						if (e instanceof EntityItem) {
-							ItemStack stack = ((EntityItem) e).getEntityItem();
-							if (ItemStack.areItemStacksEqual(stack, this.specific.getStack())) {
-								if (!self.getValue(BlockSpecificSensor.ACTIVE)) {
-									this.getWorld().setBlockState(pos, self.withProperty(BlockSpecificSensor.ACTIVE, true));
-								}
-								break;
-							}
-						}
-					} else if (mode == SensorMode.MOB) {
+		IBlockState self = this.getWorld().getBlockState(pos);
 
-					} else if (mode == SensorMode.PLAYER) {
-
+		if (self.getBlock() instanceof BlockSpecificSensor) {
+			if (mode == SensorMode.ITEM) {
+				if (checkItems(entities)) {
+					if (!self.getValue(BlockSpecificSensor.ACTIVE)) {
+						this.getWorld().setBlockState(pos, self.withProperty(BlockSpecificSensor.ACTIVE, true));
 					}
-
+				} else {
 					if (self.getValue(BlockSpecificSensor.ACTIVE)) {
 						this.getWorld().setBlockState(pos, self.withProperty(BlockSpecificSensor.ACTIVE, false));
 					}
-
-				} else {
-					if (mode == SensorMode.ITEM) {
-						if (e instanceof EntityItem) {
-							if (!self.getValue(BlockSpecificSensor.ACTIVE)) {
-								this.getWorld().setBlockState(pos, self.withProperty(BlockSpecificSensor.ACTIVE, true));
-							}
-							break;
-						}
-					} else if (mode == SensorMode.MOB) {
-						if (e instanceof EntityLivingBase) {
-							if (!self.getValue(BlockSpecificSensor.ACTIVE)) {
-								this.getWorld().setBlockState(pos, self.withProperty(BlockSpecificSensor.ACTIVE, true));
-							}
-							break;
-						}
-					} else if (mode == SensorMode.PLAYER) {
-					//	if (this.containsInstance(entities, EntityPlayer.class)) {
-							if (!self.getValue(BlockSpecificSensor.ACTIVE)) {
-								this.getWorld().setBlockState(pos, self.withProperty(BlockSpecificSensor.ACTIVE, true));
-							}
-							break;
-					//	}
+				}
+			} else if (mode == SensorMode.MOB) {
+				if (checkMobs(entities)) {
+					if (!self.getValue(BlockSpecificSensor.ACTIVE)) {
+						this.getWorld().setBlockState(pos, self.withProperty(BlockSpecificSensor.ACTIVE, true));
 					}
-
-					// if (self.getValue(BlockSpecificSensor.ACTIVE)) {
-					// this.getWorld().setBlockState(pos,
-					// self.withProperty(BlockSpecificSensor.ACTIVE, false));
-					// }
+				} else {
+					if (self.getValue(BlockSpecificSensor.ACTIVE)) {
+						this.getWorld().setBlockState(pos, self.withProperty(BlockSpecificSensor.ACTIVE, false));
+					}
+				}
+			} else if (mode == SensorMode.PLAYER) {
+				if (checkPlayer(entities)) {
+					if (!self.getValue(BlockSpecificSensor.ACTIVE)) {
+						this.getWorld().setBlockState(pos, self.withProperty(BlockSpecificSensor.ACTIVE, true));
+					}
+				} else {
+					if (self.getValue(BlockSpecificSensor.ACTIVE)) {
+						this.getWorld().setBlockState(pos, self.withProperty(BlockSpecificSensor.ACTIVE, false));
+					}
 				}
 			}
 		}
-
 	}
 
-	// TODO: Probably remove this to replace with instanceof since it is faster
-	private boolean checkPlayer(List<Entity> list, boolean isSpecific) {
-		Iterator<?> itr = list.iterator();
+	private boolean checkPlayer(List<Entity> list) {
+		Iterator<Entity> itr = list.iterator();
+		List<EntityPlayer> compatibleEntities = new ArrayList<EntityPlayer>();
 
-		if (this.specific.hasSpecific(mode)) {
-			
-		} else {
-			while (itr.hasNext()) {
-				if (itr.next() instanceof EntityPlayer) {
-//					if (!self.getValue(BlockSpecificSensor.ACTIVE)) {
-//						this.getWorld().setBlockState(pos, self.withProperty(BlockSpecificSensor.ACTIVE, true));
-//					}
-					return true;
-				}
+		while (itr.hasNext()) {
+			Entity e = itr.next();
+			if (e instanceof EntityPlayer) {
+				compatibleEntities.add((EntityPlayer) e);
 			}
 		}
 
+		if (compatibleEntities.size() > 0) {
+			if (this.specific.hasSpecific(mode)) {
+				for (int i = 0; i < compatibleEntities.size(); i++) {
+					if (compatibleEntities.get(i).getGameProfile().getName() != null) {
+						if (compatibleEntities.get(i).getGameProfile().getName().equalsIgnoreCase(this.specific.getPlayerName())) {
+							return true;
+						}
+					}
+				}
+			} else {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	private boolean checkMobs(List<Entity> list) {
+		Iterator<Entity> itr = list.iterator();
+		List<EntityLivingBase> compatibleEntities = new ArrayList<EntityLivingBase>();
+
+		while (itr.hasNext()) {
+			Entity e = itr.next();
+			if (e instanceof EntityLivingBase) {
+				compatibleEntities.add((EntityLivingBase) e);
+			}
+		}
+
+		if (compatibleEntities.size() > 0) {
+			if (this.specific.hasSpecific(mode)) {
+				for (int i = 0; i < compatibleEntities.size(); i++) {
+					if (EntityList.isStringEntityName(compatibleEntities.get(i), this.specific.getEntityName())) {
+						return true;
+					}
+				}
+			} else {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	private boolean checkItems(List<Entity> list) {
+		Iterator<Entity> itr = list.iterator();
+		List<EntityItem> compatibleEntities = new ArrayList<EntityItem>();
+
+		while (itr.hasNext()) {
+			Entity e = itr.next();
+			if (e instanceof EntityItem) {
+				compatibleEntities.add((EntityItem) e);
+			}
+		}
+
+		if (compatibleEntities.size() > 0) {
+			if (this.specific.hasSpecific(mode)) {
+				for (int i = 0; i < compatibleEntities.size(); i++) {
+					ItemStack stack = compatibleEntities.get(i).getEntityItem();
+					if (ItemStack.areItemStacksEqual(stack, this.specific.getStack())) {
+						return true;
+					}
+				}
+			} else {
+				return true;
+			}
+		}
 		return false;
 	}
 

@@ -13,6 +13,7 @@ import com.grim3212.mc.pack.industry.network.MessageExtruderDirection;
 import com.grim3212.mc.pack.industry.network.MessageSaveFan;
 import com.grim3212.mc.pack.industry.network.MessageSensorChangeMode;
 import com.grim3212.mc.pack.industry.network.MessageSensorSetEntity;
+import com.grim3212.mc.pack.industry.network.MessageSensorSetItem;
 import com.grim3212.mc.pack.industry.network.MessageSensorSetPlayer;
 import com.grim3212.mc.pack.industry.network.MessageSensorSetPos;
 import com.grim3212.mc.pack.industry.tile.IndustryTileEntities;
@@ -54,6 +55,7 @@ public class GrimIndustry extends GrimPart {
 
 		PacketDispatcher.registerMessage(MessageSensorChangeMode.class);
 		PacketDispatcher.registerMessage(MessageSensorSetEntity.class);
+		PacketDispatcher.registerMessage(MessageSensorSetItem.class);
 		PacketDispatcher.registerMessage(MessageSensorSetPlayer.class);
 		PacketDispatcher.registerMessage(MessageSensorSetPos.class);
 

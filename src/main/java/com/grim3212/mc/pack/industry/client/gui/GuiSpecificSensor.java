@@ -8,15 +8,24 @@ import com.grim3212.mc.pack.GrimPack;
 import com.grim3212.mc.pack.core.network.PacketDispatcher;
 import com.grim3212.mc.pack.industry.inventory.ContainerSpecificSensor;
 import com.grim3212.mc.pack.industry.network.MessageSensorChangeMode;
+import com.grim3212.mc.pack.industry.network.MessageSensorSetEntity;
+import com.grim3212.mc.pack.industry.network.MessageSensorSetItem;
+import com.grim3212.mc.pack.industry.network.MessageSensorSetPlayer;
 import com.grim3212.mc.pack.industry.network.MessageSensorSetPos;
 import com.grim3212.mc.pack.industry.tile.TileEntitySpecificSensor;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.RenderHelper;
+import net.minecraft.client.renderer.RenderItem;
 import net.minecraft.client.resources.I18n;
+import net.minecraft.entity.EntityList;
 import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.inventory.Slot;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 
@@ -29,6 +38,8 @@ public class GuiSpecificSensor extends GuiContainer {
 	private GuiTextField playerName;
 	private TileEntitySpecificSensor te;
 	private static final ResourceLocation GUI_LOCATION = new ResourceLocation(GrimPack.modID, "textures/gui/specific_sensor.png");
+	private boolean selectingItem = false;
+	private RenderItem renderItem = Minecraft.getMinecraft().getRenderItem();
 
 	public GuiSpecificSensor(InventoryPlayer playerInv, TileEntitySpecificSensor te, BlockPos pos) {
 		super(new ContainerSpecificSensor(pos, playerInv));
@@ -60,7 +71,7 @@ public class GuiSpecificSensor extends GuiContainer {
 
 		playerName = new GuiTextField(1, fontRendererObj, x + 57, y + 93, 100, 15);
 		playerName.setFocused(false);
-		playerName.setText(String.valueOf(te.getSpecific().getPlayerId()));
+		playerName.setText(te.getSpecific().getPlayerName());
 
 		posX = new GuiTextField(2, fontRendererObj, x + 9 + 14, y + 113, 34, 15);
 		posX.setFocused(false);
@@ -83,6 +94,11 @@ public class GuiSpecificSensor extends GuiContainer {
 	protected void keyTyped(char typedChar, int keyCode) throws IOException {
 		if (entityName.isFocused()) {
 			entityName.textboxKeyTyped(typedChar, keyCode);
+			if (!EntityList.isStringValidEntityName(entityName.getText())) {
+				entityName.setTextColor(0xff0000);
+			} else {
+				entityName.setTextColor(0xffffff);
+			}
 		}
 		if (playerName.isFocused()) {
 			playerName.textboxKeyTyped(typedChar, keyCode);
@@ -102,12 +118,29 @@ public class GuiSpecificSensor extends GuiContainer {
 
 	@Override
 	protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
-		super.mouseClicked(mouseX, mouseY, mouseButton);
-		entityName.mouseClicked(mouseX, mouseY, mouseButton);
-		playerName.mouseClicked(mouseX, mouseY, mouseButton);
-		posX.mouseClicked(mouseX, mouseY, mouseButton);
-		posY.mouseClicked(mouseX, mouseY, mouseButton);
-		posZ.mouseClicked(mouseX, mouseY, mouseButton);
+		if (this.selectingItem) {
+			Slot slot = getSlotUnderMouse();
+			if (slot != null) {
+				ItemStack stack = slot.getStack();
+				te.getSpecific().setItemStackSpecific(stack);
+				PacketDispatcher.sendToServer(new MessageSensorSetItem(te.getPos(), stack));
+			} else {
+				super.mouseClicked(mouseX, mouseY, mouseButton);
+				entityName.mouseClicked(mouseX, mouseY, mouseButton);
+				playerName.mouseClicked(mouseX, mouseY, mouseButton);
+				posX.mouseClicked(mouseX, mouseY, mouseButton);
+				posY.mouseClicked(mouseX, mouseY, mouseButton);
+				posZ.mouseClicked(mouseX, mouseY, mouseButton);
+			}
+			this.selectingItem = false;
+		} else {
+			super.mouseClicked(mouseX, mouseY, mouseButton);
+			entityName.mouseClicked(mouseX, mouseY, mouseButton);
+			playerName.mouseClicked(mouseX, mouseY, mouseButton);
+			posX.mouseClicked(mouseX, mouseY, mouseButton);
+			posY.mouseClicked(mouseX, mouseY, mouseButton);
+			posZ.mouseClicked(mouseX, mouseY, mouseButton);
+		}
 	}
 
 	@Override
@@ -135,10 +168,15 @@ public class GuiSpecificSensor extends GuiContainer {
 			PacketDispatcher.sendToServer(new MessageSensorChangeMode(te.getPos(), te.getMode()));
 			break;
 		case 1:
+			this.selectingItem = !this.selectingItem;
 			break;
 		case 2:
+			te.getSpecific().setEntitySpecific(this.entityName.getText());
+			PacketDispatcher.sendToServer(new MessageSensorSetEntity(te.getPos(), this.entityName.getText()));
 			break;
 		case 3:
+			te.getSpecific().setPlayerSpecific(this.playerName.getText());
+			PacketDispatcher.sendToServer(new MessageSensorSetPlayer(te.getPos(), this.playerName.getText()));
 			break;
 		case 4:
 			BlockPos sensePos = new BlockPos(Integer.valueOf(this.posX.getText()), Integer.valueOf(this.posY.getText()), Integer.valueOf(this.posZ.getText()));
@@ -159,10 +197,25 @@ public class GuiSpecificSensor extends GuiContainer {
 		this.fontRendererObj.drawString(I18n.format("grimpack.industry.sensor.playerName"), 14, 138, 0xffffff);
 		GlStateManager.popMatrix();
 
-		this.fontRendererObj.drawString(te.isGoodPosition() ? I18n.format("grimpack.industry.sensor.goodPos") : I18n.format("grimpack.industry.sensor.badPos"), 11, 36, 0xffffff);
+		if (te.isGoodPosition()) {
+			this.fontRendererObj.drawString(I18n.format("grimpack.industry.sensor.goodPos"), 11, 36, 0x00ff00);
+		} else {
+			this.fontRendererObj.drawString(I18n.format("grimpack.industry.sensor.badPos"), 11, 36, 0xff0000);
+		}
+
+		this.fontRendererObj.drawString(I18n.format("grimpack.industry.sensor.mode"), 140, 36, 0xffffff);
 		this.fontRendererObj.drawString(I18n.format("grimpack.industry.sensor.x"), 11, 117, 0xffffff);
 		this.fontRendererObj.drawString(I18n.format("grimpack.industry.sensor.y"), 61, 117, 0xffffff);
 		this.fontRendererObj.drawString(I18n.format("grimpack.industry.sensor.z"), 111, 117, 0xffffff);
+
+		this.fontRendererObj.drawString(this.selectingItem ? I18n.format("grimpack.industry.sensor.selecting") : this.te.getSpecific().getStack() == null ? I18n.format("grimpack.industry.sensor.noitem") : I18n.format("grimpack.industry.sensor.selected"), 11, 56, 0xffffff);
+		GlStateManager.pushMatrix();
+		RenderHelper.enableGUIStandardItemLighting();
+		if (this.te.getSpecific().getStack() != null) {
+			this.renderItem.renderItemAndEffectIntoGUI(this.te.getSpecific().getStack(), xSize / 2 - 35, 52);
+		}
+		RenderHelper.disableStandardItemLighting();
+		GlStateManager.popMatrix();
 
 	}
 
