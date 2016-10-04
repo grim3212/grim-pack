@@ -5,13 +5,14 @@ import com.grim3212.mc.pack.core.manual.pages.Page;
 import com.grim3212.mc.pack.core.util.Utils;
 import com.grim3212.mc.pack.tools.client.ManualTools;
 import com.grim3212.mc.pack.tools.entity.EntitySlingpellet;
+import com.grim3212.mc.pack.tools.entity.EntityIronSlingpellet;
 import com.grim3212.mc.pack.tools.entity.EntityFireSlingpellet;
 import com.grim3212.mc.pack.tools.entity.EntityExplosiveSlingpellet;
 import com.grim3212.mc.pack.tools.entity.EntityLightSlingpellet;
 import com.grim3212.mc.pack.tools.entity.EntityNetherrackSlingpellet;
 import com.grim3212.mc.pack.tools.entity.EntitySlimeSlingpellet;
 import com.grim3212.mc.pack.tools.util.EnumSlingshotType;
-import com.grim3212.mc.pack.tools.util.EnumSpearType;
+import com.grim3212.mc.pack.tools.util.EnumSlingpelletType;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
@@ -52,11 +53,11 @@ public class ItemSlingshot extends ItemManual {
 				Utils.consumeInventoryItem(playerIn, ToolsItems.sling_pellet);
 				worldIn.playSound(playerIn, playerIn.getPosition(), SoundEvents.ENTITY_ARROW_SHOOT, SoundCategory.PLAYERS, 0.5F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
 				if (!worldIn.isRemote) {
-					EntitySlingpellet pellet = new EntitySlingpellet(worldIn, playerIn);
-					pellet.setHeadingFromThrower(playerIn, playerIn.rotationPitch, playerIn.rotationYaw, 0.0F, 1.5F, 1.8F);
+					EntitySlingpellet pellet = new EntitySlingpellet(worldIn, playerIn, EnumSlingpelletType.STONE);
+					pellet.setAim(playerIn, playerIn.rotationPitch, playerIn.rotationYaw, 0.0F, 1.5F, 1.8F);
 					worldIn.spawnEntityInWorld(pellet);
 				}
-			} //endplayerIn
+			}
 		} else if (type == EnumSlingshotType.IRON) {
 			if (!playerIn.capabilities.isCreativeMode && !playerIn.inventory.hasItemStack(new ItemStack(ToolsItems.iron_sling_pellet))) {
 				return ActionResult.newResult(EnumActionResult.SUCCESS, itemStackIn);
@@ -64,14 +65,24 @@ public class ItemSlingshot extends ItemManual {
 				Utils.consumeInventoryItem(playerIn, ToolsItems.iron_sling_pellet);
 				worldIn.playSound(playerIn, playerIn.getPosition(), SoundEvents.ENTITY_ARROW_SHOOT, SoundCategory.PLAYERS, 0.5F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
 				if (!worldIn.isRemote) {
-					EntitySlingpellet pellet = new EntitySlingpellet(worldIn, playerIn);
-					pellet.setHeadingFromThrower(playerIn, playerIn.rotationPitch, playerIn.rotationYaw, 0.0F, 1.5F, 1.8F);
+					EntitySlingpellet pellet = new EntitySlingpellet(worldIn, playerIn, EnumSlingpelletType.IRON);
+					pellet.setAim(playerIn, playerIn.rotationPitch, playerIn.rotationYaw, 0.0F, 1.5F, 1.8F);
 					worldIn.spawnEntityInWorld(pellet);
 				}
-			} //endplayerIn
+			}
 			
 		} else if (type == EnumSlingshotType.BLACK_DIAMOND) {
-			
+			if (!playerIn.capabilities.isCreativeMode && !playerIn.inventory.hasItemStack(new ItemStack(ToolsItems.netherrack_sling_pellet))) {
+				return ActionResult.newResult(EnumActionResult.SUCCESS, itemStackIn);
+			} else {
+				Utils.consumeInventoryItem(playerIn, ToolsItems.netherrack_sling_pellet);
+				worldIn.playSound(playerIn, playerIn.getPosition(), SoundEvents.ENTITY_ARROW_SHOOT, SoundCategory.PLAYERS, 0.5F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
+				if (!worldIn.isRemote) {
+					EntitySlingpellet pellet = new EntitySlingpellet(worldIn, playerIn, EnumSlingpelletType.NETHERRACK);
+					pellet.setAim(playerIn, playerIn.rotationPitch, playerIn.rotationYaw, 0.0F, 1.5F, 1.8F);
+					worldIn.spawnEntityInWorld(pellet);
+				}
+			}
 		}
 
 		return ActionResult.newResult(EnumActionResult.SUCCESS, itemStackIn);

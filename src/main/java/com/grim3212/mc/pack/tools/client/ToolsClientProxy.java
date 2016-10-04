@@ -161,7 +161,8 @@ public class ToolsClientProxy extends ClientProxy {
 		// ENTITYS
 		RenderingRegistry.registerEntityRenderingHandler(EntityBlockPushPull.class, new RenderBlockPushPullFactory());
 		RenderingRegistry.registerEntityRenderingHandler(EntityPokeball.class, new RenderThrowableFactory(ToolsItems.pokeball));
-		RenderingRegistry.registerEntityRenderingHandler(EntitySlingpellet.class, new RenderThrowableFactory(ToolsItems.sling_pellet));
+		//RenderingRegistry.registerEntityRenderingHandler(EntitySlingpellet.class, new RenderThrowableFactory(ToolsItems.sling_pellet));
+		RenderingRegistry.registerEntityRenderingHandler(EntitySlingpellet.class, new RenderProjectileFactory(new ResourceLocation(GrimPack.modID, "textures/entities/throwing_knife.png")));
 		RenderingRegistry.registerEntityRenderingHandler(EntityIronSlingpellet.class, new RenderThrowableFactory(ToolsItems.iron_sling_pellet));
 		RenderingRegistry.registerEntityRenderingHandler(EntityExplosiveSlingpellet.class, new RenderThrowableFactory(ToolsItems.explosive_sling_pellet));
 		RenderingRegistry.registerEntityRenderingHandler(EntityFireSlingpellet.class, new RenderThrowableFactory(ToolsItems.fire_sling_pellet));

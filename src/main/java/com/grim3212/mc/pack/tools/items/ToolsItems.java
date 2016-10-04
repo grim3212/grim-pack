@@ -355,6 +355,7 @@ public class ToolsItems implements IPartItems {
 	public static List<IRecipe> tools;
 	public static List<IRecipe> advCanisters;
 	public static List<IRecipe> basicCanisters;
+	public static List<IRecipe> slingshots;
 	public static List<IRecipe> pellets;
 	public static List<IRecipe> basics;
 	public static List<IRecipe> specials;
@@ -513,6 +514,8 @@ public class ToolsItems implements IPartItems {
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(sling_shot, 1), new Object[] { "#@#", " # ", " # ", '#', "stickWood", '@', Items.STRING }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(iron_sling_shot, 1), new Object[] { "#", "X", '#', "ingotIron", 'X', sling_shot }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(black_diamond_sling_shot, 1), new Object[] { "#", "X", '#', black_diamond, 'X', iron_sling_shot }));
+		slingshots = RecipeHelper.getLatestIRecipes(3);
+		
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(sling_pellet, 2), new Object[] { "#", '#', "dirt" }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(sling_pellet, 2), new Object[] { "#", '#', "cobblestone" }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(sling_pellet, 4), new Object[] { "#", '#', "stone" }));
@@ -522,7 +525,7 @@ public class ToolsItems implements IPartItems {
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(fire_sling_pellet, 2), new Object[] { "#", "X", '#', netherrack_sling_pellet, 'X', "gunpowder" }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(light_sling_pellet, 1), new Object[] { "#", "X", '#', sling_pellet, 'X', "torch" }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(slime_sling_pellet, 2), new Object[] { "#", "X", '#', netherrack_sling_pellet, 'X', "slimeball" }));
-		pellets = RecipeHelper.getLatestIRecipes(3);
+		pellets = RecipeHelper.getLatestIRecipes(9);
 
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(spear, 1), new Object[] { "#  ", " X ", "  X", '#', Items.FLINT, 'X', "stickWood" }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(spear, 1), new Object[] { "XX#", '#', Items.FLINT, 'X', "stickWood" }));
