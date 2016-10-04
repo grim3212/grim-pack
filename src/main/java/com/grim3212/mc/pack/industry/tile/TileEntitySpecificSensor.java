@@ -1,5 +1,6 @@
 package com.grim3212.mc.pack.industry.tile;
 
+import java.util.Iterator;
 import java.util.List;
 
 import com.grim3212.mc.pack.industry.block.BlockSpecificSensor;
@@ -58,7 +59,7 @@ public class TileEntitySpecificSensor extends TileEntityLockable implements ITic
 
 		for (Entity e : entities) {
 			IBlockState self = this.getWorld().getBlockState(pos);
-			if (self instanceof BlockSpecificSensor) {
+			if (self.getBlock() instanceof BlockSpecificSensor) {
 				if (this.specific.hasSpecific(mode)) {
 					if (mode == SensorMode.ITEM) {
 						if (e instanceof EntityItem) {
@@ -96,21 +97,42 @@ public class TileEntitySpecificSensor extends TileEntityLockable implements ITic
 							break;
 						}
 					} else if (mode == SensorMode.PLAYER) {
-						if (e instanceof EntityPlayer) {
+					//	if (this.containsInstance(entities, EntityPlayer.class)) {
 							if (!self.getValue(BlockSpecificSensor.ACTIVE)) {
 								this.getWorld().setBlockState(pos, self.withProperty(BlockSpecificSensor.ACTIVE, true));
 							}
 							break;
-						}
+					//	}
 					}
 
-					if (self.getValue(BlockSpecificSensor.ACTIVE)) {
-						this.getWorld().setBlockState(pos, self.withProperty(BlockSpecificSensor.ACTIVE, false));
-					}
+					// if (self.getValue(BlockSpecificSensor.ACTIVE)) {
+					// this.getWorld().setBlockState(pos,
+					// self.withProperty(BlockSpecificSensor.ACTIVE, false));
+					// }
 				}
 			}
 		}
 
+	}
+
+	// TODO: Probably remove this to replace with instanceof since it is faster
+	private boolean checkPlayer(List<Entity> list, boolean isSpecific) {
+		Iterator<?> itr = list.iterator();
+
+		if (this.specific.hasSpecific(mode)) {
+			
+		} else {
+			while (itr.hasNext()) {
+				if (itr.next() instanceof EntityPlayer) {
+//					if (!self.getValue(BlockSpecificSensor.ACTIVE)) {
+//						this.getWorld().setBlockState(pos, self.withProperty(BlockSpecificSensor.ACTIVE, true));
+//					}
+					return true;
+				}
+			}
+		}
+
+		return false;
 	}
 
 	@Override
