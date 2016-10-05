@@ -29,7 +29,15 @@ public class MachineRecipes {
 		// Modern furnace recipes
 		addRecipeForBlock(Blocks.GLASS, new ItemStack(IndustryBlocks.tempered_glass), 0.25f, MachineType.MODERN_FURNACE);
 		addRecipeForBlock(Blocks.CLAY, new ItemStack(IndustryBlocks.modern_tile), 0.25f, MachineType.MODERN_FURNACE);
-
+		
+		//Minecraft furnace transmutations
+		addRecipeForBlock(Blocks.BRICK_BLOCK, new ItemStack(Blocks.NETHERRACK), 0.25f, MachineType.MODERN_FURNACE);
+		addRecipeForBlock(Blocks.MYCELIUM, new ItemStack(Blocks.END_STONE), 0.25f, MachineType.MODERN_FURNACE);
+		addRecipeForBlock(Blocks.MOSSY_COBBLESTONE, new ItemStack(Blocks.PRISMARINE), 0.25f, MachineType.MODERN_FURNACE);
+		addRecipeForBlock(Blocks.STAINED_HARDENED_CLAY, new ItemStack(Blocks.SEA_LANTERN), 0.25f, MachineType.MODERN_FURNACE);
+		addRecipeForBlock(Blocks.CACTUS, new ItemStack(Blocks.MAGMA), 0.25f, MachineType.MODERN_FURNACE);
+		addRecipeForBlock(Blocks.RED_MUSHROOM_BLOCK, new ItemStack(Blocks.NETHER_WART_BLOCK), 0.25f, MachineType.MODERN_FURNACE);
+		
 		// Add vanilla furnace recipes to modern furnace
 		for (Entry<ItemStack, ItemStack> entry : FurnaceRecipes.instance().getSmeltingList().entrySet())
 			addModernFurnaceRecipe(entry.getKey(), entry.getValue(), FurnaceRecipes.instance().getSmeltingExperience(entry.getValue()));
@@ -43,6 +51,22 @@ public class MachineRecipes {
 		addRecipeForBlock(Blocks.LOG, new ItemStack(IndustryItems.rubber), 0.1f, MachineType.REFINERY);
 		addRecipeForBlock(Blocks.LOG2, new ItemStack(IndustryItems.rubber), 0.1f, MachineType.REFINERY);
 		addRecipeForBlock(Blocks.DIRT, new ItemStack(Items.CLAY_BALL), 0.25f, MachineType.REFINERY);
+		
+		//Refinery Transmutations
+		addRecipe(Items.ROTTEN_FLESH, new ItemStack(Items.LEATHER), 0.25f, MachineType.REFINERY);
+		addRecipe(Items.POISONOUS_POTATO, new ItemStack(Items.POTATO), 0.25f, MachineType.REFINERY);
+		addRecipe(Items.SPIDER_EYE, new ItemStack(Items.NETHER_WART), 0.25f, MachineType.REFINERY);
+		addRecipe(Items.PAPER, new ItemStack(Items.PAINTING), 0.25f, MachineType.REFINERY);
+		addRecipe(Items.EGG, new ItemStack(Items.FEATHER), 0.25f, MachineType.REFINERY);
+		addRecipe(Items.WATER_BUCKET, new ItemStack(Items.FISH), 0.25f, MachineType.REFINERY);
+		addRecipe(Items.LAVA_BUCKET, new ItemStack(Items.FIRE_CHARGE), 0.25f, MachineType.REFINERY);
+		addRecipe(Items.RABBIT_FOOT, new ItemStack(Items.NAME_TAG), 0.25f, MachineType.REFINERY);
+		addRecipe(Items.CARROT_ON_A_STICK, new ItemStack(Items.LEAD), 0.25f, MachineType.REFINERY);
+		addRecipe(Items.BED, new ItemStack(Items.SADDLE), 0.25f, MachineType.REFINERY);
+		addRecipe(Items.EMERALD, new ItemStack(Items.GHAST_TEAR), 0.25f, MachineType.REFINERY);
+		addRecipe(Items.GUNPOWDER, new ItemStack(Items.BLAZE_POWDER), 0.25f, MachineType.REFINERY);
+		addRecipeForBlock(Blocks.VINE, new ItemStack(Items.STRING), 0.25f, MachineType.REFINERY);
+		addRecipe(Items.ENDER_PEARL, new ItemStack(Items.ENDER_EYE), 0.25f, MachineType.REFINERY);
 	}
 
 	/**
