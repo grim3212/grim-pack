@@ -99,6 +99,7 @@ task uploadJSON (type: Exec) {
 
 // Builds the jar publishes it and pushes the update.json
 task deploy (type: Exec) {
+	 println 'Deployment Completed'
 }
 deploy.dependsOn 'curseforge'
 deploy.dependsOn 'uploadJSON'
