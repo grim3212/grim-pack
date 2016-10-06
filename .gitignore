@@ -24,3 +24,4 @@ run
 developmentMods
 secrets.properties
 WinSCP
+.DS_Store
