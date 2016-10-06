@@ -23,9 +23,6 @@ buildscript {
 apply plugin: 'net.minecraftforge.gradle.forge'
 apply plugin: 'com.matthewprenger.cursegradle'
 
-def Properties props = new Properties()
-props.load(new FileInputStream(new File('secrets.properties')))
-
 version = minecraft_version + "-" + mod_version
 group= mod_group
 archivesBaseName = mod_archives_base_name
@@ -76,6 +73,28 @@ processResources
     }
 }
 
+def Properties props = new Properties()
+if(new File('secrets.properties').isFile()){
+	props.load(new FileInputStream(new File('secrets.properties')))
+} else {
+	println 'Secrets not found'
+}
+
+curseforge {
+    apiKey = props.curseforge_apikey ? props.curseforge_apikey : ''
+    project {
+        id = props.grimpack_id ? props.grimpack_id : '0'
+		mainArtifact jar
+        releaseType = mod_release_type
+        changelogType = 'html'
+        changelog = file("changelog.html")
+        relations {
+            optionalLibrary 'just-enough-items-jei'
+			optionalLibrary 'just-enough-resources-jer'
+        }
+    }
+}
+
 // Used to automatically upload update.json
 task uploadJSON (type: Exec) {
 	workingDir '/WinSCP'
@@ -83,7 +102,7 @@ task uploadJSON (type: Exec) {
 }
 
 // Builds the jar publishes it and pushes the update.json
-task deploy (type: Exec) {
+task deploy {
 	 println 'Deployment Completed'
 }
 deploy.dependsOn 'curseforge'
