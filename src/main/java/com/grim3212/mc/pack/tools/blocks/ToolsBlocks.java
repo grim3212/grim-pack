@@ -11,9 +11,11 @@ import com.grim3212.mc.pack.tools.items.ToolsItems;
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 
 public class ToolsBlocks implements IPartItems {
@@ -37,6 +39,8 @@ public class ToolsBlocks implements IPartItems {
 
 	@Override
 	public void addRecipes() {
+		OreDictionary.registerOre("blockMetal", Blocks.IRON_BLOCK);
+
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(black_diamond_block, 1), new Object[] { "###", "###", "###", '#', ToolsItems.black_diamond }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ToolsItems.black_diamond, 9), new Object[] { "#", '#', black_diamond_block }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ToolsItems.black_diamond, 1), new Object[] { " X ", "X#X", " X ", 'X', "obsidian", '#', "gemDiamond" }));

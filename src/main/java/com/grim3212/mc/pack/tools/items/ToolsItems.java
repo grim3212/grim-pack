@@ -349,7 +349,6 @@ public class ToolsItems implements IPartItems {
 		OreDictionary.registerOre("bucketMilk", diamond_milk_bucket);
 		OreDictionary.registerOre("bucketMilk", obsidian_milk_bucket);
 		OreDictionary.registerOre("ingotMetal", Items.IRON_INGOT);
-		OreDictionary.registerOre("ingotMetal", Items.GOLD_INGOT);
 		OreDictionary.registerOre("rod", rod_part);
 		OreDictionary.registerOre("rodMetal", rod_part);
 		OreDictionary.registerOre("stickMetal", rod_part);

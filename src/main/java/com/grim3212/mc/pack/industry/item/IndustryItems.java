@@ -215,6 +215,7 @@ public class IndustryItems implements IPartItems {
 	public void addRecipes() {
 		OreDictionary.registerOre("rubber", rubber);
 		OreDictionary.registerOre("dustCoal", coal_dust);
+		OreDictionary.registerOre("ingotMetal", steel_ingot);
 		OreDictionary.registerOre("ingotSteel", steel_ingot);
 		OreDictionary.registerOre("ingotUranium", uranium_ingot);
 		OreDictionary.registerOre("ingotRefinedUranium", refined_uranium);
