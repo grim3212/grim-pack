@@ -47,6 +47,9 @@ public class IndustryConfig extends GrimConfig {
 	public static float speedModifierCoal;
 	public static float speedModifierRedstone;
 	public static float speedModifierMagmaCream;
+	
+	//Uranium Damage - add by SH
+	public static float uraniumDamage;
 
 	// Client Only Settings
 	public static boolean showFanParticles;
@@ -78,6 +81,7 @@ public class IndustryConfig extends GrimConfig {
 
 		registerWorkbenchList(workbenchList, IndustryConfig.workbenchUpgradeList);
 
+		uraniumDamage = config.get(CONFIG_GENERAL_NAME, "Damage from Uranium Ore", 4).getInt();
 		super.syncConfig();
 	}
 
