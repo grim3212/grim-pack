@@ -8,6 +8,8 @@ import com.grim3212.mc.pack.industry.item.IndustryItems;
 import mezz.jei.api.IJeiRuntime;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.IModRegistry;
+import mezz.jei.api.ISubtypeRegistry;
+import mezz.jei.api.ingredients.IModIngredientRegistration;
 import mezz.jei.api.recipe.VanillaRecipeCategoryUid;
 import net.minecraft.item.ItemStack;
 
@@ -30,5 +32,13 @@ public class JEIIndustry implements IModPlugin {
 
 	@Override
 	public void onRuntimeAvailable(@Nonnull IJeiRuntime jeiRuntime) {
+	}
+
+	@Override
+	public void registerItemSubtypes(ISubtypeRegistry subtypeRegistry) {
+	}
+
+	@Override
+	public void registerIngredients(IModIngredientRegistration registry) {
 	}
 }
