@@ -31,7 +31,10 @@ public class TileEntityColorizer extends TileEntity {
 	@Override
 	public NBTTagCompound writeToNBT(NBTTagCompound compound) {
 		super.writeToNBT(compound);
-		compound.setString("registryName", this.blockState.getBlock().getRegistryName().toString());
+		if (this.blockState.getBlock().getRegistryName() != null)
+			compound.setString("registryName", this.blockState.getBlock().getRegistryName().toString());
+		else
+			compound.setString("registryName", Blocks.AIR.getDefaultState().getBlock().getRegistryName().toString());
 		compound.setInteger("meta", this.blockState.getBlock().getMetaFromState(blockState));
 
 		return compound;
