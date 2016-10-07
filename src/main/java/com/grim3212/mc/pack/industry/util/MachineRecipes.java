@@ -62,8 +62,6 @@ public class MachineRecipes {
 		addRecipe(Items.LAVA_BUCKET, new ItemStack(Items.FIRE_CHARGE), 0.25f, MachineType.REFINERY);
 		addRecipe(Items.RABBIT_FOOT, new ItemStack(Items.NAME_TAG), 0.25f, MachineType.REFINERY);
 		addRecipe(Items.CARROT_ON_A_STICK, new ItemStack(Items.LEAD), 0.25f, MachineType.REFINERY);
-		//addRecipe(Items.BED, new ItemStack(Items.SADDLE), 0.25f, MachineType.REFINERY);
-		//addRecipe(Items.EMERALD, new ItemStack(Items.GHAST_TEAR), 0.25f, MachineType.REFINERY);
 		addRecipe(Items.GUNPOWDER, new ItemStack(Items.BLAZE_POWDER), 0.25f, MachineType.REFINERY);
 		addRecipeForBlock(Blocks.VINE, new ItemStack(Items.STRING), 0.25f, MachineType.REFINERY);
 		addRecipe(Items.ENDER_PEARL, new ItemStack(Items.ENDER_EYE), 0.25f, MachineType.REFINERY);
