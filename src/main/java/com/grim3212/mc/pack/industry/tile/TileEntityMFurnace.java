@@ -16,6 +16,7 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.network.NetworkManager;
@@ -50,6 +51,7 @@ public class TileEntityMFurnace extends TileEntityLockable implements ITickable,
 	private String furnaceCustomName;
 
 	public TileEntityMFurnace() {
+		TileEntityFurnace
 	}
 
 	/**
@@ -295,7 +297,7 @@ public class TileEntityMFurnace extends TileEntityLockable implements ITickable,
 		if (this.furnaceItemStacks[0] == null) {
 			return false;
 		} else {
-			ItemStack itemstack = MachineRecipes.INSTANCE.getResult(this.furnaceItemStacks[0], MachineType.MODERN_FURNACE);
+			ItemStack itemstack = checkItem();
 			if (itemstack == null)
 				return false;
 			if (this.furnaceItemStacks[2] == null)
@@ -307,13 +309,21 @@ public class TileEntityMFurnace extends TileEntityLockable implements ITickable,
 		}
 	}
 
+	private ItemStack checkItem() {
+		ItemStack itemstack = MachineRecipes.INSTANCE.getResult(this.furnaceItemStacks[0], MachineType.MODERN_FURNACE);
+		if (itemstack == null) {
+			itemstack = FurnaceRecipes.instance().getSmeltingResult(this.furnaceItemStacks[0]);
+		}
+		return itemstack;
+	}
+
 	/**
 	 * Turn one item from the furnace source stack into the appropriate smelted
 	 * item in the furnace result stack
 	 */
 	public void smeltItem() {
 		if (this.canSmelt()) {
-			ItemStack itemstack = MachineRecipes.INSTANCE.getResult(this.furnaceItemStacks[0], MachineType.MODERN_FURNACE);
+			ItemStack itemstack = checkItem();
 
 			if (this.furnaceItemStacks[2] == null) {
 				this.furnaceItemStacks[2] = itemstack.copy();

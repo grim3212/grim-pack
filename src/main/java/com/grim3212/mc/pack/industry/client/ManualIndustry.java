@@ -11,9 +11,9 @@ import com.grim3212.mc.pack.core.util.RecipeHelper;
 import com.grim3212.mc.pack.industry.block.IndustryBlocks;
 import com.grim3212.mc.pack.industry.client.pages.PageMachine;
 import com.grim3212.mc.pack.industry.item.IndustryItems;
+import com.grim3212.mc.pack.industry.util.MachineRecipes;
 import com.grim3212.mc.pack.industry.util.MachineRecipes.MachineType;
 
-import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 
@@ -157,11 +157,11 @@ public class ManualIndustry implements IManualPart {
 		fuel_page = new PageCrafting("fuel", IndustryItems.fuelstuff, 25);
 		machineInfo_page = new PageInfo("info");
 		refinery_page = new PageCrafting("refinery", new ItemStack(IndustryBlocks.refinery));
-		refineryRecipes_page = new PageMachine("refinery_recipes", new ItemStack[] { new ItemStack(IndustryItems.crude_oil), new ItemStack(IndustryItems.super_crude_oil), new ItemStack(Blocks.LOG), new ItemStack(Blocks.LOG2), new ItemStack(Blocks.DIRT) }, 35, MachineType.REFINERY);
+		refineryRecipes_page = new PageMachine("refinery_recipes", MachineRecipes.INSTANCE.getInputs(MachineType.REFINERY), 35, MachineType.REFINERY);
 		derrick_page = new PageCrafting("derrick", new ItemStack(IndustryBlocks.derrick));
 		derrickRecipes_page = new PageMachine("derrick_recipes", new ItemStack(IndustryItems.aluminum_can), MachineType.DERRICK);
 		modernFurnace_page = new PageCrafting("mfurnace", new ItemStack(IndustryBlocks.modern_furnace));
-		modernFurnaceRecipes_page = new PageMachine("mfurnace_recipes", new ItemStack[] { new ItemStack(Blocks.CLAY), new ItemStack(Blocks.GLASS) }, 35, MachineType.MODERN_FURNACE);
+		modernFurnaceRecipes_page = new PageMachine("mfurnace_recipes", MachineRecipes.INSTANCE.getInputs(MachineType.MODERN_FURNACE), 35, MachineType.MODERN_FURNACE);
 	}
 
 	@Override
