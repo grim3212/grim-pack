@@ -5,6 +5,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import com.grim3212.mc.pack.industry.block.BlockSpecificSensor;
+import com.grim3212.mc.pack.industry.block.IndustryBlocks;
 import com.grim3212.mc.pack.industry.inventory.ContainerSpecificSensor;
 import com.grim3212.mc.pack.industry.util.Specific;
 
@@ -26,8 +27,6 @@ import net.minecraft.util.ITickable;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class TileEntitySpecificSensor extends TileEntityLockable implements ITickable {
 
@@ -46,10 +45,10 @@ public class TileEntitySpecificSensor extends TileEntityLockable implements ITic
 	}
 
 	@Override
-	@SideOnly(Side.CLIENT)
-	public double getMaxRenderDistanceSquared() {
-		// TODO: Fix rendering
-		return 65536.0D;
+	public AxisAlignedBB getRenderBoundingBox() {
+		if (this.senseBox != null)
+			return super.getRenderBoundingBox().union(senseBox);
+		return super.getRenderBoundingBox();
 	}
 
 	@Override
@@ -63,7 +62,7 @@ public class TileEntitySpecificSensor extends TileEntityLockable implements ITic
 
 		// Make sure that the position is not occupied by a block entities can't
 		// enter. So full cubes or opaque cubes
-		if (state.isFullCube() || state.isOpaqueCube() || sensorPos.distanceSq(getPos()) > 80) {
+		if (state.isFullCube() || state.isOpaqueCube() || (this.getBlockType() == IndustryBlocks.specific_sensor ? sensorPos.distanceSq(getPos()) > 48 : sensorPos.distanceSq(getPos()) > 112)) {
 			goodPosition = false;
 			if (self.getValue(BlockSpecificSensor.ACTIVE)) {
 				this.getWorld().setBlockState(pos, self.withProperty(BlockSpecificSensor.ACTIVE, false));

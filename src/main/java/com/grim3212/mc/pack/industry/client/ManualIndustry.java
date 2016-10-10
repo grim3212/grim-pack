@@ -85,9 +85,19 @@ public class ManualIndustry implements IManualPart {
 	public static Page extruderInfo_page;
 	public static Page fan_page;
 	public static Page portableUpgrade_page;
+	public static Page specificSensor_page;
+	public static Page upgradedSpecificSensor_page;
+	public static Page positionFinder_page;
+	public static Page specificSensorInfo_page;
+	public static Page specificSensorInfo2_page;
 
 	@Override
 	public void initPages() {
+		specificSensorInfo_page = new PageInfo("specific_sensor_info");
+		specificSensorInfo2_page = new PageInfo("specific_sensor_info2");
+		positionFinder_page = new PageCrafting("position_finder", new ItemStack(IndustryItems.position_finder));
+		specificSensor_page = new PageCrafting("specific_sensor", new ItemStack(IndustryBlocks.specific_sensor));
+		upgradedSpecificSensor_page = new PageCrafting("upgraded_specific_sensor", new ItemStack(IndustryBlocks.upgraded_specific_sensor));
 		portableUpgrade_page = new PageCrafting("portable_upgrade", IndustryItems.portableUpgrades, 25);
 		fan_page = new PageCrafting("fan", new ItemStack(IndustryBlocks.fan));
 		extruder_page = new PageCrafting("extruder", new ItemStack(IndustryItems.extruder));
@@ -162,7 +172,7 @@ public class ManualIndustry implements IManualPart {
 		ManualRegistry.addChapter("spikes", part).addPages(spike_page);
 		ManualRegistry.addChapter("fan", part).addPages(fan_page);
 		ManualRegistry.addChapter("extruders", part).addPages(extruder_page, extruderInfo_page);
-		ManualRegistry.addChapter("sensors", part).addPages(sensor_page);
+		ManualRegistry.addChapter("sensors", part).addPages(sensor_page, positionFinder_page, specificSensorInfo_page, specificSensorInfo2_page, specificSensor_page, upgradedSpecificSensor_page);
 		ManualRegistry.addChapter("gravity", part).addPages(gravityBoots_page, controller_page, attract_page, gravitor_page, repulse_page);
 		ManualRegistry.addChapter("refining", part).addPages(uranium_page, radiationSuit_page, uraniumSmelt_page, refinedUranium_page, plutonium_page, refinedPlutonium_page, reactorCore_page);
 		ManualRegistry.addChapter("reactor", part).addPages(graphite_page, graphiteRod_page, reactorCase_page, ironParts_page, reactor_page);

@@ -69,7 +69,7 @@ public class RenderManualEntryEvent {
 					ScaledResolution scaled = new ScaledResolution(mc);
 					GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 					mc.renderEngine.bindTexture(ICONS_LOCATION);
-					Gui.drawScaledCustomSizeModalRect((scaled.getScaledWidth() / 2) + 8, (scaled.getScaledHeight() / 2) - 4, 0, 0, 16, 16, 16, 16, 128, 128);
+					Gui.drawScaledCustomSizeModalRect((scaled.getScaledWidth() / 2) + 8, (scaled.getScaledHeight() / 2) - 4, 0, 0, 8, 8, 8, 8, 128, 128);
 				}
 			}
 		}

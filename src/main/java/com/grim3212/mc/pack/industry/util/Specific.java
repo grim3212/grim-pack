@@ -83,7 +83,7 @@ public class Specific {
 			}
 			break;
 		case PLAYER:
-			if (!entityName.isEmpty()) {
+			if (!playerName.isEmpty()) {
 				return true;
 			}
 			break;

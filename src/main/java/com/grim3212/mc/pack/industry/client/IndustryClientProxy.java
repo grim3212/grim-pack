@@ -53,6 +53,7 @@ public class IndustryClientProxy extends IndustryCommonProxy {
 		ModelLoader.setCustomStateMapper(IndustryBlocks.vertical_siding, new StateMap.Builder().ignore(BlockSiding.COLOR).build());
 
 		// ITEMS
+		RenderHelper.renderItem(IndustryItems.position_finder);
 		RenderHelper.renderItem(IndustryItems.portable_iron_workbench);
 		RenderHelper.renderItem(IndustryItems.portable_diamond_workbench);
 		RenderHelper.renderItem(IndustryItems.extruder);
@@ -106,6 +107,7 @@ public class IndustryClientProxy extends IndustryCommonProxy {
 		RenderHelper.renderItem(IndustryItems.steel_sword);
 
 		// BLOCKS
+		RenderHelper.renderBlock(IndustryBlocks.upgraded_specific_sensor);
 		RenderHelper.renderBlock(IndustryBlocks.specific_sensor);
 		RenderHelper.renderBlock(IndustryBlocks.fan);
 		RenderHelper.renderBlock(IndustryBlocks.togglerack);

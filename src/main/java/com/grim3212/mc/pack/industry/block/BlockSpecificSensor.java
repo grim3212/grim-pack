@@ -4,6 +4,7 @@ import com.grim3212.mc.pack.GrimPack;
 import com.grim3212.mc.pack.core.block.BlockManual;
 import com.grim3212.mc.pack.core.client.gui.PackGuiHandler;
 import com.grim3212.mc.pack.core.manual.pages.Page;
+import com.grim3212.mc.pack.industry.client.ManualIndustry;
 import com.grim3212.mc.pack.industry.item.IndustryItems;
 import com.grim3212.mc.pack.industry.item.ItemPositionFinder;
 import com.grim3212.mc.pack.industry.tile.TileEntitySpecificSensor;
@@ -37,9 +38,6 @@ public class BlockSpecificSensor extends BlockManual implements ITileEntityProvi
 
 	@Override
 	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ) {
-		if (worldIn.isRemote)
-			return true;
-
 		TileEntity te = worldIn.getTileEntity(pos);
 		if (te instanceof TileEntitySpecificSensor) {
 			TileEntitySpecificSensor teSpecific = (TileEntitySpecificSensor) te;
@@ -78,7 +76,10 @@ public class BlockSpecificSensor extends BlockManual implements ITileEntityProvi
 
 	@Override
 	public Page getPage(IBlockState state) {
-		return null;
+		if (this == IndustryBlocks.specific_sensor)
+			return ManualIndustry.specificSensor_page;
+		else
+			return ManualIndustry.upgradedSpecificSensor_page;
 	}
 
 	@Override

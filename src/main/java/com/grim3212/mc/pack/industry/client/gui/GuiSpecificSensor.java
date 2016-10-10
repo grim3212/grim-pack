@@ -8,6 +8,7 @@ import com.grim3212.mc.pack.GrimPack;
 import com.grim3212.mc.pack.core.client.TooltipHelper;
 import com.grim3212.mc.pack.core.client.gui.GuiButtonIcon;
 import com.grim3212.mc.pack.core.network.PacketDispatcher;
+import com.grim3212.mc.pack.industry.block.IndustryBlocks;
 import com.grim3212.mc.pack.industry.inventory.ContainerSpecificSensor;
 import com.grim3212.mc.pack.industry.item.IndustryItems;
 import com.grim3212.mc.pack.industry.item.ItemPositionFinder;
@@ -89,7 +90,10 @@ public class GuiSpecificSensor extends GuiContainer {
 		buttonList.add(setPlayer = new GuiButton(3, x + 171, y + 90, 75, 20, I18n.format("grimpack.industry.sensor.setPlayer")));
 		buttonList.add(setPos = new GuiButton(4, x + 171, y + 110, 75, 20, I18n.format("grimpack.industry.sensor.setPos")));
 		buttonList.add(sensorRender = new GuiButtonSensorRender(5, x + 205, y + 10, te.renderSensorPos()));
-		buttonList.add(moreOptions = new GuiButtonIcon(6, x + 225, y + 10, 48, 0, I18n.format("grimpack.industry.sensor.moreOptions")));
+		buttonList.add(moreOptions = new GuiButtonIcon(6, x + 225, y + 10, 48, 0, this.te.getBlockType() == IndustryBlocks.specific_sensor ? I18n.format("grimpack.industry.sensor.upgradeOptions") : I18n.format("grimpack.industry.sensor.moreOptions")));
+		if (this.te.getBlockType() == IndustryBlocks.specific_sensor) {
+			this.moreOptions.enabled = false;
+		}
 		buttonList.add(setSize = new GuiButton(7, x + 171, y + 70, 75, 20, I18n.format("grimpack.industry.sensor.setSize")));
 		this.setSize.visible = false;
 		this.setSize.enabled = false;

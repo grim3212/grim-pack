@@ -80,6 +80,7 @@ public class IndustryBlocks implements IPartItems {
 	public static Block fuel_tank;
 	public static Block fan;
 	public static Block specific_sensor;
+	public static Block upgraded_specific_sensor;
 
 	@Override
 	public void initItems() {
@@ -138,7 +139,9 @@ public class IndustryBlocks implements IPartItems {
 		fuel_tank = (new BlockFuel()).setHardness(1.0F).setResistance(5.0F).setUnlocalizedName("fuel_tank").setCreativeTab(GrimIndustry.INSTANCE.getCreativeTab());
 		fan = (new BlockFan()).setHardness(1.5F).setResistance(10F).setUnlocalizedName("fan").setCreativeTab(GrimIndustry.INSTANCE.getCreativeTab());
 		specific_sensor = (new BlockSpecificSensor()).setHardness(1.5F).setResistance(10F).setUnlocalizedName("specific_sensor").setCreativeTab(GrimIndustry.INSTANCE.getCreativeTab());
+		upgraded_specific_sensor = (new BlockSpecificSensor()).setHardness(3.0F).setResistance(12F).setUnlocalizedName("upgraded_specific_sensor").setCreativeTab(GrimIndustry.INSTANCE.getCreativeTab());
 
+		Utils.registerBlock(upgraded_specific_sensor, "upgraded_specific_sensor");
 		Utils.registerBlock(specific_sensor, "specific_sensor");
 		Utils.registerBlock(fan, "fan");
 		Utils.registerBlock(aluminum_ladder, "aluminum_ladder");
@@ -219,6 +222,8 @@ public class IndustryBlocks implements IPartItems {
 		GameRegistry.addSmelting(aluminum_ore, new ItemStack(IndustryItems.aluminum_ingot, 1), 0.45F);
 		GameRegistry.addSmelting(uranium_ore, new ItemStack(IndustryItems.uranium_ingot), 0.7F);
 
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(specific_sensor, 1), new Object[] { " Z ", "XYX", " Z ", 'X', Blocks.REDSTONE_LAMP, 'Y', IndustryItems.position_finder, 'Z', "blockRedstone" }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(upgraded_specific_sensor, 1), new Object[] { "XXX", "XYX", "XXX", 'X', "ingotGold", 'Y', specific_sensor }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(fan, 1), new Object[] { "X X", "XYX", "XXX", 'X', "plankWood", 'Y', "dustRedstone" }));
 
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(refinery, 1), new Object[] { "sss", "ara", "sss", 's', "ingotSteel", 'r', "dustRedstone", 'a', IndustryItems.aluminum_can }));

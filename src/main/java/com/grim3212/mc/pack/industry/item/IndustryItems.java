@@ -147,7 +147,7 @@ public class IndustryItems implements IPartItems {
 		portable_diamond_workbench = (new ItemUpgradedPortableWorkbench(PackGuiHandler.PORTABLE_DIAMOND_MAIN_GUI_ID, PackGuiHandler.PORTABLE_DIAMOND_OFF_GUI_ID)).setUnlocalizedName("portable_diamond_workbench").setCreativeTab(GrimIndustry.INSTANCE.getCreativeTab());
 		portable_iron_workbench = (new ItemUpgradedPortableWorkbench(PackGuiHandler.PORTABLE_IRON_MAIN_GUI_ID, PackGuiHandler.PORTABLE_IRON_OFF_GUI_ID)).setUnlocalizedName("portable_iron_workbench").setCreativeTab(GrimIndustry.INSTANCE.getCreativeTab());
 		position_finder = (new ItemPositionFinder().setUnlocalizedName("position_finder").setCreativeTab(GrimIndustry.INSTANCE.getCreativeTab()));
-		
+
 		Utils.registerItem(position_finder, "position_finder");
 		Utils.registerItem(portable_diamond_workbench, "portable_diamond_workbench");
 		Utils.registerItem(portable_iron_workbench, "portable_iron_workbench");
@@ -232,6 +232,9 @@ public class IndustryItems implements IPartItems {
 		GameRegistry.addSmelting(tarball, new ItemStack(asphalt, 1), 0.35F);
 		GameRegistry.addSmelting(Items.FLINT, new ItemStack(graphite), 0.35F);
 		GameRegistry.addSmelting(coal_iron_ingot, new ItemStack(steel_ingot, 1), 0.5F);
+
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(position_finder, 1), new Object[] { "IWI", " M ", 'W', Items.COMPASS, 'I', "ingotIron", 'M', Items.MAP }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(position_finder, 1), new Object[] { "IWI", " M ", 'W', Items.COMPASS, 'I', "ingotIron", 'M', Items.FILLED_MAP }));
 
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(portable_diamond_workbench, 1), new Object[] { "IDI", "DWD", "IDI", 'W', IndustryBlocks.diamond_workbench, 'I', "ingotIron", 'D', "gemDiamond" }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(portable_iron_workbench, 1), new Object[] { "III", "IWI", "III", 'W', IndustryBlocks.iron_workbench, 'I', "ingotIron" }));

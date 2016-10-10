@@ -4,9 +4,12 @@ import java.util.List;
 
 import javax.annotation.Nullable;
 
+import com.grim3212.mc.pack.core.item.ItemManual;
+import com.grim3212.mc.pack.core.manual.pages.Page;
+import com.grim3212.mc.pack.industry.client.ManualIndustry;
+
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumActionResult;
@@ -17,7 +20,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class ItemPositionFinder extends Item {
+public class ItemPositionFinder extends ItemManual {
 
 	public ItemPositionFinder() {
 	}
@@ -57,6 +60,11 @@ public class ItemPositionFinder extends Item {
 		stack.setTagCompound(coords);
 
 		return EnumActionResult.SUCCESS;
+	}
+
+	@Override
+	public Page getPage(ItemStack stack) {
+		return ManualIndustry.positionFinder_page;
 	}
 
 }
