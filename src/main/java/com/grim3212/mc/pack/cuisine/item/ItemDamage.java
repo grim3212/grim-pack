@@ -20,8 +20,7 @@ public class ItemDamage extends ItemManual {
 
 	@Override
 	public ItemStack getContainerItem(ItemStack itemStack) {
-		itemStack.setItemDamage(itemStack.getItemDamage() + 1);
-		return itemStack;
+		return new ItemStack(itemStack.getItem(), 1, itemStack.getItemDamage() + 1);
 	}
 
 	@Override
