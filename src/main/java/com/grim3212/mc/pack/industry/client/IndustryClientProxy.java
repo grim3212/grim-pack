@@ -10,10 +10,12 @@ import com.grim3212.mc.pack.industry.client.entity.RenderExtruder.ExtruderFactor
 import com.grim3212.mc.pack.industry.client.event.TextureStitch;
 import com.grim3212.mc.pack.industry.client.model.CamoPlateModel.CamoPlateModelLoader;
 import com.grim3212.mc.pack.industry.client.particle.ParticleAir;
+import com.grim3212.mc.pack.industry.client.tile.TileEntitySpecificSensorRenderer;
 import com.grim3212.mc.pack.industry.entity.EntityExtruder;
 import com.grim3212.mc.pack.industry.item.IndustryItems;
 import com.grim3212.mc.pack.industry.tile.TileEntityCamo;
 import com.grim3212.mc.pack.industry.tile.TileEntityFan;
+import com.grim3212.mc.pack.industry.tile.TileEntitySpecificSensor;
 
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
@@ -26,6 +28,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.client.model.ModelLoaderRegistry;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 
 public class IndustryClientProxy extends IndustryCommonProxy {
@@ -158,6 +161,9 @@ public class IndustryClientProxy extends IndustryCommonProxy {
 		RenderHelper.renderBlock(IndustryBlocks.refinery);
 		RenderHelper.renderBlock(IndustryBlocks.modern_furnace);
 		RenderHelper.renderBlock(IndustryBlocks.camo_plate);
+
+		// TileEntities
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntitySpecificSensor.class, new TileEntitySpecificSensorRenderer());
 
 		// Entities
 		RenderingRegistry.registerEntityRenderingHandler(EntityExtruder.class, new ExtruderFactory());

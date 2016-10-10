@@ -26,6 +26,8 @@ import net.minecraft.util.ITickable;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class TileEntitySpecificSensor extends TileEntityLockable implements ITickable {
 
@@ -34,32 +36,44 @@ public class TileEntitySpecificSensor extends TileEntityLockable implements ITic
 	private Specific specific;
 	private String customName;
 	private boolean goodPosition = false;
+	private boolean renderSensorPos;
+	private AxisAlignedBB senseBox;
 
 	public TileEntitySpecificSensor() {
 		this.mode = SensorMode.PLAYER;
 		this.specific = new Specific();
+		this.senseBox = new AxisAlignedBB(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public double getMaxRenderDistanceSquared() {
+		// TODO: Fix rendering
+		return 65536.0D;
 	}
 
 	@Override
 	public void update() {
 		// Check to make sure we are not checking a pos that is already taken
-		if (sensorPos == null || sensorPos == this.getPos())
+		if (sensorPos == null)
 			return;
 
 		IBlockState state = this.getWorld().getBlockState(sensorPos);
+		IBlockState self = this.getWorld().getBlockState(pos);
 
 		// Make sure that the position is not occupied by a block entities can't
 		// enter. So full cubes or opaque cubes
-		if (state.isFullCube() || state.isOpaqueCube()) {
+		if (state.isFullCube() || state.isOpaqueCube() || sensorPos.distanceSq(getPos()) > 80) {
 			goodPosition = false;
+			if (self.getValue(BlockSpecificSensor.ACTIVE)) {
+				this.getWorld().setBlockState(pos, self.withProperty(BlockSpecificSensor.ACTIVE, false));
+			}
 			return;
 		} else {
 			goodPosition = true;
 		}
 
-		List<Entity> entities = this.getWorld().getEntitiesWithinAABB(Entity.class, new AxisAlignedBB(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F).offset(sensorPos));
-
-		IBlockState self = this.getWorld().getBlockState(pos);
+		List<Entity> entities = this.getWorld().getEntitiesWithinAABB(Entity.class, this.senseBox.offset(sensorPos));
 
 		if (self.getBlock() instanceof BlockSpecificSensor) {
 			if (mode == SensorMode.ITEM) {
@@ -180,12 +194,16 @@ public class TileEntitySpecificSensor extends TileEntityLockable implements ITic
 
 		sensorPos = new BlockPos(compound.getInteger("SensorPosX"), compound.getInteger("SensorPosY"), compound.getInteger("SensorPosZ"));
 		mode = SensorMode.valueOf(compound.getString("Mode"));
+		renderSensorPos = compound.getBoolean("RenderPos");
 
 		specific.readFromNBT(compound);
 
 		if (compound.hasKey("CustomName", 8)) {
 			this.customName = compound.getString("CustomName");
 		}
+
+		NBTTagCompound boundingBox = compound.getCompoundTag("SenseBox");
+		this.senseBox = new AxisAlignedBB(boundingBox.getDouble("MinX"), boundingBox.getDouble("MinY"), boundingBox.getDouble("MinZ"), boundingBox.getDouble("MaxX"), boundingBox.getDouble("MaxY"), boundingBox.getDouble("MaxZ"));
 	}
 
 	@Override
@@ -202,6 +220,7 @@ public class TileEntitySpecificSensor extends TileEntityLockable implements ITic
 			compound.setInteger("SensorPosZ", sensorPos.getZ());
 		}
 		compound.setString("Mode", mode.name());
+		compound.setBoolean("RenderPos", renderSensorPos);
 
 		specific.writeToNBT(compound);
 
@@ -209,7 +228,32 @@ public class TileEntitySpecificSensor extends TileEntityLockable implements ITic
 			compound.setString("CustomName", this.customName);
 		}
 
+		NBTTagCompound boundingBox = new NBTTagCompound();
+		boundingBox.setDouble("MinX", this.senseBox.minX);
+		boundingBox.setDouble("MinY", this.senseBox.minY);
+		boundingBox.setDouble("MinZ", this.senseBox.minZ);
+		boundingBox.setDouble("MaxX", this.senseBox.maxX);
+		boundingBox.setDouble("MaxY", this.senseBox.maxY);
+		boundingBox.setDouble("MaxZ", this.senseBox.maxZ);
+		compound.setTag("SenseBox", boundingBox);
+
 		return compound;
+	}
+
+	public AxisAlignedBB getSenseBox() {
+		return senseBox;
+	}
+
+	public void setSenseBox(AxisAlignedBB senseBox) {
+		this.senseBox = senseBox;
+	}
+
+	public boolean renderSensorPos() {
+		return renderSensorPos;
+	}
+
+	public void setRenderSensorPos(boolean renderSensorPos) {
+		this.renderSensorPos = renderSensorPos;
 	}
 
 	public boolean isGoodPosition() {

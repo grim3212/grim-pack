@@ -41,6 +41,68 @@ public class TooltipHelper {
 		drawHoveringText(list, x, y, (font == null ? mc.fontRendererObj : font));
 	}
 
+	public static void drawHoveringText(String string, int x, int y, int width, FontRenderer font) {
+		if (!string.isEmpty()) {
+			GL11.glDisable(GL12.GL_RESCALE_NORMAL);
+			RenderHelper.disableStandardItemLighting();
+			GL11.glDisable(GL11.GL_LIGHTING);
+			GL11.glDisable(GL11.GL_DEPTH_TEST);
+			int k = 0;
+
+			List<String> list = font.listFormattedStringToWidth(string, width);
+
+			Iterator<String> iterator = list.iterator();
+
+			while (iterator.hasNext()) {
+				String s = (String) iterator.next();
+				int l = font.getStringWidth(s);
+
+				if (l > k) {
+					k = l;
+				}
+			}
+
+			int j2 = x + 12;
+			int k2 = y - 12;
+			int i1 = 8;
+
+			if (list.size() > 1) {
+				i1 += 2 + (list.size() - 1) * 10;
+			}
+
+			float zLevel = 300.0F;
+			int j1 = -267386864;
+			drawGradientRect(j2 - 3, k2 - 4, j2 + k + 3, k2 - 3, j1, j1, zLevel);
+			drawGradientRect(j2 - 3, k2 + i1 + 3, j2 + k + 3, k2 + i1 + 4, j1, j1, zLevel);
+			drawGradientRect(j2 - 3, k2 - 3, j2 + k + 3, k2 + i1 + 3, j1, j1, zLevel);
+			drawGradientRect(j2 - 4, k2 - 3, j2 - 3, k2 + i1 + 3, j1, j1, zLevel);
+			drawGradientRect(j2 + k + 3, k2 - 3, j2 + k + 4, k2 + i1 + 3, j1, j1, zLevel);
+			int k1 = 1347420415;
+			int l1 = (k1 & 16711422) >> 1 | k1 & -16777216;
+			drawGradientRect(j2 - 3, k2 - 3 + 1, j2 - 3 + 1, k2 + i1 + 3 - 1, k1, l1, zLevel);
+			drawGradientRect(j2 + k + 2, k2 - 3 + 1, j2 + k + 3, k2 + i1 + 3 - 1, k1, l1, zLevel);
+			drawGradientRect(j2 - 3, k2 - 3, j2 + k + 3, k2 - 3 + 1, k1, k1, zLevel);
+			drawGradientRect(j2 - 3, k2 + i1 + 2, j2 + k + 3, k2 + i1 + 3, l1, l1, zLevel);
+
+			for (int i2 = 0; i2 < list.size(); ++i2) {
+				String s1 = (String) list.get(i2);
+				font.drawStringWithShadow(s1, j2, k2, -1);
+
+				if (i2 == 0) {
+					k2 += 2;
+				}
+
+				k2 += 10;
+			}
+
+			zLevel = 0.0F;
+			GL11.glEnable(GL11.GL_LIGHTING);
+			GL11.glEnable(GL11.GL_DEPTH_TEST);
+			RenderHelper.enableStandardItemLighting();
+			GL11.glEnable(GL12.GL_RESCALE_NORMAL);
+		}
+	}
+
 	public static void drawHoveringText(List<String> list, int x, int y, FontRenderer font) {
 		if (!list.isEmpty()) {
 			GL11.glDisable(GL12.GL_RESCALE_NORMAL);

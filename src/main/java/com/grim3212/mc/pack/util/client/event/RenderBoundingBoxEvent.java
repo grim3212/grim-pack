@@ -38,11 +38,10 @@ public class RenderBoundingBoxEvent {
 					GlStateManager.pushAttrib();
 
 					GlStateManager.enableBlend();
-					GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
-					GlStateManager.glLineWidth(2F);
-					GlStateManager.disableTexture2D();
-					GlStateManager.depthMask(false);
-					GlStateManager.disableDepth();
+		            GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
+		            GlStateManager.glLineWidth(2.0F);
+		            GlStateManager.disableTexture2D();
+		            GlStateManager.depthMask(false);
 
 					BlockPos blockpos = event.getTarget().getBlockPos();
 					IBlockState iblockstate = world.getBlockState(blockpos);
@@ -61,10 +60,9 @@ public class RenderBoundingBoxEvent {
 							drawSelectionBoundingBox(collisionBoxes.get(i).expandXyz(0.0020000000949949026D).offset(-d0, -d1, -d2), 0.0F, 0.0F, 0.2F, 0.4F);
 					}
 
-					GlStateManager.enableDepth();
 					GlStateManager.depthMask(true);
-					GlStateManager.enableTexture2D();
-					GlStateManager.disableBlend();
+		            GlStateManager.enableTexture2D();
+		            GlStateManager.disableBlend();
 
 					GlStateManager.popAttrib();
 					GlStateManager.popMatrix();
@@ -73,7 +71,7 @@ public class RenderBoundingBoxEvent {
 		}
 	}
 
-	private static void drawSelectionBoundingBox(AxisAlignedBB box, float red, float green, float blue, float alpha) {
+	public static void drawSelectionBoundingBox(AxisAlignedBB box, float red, float green, float blue, float alpha) {
 		drawBoundingBox(box.minX, box.minY, box.minZ, box.maxX, box.maxY, box.maxZ, red, green, blue, alpha);
 	}
 

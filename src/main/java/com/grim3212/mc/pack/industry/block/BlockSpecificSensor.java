@@ -4,6 +4,8 @@ import com.grim3212.mc.pack.GrimPack;
 import com.grim3212.mc.pack.core.block.BlockManual;
 import com.grim3212.mc.pack.core.client.gui.PackGuiHandler;
 import com.grim3212.mc.pack.core.manual.pages.Page;
+import com.grim3212.mc.pack.industry.item.IndustryItems;
+import com.grim3212.mc.pack.industry.item.ItemPositionFinder;
 import com.grim3212.mc.pack.industry.tile.TileEntitySpecificSensor;
 
 import net.minecraft.block.ITileEntityProvider;
@@ -40,7 +42,19 @@ public class BlockSpecificSensor extends BlockManual implements ITileEntityProvi
 
 		TileEntity te = worldIn.getTileEntity(pos);
 		if (te instanceof TileEntitySpecificSensor) {
+			TileEntitySpecificSensor teSpecific = (TileEntitySpecificSensor) te;
+
+			if (heldItem != null) {
+				if (heldItem.getItem() == IndustryItems.position_finder) {
+					BlockPos coords = ((ItemPositionFinder) heldItem.getItem()).getCoords(heldItem);
+					if (coords != null) {
+						teSpecific.setSensorPos(coords);
+						return true;
+					}
+				}
+			}
 			playerIn.openGui(GrimPack.INSTANCE, PackGuiHandler.SPECIFIC_SENSOR_GUI_ID, worldIn, pos.getX(), pos.getY(), pos.getZ());
+			return true;
 		}
 
 		return true;

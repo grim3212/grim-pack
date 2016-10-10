@@ -12,10 +12,12 @@ import com.grim3212.mc.pack.industry.item.IndustryItems;
 import com.grim3212.mc.pack.industry.network.MessageExtruderDirection;
 import com.grim3212.mc.pack.industry.network.MessageSaveFan;
 import com.grim3212.mc.pack.industry.network.MessageSensorChangeMode;
+import com.grim3212.mc.pack.industry.network.MessageSensorSetBox;
 import com.grim3212.mc.pack.industry.network.MessageSensorSetEntity;
 import com.grim3212.mc.pack.industry.network.MessageSensorSetItem;
 import com.grim3212.mc.pack.industry.network.MessageSensorSetPlayer;
 import com.grim3212.mc.pack.industry.network.MessageSensorSetPos;
+import com.grim3212.mc.pack.industry.network.MessageSensorSetRender;
 import com.grim3212.mc.pack.industry.tile.IndustryTileEntities;
 import com.grim3212.mc.pack.industry.world.IndustryGenerate;
 
@@ -58,7 +60,8 @@ public class GrimIndustry extends GrimPart {
 		PacketDispatcher.registerMessage(MessageSensorSetItem.class);
 		PacketDispatcher.registerMessage(MessageSensorSetPlayer.class);
 		PacketDispatcher.registerMessage(MessageSensorSetPos.class);
-
+		PacketDispatcher.registerMessage(MessageSensorSetRender.class);
+		PacketDispatcher.registerMessage(MessageSensorSetBox.class);
 		PacketDispatcher.registerMessage(MessageSaveFan.class);
 		PacketDispatcher.registerMessage(MessageExtruderDirection.class);
 		GameRegistry.registerWorldGenerator(new IndustryGenerate(), 10);

@@ -5,13 +5,19 @@ import java.io.IOException;
 import org.lwjgl.input.Keyboard;
 
 import com.grim3212.mc.pack.GrimPack;
+import com.grim3212.mc.pack.core.client.TooltipHelper;
+import com.grim3212.mc.pack.core.client.gui.GuiButtonIcon;
 import com.grim3212.mc.pack.core.network.PacketDispatcher;
 import com.grim3212.mc.pack.industry.inventory.ContainerSpecificSensor;
+import com.grim3212.mc.pack.industry.item.IndustryItems;
+import com.grim3212.mc.pack.industry.item.ItemPositionFinder;
 import com.grim3212.mc.pack.industry.network.MessageSensorChangeMode;
+import com.grim3212.mc.pack.industry.network.MessageSensorSetBox;
 import com.grim3212.mc.pack.industry.network.MessageSensorSetEntity;
 import com.grim3212.mc.pack.industry.network.MessageSensorSetItem;
 import com.grim3212.mc.pack.industry.network.MessageSensorSetPlayer;
 import com.grim3212.mc.pack.industry.network.MessageSensorSetPos;
+import com.grim3212.mc.pack.industry.network.MessageSensorSetRender;
 import com.grim3212.mc.pack.industry.tile.TileEntitySpecificSensor;
 
 import net.minecraft.client.Minecraft;
@@ -27,18 +33,37 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 
 public class GuiSpecificSensor extends GuiContainer {
 
-	private GuiTextField posX;
-	private GuiTextField posY;
-	private GuiTextField posZ;
 	private GuiTextField entityName;
 	private GuiTextField playerName;
+	private GuiButton mode;
+	private GuiButton setItem;
+	private GuiButton setEntity;
+	private GuiButton setPlayer;
+	private GuiButton setPos;
+	private GuiButton setSize;
+	private GuiButton radiusAdd1;
+	private GuiButton radiusSub1;
+	private GuiButtonIcon reset;
+	private GuiButtonSensorRender sensorRender;
+	private GuiButtonIcon moreOptions;
+
+	private GuiTextField minX;
+	private GuiTextField minY;
+	private GuiTextField minZ;
+	private GuiTextField maxX;
+	private GuiTextField maxY;
+	private GuiTextField maxZ;
+
+	private boolean onMainPage = true;
 	private TileEntitySpecificSensor te;
 	private static final ResourceLocation GUI_LOCATION = new ResourceLocation(GrimPack.modID, "textures/gui/specific_sensor.png");
 	private boolean selectingItem = false;
+	private boolean settingPos = false;
 	private RenderItem renderItem = Minecraft.getMinecraft().getRenderItem();
 
 	public GuiSpecificSensor(InventoryPlayer playerInv, TileEntitySpecificSensor te, BlockPos pos) {
@@ -58,11 +83,25 @@ public class GuiSpecificSensor extends GuiContainer {
 		Keyboard.enableRepeatEvents(true);
 
 		buttonList.clear();
-		buttonList.add(new GuiButton(0, x + 171, y + 30, 75, 20, I18n.format("grimpack.industry.sensor." + te.getMode().name())));
-		buttonList.add(new GuiButton(1, x + 171, y + 50, 75, 20, I18n.format("grimpack.industry.sensor.setItem")));
-		buttonList.add(new GuiButton(2, x + 171, y + 70, 75, 20, I18n.format("grimpack.industry.sensor.setEntity")));
-		buttonList.add(new GuiButton(3, x + 171, y + 90, 75, 20, I18n.format("grimpack.industry.sensor.setPlayer")));
-		buttonList.add(new GuiButton(4, x + 171, y + 110, 75, 20, I18n.format("grimpack.industry.sensor.setPos")));
+		buttonList.add(mode = new GuiButton(0, x + 171, y + 30, 75, 20, I18n.format("grimpack.industry.sensor." + te.getMode().name())));
+		buttonList.add(setItem = new GuiButton(1, x + 171, y + 50, 75, 20, I18n.format("grimpack.industry.sensor.setItem")));
+		buttonList.add(setEntity = new GuiButton(2, x + 171, y + 70, 75, 20, I18n.format("grimpack.industry.sensor.setEntity")));
+		buttonList.add(setPlayer = new GuiButton(3, x + 171, y + 90, 75, 20, I18n.format("grimpack.industry.sensor.setPlayer")));
+		buttonList.add(setPos = new GuiButton(4, x + 171, y + 110, 75, 20, I18n.format("grimpack.industry.sensor.setPos")));
+		buttonList.add(sensorRender = new GuiButtonSensorRender(5, x + 205, y + 10, te.renderSensorPos()));
+		buttonList.add(moreOptions = new GuiButtonIcon(6, x + 225, y + 10, 48, 0, I18n.format("grimpack.industry.sensor.moreOptions")));
+		buttonList.add(setSize = new GuiButton(7, x + 171, y + 70, 75, 20, I18n.format("grimpack.industry.sensor.setSize")));
+		this.setSize.visible = false;
+		this.setSize.enabled = false;
+		buttonList.add(radiusAdd1 = new GuiButton(8, x + 171, y + 90, 75, 20, I18n.format("grimpack.industry.sensor.radiusAdd1")));
+		this.radiusAdd1.visible = false;
+		this.radiusAdd1.enabled = false;
+		buttonList.add(radiusSub1 = new GuiButton(9, x + 171, y + 110, 75, 20, I18n.format("grimpack.industry.sensor.radiusSub1")));
+		this.radiusSub1.visible = false;
+		this.radiusSub1.enabled = false;
+		buttonList.add(reset = new GuiButtonIcon(10, x + 205, y + 10, 64, 0, I18n.format("grimpack.industry.sensor.reset")));
+		this.reset.visible = false;
+		this.reset.enabled = false;
 
 		entityName = new GuiTextField(0, fontRendererObj, x + 57, y + 73, 100, 15);
 		entityName.setFocused(false);
@@ -73,73 +112,183 @@ public class GuiSpecificSensor extends GuiContainer {
 		playerName.setFocused(false);
 		playerName.setText(te.getSpecific().getPlayerName());
 
-		posX = new GuiTextField(2, fontRendererObj, x + 9 + 14, y + 113, 34, 15);
-		posX.setFocused(false);
-		posX.setMaxStringLength(10);
-		posX.setTextColor(0xffffff);
-		posX.setText(te.getSensorPos() == null ? String.valueOf(te.getPos().getX()) : String.valueOf(te.getSensorPos().getX()));
+		minX = new GuiTextField(5, fontRendererObj, x + 9 + 14, y + 75, 34, 15);
+		minX.setFocused(false);
+		minX.setMaxStringLength(10);
+		minX.setText(String.valueOf(te.getSenseBox().minX));
+		minX.setVisible(false);
+		minX.setEnabled(false);
 
-		posY = new GuiTextField(3, fontRendererObj, x + 59 + 14, y + 113, 34, 15);
-		posY.setFocused(false);
-		posY.setMaxStringLength(10);
-		posY.setText(te.getSensorPos() == null ? String.valueOf(te.getPos().getY()) : String.valueOf(te.getSensorPos().getY()));
+		minY = new GuiTextField(5, fontRendererObj, x + 59 + 14, y + 75, 34, 15);
+		minY.setFocused(false);
+		minY.setMaxStringLength(10);
+		minY.setText(String.valueOf(te.getSenseBox().minY));
+		minY.setVisible(false);
+		minY.setEnabled(false);
 
-		posZ = new GuiTextField(4, fontRendererObj, x + 109 + 14, y + 113, 34, 15);
-		posZ.setFocused(false);
-		posZ.setMaxStringLength(10);
-		posZ.setText(te.getSensorPos() == null ? String.valueOf(te.getPos().getZ()) : String.valueOf(te.getSensorPos().getZ()));
+		minZ = new GuiTextField(5, fontRendererObj, x + 109 + 14, y + 75, 34, 15);
+		minZ.setFocused(false);
+		minZ.setMaxStringLength(10);
+		minZ.setText(String.valueOf(te.getSenseBox().minZ));
+		minZ.setVisible(false);
+		minZ.setEnabled(false);
+
+		maxX = new GuiTextField(5, fontRendererObj, x + 9 + 14, y + 113, 34, 15);
+		maxX.setFocused(false);
+		maxX.setMaxStringLength(10);
+		maxX.setText(String.valueOf(te.getSenseBox().maxX));
+		maxX.setVisible(false);
+		maxX.setEnabled(false);
+
+		maxY = new GuiTextField(5, fontRendererObj, x + 59 + 14, y + 113, 34, 15);
+		maxY.setFocused(false);
+		maxY.setMaxStringLength(10);
+		maxY.setText(String.valueOf(te.getSenseBox().maxY));
+		maxY.setVisible(false);
+		maxY.setEnabled(false);
+
+		maxZ = new GuiTextField(5, fontRendererObj, x + 109 + 14, y + 113, 34, 15);
+		maxZ.setFocused(false);
+		maxZ.setMaxStringLength(10);
+		maxZ.setText(String.valueOf(te.getSenseBox().maxZ));
+		maxZ.setVisible(false);
+		maxZ.setEnabled(false);
+	}
+
+	private boolean isStringFloat(String s) {
+		try {
+			Float.valueOf(s);
+			return true;
+		} catch (NumberFormatException e) {
+			return false;
+		}
 	}
 
 	@Override
 	protected void keyTyped(char typedChar, int keyCode) throws IOException {
-		if (entityName.isFocused()) {
-			entityName.textboxKeyTyped(typedChar, keyCode);
-			if (!EntityList.isStringValidEntityName(entityName.getText())) {
-				entityName.setTextColor(0xff0000);
+		if (this.onMainPage) {
+			if (entityName.isFocused()) {
+				entityName.textboxKeyTyped(typedChar, keyCode);
+				if (!EntityList.isStringValidEntityName(entityName.getText())) {
+					entityName.setTextColor(0xff0000);
+				} else {
+					entityName.setTextColor(0xffffff);
+				}
+			}
+			if (playerName.isFocused()) {
+				playerName.textboxKeyTyped(typedChar, keyCode);
+			}
+			if (!entityName.isFocused() && !playerName.isFocused())
+				super.keyTyped(typedChar, keyCode);
+		} else {
+			if (minX.isFocused() && ((typedChar >= '0' && typedChar <= '9') || typedChar == '-' || typedChar == '.') || typedChar == '\b' || (keyCode == 203 || keyCode == 205)) {
+				minX.textboxKeyTyped(typedChar, keyCode);
+				if (!isStringFloat(minX.getText())) {
+					minX.setTextColor(0xff0000);
+				} else {
+					minX.setTextColor(0xffffff);
+				}
+			}
+			if (minY.isFocused() && ((typedChar >= '0' && typedChar <= '9') || typedChar == '-' || typedChar == '.') || typedChar == '\b' || (keyCode == 203 || keyCode == 205)) {
+				minY.textboxKeyTyped(typedChar, keyCode);
+				if (!isStringFloat(minY.getText())) {
+					minY.setTextColor(0xff0000);
+				} else {
+					minY.setTextColor(0xffffff);
+				}
+			}
+			if (minZ.isFocused() && ((typedChar >= '0' && typedChar <= '9') || typedChar == '-' || typedChar == '.') || typedChar == '\b' || (keyCode == 203 || keyCode == 205)) {
+				minZ.textboxKeyTyped(typedChar, keyCode);
+				if (!isStringFloat(minZ.getText())) {
+					minZ.setTextColor(0xff0000);
+				} else {
+					minZ.setTextColor(0xffffff);
+				}
+			}
+			if (maxX.isFocused() && ((typedChar >= '0' && typedChar <= '9') || typedChar == '-' || typedChar == '.') || typedChar == '\b' || (keyCode == 203 || keyCode == 205)) {
+				maxX.textboxKeyTyped(typedChar, keyCode);
+				if (!isStringFloat(maxX.getText())) {
+					maxX.setTextColor(0xff0000);
+				} else {
+					maxX.setTextColor(0xffffff);
+				}
+			}
+			if (maxY.isFocused() && ((typedChar >= '0' && typedChar <= '9') || typedChar == '-' || typedChar == '.') || typedChar == '\b' || (keyCode == 203 || keyCode == 205)) {
+				maxY.textboxKeyTyped(typedChar, keyCode);
+				if (!isStringFloat(maxY.getText())) {
+					maxY.setTextColor(0xff0000);
+				} else {
+					maxY.setTextColor(0xffffff);
+				}
+			}
+			if (maxZ.isFocused() && ((typedChar >= '0' && typedChar <= '9') || typedChar == '-' || typedChar == '.') || typedChar == '\b' || (keyCode == 203 || keyCode == 205)) {
+				maxZ.textboxKeyTyped(typedChar, keyCode);
+				if (!isStringFloat(maxZ.getText())) {
+					maxZ.setTextColor(0xff0000);
+				} else {
+					maxZ.setTextColor(0xffffff);
+				}
+			}
+			if (!minX.isFocused() && !minY.isFocused() && !minZ.isFocused() && !maxX.isFocused() && !maxY.isFocused() && !maxZ.isFocused())
+				super.keyTyped(typedChar, keyCode);
+
+			if (isStringFloat(minX.getText()) && isStringFloat(minY.getText()) && isStringFloat(minZ.getText()) && isStringFloat(maxX.getText()) && isStringFloat(maxY.getText()) && isStringFloat(maxZ.getText())) {
+				this.setSize.enabled = true;
+				this.radiusAdd1.enabled = true;
+				this.radiusSub1.enabled = true;
 			} else {
-				entityName.setTextColor(0xffffff);
+				this.setSize.enabled = false;
+				this.radiusAdd1.enabled = false;
+				this.radiusSub1.enabled = false;
 			}
 		}
-		if (playerName.isFocused()) {
-			playerName.textboxKeyTyped(typedChar, keyCode);
-		}
-		if (posX.isFocused() && ((typedChar >= '0' && typedChar <= '9') || typedChar == '-') || typedChar == '\b') {
-			posX.textboxKeyTyped(typedChar, keyCode);
-		}
-		if (posY.isFocused() && ((typedChar >= '0' && typedChar <= '9') || typedChar == '-') || typedChar == '\b') {
-			posY.textboxKeyTyped(typedChar, keyCode);
-		}
-		if (posZ.isFocused() && ((typedChar >= '0' && typedChar <= '9') || typedChar == '-') || typedChar == '\b') {
-			posZ.textboxKeyTyped(typedChar, keyCode);
-		}
-		if (!entityName.isFocused() && !playerName.isFocused() && !posX.isFocused() && !posY.isFocused() && !posZ.isFocused())
-			super.keyTyped(typedChar, keyCode);
 	}
 
 	@Override
 	protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
-		if (this.selectingItem) {
-			Slot slot = getSlotUnderMouse();
-			if (slot != null) {
-				ItemStack stack = slot.getStack();
-				te.getSpecific().setItemStackSpecific(stack);
-				PacketDispatcher.sendToServer(new MessageSensorSetItem(te.getPos(), stack));
+		if (this.onMainPage) {
+			if (this.selectingItem) {
+				Slot slot = getSlotUnderMouse();
+				if (slot != null) {
+					ItemStack stack = slot.getStack();
+					te.getSpecific().setItemStackSpecific(stack);
+					PacketDispatcher.sendToServer(new MessageSensorSetItem(te.getPos(), stack));
+				} else {
+					super.mouseClicked(mouseX, mouseY, mouseButton);
+					entityName.mouseClicked(mouseX, mouseY, mouseButton);
+					playerName.mouseClicked(mouseX, mouseY, mouseButton);
+				}
+				this.selectingItem = false;
+			} else if (this.settingPos) {
+				Slot slot = getSlotUnderMouse();
+				if (slot != null) {
+					ItemStack stack = slot.getStack();
+					if (stack.getItem() == IndustryItems.position_finder) {
+						BlockPos coords = ((ItemPositionFinder) stack.getItem()).getCoords(stack);
+						if (coords != null) {
+							te.setSensorPos(coords);
+							PacketDispatcher.sendToServer(new MessageSensorSetPos(te.getPos(), coords));
+						}
+					}
+				} else {
+					super.mouseClicked(mouseX, mouseY, mouseButton);
+					entityName.mouseClicked(mouseX, mouseY, mouseButton);
+					playerName.mouseClicked(mouseX, mouseY, mouseButton);
+				}
+				this.settingPos = false;
 			} else {
 				super.mouseClicked(mouseX, mouseY, mouseButton);
 				entityName.mouseClicked(mouseX, mouseY, mouseButton);
 				playerName.mouseClicked(mouseX, mouseY, mouseButton);
-				posX.mouseClicked(mouseX, mouseY, mouseButton);
-				posY.mouseClicked(mouseX, mouseY, mouseButton);
-				posZ.mouseClicked(mouseX, mouseY, mouseButton);
 			}
-			this.selectingItem = false;
 		} else {
 			super.mouseClicked(mouseX, mouseY, mouseButton);
-			entityName.mouseClicked(mouseX, mouseY, mouseButton);
-			playerName.mouseClicked(mouseX, mouseY, mouseButton);
-			posX.mouseClicked(mouseX, mouseY, mouseButton);
-			posY.mouseClicked(mouseX, mouseY, mouseButton);
-			posZ.mouseClicked(mouseX, mouseY, mouseButton);
+			minX.mouseClicked(mouseX, mouseY, mouseButton);
+			minY.mouseClicked(mouseX, mouseY, mouseButton);
+			minZ.mouseClicked(mouseX, mouseY, mouseButton);
+			maxX.mouseClicked(mouseX, mouseY, mouseButton);
+			maxY.mouseClicked(mouseX, mouseY, mouseButton);
+			maxZ.mouseClicked(mouseX, mouseY, mouseButton);
 		}
 	}
 
@@ -147,11 +296,17 @@ public class GuiSpecificSensor extends GuiContainer {
 	public void updateScreen() {
 		super.updateScreen();
 
-		entityName.updateCursorCounter();
-		playerName.updateCursorCounter();
-		posX.updateCursorCounter();
-		posY.updateCursorCounter();
-		posZ.updateCursorCounter();
+		if (this.onMainPage) {
+			entityName.updateCursorCounter();
+			playerName.updateCursorCounter();
+		} else {
+			minX.updateCursorCounter();
+			minY.updateCursorCounter();
+			minZ.updateCursorCounter();
+			maxX.updateCursorCounter();
+			maxY.updateCursorCounter();
+			maxZ.updateCursorCounter();
+		}
 	}
 
 	@Override
@@ -179,11 +334,177 @@ public class GuiSpecificSensor extends GuiContainer {
 			PacketDispatcher.sendToServer(new MessageSensorSetPlayer(te.getPos(), this.playerName.getText()));
 			break;
 		case 4:
-			BlockPos sensePos = new BlockPos(Integer.valueOf(this.posX.getText()), Integer.valueOf(this.posY.getText()), Integer.valueOf(this.posZ.getText()));
-			te.setSensorPos(sensePos);
-			PacketDispatcher.sendToServer(new MessageSensorSetPos(te.getPos(), sensePos));
+			this.settingPos = !this.settingPos;
+			break;
+		case 5:
+			boolean shouldRender = !te.renderSensorPos();
+			sensorRender.setShouldRender(shouldRender);
+			te.setRenderSensorPos(shouldRender);
+			PacketDispatcher.sendToServer(new MessageSensorSetRender(te.getPos(), shouldRender));
+			break;
+		case 6:
+			this.changePage();
+			break;
+		case 7:
+			if (isStringFloat(minX.getText()) && isStringFloat(minY.getText()) && isStringFloat(minZ.getText()) && isStringFloat(maxX.getText()) && isStringFloat(maxY.getText()) && isStringFloat(maxZ.getText())) {
+				float lMinX = Float.valueOf(this.minX.getText());
+				float lMinY = Float.valueOf(this.minY.getText());
+				float lMinZ = Float.valueOf(this.minZ.getText());
+				float lMaxX = Float.valueOf(this.maxX.getText());
+				float lMaxY = Float.valueOf(this.maxY.getText());
+				float lMaxZ = Float.valueOf(this.maxZ.getText());
+
+				double nMinX = checkSize(lMinX);
+				double nMinY = checkSize(lMinY);
+				double nMinZ = checkSize(lMinZ);
+				double nMaxX = checkSize(lMaxX);
+				double nMaxY = checkSize(lMaxY);
+				double nMaxZ = checkSize(lMaxZ);
+
+				this.minX.setText(String.valueOf(nMinX));
+				this.minY.setText(String.valueOf(nMinY));
+				this.minZ.setText(String.valueOf(nMinZ));
+				this.maxX.setText(String.valueOf(nMaxX));
+				this.maxY.setText(String.valueOf(nMaxY));
+				this.maxZ.setText(String.valueOf(nMaxZ));
+
+				te.setSenseBox(new AxisAlignedBB(nMinX, nMinY, nMinZ, nMaxX, nMaxY, nMaxZ));
+				PacketDispatcher.sendToServer(new MessageSensorSetBox(te.getPos(), nMinX, nMinY, nMinZ, nMaxX, nMaxY, nMaxZ));
+			}
+			break;
+		case 8:
+			if (isStringFloat(minX.getText()) && isStringFloat(minY.getText()) && isStringFloat(minZ.getText()) && isStringFloat(maxX.getText()) && isStringFloat(maxY.getText()) && isStringFloat(maxZ.getText())) {
+				float lMinX = Float.valueOf(this.minX.getText());
+				float lMinY = Float.valueOf(this.minY.getText());
+				float lMinZ = Float.valueOf(this.minZ.getText());
+				float lMaxX = Float.valueOf(this.maxX.getText());
+				float lMaxY = Float.valueOf(this.maxY.getText());
+				float lMaxZ = Float.valueOf(this.maxZ.getText());
+
+				double nMinX = checkSize(lMinX - 1);
+				double nMinY = checkSize(lMinY - 1);
+				double nMinZ = checkSize(lMinZ - 1);
+				double nMaxX = checkSize(lMaxX + 1);
+				double nMaxY = checkSize(lMaxY + 1);
+				double nMaxZ = checkSize(lMaxZ + 1);
+
+				this.minX.setText(String.valueOf(nMinX));
+				this.minY.setText(String.valueOf(nMinY));
+				this.minZ.setText(String.valueOf(nMinZ));
+				this.maxX.setText(String.valueOf(nMaxX));
+				this.maxY.setText(String.valueOf(nMaxY));
+				this.maxZ.setText(String.valueOf(nMaxZ));
+
+				te.setSenseBox(new AxisAlignedBB(nMinX, nMinY, nMinZ, nMaxX, nMaxY, nMaxZ));
+				PacketDispatcher.sendToServer(new MessageSensorSetBox(te.getPos(), nMinX, nMinY, nMinZ, nMaxX, nMaxY, nMaxZ));
+			}
+			break;
+		case 9:
+			if (isStringFloat(minX.getText()) && isStringFloat(minY.getText()) && isStringFloat(minZ.getText()) && isStringFloat(maxX.getText()) && isStringFloat(maxY.getText()) && isStringFloat(maxZ.getText())) {
+				float lMinX = Float.valueOf(this.minX.getText());
+				float lMinY = Float.valueOf(this.minY.getText());
+				float lMinZ = Float.valueOf(this.minZ.getText());
+				float lMaxX = Float.valueOf(this.maxX.getText());
+				float lMaxY = Float.valueOf(this.maxY.getText());
+				float lMaxZ = Float.valueOf(this.maxZ.getText());
+
+				double nMinX = checkSize(lMinX + 1);
+				double nMinY = checkSize(lMinY + 1);
+				double nMinZ = checkSize(lMinZ + 1);
+				double nMaxX = checkSize(lMaxX - 1);
+				double nMaxY = checkSize(lMaxY - 1);
+				double nMaxZ = checkSize(lMaxZ - 1);
+
+				this.minX.setText(String.valueOf(nMinX));
+				this.minY.setText(String.valueOf(nMinY));
+				this.minZ.setText(String.valueOf(nMinZ));
+				this.maxX.setText(String.valueOf(nMaxX));
+				this.maxY.setText(String.valueOf(nMaxY));
+				this.maxZ.setText(String.valueOf(nMaxZ));
+
+				te.setSenseBox(new AxisAlignedBB(nMinX, nMinY, nMinZ, nMaxX, nMaxY, nMaxZ));
+				PacketDispatcher.sendToServer(new MessageSensorSetBox(te.getPos(), nMinX, nMinY, nMinZ, nMaxX, nMaxY, nMaxZ));
+			}
+			break;
+		case 10:
+			this.minX.setText("0.0");
+			this.minX.setTextColor(0xffffff);
+			this.minZ.setText("0.0");
+			this.minZ.setTextColor(0xffffff);
+			this.minZ.setText("0.0");
+			this.minZ.setTextColor(0xffffff);
+			this.maxX.setText("1.0");
+			this.maxX.setTextColor(0xffffff);
+			this.maxY.setText("1.0");
+			this.maxY.setTextColor(0xffffff);
+			this.maxZ.setText("1.0");
+			this.maxZ.setTextColor(0xffffff);
+
+			this.setSize.enabled = true;
+			this.radiusAdd1.enabled = true;
+			this.radiusSub1.enabled = true;
+
+			te.setSenseBox(new AxisAlignedBB(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F));
+			PacketDispatcher.sendToServer(new MessageSensorSetBox(te.getPos(), 0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F));
 			break;
 		}
+	}
+
+	private double checkSize(double d) {
+		if (d > 5) {
+			return 5.0D;
+		} else if (d < -5) {
+			return -5.0D;
+		}
+		return d;
+	}
+
+	private void changePage() {
+		// Page 1 Buttons
+		this.mode.visible = !onMainPage;
+		this.mode.enabled = !onMainPage;
+		this.setItem.visible = !onMainPage;
+		this.setItem.enabled = !onMainPage;
+		this.setEntity.visible = !onMainPage;
+		this.setEntity.enabled = !onMainPage;
+		this.setPlayer.visible = !onMainPage;
+		this.setPlayer.enabled = !onMainPage;
+		this.setPos.visible = !onMainPage;
+		this.setPos.enabled = !onMainPage;
+		this.sensorRender.visible = !onMainPage;
+		this.sensorRender.enabled = !onMainPage;
+
+		// Page 1 Text Boxes
+		this.entityName.setEnabled(!onMainPage);
+		this.entityName.setVisible(!onMainPage);
+		this.playerName.setEnabled(!onMainPage);
+		this.playerName.setVisible(!onMainPage);
+
+		// Page 2 Buttons
+		this.setSize.visible = onMainPage;
+		this.setSize.enabled = onMainPage;
+		this.reset.visible = onMainPage;
+		this.reset.enabled = onMainPage;
+		this.radiusAdd1.visible = onMainPage;
+		this.radiusAdd1.enabled = onMainPage;
+		this.radiusSub1.visible = onMainPage;
+		this.radiusSub1.enabled = onMainPage;
+
+		// Page 2 Text Boxes
+		this.minX.setEnabled(onMainPage);
+		this.minX.setVisible(onMainPage);
+		this.minY.setEnabled(onMainPage);
+		this.minY.setVisible(onMainPage);
+		this.minZ.setEnabled(onMainPage);
+		this.minZ.setVisible(onMainPage);
+		this.maxX.setEnabled(onMainPage);
+		this.maxX.setVisible(onMainPage);
+		this.maxY.setEnabled(onMainPage);
+		this.maxY.setVisible(onMainPage);
+		this.maxZ.setEnabled(onMainPage);
+		this.maxZ.setVisible(onMainPage);
+
+		this.onMainPage = !onMainPage;
 	}
 
 	@Override
@@ -191,32 +512,71 @@ public class GuiSpecificSensor extends GuiContainer {
 		String s = this.te.getDisplayName().getUnformattedText();
 		drawCenteredString(fontRendererObj, s, xSize / 2, 8, 0xffffff);
 
-		GlStateManager.pushMatrix();
-		GlStateManager.scale(0.70f, 0.70f, 0.75f);
-		this.fontRendererObj.drawString(I18n.format("grimpack.industry.sensor.entityName"), 19, 110, 0xffffff);
-		this.fontRendererObj.drawString(I18n.format("grimpack.industry.sensor.playerName"), 14, 138, 0xffffff);
-		GlStateManager.popMatrix();
+		if (this.onMainPage) {
+			GlStateManager.pushMatrix();
+			GlStateManager.scale(0.70f, 0.70f, 0.75f);
+			this.fontRendererObj.drawString(I18n.format("grimpack.industry.sensor.entityName"), 19, 110, 0xffffff);
+			this.fontRendererObj.drawString(I18n.format("grimpack.industry.sensor.playerName"), 14, 138, 0xffffff);
+			GlStateManager.popMatrix();
 
-		if (te.isGoodPosition()) {
-			this.fontRendererObj.drawString(I18n.format("grimpack.industry.sensor.goodPos"), 11, 36, 0x00ff00);
+			if (te.isGoodPosition()) {
+				this.fontRendererObj.drawString(I18n.format("grimpack.industry.sensor.goodPos"), 11, 36, 0x00ff00);
+			} else {
+
+				if (!(te.getSensorPos().distanceSq(te.getPos()) > 80)) {
+					this.fontRendererObj.drawString(I18n.format("grimpack.industry.sensor.badPos"), 11, 36, 0xff0000);
+				} else {
+					this.fontRendererObj.drawString(I18n.format("grimpack.industry.sensor.outOfRange"), 11, 36, 0xff0000);
+				}
+			}
+
+			this.fontRendererObj.drawString(I18n.format("grimpack.industry.sensor.mode"), 140, 36, 0xffffff);
+
+			if (this.settingPos) {
+				this.fontRendererObj.drawString(I18n.format("grimpack.industry.sensor.settingPos"), 11, 117, 0xffffff);
+			} else {
+				this.fontRendererObj.drawString(I18n.format("grimpack.industry.sensor.coords"), 11, 117, 0xffffff);
+				this.fontRendererObj.drawString(I18n.format("grimpack.industry.sensor.x"), 55, 117, 0xffffff);
+				this.fontRendererObj.drawString(String.valueOf(te.getSensorPos().getX()), 65, 117, 0xffffff);
+				this.fontRendererObj.drawString(I18n.format("grimpack.industry.sensor.y"), 95, 117, 0xffffff);
+				this.fontRendererObj.drawString(String.valueOf(te.getSensorPos().getY()), 105, 117, 0xffffff);
+				this.fontRendererObj.drawString(I18n.format("grimpack.industry.sensor.z"), 130, 117, 0xffffff);
+				this.fontRendererObj.drawString(String.valueOf(te.getSensorPos().getZ()), 140, 117, 0xffffff);
+			}
+
+			this.fontRendererObj.drawString(this.selectingItem ? I18n.format("grimpack.industry.sensor.selecting") : this.te.getSpecific().getStack() == null ? I18n.format("grimpack.industry.sensor.noitem") : I18n.format("grimpack.industry.sensor.selected"), 11, 56, 0xffffff);
+			GlStateManager.pushMatrix();
+			RenderHelper.enableGUIStandardItemLighting();
+			if (this.te.getSpecific().getStack() != null) {
+				this.renderItem.renderItemAndEffectIntoGUI(this.te.getSpecific().getStack(), xSize / 2 - 35, 52);
+			}
+			RenderHelper.disableStandardItemLighting();
+			GlStateManager.popMatrix();
+
+			if (this.te.getSpecific().getStack() != null) {
+				boolean hovered = mouseX >= this.guiLeft + 92 && mouseY >= this.guiTop + 50 && mouseX < this.guiLeft + 92 + 20 && mouseY < this.guiTop + 50 + 20;
+				if (hovered) {
+					TooltipHelper.renderToolTip(this.te.getSpecific().getStack(), mouseX - this.guiLeft, mouseY - this.guiTop);
+				}
+			}
+
 		} else {
-			this.fontRendererObj.drawString(I18n.format("grimpack.industry.sensor.badPos"), 11, 36, 0xff0000);
+			this.drawCenteredString(fontRendererObj, I18n.format("grimpack.industry.sensor.min"), 90, 61, 0xffffff);
+			this.fontRendererObj.drawString(I18n.format("grimpack.industry.sensor.x"), 11, 79, 0xffffff);
+			this.fontRendererObj.drawString(I18n.format("grimpack.industry.sensor.y"), 61, 79, 0xffffff);
+			this.fontRendererObj.drawString(I18n.format("grimpack.industry.sensor.z"), 111, 79, 0xffffff);
+			this.drawCenteredString(fontRendererObj, I18n.format("grimpack.industry.sensor.max"), 90, 100, 0xffffff);
+			this.fontRendererObj.drawString(I18n.format("grimpack.industry.sensor.x"), 11, 117, 0xffffff);
+			this.fontRendererObj.drawString(I18n.format("grimpack.industry.sensor.y"), 61, 117, 0xffffff);
+			this.fontRendererObj.drawString(I18n.format("grimpack.industry.sensor.z"), 111, 117, 0xffffff);
 		}
 
-		this.fontRendererObj.drawString(I18n.format("grimpack.industry.sensor.mode"), 140, 36, 0xffffff);
-		this.fontRendererObj.drawString(I18n.format("grimpack.industry.sensor.x"), 11, 117, 0xffffff);
-		this.fontRendererObj.drawString(I18n.format("grimpack.industry.sensor.y"), 61, 117, 0xffffff);
-		this.fontRendererObj.drawString(I18n.format("grimpack.industry.sensor.z"), 111, 117, 0xffffff);
-
-		this.fontRendererObj.drawString(this.selectingItem ? I18n.format("grimpack.industry.sensor.selecting") : this.te.getSpecific().getStack() == null ? I18n.format("grimpack.industry.sensor.noitem") : I18n.format("grimpack.industry.sensor.selected"), 11, 56, 0xffffff);
-		GlStateManager.pushMatrix();
-		RenderHelper.enableGUIStandardItemLighting();
-		if (this.te.getSpecific().getStack() != null) {
-			this.renderItem.renderItemAndEffectIntoGUI(this.te.getSpecific().getStack(), xSize / 2 - 35, 52);
+		// Renders all tooltips if available
+		for (GuiButton b : this.buttonList) {
+			if (b.isMouseOver()) {
+				b.drawButtonForegroundLayer(mouseX - this.guiLeft, mouseY - this.guiTop);
+			}
 		}
-		RenderHelper.disableStandardItemLighting();
-		GlStateManager.popMatrix();
-
 	}
 
 	@Override
@@ -227,11 +587,17 @@ public class GuiSpecificSensor extends GuiContainer {
 		int y = (this.height - this.ySize) / 2;
 		this.drawTexturedModalRect(x, y, 0, 0, this.xSize, this.ySize);
 
-		entityName.drawTextBox();
-		playerName.drawTextBox();
-		posX.drawTextBox();
-		posY.drawTextBox();
-		posZ.drawTextBox();
+		if (this.onMainPage) {
+			entityName.drawTextBox();
+			playerName.drawTextBox();
+		} else {
+			minX.drawTextBox();
+			minY.drawTextBox();
+			minZ.drawTextBox();
+			maxX.drawTextBox();
+			maxY.drawTextBox();
+			maxZ.drawTextBox();
+		}
 	}
 
 }

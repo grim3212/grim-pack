@@ -108,7 +108,7 @@ public class ItemBetterBucket extends ItemManual {
 
 		return ManualTools.obsidianBucket_page;
 	}
-
+	
 	@Override
 	public void onCreated(ItemStack stack, World worldIn, EntityPlayer playerIn) {
 		setFluid(stack, "empty");

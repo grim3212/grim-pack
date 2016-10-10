@@ -87,6 +87,7 @@ public class IndustryItems implements IPartItems {
 	public static Item extruder;
 	public static Item portable_diamond_workbench;
 	public static Item portable_iron_workbench;
+	public static Item position_finder;
 
 	public static ToolMaterial steel = EnumHelper.addToolMaterial("steel", 3, 1200, 7.5F, 2.5F, 12);
 	public static ArmorMaterial antiRadiation = EnumHelper.addArmorMaterial("antiRadiation", GrimPack.modID + ":radiation", 5, new int[] { 2, 5, 3, 1 }, 15, SoundEvents.BLOCK_CLOTH_PLACE, 0.0F);
@@ -145,7 +146,9 @@ public class IndustryItems implements IPartItems {
 		extruder = (new ItemExtruder()).setUnlocalizedName("extruder").setCreativeTab(GrimIndustry.INSTANCE.getCreativeTab());
 		portable_diamond_workbench = (new ItemUpgradedPortableWorkbench(PackGuiHandler.PORTABLE_DIAMOND_MAIN_GUI_ID, PackGuiHandler.PORTABLE_DIAMOND_OFF_GUI_ID)).setUnlocalizedName("portable_diamond_workbench").setCreativeTab(GrimIndustry.INSTANCE.getCreativeTab());
 		portable_iron_workbench = (new ItemUpgradedPortableWorkbench(PackGuiHandler.PORTABLE_IRON_MAIN_GUI_ID, PackGuiHandler.PORTABLE_IRON_OFF_GUI_ID)).setUnlocalizedName("portable_iron_workbench").setCreativeTab(GrimIndustry.INSTANCE.getCreativeTab());
-
+		position_finder = (new ItemPositionFinder().setUnlocalizedName("position_finder").setCreativeTab(GrimIndustry.INSTANCE.getCreativeTab()));
+		
+		Utils.registerItem(position_finder, "position_finder");
 		Utils.registerItem(portable_diamond_workbench, "portable_diamond_workbench");
 		Utils.registerItem(portable_iron_workbench, "portable_iron_workbench");
 		Utils.registerItem(extruder, "extruder");
