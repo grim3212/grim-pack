@@ -76,20 +76,12 @@ public class MachineRecipes {
 	}
 
 	public ItemStack[] getInputs(MachineType type) {
-		List<Triple<ItemStack, ItemStack, Float>> recipes = null;
-
-		if (type == MachineType.DERRICK) {
-			recipes = this.getDerrickList();
-		} else if (type == MachineType.MODERN_FURNACE) {
-			recipes = this.getModernFurnaceList();
-		} else if (type == MachineType.REFINERY) {
-			recipes = this.getRefineryList();
-		}
+		List<Triple<ItemStack, ItemStack, Float>> recipes = this.getRecipeList(type);
 
 		ItemStack[] inputs = new ItemStack[recipes.size()];
 
 		for (int i = 0; i < recipes.size(); i++) {
-			inputs[i] = recipes.get(i).getLeft();
+			inputs[i] = recipes.get(i).getLeft().copy();
 		}
 
 		return inputs;
@@ -108,11 +100,11 @@ public class MachineRecipes {
 	 */
 	public void addRecipe(Item input, ItemStack output, float experience, MachineType type) {
 		if (type == MachineType.MODERN_FURNACE)
-			this.addModernFurnaceRecipe(new ItemStack(input, 1, 32767), output, experience);
+			this.addModernFurnaceRecipe(new ItemStack(input, 1), output, experience);
 		else if (type == MachineType.DERRICK)
-			this.addDerrickRecipe(new ItemStack(input, 1, 32767), output, experience);
+			this.addDerrickRecipe(new ItemStack(input, 1), output, experience);
 		else if (type == MachineType.REFINERY)
-			this.addRefineryRecipe(new ItemStack(input, 1, 32767), output, experience);
+			this.addRefineryRecipe(new ItemStack(input, 1), output, experience);
 	}
 
 	public void addModernFurnaceRecipe(ItemStack input, ItemStack stack, float experience) {
@@ -137,15 +129,7 @@ public class MachineRecipes {
 	}
 
 	public ItemStack getResult(ItemStack stack, MachineType type) {
-		List<Triple<ItemStack, ItemStack, Float>> recipeList = null;
-
-		if (type == MachineType.MODERN_FURNACE) {
-			recipeList = this.getModernFurnaceList();
-		} else if (type == MachineType.DERRICK) {
-			recipeList = this.getDerrickList();
-		} else if (type == MachineType.REFINERY) {
-			recipeList = this.getRefineryList();
-		}
+		List<Triple<ItemStack, ItemStack, Float>> recipeList = this.getRecipeList(type);
 
 		if (recipeList != null) {
 			for (Triple<ItemStack, ItemStack, Float> triple : recipeList) {
