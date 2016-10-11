@@ -2,6 +2,7 @@ package com.grim3212.mc.pack.industry.inventory;
 
 import javax.annotation.Nullable;
 
+import com.grim3212.mc.pack.industry.util.MachineRecipes;
 import com.grim3212.mc.pack.industry.util.MachineRecipes.MachineType;
 
 import net.minecraft.entity.item.EntityXPOrb;
@@ -10,19 +11,19 @@ import net.minecraft.init.Items;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.stats.AchievementList;
 import net.minecraft.util.math.MathHelper;
 
 public class SlotMachineOutput extends Slot {
-	
+
 	private final EntityPlayer thePlayer;
 	private int removeCount;
+	private MachineType type;
 
-	
 	public SlotMachineOutput(EntityPlayer player, IInventory inventoryIn, int slotIndex, int xPosition, int yPosition, MachineType type) {
 		super(inventoryIn, slotIndex, xPosition, yPosition);
 		this.thePlayer = player;
+		this.type = type;
 	}
 
 	@Override
@@ -57,7 +58,7 @@ public class SlotMachineOutput extends Slot {
 
 		if (!this.thePlayer.worldObj.isRemote) {
 			int i = this.removeCount;
-			float f = FurnaceRecipes.instance().getSmeltingExperience(stack);
+			float f = MachineRecipes.INSTANCE.getSmeltingExperience(stack, this.type);
 
 			if (f == 0.0F) {
 				i = 0;
@@ -80,15 +81,16 @@ public class SlotMachineOutput extends Slot {
 
 		this.removeCount = 0;
 
-		net.minecraftforge.fml.common.FMLCommonHandler.instance().firePlayerSmeltedEvent(thePlayer, stack);
+		if (this.type == MachineType.MODERN_FURNACE) {
+			net.minecraftforge.fml.common.FMLCommonHandler.instance().firePlayerSmeltedEvent(thePlayer, stack);
 
-		if (stack.getItem() == Items.IRON_INGOT) {
-			this.thePlayer.addStat(AchievementList.ACQUIRE_IRON);
-		}
+			if (stack.getItem() == Items.IRON_INGOT) {
+				this.thePlayer.addStat(AchievementList.ACQUIRE_IRON);
+			}
 
-		if (stack.getItem() == Items.COOKED_FISH) {
-			this.thePlayer.addStat(AchievementList.COOK_FISH);
+			if (stack.getItem() == Items.COOKED_FISH) {
+				this.thePlayer.addStat(AchievementList.COOK_FISH);
+			}
 		}
 	}
-
 }

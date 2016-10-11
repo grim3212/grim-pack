@@ -14,6 +14,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.util.IStringSerializable;
 
 public class MachineRecipes {
@@ -33,8 +34,7 @@ public class MachineRecipes {
 		addRecipeForBlock(Blocks.MYCELIUM, new ItemStack(Blocks.END_STONE), 0.25f, MachineType.MODERN_FURNACE);
 		addRecipeForBlock(Blocks.MOSSY_COBBLESTONE, new ItemStack(Blocks.PRISMARINE), 0.25f, MachineType.MODERN_FURNACE);
 		addRecipeForBlock(Blocks.GLOWSTONE, new ItemStack(Blocks.SEA_LANTERN), 0.25f, MachineType.MODERN_FURNACE);
-		addRecipeForBlock(Blocks.CACTUS, new ItemStack(Blocks.MAGMA), 0.25f, MachineType.MODERN_FURNACE);
-		addRecipeForBlock(Blocks.RED_MUSHROOM_BLOCK, new ItemStack(Blocks.NETHER_WART_BLOCK), 0.25f, MachineType.MODERN_FURNACE);
+		addRecipeForBlock(Blocks.RED_MUSHROOM, new ItemStack(Items.NETHER_WART), 0.25f, MachineType.MODERN_FURNACE);
 
 		// Derrick recipes
 		addRecipe(IndustryItems.aluminum_can, new ItemStack(IndustryItems.crude_oil), 0.1f, MachineType.DERRICK);
@@ -54,8 +54,6 @@ public class MachineRecipes {
 		addRecipe(Items.EGG, new ItemStack(Items.FEATHER), 0.25f, MachineType.REFINERY);
 		addRecipe(Items.WATER_BUCKET, new ItemStack(Items.FISH), 0.25f, MachineType.REFINERY);
 		addRecipe(Items.LAVA_BUCKET, new ItemStack(Items.FIRE_CHARGE), 0.25f, MachineType.REFINERY);
-		// addRecipe(Items.RABBIT_FOOT, new ItemStack(Items.NAME_TAG), 0.25f,
-		// MachineType.REFINERY);
 		addRecipe(Items.CARROT_ON_A_STICK, new ItemStack(Items.LEAD), 0.25f, MachineType.REFINERY);
 		addRecipe(Items.GUNPOWDER, new ItemStack(Items.BLAZE_POWDER), 0.25f, MachineType.REFINERY);
 		addRecipeForBlock(Blocks.VINE, new ItemStack(Items.STRING), 0.25f, MachineType.REFINERY);
@@ -180,14 +178,41 @@ public class MachineRecipes {
 		return this.refineryRecipes;
 	}
 
-	public float getSmeltingExperience(ItemStack stack, List<Triple<ItemStack, ItemStack, Float>> recipeList) {
+	public List<Triple<ItemStack, ItemStack, Float>> getRecipeList(MachineType type) {
+		switch (type) {
+		case DERRICK:
+			return this.getDerrickList();
+		case MODERN_FURNACE:
+			return this.getModernFurnaceList();
+		case REFINERY:
+			return this.getRefineryList();
+		default:
+			return null;
+		}
+	}
+
+	public float getSmeltingExperience(ItemStack stack, MachineType type) {
 		float ret = stack.getItem().getSmeltingExperience(stack);
 		if (ret != -1)
 			return ret;
 
-		for (Triple<ItemStack, ItemStack, Float> triple : recipeList) {
-			if (this.compareItemStacks(stack, triple.getMiddle())) {
-				return triple.getRight();
+		if (type == MachineType.MODERN_FURNACE) {
+			for (Triple<ItemStack, ItemStack, Float> triple : this.getRecipeList(type)) {
+				if (this.compareItemStacks(stack, triple.getMiddle())) {
+					ret = triple.getRight();
+					break;
+				}
+			}
+
+			if (ret != -1)
+				return ret;
+			else
+				return FurnaceRecipes.instance().getSmeltingExperience(stack);
+		} else {
+			for (Triple<ItemStack, ItemStack, Float> triple : this.getRecipeList(type)) {
+				if (this.compareItemStacks(stack, triple.getMiddle())) {
+					return triple.getRight();
+				}
 			}
 		}
 

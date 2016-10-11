@@ -10,7 +10,6 @@ import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IContainerListener;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
-import net.minecraft.inventory.SlotFurnaceOutput;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -27,7 +26,7 @@ public class ContainerMFurnace extends Container {
 		this.tileFurnace = furnaceInventory;
 		this.addSlotToContainer(new Slot(furnaceInventory, 0, 56, 17));
 		this.addSlotToContainer(new SlotMFurnaceFuel(furnaceInventory, 1, 56, 53));
-		this.addSlotToContainer(new SlotFurnaceOutput(playerInventory.player, furnaceInventory, 2, 116, 35));
+		this.addSlotToContainer(new SlotMachineOutput(playerInventory.player, furnaceInventory, 2, 116, 35, MachineType.MODERN_FURNACE));
 
 		for (int i = 0; i < 3; ++i) {
 			for (int j = 0; j < 9; ++j) {

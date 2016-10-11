@@ -51,7 +51,6 @@ public class TileEntityMFurnace extends TileEntityLockable implements ITickable,
 	private String furnaceCustomName;
 
 	public TileEntityMFurnace() {
-		TileEntityFurnace
 	}
 
 	/**

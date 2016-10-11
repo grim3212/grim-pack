@@ -8,7 +8,6 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IContainerListener;
 import net.minecraft.inventory.Slot;
-import net.minecraft.inventory.SlotFurnaceOutput;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -22,7 +21,7 @@ public class ContainerMachine extends Container {
 	public ContainerMachine(InventoryPlayer var1, TileEntityMachine machine) {
 		this.machine = machine;
 		this.addSlotToContainer(new Slot(machine, 0, 56, 35));
-		this.addSlotToContainer(new SlotFurnaceOutput(var1.player, machine, 1, 116, 35));
+		this.addSlotToContainer(new SlotMachineOutput(var1.player, machine, 1, 116, 35, machine.getMachineType()));
 
 		int var3;
 		for (var3 = 0; var3 < 3; ++var3) {
@@ -35,7 +34,7 @@ public class ContainerMachine extends Container {
 			this.addSlotToContainer(new Slot(var1, var3, 8 + var3 * 18, 142));
 		}
 	}
-	
+
 	@Override
 	public void addListener(IContainerListener listener) {
 		super.addListener(listener);
