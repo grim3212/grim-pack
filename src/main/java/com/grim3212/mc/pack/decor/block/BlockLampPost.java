@@ -7,12 +7,12 @@ import com.grim3212.mc.pack.core.manual.pages.Page;
 import com.grim3212.mc.pack.core.util.NBTHelper;
 import com.grim3212.mc.pack.decor.client.ManualDecor;
 import com.grim3212.mc.pack.decor.item.DecorItems;
-import com.grim3212.mc.pack.decor.item.ItemBrush;
 import com.grim3212.mc.pack.decor.tile.TileEntityColorizer;
 import com.grim3212.mc.pack.decor.util.BlockHelper;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
@@ -27,6 +27,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.FakePlayer;
 
 public class BlockLampPost extends BlockColorizer implements IManualBlock {
 
@@ -78,21 +79,8 @@ public class BlockLampPost extends BlockColorizer implements IManualBlock {
 						if (!playerIn.capabilities.isCreativeMode)
 							--heldItem.stackSize;
 
-						// Set self data
-						Block self = state.getBlock();
 						IBlockState toPlaceState = block.getStateFromMeta(heldItem.getMetadata());
-						ItemBrush.setTileEntityData(worldIn, pos, state, toPlaceState);
-
-						if (self == DecorBlocks.lamp_post_bottom) {
-							ItemBrush.setTileEntityData(worldIn, pos.up(), state, toPlaceState);
-							ItemBrush.setTileEntityData(worldIn, pos.up(2), state, toPlaceState);
-						} else if (self == DecorBlocks.lamp_post_middle) {
-							ItemBrush.setTileEntityData(worldIn, pos.up(), state, toPlaceState);
-							ItemBrush.setTileEntityData(worldIn, pos.down(), state, toPlaceState);
-						} else if (self == DecorBlocks.lamp_post_top) {
-							ItemBrush.setTileEntityData(worldIn, pos.down(), state, toPlaceState);
-							ItemBrush.setTileEntityData(worldIn, pos.down(2), state, toPlaceState);
-						}
+						this.setColorizer(worldIn, pos, state, toPlaceState, playerIn);
 
 						worldIn.playSound(playerIn, pos, block.getSoundType().getPlaceSound(), SoundCategory.BLOCKS, (block.getSoundType().getVolume() + 1.0F) / 2.0F, block.getSoundType().getPitch() * 0.8F);
 						return true;
@@ -182,6 +170,65 @@ public class BlockLampPost extends BlockColorizer implements IManualBlock {
 		NBTHelper.setString(itemstack, "registryName", Block.REGISTRY.getNameForObject(Blocks.AIR).toString());
 		NBTHelper.setInteger(itemstack, "meta", 0);
 		return itemstack;
+	}
+
+	@Override
+	@SuppressWarnings("deprecation")
+	public void clearColorizer(World worldIn, BlockPos pos, IBlockState state, EntityPlayer player) {
+		TileEntity te = worldIn.getTileEntity(pos);
+		if (te instanceof TileEntityColorizer) {
+			TileEntityColorizer tileColorizer = (TileEntityColorizer) te;
+			IBlockState storedState = tileColorizer.getBlockState();
+
+			// Can only clear a filled colorizer
+			if (storedState != Blocks.AIR.getDefaultState()) {
+
+				EntityItem blockDropped = new EntityItem(worldIn, (double) pos.getX(), (double) pos.getY(), (double) pos.getZ(), new ItemStack(tileColorizer.getBlockState().getBlock(), 1, tileColorizer.getBlockState().getBlock().getMetaFromState(tileColorizer.getBlockState())));
+				if (!worldIn.isRemote) {
+					worldIn.spawnEntityInWorld(blockDropped);
+					if (!(player instanceof FakePlayer)) {
+						blockDropped.onCollideWithPlayer(player);
+					}
+				}
+
+				// Clear self
+				super.setColorizer(worldIn, pos, state, null, player);
+
+				// Clear other lamp parts
+				if (state.getBlock() == DecorBlocks.lamp_post_bottom) {
+					super.setColorizer(worldIn, pos.up(), state, null, player);
+					super.setColorizer(worldIn, pos.up(2), state, null, player);
+				} else if (state.getBlock() == DecorBlocks.lamp_post_middle) {
+					super.setColorizer(worldIn, pos.up(), state, null, player);
+					super.setColorizer(worldIn, pos.down(), state, null, player);
+				} else if (state.getBlock() == DecorBlocks.lamp_post_top) {
+					super.setColorizer(worldIn, pos.down(), state, null, player);
+					super.setColorizer(worldIn, pos.down(2), state, null, player);
+				}
+
+				worldIn.playSound(player, pos, state.getBlock().getSoundType().getPlaceSound(), SoundCategory.BLOCKS, (state.getBlock().getSoundType().getVolume() + 1.0F) / 2.0F, state.getBlock().getSoundType().getPitch() * 0.8F);
+			}
+		}
+	}
+
+	@Override
+	public void setColorizer(World worldIn, BlockPos pos, IBlockState state, IBlockState toSetState, EntityPlayer player) {
+		// Set self block
+		super.setColorizer(worldIn, pos, state, toSetState, player);
+
+		Block self = state.getBlock();
+
+		// Set other parts of lantern
+		if (self == DecorBlocks.lamp_post_bottom) {
+			super.setColorizer(worldIn, pos.up(), state, toSetState, player);
+			super.setColorizer(worldIn, pos.up(2), state, toSetState, player);
+		} else if (self == DecorBlocks.lamp_post_middle) {
+			super.setColorizer(worldIn, pos.up(), state, toSetState, player);
+			super.setColorizer(worldIn, pos.down(), state, toSetState, player);
+		} else if (self == DecorBlocks.lamp_post_top) {
+			super.setColorizer(worldIn, pos.down(), state, toSetState, player);
+			super.setColorizer(worldIn, pos.down(2), state, toSetState, player);
+		}
 	}
 
 	@Override

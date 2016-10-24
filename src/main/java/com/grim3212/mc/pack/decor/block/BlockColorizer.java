@@ -10,7 +10,6 @@ import com.grim3212.mc.pack.core.property.UnlistedPropertyBlockState;
 import com.grim3212.mc.pack.core.util.NBTHelper;
 import com.grim3212.mc.pack.decor.GrimDecor;
 import com.grim3212.mc.pack.decor.client.ManualDecor;
-import com.grim3212.mc.pack.decor.item.ItemBrush;
 import com.grim3212.mc.pack.decor.tile.TileEntityColorizer;
 import com.grim3212.mc.pack.decor.util.BlockHelper;
 
@@ -25,6 +24,7 @@ import net.minecraft.client.particle.ParticleDigging;
 import net.minecraft.client.particle.ParticleManager;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
@@ -46,10 +46,11 @@ import net.minecraft.world.WorldServer;
 import net.minecraftforge.common.property.ExtendedBlockState;
 import net.minecraftforge.common.property.IExtendedBlockState;
 import net.minecraftforge.common.property.IUnlistedProperty;
+import net.minecraftforge.common.util.FakePlayer;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class BlockColorizer extends BlockContainer implements IManualBlock {
+public class BlockColorizer extends BlockContainer implements IManualBlock, IColorizer {
 
 	public static final UnlistedPropertyBlockState BLOCK_STATE = UnlistedPropertyBlockState.create("blockstate");
 
@@ -167,7 +168,7 @@ public class BlockColorizer extends BlockContainer implements IManualBlock {
 						if (!playerIn.capabilities.isCreativeMode)
 							--heldItem.stackSize;
 
-						ItemBrush.setTileEntityData(worldIn, pos, state, block.getStateFromMeta(heldItem.getMetadata()));
+						setColorizer(worldIn, pos, state, block.getStateFromMeta(heldItem.getMetadata()), playerIn);
 
 						worldIn.playSound(playerIn, pos, block.getSoundType().getPlaceSound(), SoundCategory.BLOCKS, (block.getSoundType().getVolume() + 1.0F) / 2.0F, block.getSoundType().getPitch() * 0.8F);
 
@@ -296,5 +297,42 @@ public class BlockColorizer extends BlockContainer implements IManualBlock {
 	@Override
 	public Page getPage(IBlockState state) {
 		return ManualDecor.colorizer_page;
+	}
+
+	@Override
+	@SuppressWarnings("deprecation")
+	public void clearColorizer(World worldIn, BlockPos pos, IBlockState state, EntityPlayer player) {
+		TileEntity te = worldIn.getTileEntity(pos);
+		if (te instanceof TileEntityColorizer) {
+			TileEntityColorizer tileColorizer = (TileEntityColorizer) te;
+			IBlockState storedState = tileColorizer.getBlockState();
+
+			// Can only clear a filled colorizer
+			if (storedState != Blocks.AIR.getDefaultState()) {
+
+				EntityItem blockDropped = new EntityItem(worldIn, (double) pos.getX(), (double) pos.getY(), (double) pos.getZ(), new ItemStack(tileColorizer.getBlockState().getBlock(), 1, tileColorizer.getBlockState().getBlock().getMetaFromState(tileColorizer.getBlockState())));
+				if (!worldIn.isRemote) {
+					worldIn.spawnEntityInWorld(blockDropped);
+					if (!(player instanceof FakePlayer)) {
+						blockDropped.onCollideWithPlayer(player);
+					}
+				}
+
+				// Clear Self
+				setColorizer(worldIn, pos, state, null, player);
+
+				worldIn.playSound(player, pos, state.getBlock().getSoundType().getPlaceSound(), SoundCategory.BLOCKS, (state.getBlock().getSoundType().getVolume() + 1.0F) / 2.0F, state.getBlock().getSoundType().getPitch() * 0.8F);
+			}
+		}
+	}
+
+	@Override
+	public void setColorizer(World worldIn, BlockPos pos, IBlockState state, IBlockState toSetState, EntityPlayer player) {
+		TileEntity tileentity = worldIn.getTileEntity(pos);
+		if (tileentity instanceof TileEntityColorizer) {
+			TileEntityColorizer te = (TileEntityColorizer) tileentity;
+			te.setBlockState(toSetState != null ? toSetState : Blocks.AIR.getDefaultState());
+			worldIn.setBlockState(pos, state.getBlock().getExtendedState(worldIn.getBlockState(pos), worldIn, pos));
+		}
 	}
 }
