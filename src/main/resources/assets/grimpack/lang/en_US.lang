@@ -9,6 +9,7 @@ grimpack.creative.world=Grim World
 
 #================= BLOCKS =================#
 tile.fan.name=Fan
+tile.decor_door.name=Decor Door
 tile.decor_stairs.name=Stairs
 tile.corner.name=Corner
 tile.sloped_post.name=Sloped Post
@@ -181,6 +182,7 @@ tile.fungus_killing.15.name=Glass Layer Building Fungus
 
 #================= ITEMS =================#
 item.instruction_manual.name=Instruction Manual
+item.decor_door_item.name=Decor Door
 item.position_finder.name=GPS
 item.portable_diamond_workbench.name=Portable Diamond Workbench
 item.portable_iron_workbench.name=Portable Iron Workbench

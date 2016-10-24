@@ -1,5 +1,6 @@
 package com.grim3212.mc.pack.util.event;
 
+import com.grim3212.mc.pack.decor.block.BlockDecorDoor;
 import com.grim3212.mc.pack.util.config.UtilConfig;
 
 import net.minecraft.block.BlockDoor;
@@ -19,7 +20,7 @@ public class BlockChangeEvents {
 		if (UtilConfig.doubleDoors) {
 			if (!event.getEntityPlayer().isSneaking()) {
 				IBlockState state = event.getWorld().getBlockState(event.getPos());
-				if (state.getBlock() instanceof BlockDoor) {
+				if (state.getBlock() instanceof BlockDoor || state.getBlock() instanceof BlockDecorDoor) {
 					DoubleDoor.activateDoubleDoor(event.getWorld(), event.getPos(), state, event.getEntityPlayer(), event.getHand(), event.getItemStack(), event.getFace(), event.getHitVec());
 				} else if (state.getBlock() instanceof BlockTrapDoor) {
 					DoubleTrapDoor.activateDoubleTrap(event.getWorld(), event.getPos(), state, true, event.getEntityPlayer(), event.getHand(), event.getItemStack(), event.getFace(), event.getHitVec());

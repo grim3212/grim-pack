@@ -70,6 +70,7 @@ public class DecorBlocks implements IPartItems {
 	public static Block full_pyramid;
 	public static Block sloped_post;
 	public static Block decor_stairs;
+	public static Block decor_door;
 
 	@Override
 	public void initItems() {
@@ -113,6 +114,7 @@ public class DecorBlocks implements IPartItems {
 		sloped_intersection = (new BlockSlopedRotate(SlopeType.SlopedIntersection)).setUnlocalizedName("sloped_intersection");
 		sloped_post = (new BlockHedge(SlopeType.SlopedPost)).setUnlocalizedName("sloped_post");
 		decor_stairs = (new BlockDecorStairs()).setUnlocalizedName("decor_stairs");
+		decor_door = (new BlockDecorDoor()).setUnlocalizedName("decor_door");
 
 		Utils.registerBlock(calendar, "calendar");
 		Utils.registerBlock(wall_clock, "wall_clock");
@@ -154,6 +156,7 @@ public class DecorBlocks implements IPartItems {
 		Utils.registerBlock(full_pyramid, "full_pyramid", new ItemSloped(full_pyramid));
 		Utils.registerBlock(sloped_post, "sloped_post", new ItemSloped(sloped_post));
 		Utils.registerBlock(decor_stairs, "decor_stairs", new ItemDecorStairs(decor_stairs));
+		Utils.registerBlock(decor_door, "decor_door");
 	}
 
 	public static IRecipe mossy;
