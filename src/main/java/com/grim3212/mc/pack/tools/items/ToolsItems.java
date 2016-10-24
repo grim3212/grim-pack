@@ -348,7 +348,6 @@ public class ToolsItems implements IPartItems {
 		OreDictionary.registerOre("bucketMilk", golden_milk_bucket);
 		OreDictionary.registerOre("bucketMilk", diamond_milk_bucket);
 		OreDictionary.registerOre("bucketMilk", obsidian_milk_bucket);
-		OreDictionary.registerOre("ingotMetal", Items.IRON_INGOT);
 		OreDictionary.registerOre("rod", rod_part);
 		OreDictionary.registerOre("rodMetal", rod_part);
 		OreDictionary.registerOre("stickMetal", rod_part);
@@ -393,7 +392,7 @@ public class ToolsItems implements IPartItems {
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(spring_part, 1), new Object[] { "#  ", " ! ", "  #", '#', "ingotIron", '!', "string" }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(button_part, 1), new Object[] { " # ", "#!#", " # ", '#', "dustRedstone", '!', Blocks.STONE_BUTTON }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(unloaded_knife, 1), new Object[] { " #", "! ", " @", '#', button_part, '!', spring_part, '@', grip }));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(rod_part, 2), new Object[] { "#", "#", '#', "ingotMetal" }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(rod_part, 2), new Object[] { " # ", "#S#", " # ", '#', "ingotIron", 'S', "stickWood" }));
 
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(black_diamond_pickaxe, 1), new Object[] { "###", " X ", " X ", 'X', "stickWood", '#', black_diamond }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(black_diamond_sword, 1), new Object[] { "#", "#", "X", 'X', "stickWood", '#', black_diamond }));
