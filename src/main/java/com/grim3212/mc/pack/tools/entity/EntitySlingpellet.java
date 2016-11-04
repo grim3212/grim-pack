@@ -1,5 +1,6 @@
 package com.grim3212.mc.pack.tools.entity;
 
+import com.grim3212.mc.pack.core.util.BetterExplosion;
 import com.grim3212.mc.pack.tools.util.EnumPelletType;
 
 import net.minecraft.block.BlockTorch;
@@ -13,15 +14,16 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
 
 public class EntitySlingpellet extends EntityThrowable {
 
 	private EnumPelletType type;
 
-	public EntitySlingpellet(World world, EnumPelletType type) {
+	public EntitySlingpellet(World world) {
 		super(world);
-		this.type = type;
+		this.type = EnumPelletType.STONE;
 	}
 
 	public EntitySlingpellet(World world, EntityLivingBase entity, EnumPelletType type) {
@@ -42,8 +44,11 @@ public class EntitySlingpellet extends EntityThrowable {
 
 		switch (this.type) {
 		case EXPLOSION:
-			if (!worldObj.isRemote)
-				worldObj.createExplosion(null, posX, posY, posZ, 3F, true);
+			if (!worldObj.isRemote) {
+				BetterExplosion explosion = new BetterExplosion(worldObj, null, posX, posY, posZ, 3F, false, true);
+				explosion.doExplosionA(false, true);
+				explosion.doExplosionB(true);
+			}
 			break;
 		case FIRE:
 			for (int fire = 0; fire < 6; ++fire) {
