@@ -5,11 +5,11 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
-public abstract class BackpackInventoryBase implements IInventory {
+public abstract class ItemInventoryBase implements IInventory {
 	protected ItemStack[] playerInventory;
 	protected int size;
 
-	public BackpackInventoryBase(ItemStack itemStack, EntityPlayer entityPlayer, int inventorySize) {
+	public ItemInventoryBase(ItemStack itemStack, EntityPlayer entityPlayer, int inventorySize) {
 	}
 
 	@Override
@@ -69,14 +69,14 @@ public abstract class BackpackInventoryBase implements IInventory {
 		size = size + i;
 	}
 
-	abstract public int readInvSizeFromNBT(NBTTagCompound nbtTagCompound);
+	public abstract int readInvSizeFromNBT(NBTTagCompound nbtTagCompound);
 
-	abstract public void readFromNBT(NBTTagCompound nbtTagCompound);
+	public abstract void readFromNBT(NBTTagCompound nbtTagCompound);
 
-	abstract public void writeToNBT(NBTTagCompound nbtTagCompound);
+	public abstract void writeToNBT(NBTTagCompound nbtTagCompound);
 
 	@Override
-	abstract public String getName();
+	public abstract String getName();
 
 	@Override
 	public boolean isUseableByPlayer(EntityPlayer entityPlayer) {

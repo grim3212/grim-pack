@@ -1,5 +1,6 @@
 package com.grim3212.mc.pack.tools.inventory;
 
+import com.grim3212.mc.pack.tools.items.ItemSlingPellet;
 import com.grim3212.mc.pack.tools.items.ToolsItems;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -10,23 +11,23 @@ import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
-public class ContainerBackpack extends Container {
+public class ContainerPelletBag extends Container {
 
-	static ItemInventoryBase backpackInventory_Base;
+	private static ItemInventoryBase inventory;
 	public static int numRows;
 	public static boolean notify;
 
-	public ContainerBackpack(ItemInventoryBase backpackInventoryBase, InventoryPlayer inventoryPlayer) {
+	public ContainerPelletBag(ItemInventoryBase inventory, InventoryPlayer inventoryPlayer) {
 		notify = false;
-		backpackInventory_Base = backpackInventoryBase;
-		ContainerBackpack.numRows = backpackInventory_Base.getSizeInventory() / 9;
-		int i = (ContainerBackpack.numRows - 4) * 18;
+		ContainerPelletBag.inventory = inventory;
+		ContainerPelletBag.numRows = inventory.getSizeInventory() / 9;
+		int i = (ContainerPelletBag.numRows - 4) * 18;
 		int j;
 		int k;
 
 		for (j = 0; j < 2; ++j) {
 			for (k = 0; k < 9; ++k) {
-				this.addSlotToContainer(new SlotBackpack(backpackInventoryBase, k + j * 9, 8 + k * 18, 18 + j * 18));
+				this.addSlotToContainer(new SlotBackpack(inventory, k + j * 9, 8 + k * 18, 18 + j * 18));
 			}
 		}
 
@@ -45,7 +46,7 @@ public class ContainerBackpack extends Container {
 		if (!itemStack.hasTagCompound()) {
 			itemStack.setTagCompound(new NBTTagCompound());
 		}
-		backpackInventory_Base.writeToNBT(itemStack.getTagCompound());
+		inventory.writeToNBT(itemStack.getTagCompound());
 	}
 
 	@Override
@@ -58,12 +59,12 @@ public class ContainerBackpack extends Container {
 		ItemStack itemstack = null;
 		Slot slot = (Slot) this.inventorySlots.get(index);
 		ItemStack itemstack2 = slot.getStack();
-		if (slot != null && slot.getHasStack() && itemstack2.getItem() != ToolsItems.backpack) {
+		if (slot != null && slot.getHasStack() && itemstack2.getItem() instanceof ItemSlingPellet) {
 
-			if (itemstack2.getItem() == ToolsItems.backpack) {
+			if (itemstack2.getItem() == ToolsItems.pellet_bag) {
 
-				BackpackInventory backpackInventory = new BackpackInventory(itemstack2, player, 0);
-				if (backpackInventory.getName() == backpackInventory_Base.getName()) {
+				PelletBagInventory pelletBagInventory = new PelletBagInventory(itemstack2, player, 0);
+				if (pelletBagInventory.getName() == inventory.getName()) {
 					return itemstack;
 				}
 			}

@@ -11,11 +11,12 @@ import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraftforge.common.util.Constants;
 
-public class BackpackInventory extends ItemInventoryBase {
+public class PelletBagInventory extends ItemInventoryBase {
+
 	protected String uniqueID;
 	private ItemStack stack;
 
-	public BackpackInventory(ItemStack itemStack, EntityPlayer entityPlayer, int inventorySize) {
+	public PelletBagInventory(ItemStack itemStack, EntityPlayer entityPlayer, int inventorySize) {
 		super(itemStack, entityPlayer, inventorySize);
 		this.stack = itemStack;
 
@@ -35,7 +36,7 @@ public class BackpackInventory extends ItemInventoryBase {
 
 	@Override
 	public String getName() {
-		return this.hasCustomName() ? stack.getDisplayName() : "container.backpack";
+		return this.hasCustomName() ? stack.getDisplayName() : "container.pellet_bag";
 	}
 
 	@Override
@@ -51,7 +52,7 @@ public class BackpackInventory extends ItemInventoryBase {
 
 	@Override
 	public void readFromNBT(NBTTagCompound nbtTagCompound) {
-		NBTTagCompound contentTag = ((NBTTagCompound) nbtTagCompound.getTag("backpackinventory"));
+		NBTTagCompound contentTag = ((NBTTagCompound) nbtTagCompound.getTag("pelletbaginventory"));
 		if (contentTag == null) {
 			return;
 		}
@@ -90,7 +91,7 @@ public class BackpackInventory extends ItemInventoryBase {
 		}
 		NBTTagCompound contentTag = new NBTTagCompound();
 		contentTag.setTag("indexList", myList);
-		nbtTagCompound.setTag("backpackinventory", contentTag);
+		nbtTagCompound.setTag("pelletbaginventory", contentTag);
 		nbtTagCompound.setString("uniqueID", uniqueID);
 		nbtTagCompound.setInteger("inventorySize", size);
 	}
@@ -139,4 +140,5 @@ public class BackpackInventory extends ItemInventoryBase {
 	public ITextComponent getDisplayName() {
 		return this.hasCustomName() ? new TextComponentString(this.getName()) : new TextComponentTranslation(this.getName(), new Object[0]);
 	}
+
 }

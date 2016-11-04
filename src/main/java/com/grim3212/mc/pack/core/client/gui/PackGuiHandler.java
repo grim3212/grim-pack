@@ -30,10 +30,13 @@ import com.grim3212.mc.pack.industry.tile.TileEntityMFurnace;
 import com.grim3212.mc.pack.industry.tile.TileEntityMachine;
 import com.grim3212.mc.pack.industry.tile.TileEntitySpecificSensor;
 import com.grim3212.mc.pack.tools.client.gui.GuiBackpack;
+import com.grim3212.mc.pack.tools.client.gui.GuiPelletBag;
 import com.grim3212.mc.pack.tools.client.gui.GuiPortable;
 import com.grim3212.mc.pack.tools.inventory.BackpackInventory;
 import com.grim3212.mc.pack.tools.inventory.ContainerBackpack;
 import com.grim3212.mc.pack.tools.inventory.ContainerCustomWorkbench;
+import com.grim3212.mc.pack.tools.inventory.ContainerPelletBag;
+import com.grim3212.mc.pack.tools.inventory.PelletBagInventory;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -65,6 +68,8 @@ public class PackGuiHandler implements IGuiHandler {
 	public static final int PORTABLE_IRON_MAIN_GUI_ID = 16;
 	public static final int PORTABLE_IRON_OFF_GUI_ID = 17;
 	public static final int SPECIFIC_SENSOR_GUI_ID = 18;
+	public static final int PELLET_BAG_MAIN_GUI_ID = 19;
+	public static final int PELLET_BAG_OFF_GUI_ID = 20;
 
 	@Override
 	public Object getServerGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
@@ -99,6 +104,12 @@ public class PackGuiHandler implements IGuiHandler {
 			return new ContainerCage((TileEntityCage) tileentity, player.inventory);
 		} else if (ID == SPECIFIC_SENSOR_GUI_ID) {
 			return new ContainerSpecificSensor(pos, player.inventory);
+		} else if (ID == PELLET_BAG_MAIN_GUI_ID) {
+			PelletBagInventory pelletBagInventory = new PelletBagInventory(player.getHeldItemMainhand(), player, 0);
+			return new ContainerPelletBag(pelletBagInventory, player.inventory);
+		} else if (ID == PELLET_BAG_OFF_GUI_ID) {
+			PelletBagInventory pelletBagInventory = new PelletBagInventory(player.getHeldItemOffhand(), player, 0);
+			return new ContainerPelletBag(pelletBagInventory, player.inventory);
 		}
 
 		return null;
@@ -147,6 +158,12 @@ public class PackGuiHandler implements IGuiHandler {
 			return new GuiIronPortable(player.inventory, world, pos, player.getHeldItemOffhand());
 		} else if (ID == SPECIFIC_SENSOR_GUI_ID) {
 			return new GuiSpecificSensor(player.inventory, (TileEntitySpecificSensor) tileentity, pos);
+		} else if (ID == PELLET_BAG_MAIN_GUI_ID) {
+			PelletBagInventory pelletBagInventory = new PelletBagInventory(player.getHeldItemOffhand(), player, 0);
+			return new GuiPelletBag(pelletBagInventory, player.inventory);
+		} else if (ID == PELLET_BAG_OFF_GUI_ID) {
+			PelletBagInventory pelletBagInventory = new PelletBagInventory(player.getHeldItemOffhand(), player, 0);
+			return new GuiPelletBag(pelletBagInventory, player.inventory);
 		}
 
 		return null;
