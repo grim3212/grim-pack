@@ -214,7 +214,7 @@ public class ToolsItems implements IPartItems {
 		advanced_ray_gun = (new ItemAdvRayg()).setUnlocalizedName("advanced_ray_gun").setCreativeTab(GrimTools.INSTANCE.getCreativeTab());
 		dark_iron_ingot = (new ItemManualPage("tools:raygun.darkIron")).setUnlocalizedName("dark_iron_ingot").setCreativeTab(GrimTools.INSTANCE.getCreativeTab());
 		sling_shot = (new ItemSlingshot()).setUnlocalizedName("sling_shot").setCreativeTab(GrimTools.INSTANCE.getCreativeTab());
-		sling_pellet = (new ItemManualPage("tools:sling.pellets")).setUnlocalizedName("sling_pellet").setCreativeTab(GrimTools.INSTANCE.getCreativeTab());
+		sling_pellet = (new ItemSlingPellet()).setUnlocalizedName("sling_pellet").setCreativeTab(GrimTools.INSTANCE.getCreativeTab());
 		spear = (new ItemSpear(EnumSpearType.STONE)).setUnlocalizedName("spear").setCreativeTab(GrimTools.INSTANCE.getCreativeTab());
 		iron_spear = (new ItemSpear(EnumSpearType.IRON)).setUnlocalizedName("iron_spear").setCreativeTab(GrimTools.INSTANCE.getCreativeTab());
 		diamond_spear = (new ItemSpear(EnumSpearType.DIAMOND)).setUnlocalizedName("diamond_spear").setCreativeTab(GrimTools.INSTANCE.getCreativeTab());

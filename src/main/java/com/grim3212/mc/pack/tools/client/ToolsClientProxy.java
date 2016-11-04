@@ -25,7 +25,9 @@ import com.grim3212.mc.pack.tools.entity.EntitySpear;
 import com.grim3212.mc.pack.tools.entity.EntityTomahawk;
 import com.grim3212.mc.pack.tools.items.ItemBackpack;
 import com.grim3212.mc.pack.tools.items.ItemMaskArmor;
+import com.grim3212.mc.pack.tools.items.ItemPelletBag;
 import com.grim3212.mc.pack.tools.items.ToolsItems;
+import com.grim3212.mc.pack.tools.util.EnumPelletType;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ItemMeshDefinition;
@@ -53,6 +55,7 @@ public class ToolsClientProxy extends ClientProxy {
 		RenderHelper.renderBlock(ToolsBlocks.element_115_ore);
 
 		// ITEMS
+		RenderHelper.renderItem(ToolsItems.pellet_bag);
 		RenderHelper.renderItem(ToolsItems.backpack);
 		RenderHelper.renderItem(ToolsItems.portable_workbench);
 		RenderHelper.renderItem(ToolsItems.loaded_knife);
@@ -114,7 +117,7 @@ public class ToolsClientProxy extends ClientProxy {
 		RenderHelper.renderItem(ToolsItems.energy_canister);
 		RenderHelper.renderItem(ToolsItems.ray_gun);
 		RenderHelper.renderItem(ToolsItems.sling_shot);
-		RenderHelper.renderItem(ToolsItems.sling_pellet);
+		RenderHelper.renderVariantForge(ToolsItems.sling_pellet, EnumPelletType.names());
 		RenderHelper.renderItem(ToolsItems.spear);
 		RenderHelper.renderItem(ToolsItems.iron_spear);
 		RenderHelper.renderItem(ToolsItems.diamond_spear);
@@ -191,5 +194,22 @@ public class ToolsClientProxy extends ClientProxy {
 				}
 			}
 		}, ToolsItems.backpack);
+
+		Minecraft.getMinecraft().getItemColors().registerItemColorHandler(new IItemColor() {
+			@Override
+			public int getColorFromItemstack(ItemStack stack, int tintIndex) {
+				if (tintIndex == 1)
+					return Integer.parseInt(ItemPelletBag.colorNumbers[15], 16);
+				else {
+					int packColor = ItemPelletBag.getColor(stack);
+
+					if (packColor < 0) {
+						return Integer.parseInt("C65C35", 16);
+					} else {
+						return Integer.parseInt(ItemPelletBag.colorNumbers[packColor], 16);
+					}
+				}
+			}
+		}, ToolsItems.pellet_bag);
 	}
 }

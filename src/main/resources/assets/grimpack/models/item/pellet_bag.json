@@ -1,0 +1,9 @@
+{
+    "parent": "item/generated",
+    "textures": {
+        "layer0": "grimpack:items/pellet_bag_white",
+        "layer1": "grimpack:items/pellet_bag_outline"
+    }
+}
+
+

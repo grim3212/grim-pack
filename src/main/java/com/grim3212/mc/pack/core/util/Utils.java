@@ -2,6 +2,8 @@ package com.grim3212.mc.pack.core.util;
 
 import java.util.function.Predicate;
 
+import javax.annotation.Nullable;
+
 import com.grim3212.mc.pack.GrimPack;
 import com.grim3212.mc.pack.core.item.ItemManualBlock;
 
@@ -118,6 +120,31 @@ public class Utils {
 
 	public static boolean consumeInventoryItem(EntityPlayer player, final Item item) {
 		return Utils.consumeInventoryItem(player, item, 1);
+	}
+
+	@Nullable
+	public static ItemStack consumeInventoryItemStack(EntityPlayer player, final Item item, int amount) {
+		IItemHandler handler = findItemStackSlot(player, new Predicate<ItemStack>() {
+			@Override
+			public boolean test(ItemStack t) {
+				if (t != null && item != null) {
+					return t.getItem() == item;
+				} else {
+					return false;
+				}
+			}
+		});
+
+		if (handler != null) {
+			return handler.extractItem(0, amount, false);
+		}
+
+		return null;
+	}
+
+	@Nullable
+	public static ItemStack consumeInventoryItemStack(EntityPlayer player, final Item item) {
+		return Utils.consumeInventoryItemStack(player, item, 1);
 	}
 
 	public static IFluidHandler getFluidHandler(ItemStack stack) {
