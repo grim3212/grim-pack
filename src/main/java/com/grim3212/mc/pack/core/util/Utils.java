@@ -1,15 +1,19 @@
 package com.grim3212.mc.pack.core.util;
 
+import java.util.Iterator;
 import java.util.function.Predicate;
 
 import javax.annotation.Nullable;
 
 import com.grim3212.mc.pack.GrimPack;
 import com.grim3212.mc.pack.core.item.ItemManualBlock;
+import com.grim3212.mc.pack.core.network.MessageBetterExplosion;
+import com.grim3212.mc.pack.core.network.PacketDispatcher;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
@@ -17,6 +21,8 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.World;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
@@ -159,5 +165,35 @@ public class Utils {
 			return true;
 		}
 		return false;
+	}
+
+	public static BetterExplosion createExplosion(World world, Entity entity, double x, double y, double z, float size, boolean smoking, boolean destroyBlocks, boolean hurtEntities) {
+		return newExplosion(world, entity, x, y, z, size, false, smoking, destroyBlocks, hurtEntities);
+	}
+
+	public static BetterExplosion newExplosion(World world, Entity entity, double x, double y, double z, float size, boolean flaming, boolean smoking, boolean destroyBlocks, boolean hurtEntities) {
+		BetterExplosion explosion = new BetterExplosion(world, entity, x, y, z, size, flaming, smoking, destroyBlocks, hurtEntities);
+		if (net.minecraftforge.event.ForgeEventFactory.onExplosionStart(world, explosion)) {
+			return explosion;
+		}
+		explosion.doExplosionA();
+		explosion.doExplosionB(true);
+
+		if (!smoking) {
+			explosion.clearAffectedBlockPositions();
+		}
+
+		Iterator<EntityPlayer> iterator = world.playerEntities.iterator();
+
+		while (iterator.hasNext()) {
+			EntityPlayer entityPlayer = (EntityPlayer) iterator.next();
+
+			if (entityPlayer.getDistanceSq(x, y, z) < 4096.0D) {
+				PacketDispatcher.sendTo(new MessageBetterExplosion(x, y, z, size, destroyBlocks, explosion.getAffectedBlockPositions(), (Vec3d) explosion.getPlayerKnockbackMap().get(entityPlayer)), (EntityPlayerMP) entityPlayer);
+			}
+		}
+
+		// end new
+		return explosion;
 	}
 }
