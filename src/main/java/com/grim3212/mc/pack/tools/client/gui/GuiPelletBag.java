@@ -23,12 +23,13 @@ public class GuiPelletBag extends GuiContainer {
 		super(new ContainerPelletBag(inventory, inventoryPlayer));
 		this.inventory = inventory;
 		this.playerInv = inventoryPlayer;
+		this.ySize = 168;
 	}
 
 	@Override
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
 		fontRendererObj.drawString(this.inventory.getDisplayName().getUnformattedText(), 8, 6, 4210752);
-		fontRendererObj.drawString(this.playerInv.getDisplayName().getUnformattedText(), 8, this.ySize - 110, 4210752);
+		fontRendererObj.drawString(this.playerInv.getDisplayName().getUnformattedText(), 8, this.ySize - 94, 4210752);
 	}
 
 	@Override

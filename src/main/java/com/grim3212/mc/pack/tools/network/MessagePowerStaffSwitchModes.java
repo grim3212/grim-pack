@@ -10,14 +10,14 @@ import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.EnumHand;
 import net.minecraftforge.fml.relauncher.Side;
 
-public class MessageSwitchModes extends AbstractServerMessage<MessageSwitchModes> {
+public class MessagePowerStaffSwitchModes extends AbstractServerMessage<MessagePowerStaffSwitchModes> {
 
 	private EnumHand hand;
 
-	public MessageSwitchModes() {
+	public MessagePowerStaffSwitchModes() {
 	}
 
-	public MessageSwitchModes(EnumHand hand) {
+	public MessagePowerStaffSwitchModes(EnumHand hand) {
 		this.hand = hand;
 	}
 

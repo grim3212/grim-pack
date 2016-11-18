@@ -102,7 +102,7 @@ public class BlockIceMaker extends BlockManual {
 		if (heldItem.getItem() == Items.WATER_BUCKET) {
 			if (state.getValue(STAGE) == 0) {
 				worldIn.setBlockState(pos, state.withProperty(STAGE, 1), 3);
-				Utils.consumeInventoryItem(playerIn, heldItem.getItem());
+				Utils.consumePlayerItem(playerIn, new ItemStack(heldItem.getItem()));
 				playerIn.inventory.addItemStackToInventory(new ItemStack(Items.BUCKET));
 			}
 		} else if (Utils.hasFluidHandler(heldItem)) {

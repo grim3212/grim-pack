@@ -4,10 +4,10 @@ import java.util.List;
 
 import com.grim3212.mc.pack.GrimPack;
 import com.grim3212.mc.pack.core.client.gui.PackGuiHandler;
+import com.grim3212.mc.pack.core.inventory.InventoryCapability;
 import com.grim3212.mc.pack.core.item.ItemManual;
 import com.grim3212.mc.pack.core.manual.pages.Page;
 import com.grim3212.mc.pack.tools.client.ManualTools;
-import com.grim3212.mc.pack.tools.inventory.ContainerBackpack;
 
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
@@ -15,12 +15,18 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
 import net.minecraft.world.World;
+import net.minecraftforge.common.capabilities.ICapabilityProvider;
+import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.items.CapabilityItemHandler;
+import net.minecraftforge.items.IItemHandler;
+import net.minecraftforge.items.ItemStackHandler;
 
 public class ItemBackpack extends ItemManual {
 
@@ -28,6 +34,19 @@ public class ItemBackpack extends ItemManual {
 
 	public ItemBackpack() {
 		this.maxStackSize = 1;
+	}
+
+	@Override
+	public ICapabilityProvider initCapabilities(ItemStack stack, NBTTagCompound nbt) {
+		return new InventoryCapability(new ItemStackHandler(18) {
+			@Override
+			public ItemStack insertItem(int slot, ItemStack toInsert, boolean simulate) {
+				if (toInsert != null && toInsert.getItem() != ToolsItems.backpack)
+					return super.insertItem(slot, toInsert, simulate);
+				else
+					return toInsert;
+			}
+		});
 	}
 
 	@Override
@@ -64,13 +83,27 @@ public class ItemBackpack extends ItemManual {
 
 	@Override
 	public void onUpdate(ItemStack itemStack, World world, Entity entity, int indexInventory, boolean isCurrentItem) {
+		if (itemStack.getTagCompound() != null && itemStack.getTagCompound().hasKey("backpackinventory")) {
+			NBTTagList oldData = itemStack.getTagCompound().getCompoundTag("backpackinventory").getTagList("indexList", Constants.NBT.TAG_COMPOUND);
 
-		if (world.isRemote || !isCurrentItem) {
-			return;
-		}
-		if (ContainerBackpack.notify) {
-			ContainerBackpack.saveToNBT(itemStack);
-			ContainerBackpack.notify = false;
+			// Convert index to slot so it can read previous inventory data
+			for (int i = 0; i < oldData.tagCount(); i++) {
+				NBTTagCompound indexTag = (NBTTagCompound) oldData.getCompoundTagAt(i);
+				int index = indexTag.getInteger("index");
+				indexTag.setInteger("Slot", index);
+			}
+
+			IItemHandler newInv = itemStack.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
+
+			CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.readNBT(newInv, null, oldData);
+
+			// Remove old tags that are no longer needed
+			itemStack.getTagCompound().removeTag("backpackinventory");
+			itemStack.getTagCompound().removeTag("inventorySize");
+			itemStack.getTagCompound().removeTag("uniqueID");
+
+			if (itemStack.getTagCompound().getSize() == 0)
+				itemStack.setTagCompound(null);
 		}
 	}
 

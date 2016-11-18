@@ -30,7 +30,7 @@ public class ItemRayg extends ItemManual {
 
 	@Override
 	public ActionResult<ItemStack> onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn, EnumHand hand) {
-		if (playerIn.capabilities.isCreativeMode || Utils.consumeInventoryItem(playerIn, ToolsItems.energy_canister)) {
+		if (playerIn.capabilities.isCreativeMode || Utils.consumePlayerItem(playerIn, new ItemStack(ToolsItems.energy_canister)) != null) {
 			worldIn.playSound((EntityPlayer) null, playerIn.getPosition(), GrimTools.raygunSound, SoundCategory.PLAYERS, 1.0F, 1.0F / (itemRand.nextFloat() * 0.4F + 0.8F));
 			if (!worldIn.isRemote) {
 				EntityRayw ray = new EntityRayw(worldIn, playerIn);
