@@ -20,6 +20,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
+import net.minecraft.enchantment.Enchantment;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
@@ -58,6 +59,11 @@ public class Utils {
 
 	public static void registerItem(Item item, String name) {
 		GameRegistry.register(item, new ResourceLocation(GrimPack.modID, name));
+	}
+	
+	//added by scotto
+	public static void registerEnchantment(Enchantment ench, String name) {
+		GameRegistry.register(ench, new ResourceLocation(GrimPack.modID, name));
 	}
 
 	public static SoundEvent registerSound(String name) {
