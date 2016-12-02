@@ -74,6 +74,7 @@ public class IndustryClientProxy extends IndustryCommonProxy {
 		RenderHelper.renderItem(IndustryItems.uranium_ingot);
 		RenderHelper.renderItem(IndustryItems.low_gravity_controller);
 		RenderHelper.renderItem(IndustryItems.gravity_controller);
+		RenderHelper.renderItem(IndustryItems.mob_repulsor);
 		RenderHelper.renderItem(IndustryItems.aluminum_ingot);
 		RenderHelper.renderItem(IndustryItems.garage_panel);
 		RenderHelper.renderItem(IndustryItems.garage_remote);

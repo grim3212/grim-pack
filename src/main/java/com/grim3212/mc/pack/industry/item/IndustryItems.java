@@ -49,6 +49,7 @@ public class IndustryItems implements IPartItems {
 	public static Item iron_parts;
 	public static Item low_gravity_controller;
 	public static Item gravity_controller;
+	public static Item mob_repulsor;
 	public static Item anti_radiation_helmet;
 	public static Item anti_radiation_chest;
 	public static Item anti_radiation_legs;
@@ -132,6 +133,7 @@ public class IndustryItems implements IPartItems {
 		aluminum_ingot = (new ItemManualPage("industry:explosives.alumingot")).setUnlocalizedName("aluminum_ingot").setCreativeTab(GrimIndustry.INSTANCE.getCreativeTab());
 		gravity_controller = new ItemGravityController().setCreativeTab(GrimIndustry.INSTANCE.getCreativeTab()).setUnlocalizedName("gravity_controller").setMaxStackSize(1);
 		low_gravity_controller = new ItemLowGravityController().setCreativeTab(GrimIndustry.INSTANCE.getCreativeTab()).setUnlocalizedName("low_gravity_controller").setMaxStackSize(1);
+		mob_repulsor = new ItemMobRepulsor().setCreativeTab(GrimIndustry.INSTANCE.getCreativeTab()).setUnlocalizedName("mob_repulsor").setMaxStackSize(1);
 		gate_grating = new ItemManualPage("industry:gates.gate").setUnlocalizedName("gate_grating").setCreativeTab(GrimIndustry.INSTANCE.getCreativeTab());
 		gate_trumpet = new ItemActivator().setUnlocalizedName("gate_trumpet").setCreativeTab(GrimIndustry.INSTANCE.getCreativeTab());
 		garage_panel = new ItemManualPage("industry:gates.garage").setUnlocalizedName("garage_panel").setCreativeTab(GrimIndustry.INSTANCE.getCreativeTab());
@@ -185,6 +187,7 @@ public class IndustryItems implements IPartItems {
 		Utils.registerItem(garage_remote, "garage_remote");
 		Utils.registerItem(gravity_controller, "gravity_controller");
 		Utils.registerItem(low_gravity_controller, "low_gravity_controller");
+		Utils.registerItem(mob_repulsor, "mob_repulsor");
 		Utils.registerItem(gravity_boots, "gravity_boots");
 		Utils.registerItem(anti_radiation_boots, "anti_radiation_boots");
 		Utils.registerItem(anti_radiation_legs, "anti_radiation_legs");
@@ -312,6 +315,7 @@ public class IndustryItems implements IPartItems {
 
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(gravity_controller, 1), new Object[] { "EGE", "GDG", "EGE", 'G', "ingotGold", 'E', Items.ENDER_EYE, 'D', "gemDiamond" }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(low_gravity_controller, 1), new Object[] { "EGE", "GDG", "EGE", 'G', "ingotGold", 'E', "enderpearl", 'D', "gemDiamond" }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(mob_repulsor, 1), new Object[] { "EGE", "GDG", "EGE", 'G', IndustryItems.gravity_controller, 'E', IndustryItems.gravity_boots, 'D', IndustryItems.low_gravity_controller }));
 		control = RecipeHelper.getLatestIRecipes(2);
 	}
 

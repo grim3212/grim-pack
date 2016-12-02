@@ -33,6 +33,7 @@ public class ManualIndustry implements IManualPart {
 	public static Page controller_page;
 	public static Page attract_page;
 	public static Page repulse_page;
+	public static Page mob_repulsor_page;
 	public static Page gravitor_page;
 	public static Page uranium_page;
 	public static Page radiationSuit_page;
@@ -114,6 +115,7 @@ public class ManualIndustry implements IManualPart {
 		controller_page = new PageCrafting("control", IndustryItems.control, 25);
 		attract_page = new PageCrafting("attract", IndustryBlocks.attracting, 25);
 		repulse_page = new PageCrafting("repulse", IndustryBlocks.repulsing, 25);
+		mob_repulsor_page = new PageCrafting("mob_repulsor", new ItemStack(IndustryItems.mob_repulsor));
 		gravitor_page = new PageCrafting("gravitor", IndustryBlocks.gravitoring, 25);
 		uranium_page = new PageCrafting("uranium", new ItemStack(IndustryBlocks.uranium_ore));
 		radiationSuit_page = new PageCrafting("armor", IndustryItems.armor, 20);
@@ -173,7 +175,7 @@ public class ManualIndustry implements IManualPart {
 		ManualRegistry.addChapter("fan", part).addPages(fan_page);
 		ManualRegistry.addChapter("extruders", part).addPages(extruder_page, extruderInfo_page);
 		ManualRegistry.addChapter("sensors", part).addPages(sensor_page, positionFinder_page, specificSensorInfo_page, specificSensorInfo2_page, specificSensor_page, upgradedSpecificSensor_page);
-		ManualRegistry.addChapter("gravity", part).addPages(gravityBoots_page, controller_page, attract_page, gravitor_page, repulse_page);
+		ManualRegistry.addChapter("gravity", part).addPages(gravityBoots_page, controller_page, attract_page, gravitor_page, repulse_page, mob_repulsor_page);
 		ManualRegistry.addChapter("refining", part).addPages(uranium_page, radiationSuit_page, uraniumSmelt_page, refinedUranium_page, plutonium_page, refinedPlutonium_page, reactorCore_page);
 		ManualRegistry.addChapter("reactor", part).addPages(graphite_page, graphiteRod_page, reactorCase_page, ironParts_page, reactor_page);
 		ManualRegistry.addChapter("explosives", part).addPages(aluminum_page, bombShell_page, c4_page, nuclearBomb_page);
