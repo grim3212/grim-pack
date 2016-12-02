@@ -159,7 +159,7 @@ public class PackGuiHandler implements IGuiHandler {
 		} else if (ID == SPECIFIC_SENSOR_GUI_ID) {
 			return new GuiSpecificSensor(player.inventory, (TileEntitySpecificSensor) tileentity, pos);
 		} else if (ID == PELLET_BAG_MAIN_GUI_ID) {
-			PelletBagInventory pelletBagInventory = new PelletBagInventory(player.getHeldItemOffhand(), player, 0);
+			PelletBagInventory pelletBagInventory = new PelletBagInventory(player.getHeldItemMainhand(), player, 0);
 			return new GuiPelletBag(pelletBagInventory, player.inventory);
 		} else if (ID == PELLET_BAG_OFF_GUI_ID) {
 			PelletBagInventory pelletBagInventory = new PelletBagInventory(player.getHeldItemOffhand(), player, 0);
