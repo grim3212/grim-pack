@@ -730,7 +730,14 @@ grimtools.slingshot.fire=Fire
 grimtools.slingshot.explosive=Explosive
 grimtools.slingshot.modeSwitched=Slingshot mode changed to 
 
+grimtools.powerstaff.FloatingPush=Floating Push
+grimtools.powerstaff.DroppingPush=Dropping Push
+grimtools.powerstaff.FloatingPull=Floating Pull
+grimtools.powerstaff.DroppingPull=Dropping Pull
+grimtools.powerstaff.modeSwitched=Power Staff mode changed to 
+
 tooltip.slingshot.currentMode=Current Mode: 
+tooltip.powerstaff.currentMode=Current Mode: 
 tooltip.buckets.empty=Empty
 tooltip.buckets.contains=Contains
 mask.blaze=Blaze
@@ -1141,7 +1148,7 @@ grimpack.manual.tools.subsection.sling.page.pellets.title=Pellets
 grimpack.manual.tools.subsection.sling.page.slingshot=The slingshot is an item that you right click to fire pellets with. The slingshot does not do very much damage but it still can hurt.
 grimpack.manual.tools.subsection.sling.page.slingshot.title=Recipe
 grimpack.manual.tools.subsection.staff=Powerstaff
-grimpack.manual.tools.subsection.staff.page.recipe=The powerstaff is an item that can manipulate blocks. It has two different modes which can be switched between by pressing Left-Control by default which is configurable. Push mode pushes blocks forward and pull mode pulls blocks backward. The blocks pushed do end up having gravity applied to them.
+grimpack.manual.tools.subsection.staff.page.recipe=The powerstaff can move blocks. It has four different modes which can be switched with the mode key, M by default. Push mode pushes blocks forward and pull mode pulls blocks backward. If in float mode blocks do not have gravity applied to them and can be suspended in space. The player can 'ride' the block. In dropping mode gravity is applied. This makes blocks behave like gravel or sand.
 grimpack.manual.tools.subsection.staff.page.recipe.title=Recipe
 grimpack.manual.tools.subsection.pokeball=Pokeballs
 grimpack.manual.tools.subsection.pokeball.page.recipe=Pokeballs are amazing items that when thrown and hit a mob capture the mob inside. When thrown again the mob will be released. Be aware these do not tame the mob and that this saves the mobs data when captured and will be released exactly as before.
