@@ -51,7 +51,7 @@ public class ItemBallisticKnife extends ItemManual {
 			return ActionResult.newResult(EnumActionResult.SUCCESS, new ItemStack(ToolsItems.unloaded_knife));
 		}
 		if (!isLoaded && !isKnife) {
-			if (Utils.consumeInventoryItem(playerIn, ToolsItems.ammo_part)) {
+			if (Utils.consumePlayerItem(playerIn, new ItemStack(ToolsItems.ammo_part)) != null) {
 				return ActionResult.newResult(EnumActionResult.SUCCESS, new ItemStack(ToolsItems.loaded_knife));
 			}
 		}

@@ -1,26 +1,15 @@
 package com.grim3212.mc.pack.tools.inventory;
 
-import com.grim3212.mc.pack.tools.items.ToolsItems;
-
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.inventory.ClickType;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 
 public class ContainerBackpack extends Container {
 
-	static ItemInventoryBase backpackInventory_Base;
-	public static int numRows;
-	public static boolean notify;
-
-	public ContainerBackpack(ItemInventoryBase backpackInventoryBase, InventoryPlayer inventoryPlayer) {
-		notify = false;
-		backpackInventory_Base = backpackInventoryBase;
-		ContainerBackpack.numRows = backpackInventory_Base.getSizeInventory() / 9;
-		int i = (ContainerBackpack.numRows - 4) * 18;
+	public ContainerBackpack(BackpackInventory backpackInventoryBase, InventoryPlayer inventoryPlayer) {
+		int i = (2 - 4) * 18;
 		int j;
 		int k;
 
@@ -41,13 +30,6 @@ public class ContainerBackpack extends Container {
 		}
 	}
 
-	public static void saveToNBT(ItemStack itemStack) {
-		if (!itemStack.hasTagCompound()) {
-			itemStack.setTagCompound(new NBTTagCompound());
-		}
-		backpackInventory_Base.writeToNBT(itemStack.getTagCompound());
-	}
-
 	@Override
 	public boolean canInteractWith(EntityPlayer entityplayer) {
 		return true;
@@ -57,51 +39,24 @@ public class ContainerBackpack extends Container {
 	public ItemStack transferStackInSlot(EntityPlayer player, int index) {
 		ItemStack itemstack = null;
 		Slot slot = (Slot) this.inventorySlots.get(index);
-		ItemStack itemstack2 = slot.getStack();
-		if (slot != null && slot.getHasStack() && itemstack2.getItem() != ToolsItems.backpack) {
-
-			if (itemstack2.getItem() == ToolsItems.backpack) {
-
-				BackpackInventory backpackInventory = new BackpackInventory(itemstack2, player, 0);
-				if (backpackInventory.getName() == backpackInventory_Base.getName()) {
-					return itemstack;
-				}
-			}
-
-			itemstack = itemstack2.copy();
+		if (slot != null && slot.getHasStack()) {
+			ItemStack itemstack1 = slot.getStack();
+			itemstack = itemstack1.copy();
 
 			if (index < 18) {
-				if (!this.mergeItemStack(itemstack2, 18, this.inventorySlots.size(), true)) {
+				if (!this.mergeItemStack(itemstack1, 18, this.inventorySlots.size(), true)) {
 					return null;
 				}
-			} else if (!this.mergeItemStack(itemstack2, 0, 18, false)) {
+			} else if (!this.mergeItemStack(itemstack1, 0, 18, false)) {
 				return null;
 			}
 
-			if (itemstack2.stackSize == 0) {
+			if (itemstack1.stackSize == 0) {
 				slot.putStack((ItemStack) null);
 			} else {
 				slot.onSlotChanged();
 			}
 		}
-		notify = true;
 		return itemstack;
 	}
-
-	@Override
-	public ItemStack slotClick(int slotId, int dragType, ClickType clickTypeIn, EntityPlayer player) {
-		Slot slot;
-		if (slotId >= 0 && slotId < inventorySlots.size()) {
-			slot = (Slot) inventorySlots.get(slotId);
-		} else {
-			slot = null;
-		}
-		if (slot != null && slot.isHere(player.inventory, player.inventory.currentItem)) {
-			return slot.getStack();
-		}
-		notify = true;
-
-		return super.slotClick(slotId, dragType, clickTypeIn, player);
-	}
-
 }

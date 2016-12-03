@@ -1,15 +1,37 @@
 package com.grim3212.mc.pack.tools.inventory;
 
+import java.util.UUID;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.TextComponentTranslation;
 
 public abstract class ItemInventoryBase implements IInventory {
+
+	protected String uniqueID;
+	protected ItemStack stack;
 	protected ItemStack[] playerInventory;
 	protected int size;
 
-	public ItemInventoryBase(ItemStack itemStack, EntityPlayer entityPlayer, int inventorySize) {
+	public ItemInventoryBase(ItemStack itemStack, EntityPlayer entityPlayer) {
+		this.stack = itemStack;
+
+		uniqueID = "";
+		if (!itemStack.hasTagCompound()) {
+			itemStack.setTagCompound(new NBTTagCompound());
+			uniqueID = UUID.randomUUID().toString();
+		}
+		size = readInvSizeFromNBT(itemStack.getTagCompound());
+		playerInventory = new ItemStack[size];
+		readFromNBT(itemStack.getTagCompound());
+	}
+
+	public ItemStack getStack() {
+		return stack;
 	}
 
 	@Override
@@ -18,8 +40,8 @@ public abstract class ItemInventoryBase implements IInventory {
 	}
 
 	@Override
-	public ItemStack getStackInSlot(int var1) {
-		return playerInventory[var1];
+	public ItemStack getStackInSlot(int slot) {
+		return playerInventory[slot];
 	}
 
 	@Override
@@ -69,6 +91,13 @@ public abstract class ItemInventoryBase implements IInventory {
 		size = size + i;
 	}
 
+	/**
+	 * Get the number of slots that this Inventory should have
+	 * 
+	 * @param nbtTagCompound
+	 *            Tag to check if extra slots are allocated
+	 * @return Number of slots
+	 */
 	public abstract int readInvSizeFromNBT(NBTTagCompound nbtTagCompound);
 
 	public abstract void readFromNBT(NBTTagCompound nbtTagCompound);
@@ -91,5 +120,41 @@ public abstract class ItemInventoryBase implements IInventory {
 	@Override
 	public boolean isItemValidForSlot(int i, ItemStack itemstack) {
 		return false;
+	}
+
+	@Override
+	public void openInventory(EntityPlayer player) {
+	}
+
+	@Override
+	public void closeInventory(EntityPlayer player) {
+	}
+
+	@Override
+	public int getField(int id) {
+		return 0;
+	}
+
+	@Override
+	public void setField(int id, int value) {
+	}
+
+	@Override
+	public int getFieldCount() {
+		return 0;
+	}
+
+	@Override
+	public void clear() {
+	}
+
+	@Override
+	public boolean hasCustomName() {
+		return this.stack.hasDisplayName();
+	}
+
+	@Override
+	public ITextComponent getDisplayName() {
+		return this.hasCustomName() ? new TextComponentString(this.getName()) : new TextComponentTranslation(this.getName(), new Object[0]);
 	}
 }

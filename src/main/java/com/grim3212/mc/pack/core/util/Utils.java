@@ -81,7 +81,7 @@ public class Utils {
 	 * 
 	 * @param player
 	 * @param checkStack
-	 * @return
+	 * @return The handler for the itemstack
 	 */
 	public static IItemHandler findItemStackSlot(EntityPlayer player, Predicate<ItemStack> checkStack) {
 		if (checkStack.test(player.getHeldItemOffhand())) {
@@ -110,53 +110,80 @@ public class Utils {
 		return null;
 	}
 
-	public static boolean consumeInventoryItem(EntityPlayer player, final Item item, int amount) {
-		IItemHandler handler = findItemStackSlot(player, new Predicate<ItemStack>() {
-			@Override
-			public boolean test(ItemStack t) {
-				if (t != null && item != null) {
-					return t.getItem() == item;
-				} else {
-					return false;
-				}
+	public static IItemHandler findItemStackSlot(IItemHandler handler, Predicate<ItemStack> checkStack) {
+		for (int slot = 0; slot < handler.getSlots(); ++slot) {
+			final ItemStack itemStack = handler.getStackInSlot(slot);
+
+			if (checkStack.test(itemStack)) {
+				return new RangedWrapper((IItemHandlerModifiable) handler, slot, slot + 1);
 			}
-		});
-
-		if (handler != null) {
-			handler.extractItem(0, amount, false);
-			return true;
-		}
-
-		return false;
-	}
-
-	public static boolean consumeInventoryItem(EntityPlayer player, final Item item) {
-		return Utils.consumeInventoryItem(player, item, 1);
-	}
-
-	@Nullable
-	public static ItemStack consumeInventoryItemStack(EntityPlayer player, final Item item, int amount) {
-		IItemHandler handler = findItemStackSlot(player, new Predicate<ItemStack>() {
-			@Override
-			public boolean test(ItemStack t) {
-				if (t != null && item != null) {
-					return t.getItem() == item;
-				} else {
-					return false;
-				}
-			}
-		});
-
-		if (handler != null) {
-			return handler.extractItem(0, amount, false);
 		}
 
 		return null;
 	}
 
 	@Nullable
-	public static ItemStack consumeInventoryItemStack(EntityPlayer player, final Item item) {
-		return Utils.consumeInventoryItemStack(player, item, 1);
+	public static ItemStack consumePlayerItem(EntityPlayer player, final ItemStack item, int amount, boolean simulate) {
+		IItemHandler handler = findItemStackSlot(player, new Predicate<ItemStack>() {
+			@Override
+			public boolean test(ItemStack t) {
+				if (t != null && item != null) {
+					return ItemStack.areItemsEqual(t, item);
+				} else {
+					return false;
+				}
+			}
+		});
+
+		if (handler != null) {
+			return handler.extractItem(0, amount, simulate);
+		}
+
+		return null;
+	}
+
+	@Nullable
+	public static ItemStack consumePlayerItem(EntityPlayer player, final ItemStack item) {
+		return Utils.consumePlayerItem(player, item, 1, false);
+	}
+
+	@Nullable
+	public static ItemStack consumeHandlerItem(IItemHandler handler, final ItemStack item, int amount, boolean simulate) {
+		IItemHandler itemHandler = findItemStackSlot(handler, new Predicate<ItemStack>() {
+			@Override
+			public boolean test(ItemStack t) {
+				if (t != null && item != null) {
+					return ItemStack.areItemsEqual(t, item);
+				} else {
+					return false;
+				}
+			}
+		});
+
+		if (itemHandler != null) {
+			return itemHandler.extractItem(0, amount, simulate);
+		}
+
+		return null;
+	}
+
+	@Nullable
+	public static ItemStack consumeHandlerItem(IItemHandler handler, final ItemStack item) {
+		return Utils.consumeHandlerItem(handler, item, 1, false);
+	}
+
+	public static IItemHandler getItemHandler(ItemStack stack) {
+		if (stack.hasCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null)) {
+			return stack.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
+		}
+		return null;
+	}
+
+	public static boolean hasItemHandler(ItemStack stack) {
+		if (stack.hasCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null)) {
+			return true;
+		}
+		return false;
 	}
 
 	public static IFluidHandler getFluidHandler(ItemStack stack) {

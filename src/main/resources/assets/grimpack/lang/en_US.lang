@@ -720,6 +720,17 @@ grimpack.jer.dungeon.desert_level20=Level 20 Desert Well
 grimpack.jer.dungeon.desert_level25=Level 25 Desert Well
 grimpack.jer.dungeon.desert_level30=Level 30 Desert Well
 
+grimtools.slingshot.random=Random
+grimtools.slingshot.all=All
+grimtools.slingshot.stone=Stone
+grimtools.slingshot.iron=Iron
+grimtools.slingshot.netherrack=Netherrack
+grimtools.slingshot.light=Light
+grimtools.slingshot.fire=Fire
+grimtools.slingshot.explosive=Explosive
+grimtools.slingshot.modeSwitched=Slingshot mode changed to 
+
+tooltip.slingshot.currentMode=Current Mode: 
 tooltip.buckets.empty=Empty
 tooltip.buckets.contains=Contains
 mask.blaze=Blaze
