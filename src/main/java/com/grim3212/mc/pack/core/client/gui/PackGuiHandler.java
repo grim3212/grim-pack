@@ -87,10 +87,10 @@ public class PackGuiHandler implements IGuiHandler {
 		} else if (ID == DERRICK_GUI_ID || ID == REFINERY_GUI_ID) {
 			return new ContainerMachine(player.inventory, (TileEntityMachine) tileentity);
 		} else if (ID == BACKPACK_MAIN_GUI_ID) {
-			BackpackInventory backpackInventory = new BackpackInventory(player.getHeldItemMainhand(), player, 0);
+			BackpackInventory backpackInventory = new BackpackInventory(player.getHeldItemMainhand());
 			return new ContainerBackpack(backpackInventory, player.inventory);
 		} else if (ID == BACKPACK_OFF_GUI_ID) {
-			BackpackInventory backpackInventory = new BackpackInventory(player.getHeldItemOffhand(), player, 0);
+			BackpackInventory backpackInventory = new BackpackInventory(player.getHeldItemOffhand());
 			return new ContainerBackpack(backpackInventory, player.inventory);
 		} else if (ID == PORTABLE_MAIN_GUI_ID || ID == PORTABLE_OFF_GUI_ID) {
 			return new ContainerCustomWorkbench(player.inventory, world, pos);
@@ -105,10 +105,10 @@ public class PackGuiHandler implements IGuiHandler {
 		} else if (ID == SPECIFIC_SENSOR_GUI_ID) {
 			return new ContainerSpecificSensor(pos, player.inventory);
 		} else if (ID == PELLET_BAG_MAIN_GUI_ID) {
-			PelletBagInventory pelletBagInventory = new PelletBagInventory(player.getHeldItemMainhand(), player, 0);
+			PelletBagInventory pelletBagInventory = new PelletBagInventory(player.getHeldItemMainhand());
 			return new ContainerPelletBag(pelletBagInventory, player.inventory);
 		} else if (ID == PELLET_BAG_OFF_GUI_ID) {
-			PelletBagInventory pelletBagInventory = new PelletBagInventory(player.getHeldItemOffhand(), player, 0);
+			PelletBagInventory pelletBagInventory = new PelletBagInventory(player.getHeldItemOffhand());
 			return new ContainerPelletBag(pelletBagInventory, player.inventory);
 		}
 
@@ -133,10 +133,10 @@ public class PackGuiHandler implements IGuiHandler {
 		} else if ((ID == GRILL_GUI_ID) && ((tileentity instanceof TileEntityGrill))) {
 			return new GuiGrill(player.inventory, (TileEntityGrill) tileentity);
 		} else if (ID == BACKPACK_MAIN_GUI_ID) {
-			BackpackInventory backpackInventory = new BackpackInventory(player.getHeldItemMainhand(), player, 0);
+			BackpackInventory backpackInventory = new BackpackInventory(player.getHeldItemMainhand());
 			return new GuiBackpack(backpackInventory, player.inventory);
 		} else if (ID == BACKPACK_OFF_GUI_ID) {
-			BackpackInventory backpackInventory = new BackpackInventory(player.getHeldItemOffhand(), player, 0);
+			BackpackInventory backpackInventory = new BackpackInventory(player.getHeldItemOffhand());
 			return new GuiBackpack(backpackInventory, player.inventory);
 		} else if (ID == PORTABLE_MAIN_GUI_ID) {
 			return new GuiPortable(player.inventory, world, pos, player.getHeldItemMainhand());
@@ -159,10 +159,10 @@ public class PackGuiHandler implements IGuiHandler {
 		} else if (ID == SPECIFIC_SENSOR_GUI_ID) {
 			return new GuiSpecificSensor(player.inventory, (TileEntitySpecificSensor) tileentity, pos);
 		} else if (ID == PELLET_BAG_MAIN_GUI_ID) {
-			PelletBagInventory pelletBagInventory = new PelletBagInventory(player.getHeldItemMainhand(), player, 0);
+			PelletBagInventory pelletBagInventory = new PelletBagInventory(player.getHeldItemMainhand());
 			return new GuiPelletBag(pelletBagInventory, player.inventory);
 		} else if (ID == PELLET_BAG_OFF_GUI_ID) {
-			PelletBagInventory pelletBagInventory = new PelletBagInventory(player.getHeldItemOffhand(), player, 0);
+			PelletBagInventory pelletBagInventory = new PelletBagInventory(player.getHeldItemOffhand());
 			return new GuiPelletBag(pelletBagInventory, player.inventory);
 		}
 
