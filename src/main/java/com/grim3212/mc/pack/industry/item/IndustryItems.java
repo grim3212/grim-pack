@@ -288,8 +288,8 @@ public class IndustryItems implements IPartItems {
 
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(iron_stick, 4), new Object[] { " i ", "iSi", " i ", 'i', "ingotIron", 'S', "stickWood" }));
 
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(gate_grating, 4), new Object[] { " i ", "iii", " i ", 'i', "stickIron" }));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(gate_grating, 4), new Object[] { " i ", "iii", " i ", 'i', "rodIron" }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(gate_grating, 4), new Object[] { " i ", "iii", " i ", 'i', "iron_stick" }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(gate_grating, 4), new Object[] { " i ", "iii", " i ", 'i', "iron_stick" }));
 		gates.addAll(RecipeHelper.getLatestIRecipes(2));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(gate_trumpet, 1), new Object[] { "g  ", "wg ", " wi", 'w', Blocks.WOOL, 'g', "ingotGold", 'i', "ingotIron" }));
 
