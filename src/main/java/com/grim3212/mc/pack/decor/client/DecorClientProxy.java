@@ -98,6 +98,7 @@ public class DecorClientProxy extends DecorCommonProxy {
 		RenderHelper.renderBlock(DecorBlocks.burning_wood);
 		RenderHelper.renderBlock(DecorBlocks.hardened_wood);
 		RenderHelper.renderBlock(DecorBlocks.colorizer);
+		RenderHelper.renderBlock(DecorBlocks.colorizer_light);
 		RenderHelper.renderBlock(DecorBlocks.calendar);
 		RenderHelper.renderBlock(DecorBlocks.wall_clock);
 		RenderHelper.renderBlockWithMetaInInventory(DecorBlocks.light_bulb, 2);
@@ -150,7 +151,7 @@ public class DecorClientProxy extends DecorCommonProxy {
 				}
 				return 16777215;
 			}
-		}, DecorBlocks.decor_stairs, DecorBlocks.decor_door, DecorBlocks.corner, DecorBlocks.sloped_post, DecorBlocks.full_pyramid, DecorBlocks.slope, DecorBlocks.sloped_angle, DecorBlocks.sloped_intersection, DecorBlocks.oblique_slope, DecorBlocks.slanted_corner, DecorBlocks.pyramid, DecorBlocks.colorizer, DecorBlocks.counter, DecorBlocks.table, DecorBlocks.stool, DecorBlocks.chair, DecorBlocks.wall, DecorBlocks.fence, DecorBlocks.fence_gate, DecorBlocks.lamp_post_bottom, DecorBlocks.lamp_post_middle, DecorBlocks.lamp_post_top, DecorBlocks.grill, DecorBlocks.chimney, DecorBlocks.stove,
+		}, DecorBlocks.decor_stairs, DecorBlocks.decor_door, DecorBlocks.corner, DecorBlocks.sloped_post, DecorBlocks.full_pyramid, DecorBlocks.slope, DecorBlocks.sloped_angle, DecorBlocks.sloped_intersection, DecorBlocks.oblique_slope, DecorBlocks.slanted_corner, DecorBlocks.pyramid, DecorBlocks.colorizer, DecorBlocks.colorizer_light, DecorBlocks.counter, DecorBlocks.table, DecorBlocks.stool, DecorBlocks.chair, DecorBlocks.wall, DecorBlocks.fence, DecorBlocks.fence_gate, DecorBlocks.lamp_post_bottom, DecorBlocks.lamp_post_middle, DecorBlocks.lamp_post_top, DecorBlocks.grill, DecorBlocks.chimney, DecorBlocks.stove,
 				DecorBlocks.firepit, DecorBlocks.firering, DecorBlocks.fireplace);
 
 		Minecraft.getMinecraft().getItemColors().registerItemColorHandler(new IItemColor() {
@@ -174,7 +175,7 @@ public class DecorClientProxy extends DecorCommonProxy {
 				}
 				return 16777215;
 			}
-		}, DecorBlocks.decor_stairs, DecorBlocks.decor_door, DecorBlocks.corner, DecorBlocks.sloped_post, DecorBlocks.full_pyramid, DecorBlocks.slope, DecorBlocks.sloped_angle, DecorBlocks.sloped_intersection, DecorBlocks.oblique_slope, DecorBlocks.slanted_corner, DecorBlocks.pyramid, DecorBlocks.colorizer, DecorBlocks.grill, DecorBlocks.chimney, DecorBlocks.stove, DecorBlocks.firepit, DecorBlocks.firering, DecorBlocks.fireplace, DecorBlocks.counter, DecorBlocks.table, DecorBlocks.stool, DecorBlocks.chair, DecorBlocks.wall, DecorBlocks.fence, DecorBlocks.fence_gate,
+		}, DecorBlocks.decor_stairs, DecorBlocks.decor_door, DecorBlocks.corner, DecorBlocks.sloped_post, DecorBlocks.full_pyramid, DecorBlocks.slope, DecorBlocks.sloped_angle, DecorBlocks.sloped_intersection, DecorBlocks.oblique_slope, DecorBlocks.slanted_corner, DecorBlocks.pyramid, DecorBlocks.colorizer, DecorBlocks.colorizer_light, DecorBlocks.grill, DecorBlocks.chimney, DecorBlocks.stove, DecorBlocks.firepit, DecorBlocks.firering, DecorBlocks.fireplace, DecorBlocks.counter, DecorBlocks.table, DecorBlocks.stool, DecorBlocks.chair, DecorBlocks.wall, DecorBlocks.fence, DecorBlocks.fence_gate,
 				DecorBlocks.lamp_post_bottom, DecorBlocks.lamp_post_middle, DecorBlocks.lamp_post_top);
 
 		Minecraft.getMinecraft().getItemColors().registerItemColorHandler(new IItemColor() {

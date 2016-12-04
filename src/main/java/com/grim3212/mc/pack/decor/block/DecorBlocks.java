@@ -58,6 +58,7 @@ public class DecorBlocks implements IPartItems {
 	public static Block grill;
 	public static Block hardened_wood;
 	public static Block colorizer;
+	public static Block colorizer_light;
 	public static Block burning_wood;
 	// Super slope shapes
 	public static Block corner;
@@ -103,6 +104,7 @@ public class DecorBlocks implements IPartItems {
 		grill = new BlockGrill().setUnlocalizedName("grill");
 		hardened_wood = (new BlockHardenedWood()).setHardness(1.5F).setResistance(12F).setUnlocalizedName("hardened_wood").setCreativeTab(GrimDecor.INSTANCE.getCreativeTab());
 		colorizer = (new BlockColorizer()).setUnlocalizedName("colorizer");
+		colorizer_light = (new BlockColorizerLight()).setUnlocalizedName("colorizer_light");
 		burning_wood = (new BlockBurningWood()).setHardness(0.8F).setResistance(5F).setUnlocalizedName("burning_wood").setCreativeTab(GrimDecor.INSTANCE.getCreativeTab());
 		corner = (new BlockSlopedRotate(SlopeType.Corner)).setUnlocalizedName("corner");
 		pyramid = (new BlockHedge(SlopeType.Pyramid)).setUnlocalizedName("pyramid");
@@ -133,6 +135,7 @@ public class DecorBlocks implements IPartItems {
 		Utils.registerBlock(burning_wood, "burning_wood");
 		Utils.registerBlock(lantern, "lantern", new ItemLantern(lantern));
 		Utils.registerBlock(colorizer, "colorizer", new ItemColorizer(colorizer));
+		Utils.registerBlock(colorizer_light, "colorizer_light", new ItemColorizer(colorizer_light));
 		Utils.registerBlock(grill, "grill", new ItemGrill(grill));
 		Utils.registerBlock(fireplace, "fireplace", new ItemColorizer(fireplace));
 		Utils.registerBlock(firering, "firering", new ItemColorizer(firering));
@@ -202,7 +205,8 @@ public class DecorBlocks implements IPartItems {
 
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(hardened_wood, 9), new Object[] { "###", "#W#", "###", '#', "stone", 'W', "plankWood" }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(colorizer, 2), new Object[] { " # ", "#W#", " # ", '#', "dye", 'W', hardened_wood }));
-		colorizers = RecipeHelper.getLatestIRecipes(2);
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(colorizer_light, 1), new Object[] { " # ", "#W#", " # ", '#', colorizer, 'W', Items.GLOWSTONE_DUST }));
+		colorizers = RecipeHelper.getLatestIRecipes(3);
 
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(burning_wood, 5), new Object[] { " # ", "#W#", " # ", '#', "netherrack", 'W', "plankWood" }));
 

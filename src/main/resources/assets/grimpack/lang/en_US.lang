@@ -52,6 +52,7 @@ tile.lantern_bone.name=Bone Lantern
 tile.lantern_iron.name=Iron Lantern
 tile.hardened_wood.name=Hardened Wood
 tile.colorizer.name=Colorizer
+tile.colorizer_light.name=Colorizer Light
 tile.table.name=Table
 tile.counter.name=Counter
 tile.stool.name=Stool
