@@ -33,8 +33,8 @@ public class ItemExtinguisher extends ItemManual {
 	}
 
 	@Override
-	public ActionResult<ItemStack> onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn, EnumHand hand) {
-		if (itemStackIn.getItemDamage() == 0) {
+	public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand hand) {
+		if (playerIn.getHeldItem(hand).getItemDamage() == 0) {
 			double d = playerIn.posX;
 			double d1 = playerIn.posY;
 			double d2 = playerIn.posZ;
@@ -58,10 +58,10 @@ public class ItemExtinguisher extends ItemManual {
 					}
 				}
 			}
-			itemStackIn.damageItem(1, playerIn);
+			playerIn.getHeldItem(hand).damageItem(1, playerIn);
 			worldIn.playSound((EntityPlayer) null, playerIn.getPosition(), SoundEvents.BLOCK_LAVA_EXTINGUISH, SoundCategory.BLOCKS, 2.0F, (1.0F + (worldIn.rand.nextFloat() - worldIn.rand.nextFloat()) * 0.2F) * 0.7F);
 			playerIn.extinguish();
 		}
-		return ActionResult.newResult(EnumActionResult.SUCCESS, itemStackIn);
+		return ActionResult.newResult(EnumActionResult.SUCCESS, playerIn.getHeldItem(hand));
 	}
 }

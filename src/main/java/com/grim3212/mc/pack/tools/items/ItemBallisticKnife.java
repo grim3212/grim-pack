@@ -40,22 +40,22 @@ public class ItemBallisticKnife extends ItemManual {
 	}
 
 	@Override
-	public ActionResult<ItemStack> onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn, EnumHand hand) {
+	public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand hand) {
 		if (isLoaded) {
 			worldIn.playSound(playerIn, playerIn.getPosition(), SoundEvents.ENTITY_ARROW_SHOOT, SoundCategory.PLAYERS, 1.0F, 1.0F / (itemRand.nextFloat() * 0.4F + 0.8F));
 			if (!worldIn.isRemote) {
 				EntityBallisticKnife bKnife = new EntityBallisticKnife(worldIn, playerIn);
 				bKnife.setAim(playerIn, playerIn.rotationPitch, playerIn.rotationYaw, 0.0F, 2.75F, 1.0F);
-				worldIn.spawnEntityInWorld(bKnife);
+				worldIn.spawnEntity(bKnife);
 			}
 			return ActionResult.newResult(EnumActionResult.SUCCESS, new ItemStack(ToolsItems.unloaded_knife));
 		}
 		if (!isLoaded && !isKnife) {
-			if (Utils.consumePlayerItem(playerIn, new ItemStack(ToolsItems.ammo_part)) != null) {
+			if (!Utils.consumePlayerItem(playerIn, new ItemStack(ToolsItems.ammo_part)).isEmpty()) {
 				return ActionResult.newResult(EnumActionResult.SUCCESS, new ItemStack(ToolsItems.loaded_knife));
 			}
 		}
-		return ActionResult.newResult(EnumActionResult.SUCCESS, itemStackIn);
+		return ActionResult.newResult(EnumActionResult.SUCCESS, playerIn.getHeldItem(hand));
 	}
 
 	@Override
@@ -64,12 +64,12 @@ public class ItemBallisticKnife extends ItemManual {
 
 		if (slot == EntityEquipmentSlot.MAINHAND) {
 			if (!isLoaded && !isKnife) {
-				multimap.put(SharedMonsterAttributes.ATTACK_DAMAGE.getAttributeUnlocalizedName(), new AttributeModifier(ATTACK_DAMAGE_MODIFIER, "Weapon modifier", 0, 0));
+				multimap.put(SharedMonsterAttributes.ATTACK_DAMAGE.getName(), new AttributeModifier(ATTACK_DAMAGE_MODIFIER, "Weapon modifier", 0, 0));
 			} else {
-				multimap.put(SharedMonsterAttributes.ATTACK_DAMAGE.getAttributeUnlocalizedName(), new AttributeModifier(ATTACK_DAMAGE_MODIFIER, "Weapon modifier", 20, 0));
+				multimap.put(SharedMonsterAttributes.ATTACK_DAMAGE.getName(), new AttributeModifier(ATTACK_DAMAGE_MODIFIER, "Weapon modifier", 20, 0));
 			}
 
-			multimap.put(SharedMonsterAttributes.ATTACK_SPEED.getAttributeUnlocalizedName(), new AttributeModifier(ATTACK_SPEED_MODIFIER, "Weapon modifier", -2.4f, 0));
+			multimap.put(SharedMonsterAttributes.ATTACK_SPEED.getName(), new AttributeModifier(ATTACK_SPEED_MODIFIER, "Weapon modifier", -2.4f, 0));
 		}
 		return multimap;
 	}

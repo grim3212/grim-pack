@@ -78,15 +78,15 @@ public abstract class ItemWand extends ItemManual {
 	protected abstract boolean doEffect(World world, EntityPlayer entityplayer, WandCoord3D start, WandCoord3D end, WandCoord3D clicked, int keys, IBlockState state);
 
 	protected void sendMessage(EntityPlayer player, ITextComponent message) {
-		if (!player.worldObj.isRemote) {
-			player.addChatComponentMessage(message);
+		if (!player.world.isRemote) {
+			player.sendMessage(message);
 		}
 	}
 
 	protected void error(EntityPlayer entityplayer, WandCoord3D p, String reason) {
-		entityplayer.worldObj.playSound(entityplayer, p.pos, SoundEvents.BLOCK_LAVA_EXTINGUISH, SoundCategory.BLOCKS, (entityplayer.worldObj.rand.nextFloat() + 0.7F) / 2.0F, 0.5F + entityplayer.worldObj.rand.nextFloat() * 0.3F);
+		entityplayer.world.playSound(entityplayer, p.pos, SoundEvents.BLOCK_LAVA_EXTINGUISH, SoundCategory.BLOCKS, (entityplayer.world.rand.nextFloat() + 0.7F) / 2.0F, 0.5F + entityplayer.world.rand.nextFloat() * 0.3F);
 		sendMessage(entityplayer, new TextComponentTranslation("error.wand." + reason));
-		particles(entityplayer.worldObj, p.pos, 3);
+		particles(entityplayer.world, p.pos, 3);
 	}
 
 	protected abstract double[] getParticleColor();
@@ -149,7 +149,7 @@ public abstract class ItemWand extends ItemManual {
 	}
 
 	@Override
-	public EnumActionResult onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
+	public EnumActionResult onItemUse(EntityPlayer playerIn, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
 		FREE = (ToolsConfig.ENABLE_free_build_mode) || (playerIn.capabilities.isCreativeMode);
 
 		this.stateOrig = worldIn.getBlockState(pos);
@@ -172,6 +172,7 @@ public abstract class ItemWand extends ItemManual {
 			return EnumActionResult.SUCCESS;
 		}
 
+		ItemStack stack = playerIn.getHeldItem(hand);
 		int keys = NBTHelper.getInt(stack, "keys");
 		if (keys == 0) {
 			worldIn.playSound((EntityPlayer) null, pos, state.getBlock().getSoundType(state, worldIn, pos, null).getBreakSound(), SoundCategory.BLOCKS, (state.getBlock().getSoundType(state, worldIn, pos, null).getVolume() + 1.0F) / 2.0F, state.getBlock().getSoundType(state, worldIn, pos, null).getPitch() * 0.8F);

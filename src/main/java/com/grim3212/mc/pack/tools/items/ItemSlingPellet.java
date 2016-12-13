@@ -1,7 +1,5 @@
 package com.grim3212.mc.pack.tools.items;
 
-import java.util.List;
-
 import javax.annotation.Nullable;
 
 import com.grim3212.mc.pack.core.item.ItemManual;
@@ -12,6 +10,7 @@ import com.grim3212.mc.pack.tools.util.EnumPelletType;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.MathHelper;
 
 public class ItemSlingPellet extends ItemManual {
@@ -28,12 +27,12 @@ public class ItemSlingPellet extends ItemManual {
 
 	@Override
 	public String getUnlocalizedName(ItemStack stack) {
-		int i = MathHelper.clamp_int(stack.getItemDamage(), 0, EnumPelletType.values.length);
+		int i = MathHelper.clamp(stack.getItemDamage(), 0, EnumPelletType.values.length);
 		return super.getUnlocalizedName() + "." + EnumPelletType.values[i].getUnlocalized();
 	}
 
 	@Override
-	public void getSubItems(Item item, CreativeTabs tab, List<ItemStack> list) {
+	public void getSubItems(Item item, CreativeTabs tab, NonNullList<ItemStack> list) {
 		for (int j = 0; j < EnumPelletType.values.length; ++j) {
 			list.add(new ItemStack(item, 1, j));
 		}

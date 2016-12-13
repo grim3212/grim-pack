@@ -21,7 +21,7 @@ import com.grim3212.mc.pack.industry.network.MessageSensorSetRender;
 import com.grim3212.mc.pack.industry.tile.IndustryTileEntities;
 import com.grim3212.mc.pack.industry.world.IndustryGenerate;
 
-import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.SoundEvent;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -79,8 +79,8 @@ public class GrimIndustry extends GrimPart {
 	}
 
 	@Override
-	protected Item getCreativeTabIcon() {
-		return Item.getItemFromBlock(IndustryBlocks.togglerack);
+	protected ItemStack getCreativeTabIcon() {
+		return new ItemStack(IndustryBlocks.togglerack);
 	}
 
 	@Override

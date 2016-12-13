@@ -35,7 +35,7 @@ public class ItemChisel extends ItemManual {
 	}
 
 	@Override
-	public EnumActionResult onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
+	public EnumActionResult onItemUse(EntityPlayer playerIn, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
 		IBlockState state = worldIn.getBlockState(pos);
 		Block block = state.getBlock();
 		if (ChiselRegistry.chiselBlocks.contains(block)) {
@@ -53,15 +53,15 @@ public class ItemChisel extends ItemManual {
 					Item item = ChiselRegistry.chiselItem.get(type);
 					int l1 = ChiselRegistry.chiselItemQuantity.get(type).intValue();
 					int i2 = ChiselRegistry.chiselItemDamage.get(type).intValue();
-					worldIn.spawnEntityInWorld(new EntityItem(worldIn, (double) pos.getX() + f1, (double) pos.getY() + f2, (double) pos.getZ() + f3, new ItemStack(item, l1, i2)));
+					worldIn.spawnEntity(new EntityItem(worldIn, (double) pos.getX() + f1, (double) pos.getY() + f2, (double) pos.getZ() + f3, new ItemStack(item, l1, i2)));
 
 					if (j1 >= 94) {
 						EntityItem items = new EntityItem(worldIn, (float) pos.getX() + f1, (float) pos.getY() + f2, (float) pos.getZ() + f3, new ItemStack(item, l1, i2));
-						worldIn.spawnEntityInWorld(items);
-						stack.damageItem(1, playerIn);
+						worldIn.spawnEntity(items);
+						playerIn.getHeldItem(hand).damageItem(1, playerIn);
 					}
 
-					stack.damageItem(1, playerIn);
+					playerIn.getHeldItem(hand).damageItem(1, playerIn);
 					worldIn.playSound((EntityPlayer) null, pos, block.getSoundType(state, worldIn, pos, null).getBreakSound(), SoundCategory.BLOCKS, 1.0F, 1.0F);
 					return EnumActionResult.FAIL;
 				}

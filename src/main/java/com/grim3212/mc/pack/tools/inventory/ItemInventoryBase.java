@@ -46,14 +46,14 @@ public abstract class ItemInventoryBase implements IInventory {
 
 	@Override
 	public ItemStack decrStackSize(int slot, int number) {
-		if (playerInventory[slot] == null)
-			return null;
+		if (playerInventory[slot].isEmpty())
+			return ItemStack.EMPTY;
 		ItemStack itemstack;
-		if (playerInventory[slot].stackSize > number) {
+		if (playerInventory[slot].getCount() > number) {
 			itemstack = playerInventory[slot].splitStack(number);
 		} else {
 			itemstack = playerInventory[slot];
-			playerInventory[slot] = null;
+			playerInventory[slot] = ItemStack.EMPTY;
 		}
 		markDirty();
 		return itemstack;
@@ -62,7 +62,7 @@ public abstract class ItemInventoryBase implements IInventory {
 	@Override
 	public ItemStack removeStackFromSlot(int index) {
 		ItemStack itemstack = getStackInSlot(index);
-		setInventorySlotContents(index, null);
+		setInventorySlotContents(index, ItemStack.EMPTY);
 		return itemstack;
 	}
 
@@ -78,8 +78,8 @@ public abstract class ItemInventoryBase implements IInventory {
 	public void markDirty() {
 		for (int i = 0; i < size; i++) {
 			ItemStack itemstack = getStackInSlot(i);
-			if (itemstack != null && itemstack.stackSize == 0) {
-				setInventorySlotContents(i, null);
+			if (!itemstack.isEmpty() && itemstack.getCount() == 0) {
+				setInventorySlotContents(i, ItemStack.EMPTY);
 			}
 		}
 	}
@@ -106,9 +106,9 @@ public abstract class ItemInventoryBase implements IInventory {
 
 	@Override
 	public abstract String getName();
-
+	
 	@Override
-	public boolean isUseableByPlayer(EntityPlayer entityPlayer) {
+	public boolean isUsableByPlayer(EntityPlayer entityPlayer) {
 		return true;
 	}
 

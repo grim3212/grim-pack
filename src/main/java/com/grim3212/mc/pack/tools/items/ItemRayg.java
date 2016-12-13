@@ -29,17 +29,17 @@ public class ItemRayg extends ItemManual {
 	}
 
 	@Override
-	public ActionResult<ItemStack> onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn, EnumHand hand) {
-		if (playerIn.capabilities.isCreativeMode || Utils.consumePlayerItem(playerIn, new ItemStack(ToolsItems.energy_canister)) != null) {
+	public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand hand) {
+		if (playerIn.capabilities.isCreativeMode || !Utils.consumePlayerItem(playerIn, new ItemStack(ToolsItems.energy_canister)).isEmpty()) {
 			worldIn.playSound((EntityPlayer) null, playerIn.getPosition(), GrimTools.raygunSound, SoundCategory.PLAYERS, 1.0F, 1.0F / (itemRand.nextFloat() * 0.4F + 0.8F));
 			if (!worldIn.isRemote) {
 				EntityRayw ray = new EntityRayw(worldIn, playerIn);
 				ray.setAim(playerIn, playerIn.rotationPitch, playerIn.rotationYaw, 0.0F, 2.5F, 0.0F);
-				worldIn.spawnEntityInWorld(ray);
+				worldIn.spawnEntity(ray);
 			}
 			if (!playerIn.capabilities.isCreativeMode)
 				playerIn.inventory.addItemStackToInventory(new ItemStack(ToolsItems.empty_energy_canister));
 		}
-		return ActionResult.newResult(EnumActionResult.SUCCESS, itemStackIn);
+		return ActionResult.newResult(EnumActionResult.SUCCESS, playerIn.getHeldItem(hand));
 	}
 }

@@ -78,20 +78,22 @@ public class BlockCheeseMaker extends BlockManual {
 				double d2 = (double) (worldIn.rand.nextFloat() * f) + (double) (1.0F - f) * 0.5D;
 				EntityItem entityitem = new EntityItem(worldIn, (double) pos.getX() + d, (double) pos.getY() + d1, (double) pos.getZ() + d2, new ItemStack(CuisineBlocks.cheese_block));
 				entityitem.setPickupDelay(10);
-				worldIn.spawnEntityInWorld(entityitem);
+				worldIn.spawnEntity(entityitem);
 			}
 		}
 	}
 
 	@Override
-	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ) {
-		if (heldItem != null) {
+	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
+		ItemStack heldItem = playerIn.getHeldItem(hand);
+
+		if (!heldItem.isEmpty()) {
 			if (heldItem.getItem() == Items.MILK_BUCKET) {
 				if (state.getValue(STAGE) == 0) {
 					worldIn.setBlockState(pos, state.withProperty(STAGE, 1), 2);
 
-					--heldItem.stackSize;
-					if (heldItem.stackSize <= 0) {
+					heldItem.shrink(1);
+					if (heldItem.getCount() <= 0) {
 						playerIn.inventory.addItemStackToInventory(new ItemStack(Items.BUCKET));
 					}
 				}

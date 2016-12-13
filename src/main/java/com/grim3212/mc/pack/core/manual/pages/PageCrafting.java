@@ -86,11 +86,11 @@ public class PageCrafting extends Page {
 
 		this.renderRecipe(gui, outputRecipes);
 
-		if (tooltipItem != null) {
+		if (!tooltipItem.isEmpty()) {
 			TooltipHelper.renderToolTip(tooltipItem, mouseX, mouseY);
 		}
 
-		tooltipItem = null;
+		tooltipItem = ItemStack.EMPTY;
 	}
 
 	public void renderRecipe(GuiManualPage gui, List<IRecipe> output) {
@@ -174,8 +174,8 @@ public class PageCrafting extends Page {
 		// ore dictionary classes
 		else if (recipe instanceof ShapedOreRecipe) {
 			ShapedOreRecipe shapedOre = (ShapedOreRecipe) recipe;
-			int width = ReflectionHelper.<Integer, ShapedOreRecipe> getPrivateValue(ShapedOreRecipe.class, shapedOre, 4);
-			int height = ReflectionHelper.<Integer, ShapedOreRecipe> getPrivateValue(ShapedOreRecipe.class, shapedOre, 5);
+			int width = ReflectionHelper.<Integer, ShapedOreRecipe>getPrivateValue(ShapedOreRecipe.class, shapedOre, 4);
+			int height = ReflectionHelper.<Integer, ShapedOreRecipe>getPrivateValue(ShapedOreRecipe.class, shapedOre, 5);
 
 			for (int y = 0; y < height; y++) {
 				for (int x = 0; x < width; x++) {

@@ -11,6 +11,7 @@ import com.grim3212.mc.pack.core.network.MessageBetterExplosion;
 import com.grim3212.mc.pack.core.network.PacketDispatcher;
 
 import net.minecraft.block.Block;
+import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -20,7 +21,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
-import net.minecraft.enchantment.Enchantment;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
@@ -60,8 +60,8 @@ public class Utils {
 	public static void registerItem(Item item, String name) {
 		GameRegistry.register(item, new ResourceLocation(GrimPack.modID, name));
 	}
-	
-	//added by scotto
+
+	// added by scotto
 	public static void registerEnchantment(Enchantment ench, String name) {
 		GameRegistry.register(ench, new ResourceLocation(GrimPack.modID, name));
 	}
@@ -139,7 +139,7 @@ public class Utils {
 			return handler.extractItem(0, amount, simulate);
 		}
 
-		return null;
+		return ItemStack.EMPTY;
 	}
 
 	@Nullable
@@ -152,7 +152,7 @@ public class Utils {
 		IItemHandler itemHandler = findItemStackSlot(handler, new Predicate<ItemStack>() {
 			@Override
 			public boolean test(ItemStack t) {
-				if (t != null && item != null) {
+				if (!t.isEmpty()) {
 					return ItemStack.areItemsEqual(t, item);
 				} else {
 					return false;
@@ -164,7 +164,7 @@ public class Utils {
 			return itemHandler.extractItem(0, amount, simulate);
 		}
 
-		return null;
+		return ItemStack.EMPTY;
 	}
 
 	@Nullable

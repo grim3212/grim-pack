@@ -11,7 +11,7 @@ import com.grim3212.mc.pack.cuisine.events.OnBonemealEvent;
 import com.grim3212.mc.pack.cuisine.item.CuisineItems;
 import com.grim3212.mc.pack.cuisine.world.CuisineGenerate;
 
-import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
@@ -47,8 +47,8 @@ public class GrimCuisine extends GrimPart {
 	}
 
 	@Override
-	protected Item getCreativeTabIcon() {
-		return CuisineItems.cheese;
+	protected ItemStack getCreativeTabIcon() {
+		return new ItemStack(CuisineItems.cheese);
 	}
 
 	@Override

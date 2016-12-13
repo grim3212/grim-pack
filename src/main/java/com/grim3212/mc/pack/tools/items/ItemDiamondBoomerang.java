@@ -14,13 +14,13 @@ import net.minecraft.world.World;
 public class ItemDiamondBoomerang extends ItemBoomerang {
 
 	@Override
-	public ActionResult<ItemStack> onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn, EnumHand hand) {
-		if (itemStackIn.getItemDamage() == 0) {
-			EntityDiamondBoomerang boom = new EntityDiamondBoomerang(worldIn, playerIn, itemStackIn);
-			worldIn.spawnEntityInWorld(boom);
+	public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand hand) {
+		if (playerIn.getHeldItem(hand).getItemDamage() == 0) {
+			EntityDiamondBoomerang boom = new EntityDiamondBoomerang(worldIn, playerIn, playerIn.getHeldItem(hand));
+			worldIn.spawnEntity(boom);
 			playerIn.inventory.removeStackFromSlot(playerIn.inventory.currentItem);
 		}
-		return ActionResult.newResult(EnumActionResult.SUCCESS, itemStackIn);
+		return ActionResult.newResult(EnumActionResult.SUCCESS, playerIn.getHeldItem(hand));
 	}
 
 	@Override

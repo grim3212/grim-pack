@@ -14,7 +14,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-//Should be more types of mazes beside STONEBRICK?
+//TODO: Should be more types of mazes beside STONEBRICK?
 //Could use maze to create mining tunnels?
 //Create chains of fungus if they are stacked vertically together?
 
@@ -31,7 +31,6 @@ public class BlockFungusMaze extends BlockFungusBase implements IManualBlock {
 	@Override
 	public boolean canReplace(IBlockState side, IBlockState state) {
 		Block block = side.getBlock();
-		int meta = (Integer) state.getValue(TYPE);
 		return block == Blocks.AIR || block instanceof BlockBush || block == Blocks.FIRE || block == Blocks.SNOW_LAYER || block == Blocks.REEDS || block == Blocks.VINE || ((block == WorldBlocks.fungus_growing || block == WorldBlocks.fungus_building || block == WorldBlocks.fungus_killing) && (side != state || block != this));
 	}
 
@@ -51,9 +50,9 @@ public class BlockFungusMaze extends BlockFungusBase implements IManualBlock {
 	}
 
 	@Override
-	public void updateTick(World worldIn, BlockPos pos, IBlockState state, Random rand) { //ticks randomly? Does each new instance have a separate tick?
-		int meta = (Integer) state.getValue(TYPE);
-
+	public void updateTick(World worldIn, BlockPos pos, IBlockState state, Random rand) { 
+		//ticks randomly? Does each new instance have a separate tick?
+		
 		// builder 'except maze
 		//Scotto: Maze should mirror new blocks it creates 4 high if possible. Maze passages should be at least 2 wide instead of 1
 		//Scotto: Maze tends to create lots of closed in spaces

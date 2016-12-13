@@ -5,11 +5,8 @@ import java.util.Random;
 import com.grim3212.mc.pack.core.manual.IManualEntry.IManualBlock;
 import com.grim3212.mc.pack.core.manual.pages.Page;
 import com.grim3212.mc.pack.world.client.ManualWorld;
-import com.grim3212.mc.pack.world.blocks.BlockRandomite;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockBush;
-import net.minecraft.block.BlockStoneBrick;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.math.BlockPos;
@@ -59,8 +56,6 @@ public class BlockFungusOre extends BlockFungusBase implements IManualBlock {
 
 	@Override
 	public void updateTick(World worldIn, BlockPos pos, IBlockState state, Random rand) {
-		int meta = (Integer) state.getValue(TYPE);
-
 		if (!spreadToSide(worldIn, pos, state, false, true)) {
 			Block i2b = getOre(rand);
 			worldIn.setBlockState(pos, i2b.getDefaultState(), 2);
@@ -75,4 +70,3 @@ public class BlockFungusOre extends BlockFungusBase implements IManualBlock {
 		return ManualWorld.buildFungus_page;
 	}
 }
-

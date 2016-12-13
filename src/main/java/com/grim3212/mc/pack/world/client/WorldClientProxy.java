@@ -4,9 +4,9 @@ import com.grim3212.mc.pack.GrimPack;
 import com.grim3212.mc.pack.core.client.RenderHelper;
 import com.grim3212.mc.pack.core.proxy.ClientProxy;
 import com.grim3212.mc.pack.world.blocks.BlockFungusBuilding;
-import com.grim3212.mc.pack.world.blocks.BlockFungusLayer;
 import com.grim3212.mc.pack.world.blocks.BlockFungusGrowing;
 import com.grim3212.mc.pack.world.blocks.BlockFungusKilling;
+import com.grim3212.mc.pack.world.blocks.BlockFungusLayer;
 import com.grim3212.mc.pack.world.blocks.BlockFungusMaze;
 import com.grim3212.mc.pack.world.blocks.BlockFungusOre;
 import com.grim3212.mc.pack.world.blocks.BlockGlowstoneSeed;
@@ -51,7 +51,7 @@ public class WorldClientProxy extends ClientProxy {
 		ModelLoader.setCustomStateMapper(WorldBlocks.fungus_ore_building, new StateMap.Builder().ignore(BlockFungusOre.TYPE).build());
 		ModelLoader.setCustomStateMapper(WorldBlocks.fungus_growing, new StateMap.Builder().ignore(BlockFungusGrowing.TYPE).build());
 		ModelLoader.setCustomStateMapper(WorldBlocks.fungus_killing, new StateMap.Builder().ignore(BlockFungusKilling.TYPE).build());
-		
+
 		ModelLoader.setCustomStateMapper(WorldBlocks.fungus_maze, new StateMap.Builder().ignore(BlockFungusMaze.TYPE).build());
 
 		RenderHelper.renderBlock(WorldBlocks.randomite);
@@ -63,7 +63,7 @@ public class WorldClientProxy extends ClientProxy {
 		RenderHelper.renderBlockWithMetaInInventory(WorldBlocks.fungus_layer_building, 16);
 		RenderHelper.renderBlockWithMetaInInventory(WorldBlocks.fungus_growing, 16);
 		RenderHelper.renderBlockWithMetaInInventory(WorldBlocks.fungus_killing, 16);
-		
+
 		RenderHelper.renderBlockWithMetaInInventory(WorldBlocks.fungus_maze, 1);
 
 		RenderHelper.renderItem(WorldItems.gunpowder_reed_item);
@@ -126,7 +126,7 @@ public class WorldClientProxy extends ClientProxy {
 						return BlockFungusKilling.color[meta];
 					}
 					if (stack.getItem() == Item.getItemFromBlock(WorldBlocks.fungus_maze)) {
-					return BlockFungusMaze.color[meta];
+						return BlockFungusMaze.color[meta];
 					}
 				}
 				return 0xffffff;

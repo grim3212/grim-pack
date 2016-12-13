@@ -20,12 +20,12 @@ public class ItemHealthPack extends ItemManual {
 	}
 
 	@Override
-	public ActionResult<ItemStack> onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn, EnumHand hand) {
+	public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand hand) {
 		if (playerIn.shouldHeal()) {
-			itemStackIn.stackSize--;
+			playerIn.getHeldItem(hand).shrink(1);
 			playerIn.heal(healAmount);
 		}
-		return ActionResult.newResult(EnumActionResult.SUCCESS, itemStackIn);
+		return ActionResult.newResult(EnumActionResult.SUCCESS, playerIn.getHeldItem(hand));
 	}
 
 	@Override

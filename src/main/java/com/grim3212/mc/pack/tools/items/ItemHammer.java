@@ -28,7 +28,7 @@ public class ItemHammer extends ItemManual {
 
 	@Override
 	public boolean onBlockStartBreak(ItemStack itemstack, BlockPos pos, EntityPlayer entityplayer) {
-		World world = entityplayer.worldObj;
+		World world = entityplayer.world;
 
 		if (!world.isRemote && !entityplayer.capabilities.isCreativeMode) {
 			world.getBlockState(pos).getBlock();

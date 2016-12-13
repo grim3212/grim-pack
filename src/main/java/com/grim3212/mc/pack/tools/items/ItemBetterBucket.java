@@ -26,6 +26,7 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
@@ -47,7 +48,7 @@ public class ItemBetterBucket extends ItemManual {
 	public final float maxPickupTemp;
 	public final boolean pickupFire;
 	public final int milkingLevel;
-	private ItemStack onBroken = null;
+	private ItemStack onBroken = ItemStack.EMPTY;
 	private boolean milkPause = false;
 	public final BucketType bucketType;
 
@@ -108,7 +109,7 @@ public class ItemBetterBucket extends ItemManual {
 
 		return ManualTools.obsidianBucket_page;
 	}
-	
+
 	@Override
 	public void onCreated(ItemStack stack, World worldIn, EntityPlayer playerIn) {
 		setFluid(stack, "empty");
@@ -144,7 +145,7 @@ public class ItemBetterBucket extends ItemManual {
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void getSubItems(Item itemIn, CreativeTabs tab, List<ItemStack> subItems) {
+	public void getSubItems(Item itemIn, CreativeTabs tab, NonNullList<ItemStack> subItems) {
 		// Add empty
 		ItemStack emptyStack = new ItemStack(this);
 		setFluid(emptyStack, "empty");
@@ -196,7 +197,7 @@ public class ItemBetterBucket extends ItemManual {
 				return unloc.replaceFirst("\\s", " " + Blocks.FIRE.getLocalizedName() + " ");
 			}
 
-			if (empty != null) {
+			if (!empty.isEmpty()) {
 				return super.getItemStackDisplayName(empty);
 			}
 			return super.getItemStackDisplayName(stack);
@@ -206,9 +207,10 @@ public class ItemBetterBucket extends ItemManual {
 	}
 
 	@Override
-	public ActionResult<ItemStack> onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn, EnumHand hand) {
-		boolean canContainMore = getAmount(itemStackIn) < maxCapacity;
+	public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand hand) {
+		ItemStack itemStackIn = playerIn.getHeldItem(hand);
 
+		boolean canContainMore = getAmount(itemStackIn) < maxCapacity;
 		if (milkPause) {
 			milkPause = false;
 			return ActionResult.newResult(EnumActionResult.SUCCESS, itemStackIn);
@@ -395,7 +397,7 @@ public class ItemBetterBucket extends ItemManual {
 			}
 
 			worldIn.setBlockState(pos, block.getDefaultState(), 3);
-			worldIn.notifyBlockOfStateChange(pos, block);
+			worldIn.notifyNeighborsOfStateChange(pos, block, true);
 		}
 		return true;
 	}
@@ -430,7 +432,7 @@ public class ItemBetterBucket extends ItemManual {
 
 	public ItemStack tryBreakBucket(ItemStack stack) {
 		if (getAmount(stack) <= 0) {
-			if (this.onBroken != null) {
+			if (!this.onBroken.isEmpty()) {
 				return this.onBroken.copy();
 			} else {
 				return this.empty.copy();

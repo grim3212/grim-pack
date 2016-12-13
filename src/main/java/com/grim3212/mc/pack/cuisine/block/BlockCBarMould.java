@@ -58,7 +58,7 @@ public class BlockCBarMould extends BlockManual {
 	}
 
 	@Override
-	public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn) {
+	public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos) {
 		if (!this.canBlockStay(worldIn, pos)) {
 			this.dropBlockAsItem(worldIn, pos, state, 0);
 			worldIn.setBlockToAir(pos);
@@ -101,19 +101,21 @@ public class BlockCBarMould extends BlockManual {
 				double d2 = (double) (worldIn.rand.nextFloat() * f) + (double) (1.0F - f) * 0.5D;
 				EntityItem entityitem = new EntityItem(worldIn, (double) pos.getX() + d, (double) pos.getY() + d1, (double) pos.getZ() + d2, new ItemStack(CuisineItems.chocolate_bar, 2));
 				entityitem.setPickupDelay(10);
-				worldIn.spawnEntityInWorld(entityitem);
+				worldIn.spawnEntity(entityitem);
 			}
 		}
 	}
 
 	@Override
-	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ) {
-		if (heldItem != null && heldItem.getItem() == CuisineItems.chocolate_bowl_hot) {
+	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
+		ItemStack heldItem = playerIn.getHeldItem(hand);
+
+		if (!heldItem.isEmpty() && heldItem.getItem() == CuisineItems.chocolate_bowl_hot) {
 			if (worldIn.getBlockState(pos).getValue(STAGE) == 0) {
 				worldIn.setBlockState(pos, state.withProperty(STAGE, 1), 2);
 
-				--heldItem.stackSize;
-				if (heldItem.stackSize <= 0) {
+				heldItem.shrink(1);
+				if (heldItem.getCount() <= 0) {
 					playerIn.inventory.addItemStackToInventory(new ItemStack(Items.BOWL));
 				}
 			}

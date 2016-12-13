@@ -56,4 +56,8 @@ public abstract class ItemHandlerBase implements IItemHandlerModifiable {
 		return this.hasCustomName() ? new TextComponentString(this.getName()) : new TextComponentTranslation(this.getName(), new Object[0]);
 	}
 
+	@Override
+	public int getSlotLimit(int slot) {
+		return 64;
+	}
 }

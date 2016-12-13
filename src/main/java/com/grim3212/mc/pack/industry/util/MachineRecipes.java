@@ -108,21 +108,21 @@ public class MachineRecipes {
 	}
 
 	public void addModernFurnaceRecipe(ItemStack input, ItemStack stack, float experience) {
-		if (getResult(input, MachineType.MODERN_FURNACE) != null)
+		if (!getResult(input, MachineType.MODERN_FURNACE).isEmpty())
 			return;
 
 		this.getModernFurnaceList().add(new ImmutableTriple<ItemStack, ItemStack, Float>(input, stack, experience));
 	}
 
 	public void addDerrickRecipe(ItemStack input, ItemStack stack, float experience) {
-		if (getResult(input, MachineType.DERRICK) != null)
+		if (!getResult(input, MachineType.DERRICK).isEmpty())
 			return;
 
 		this.getDerrickList().add(new ImmutableTriple<ItemStack, ItemStack, Float>(input, stack, experience));
 	}
 
 	public void addRefineryRecipe(ItemStack input, ItemStack stack, float experience) {
-		if (getResult(input, MachineType.REFINERY) != null)
+		if (!getResult(input, MachineType.REFINERY).isEmpty())
 			return;
 
 		this.getRefineryList().add(new ImmutableTriple<ItemStack, ItemStack, Float>(input, stack, experience));
@@ -139,7 +139,7 @@ public class MachineRecipes {
 			}
 		}
 
-		return null;
+		return ItemStack.EMPTY;
 	}
 
 	/**

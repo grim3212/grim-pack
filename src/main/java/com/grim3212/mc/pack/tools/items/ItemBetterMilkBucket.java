@@ -20,6 +20,7 @@ import net.minecraft.stats.StatList;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.NonNullList;
 import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.fluids.Fluid;
@@ -50,7 +51,7 @@ public class ItemBetterMilkBucket extends ItemManual {
 	}
 
 	@Override
-	public void getSubItems(Item itemIn, CreativeTabs tab, List<ItemStack> subItems) {
+	public void getSubItems(Item itemIn, CreativeTabs tab, NonNullList<ItemStack> subItems) {
 		ItemStack stack = new ItemStack(this);
 		ItemBetterBucket.setFluid(stack, "milk");
 		ItemBetterBucket.setAmount(stack, parent.maxCapacity);
@@ -110,14 +111,14 @@ public class ItemBetterMilkBucket extends ItemManual {
 	}
 
 	@Override
-	public ActionResult<ItemStack> onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn, EnumHand hand) {
+	public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand hand) {
 		if (milkPause) {
 			milkPause = false;
-			return ActionResult.newResult(EnumActionResult.SUCCESS, itemStackIn);
+			return ActionResult.newResult(EnumActionResult.SUCCESS, playerIn.getHeldItem(hand));
 		}
 
 		playerIn.setActiveHand(hand);
-		return ActionResult.newResult(EnumActionResult.SUCCESS, itemStackIn);
+		return ActionResult.newResult(EnumActionResult.SUCCESS, playerIn.getHeldItem(hand));
 	}
 
 	@Override

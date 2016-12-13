@@ -5,7 +5,6 @@ import java.util.Random;
 import com.grim3212.mc.pack.core.manual.IManualEntry.IManualBlock;
 import com.grim3212.mc.pack.core.manual.pages.Page;
 import com.grim3212.mc.pack.world.client.ManualWorld;
-import com.grim3212.mc.pack.world.blocks.BlockRandomite;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockBush;
@@ -90,7 +89,7 @@ public class BlockFungusBuilding extends BlockFungusBase implements IManualBlock
 			0xFF7500, // 8 lava
 			0x82510c, // 9 glowstone
 			0x999999, // 10 clay
-			0xDE90DD, //11 randomite
+			0xDE90DD, // 11 randomite
 			0x851d0c, // 12 leaves
 			0x777777, // 13 gravel
 			0x888888, // 14 snow

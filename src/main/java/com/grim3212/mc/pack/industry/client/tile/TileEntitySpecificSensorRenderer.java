@@ -27,7 +27,7 @@ public class TileEntitySpecificSensorRenderer extends TileEntitySpecialRenderer<
 
 			if (te.getSensorPos() != null && te.getWorld().getWorldBorder().contains(te.getSensorPos())) {
 				Minecraft mc = Minecraft.getMinecraft();
-				EntityPlayer player = mc.thePlayer;
+				EntityPlayer player = mc.player;
 
 				double d0 = player.lastTickPosX + (player.posX - player.lastTickPosX) * (double) partialTicks;
 				double d1 = player.lastTickPosY + (player.posY - player.lastTickPosY) * (double) partialTicks;

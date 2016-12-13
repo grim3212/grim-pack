@@ -24,7 +24,7 @@ public class ItemCocoaFruit extends ItemManual {
 	}
 
 	@Override
-	public EnumActionResult onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
+	public EnumActionResult onItemUse(EntityPlayer playerIn, World worldIn, BlockPos pos, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
 		IBlockState iblockstate = worldIn.getBlockState(pos);
 		Block block = iblockstate.getBlock();
 
@@ -32,17 +32,20 @@ public class ItemCocoaFruit extends ItemManual {
 			pos = pos.offset(side);
 		}
 
-		if (stack.stackSize == 0) {
+		ItemStack stack = playerIn.getHeldItem(hand);
+
+		if (stack.getCount() == 0) {
 			return EnumActionResult.FAIL;
 		} else if (!playerIn.canPlayerEdit(pos, side, stack)) {
 			return EnumActionResult.FAIL;
-		} else if (worldIn.canBlockBePlaced(CuisineBlocks.cocoa_tree_sapling, pos, false, side, (Entity) null, stack)) {
+		} else if (worldIn.mayPlace(CuisineBlocks.cocoa_tree_sapling, pos, false, side, (Entity) null)) {
+
 			int i = this.getMetadata(stack.getMetadata());
-			IBlockState iblockstate1 = CuisineBlocks.cocoa_tree_sapling.onBlockPlaced(worldIn, pos, side, hitX, hitY, hitZ, i, playerIn);
+			IBlockState iblockstate1 = CuisineBlocks.cocoa_tree_sapling.getStateForPlacement(worldIn, pos, side, hitX, hitY, hitZ, i, playerIn, hand);
 
 			if (placeBlockAt(stack, playerIn, worldIn, pos, side, hitX, hitY, hitZ, iblockstate1)) {
 				worldIn.playSound(playerIn, (double) ((float) pos.getX() + 0.5F), (double) ((float) pos.getY() + 0.5F), (double) ((float) pos.getZ() + 0.5F), CuisineBlocks.cocoa_tree_sapling.getSoundType(iblockstate1, worldIn, pos, playerIn).getPlaceSound(), SoundCategory.BLOCKS, (CuisineBlocks.cocoa_tree_sapling.getSoundType(iblockstate1, worldIn, pos, playerIn).getVolume() + 1.0F) / 2.0F, CuisineBlocks.cocoa_tree_sapling.getSoundType(iblockstate1, worldIn, pos, playerIn).getPitch() * 0.8F);
-				--stack.stackSize;
+				stack.shrink(1);
 			}
 
 			return EnumActionResult.SUCCESS;

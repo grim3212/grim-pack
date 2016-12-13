@@ -16,6 +16,7 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 
@@ -36,8 +37,11 @@ public class ItemSodaBottle extends ItemManual {
 	}
 
 	@Override
-	public ActionResult<ItemStack> onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn, EnumHand hand) {
+	public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand hand) {
+		ItemStack itemStackIn = playerIn.getHeldItem(hand);
+
 		if (playerIn.shouldHeal()) {
+
 			if (itemStackIn.getItemDamage() == 0) {
 				playerIn.heal(10);
 			}
@@ -68,11 +72,11 @@ public class ItemSodaBottle extends ItemManual {
 			if (itemStackIn.getItemDamage() == 12) {
 				playerIn.heal(5);
 			}
-			itemStackIn.stackSize--;
+			itemStackIn.shrink(1);
 		}
 		if (itemStackIn.getItemDamage() == 5) {
-			playerIn.attackEntityFrom(DamageSource.generic, 8.0F);
-			itemStackIn.stackSize--;
+			playerIn.attackEntityFrom(DamageSource.GENERIC, 8.0F);
+			itemStackIn.shrink(1);
 		} else {
 			playerIn.heal(0);
 		}
@@ -81,14 +85,14 @@ public class ItemSodaBottle extends ItemManual {
 
 	@Override
 	public String getUnlocalizedName(ItemStack par1ItemStack) {
-		int i = MathHelper.clamp_int(par1ItemStack.getItemDamage(), 0, 13);
+		int i = MathHelper.clamp(par1ItemStack.getItemDamage(), 0, 13);
 		return super.getUnlocalizedName() + "." + sodaTypes[i];
 	}
 
 	@Override
-	public void getSubItems(Item item, CreativeTabs tab, List<ItemStack> list) {
+	public void getSubItems(Item itemIn, CreativeTabs tab, NonNullList<ItemStack> subItems) {
 		for (int j = 0; j < 13; ++j) {
-			list.add(new ItemStack(item, 1, j));
+			subItems.add(new ItemStack(itemIn, 1, j));
 		}
 	}
 

@@ -128,7 +128,7 @@ public class Page {
 	}
 
 	public void renderItemCutWild(GuiManualPage gui, ItemStack item, int x, int y) {
-		if (item != null) {
+		if (!item.isEmpty()) {
 			if (item.getItemDamage() == OreDictionary.WILDCARD_VALUE)
 				item.setItemDamage(0);
 

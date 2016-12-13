@@ -19,13 +19,13 @@ public class ItemBoomerang extends ItemManual {
 	}
 
 	@Override
-	public ActionResult<ItemStack> onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn, EnumHand hand) {
-		if (itemStackIn.getItemDamage() == 0) {
-			EntityBoomerang boom = new EntityBoomerang(worldIn, playerIn, itemStackIn);
-			worldIn.spawnEntityInWorld(boom);
+	public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand hand) {
+		if (playerIn.getHeldItem(hand).getItemDamage() == 0) {
+			EntityBoomerang boom = new EntityBoomerang(worldIn, playerIn, playerIn.getHeldItem(hand));
+			worldIn.spawnEntity(boom);
 			playerIn.inventory.removeStackFromSlot(playerIn.inventory.currentItem);
 		}
-		return ActionResult.newResult(EnumActionResult.SUCCESS, itemStackIn);
+		return ActionResult.newResult(EnumActionResult.SUCCESS, playerIn.getHeldItem(hand));
 	}
 
 	@Override

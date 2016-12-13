@@ -26,16 +26,16 @@ public class ItemKnife extends ItemManual {
 	}
 
 	@Override
-	public ActionResult<ItemStack> onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn, EnumHand hand) {
-		--itemStackIn.stackSize;
+	public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand hand) {
+		playerIn.getHeldItem(hand).shrink(1);
 		worldIn.playSound(playerIn, playerIn.getPosition(), SoundEvents.BLOCK_WOOD_BUTTON_CLICK_ON, SoundCategory.PLAYERS, 0.5F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
 
 		if (!worldIn.isRemote) {
 			EntityKnife knife = new EntityKnife(worldIn, playerIn);
 			knife.setAim(playerIn, playerIn.rotationPitch, playerIn.rotationYaw, 0.0F, 2.4F, 1.3F);
-			worldIn.spawnEntityInWorld(knife);
+			worldIn.spawnEntity(knife);
 		}
 
-		return ActionResult.newResult(EnumActionResult.SUCCESS, itemStackIn);
+		return ActionResult.newResult(EnumActionResult.SUCCESS, playerIn.getHeldItem(hand));
 	}
 }

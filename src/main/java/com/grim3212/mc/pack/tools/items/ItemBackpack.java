@@ -1,7 +1,5 @@
 package com.grim3212.mc.pack.tools.items;
 
-import java.util.List;
-
 import com.grim3212.mc.pack.GrimPack;
 import com.grim3212.mc.pack.core.client.gui.PackGuiHandler;
 import com.grim3212.mc.pack.core.inventory.InventoryCapability;
@@ -19,6 +17,7 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.NonNullList;
 import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.util.Constants;
@@ -54,8 +53,9 @@ public class ItemBackpack extends ItemManual {
 		return ManualTools.backpack_page;
 	}
 
+	@Override
 	@SideOnly(Side.CLIENT)
-	public void getSubItems(Item par1, CreativeTabs par2CreativeTabs, List<ItemStack> list) {
+	public void getSubItems(Item par1, CreativeTabs par2CreativeTabs, NonNullList<ItemStack> list) {
 		for (int i = 0; i < 17; i++) {
 			NBTTagCompound nbt = new NBTTagCompound();
 			nbt.setInteger("color", i - 1);
@@ -108,12 +108,12 @@ public class ItemBackpack extends ItemManual {
 	}
 
 	@Override
-	public ActionResult<ItemStack> onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn, EnumHand hand) {
+	public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand hand) {
 		if (!worldIn.isRemote) {
-			playerIn.openGui(GrimPack.INSTANCE, hand == EnumHand.MAIN_HAND ? PackGuiHandler.BACKPACK_MAIN_GUI_ID : PackGuiHandler.BACKPACK_OFF_GUI_ID, playerIn.worldObj, (int) playerIn.posX, (int) playerIn.posY, (int) playerIn.posZ);
+			playerIn.openGui(GrimPack.INSTANCE, hand == EnumHand.MAIN_HAND ? PackGuiHandler.BACKPACK_MAIN_GUI_ID : PackGuiHandler.BACKPACK_OFF_GUI_ID, playerIn.world, (int) playerIn.posX, (int) playerIn.posY, (int) playerIn.posZ);
 		}
 
-		return ActionResult.newResult(EnumActionResult.SUCCESS, itemStackIn);
+		return ActionResult.newResult(EnumActionResult.SUCCESS, playerIn.getHeldItem(hand));
 	}
 
 	public static int getColor(ItemStack itemStack) {

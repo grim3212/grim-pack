@@ -124,8 +124,8 @@ public class ItemBuildingWand extends ItemWand {
 		// count items in inv.
 		for (int t = 0; t < entityplayer.inventory.getSizeInventory(); t++) {
 			ItemStack currentItem = entityplayer.inventory.getStackInSlot(t);
-			if (currentItem != null && currentItem.isItemEqual(neededStack)) {
-				invItems += currentItem.stackSize;
+			if (!currentItem.isEmpty() && currentItem.isItemEqual(neededStack)) {
+				invItems += currentItem.getCount();
 				if (invItems == neededItems)
 					break; // enough, no need to continue counting.
 			}
@@ -137,10 +137,10 @@ public class ItemBuildingWand extends ItemWand {
 		// remove blocks from inventory, highest positions first (quickbar last)
 		for (int t = entityplayer.inventory.getSizeInventory() - 1; t >= 0; t--) {
 			ItemStack currentItem = entityplayer.inventory.getStackInSlot(t);
-			if (currentItem != null && currentItem.isItemEqual(neededStack)) {
-				int stackSize = currentItem.stackSize;
+			if (!currentItem.isEmpty() && currentItem.isItemEqual(neededStack)) {
+				int stackSize = currentItem.getCount();
 				if (stackSize < neededItems) {
-					entityplayer.inventory.setInventorySlotContents(t, null);
+					entityplayer.inventory.setInventorySlotContents(t, ItemStack.EMPTY);
 					neededItems -= stackSize;
 				} else if (stackSize >= neededItems) {
 					entityplayer.inventory.decrStackSize(t, neededItems);
@@ -161,7 +161,7 @@ public class ItemBuildingWand extends ItemWand {
 		int itemsInInventory = 0;
 		for (int t = 0; t < entityplayer.inventory.getSizeInventory(); t++) {
 			ItemStack currentItem = entityplayer.inventory.getStackInSlot(t);
-			if (currentItem != null) {
+			if (!currentItem.isEmpty()) {
 				if (currentItem.getItem() == vanillaBucket) {
 					itemsInInventory++;
 				} else if (currentItem.getItem() instanceof ItemBetterBucket) {
@@ -179,9 +179,9 @@ public class ItemBuildingWand extends ItemWand {
 		// last)
 		for (int t = entityplayer.inventory.getSizeInventory() - 1; t >= 0; t--) {
 			ItemStack currentItem = entityplayer.inventory.getStackInSlot(t);
-			if (currentItem != null) {
+			if (!currentItem.isEmpty()) {
 				if (currentItem.getItem() == vanillaBucket) {
-					entityplayer.inventory.setInventorySlotContents(t, null);
+					entityplayer.inventory.setInventorySlotContents(t, ItemStack.EMPTY);
 					entityplayer.inventory.addItemStackToInventory(new ItemStack(Items.BUCKET));
 					if (--neededItems == 0)
 						return true;
@@ -517,7 +517,7 @@ public class ItemBuildingWand extends ItemWand {
 							stateAt = world.getBlockState(newPos);
 
 							if (stateAt.getBlock() == Blocks.FLOWING_WATER) {
-								world.notifyBlockOfStateChange(newPos, Blocks.FLOWING_WATER);
+								world.notifyNeighborsOfStateChange(newPos, Blocks.FLOWING_WATER, true);
 								if (world.getBlockState(newPos.up()).getBlock() == Blocks.AIR)
 									particles(world, newPos, 2);
 							}
@@ -580,7 +580,7 @@ public class ItemBuildingWand extends ItemWand {
 							BlockPos newPos = new BlockPos(X, Y, Z);
 							stateAt = world.getBlockState(newPos);
 							if (stateAt.getBlock() == Blocks.FLOWING_LAVA) {
-								world.notifyBlockOfStateChange(newPos, Blocks.FLOWING_LAVA);
+								world.notifyNeighborsOfStateChange(newPos, Blocks.FLOWING_LAVA, true);
 							}
 						}
 					}

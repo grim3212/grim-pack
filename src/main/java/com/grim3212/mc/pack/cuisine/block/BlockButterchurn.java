@@ -34,14 +34,16 @@ public class BlockButterchurn extends BlockManual {
 	}
 
 	@Override
-	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ) {
-		if (heldItem != null) {
+	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
+		ItemStack heldItem = playerIn.getHeldItem(hand);
+
+		if (!heldItem.isEmpty()) {
 			if (heldItem.getItem() == Items.MILK_BUCKET) {
 				if (state.getValue(ACTIVE) == 0) {
 					worldIn.setBlockState(pos, state.cycleProperty(ACTIVE), 4);
 
-					--heldItem.stackSize;
-					if (heldItem.stackSize <= 0) {
+					heldItem.shrink(1);
+					if (heldItem.getCount() <= 0) {
 						playerIn.inventory.addItemStackToInventory(new ItemStack(Items.BUCKET));
 					}
 				}
@@ -81,7 +83,7 @@ public class BlockButterchurn extends BlockManual {
 
 				EntityItem entityitem = new EntityItem(worldIn, (double) pos.getX() + d, (double) pos.getY() + d1, (double) pos.getZ() + d2, new ItemStack(CuisineItems.butter, amount));
 				entityitem.setPickupDelay(10);
-				worldIn.spawnEntityInWorld(entityitem);
+				worldIn.spawnEntity(entityitem);
 			}
 		}
 	}

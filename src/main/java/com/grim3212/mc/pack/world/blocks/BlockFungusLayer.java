@@ -5,7 +5,6 @@ import java.util.Random;
 import com.grim3212.mc.pack.core.manual.IManualEntry.IManualBlock;
 import com.grim3212.mc.pack.core.manual.pages.Page;
 import com.grim3212.mc.pack.world.client.ManualWorld;
-import com.grim3212.mc.pack.world.blocks.BlockRandomite;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockBush;
@@ -21,7 +20,11 @@ public class BlockFungusLayer extends BlockFungusBase implements IManualBlock {
 		super(true);
 	}
 
-	public static final Block[] buildId = { Blocks.MOSSY_COBBLESTONE, // 0 change this to clay
+	public static final Block[] buildId = { Blocks.MOSSY_COBBLESTONE, // 0
+																		// change
+																		// this
+																		// to
+																		// clay
 			Blocks.DIRT, // 1
 			Blocks.STONE, // 2
 			Blocks.SAND, // 3
@@ -42,7 +45,6 @@ public class BlockFungusLayer extends BlockFungusBase implements IManualBlock {
 	@Override
 	public boolean canReplace(IBlockState side, IBlockState state) {
 		Block block = side.getBlock();
-		int meta = (Integer) state.getValue(TYPE);
 		return (block == Blocks.FLOWING_WATER || block == Blocks.WATER) || (block == Blocks.FLOWING_LAVA || block == Blocks.LAVA) || block == Blocks.AIR || block instanceof BlockBush || block == Blocks.FIRE || block == Blocks.SNOW_LAYER || block == Blocks.REEDS || block == Blocks.VINE || ((block == WorldBlocks.fungus_growing || block == WorldBlocks.fungus_building || block == WorldBlocks.fungus_killing) && (side != state || block != this));
 	}
 
@@ -91,7 +93,7 @@ public class BlockFungusLayer extends BlockFungusBase implements IManualBlock {
 			0x210B52, // 9 obsidian
 			0xF7FFFF, // 10 snow - icon can't be very light
 			0x5C402D, // 11 soul sand
-			0x1C947A, //12 prismarine
+			0x1C947A, // 12 prismarine
 			0xBD580D, // 13 magma
 			0xAD8445, // 14 planks
 			0x8AA9DB, // 15 packed ice
@@ -102,4 +104,3 @@ public class BlockFungusLayer extends BlockFungusBase implements IManualBlock {
 		return ManualWorld.buildFungus_page;
 	}
 }
-

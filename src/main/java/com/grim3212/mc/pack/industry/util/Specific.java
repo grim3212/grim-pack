@@ -7,7 +7,7 @@ import net.minecraft.nbt.NBTTagCompound;
 
 public class Specific {
 
-	private ItemStack stack = null;
+	private ItemStack stack = ItemStack.EMPTY;
 	private String playerName = "";
 	private String entityName = "";
 
@@ -60,7 +60,7 @@ public class Specific {
 		NBTTagCompound specificTag = compound.getCompoundTag("Specific");
 
 		if (specificTag.hasKey("Specific_Item")) {
-			this.stack = ItemStack.loadItemStackFromNBT(specificTag.getCompoundTag("Specific_Item"));
+			this.stack = new ItemStack(specificTag.getCompoundTag("Specific_Item"));
 		}
 		if (specificTag.hasKey("Specific_Player")) {
 			this.playerName = specificTag.getString("Specific_Player");
@@ -73,7 +73,7 @@ public class Specific {
 	public boolean hasSpecific(SensorMode specificity) {
 		switch (specificity) {
 		case ITEM:
-			if (stack != null) {
+			if (!stack.isEmpty()) {
 				return true;
 			}
 			break;

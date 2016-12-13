@@ -56,7 +56,7 @@ public class ParticleAir extends Particle {
 	public void onUpdate() {
 		super.onUpdate();
 
-		if (this.isCollided) {
+		if (this.onGround) {
 			this.setExpired();
 		}
 
@@ -142,7 +142,7 @@ public class ParticleAir extends Particle {
 		double d0 = this.posX - x;
 		double d1 = this.posY - y;
 		double d2 = this.posZ - z;
-		return (double) MathHelper.sqrt_double(d0 * d0 + d1 * d1 + d2 * d2);
+		return (double) MathHelper.sqrt(d0 * d0 + d1 * d1 + d2 * d2);
 	}
 
 	public void addVelocity(double x, double y, double z) {

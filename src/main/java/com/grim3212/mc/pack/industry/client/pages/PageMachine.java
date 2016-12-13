@@ -1,8 +1,6 @@
 package com.grim3212.mc.pack.industry.client.pages;
 
 import java.awt.Color;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.lwjgl.opengl.GL11;
 
@@ -19,6 +17,7 @@ import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 
 public class PageMachine extends Page {
@@ -30,7 +29,7 @@ public class PageMachine extends Page {
 	private int recipeShown = 0;
 	private int update = 0;
 	private int updateTime = 1;
-	private List<ItemStack> inputs = new ArrayList<ItemStack>();
+	private NonNullList<ItemStack> inputs = NonNullList.create();
 	private boolean isArray = false;
 	private MachineType type;
 
@@ -83,11 +82,11 @@ public class PageMachine extends Page {
 		FontRenderer renderer = Minecraft.getMinecraft().fontRendererObj;
 		renderer.drawString(output.getDisplayName(), (gui.getManualWidth() / 2 - renderer.getStringWidth(output.getDisplayName()) / 2) + gui.getX(), gui.getY() + 210, Color.BLACK.getRGB(), false);
 
-		if (tooltipItem != null) {
+		if (!tooltipItem.isEmpty()) {
 			TooltipHelper.renderToolTip(tooltipItem, mouseX, mouseY);
 		}
 
-		tooltipItem = null;
+		tooltipItem = ItemStack.EMPTY;
 	}
 
 	@Override

@@ -25,7 +25,7 @@ public class ItemPortableWorkbench extends ItemManual {
 	}
 
 	@Override
-	public ActionResult<ItemStack> onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn, EnumHand hand) {
+	public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand hand) {
 		if (!worldIn.isRemote) {
 			if (hand == EnumHand.MAIN_HAND)
 				playerIn.openGui(GrimPack.INSTANCE, PackGuiHandler.PORTABLE_MAIN_GUI_ID, worldIn, (int) playerIn.posX, (int) playerIn.posY, (int) playerIn.posZ);
@@ -33,7 +33,7 @@ public class ItemPortableWorkbench extends ItemManual {
 				playerIn.openGui(GrimPack.INSTANCE, PackGuiHandler.PORTABLE_OFF_GUI_ID, worldIn, (int) playerIn.posX, (int) playerIn.posY, (int) playerIn.posZ);
 		}
 
-		return ActionResult.newResult(EnumActionResult.SUCCESS, itemStackIn);
+		return ActionResult.newResult(EnumActionResult.SUCCESS, playerIn.getHeldItem(hand));
 	}
 
 }

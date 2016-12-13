@@ -173,7 +173,7 @@ public class GuiSpecificSensor extends GuiContainer {
 		if (this.onMainPage) {
 			if (entityName.isFocused()) {
 				entityName.textboxKeyTyped(typedChar, keyCode);
-				if (!EntityList.isStringValidEntityName(entityName.getText())) {
+				if (!EntityList.isRegistered(new ResourceLocation(entityName.getText()))) {
 					entityName.setTextColor(0xff0000);
 				} else {
 					entityName.setTextColor(0xffffff);

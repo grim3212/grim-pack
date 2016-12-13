@@ -20,6 +20,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.world.World;
 
@@ -44,17 +45,17 @@ public class ItemSlingshot extends ItemManual {
 	public void onCreated(ItemStack stack, World worldIn, EntityPlayer playerIn) {
 		NBTHelper.setString(stack, "Mode", EnumSlingshotModes.RANDOM.getUnlocalized());
 	}
-
+	
 	@Override
-	public void getSubItems(Item itemIn, CreativeTabs tab, List<ItemStack> subItems) {
+	public void getSubItems(Item itemIn, CreativeTabs tab, NonNullList<ItemStack> subItems) {
 		ItemStack self = new ItemStack(itemIn, 1, 0);
 		subItems.add(NBTHelper.setStringItemStack(self, "Mode", EnumSlingshotModes.RANDOM.getUnlocalized()));
 	}
 
 	@Override
-	public ActionResult<ItemStack> onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn, EnumHand hand) {
+	public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand hand) {
 		// Will set mode if there is no value
-		EnumSlingshotModes mode = EnumSlingshotModes.getFromString(NBTHelper.getString(itemStackIn, "Mode"));
+		EnumSlingshotModes mode = EnumSlingshotModes.getFromString(NBTHelper.getString(playerIn.getHeldItem(hand), "Mode"));
 
 		if (playerIn.capabilities.isCreativeMode) {
 			EnumPelletType ammo = this.getAmmo(mode, playerIn, worldIn, true);
@@ -63,15 +64,15 @@ public class ItemSlingshot extends ItemManual {
 			if (!worldIn.isRemote) {
 				EntitySlingpellet pellet = new EntitySlingpellet(worldIn, playerIn, ammo);
 				pellet.setHeadingFromThrower(playerIn, playerIn.rotationPitch, playerIn.rotationYaw, 0.0F, 1.5F, 1.8F);
-				worldIn.spawnEntityInWorld(pellet);
+				worldIn.spawnEntity(pellet);
 			}
-			return ActionResult.newResult(EnumActionResult.SUCCESS, itemStackIn);
+			return ActionResult.newResult(EnumActionResult.SUCCESS, playerIn.getHeldItem(hand));
 		} else {
 
 		}
 
 		if (!playerIn.capabilities.isCreativeMode && !playerIn.inventory.hasItemStack(new ItemStack(ToolsItems.sling_pellet))) {
-			return ActionResult.newResult(EnumActionResult.SUCCESS, itemStackIn);
+			return ActionResult.newResult(EnumActionResult.SUCCESS, playerIn.getHeldItem(hand));
 		} else {
 			ItemStack stack = Utils.consumePlayerItem(playerIn, new ItemStack(ToolsItems.sling_pellet));
 			EnumPelletType type = ItemSlingPellet.getPelletType(stack);
@@ -80,11 +81,11 @@ public class ItemSlingshot extends ItemManual {
 			if (!worldIn.isRemote) {
 				EntitySlingpellet pellet = new EntitySlingpellet(worldIn, playerIn, type);
 				pellet.setHeadingFromThrower(playerIn, playerIn.rotationPitch, playerIn.rotationYaw, 0.0F, 1.5F, 1.8F);
-				worldIn.spawnEntityInWorld(pellet);
+				worldIn.spawnEntity(pellet);
 			}
 		}
 
-		return ActionResult.newResult(EnumActionResult.SUCCESS, itemStackIn);
+		return ActionResult.newResult(EnumActionResult.SUCCESS, playerIn.getHeldItem(hand));
 	}
 
 	public EnumPelletType getAmmo(EnumSlingshotModes mode, EntityPlayer player, World worldIn, boolean isCreative) {
@@ -125,7 +126,7 @@ public class ItemSlingshot extends ItemManual {
 					if (foundBag.getItem() == ToolsItems.pellet_bag) {
 						for (int j = 0; j < EnumPelletType.values.length; j++) {
 							if (Utils.hasItemHandler(foundBag)) {
-								foundTypes[j] = Utils.consumeHandlerItem(Utils.getItemHandler(foundBag), new ItemStack(ToolsItems.sling_pellet, 1, j), 1, true) != null;
+								foundTypes[j] = !Utils.consumeHandlerItem(Utils.getItemHandler(foundBag), new ItemStack(ToolsItems.sling_pellet, 1, j), 1, true).isEmpty();
 							}
 						}
 					}

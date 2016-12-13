@@ -42,29 +42,29 @@ public class ItemSpear extends ItemManual {
 	}
 
 	@Override
-	public ActionResult<ItemStack> onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn, EnumHand hand) {
+	public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand hand) {
 		playerIn.inventory.decrStackSize(playerIn.inventory.currentItem, 1);
 		worldIn.playSound(playerIn, playerIn.getPosition(), SoundEvents.ENTITY_ARROW_SHOOT, SoundCategory.PLAYERS, 1.0F, 1.0F / (itemRand.nextFloat() * 0.4F + 0.8F));
 		if (!worldIn.isRemote) {
 			if (type == EnumSpearType.SLIME) {
 				EntitySlimeSpear slimeSpear = new EntitySlimeSpear(worldIn, playerIn);
 				slimeSpear.setAim(playerIn, playerIn.rotationPitch, playerIn.rotationYaw, 0.0F, 1.4F, 1.2F);
-				worldIn.spawnEntityInWorld(slimeSpear);
+				worldIn.spawnEntity(slimeSpear);
 			} else {
 				EntitySpear spear = new EntitySpear(worldIn, playerIn, type);
 				spear.setAim(playerIn, playerIn.rotationPitch, playerIn.rotationYaw, 0.0F, 1.4F + (float) (type.getDamage() / 2), 1.2F);
-				worldIn.spawnEntityInWorld(spear);
+				worldIn.spawnEntity(spear);
 			}
 		}
-		return ActionResult.newResult(EnumActionResult.SUCCESS, itemStackIn);
+		return ActionResult.newResult(EnumActionResult.SUCCESS, playerIn.getHeldItem(hand));
 	}
 
 	@Override
 	public Multimap<String, AttributeModifier> getAttributeModifiers(EntityEquipmentSlot slot, ItemStack stack) {
 		Multimap<String, AttributeModifier> multimap = super.getAttributeModifiers(slot, stack);
 		if (slot == EntityEquipmentSlot.MAINHAND) {
-			multimap.put(SharedMonsterAttributes.ATTACK_DAMAGE.getAttributeUnlocalizedName(), new AttributeModifier(ATTACK_DAMAGE_MODIFIER, "Weapon modifier", this.type.getItemDamage(), 0));
-			multimap.put(SharedMonsterAttributes.ATTACK_SPEED.getAttributeUnlocalizedName(), new AttributeModifier(ATTACK_SPEED_MODIFIER, "Weapon modifier", -2.8f, 0));
+			multimap.put(SharedMonsterAttributes.ATTACK_DAMAGE.getName(), new AttributeModifier(ATTACK_DAMAGE_MODIFIER, "Weapon modifier", this.type.getItemDamage(), 0));
+			multimap.put(SharedMonsterAttributes.ATTACK_SPEED.getName(), new AttributeModifier(ATTACK_SPEED_MODIFIER, "Weapon modifier", -2.8f, 0));
 		}
 		return multimap;
 	}

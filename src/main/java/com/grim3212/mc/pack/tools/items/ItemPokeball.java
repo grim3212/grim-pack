@@ -32,9 +32,11 @@ public class ItemPokeball extends ItemEgg implements IManualItem {
 	}
 
 	@Override
-	public ActionResult<ItemStack> onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn, EnumHand hand) {
+	public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand hand) {
+		ItemStack itemStackIn = playerIn.getHeldItem(hand);
+
 		if (!playerIn.capabilities.isCreativeMode) {
-			--itemStackIn.stackSize;
+			itemStackIn.shrink(1);
 		}
 
 		worldIn.playSound(playerIn, playerIn.getPosition(), SoundEvents.ENTITY_ARROW_SHOOT, SoundCategory.PLAYERS, 0.5F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
@@ -42,7 +44,7 @@ public class ItemPokeball extends ItemEgg implements IManualItem {
 		if (!worldIn.isRemote) {
 			EntityPokeball pokeball = new EntityPokeball(worldIn, playerIn, itemStackIn.copy());
 			pokeball.setHeadingFromThrower(playerIn, playerIn.rotationPitch, playerIn.rotationYaw, 0.0F, 1.5F, 1.0F);
-			worldIn.spawnEntityInWorld(pokeball);
+			worldIn.spawnEntity(pokeball);
 		}
 
 		return ActionResult.newResult(EnumActionResult.SUCCESS, itemStackIn);
@@ -51,6 +53,7 @@ public class ItemPokeball extends ItemEgg implements IManualItem {
 	@Override
 	public void addInformation(ItemStack itemstack, EntityPlayer entityplayer, List<String> list, boolean flag) {
 		if (itemstack.hasTagCompound()) {
+			// TODO: Localize this
 			if (itemstack.getTagCompound().hasKey("name")) {
 				list.add("Stored: " + itemstack.getTagCompound().getString("name"));
 			} else {

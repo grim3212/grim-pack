@@ -31,7 +31,7 @@ public class ContainerDiamondWorkbench extends ContainerWorkbench {
 	public void onCraftMatrixChanged(IInventory iinventory) {
 		ItemStack found = CraftingManager.getInstance().findMatchingRecipe(this.craftMatrix, this.worldObj);
 		// Reset slot contents so that weird issues stop occuring
-		this.craftResult.setInventorySlotContents(0, null);
+		this.craftResult.setInventorySlotContents(0, ItemStack.EMPTY);
 
 		if (IndustryConfig.useWhitelist) {
 			Iterator<ItemStack> itr = IndustryConfig.workbenchUpgradeList.iterator();
@@ -63,15 +63,15 @@ public class ContainerDiamondWorkbench extends ContainerWorkbench {
 			}
 		}
 
-		if (craftResult.getStackInSlot(0) != null) {
+		if (!craftResult.getStackInSlot(0).isEmpty()) {
 			if (IndustryConfig.useWorkbenchUpgrades)
-				if (craftResult.getStackInSlot(0).stackSize >= 32) {
-					craftResult.getStackInSlot(0).stackSize = 127;
+				if (craftResult.getStackInSlot(0).getCount() >= 32) {
+					craftResult.getStackInSlot(0).setCount(127);
 				} else {
-					craftResult.getStackInSlot(0).stackSize *= 4;
+					craftResult.getStackInSlot(0).setCount(craftResult.getStackInSlot(0).getCount() * 4);
 				}
 		} else {
-			// If it returned a null value then it was either blacklisted,
+			// If it returned a empty value then it was either blacklisted,
 			// whitelisted or didn't have an item so just try and to craft
 			// with the default recipe
 			if (IndustryConfig.returnDefaultIfListed)
