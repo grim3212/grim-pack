@@ -27,7 +27,10 @@ public class WorldBlocks implements IPartItems {
 	public static Block glowstone_seeds;
 	public static Block fungus_growing;
 	public static Block fungus_building;
+	public static Block fungus_layer_building;
+	public static Block fungus_ore_building;
 	public static Block fungus_killing;
+	public static Block fungus_maze;
 
 	@Override
 	public void initItems() {
@@ -37,25 +40,38 @@ public class WorldBlocks implements IPartItems {
 		corruption_block = (new BlockCorruption()).setHardness(1.0F).setUnlocalizedName("corruption_block");
 		fungus_growing = new BlockFungusGrowing().setHardness(0.0F).setResistance(0.0F).setUnlocalizedName("fungus_growing").setLightLevel(0.8F).setLightOpacity(10);
 		fungus_building = new BlockFungusBuilding().setHardness(0.0F).setResistance(0.0F).setUnlocalizedName("fungus_building").setLightLevel(0.8F).setLightOpacity(10);
+		fungus_ore_building = new BlockFungusOre().setHardness(0.0F).setResistance(0.0F).setUnlocalizedName("fungus_ore_building").setLightLevel(0.8F).setLightOpacity(10);
+		fungus_layer_building = new BlockFungusLayer().setHardness(0.0F).setResistance(0.0F).setUnlocalizedName("fungus_layer_building").setLightLevel(0.8F).setLightOpacity(10);
 		fungus_killing = new BlockFungusKilling().setHardness(0.0F).setResistance(0.0F).setUnlocalizedName("fungus_killing").setLightLevel(0.8F).setLightOpacity(10);
+		
+		fungus_maze = new BlockFungusMaze().setHardness(0.0F).setResistance(0.0F).setUnlocalizedName("fungus_maze").setLightLevel(0.8F).setLightOpacity(10);
 
 		Utils.registerBlock(fungus_growing, "fungus_growing", new ItemFungus(fungus_growing));
 		Utils.registerBlock(fungus_building, "fungus_building", new ItemFungus(fungus_building));
+		Utils.registerBlock(fungus_ore_building, "fungus_ore_building", new ItemFungus(fungus_ore_building));
+		Utils.registerBlock(fungus_layer_building, "fungus_layer_building", new ItemFungus(fungus_layer_building));
 		Utils.registerBlock(fungus_killing, "fungus_killing", new ItemFungus(fungus_killing));
+		
+		Utils.registerBlock(fungus_maze, "fungus_maze", new ItemFungus(fungus_maze));
+		
 		Utils.registerBlock(corruption_block, "corruption_block");
 		Utils.registerBlock(glowstone_seeds, "glowstone_seeds");
 		Utils.registerBlock(gunpowder_reed_block, "gunpowder_reed_block");
 		Utils.registerBlock(randomite, "randomite");
 	}
 
-	public static IRecipe mazeFungusRecipe;
+	//public static IRecipe mazeFungusRecipe;
 
 	public static List<IRecipe> greenFungus = new ArrayList<IRecipe>();
 	public static List<IRecipe> coloredFungus = new ArrayList<IRecipe>();
 	public static List<IRecipe> buildingFungus = new ArrayList<IRecipe>();
+	public static List<IRecipe> orebuildingFungus = new ArrayList<IRecipe>();
+	public static List<IRecipe> layerbuildingFungus = new ArrayList<IRecipe>();
 	public static List<IRecipe> acidFungus = new ArrayList<IRecipe>();
 	public static List<IRecipe> breakingFungus = new ArrayList<IRecipe>();
 	public static List<IRecipe> vertFungus = new ArrayList<IRecipe>();
+	
+	public static List<IRecipe> mazeFungus = new ArrayList<IRecipe>();
 
 	@Override
 	public void addRecipes() {
@@ -102,21 +118,51 @@ public class WorldBlocks implements IPartItems {
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(fungus_building, 1, 6), new Object[] { "XXX", "XaX", "XXX", 'X', "slimeball", 'a', Blocks.STONEBRICK }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(fungus_building, 1, 7), new Object[] { "XXX", "XaX", "XXX", 'X', "slimeball", 'a', "sandstone" }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(fungus_building, 1, 8), new Object[] { "XXX", "XaX", "XXX", 'X', "slimeball", 'a', Items.LAVA_BUCKET }));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(fungus_building, 3, 9), new Object[] { "XXX", "aaa", "XXX", 'X', "slimeball", 'a', "dirt" }));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(fungus_building, 3, 10), new Object[] { "XXX", "aaa", "XXX", 'X', "slimeball", 'a', "stone" }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(fungus_building, 1, 9), new Object[] { "XXX", "XaX", "XXX", 'X', "slimeball", 'a', Blocks.GLOWSTONE }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(fungus_building, 1, 10), new Object[] { "XXX", "XaX", "XXX", 'X', "slimeball", 'a', Blocks.CLAY }));
+
 		buildingFungus.addAll(RecipeHelper.getLatestIRecipes(11));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(fungus_building, 1, 11), new Object[] { "XXX", "ara", "XXX", 'X', "slimeball", 'a', Blocks.STONEBRICK, 'r', "dustRedstone" }));
-		mazeFungusRecipe = RecipeHelper.getLatestIRecipe();
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(fungus_building, 3, 12), new Object[] { "XXX", "aaa", "XXX", 'X', "slimeball", 'a', "netherrack" }));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(fungus_building, 3, 13), new Object[] { "XXX", "aaa", "XXX", 'X', "slimeball", 'a', "cobblestone" }));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(fungus_building, 3, 14), new Object[] { "XXX", "aaa", "XXX", 'X', "slimeball", 'a', Blocks.STONEBRICK }));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(fungus_building, 3, 15), new Object[] { "XXX", "aaa", "XXX", 'X', "slimeball", 'a', "sandstone" }));
+
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(fungus_building, 1, 11), new Object[] { "XXX", "XaX", "XXX", 'X', "slimeball", 'a', WorldBlocks.randomite }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(fungus_building, 3, 12), new Object[] { "XXX", "aaa", "XXX", 'X', "slimeball", 'a', Blocks.LEAVES }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(fungus_building, 3, 13), new Object[] { "XXX", "aaa", "XXX", 'X', "slimeball", 'a', Blocks.GRAVEL }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(fungus_building, 3, 14), new Object[] { "XXX", "aaa", "XXX", 'X', "slimeball", 'a', Blocks.SNOW }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(fungus_building, 3, 15), new Object[] { "XXX", "aaa", "XXX", 'X', "slimeball", 'a', Blocks.END_STONE }));
+		
+		//Ore building
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(fungus_ore_building, 3, 0), new Object[] { "XXX", "aaa", "XXX", 'X', "slimeball", 'a', Blocks.EMERALD_ORE }));
+		
 		// glass builder
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(fungus_killing, 1, 7), new Object[] { "XXX", "XaX", "XXX", 'X', "slimeball", 'a', "blockGlass" }));
 		// glass builder layer
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(fungus_killing, 3, 15), new Object[] { "XXX", "aaa", "XXX", 'X', "slimeball", 'a', "blockGlass" }));
-		buildingFungus.addAll(RecipeHelper.getLatestIRecipes(6));
+		buildingFungus.addAll(RecipeHelper.getLatestIRecipes(8));
+		
 		// ====================END-BUILDERS==================== //
+		
+		// ====================LAYER BUILDERS==================== //
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(fungus_layer_building, 3, 0), new Object[] { "XXX", "aaa", "XXX", 'X', "slimeball", 'a', Blocks.MOSSY_COBBLESTONE }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(fungus_layer_building, 3, 1), new Object[] { "XXX", "aaa", "XXX", 'X', "slimeball", 'a', "dirt" }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(fungus_layer_building, 3, 2), new Object[] { "XXX", "aaa", "XXX", 'X', "slimeball", 'a', "stone" }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(fungus_layer_building, 3, 3), new Object[] { "XXX", "aaa", "XXX", 'X', "slimeball", 'a', "sand" }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(fungus_layer_building, 3, 4), new Object[] { "XXX", "aaa", "XXX", 'X', "slimeball", 'a', "netherrack" }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(fungus_layer_building, 3, 5), new Object[] { "XXX", "aaa", "XXX", 'X', "slimeball", 'a', "cobblestone" }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(fungus_layer_building, 3, 6), new Object[] { "XXX", "aaa", "XXX", 'X', "slimeball", 'a', Blocks.STONEBRICK }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(fungus_layer_building, 3, 7), new Object[] { "XXX", "aaa", "XXX", 'X', "slimeball", 'a', "sandstone" }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(fungus_layer_building, 3, 8), new Object[] { "XXX", "aaa", "XXX", 'X', "slimeball", 'a', Blocks.GRAVEL }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(fungus_layer_building, 3, 9), new Object[] { "XXX", "aaa", "XXX", 'X', "slimeball", 'a', Blocks.OBSIDIAN }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(fungus_layer_building, 3, 10), new Object[] { "XXX", "aaa", "XXX", 'X', "slimeball", 'a', Blocks.SNOW }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(fungus_layer_building, 3, 11), new Object[] { "XXX", "aaa", "XXX", 'X', "slimeball", 'a', Blocks.SOUL_SAND }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(fungus_layer_building, 3, 12), new Object[] { "XXX", "aaa", "XXX", 'X', "slimeball", 'a', Blocks.PRISMARINE }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(fungus_layer_building, 3, 13), new Object[] { "XXX", "aaa", "XXX", 'X', "slimeball", 'a', Blocks.MAGMA }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(fungus_layer_building, 3, 14), new Object[] { "XXX", "aaa", "XXX", 'X', "slimeball", 'a', Blocks.PLANKS }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(fungus_layer_building, 3, 15), new Object[] { "XXX", "aaa", "XXX", 'X', "slimeball", 'a', Blocks.PACKED_ICE }));
+
+		layerbuildingFungus.addAll(RecipeHelper.getLatestIRecipes(16));
+		
+		//Maze
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(fungus_maze, 1, 0), new Object[] { "XXX", "ara", "XXX", 'X', "slimeball", 'a', Blocks.STONEBRICK, 'r', "dustRedstone" }));
+		mazeFungus.addAll(RecipeHelper.getLatestIRecipes(1));
 
 		// ====================EATERS==================== //
 		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(fungus_killing, 1, 0), new Object[] { new ItemStack(fungus_growing, 1, 0), "dyeBlack" }));
