@@ -21,7 +21,7 @@ import net.minecraftforge.fluids.capability.IFluidTankProperties;
 
 public class FluidHandlerBetterBucket implements IFluidHandler, ICapabilityProvider {
 
-	protected final ItemStack container;
+	protected ItemStack container;
 	protected final ItemStack emptyContainer;
 	protected final int capacity;
 
@@ -65,7 +65,7 @@ public class FluidHandlerBetterBucket implements IFluidHandler, ICapabilityProvi
 	@Override
 	public int fill(FluidStack resource, boolean doFill) {
 		// has to be exactly 1, must be handled from the caller
-		if (container.stackSize != 1) {
+		if (container.getCount() != 1) {
 			return 0;
 		}
 
@@ -90,13 +90,12 @@ public class FluidHandlerBetterBucket implements IFluidHandler, ICapabilityProvi
 
 	@Override
 	public FluidStack drain(FluidStack resource, boolean doDrain) {
-		if (container.stackSize != 1 || resource == null || resource.amount <= 0 || !resource.isFluidEqual(getFluid())) {
+		if (container.getCount() != 1 || resource == null || resource.amount <= 0 || !resource.isFluidEqual(getFluid())) {
 			return null;
 		}
 		return drain(resource.amount, doDrain);
 	}
 
-	@SuppressWarnings("deprecation")
 	@Override
 	public FluidStack drain(int maxDrain, boolean doDrain) {
 		if (maxDrain % Fluid.BUCKET_VOLUME != 0 || maxDrain > capacity) {
@@ -110,8 +109,7 @@ public class FluidHandlerBetterBucket implements IFluidHandler, ICapabilityProvi
 			if (NBTHelper.getInt(container, "Amount") <= 0) {
 
 				if (container.getItem() instanceof ItemBetterMilkBucket) {
-					container.setItem(emptyContainer.getItem());
-					container.setTagCompound(emptyContainer.getTagCompound());
+					container = emptyContainer;
 				} else {
 					container.setTagCompound(emptyContainer.getTagCompound());
 				}

@@ -54,7 +54,7 @@ public class MilkingEvent {
 	@SubscribeEvent
 	public void interact(EntityInteract event) {
 
-		if (event.getEntityPlayer().getHeldItem(event.getHand()) != null) {
+		if (!event.getEntityPlayer().getHeldItem(event.getHand()).isEmpty()) {
 			if (event.getEntityPlayer().getHeldItem(event.getHand()).getItem() instanceof ItemBetterBucket || event.getEntityPlayer().getHeldItem(event.getHand()).getItem() instanceof ItemBetterMilkBucket) {
 				this.tryMilk(event.getEntityPlayer().getHeldItem(event.getHand()), event);
 			}
@@ -62,7 +62,7 @@ public class MilkingEvent {
 	}
 
 	private void tryMilk(ItemStack stack, EntityInteract event) {
-		if (event.getTarget() instanceof EntityLivingBase && !event.getTarget().worldObj.isRemote) {
+		if (event.getTarget() instanceof EntityLivingBase && !event.getTarget().world.isRemote) {
 			if (!event.getEntityPlayer().capabilities.isCreativeMode && !((EntityLivingBase) event.getTarget()).isChild()) {
 				if (stack.getItem() instanceof ItemBetterMilkBucket) {
 					ItemBetterMilkBucket bucket = (ItemBetterMilkBucket) stack.getItem();
@@ -97,7 +97,7 @@ public class MilkingEvent {
 										if (ItemBetterBucket.getAmount(stack) < bucket.maxCapacity) {
 											event.getEntityPlayer().playSound(SoundEvents.ENTITY_COW_MILK, 1.0F, 1.0F);
 
-											ItemStack milkBucket = null;
+											ItemStack milkBucket = ItemStack.EMPTY;
 											switch (bucket.bucketType) {
 											case diamond:
 												milkBucket = new ItemStack(ToolsItems.diamond_milk_bucket);

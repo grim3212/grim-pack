@@ -2,6 +2,7 @@ package com.grim3212.mc.pack.tools.entity;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.MoverType;
 import net.minecraft.entity.item.EntityFallingBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
@@ -37,16 +38,17 @@ public class EntityBlockPushPull extends EntityFallingBlock {
 				if (this.fallTime++ == 0) {
 					BlockPos blockpos = new BlockPos(this);
 
-					if (this.worldObj.getBlockState(blockpos) == state) {
-						this.worldObj.setBlockToAir(blockpos);
-					} else if (!this.worldObj.isRemote) {
+					if (this.world.getBlockState(blockpos) == state) {
+						this.world.setBlockToAir(blockpos);
+					} else if (!this.world.isRemote) {
 						this.setDead();
 						return;
 					}
 				}
 
 				this.motionY -= 0.03999999910593033D;
-				this.moveEntity(this.motionX, this.motionY, this.motionZ);
+				// TODO: Needs tested
+				this.move(MoverType.SELF, this.motionX, this.motionY, this.motionZ);
 				this.motionX *= 0.9800000190734863D;
 				this.motionY *= 0.9800000190734863D;
 				this.motionZ *= 0.9800000190734863D;
@@ -58,9 +60,9 @@ public class EntityBlockPushPull extends EntityFallingBlock {
 					this.motionZ *= 0.699999988079071D;
 					this.motionY *= -0.5D;
 					this.setDead();
-					worldObj.setBlockState(blockpos1, this.getBlock(), 3);
-				} else if (this.fallTime > 100 && !this.worldObj.isRemote && (blockpos1.getY() < 1 || blockpos1.getY() > 256) || this.fallTime > 600) {
-					if (this.shouldDropItem && this.worldObj.getGameRules().getBoolean("doEntityDrops")) {
+					world.setBlockState(blockpos1, this.getBlock(), 3);
+				} else if (this.fallTime > 100 && !this.world.isRemote && (blockpos1.getY() < 1 || blockpos1.getY() > 256) || this.fallTime > 600) {
+					if (this.shouldDropItem && this.world.getGameRules().getBoolean("doEntityDrops")) {
 						this.entityDropItem(new ItemStack(state.getBlock(), 1, state.getBlock().damageDropped(this.getBlock())), 0.0F);
 					}
 

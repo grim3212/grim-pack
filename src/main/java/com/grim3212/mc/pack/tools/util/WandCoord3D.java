@@ -42,13 +42,13 @@ public class WandCoord3D {
 		double d3 = pos.getX() - b.pos.getX();
 		double d4 = pos.getY() - b.pos.getY();
 		double d5 = pos.getZ() - b.pos.getZ();
-		return MathHelper.sqrt_double(d3 * d3 + d4 * d4 + d5 * d5);
+		return MathHelper.sqrt(d3 * d3 + d4 * d4 + d5 * d5);
 	}
 
 	public double getDistanceFlat(WandCoord3D b) {
 		double d3 = pos.getX() - b.pos.getX();
 		double d5 = pos.getZ() - b.pos.getZ();
-		return MathHelper.sqrt_double(d3 * d3 + d5 * d5);
+		return MathHelper.sqrt(d3 * d3 + d5 * d5);
 	}
 
 	public int getFlatArea(WandCoord3D b) {

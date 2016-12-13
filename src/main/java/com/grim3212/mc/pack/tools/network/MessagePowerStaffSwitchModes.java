@@ -36,26 +36,26 @@ public class MessagePowerStaffSwitchModes extends AbstractServerMessage<MessageP
 		buffer.writeByte(hand.ordinal());
 	}
 
-//	@Override
-//	public void process(EntityPlayer player, Side side) {
-//		if (player.getHeldItem(hand) != null && player.getHeldItem(hand).getItem() instanceof ItemPowerStaff) {
-//			if (player.getHeldItem(hand).getItemDamage() == 0) {
-//				player.getHeldItem(hand).setItemDamage(1);
-//			} else {
-//				player.getHeldItem(hand).setItemDamage(0);
-//			}
-//		}
-//	}
+	// @Override
+	// public void process(EntityPlayer player, Side side) {
+	// if (player.getHeldItem(hand) != null &&
+	// player.getHeldItem(hand).getItem() instanceof ItemPowerStaff) {
+	// if (player.getHeldItem(hand).getItemDamage() == 0) {
+	// player.getHeldItem(hand).setItemDamage(1);
+	// } else {
+	// player.getHeldItem(hand).setItemDamage(0);
+	// }
+	// }
+	// }
+
 	@Override
 	public void process(EntityPlayer player, Side side) {
-		if (player.getHeldItem(hand) != null && player.getHeldItem(hand).getItem() instanceof ItemPowerStaff) {
-			
-			if (player.getHeldItem(hand) != null && player.getHeldItem(hand).getItem() instanceof ItemPowerStaff) {
-				if (player.getHeldItem(hand).getItemDamage() == 0) {
-					player.getHeldItem(hand).setItemDamage(1);
-				} else {
-					player.getHeldItem(hand).setItemDamage(0);
-				}
+		if (!player.getHeldItem(hand).isEmpty() && player.getHeldItem(hand).getItem() instanceof ItemPowerStaff) {
+
+			if (player.getHeldItem(hand).getItemDamage() == 0) {
+				player.getHeldItem(hand).setItemDamage(1);
+			} else {
+				player.getHeldItem(hand).setItemDamage(0);
 			}
 
 			ItemStack stack = player.getHeldItem(hand);
@@ -68,7 +68,7 @@ public class MessagePowerStaffSwitchModes extends AbstractServerMessage<MessageP
 			}
 			NBTHelper.setString(stack, "Mode", powerStaffMode.getUnlocalized());
 
-			player.addChatMessage(new TextComponentString(new TextComponentTranslation("grimtools.powerstaff.modeSwitched").getFormattedText() + new TextComponentTranslation("grimtools.powerstaff." + powerStaffMode.getUnlocalized()).getFormattedText()));
+			player.sendMessage(new TextComponentString(new TextComponentTranslation("grimtools.powerstaff.modeSwitched").getFormattedText() + new TextComponentTranslation("grimtools.powerstaff." + powerStaffMode.getUnlocalized()).getFormattedText()));
 		}
 	}
 }

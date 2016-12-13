@@ -50,18 +50,18 @@ public class EntityRayw extends EntityProjectile {
 	@Override
 	protected void projectileLand(RayTraceResult raytraceResultIn, BlockPos pos, IBlockState state) {
 		for (int var19 = 0; var19 < 8; ++var19) {
-			this.worldObj.spawnParticle(EnumParticleTypes.SMOKE_LARGE, this.posX + 0.15D, this.posY, this.posZ, 0.0D, 0.0D, 0.0D);
-			this.worldObj.spawnParticle(EnumParticleTypes.SMOKE_LARGE, this.posX, this.posY + 0.15D, this.posZ, 0.0D, 0.0D, 0.0D);
-			this.worldObj.spawnParticle(EnumParticleTypes.SMOKE_LARGE, this.posX, this.posY, this.posZ + 0.15D, 0.0D, 0.0D, 0.0D);
-			this.worldObj.spawnParticle(EnumParticleTypes.SMOKE_LARGE, this.posX - 0.15D, this.posY, this.posZ, 0.0D, 0.0D, 0.0D);
-			this.worldObj.spawnParticle(EnumParticleTypes.SMOKE_LARGE, this.posX, this.posY, this.posZ - 0.15D, 0.0D, 0.0D, 0.0D);
-			this.worldObj.spawnParticle(EnumParticleTypes.SMOKE_LARGE, this.posX, this.posY - 0.15D, this.posZ, 0.0D, 0.0D, 0.0D);
-			this.worldObj.spawnParticle(EnumParticleTypes.SMOKE_LARGE, this.posX + 0.05D, this.posY, this.posZ, 0.0D, 0.0D, 0.0D);
-			this.worldObj.spawnParticle(EnumParticleTypes.SMOKE_LARGE, this.posX, this.posY + 0.05D, this.posZ, 0.0D, 0.0D, 0.0D);
-			this.worldObj.spawnParticle(EnumParticleTypes.SMOKE_LARGE, this.posX, this.posY, this.posZ + 0.05D, 0.0D, 0.0D, 0.0D);
-			this.worldObj.spawnParticle(EnumParticleTypes.SMOKE_LARGE, this.posX - 0.05D, this.posY, this.posZ, 0.0D, 0.0D, 0.0D);
-			this.worldObj.spawnParticle(EnumParticleTypes.SMOKE_LARGE, this.posX, this.posY, this.posZ - 0.05D, 0.0D, 0.0D, 0.0D);
-			this.worldObj.spawnParticle(EnumParticleTypes.SMOKE_LARGE, this.posX, this.posY - 0.05D, this.posZ, 0.0D, 0.0D, 0.0D);
+			this.world.spawnParticle(EnumParticleTypes.SMOKE_LARGE, this.posX + 0.15D, this.posY, this.posZ, 0.0D, 0.0D, 0.0D);
+			this.world.spawnParticle(EnumParticleTypes.SMOKE_LARGE, this.posX, this.posY + 0.15D, this.posZ, 0.0D, 0.0D, 0.0D);
+			this.world.spawnParticle(EnumParticleTypes.SMOKE_LARGE, this.posX, this.posY, this.posZ + 0.15D, 0.0D, 0.0D, 0.0D);
+			this.world.spawnParticle(EnumParticleTypes.SMOKE_LARGE, this.posX - 0.15D, this.posY, this.posZ, 0.0D, 0.0D, 0.0D);
+			this.world.spawnParticle(EnumParticleTypes.SMOKE_LARGE, this.posX, this.posY, this.posZ - 0.15D, 0.0D, 0.0D, 0.0D);
+			this.world.spawnParticle(EnumParticleTypes.SMOKE_LARGE, this.posX, this.posY - 0.15D, this.posZ, 0.0D, 0.0D, 0.0D);
+			this.world.spawnParticle(EnumParticleTypes.SMOKE_LARGE, this.posX + 0.05D, this.posY, this.posZ, 0.0D, 0.0D, 0.0D);
+			this.world.spawnParticle(EnumParticleTypes.SMOKE_LARGE, this.posX, this.posY + 0.05D, this.posZ, 0.0D, 0.0D, 0.0D);
+			this.world.spawnParticle(EnumParticleTypes.SMOKE_LARGE, this.posX, this.posY, this.posZ + 0.05D, 0.0D, 0.0D, 0.0D);
+			this.world.spawnParticle(EnumParticleTypes.SMOKE_LARGE, this.posX - 0.05D, this.posY, this.posZ, 0.0D, 0.0D, 0.0D);
+			this.world.spawnParticle(EnumParticleTypes.SMOKE_LARGE, this.posX, this.posY, this.posZ - 0.05D, 0.0D, 0.0D, 0.0D);
+			this.world.spawnParticle(EnumParticleTypes.SMOKE_LARGE, this.posX, this.posY - 0.05D, this.posZ, 0.0D, 0.0D, 0.0D);
 		}
 
 		this.playSound(SoundEvents.BLOCK_FIRE_EXTINGUISH, 1.0F, 1.2F / (this.rand.nextFloat() * 0.2F + 0.9F));

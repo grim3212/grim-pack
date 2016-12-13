@@ -38,7 +38,7 @@ public class MessageSlingshotSwitchModes extends AbstractServerMessage<MessageSl
 
 	@Override
 	public void process(EntityPlayer player, Side side) {
-		if (player.getHeldItem(hand) != null && player.getHeldItem(hand).getItem() instanceof ItemSlingshot) {
+		if (!player.getHeldItem(hand).isEmpty() && player.getHeldItem(hand).getItem() instanceof ItemSlingshot) {
 
 			ItemStack stack = player.getHeldItem(hand);
 
@@ -50,7 +50,7 @@ public class MessageSlingshotSwitchModes extends AbstractServerMessage<MessageSl
 			}
 			NBTHelper.setString(stack, "Mode", slingShotMode.getUnlocalized());
 
-			player.addChatMessage(new TextComponentString(new TextComponentTranslation("grimtools.slingshot.modeSwitched").getFormattedText() + new TextComponentTranslation("grimtools.slingshot." + slingShotMode.getUnlocalized()).getFormattedText()));
+			player.sendMessage(new TextComponentString(new TextComponentTranslation("grimtools.slingshot.modeSwitched").getFormattedText() + new TextComponentTranslation("grimtools.slingshot." + slingShotMode.getUnlocalized()).getFormattedText()));
 		}
 	}
 }

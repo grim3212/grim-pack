@@ -36,9 +36,9 @@ public class EntitySlimeSpear extends EntitySpear {
 			bounceCount++;
 		}
 		motionY *= -1D;
-		worldObj.playSound((EntityPlayer) null, pos, SoundEvents.ENTITY_SMALL_SLIME_SQUISH, SoundCategory.PLAYERS, 1.0F, 1.2F / (rand.nextFloat() * 0.2F + 0.9F));
+		world.playSound((EntityPlayer) null, pos, SoundEvents.ENTITY_SMALL_SLIME_SQUISH, SoundCategory.PLAYERS, 1.0F, 1.2F / (rand.nextFloat() * 0.2F + 0.9F));
 		float mod = 0.25F;
-		worldObj.spawnParticle(EnumParticleTypes.SLIME, posX - motionX * (double) mod, posY - motionY * (double) mod, posZ - motionZ * (double) mod, motionX, motionY, motionZ);
+		world.spawnParticle(EnumParticleTypes.SLIME, posX - motionX * (double) mod, posY - motionY * (double) mod, posZ - motionZ * (double) mod, motionX, motionY, motionZ);
 		this.playSound(SoundEvents.ENTITY_ARROW_HIT, 1.0F, 1.2F / (this.rand.nextFloat() * 0.2F + 0.9F));
 	}
 }

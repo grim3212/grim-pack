@@ -39,4 +39,9 @@ public class IronWorkbenchTransferInfo implements IRecipeTransferInfo<ContainerI
 		return slots;
 	}
 
+	@Override
+	public boolean canHandle(ContainerIronWorkbench container) {
+		return true;
+	}
+
 }

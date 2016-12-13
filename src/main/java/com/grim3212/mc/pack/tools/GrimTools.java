@@ -16,7 +16,7 @@ import com.grim3212.mc.pack.tools.network.MessageSlingshotSwitchModes;
 import com.grim3212.mc.pack.tools.network.MessageWandKeys;
 import com.grim3212.mc.pack.tools.world.ToolsGenerate;
 
-import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.SoundEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.SidedProxy;
@@ -67,8 +67,8 @@ public class GrimTools extends GrimPart {
 	}
 
 	@Override
-	protected Item getCreativeTabIcon() {
-		return ToolsItems.backpack;
+	protected ItemStack getCreativeTabIcon() {
+		return new ItemStack(ToolsItems.backpack);
 	}
 
 	@Override

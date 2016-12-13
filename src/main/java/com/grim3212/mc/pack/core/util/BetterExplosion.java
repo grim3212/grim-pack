@@ -64,8 +64,8 @@ public class BetterExplosion extends Explosion {
 	public BetterExplosion(World worldIn, Entity entityIn, double x, double y, double z, float size, boolean flaming, boolean smoking, boolean destroyBlocks, boolean hurtEntities) {
 		super(worldIn, entityIn, x, y, z, size, flaming, smoking);
 		this.explosionRNG = new Random();
-		this.affectedBlockPositions = Lists.<BlockPos> newArrayList();
-		this.playerKnockbackMap = Maps.<EntityPlayer, Vec3d> newHashMap();
+		this.affectedBlockPositions = Lists.<BlockPos>newArrayList();
+		this.playerKnockbackMap = Maps.<EntityPlayer, Vec3d>newHashMap();
 		this.worldObj = worldIn;
 		this.exploder = entityIn;
 		this.explosionSize = size;
@@ -81,7 +81,7 @@ public class BetterExplosion extends Explosion {
 
 	@Override
 	public void doExplosionA() {
-		Set<BlockPos> set = Sets.<BlockPos> newHashSet();
+		Set<BlockPos> set = Sets.<BlockPos>newHashSet();
 
 		for (int j = 0; j < 16; ++j) {
 			for (int k = 0; k < 16; ++k) {
@@ -125,12 +125,12 @@ public class BetterExplosion extends Explosion {
 
 		if (hurtEntities) {
 			float f3 = this.explosionSize * 2.0F;
-			int k1 = MathHelper.floor_double(this.explosionX - (double) f3 - 1.0D);
-			int l1 = MathHelper.floor_double(this.explosionX + (double) f3 + 1.0D);
-			int i2 = MathHelper.floor_double(this.explosionY - (double) f3 - 1.0D);
-			int i1 = MathHelper.floor_double(this.explosionY + (double) f3 + 1.0D);
-			int j2 = MathHelper.floor_double(this.explosionZ - (double) f3 - 1.0D);
-			int j1 = MathHelper.floor_double(this.explosionZ + (double) f3 + 1.0D);
+			int k1 = MathHelper.floor(this.explosionX - (double) f3 - 1.0D);
+			int l1 = MathHelper.floor(this.explosionX + (double) f3 + 1.0D);
+			int i2 = MathHelper.floor(this.explosionY - (double) f3 - 1.0D);
+			int i1 = MathHelper.floor(this.explosionY + (double) f3 + 1.0D);
+			int j2 = MathHelper.floor(this.explosionZ - (double) f3 - 1.0D);
+			int j1 = MathHelper.floor(this.explosionZ + (double) f3 + 1.0D);
 			List<Entity> list = this.worldObj.getEntitiesWithinAABBExcludingEntity(this.exploder, new AxisAlignedBB((double) k1, (double) i2, (double) j2, (double) l1, (double) i1, (double) j1));
 			net.minecraftforge.event.ForgeEventFactory.onExplosionDetonate(this.worldObj, this, list, f3);
 			Vec3d vec3d = new Vec3d(this.explosionX, this.explosionY, this.explosionZ);
@@ -145,7 +145,7 @@ public class BetterExplosion extends Explosion {
 						double d5 = entity.posX - this.explosionX;
 						double d7 = entity.posY + (double) entity.getEyeHeight() - this.explosionY;
 						double d9 = entity.posZ - this.explosionZ;
-						double d13 = (double) MathHelper.sqrt_double(d5 * d5 + d7 * d7 + d9 * d9);
+						double d13 = (double) MathHelper.sqrt(d5 * d5 + d7 * d7 + d9 * d9);
 
 						if (d13 != 0.0D) {
 							d5 = d5 / d13;
@@ -200,7 +200,7 @@ public class BetterExplosion extends Explosion {
 					double d3 = d0 - this.explosionX;
 					double d4 = d1 - this.explosionY;
 					double d5 = d2 - this.explosionZ;
-					double d6 = (double) MathHelper.sqrt_double(d3 * d3 + d4 * d4 + d5 * d5);
+					double d6 = (double) MathHelper.sqrt(d3 * d3 + d4 * d4 + d5 * d5);
 					d3 = d3 / d6;
 					d4 = d4 / d6;
 					d5 = d5 / d6;

@@ -7,8 +7,10 @@ import net.minecraft.init.Items;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
+import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.oredict.OreDictionary;
 
 public class BackpackRecipeHandler implements IRecipe {
@@ -18,7 +20,7 @@ public class BackpackRecipeHandler implements IRecipe {
 		boolean colorFound = false;
 		boolean backpackFound = false;
 		for (int i = 0; i < inventoryCrafting.getSizeInventory(); i++) {
-			if (inventoryCrafting.getStackInSlot(i) != null) {
+			if (!inventoryCrafting.getStackInSlot(i).isEmpty()) {
 				for (int j = 0; j < OreDictionary.getOres("dye").size(); j++) {
 					if (inventoryCrafting.getStackInSlot(i).getItem() == OreDictionary.getOres("dye").get(j).getItem() || inventoryCrafting.getStackInSlot(i).getItem() == Items.WATER_BUCKET) {
 						if (colorFound) {
@@ -46,31 +48,31 @@ public class BackpackRecipeHandler implements IRecipe {
 	@Override
 	public ItemStack getCraftingResult(InventoryCrafting inventoryCrafting) {
 		int color = -1;
-		ItemStack itemStack = null;
+		ItemStack itemStack = ItemStack.EMPTY;
 		for (int i = 0; i < inventoryCrafting.getSizeInventory(); i++) {
-			if (inventoryCrafting.getStackInSlot(i) != null) {
+			if (!inventoryCrafting.getStackInSlot(i).isEmpty()) {
 				for (int j = 0; j < OreDictionary.getOres("dye").size(); j++) {
 					if (inventoryCrafting.getStackInSlot(i).getItem() == OreDictionary.getOres("dye").get(j).getItem()) {
-						color = MathHelper.clamp_int(inventoryCrafting.getStackInSlot(i).getItemDamage(), 0, 15);
+						color = MathHelper.clamp(inventoryCrafting.getStackInSlot(i).getItemDamage(), 0, 15);
 					} else if (inventoryCrafting.getStackInSlot(i).getItem() == Items.WATER_BUCKET) {
 						color = -1;
 					} else if (inventoryCrafting.getStackInSlot(i).getItem() == ToolsItems.backpack) {
 						itemStack = inventoryCrafting.getStackInSlot(i);
 					} else {
-						return null;
+						return ItemStack.EMPTY;
 					}
 				}
 			}
 
 		}
-		ItemStack tmpStack = null;
-		if (itemStack != null) {
+		ItemStack tmpStack = ItemStack.EMPTY;
+		if (!itemStack.isEmpty()) {
 			tmpStack = itemStack.copy();
 			if (itemStack.getItem() == ToolsItems.backpack) {
 				ItemBackpack.setColor(tmpStack, color);
 			}
 		} else {
-			return null;
+			return ItemStack.EMPTY;
 		}
 		return tmpStack;
 	}
@@ -86,15 +88,16 @@ public class BackpackRecipeHandler implements IRecipe {
 	}
 
 	@Override
-	public ItemStack[] getRemainingItems(InventoryCrafting invCrafting) {
-		ItemStack[] aitemstack = new ItemStack[invCrafting.getSizeInventory()];
+	public NonNullList<ItemStack> getRemainingItems(InventoryCrafting invCrafting) {
+		NonNullList<ItemStack> itemsLeft = NonNullList.create();
 
-		for (int i = 0; i < aitemstack.length; ++i) {
+		// TODO: Might need some work
+		for (int i = 0; i < invCrafting.getSizeInventory(); ++i) {
 			ItemStack itemstack = invCrafting.getStackInSlot(i);
-			aitemstack[i] = net.minecraftforge.common.ForgeHooks.getContainerItem(itemstack);
+			itemsLeft.add(ForgeHooks.getContainerItem(itemstack));
 		}
 
-		return aitemstack;
+		return itemsLeft;
 	}
 
 }

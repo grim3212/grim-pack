@@ -58,7 +58,7 @@ public class MessageBetterExplosion extends AbstractClientMessage<MessageBetterE
 		this.destroyBlocks = buffer.readBoolean();
 
 		int affectedBlocks = buffer.readInt();
-		this.affectedBlockPositions = Lists.<BlockPos> newArrayListWithCapacity(affectedBlocks);
+		this.affectedBlockPositions = Lists.<BlockPos>newArrayListWithCapacity(affectedBlocks);
 
 		for (int i1 = 0; i1 < affectedBlocks; ++i1) {
 			int j1 = buffer.readByte() + (int) x;
@@ -93,7 +93,7 @@ public class MessageBetterExplosion extends AbstractClientMessage<MessageBetterE
 
 	@Override
 	public void process(EntityPlayer player, Side side) {
-		BetterExplosion explosion = new BetterExplosion(player.worldObj, (Entity) null, x, y, z, size, destroyBlocks, affectedBlockPositions);
+		BetterExplosion explosion = new BetterExplosion(player.world, (Entity) null, x, y, z, size, destroyBlocks, affectedBlockPositions);
 		explosion.doExplosionB(true);
 
 		player.motionX += this.motionX;

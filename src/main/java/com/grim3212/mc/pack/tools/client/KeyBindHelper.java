@@ -45,7 +45,7 @@ public class KeyBindHelper {
 
 	@SubscribeEvent
 	public void tick(KeyInputEvent event) {
-		EntityPlayer player = Minecraft.getMinecraft().thePlayer;
+		EntityPlayer player = Minecraft.getMinecraft().player;
 		if (mc.inGameHasFocus) {
 			if (player != null)
 				if (player.getHeldItemMainhand() != null) {
@@ -128,7 +128,7 @@ public class KeyBindHelper {
 	}
 
 	public static void addChatMessage(EntityPlayer player, String message) {
-		player.addChatComponentMessage(new TextComponentString(message));
+		player.sendMessage(new TextComponentString(message));
 	}
 
 }

@@ -20,6 +20,7 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.MoverType;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -49,8 +50,8 @@ public class EntityBoomerang extends Entity implements IManualEntity {
 	protected int timeBeforeTurnAround;
 	List<EntityItem> itemsPickedUp;
 	private ItemStack selfStack;
-	private static final DataParameter<Float> ROTATION = EntityDataManager.<Float> createKey(EntityBoomerang.class, DataSerializers.FLOAT);
-	private static final DataParameter<Optional<UUID>> RETURN_UNIQUE_ID = EntityDataManager.<Optional<UUID>> createKey(EntityBoomerang.class, DataSerializers.OPTIONAL_UNIQUE_ID);
+	private static final DataParameter<Float> ROTATION = EntityDataManager.<Float>createKey(EntityBoomerang.class, DataSerializers.FLOAT);
+	private static final DataParameter<Optional<UUID>> RETURN_UNIQUE_ID = EntityDataManager.<Optional<UUID>>createKey(EntityBoomerang.class, DataSerializers.OPTIONAL_UNIQUE_ID);
 
 	public EntityBoomerang(World worldIn) {
 		super(worldIn);
@@ -90,19 +91,19 @@ public class EntityBoomerang extends Entity implements IManualEntity {
 
 		Vec3d vec3d1 = new Vec3d(this.posX, this.posY, this.posZ);
 		Vec3d vec3d = new Vec3d(this.posX + this.motionX, this.posY + this.motionY, this.posZ + this.motionZ);
-		RayTraceResult raytraceresult = this.worldObj.rayTraceBlocks(vec3d1, vec3d, false, false, false);
+		RayTraceResult raytraceresult = this.world.rayTraceBlocks(vec3d1, vec3d, false, false, false);
 
 		if (raytraceresult != null) {
 			if (raytraceresult.typeOfHit == RayTraceResult.Type.BLOCK) {
 				BlockPos pos = raytraceresult.getBlockPos();
-				IBlockState state = worldObj.getBlockState(pos);
+				IBlockState state = world.getBlockState(pos);
 
 				if ((state.getMaterial() == Material.PLANTS && ToolsConfig.breaksPlants) || (state.getBlock() == Blocks.TORCH && ToolsConfig.breaksTorches)) {
 					// The only time items hovering above get out of sync is
 					// when destroyed using this method or manually spawning
 					// entity items in.
 					// No idea why and have tried many things to fix this.
-					worldObj.destroyBlock(pos, true);
+					world.destroyBlock(pos, true);
 				}
 
 				if ((state.getBlock() instanceof BlockLever || state.getBlock() instanceof BlockButton) && ToolsConfig.hitsButtons) {
@@ -111,7 +112,7 @@ public class EntityBoomerang extends Entity implements IManualEntity {
 					}
 					if (activatedPos == null || !activatedPos.equals(pos)) {
 						activatedPos = pos;
-						state.getBlock().onBlockActivated(worldObj, pos, state, player, EnumHand.MAIN_HAND, null, raytraceresult.sideHit, (float) raytraceresult.hitVec.xCoord, (float) raytraceresult.hitVec.yCoord, (float) raytraceresult.hitVec.zCoord);
+						state.getBlock().onBlockActivated(world, pos, state, player, EnumHand.MAIN_HAND, raytraceresult.sideHit, (float) raytraceresult.hitVec.xCoord, (float) raytraceresult.hitVec.yCoord, (float) raytraceresult.hitVec.zCoord);
 					}
 				}
 			}
@@ -120,7 +121,9 @@ public class EntityBoomerang extends Entity implements IManualEntity {
 			double d1 = motionX;
 			double d3 = motionY;
 			double d5 = motionZ;
-			moveEntity(motionX, motionY, motionZ);
+
+			this.move(MoverType.SELF, motionX, motionY, motionZ);
+
 			boolean flag = false;
 			if (motionX != d1) {
 				motionX = -d1;
@@ -164,7 +167,7 @@ public class EntityBoomerang extends Entity implements IManualEntity {
 		prevBoomerangRotation = getBoomerangRotation();
 		for (this.setBoomerangRotation(this.getBoomerangRotation() + 36F); this.getBoomerangRotation() > 360F; this.setBoomerangRotation(this.getBoomerangRotation() - 360F)) {
 		}
-		List<Entity> list = worldObj.getEntitiesWithinAABBExcludingEntity(this, this.getEntityBoundingBox().expand(0.5D, 0.5D, 0.5D));
+		List<Entity> list = world.getEntitiesWithinAABBExcludingEntity(this, this.getEntityBoundingBox().expand(0.5D, 0.5D, 0.5D));
 		for (int i = 0; i < list.size(); i++) {
 			Entity entity = list.get(i);
 			if (entity instanceof EntityItem) {
@@ -224,7 +227,7 @@ public class EntityBoomerang extends Entity implements IManualEntity {
 	@Override
 	protected void entityInit() {
 		this.getDataManager().register(ROTATION, 0.0F);
-		this.getDataManager().register(RETURN_UNIQUE_ID, Optional.<UUID> absent());
+		this.getDataManager().register(RETURN_UNIQUE_ID, Optional.<UUID>absent());
 	}
 
 	public float getBoomerangRotation() {
@@ -249,7 +252,7 @@ public class EntityBoomerang extends Entity implements IManualEntity {
 		try {
 			UUID uuid = this.getReturnToId();
 			// System.out.println(uuid == null ? "null" : uuid.toString());
-			return uuid == null ? null : this.worldObj.getPlayerEntityByUUID(uuid);
+			return uuid == null ? null : this.world.getPlayerEntityByUUID(uuid);
 		} catch (IllegalArgumentException e) {
 			return null;
 		}
@@ -284,12 +287,12 @@ public class EntityBoomerang extends Entity implements IManualEntity {
 			}
 		}
 
-		this.selfStack = ItemStack.loadItemStackFromNBT(compound.getCompoundTag("SelfStack"));
+		this.selfStack = new ItemStack(compound.getCompoundTag("SelfStack"));
 
 		NBTTagList itemsGathered = compound.getTagList("ItemsPickedUp", Constants.NBT.TAG_COMPOUND);
 		for (int i = 0; i < itemsGathered.tagCount(); i++) {
 			NBTTagCompound tag = itemsGathered.getCompoundTagAt(i);
-			EntityItem item = new EntityItem(worldObj);
+			EntityItem item = new EntityItem(world);
 			item.readFromNBT(tag);
 			this.itemsPickedUp.add(item);
 		}

@@ -39,4 +39,9 @@ public class PortableWorkbenchTransferInfo implements IRecipeTransferInfo<Contai
 		return slots;
 	}
 
+	@Override
+	public boolean canHandle(ContainerCustomWorkbench container) {
+		return true;
+	}
+
 }

@@ -43,31 +43,31 @@ public class EntitySlingpellet extends EntityThrowable {
 
 		switch (this.type) {
 		case EXPLOSION:
-			if (!worldObj.isRemote) {
-				Utils.createExplosion(worldObj, null, posX, posY, posZ, 3F, true, false, true);
+			if (!world.isRemote) {
+				Utils.createExplosion(world, null, posX, posY, posZ, 3F, true, false, true);
 			}
 			break;
 		case FIRE:
 			for (int fire = 0; fire < 6; ++fire) {
 				BlockPos blockPos = this.getPosition().add(this.rand.nextInt(3) - 1, this.rand.nextInt(3) - 1, this.rand.nextInt(3) - 1);
 
-				if (worldObj.getBlockState(blockPos).getMaterial() == Material.AIR && Blocks.FIRE.canPlaceBlockAt(worldObj, blockPos)) {
-					worldObj.setBlockState(blockPos, Blocks.FIRE.getDefaultState());
+				if (world.getBlockState(blockPos).getMaterial() == Material.AIR && Blocks.FIRE.canPlaceBlockAt(world, blockPos)) {
+					world.setBlockState(blockPos, Blocks.FIRE.getDefaultState());
 				}
 			}
 			break;
 		case LIGHT:
 			if (result.entityHit == null) {
 				BlockPos blockpos = result.getBlockPos();
-				IBlockState state = this.worldObj.getBlockState(blockpos);
+				IBlockState state = this.world.getBlockState(blockpos);
 
 				if (result.sideHit == EnumFacing.UP) {
-					if (!worldObj.isRemote && state.getBlock() != Blocks.AIR && this.getEntityWorld().getBlockState(result.getBlockPos().up(2)).getBlock() == Blocks.AIR) {
-						worldObj.setBlockState(result.getBlockPos().up(), Blocks.TORCH.getDefaultState());
+					if (!world.isRemote && state.getBlock() != Blocks.AIR && this.getEntityWorld().getBlockState(result.getBlockPos().up(2)).getBlock() == Blocks.AIR) {
+						world.setBlockState(result.getBlockPos().up(), Blocks.TORCH.getDefaultState());
 					}
 				} else {
-					if (!worldObj.isRemote && state.getBlock() != Blocks.AIR && this.getEntityWorld().getBlockState(result.getBlockPos().offset(result.sideHit, 2)).getBlock() == Blocks.AIR) {
-						worldObj.setBlockState(result.getBlockPos().offset(result.sideHit), Blocks.TORCH.getDefaultState().withProperty(BlockTorch.FACING, result.sideHit));
+					if (!world.isRemote && state.getBlock() != Blocks.AIR && this.getEntityWorld().getBlockState(result.getBlockPos().offset(result.sideHit, 2)).getBlock() == Blocks.AIR) {
+						world.setBlockState(result.getBlockPos().offset(result.sideHit), Blocks.TORCH.getDefaultState().withProperty(BlockTorch.FACING, result.sideHit));
 					}
 				}
 			}
@@ -78,10 +78,10 @@ public class EntitySlingpellet extends EntityThrowable {
 		}
 
 		for (int i = 0; i < 8; ++i) {
-			this.worldObj.spawnParticle(EnumParticleTypes.SNOWBALL, this.posX, this.posY, this.posZ, 0.0D, 0.0D, 0.0D);
+			this.world.spawnParticle(EnumParticleTypes.SNOWBALL, this.posX, this.posY, this.posZ, 0.0D, 0.0D, 0.0D);
 		}
 
-		if (!this.worldObj.isRemote) {
+		if (!this.world.isRemote) {
 			this.setDead();
 		}
 	}

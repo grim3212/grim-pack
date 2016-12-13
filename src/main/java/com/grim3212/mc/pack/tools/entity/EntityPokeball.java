@@ -46,20 +46,20 @@ public class EntityPokeball extends EntityThrowable {
 		Entity hitEntity = result.entityHit;
 
 		for (int j = 0; j < 8; ++j) {
-			this.worldObj.spawnParticle(EnumParticleTypes.SNOWBALL, this.posX, this.posY, this.posZ, 0.0D, 0.0D, 0.0D);
+			this.world.spawnParticle(EnumParticleTypes.SNOWBALL, this.posX, this.posY, this.posZ, 0.0D, 0.0D, 0.0D);
 		}
 
-		if (!worldObj.isRemote) {
+		if (!world.isRemote) {
 			if (hitEntity != null && this.notCaught && !(hitEntity instanceof EntityPlayer || hitEntity instanceof EntityDragon)) {
 				if (hitEntity instanceof EntityLivingBase) {
 					NBTTagCompound entity = new NBTTagCompound();
 					hitEntity.writeToNBT(entity);
-					entity.setString("id", (String) EntityList.CLASS_TO_NAME.get(hitEntity.getClass()));
+					entity.setString("id", (String) EntityList.getKey(hitEntity.getClass()).toString());
 					entity.setString("name", hitEntity.getName());
 
 					this.currentPokeball.setTagCompound(entity);
 					this.currentPokeball.damageItem(1, (EntityLivingBase) hitEntity);
-					this.currentPokeball.stackSize = 1;
+					this.currentPokeball.setCount(1);
 					this.entityDropItem(this.currentPokeball, 0.0F);
 					hitEntity.setDead();
 					this.setDead();
@@ -67,14 +67,14 @@ public class EntityPokeball extends EntityThrowable {
 			}
 
 			if (!this.notCaught) {
-				Entity spawnEntity = EntityList.createEntityFromNBT(this.currentPokeball.getTagCompound(), this.worldObj);
+				Entity spawnEntity = EntityList.createEntityFromNBT(this.currentPokeball.getTagCompound(), this.world);
 				if (spawnEntity != null) {
 					spawnEntity.readFromNBT(this.currentPokeball.getTagCompound());
 				}
 
 				if (spawnEntity != null) {
 					spawnEntity.setLocationAndAngles(this.posX, this.posY + 1.0D, this.posZ, this.rotationYaw, 0.0F);
-					this.worldObj.spawnEntityInWorld(spawnEntity);
+					this.world.spawnEntity(spawnEntity);
 					this.entityDropItem(new ItemStack(ToolsItems.pokeball), 0.0F);
 				}
 			}
@@ -84,7 +84,7 @@ public class EntityPokeball extends EntityThrowable {
 			}
 		}
 
-		if (!this.worldObj.isRemote) {
+		if (!this.world.isRemote) {
 			this.setDead();
 		}
 	}

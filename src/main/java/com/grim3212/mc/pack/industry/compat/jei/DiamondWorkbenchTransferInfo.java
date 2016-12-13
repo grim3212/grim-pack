@@ -39,4 +39,9 @@ public class DiamondWorkbenchTransferInfo implements IRecipeTransferInfo<Contain
 		return slots;
 	}
 
+	@Override
+	public boolean canHandle(ContainerDiamondWorkbench container) {
+		return true;
+	}
+
 }

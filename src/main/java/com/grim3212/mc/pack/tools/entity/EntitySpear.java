@@ -78,20 +78,20 @@ public class EntitySpear extends EntityProjectile {
 		super.projectileHit(living);
 
 		if (this.type == EnumSpearType.EXPLOSIVE) {
-			if (!worldObj.isRemote)
-				worldObj.createExplosion(null, posX, posY, posZ, 3F, true);
+			if (!world.isRemote)
+				world.createExplosion(null, posX, posY, posZ, 3F, true);
 			setDead();
 		} else if (this.type == EnumSpearType.LIGHTNING) {
-			EntityLightningBolt entitylightningbolt1 = new EntityLightningBolt(worldObj, 1.0D, 1.0D, 1.0D, true);
+			EntityLightningBolt entitylightningbolt1 = new EntityLightningBolt(world, 1.0D, 1.0D, 1.0D, true);
 			entitylightningbolt1.setLocationAndAngles(posX, posY, posZ, rotationYaw, 0.0F);
-			worldObj.addWeatherEffect(entitylightningbolt1);
+			world.addWeatherEffect(entitylightningbolt1);
 			this.inGround = true;
 		} else if (this.type == EnumSpearType.FIRE) {
 			for (int fire = 0; fire < 6; ++fire) {
 				BlockPos blockPos = this.getPosition().add(this.rand.nextInt(3) - 1, this.rand.nextInt(3) - 1, this.rand.nextInt(3) - 1);
 
-				if (worldObj.getBlockState(blockPos).getMaterial() == Material.AIR && Blocks.FIRE.canPlaceBlockAt(worldObj, blockPos)) {
-					worldObj.setBlockState(blockPos, Blocks.FIRE.getDefaultState());
+				if (world.getBlockState(blockPos).getMaterial() == Material.AIR && Blocks.FIRE.canPlaceBlockAt(world, blockPos)) {
+					world.setBlockState(blockPos, Blocks.FIRE.getDefaultState());
 				}
 			}
 			setDead();
@@ -104,32 +104,32 @@ public class EntitySpear extends EntityProjectile {
 
 		if (this.type == EnumSpearType.LIGHT) {
 			if (raytraceResultIn.sideHit == EnumFacing.UP) {
-				if (!worldObj.isRemote && state.getBlock() != Blocks.AIR && this.getEntityWorld().getBlockState(raytraceResultIn.getBlockPos().up(2)).getBlock() == Blocks.AIR) {
-					worldObj.setBlockState(raytraceResultIn.getBlockPos().up(), Blocks.TORCH.getDefaultState());
+				if (!world.isRemote && state.getBlock() != Blocks.AIR && this.getEntityWorld().getBlockState(raytraceResultIn.getBlockPos().up(2)).getBlock() == Blocks.AIR) {
+					world.setBlockState(raytraceResultIn.getBlockPos().up(), Blocks.TORCH.getDefaultState());
 				}
 			} else {
-				if (!worldObj.isRemote && state.getBlock() != Blocks.AIR && this.getEntityWorld().getBlockState(raytraceResultIn.getBlockPos().offset(raytraceResultIn.sideHit, 2)).getBlock() == Blocks.AIR) {
-					worldObj.setBlockState(raytraceResultIn.getBlockPos().offset(raytraceResultIn.sideHit), Blocks.TORCH.getDefaultState().withProperty(BlockTorch.FACING, raytraceResultIn.sideHit));
+				if (!world.isRemote && state.getBlock() != Blocks.AIR && this.getEntityWorld().getBlockState(raytraceResultIn.getBlockPos().offset(raytraceResultIn.sideHit, 2)).getBlock() == Blocks.AIR) {
+					world.setBlockState(raytraceResultIn.getBlockPos().offset(raytraceResultIn.sideHit), Blocks.TORCH.getDefaultState().withProperty(BlockTorch.FACING, raytraceResultIn.sideHit));
 				}
 			}
 			this.inGround = true;
 		} else if (this.type == EnumSpearType.LIGHTNING) {
-			EntityLightningBolt entitylightningbolt1 = new EntityLightningBolt(worldObj, 1.0D, 1.0D, 1.0D, true);
+			EntityLightningBolt entitylightningbolt1 = new EntityLightningBolt(world, 1.0D, 1.0D, 1.0D, true);
 			entitylightningbolt1.setLocationAndAngles(posX, posY, posZ, rotationYaw, 0.0F);
-			worldObj.addWeatherEffect(entitylightningbolt1);
+			world.addWeatherEffect(entitylightningbolt1);
 			this.inGround = true;
 		} else if (this.type == EnumSpearType.FIRE) {
 			for (int fire = 0; fire < 6; ++fire) {
 				BlockPos blockPos = this.getPosition().add(this.rand.nextInt(3) - 1, this.rand.nextInt(3) - 1, this.rand.nextInt(3) - 1);
 
-				if (worldObj.getBlockState(blockPos).getMaterial() == Material.AIR && Blocks.FIRE.canPlaceBlockAt(worldObj, blockPos)) {
-					worldObj.setBlockState(blockPos, Blocks.FIRE.getDefaultState());
+				if (world.getBlockState(blockPos).getMaterial() == Material.AIR && Blocks.FIRE.canPlaceBlockAt(world, blockPos)) {
+					world.setBlockState(blockPos, Blocks.FIRE.getDefaultState());
 				}
 			}
 			setDead();
 		} else if (this.type == EnumSpearType.EXPLOSIVE) {
-			if (!worldObj.isRemote)
-				worldObj.createExplosion(null, posX, posY, posZ, 3F, true);
+			if (!world.isRemote)
+				world.createExplosion(null, posX, posY, posZ, 3F, true);
 			setDead();
 		} else {
 			this.inGround = true;
