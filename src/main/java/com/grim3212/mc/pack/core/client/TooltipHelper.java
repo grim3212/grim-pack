@@ -22,7 +22,7 @@ public class TooltipHelper {
 	public static void renderToolTip(ItemStack itemstack, int x, int y) {
 		Minecraft mc = Minecraft.getMinecraft();
 
-		List<String> list = itemstack.getTooltip(mc.thePlayer, mc.gameSettings.advancedItemTooltips);
+		List<String> list = itemstack.getTooltip(mc.player, mc.gameSettings.advancedItemTooltips);
 
 		if (NBTHelper.hasTag(itemstack, "customTooltip")) {
 			list.add("");

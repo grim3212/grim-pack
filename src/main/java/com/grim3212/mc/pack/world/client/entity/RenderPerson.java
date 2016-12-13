@@ -10,16 +10,10 @@ import net.minecraftforge.fml.client.registry.IRenderFactory;
 
 public class RenderPerson extends RenderBiped<EntityCreature> {
 
-	private ResourceLocation RESOURCE_LOCATION;
+	private final ResourceLocation RESOURCE_LOCATION;
 
 	public RenderPerson(RenderManager renderManager, ModelBiped model, float shadowSize, ResourceLocation loc) {
-		this(renderManager, model, shadowSize, 1.0F, loc);
-	}
-
-	public RenderPerson(RenderManager renderManager, ModelBiped model, float shadowSize, float scale, ResourceLocation loc) {
 		super(renderManager, model, shadowSize);
-		this.modelBipedMain = model;
-		this.scale = scale;
 		this.RESOURCE_LOCATION = loc;
 	}
 

@@ -1,6 +1,8 @@
 {
 	"homepage": "http://mods.grim3212.com/grim-pack/",
 	"promos": {
+		"1.11-latest": "4.0.0.0",
+		"1.11-recommended": "4.0.0.0",
 		"1.10.2-latest": "3.4.17.52",
 		"1.10.2-recommended": "3.4.17.52",
 		"1.9-latest": "2.1.3.7",
@@ -49,5 +51,8 @@
 		"3.2.2.8": "A huge amount of changes. Many of these change recipes as well as a overhaul of decor furniture.",
 		"3.0.0.1": "Fix a world generation crash that would sometimes happen with Biomes O' Plenty. Also change version to actually be what the update is looking for.",
 		"3.0.0.0": "Fix vanilla desert wells from spawning. Add a config option for workbench upgrades. Requires Forge 12.18.1.2039."
-	}
+	},
+	"1.11": {
+		"4.0.0.0": "Port to 1.11."
+	},
 }

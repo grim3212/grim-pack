@@ -1,6 +1,5 @@
 package com.grim3212.mc.pack.world.blocks;
 
-import java.util.List;
 import java.util.Random;
 
 import com.grim3212.mc.pack.world.GrimWorld;
@@ -20,6 +19,7 @@ import net.minecraft.item.ItemSword;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
@@ -92,7 +92,7 @@ public abstract class BlockFungusBase extends Block {
 	}
 
 	@Override
-	public void getSubBlocks(Item itemIn, CreativeTabs tab, List<ItemStack> list) {
+	public void getSubBlocks(Item itemIn, CreativeTabs tab, NonNullList<ItemStack> list) {
 		for (int i = 0; i < 16; i++)
 			list.add(new ItemStack(this, 1, i));
 	}
@@ -113,8 +113,7 @@ public abstract class BlockFungusBase extends Block {
 			double d2 = (double) (worldIn.rand.nextFloat() * f) + (double) (1.0F - f) * 0.5D;
 			EntityItem entityitem = new EntityItem(worldIn, (double) pos.getX() + d, (double) pos.getY() + d1, (double) pos.getZ() + d2, new ItemStack(this, 1, (Integer) state.getValue(TYPE)));
 			entityitem.setPickupDelay(10);
-			if (!worldIn.isRemote)
-				worldIn.spawnEntityInWorld(entityitem);
+			worldIn.spawnEntity(entityitem);
 		}
 	}
 

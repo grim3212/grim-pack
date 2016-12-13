@@ -91,7 +91,7 @@ public class EntityIcePixie extends EntityDayMob implements IRangedAttackMob {
 		for (int j = (int) (-3D + posX); (double) j <= 3D + posX; j++) {
 			for (int k = (int) (-3D + posY); (double) k <= 3D + posY; k++) {
 				for (int l = (int) (-3D + posZ); (double) l <= 3D + posZ; l++) {
-					Block i1 = worldObj.getBlockState(new BlockPos(j, k, l)).getBlock();
+					Block i1 = world.getBlockState(new BlockPos(j, k, l)).getBlock();
 					if (i1 == Blocks.TORCH) {
 						i++;
 					}
@@ -100,11 +100,11 @@ public class EntityIcePixie extends EntityDayMob implements IRangedAttackMob {
 		}
 
 		if (i >= 1) {
-			attackEntityFrom(DamageSource.generic, i / 2);
+			attackEntityFrom(DamageSource.GENERIC, i / 2);
 		}
 
 		BlockPos pos = new BlockPos((int) posX, (int) posY - 1, (int) posZ);
-		if (worldObj.getBlockState(pos).getBlock() == Blocks.ICE || worldObj.getBlockState(pos).getBlock() == Blocks.SNOW) {
+		if (world.getBlockState(pos).getBlock() == Blocks.ICE || world.getBlockState(pos).getBlock() == Blocks.SNOW) {
 			this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.40D);
 		} else {
 			this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.25D);
@@ -121,7 +121,7 @@ public class EntityIcePixie extends EntityDayMob implements IRangedAttackMob {
 				return super.attackEntityFrom(damagesource, i);
 			}
 		}
-		if (damagesource == DamageSource.generic) {
+		if (damagesource == DamageSource.GENERIC) {
 			return super.attackEntityFrom(damagesource, i);
 		} else {
 			return false;
@@ -130,9 +130,9 @@ public class EntityIcePixie extends EntityDayMob implements IRangedAttackMob {
 
 	@Override
 	public void attackEntityWithRangedAttack(EntityLivingBase entity, float f) {
-		EntityIceCube entityicecube = new EntityIceCube(this.worldObj, this, entity, 1.2F, (float) (14 - this.worldObj.getDifficulty().getDifficultyId() * 4));
-		worldObj.playSound((EntityPlayer) null, this.getPosition(), SoundEvents.ENTITY_SLIME_ATTACK, SoundCategory.HOSTILE, 1.0F, 1.0F / (rand.nextFloat() * 0.4F + 0.8F));
-		worldObj.spawnEntityInWorld(entityicecube);
+		EntityIceCube entityicecube = new EntityIceCube(this.world, this, entity, 1.2F, (float) (14 - this.world.getDifficulty().getDifficultyId() * 4));
+		world.playSound((EntityPlayer) null, this.getPosition(), SoundEvents.ENTITY_SLIME_ATTACK, SoundCategory.HOSTILE, 1.0F, 1.0F / (rand.nextFloat() * 0.4F + 0.8F));
+		world.spawnEntity(entityicecube);
 	}
 
 	@Override

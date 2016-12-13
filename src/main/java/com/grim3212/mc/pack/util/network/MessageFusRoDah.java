@@ -33,7 +33,7 @@ public class MessageFusRoDah extends AbstractServerMessage<MessageFusRoDah> {
 	@Override
 	public void process(EntityPlayer player, Side side) {
 		float var5 = (float) (2.0D * UtilConfig.frd_power);
-		List<Entity> list = player.worldObj.getEntitiesWithinAABBExcludingEntity(player, new AxisAlignedBB((double) ((float) player.posX - var5), player.posY - (double) var5, (double) ((float) player.posZ - var5), (double) ((float) player.posX + var5), player.posY + (double) var5, (double) ((float) player.posZ + var5)));
+		List<Entity> list = player.world.getEntitiesWithinAABBExcludingEntity(player, new AxisAlignedBB((double) ((float) player.posX - var5), player.posY - (double) var5, (double) ((float) player.posZ - var5), (double) ((float) player.posX + var5), player.posY + (double) var5, (double) ((float) player.posZ + var5)));
 		float var7 = player.rotationYaw * 0.01745329F;
 		double xPower = (double) (-MathHelper.sin(var7)) * UtilConfig.frd_power;
 		double zPower = (double) MathHelper.cos(var7) * UtilConfig.frd_power;
@@ -52,9 +52,9 @@ public class MessageFusRoDah extends AbstractServerMessage<MessageFusRoDah> {
 
 		if (UtilConfig.soundEnabled) {
 			if (UtilConfig.useOldSound)
-				player.worldObj.playSound((EntityPlayer) null, player.getPosition(), GrimUtil.fusrodahOldSound, SoundCategory.PLAYERS, 1.0F, 1.0F);
+				player.world.playSound((EntityPlayer) null, player.getPosition(), GrimUtil.fusrodahOldSound, SoundCategory.PLAYERS, 1.0F, 1.0F);
 			else
-				player.worldObj.playSound((EntityPlayer) null, player.getPosition(), GrimUtil.fusrodahSound, SoundCategory.PLAYERS, 1.0F, 1.0F);
+				player.world.playSound((EntityPlayer) null, player.getPosition(), GrimUtil.fusrodahSound, SoundCategory.PLAYERS, 1.0F, 1.0F);
 		}
 	}
 

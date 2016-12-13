@@ -3,7 +3,6 @@ package com.grim3212.mc.pack.util.event;
 import net.minecraft.block.BlockTrapDoor;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
@@ -14,7 +13,7 @@ public class DoubleTrapDoor {
 
 	private static final NeighbourBlocks[] _neighbour_blocks = { new NeighbourBlocks(new RelBlockCoord(0, -1), new RelBlockCoord(1, 0), new RelBlockCoord(-1, 0)), new NeighbourBlocks(new RelBlockCoord(0, 1), new RelBlockCoord(-1, 0), new RelBlockCoord(1, 0)), new NeighbourBlocks(new RelBlockCoord(-1, 0), new RelBlockCoord(0, -1), new RelBlockCoord(0, 1)), new NeighbourBlocks(new RelBlockCoord(1, 0), new RelBlockCoord(0, 1), new RelBlockCoord(0, -1)) };
 
-	public static void activateDoubleTrap(World world, BlockPos pos, IBlockState state, boolean include_left_right, EntityPlayer entityPlayer, EnumHand enumHand, ItemStack itemStack, EnumFacing facing, Vec3d vec3d) {
+	public static void activateDoubleTrap(World world, BlockPos pos, IBlockState state, boolean include_left_right, EntityPlayer entityPlayer, EnumHand enumHand, EnumFacing facing, Vec3d vec3d) {
 		NeighbourBlocks neighbour_blocks = _neighbour_blocks[getMetaForFacing(state.getValue(BlockTrapDoor.FACING))];
 
 		int coord_x = pos.getX() + neighbour_blocks.counterpart.x;
@@ -23,8 +22,8 @@ public class DoubleTrapDoor {
 		IBlockState neighborState = world.getBlockState(neighborPos);
 
 		if (isValidNeighbor(world, pos, neighborPos)) {
-			activateDoubleTrap(world, neighborPos, state, false, entityPlayer, enumHand, itemStack, facing, vec3d);
-			neighborState.getBlock().onBlockActivated(world, neighborPos, neighborState, entityPlayer, enumHand, itemStack, facing, (float) vec3d.xCoord, (float) vec3d.yCoord, (float) vec3d.zCoord);
+			activateDoubleTrap(world, neighborPos, state, false, entityPlayer, enumHand, facing, vec3d);
+			neighborState.getBlock().onBlockActivated(world, neighborPos, neighborState, entityPlayer, enumHand, facing, (float) vec3d.xCoord, (float) vec3d.yCoord, (float) vec3d.zCoord);
 		}
 
 		if (include_left_right) {
@@ -48,14 +47,14 @@ public class DoubleTrapDoor {
 
 			IBlockState leftState = world.getBlockState(leftPos);
 			if (isValidNeighbor(world, pos, leftPos)) {
-				activateDoubleTrap(world, leftPos, state, false, entityPlayer, enumHand, itemStack, facing, vec3d);
-				leftState.getBlock().onBlockActivated(world, leftPos, leftState, entityPlayer, enumHand, itemStack, facing, (float) vec3d.xCoord, (float) vec3d.yCoord, (float) vec3d.zCoord);
+				activateDoubleTrap(world, leftPos, state, false, entityPlayer, enumHand, facing, vec3d);
+				leftState.getBlock().onBlockActivated(world, leftPos, leftState, entityPlayer, enumHand, facing, (float) vec3d.xCoord, (float) vec3d.yCoord, (float) vec3d.zCoord);
 			}
 
 			IBlockState rightState = world.getBlockState(rightPos);
 			if (isValidNeighbor(world, pos, rightPos)) {
-				activateDoubleTrap(world, rightPos, state, false, entityPlayer, enumHand, itemStack, facing, vec3d);
-				rightState.getBlock().onBlockActivated(world, rightPos, rightState, entityPlayer, enumHand, itemStack, facing, (float) vec3d.xCoord, (float) vec3d.yCoord, (float) vec3d.zCoord);
+				activateDoubleTrap(world, rightPos, state, false, entityPlayer, enumHand, facing, vec3d);
+				rightState.getBlock().onBlockActivated(world, rightPos, rightState, entityPlayer, enumHand, facing, (float) vec3d.xCoord, (float) vec3d.yCoord, (float) vec3d.zCoord);
 			}
 		}
 	}
