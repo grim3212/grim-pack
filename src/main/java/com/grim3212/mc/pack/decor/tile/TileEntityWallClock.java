@@ -80,7 +80,7 @@ public class TileEntityWallClock extends TileEntity implements ITickable {
 			--d1;
 		}
 
-		d1 = MathHelper.clamp_double(d1, -1.0D, 1.0D);
+		d1 = MathHelper.clamp(d1, -1.0D, 1.0D);
 		field_94240_i += d1 * 0.1D;
 		field_94240_i *= 0.8D;
 		field_94239_h += field_94240_i;

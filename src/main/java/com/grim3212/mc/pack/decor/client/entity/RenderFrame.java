@@ -20,7 +20,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class RenderFrame extends Render<EntityFrame> {
 
-	private static final ResourceLocation framesTexture = new ResourceLocation(GrimPack.modID, "textures/entities/framesTexture.png");
+	private static final ResourceLocation framesTexture = new ResourceLocation(GrimPack.modID, "textures/entities/frames_texture.png");
 
 	public RenderFrame(RenderManager renderManager) {
 		super(renderManager);
@@ -48,7 +48,7 @@ public class RenderFrame extends Render<EntityFrame> {
 		Tessellator tess = Tessellator.getInstance();
 		int[] planks = frame.planks;
 		EnumFrameRender[] renderFrames = EnumFrameRender.values();
-		int light = this.renderManager.worldObj.getCombinedLight(entity.getHangingPosition(), 0);
+		int light = this.renderManager.world.getCombinedLight(entity.getHangingPosition(), 0);
 		int j = light >> 16 & 65535;
 		int k = light & 65535;
 

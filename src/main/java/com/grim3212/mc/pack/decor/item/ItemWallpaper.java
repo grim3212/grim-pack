@@ -19,17 +19,17 @@ public class ItemWallpaper extends ItemManual {
 	}
 
 	@Override
-	public EnumActionResult onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
-		if (facing != EnumFacing.DOWN && facing != EnumFacing.UP && playerIn.canPlayerEdit(pos.offset(facing), facing, stack)) {
+	public EnumActionResult onItemUse(EntityPlayer playerIn, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
+		if (facing != EnumFacing.DOWN && facing != EnumFacing.UP && playerIn.canPlayerEdit(pos.offset(facing), facing, playerIn.getHeldItem(hand))) {
 			EntityWallpaper wallpaper = new EntityWallpaper(worldIn, pos.offset(facing), facing);
 
 			if (wallpaper != null && wallpaper.onValidSurface()) {
 				if (!worldIn.isRemote) {
 					wallpaper.playPlaceSound();
-					worldIn.spawnEntityInWorld(wallpaper);
+					worldIn.spawnEntity(wallpaper);
 				}
 
-				--stack.stackSize;
+				playerIn.getHeldItem(hand).shrink(1);
 			}
 
 			return EnumActionResult.SUCCESS;

@@ -30,7 +30,7 @@ import net.minecraftforge.oredict.ShapelessOreRecipe;
 
 public class PageCrafting extends Page {
 
-	private ResourceLocation craftingOverlay = new ResourceLocation(GrimPack.modID, "textures/gui/craftingOverlay.png");
+	private ResourceLocation craftingOverlay = new ResourceLocation(GrimPack.modID, "textures/gui/crafting_overlay.png");
 
 	private int recipeShown = 0;
 	private int update = 0;

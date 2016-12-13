@@ -17,6 +17,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
@@ -110,19 +111,19 @@ public class BlockWallClock extends BlockManual implements ITileEntityProvider {
 	}
 
 	@Override
-	public IBlockState onBlockPlaced(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer) {
+	public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer, EnumHand hand) {
 		IBlockState state = this.getDefaultState();
 
-		if (facing == EnumFacing.NORTH && worldIn.getBlockState(pos.south()).isOpaqueCube()) {
+		if (facing == EnumFacing.NORTH && world.getBlockState(pos.south()).isOpaqueCube()) {
 			state = state.withProperty(FACING, EnumFacing.NORTH);
 		}
-		if (facing == EnumFacing.SOUTH && worldIn.getBlockState(pos.north()).isOpaqueCube()) {
+		if (facing == EnumFacing.SOUTH && world.getBlockState(pos.north()).isOpaqueCube()) {
 			state = state.withProperty(FACING, EnumFacing.SOUTH);
 		}
-		if (facing == EnumFacing.WEST && worldIn.getBlockState(pos.east()).isOpaqueCube()) {
+		if (facing == EnumFacing.WEST && world.getBlockState(pos.east()).isOpaqueCube()) {
 			state = state.withProperty(FACING, EnumFacing.WEST);
 		}
-		if (facing == EnumFacing.EAST && worldIn.getBlockState(pos.west()).isOpaqueCube()) {
+		if (facing == EnumFacing.EAST && world.getBlockState(pos.west()).isOpaqueCube()) {
 			state = state.withProperty(FACING, EnumFacing.EAST);
 		}
 
@@ -130,7 +131,7 @@ public class BlockWallClock extends BlockManual implements ITileEntityProvider {
 	}
 
 	@Override
-	public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn) {
+	public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos) {
 		EnumFacing facing = (EnumFacing) state.getValue(FACING);
 		boolean flag = false;
 		if (facing == EnumFacing.NORTH && worldIn.getBlockState(pos.south()).isOpaqueCube()) {

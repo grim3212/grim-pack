@@ -12,7 +12,7 @@ import net.minecraft.util.ResourceLocation;
 
 public class GuiMFurnace extends GuiContainer {
 
-	private ResourceLocation gui = new ResourceLocation(GrimPack.modID, "textures/gui/guiMFurnace.png");
+	private ResourceLocation gui = new ResourceLocation(GrimPack.modID, "textures/gui/gui_modern_furnace.png");
 
 	/** The player inventory bound to this GUI. */
 	private final InventoryPlayer playerInventory;

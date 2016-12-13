@@ -62,11 +62,13 @@ public class BlockFireplaceBase extends BlockColorizer {
 	}
 
 	@Override
-	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ) {
-		if (heldItem != null && heldItem.getItem() != null) {
+	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
+		ItemStack heldItem = playerIn.getHeldItem(hand);
+
+		if (!heldItem.isEmpty()) {
 			Block block = Block.getBlockFromItem(heldItem.getItem());
 			if (block != null) {
-				if (super.onBlockActivated(worldIn, pos, state, playerIn, hand, heldItem, side, hitX, hitY, hitZ)) {
+				if (super.onBlockActivated(worldIn, pos, state, playerIn, hand, side, hitX, hitY, hitZ)) {
 					return true;
 				}
 			}
@@ -75,12 +77,10 @@ public class BlockFireplaceBase extends BlockColorizer {
 		if (worldIn.isRemote)
 			return true;
 
-		ItemStack stack = playerIn.inventory.getStackInSlot(playerIn.inventory.currentItem);
-
 		if (state.getBlock() != DecorBlocks.chimney) {
-			if ((stack != null) && ((stack.getItem() == Items.FLINT_AND_STEEL) || (stack.getItem() == Items.FIRE_CHARGE))) {
+			if (!heldItem.isEmpty() && ((heldItem.getItem() == Items.FLINT_AND_STEEL) || (heldItem.getItem() == Items.FIRE_CHARGE))) {
 				if (!worldIn.getBlockState(pos).getValue(ACTIVE)) {
-					stack.damageItem(1, playerIn);
+					heldItem.damageItem(1, playerIn);
 					worldIn.playSound((EntityPlayer) null, pos, SoundEvents.ITEM_FLINTANDSTEEL_USE, SoundCategory.BLOCKS, 1.0F, worldIn.rand.nextFloat() * 0.4F + 0.8F);
 					worldIn.setBlockState(pos, state.withProperty(ACTIVE, true));
 				}

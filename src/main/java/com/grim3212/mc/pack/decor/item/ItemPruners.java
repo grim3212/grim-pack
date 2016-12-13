@@ -37,9 +37,10 @@ public class ItemPruners extends ItemTool {
 
 	@Override
 	@SuppressWarnings("deprecation")
-	public EnumActionResult onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
+	public EnumActionResult onItemUse(EntityPlayer playerIn, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
 		IBlockState state = worldIn.getBlockState(pos);
 
+		ItemStack stack = playerIn.getHeldItem(hand);
 		if (state.getBlock() instanceof BlockLeaves) {
 			stack.damageItem(1, playerIn);
 
@@ -100,6 +101,6 @@ public class ItemPruners extends ItemTool {
 			}
 		}
 
-		return super.onItemUse(stack, playerIn, worldIn, pos, hand, facing, hitX, hitY, hitZ);
+		return super.onItemUse(playerIn, worldIn, pos, hand, facing, hitX, hitY, hitZ);
 	}
 }

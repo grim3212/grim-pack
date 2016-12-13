@@ -35,13 +35,13 @@ public class MessageParticles extends AbstractClientMessage<MessageParticles> {
 
 	@Override
 	public void process(EntityPlayer player, Side side) {
-		TileEntity te = player.worldObj.getTileEntity(pos);
+		TileEntity te = player.world.getTileEntity(pos);
 		if (te instanceof TileEntityColorizer) {
 			for (int i = 0; i < 3; i++) {
-				double xVar = (player.worldObj.rand.nextDouble() - 0.5D) / 5.0D;
-				double yVar = (player.worldObj.rand.nextDouble() - 0.5D) / 5.0D;
-				double zVar = (player.worldObj.rand.nextDouble() - 0.5D) / 5.0D;
-				player.worldObj.spawnParticle(EnumParticleTypes.SMOKE_LARGE, pos.getX() + 0.5D + xVar, pos.getY() + 0.3D + yVar, pos.getZ() + 0.5D + zVar, 0.0D, 0.0D, 0.0D);
+				double xVar = (player.world.rand.nextDouble() - 0.5D) / 5.0D;
+				double yVar = (player.world.rand.nextDouble() - 0.5D) / 5.0D;
+				double zVar = (player.world.rand.nextDouble() - 0.5D) / 5.0D;
+				player.world.spawnParticle(EnumParticleTypes.SMOKE_LARGE, pos.getX() + 0.5D + xVar, pos.getY() + 0.3D + yVar, pos.getZ() + 0.5D + zVar, 0.0D, 0.0D, 0.0D);
 			}
 		}
 	}

@@ -50,7 +50,7 @@ public class ItemMaskArmor extends ItemArmor implements IManualItem {
 	public String getArmorTexture(ItemStack stack, Entity entity, EntityEquipmentSlot slot, String type) {
 		String maskType = types[stack.getItemDamage()];
 
-		return GrimPack.modID + ":" + "textures/models/armor/" + maskType + "Mask_1.png";
+		return GrimPack.modID + ":" + "textures/models/armor/" + maskType + "mask_1.png";
 	}
 
 	@Override

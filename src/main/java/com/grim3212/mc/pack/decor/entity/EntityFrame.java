@@ -19,6 +19,7 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityHanging;
+import net.minecraft.entity.MoverType;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
@@ -87,14 +88,14 @@ public class EntityFrame extends EntityHanging implements IEntityAdditionalSpawn
 	}
 
 	@Override
-	public EnumActionResult applyPlayerInteraction(EntityPlayer player, Vec3d vec, ItemStack stack, EnumHand hand) {
-		ItemStack itemstack = player.inventory.getCurrentItem();
+	public EnumActionResult applyPlayerInteraction(EntityPlayer player, Vec3d vec, EnumHand hand) {
+		ItemStack itemstack = player.getHeldItem(hand);
 		if (player.canPlayerEdit(hangingPosition, this.facingDirection, itemstack)) {
-			if (itemstack != null) {
+			if (!itemstack.isEmpty()) {
 				if ((DecorConfig.dyeFrames) && (itemstack.getItem() == Items.DYE)) {
 					if (dyeFrame(itemstack.getItemDamage())) {
 						if (!player.capabilities.isCreativeMode) {
-							itemstack.stackSize -= 1;
+							itemstack.shrink(1);
 						}
 						return EnumActionResult.SUCCESS;
 					}
@@ -138,7 +139,7 @@ public class EntityFrame extends EntityHanging implements IEntityAdditionalSpawn
 			}
 		}
 
-		if (!this.worldObj.isRemote)
+		if (!this.world.isRemote)
 			playPlaceSound();
 
 		return true;
@@ -158,7 +159,7 @@ public class EntityFrame extends EntityHanging implements IEntityAdditionalSpawn
 		this.getDataManager().set(COLOR_BLUE, newblue);
 		this.getDataManager().set(BURNT, burn);
 
-		if (!this.worldObj.isRemote) {
+		if (!this.world.isRemote) {
 			if (burn) {
 				playBurnSound();
 			} else {
@@ -258,7 +259,7 @@ public class EntityFrame extends EntityHanging implements IEntityAdditionalSpawn
 	@Override
 	public void onUpdate() {
 		if ((this.material == 0) && (DecorConfig.burnFrames)) {
-			if (WorldHelper.isAABBInMaterial(worldObj, this.fireboundingBox.expand(-0.001D, -0.001D, -0.001D), Material.FIRE)) {
+			if (WorldHelper.isAABBInMaterial(world, this.fireboundingBox.expand(-0.001D, -0.001D, -0.001D), Material.FIRE)) {
 				if (!this.getBurned()) {
 					dyeFrame(8, true);
 				}
@@ -272,7 +273,7 @@ public class EntityFrame extends EntityHanging implements IEntityAdditionalSpawn
 
 	@Override
 	public boolean onValidSurface() {
-		if (!this.worldObj.getCollisionBoxes(this, this.getEntityBoundingBox()).isEmpty()) {
+		if (!this.world.getCollisionBoxes(this, this.getEntityBoundingBox()).isEmpty()) {
 			return false;
 		} else {
 			int i = Math.max(1, this.getWidthPixels() / 16);
@@ -284,9 +285,9 @@ public class EntityFrame extends EntityHanging implements IEntityAdditionalSpawn
 					int i1 = i > 2 ? -1 : 0;
 					int j1 = j > 2 ? -1 : 0;
 					BlockPos blockpos1 = blockpos.offset(enumfacing, k + i1).up(l + j1);
-					IBlockState iblockstate = this.worldObj.getBlockState(blockpos1);
+					IBlockState iblockstate = this.world.getBlockState(blockpos1);
 
-					if (iblockstate.isSideSolid(this.worldObj, blockpos1, this.facingDirection))
+					if (iblockstate.isSideSolid(this.world, blockpos1, this.facingDirection))
 						continue;
 
 					if (!iblockstate.getMaterial().isSolid() && !BlockRedstoneDiode.isDiode(iblockstate)) {
@@ -296,7 +297,7 @@ public class EntityFrame extends EntityHanging implements IEntityAdditionalSpawn
 			}
 
 			if (getCurrentFrame().isCollidable) {
-				List<Entity> entities = this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.getEntityBoundingBox());
+				List<Entity> entities = this.world.getEntitiesWithinAABBExcludingEntity(this, this.getEntityBoundingBox());
 				for (int m = 0; m < entities.size(); m++) {
 					if ((entities.get(m) instanceof EntityFrame)) {
 						EntityFrame entFrame = (EntityFrame) entities.get(m);
@@ -323,10 +324,10 @@ public class EntityFrame extends EntityHanging implements IEntityAdditionalSpawn
 	@Override
 	@SideOnly(Side.CLIENT)
 	public boolean canBeCollidedWith() {
-		EntityPlayer player = Minecraft.getMinecraft().thePlayer;
-		ItemStack itemstack = player.inventory.getCurrentItem();
+		EntityPlayer player = Minecraft.getMinecraft().player;
+		ItemStack itemstack = player.getHeldItem(player.getActiveHand());
 
-		if (itemstack != null) {
+		if (!itemstack.isEmpty()) {
 			if ((this.material == 0) && (((itemstack.getItem() == DecorItems.frame) && (itemstack.getItemDamage() == this.material)) || (itemstack.getItem() instanceof ItemAxe) || (itemstack.getItem() == Items.DYE))) {
 				return true;
 			}
@@ -378,8 +379,8 @@ public class EntityFrame extends EntityHanging implements IEntityAdditionalSpawn
 					return true;
 				}
 
-				if (!this.worldObj.isRemote) {
-					this.worldObj.spawnEntityInWorld(new EntityItem(this.worldObj, this.posX, this.posY, this.posZ, new ItemStack(DecorItems.frame, 1, this.material)));
+				if (!this.world.isRemote) {
+					this.world.spawnEntity(new EntityItem(this.world, this.posX, this.posY, this.posZ, new ItemStack(DecorItems.frame, 1, this.material)));
 				}
 
 				return true;
@@ -389,8 +390,8 @@ public class EntityFrame extends EntityHanging implements IEntityAdditionalSpawn
 				setDead();
 				setBeenAttacked();
 
-				if (!this.worldObj.isRemote) {
-					this.worldObj.spawnEntityInWorld(new EntityItem(this.worldObj, this.posX, this.posY, this.posZ, new ItemStack(DecorItems.frame, 1, this.material)));
+				if (!this.world.isRemote) {
+					this.world.spawnEntity(new EntityItem(this.world, this.posX, this.posY, this.posZ, new ItemStack(DecorItems.frame, 1, this.material)));
 				}
 
 				return true;
@@ -479,18 +480,18 @@ public class EntityFrame extends EntityHanging implements IEntityAdditionalSpawn
 	}
 
 	@Override
-	public void moveEntity(double x, double y, double z) {
-		if ((!this.worldObj.isRemote) && (!this.isDead) && (x * x + y * y + z * z > 0.0D)) {
+	public void move(MoverType type, double x, double y, double z) {
+		if ((!this.world.isRemote) && (!this.isDead) && (x * x + y * y + z * z > 0.0D)) {
 			setDead();
-			this.worldObj.spawnEntityInWorld(new EntityItem(this.worldObj, this.posX, this.posY, this.posZ, new ItemStack(DecorItems.frame, 1, this.material)));
+			this.world.spawnEntity(new EntityItem(this.world, this.posX, this.posY, this.posZ, new ItemStack(DecorItems.frame, 1, this.material)));
 		}
 	}
 
 	@Override
 	public void addVelocity(double x, double y, double z) {
-		if ((!this.worldObj.isRemote) && (!this.isDead) && (x * x + y * y + z * z > 0.0D)) {
+		if ((!this.world.isRemote) && (!this.isDead) && (x * x + y * y + z * z > 0.0D)) {
 			setDead();
-			this.worldObj.spawnEntityInWorld(new EntityItem(this.worldObj, this.posX, this.posY, this.posZ, new ItemStack(DecorItems.frame, 1, this.material)));
+			this.world.spawnEntity(new EntityItem(this.world, this.posX, this.posY, this.posZ, new ItemStack(DecorItems.frame, 1, this.material)));
 		}
 	}
 

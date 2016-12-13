@@ -32,7 +32,7 @@ public class ItemGrill extends ItemManualBlock {
 	}
 
 	@Override
-	public EnumActionResult onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
+	public EnumActionResult onItemUse(EntityPlayer playerIn, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
 		IBlockState iblockstate = worldIn.getBlockState(pos);
 		Block block = iblockstate.getBlock();
 
@@ -42,16 +42,17 @@ public class ItemGrill extends ItemManualBlock {
 			pos = pos.offset(facing);
 		}
 
-		if (stack.stackSize == 0) {
+		ItemStack stack = playerIn.getHeldItem(hand);
+		if (stack.getCount() == 0) {
 			return EnumActionResult.FAIL;
 		} else if (!playerIn.canPlayerEdit(pos, facing, stack)) {
 			return EnumActionResult.FAIL;
 		} else if (pos.getY() == 255 && this.block.getDefaultState().getMaterial().isSolid()) {
 			return EnumActionResult.FAIL;
-		} else if (worldIn.canBlockBePlaced(this.block, pos, false, facing, (Entity) null, stack)) {
+		} else if (worldIn.mayPlace(this.block, pos, false, facing, (Entity) null)) {
 			worldIn.setBlockState(pos, this.block.getDefaultState(), 3);
 
-			--stack.stackSize;
+			stack.shrink(1);
 			TileEntity tileentity = worldIn.getTileEntity(pos);
 
 			if (tileentity instanceof TileEntityGrill) {

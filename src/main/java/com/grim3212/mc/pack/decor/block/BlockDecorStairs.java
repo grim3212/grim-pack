@@ -20,6 +20,7 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
 import net.minecraft.util.Mirror;
 import net.minecraft.util.Rotation;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -34,8 +35,8 @@ import net.minecraftforge.common.property.IUnlistedProperty;
 public class BlockDecorStairs extends BlockFurnitureRotate implements IManualBlock {
 
 	public static final PropertyDirection FACING = BlockHorizontal.FACING;
-	public static final PropertyEnum<BlockStairs.EnumHalf> HALF = PropertyEnum.<BlockStairs.EnumHalf> create("half", BlockStairs.EnumHalf.class);
-	public static final PropertyEnum<BlockStairs.EnumShape> SHAPE = PropertyEnum.<BlockStairs.EnumShape> create("shape", BlockStairs.EnumShape.class);
+	public static final PropertyEnum<BlockStairs.EnumHalf> HALF = PropertyEnum.<BlockStairs.EnumHalf>create("half", BlockStairs.EnumHalf.class);
+	public static final PropertyEnum<BlockStairs.EnumShape> SHAPE = PropertyEnum.<BlockStairs.EnumShape>create("shape", BlockStairs.EnumShape.class);
 
 	protected static final AxisAlignedBB AABB_SLAB_TOP = new AxisAlignedBB(0.0D, 0.5D, 0.0D, 1.0D, 1.0D, 1.0D);
 	protected static final AxisAlignedBB AABB_QTR_TOP_WEST = new AxisAlignedBB(0.0D, 0.5D, 0.0D, 0.5D, 1.0D, 1.0D);
@@ -77,7 +78,7 @@ public class BlockDecorStairs extends BlockFurnitureRotate implements IManualBlo
 	}
 
 	private static List<AxisAlignedBB> getCollisionBoxList(IBlockState bstate) {
-		List<AxisAlignedBB> list = Lists.<AxisAlignedBB> newArrayList();
+		List<AxisAlignedBB> list = Lists.<AxisAlignedBB>newArrayList();
 		boolean flag = bstate.getValue(HALF) == BlockStairs.EnumHalf.TOP;
 		list.add(flag ? AABB_SLAB_TOP : AABB_SLAB_BOTTOM);
 		BlockStairs.EnumShape blockstairs$enumshape = (BlockStairs.EnumShape) bstate.getValue(SHAPE);
@@ -176,13 +177,9 @@ public class BlockDecorStairs extends BlockFurnitureRotate implements IManualBlo
 		return state.getValue(HALF) == BlockStairs.EnumHalf.TOP;
 	}
 
-	/**
-	 * Called by ItemBlocks just before a block is actually set in the world, to
-	 * allow for adjustments to the IBlockstate
-	 */
 	@Override
-	public IBlockState onBlockPlaced(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer) {
-		IBlockState iblockstate = super.onBlockPlaced(worldIn, pos, facing, hitX, hitY, hitZ, meta, placer);
+	public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer, EnumHand hand) {
+		IBlockState iblockstate = super.getStateForPlacement(world, pos, facing, hitX, hitY, hitZ, meta, placer, hand);
 		iblockstate = iblockstate.withProperty(FACING, placer.getHorizontalFacing()).withProperty(SHAPE, BlockStairs.EnumShape.STRAIGHT);
 		return facing != EnumFacing.DOWN && (facing == EnumFacing.UP || (double) hitY <= 0.5D) ? iblockstate.withProperty(HALF, BlockStairs.EnumHalf.BOTTOM) : iblockstate.withProperty(HALF, BlockStairs.EnumHalf.TOP);
 	}
@@ -194,7 +191,7 @@ public class BlockDecorStairs extends BlockFurnitureRotate implements IManualBlo
 	@Override
 	@Nullable
 	public RayTraceResult collisionRayTrace(IBlockState blockState, World worldIn, BlockPos pos, Vec3d start, Vec3d end) {
-		List<RayTraceResult> list = Lists.<RayTraceResult> newArrayList();
+		List<RayTraceResult> list = Lists.<RayTraceResult>newArrayList();
 
 		for (AxisAlignedBB axisalignedbb : getCollisionBoxList(this.getActualState(blockState, worldIn, pos))) {
 			list.add(this.rayTrace(pos, start, end, axisalignedbb));

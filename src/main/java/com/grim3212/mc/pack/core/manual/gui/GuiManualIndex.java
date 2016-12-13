@@ -21,7 +21,7 @@ public class GuiManualIndex extends GuiScreen {
 
 	public static GuiManualIndex activeManualPage = new GuiManualIndex();
 
-	public static final ResourceLocation texture = new ResourceLocation(GrimPack.modID + ":" + "textures/gui/guiManual.png");
+	public static final ResourceLocation texture = new ResourceLocation(GrimPack.modID + ":" + "textures/gui/gui_manual.png");
 
 	protected int manualWidth = 192;
 	protected int manualHeight = 236;

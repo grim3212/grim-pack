@@ -47,11 +47,13 @@ public class BlockGrill extends BlockFireplaceBase implements IManualBlock {
 	}
 
 	@Override
-	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ) {
-		if (heldItem != null && heldItem.getItem() != null) {
+	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
+		ItemStack heldItem = playerIn.getHeldItem(hand);
+
+		if (!heldItem.isEmpty()) {
 			Block block = Block.getBlockFromItem(heldItem.getItem());
 			if (block != null) {
-				if (super.onBlockActivated(worldIn, pos, state, playerIn, hand, heldItem, side, hitX, hitY, hitZ)) {
+				if (super.onBlockActivated(worldIn, pos, state, playerIn, hand, side, hitX, hitY, hitZ)) {
 					return true;
 				}
 			}
@@ -60,11 +62,9 @@ public class BlockGrill extends BlockFireplaceBase implements IManualBlock {
 		if (worldIn.isRemote)
 			return true;
 
-		ItemStack stack = playerIn.inventory.getStackInSlot(playerIn.inventory.currentItem);
-
-		if ((stack != null) && ((stack.getItem() == Items.FLINT_AND_STEEL) || (stack.getItem() == Items.FIRE_CHARGE))) {
+		if (!heldItem.isEmpty() && ((heldItem.getItem() == Items.FLINT_AND_STEEL) || (heldItem.getItem() == Items.FIRE_CHARGE))) {
 			if (!worldIn.getBlockState(pos).getValue(ACTIVE)) {
-				stack.damageItem(1, playerIn);
+				heldItem.damageItem(1, playerIn);
 				worldIn.playSound((EntityPlayer) null, pos, SoundEvents.ITEM_FLINTANDSTEEL_USE, SoundCategory.BLOCKS, 1.0F, worldIn.rand.nextFloat() * 0.4F + 0.8F);
 				worldIn.setBlockState(pos, state.withProperty(ACTIVE, true));
 			}
@@ -81,29 +81,29 @@ public class BlockGrill extends BlockFireplaceBase implements IManualBlock {
 
 		if (tileentity != null) {
 			if (!worldIn.isRemote) {
-				for (int var8 = 0; var8 < tileentity.getSizeInventory(); var8++) {
-					ItemStack var9 = tileentity.getStackInSlot(var8);
+				for (int i = 0; i < tileentity.getSizeInventory(); i++) {
+					ItemStack stack = tileentity.getStackInSlot(i);
 
-					if (var9 != null) {
+					if (!stack.isEmpty()) {
 						float var10 = worldIn.rand.nextFloat() * 0.8F + 0.1F;
 						float var11 = worldIn.rand.nextFloat() * 0.8F + 0.1F;
 						EntityItem var14;
-						for (float var12 = worldIn.rand.nextFloat() * 0.8F + 0.1F; var9.stackSize > 0; worldIn.spawnEntityInWorld(var14)) {
+						for (float var12 = worldIn.rand.nextFloat() * 0.8F + 0.1F; stack.getCount() > 0; worldIn.spawnEntity(var14)) {
 							int var13 = worldIn.rand.nextInt(21) + 10;
 
-							if (var13 > var9.stackSize) {
-								var13 = var9.stackSize;
+							if (var13 > stack.getCount()) {
+								var13 = stack.getCount();
 							}
 
-							var9.stackSize -= var13;
-							var14 = new EntityItem(worldIn, pos.getX() + var10, pos.getY() + var11, pos.getZ() + var12, new ItemStack(var9.getItem(), var13, var9.getItemDamage()));
+							stack.shrink(var13);
+							var14 = new EntityItem(worldIn, pos.getX() + var10, pos.getY() + var11, pos.getZ() + var12, new ItemStack(stack.getItem(), var13, stack.getItemDamage()));
 							float var15 = 0.05F;
 							var14.motionX = ((float) worldIn.rand.nextGaussian() * var15);
 							var14.motionY = ((float) worldIn.rand.nextGaussian() * var15 + 0.2F);
 							var14.motionZ = ((float) worldIn.rand.nextGaussian() * var15);
 
-							if (var9.hasTagCompound()) {
-								var14.getEntityItem().setTagCompound((NBTTagCompound) var9.getTagCompound().copy());
+							if (stack.hasTagCompound()) {
+								var14.getEntityItem().setTagCompound((NBTTagCompound) stack.getTagCompound().copy());
 							}
 						}
 					}

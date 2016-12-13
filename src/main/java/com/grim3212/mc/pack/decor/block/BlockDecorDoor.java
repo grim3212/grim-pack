@@ -98,10 +98,12 @@ public class BlockDecorDoor extends BlockColorizer implements IManualBlock {
 		return this.blockMaterial == Material.IRON ? 1005 : 1006;
 	}
 
-	public boolean changeDoors(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, @Nullable ItemStack heldItem, EnumFacing side) {
+	public boolean changeDoors(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing side) {
 		TileEntity tileentity = worldIn.getTileEntity(pos);
 
-		if (heldItem != null && heldItem.getItem() != null && tileentity instanceof TileEntityColorizer) {
+		ItemStack heldItem = playerIn.getHeldItem(hand);
+
+		if (!heldItem.isEmpty() && heldItem.getItem() != null && tileentity instanceof TileEntityColorizer) {
 			TileEntityColorizer te = (TileEntityColorizer) tileentity;
 			Block block = Block.getBlockFromItem(heldItem.getItem());
 
@@ -111,7 +113,7 @@ public class BlockDecorDoor extends BlockColorizer implements IManualBlock {
 					// in creative mode
 					if (te.getBlockState() == Blocks.AIR.getDefaultState() || playerIn.capabilities.isCreativeMode) {
 						if (!playerIn.capabilities.isCreativeMode)
-							--heldItem.stackSize;
+							heldItem.shrink(1);
 
 						IBlockState toPlaceState = block.getStateFromMeta(heldItem.getMetadata());
 						this.setColorizer(worldIn, pos, state, toPlaceState, playerIn);
@@ -132,14 +134,16 @@ public class BlockDecorDoor extends BlockColorizer implements IManualBlock {
 	}
 
 	@Override
-	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, @Nullable ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ) {
-		//TODO
+	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
+		// TODO
 		if (hitY > -2) {
-			if (heldItem != null && heldItem.getItem() != null) {
+			ItemStack heldItem = playerIn.getHeldItem(hand);
+
+			if (!heldItem.isEmpty()) {
 				Block block = Block.getBlockFromItem(heldItem.getItem());
 				System.out.println(hitY);
 				if (block != null) {
-					if (changeDoors(worldIn, pos, state, playerIn, hand, heldItem, side)) {
+					if (changeDoors(worldIn, pos, state, playerIn, hand, side)) {
 						return true;
 					}
 				}
@@ -177,7 +181,7 @@ public class BlockDecorDoor extends BlockColorizer implements IManualBlock {
 	}
 
 	@Override
-	public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn) {
+	public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos) {
 		if (state.getValue(BlockDoor.HALF) == BlockDoor.EnumDoorHalf.UPPER) {
 			BlockPos blockpos = pos.down();
 			IBlockState iblockstate = worldIn.getBlockState(blockpos);
@@ -185,7 +189,7 @@ public class BlockDecorDoor extends BlockColorizer implements IManualBlock {
 			if (iblockstate.getBlock() != this) {
 				worldIn.setBlockToAir(pos);
 			} else if (blockIn != this) {
-				iblockstate.neighborChanged(worldIn, blockpos, blockIn);
+				iblockstate.neighborChanged(worldIn, blockpos, blockIn, fromPos);
 			}
 		} else {
 			boolean flag1 = false;
@@ -355,7 +359,7 @@ public class BlockDecorDoor extends BlockColorizer implements IManualBlock {
 
 				EntityItem blockDropped = new EntityItem(worldIn, (double) pos.getX(), (double) pos.getY(), (double) pos.getZ(), new ItemStack(tileColorizer.getBlockState().getBlock(), 1, tileColorizer.getBlockState().getBlock().getMetaFromState(tileColorizer.getBlockState())));
 				if (!worldIn.isRemote) {
-					worldIn.spawnEntityInWorld(blockDropped);
+					worldIn.spawnEntity(blockDropped);
 					if (!(player instanceof FakePlayer)) {
 						blockDropped.onCollideWithPlayer(player);
 					}

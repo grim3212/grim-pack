@@ -1,5 +1,7 @@
 package com.grim3212.mc.pack.decor.tile;
 
+import javax.annotation.Nonnull;
+
 import com.grim3212.mc.pack.core.network.PacketDispatcher;
 import com.grim3212.mc.pack.decor.block.BlockGrill;
 import com.grim3212.mc.pack.decor.config.DecorConfig;
@@ -21,6 +23,7 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.util.ITickable;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
@@ -38,7 +41,7 @@ import net.minecraftforge.items.wrapper.InvWrapper;
 public class TileEntityGrill extends TileEntityColorizer implements ITickable, IInventory, IInteractionObject, ILockableContainer {
 
 	private LockCode code = LockCode.EMPTY_CODE;
-	public ItemStack[] inventory = new ItemStack[5];
+	public NonNullList<ItemStack> inventory = NonNullList.withSize(5, ItemStack.EMPTY);
 	public int[] cookTimes = new int[4];
 	public int grillCoal = 0;
 	private String customName;
@@ -75,18 +78,18 @@ public class TileEntityGrill extends TileEntityColorizer implements ITickable, I
 		compound.setInteger("CookTimes2", this.cookTimes[2]);
 		compound.setInteger("CookTimes3", this.cookTimes[3]);
 
-		NBTTagList var2 = new NBTTagList();
+		NBTTagList tagList = new NBTTagList();
 
-		for (int var3 = 0; var3 < this.inventory.length; var3++) {
-			if (this.inventory[var3] != null) {
-				NBTTagCompound var4 = new NBTTagCompound();
-				var4.setByte("Slot", (byte) var3);
-				this.inventory[var3].writeToNBT(var4);
-				var2.appendTag(var4);
+		for (int i = 0; i < this.inventory.size(); i++) {
+			if (!this.inventory.get(i).isEmpty()) {
+				NBTTagCompound itemCompound = new NBTTagCompound();
+				itemCompound.setByte("Slot", (byte) i);
+				this.inventory.get(i).writeToNBT(itemCompound);
+				tagList.appendTag(itemCompound);
 			}
 		}
 
-		compound.setTag("Items", var2);
+		compound.setTag("Items", tagList);
 
 		if (this.hasCustomName()) {
 			compound.setString("CustomName", this.customName);
@@ -106,15 +109,15 @@ public class TileEntityGrill extends TileEntityColorizer implements ITickable, I
 		this.cookTimes[2] = compound.getInteger("CookTimes2");
 		this.cookTimes[3] = compound.getInteger("CookTimes3");
 
-		NBTTagList var2 = compound.getTagList("Items", 10);
-		this.inventory = new ItemStack[getSizeInventory()];
+		NBTTagList tagList = compound.getTagList("Items", 10);
+		this.inventory = NonNullList.withSize(getSizeInventory(), ItemStack.EMPTY);
 
-		for (int var3 = 0; var3 < var2.tagCount(); var3++) {
-			NBTTagCompound var4 = (NBTTagCompound) var2.getCompoundTagAt(var3);
-			byte var5 = var4.getByte("Slot");
+		for (int i = 0; i < tagList.tagCount(); i++) {
+			NBTTagCompound itemCompound = (NBTTagCompound) tagList.getCompoundTagAt(i);
+			byte slot = itemCompound.getByte("Slot");
 
-			if ((var5 >= 0) && (var5 < this.inventory.length)) {
-				this.inventory[var5] = ItemStack.loadItemStackFromNBT(var4);
+			if ((slot >= 0) && (slot < this.inventory.size())) {
+				this.inventory.set(slot, new ItemStack(itemCompound));
 			}
 		}
 
@@ -135,22 +138,22 @@ public class TileEntityGrill extends TileEntityColorizer implements ITickable, I
 			this.grillCoal = 4000;
 
 		if ((this.grillCoal <= 1) && (getWorld().getBlockState(getPos()).getValue(BlockGrill.ACTIVE))) {
-			if ((getStackInSlot(4) != null) && (getStackInSlot(4).getItem() == Items.COAL)) {
+			if (!getStackInSlot(4).isEmpty() && (getStackInSlot(4).getItem() == Items.COAL)) {
 				this.grillCoal = 4001;
 
-				if (getStackInSlot(4).stackSize > 1) {
-					getStackInSlot(4).stackSize -= 1;
+				if (getStackInSlot(4).getCount() > 1) {
+					getStackInSlot(4).shrink(1);
 				} else
-					setInventorySlotContents(4, null);
+					setInventorySlotContents(4, ItemStack.EMPTY);
 			}
 		}
 
 		if ((this.grillCoal <= 0) && (getWorld().getBlockState(getPos()).getValue(BlockGrill.ACTIVE)) && this.nextUpdate == 50) {
-			if (!worldObj.isRemote) {
-				PacketDispatcher.sendToDimension(new MessageParticles(pos), worldObj.provider.getDimension());
-				worldObj.setBlockState(getPos(), getWorld().getBlockState(getPos()).withProperty(BlockGrill.ACTIVE, false));
+			if (!world.isRemote) {
+				PacketDispatcher.sendToDimension(new MessageParticles(pos), world.provider.getDimension());
+				world.setBlockState(getPos(), getWorld().getBlockState(getPos()).withProperty(BlockGrill.ACTIVE, false));
 			}
-			worldObj.playSound(pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D, SoundEvents.BLOCK_FIRE_EXTINGUISH, SoundCategory.BLOCKS, 1.0F, worldObj.rand.nextFloat() * 0.4F + 0.8F, false);
+			world.playSound(pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D, SoundEvents.BLOCK_FIRE_EXTINGUISH, SoundCategory.BLOCKS, 1.0F, world.rand.nextFloat() * 0.4F + 0.8F, false);
 		}
 
 		if (isGrillBurning()) {
@@ -159,11 +162,11 @@ public class TileEntityGrill extends TileEntityColorizer implements ITickable, I
 			int tiertime = (int) getTierTime();
 
 			for (int i = 0; i < 4; i++) {
-				if ((getStackInSlot(i) != null) && (DecorConfig.grillRecipes.keySet().contains(getStackInSlot(i).getItem()))) {
+				if (!getStackInSlot(i).isEmpty() && (DecorConfig.grillRecipes.keySet().contains(getStackInSlot(i).getItem()))) {
 					this.cookTimes[i] += 1;
 
 					if (this.cookTimes[i] > tiertime) {
-						this.inventory[i] = new ItemStack((DecorConfig.grillRecipes.get(this.inventory[i].getItem())));
+						this.inventory.set(i, new ItemStack((DecorConfig.grillRecipes.get(this.inventory.get(i).getItem()))));
 						this.cookTimes[i] = 0;
 					} else {
 						this.cookTimes[i] += 1;
@@ -175,7 +178,7 @@ public class TileEntityGrill extends TileEntityColorizer implements ITickable, I
 		} else {
 			for (int i = 0; i < 4; i++) {
 				if (this.cookTimes[i] > 0) {
-					this.cookTimes[i] -= this.worldObj.rand.nextInt(2);
+					this.cookTimes[i] -= this.world.rand.nextInt(2);
 				}
 			}
 		}
@@ -197,38 +200,38 @@ public class TileEntityGrill extends TileEntityColorizer implements ITickable, I
 
 	@Override
 	public int getSizeInventory() {
-		return this.inventory.length;
+		return this.inventory.size();
 	}
 
 	@Override
 	public ItemStack getStackInSlot(int index) {
-		return this.inventory[index];
+		return this.inventory.get(index);
 	}
 
 	@Override
 	public ItemStack decrStackSize(int index, int count) {
-		if (this.inventory[index] != null) {
-			if (this.inventory[index].stackSize <= count) {
-				ItemStack var3 = this.inventory[index];
-				this.inventory[index] = null;
-				return var3;
+		if (!this.inventory.get(index).isEmpty()) {
+			if (this.inventory.get(index).getCount() <= count) {
+				ItemStack stack = this.inventory.get(index);
+				this.inventory.set(index, ItemStack.EMPTY);
+				return stack;
 			}
 
-			ItemStack var3 = this.inventory[index].splitStack(count);
+			ItemStack stack = this.inventory.get(index).splitStack(count);
 
-			if (this.inventory[index].stackSize == 0) {
-				this.inventory[index] = null;
+			if (this.inventory.get(index).getCount() == 0) {
+				this.inventory.set(index, ItemStack.EMPTY);
 			}
 
-			return var3;
+			return stack;
 		}
 
-		return null;
+		return ItemStack.EMPTY;
 	}
 
 	@Override
-	public void setInventorySlotContents(int index, ItemStack stack) {
-		this.inventory[index] = stack;
+	public void setInventorySlotContents(int index, @Nonnull ItemStack stack) {
+		this.inventory.set(index, stack);
 	}
 
 	@Override
@@ -237,8 +240,8 @@ public class TileEntityGrill extends TileEntityColorizer implements ITickable, I
 	}
 
 	@Override
-	public boolean isUseableByPlayer(EntityPlayer player) {
-		return this.worldObj.getTileEntity(this.pos) != this ? false : player.getDistanceSq((double) this.pos.getX() + 0.5D, (double) this.pos.getY() + 0.5D, (double) this.pos.getZ() + 0.5D) <= 64.0D;
+	public boolean isUsableByPlayer(EntityPlayer player) {
+		return this.world.getTileEntity(this.pos) != this ? false : player.getDistanceSq((double) this.pos.getX() + 0.5D, (double) this.pos.getY() + 0.5D, (double) this.pos.getZ() + 0.5D) <= 64.0D;
 	}
 
 	@Override
@@ -327,8 +330,8 @@ public class TileEntityGrill extends TileEntityColorizer implements ITickable, I
 
 	@Override
 	public void clear() {
-		for (int i = 0; i < this.inventory.length; ++i) {
-			this.inventory[i] = null;
+		for (int i = 0; i < this.inventory.size(); ++i) {
+			this.inventory.set(i, ItemStack.EMPTY);
 		}
 	}
 
@@ -400,5 +403,16 @@ public class TileEntityGrill extends TileEntityColorizer implements ITickable, I
 	@Override
 	public boolean hasCapability(Capability<?> capability, net.minecraft.util.EnumFacing facing) {
 		return capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY || super.hasCapability(capability, facing);
+	}
+
+	@Override
+	public boolean isEmpty() {
+		for (ItemStack itemstack : this.inventory) {
+			if (!itemstack.isEmpty()) {
+				return false;
+			}
+		}
+
+		return true;
 	}
 }

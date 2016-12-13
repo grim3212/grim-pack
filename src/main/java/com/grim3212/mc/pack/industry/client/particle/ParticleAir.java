@@ -15,7 +15,7 @@ import net.minecraft.world.World;
 
 public class ParticleAir extends Particle {
 
-	private static final ResourceLocation AIR_TEXTURE = new ResourceLocation(GrimPack.modID, "entities/whiteAir");
+	private static final ResourceLocation AIR_TEXTURE = new ResourceLocation(GrimPack.modID, "entities/whiteair");
 
 	private TileEntityFan fan;
 	private double xSpeed;

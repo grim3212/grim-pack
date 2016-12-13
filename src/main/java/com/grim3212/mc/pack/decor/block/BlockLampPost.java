@@ -64,10 +64,11 @@ public class BlockLampPost extends BlockColorizer implements IManualBlock {
 
 	@Override
 	@SuppressWarnings("deprecation")
-	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ) {
+	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
 		TileEntity tileentity = worldIn.getTileEntity(pos);
+		ItemStack heldItem = playerIn.getHeldItem(hand);
 
-		if (heldItem != null && heldItem.getItem() != null && tileentity instanceof TileEntityColorizer) {
+		if (!heldItem.isEmpty() && tileentity instanceof TileEntityColorizer) {
 			TileEntityColorizer te = (TileEntityColorizer) tileentity;
 			Block block = Block.getBlockFromItem(heldItem.getItem());
 
@@ -77,7 +78,7 @@ public class BlockLampPost extends BlockColorizer implements IManualBlock {
 					// in creative mode
 					if (te.getBlockState() == Blocks.AIR.getDefaultState() || playerIn.capabilities.isCreativeMode) {
 						if (!playerIn.capabilities.isCreativeMode)
-							--heldItem.stackSize;
+							heldItem.shrink(1);
 
 						IBlockState toPlaceState = block.getStateFromMeta(heldItem.getMetadata());
 						this.setColorizer(worldIn, pos, state, toPlaceState, playerIn);
@@ -185,7 +186,7 @@ public class BlockLampPost extends BlockColorizer implements IManualBlock {
 
 				EntityItem blockDropped = new EntityItem(worldIn, (double) pos.getX(), (double) pos.getY(), (double) pos.getZ(), new ItemStack(tileColorizer.getBlockState().getBlock(), 1, tileColorizer.getBlockState().getBlock().getMetaFromState(tileColorizer.getBlockState())));
 				if (!worldIn.isRemote) {
-					worldIn.spawnEntityInWorld(blockDropped);
+					worldIn.spawnEntity(blockDropped);
 					if (!(player instanceof FakePlayer)) {
 						blockDropped.onCollideWithPlayer(player);
 					}

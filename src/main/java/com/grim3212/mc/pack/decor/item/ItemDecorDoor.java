@@ -1,7 +1,5 @@
 package com.grim3212.mc.pack.decor.item;
 
-import java.util.List;
-
 import com.grim3212.mc.pack.core.manual.IManualEntry.IManualItem;
 import com.grim3212.mc.pack.core.manual.pages.Page;
 import com.grim3212.mc.pack.core.util.NBTHelper;
@@ -23,6 +21,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
@@ -39,7 +38,7 @@ public class ItemDecorDoor extends ItemBlock implements IManualItem {
 	}
 
 	@Override
-	public EnumActionResult onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
+	public EnumActionResult onItemUse(EntityPlayer playerIn, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
 		if (facing != EnumFacing.UP) {
 			return EnumActionResult.FAIL;
 		} else {
@@ -50,6 +49,7 @@ public class ItemDecorDoor extends ItemBlock implements IManualItem {
 				pos = pos.offset(facing);
 			}
 
+			ItemStack stack = playerIn.getHeldItem(hand);
 			if (playerIn.canPlayerEdit(pos, facing, stack) && this.block.canPlaceBlockAt(worldIn, pos)) {
 				EnumFacing enumfacing = EnumFacing.fromAngle((double) playerIn.rotationYaw);
 				int i = enumfacing.getFrontOffsetX();
@@ -58,7 +58,7 @@ public class ItemDecorDoor extends ItemBlock implements IManualItem {
 				placeDoor(stack, worldIn, pos, enumfacing, this.block, flag);
 				SoundType soundtype = worldIn.getBlockState(pos).getBlock().getSoundType(worldIn.getBlockState(pos), worldIn, pos, playerIn);
 				worldIn.playSound(playerIn, pos, soundtype.getPlaceSound(), SoundCategory.BLOCKS, (soundtype.getVolume() + 1.0F) / 2.0F, soundtype.getPitch() * 0.8F);
-				--stack.stackSize;
+				stack.shrink(1);
 				return EnumActionResult.SUCCESS;
 			} else {
 				return EnumActionResult.FAIL;
@@ -87,8 +87,8 @@ public class ItemDecorDoor extends ItemBlock implements IManualItem {
 		IBlockState iblockstate = door.getDefaultState().withProperty(BlockDoor.FACING, facing).withProperty(BlockDoor.HINGE, isRightHinge ? BlockDoor.EnumHingePosition.RIGHT : BlockDoor.EnumHingePosition.LEFT).withProperty(BlockDoor.POWERED, Boolean.valueOf(flag2)).withProperty(BlockDoor.OPEN, Boolean.valueOf(flag2));
 		worldIn.setBlockState(pos, iblockstate.withProperty(BlockDoor.HALF, BlockDoor.EnumDoorHalf.LOWER), 2);
 		worldIn.setBlockState(blockpos2, iblockstate.withProperty(BlockDoor.HALF, BlockDoor.EnumDoorHalf.UPPER), 2);
-		worldIn.notifyNeighborsOfStateChange(pos, door);
-		worldIn.notifyNeighborsOfStateChange(blockpos2, door);
+		worldIn.notifyNeighborsOfStateChange(pos, door, true);
+		worldIn.notifyNeighborsOfStateChange(blockpos2, door, true);
 
 		TileEntity tileentity = worldIn.getTileEntity(pos);
 		if (tileentity instanceof TileEntityColorizer) {
@@ -102,7 +102,7 @@ public class ItemDecorDoor extends ItemBlock implements IManualItem {
 	}
 
 	@Override
-	public void getSubItems(Item itemIn, CreativeTabs tab, List<ItemStack> subItems) {
+	public void getSubItems(Item itemIn, CreativeTabs tab, NonNullList<ItemStack> subItems) {
 		ItemStack itemstack = new ItemStack(this);
 		NBTHelper.setString(itemstack, "registryName", Block.REGISTRY.getNameForObject(Blocks.AIR).toString());
 		NBTHelper.setInteger(itemstack, "meta", 0);

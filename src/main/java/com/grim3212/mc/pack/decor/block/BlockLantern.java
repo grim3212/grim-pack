@@ -1,7 +1,5 @@
 package com.grim3212.mc.pack.decor.block;
 
-import java.util.List;
-
 import com.grim3212.mc.pack.core.block.BlockManual;
 import com.grim3212.mc.pack.core.manual.pages.Page;
 import com.grim3212.mc.pack.decor.client.ManualDecor;
@@ -17,9 +15,10 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.IStringSerializable;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.world.IBlockAccess;
 
 public class BlockLantern extends BlockManual {
 
@@ -36,7 +35,7 @@ public class BlockLantern extends BlockManual {
 	}
 
 	@Override
-	public void getSubBlocks(Item item, CreativeTabs tabs, List<ItemStack> list) {
+	public void getSubBlocks(Item item, CreativeTabs tabs, NonNullList<ItemStack> list) {
 		for (int i = 0; i < EnumLanternType.values.length; i++) {
 			list.add(new ItemStack(item, 1, i));
 		}
@@ -53,7 +52,7 @@ public class BlockLantern extends BlockManual {
 	}
 
 	@Override
-	public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, World worldIn, BlockPos pos) {
+	public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, IBlockAccess blockAccess, BlockPos pos) {
 		return NULL_AABB;
 	}
 

@@ -14,6 +14,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ContainerGrill extends Container {
+
 	private TileEntityGrill grill;
 	private int lastCoalTime = 0;
 	private int lastCookTimes0;
@@ -107,34 +108,34 @@ public class ContainerGrill extends Container {
 
 	@Override
 	public boolean canInteractWith(EntityPlayer par1EntityPlayer) {
-		return this.grill.isUseableByPlayer(par1EntityPlayer);
+		return this.grill.isUsableByPlayer(par1EntityPlayer);
 	}
 
 	@Override
-	public ItemStack transferStackInSlot(EntityPlayer par1EntityPlayer, int par2) {
-		Slot var4 = (Slot) this.inventorySlots.get(par2);
+	public ItemStack transferStackInSlot(EntityPlayer player, int index) {
+		Slot slot = (Slot) this.inventorySlots.get(index);
 
-		if ((var4 != null) && (var4.getHasStack())) {
-			ItemStack realstack = var4.getStack();
+		if ((slot != null) && (slot.getHasStack())) {
+			ItemStack realstack = slot.getStack();
 
-			if (par2 < this.grill.getSizeInventory()) {
+			if (index < this.grill.getSizeInventory()) {
 				if (!mergeItemStack(realstack, this.grill.getSizeInventory() - 1, this.inventorySlots.size(), true)) {
-					return null;
+					return ItemStack.EMPTY;
 				}
 
 			} else {
 				if (DecorConfig.grillRecipes.keySet().contains(realstack.getItem())) {
 					for (int i = 0; i < 4; i++) {
-						if (this.grill.getStackInSlot(i) == null) {
+						if (this.grill.getStackInSlot(i).isEmpty()) {
 							ItemStack newstack = new ItemStack(realstack.getItem(), 1, 0);
 
 							this.grill.setInventorySlotContents(i, newstack);
 
-							if (realstack.stackSize > 1) {
-								realstack.stackSize -= 1;
+							if (realstack.getCount() > 1) {
+								realstack.shrink(1);
 								break;
 							}
-							var4.putStack((ItemStack) null);
+							slot.putStack(ItemStack.EMPTY);
 
 							break;
 						}
@@ -143,35 +144,35 @@ public class ContainerGrill extends Container {
 				}
 
 				if (realstack.getItem() == Items.COAL) {
-					if ((this.grill.getStackInSlot(4) != null) && (this.grill.getStackInSlot(4).getItem() == Items.COAL) && (this.grill.getStackInSlot(4).stackSize < this.grill.getInventoryStackLimit()) && (this.grill.getStackInSlot(4).getItemDamage() == realstack.getItemDamage())) {
+					if (!this.grill.getStackInSlot(4).isEmpty() && (this.grill.getStackInSlot(4).getItem() == Items.COAL) && (this.grill.getStackInSlot(4).getCount() < this.grill.getInventoryStackLimit()) && (this.grill.getStackInSlot(4).getItemDamage() == realstack.getItemDamage())) {
 						ItemStack fuel = this.grill.getStackInSlot(4);
-						int difference = this.grill.getInventoryStackLimit() - fuel.stackSize;
+						int difference = this.grill.getInventoryStackLimit() - fuel.getCount();
 
-						if (realstack.stackSize > difference) {
-							realstack.stackSize -= difference;
-							fuel.stackSize += difference;
+						if (realstack.getCount() > difference) {
+							realstack.shrink(difference);
+							fuel.grow(difference);
 						} else {
-							fuel.stackSize += realstack.stackSize;
-							var4.putStack((ItemStack) null);
+							fuel.grow(realstack.getCount());
+							slot.putStack(ItemStack.EMPTY);
 						}
 					}
 
-					if (this.grill.getStackInSlot(4) == null) {
+					if (this.grill.getStackInSlot(4).isEmpty()) {
 						this.grill.setInventorySlotContents(4, realstack);
-						var4.putStack((ItemStack) null);
+						slot.putStack(ItemStack.EMPTY);
 					}
 				}
 
-				return null;
+				return ItemStack.EMPTY;
 			}
 
-			if (realstack.stackSize == 0) {
-				var4.putStack((ItemStack) null);
+			if (realstack.getCount() == 0) {
+				slot.putStack(ItemStack.EMPTY);
 			} else {
-				var4.onSlotChanged();
+				slot.onSlotChanged();
 			}
 		}
 
-		return null;
+		return ItemStack.EMPTY;
 	}
 }

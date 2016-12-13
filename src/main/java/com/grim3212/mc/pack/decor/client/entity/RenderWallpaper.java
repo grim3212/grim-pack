@@ -76,9 +76,9 @@ public class RenderWallpaper extends Render<EntityWallpaper> {
 		Tessellator tessellator = Tessellator.getInstance();
 		GlStateManager.scale(0.03125F, 0.03125F, 0.03125F);
 
-		int x = MathHelper.floor_double(entitywallpaper.getHangingPosition().getX());
-		int y = MathHelper.floor_double(entitywallpaper.getHangingPosition().getY());
-		int z = MathHelper.floor_double(entitywallpaper.getHangingPosition().getZ());
+		int x = MathHelper.floor(entitywallpaper.getHangingPosition().getX());
+		int y = MathHelper.floor(entitywallpaper.getHangingPosition().getY());
+		int z = MathHelper.floor(entitywallpaper.getHangingPosition().getZ());
 
 		float minX = -16.0F;
 		float minY = -16.0F;
@@ -234,7 +234,7 @@ public class RenderWallpaper extends Render<EntityWallpaper> {
 			int combinedLight = getMixedBrightnessForBlock(pos);
 			int blockLight = combinedLight >> 16 & 65535;
 			int skyLight = combinedLight & 65535;
-			float lightBrightness = this.renderManager.worldObj.getLightBrightness(pos);
+			float lightBrightness = this.renderManager.world.getLightBrightness(pos);
 
 			tessellator.getBuffer().pos(minX, minY, minZ).tex(minU + maxUV, minV + maxUV).color(lightBrightness * red, lightBrightness * green, lightBrightness * blue, 1.0f).lightmap(blockLight, skyLight).normal(0.0F, 0.0F, -1.0F).endVertex();
 			tessellator.getBuffer().pos(minX, maxY, minZ).tex(minU + maxUV, minV).color(lightBrightness * red, lightBrightness * green, lightBrightness * blue, 1.0f).lightmap(blockLight, skyLight).normal(0.0F, 0.0F, -1.0F).endVertex();
@@ -540,11 +540,11 @@ public class RenderWallpaper extends Render<EntityWallpaper> {
 	}
 
 	public float getAmbientOcclusionLightValue(BlockPos pos) {
-		return Minecraft.getMinecraft().theWorld.getBlockState(pos).isNormalCube() ? 0.2F : 1.0F;
+		return Minecraft.getMinecraft().world.getBlockState(pos).isNormalCube() ? 0.2F : 1.0F;
 	}
 
 	public int getMixedBrightnessForBlock(BlockPos pos) {
-		return this.renderManager.worldObj.getCombinedLight(pos, 0);
+		return this.renderManager.world.getCombinedLight(pos, 0);
 	}
 
 	@Override

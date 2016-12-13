@@ -11,7 +11,6 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
-import net.minecraft.world.World;
 import net.minecraftforge.common.property.ExtendedBlockState;
 import net.minecraftforge.common.property.IUnlistedProperty;
 
@@ -28,8 +27,8 @@ public class BlockStool extends BlockColorizer implements IManualBlock {
 	}
 
 	@Override
-	public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, World worldIn, BlockPos pos) {
-		return blockState.getActualState(worldIn, pos).getValue(UP) ? POT_STOOL_AABB : WALKING_STOOL_AABB;
+	public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, IBlockAccess blockAccess, BlockPos pos) {
+		return blockState.getActualState(blockAccess, pos).getValue(UP) ? POT_STOOL_AABB : WALKING_STOOL_AABB;
 	}
 
 	@Override

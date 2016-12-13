@@ -17,7 +17,6 @@ import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -96,11 +95,11 @@ public class BlockPot extends BlockManual {
 
 	@Override
 	public void updateTick(World worldIn, BlockPos pos, IBlockState state, Random rand) {
-		worldIn.notifyNeighborsOfStateChange(pos, this);
+		worldIn.notifyNeighborsOfStateChange(pos, this, false);
 	}
 
 	@Override
-	public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn) {
+	public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos) {
 		worldIn.scheduleUpdate(pos, this, this.tickRate(worldIn));
 	}
 
@@ -113,11 +112,11 @@ public class BlockPot extends BlockManual {
 	}
 
 	@Override
-	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ) {
+	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
 		if (worldIn.isRemote)
 			return true;
 
-		if (heldItem == null || heldItem.stackSize == 0) {
+		if (playerIn.getHeldItem(hand).isEmpty() || playerIn.getHeldItem(hand).getCount() == 0) {
 			int top = worldIn.getBlockState(pos).getValue(TOP);
 			if (top == 6) {
 				top = 0;
@@ -126,10 +125,10 @@ public class BlockPot extends BlockManual {
 			}
 			worldIn.setBlockState(pos, state.withProperty(TOP, top), 2);
 			return true;
-		}else{
+		} else {
 			return false;
 		}
-		
+
 	}
 
 	@Override

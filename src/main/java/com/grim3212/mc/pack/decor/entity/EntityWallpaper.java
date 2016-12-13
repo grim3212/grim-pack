@@ -18,6 +18,7 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityHanging;
+import net.minecraft.entity.MoverType;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
@@ -48,11 +49,11 @@ public class EntityWallpaper extends EntityHanging implements IEntityAdditionalS
 
 	public AxisAlignedBB fireboundingBox;
 
-	private static final DataParameter<Boolean> BURNT = EntityDataManager.<Boolean> createKey(EntityFrame.class, DataSerializers.BOOLEAN);
-	private static final DataParameter<Integer> WALLPAPER_ID = EntityDataManager.<Integer> createKey(EntityFrame.class, DataSerializers.VARINT);
-	private static final DataParameter<Integer> COLOR_RED = EntityDataManager.<Integer> createKey(EntityFrame.class, DataSerializers.VARINT);
-	private static final DataParameter<Integer> COLOR_GREEN = EntityDataManager.<Integer> createKey(EntityFrame.class, DataSerializers.VARINT);
-	private static final DataParameter<Integer> COLOR_BLUE = EntityDataManager.<Integer> createKey(EntityFrame.class, DataSerializers.VARINT);
+	private static final DataParameter<Boolean> BURNT = EntityDataManager.<Boolean>createKey(EntityFrame.class, DataSerializers.BOOLEAN);
+	private static final DataParameter<Integer> WALLPAPER_ID = EntityDataManager.<Integer>createKey(EntityFrame.class, DataSerializers.VARINT);
+	private static final DataParameter<Integer> COLOR_RED = EntityDataManager.<Integer>createKey(EntityFrame.class, DataSerializers.VARINT);
+	private static final DataParameter<Integer> COLOR_GREEN = EntityDataManager.<Integer>createKey(EntityFrame.class, DataSerializers.VARINT);
+	private static final DataParameter<Integer> COLOR_BLUE = EntityDataManager.<Integer>createKey(EntityFrame.class, DataSerializers.VARINT);
 
 	public EntityWallpaper(World world) {
 		super(world);
@@ -70,7 +71,7 @@ public class EntityWallpaper extends EntityHanging implements IEntityAdditionalS
 		this.hangingPosition = pos;
 		this.updateFacingWithBoundingBox(direction);
 
-		List<Entity> entities = this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.fireboundingBox);
+		List<Entity> entities = this.world.getEntitiesWithinAABBExcludingEntity(this, this.fireboundingBox);
 
 		for (int i = 0; i < entities.size(); i++) {
 			if ((entities.get(i) instanceof EntityWallpaper)) {
@@ -87,11 +88,13 @@ public class EntityWallpaper extends EntityHanging implements IEntityAdditionalS
 	}
 
 	@Override
-	public boolean processInitialInteract(EntityPlayer player, ItemStack stack, EnumHand hand) {
-		if (stack != null) {
+	public boolean processInitialInteract(EntityPlayer player, EnumHand hand) {
+		ItemStack stack = player.getHeldItem(hand);
+
+		if (!stack.isEmpty()) {
 			if ((DecorConfig.dyeWallpaper) && (stack.getItem() == Items.DYE)) {
 				dyeWallpaper(stack.getItemDamage());
-				stack.stackSize -= 1;
+				stack.shrink(1);
 				return true;
 			}
 
@@ -120,7 +123,7 @@ public class EntityWallpaper extends EntityHanging implements IEntityAdditionalS
 		}
 
 		this.getDataManager().set(WALLPAPER_ID, newWallpaper);
-		if (!this.worldObj.isRemote)
+		if (!this.world.isRemote)
 			playPlaceSound();
 
 		return true;
@@ -129,7 +132,7 @@ public class EntityWallpaper extends EntityHanging implements IEntityAdditionalS
 	public boolean updateWallpaper(int wallpaper) {
 		this.getDataManager().set(WALLPAPER_ID, wallpaper);
 
-		if (!this.worldObj.isRemote)
+		if (!this.world.isRemote)
 			playPlaceSound();
 
 		return true;
@@ -148,7 +151,7 @@ public class EntityWallpaper extends EntityHanging implements IEntityAdditionalS
 		this.getDataManager().set(COLOR_GREEN, newgreen);
 		this.getDataManager().set(COLOR_BLUE, newblue);
 
-		if (!this.worldObj.isRemote) {
+		if (!this.world.isRemote) {
 			if (burn) {
 				playBurnSound();
 			} else {
@@ -163,14 +166,14 @@ public class EntityWallpaper extends EntityHanging implements IEntityAdditionalS
 
 	@Override
 	public void onUpdate() {
-		if (!this.worldObj.isRemote) {
+		if (!this.world.isRemote) {
 			if (!onValidSurface()) {
 				setDead();
-				this.worldObj.spawnEntityInWorld(new EntityItem(this.worldObj, this.posX, this.posY, this.posZ, new ItemStack(DecorItems.wallpaper)));
+				this.world.spawnEntity(new EntityItem(this.world, this.posX, this.posY, this.posZ, new ItemStack(DecorItems.wallpaper)));
 			}
 		}
 
-		if ((DecorConfig.burnWallpaper) && (WorldHelper.isAABBInMaterial(worldObj, this.fireboundingBox.expand(-0.001D, -0.001D, -0.001D), Material.FIRE)) && (!this.getBurned())) {
+		if ((DecorConfig.burnWallpaper) && (WorldHelper.isAABBInMaterial(world, this.fireboundingBox.expand(-0.001D, -0.001D, -0.001D), Material.FIRE)) && (!this.getBurned())) {
 			dyeWallpaper(16, true);
 			this.getDataManager().set(BURNT, true);
 		}
@@ -179,9 +182,9 @@ public class EntityWallpaper extends EntityHanging implements IEntityAdditionalS
 	@Override
 	@SideOnly(Side.CLIENT)
 	public boolean canBeCollidedWith() {
-		EntityPlayer player = Minecraft.getMinecraft().thePlayer;
-		ItemStack stack = player.inventory.getCurrentItem();
-		return (stack != null) && ((stack.getItem() == DecorItems.wallpaper) || (stack.getItem() instanceof ItemAxe) || (stack.getItem() == Items.DYE));
+		EntityPlayer player = Minecraft.getMinecraft().player;
+		ItemStack stack = player.getHeldItem(player.getActiveHand());
+		return !stack.isEmpty() && ((stack.getItem() == DecorItems.wallpaper) || (stack.getItem() instanceof ItemAxe) || (stack.getItem() == Items.DYE));
 	}
 
 	@Override
@@ -190,7 +193,7 @@ public class EntityWallpaper extends EntityHanging implements IEntityAdditionalS
 		if (this.isEntityInvulnerable(damage)) {
 			return false;
 		} else {
-			if ((!this.isDead) && (!this.worldObj.isRemote)) {
+			if ((!this.isDead) && (!this.world.isRemote)) {
 				setDead();
 				setBeenAttacked();
 				EntityPlayer player = null;
@@ -223,7 +226,7 @@ public class EntityWallpaper extends EntityHanging implements IEntityAdditionalS
 					break;
 				}
 
-				this.worldObj.spawnEntityInWorld(new EntityItem(this.worldObj, this.posX, this.posY, this.posZ, new ItemStack(DecorItems.wallpaper)));
+				this.world.spawnEntity(new EntityItem(this.world, this.posX, this.posY, this.posZ, new ItemStack(DecorItems.wallpaper)));
 			}
 			return true;
 		}
@@ -280,7 +283,7 @@ public class EntityWallpaper extends EntityHanging implements IEntityAdditionalS
 
 	@Override
 	public boolean onValidSurface() {
-		if (!this.worldObj.getCollisionBoxes(this, this.getEntityBoundingBox()).isEmpty()) {
+		if (!this.world.getCollisionBoxes(this, this.getEntityBoundingBox()).isEmpty()) {
 			return false;
 		} else {
 			int i = Math.max(1, this.getWidthPixels() / 16);
@@ -293,9 +296,9 @@ public class EntityWallpaper extends EntityHanging implements IEntityAdditionalS
 					int i1 = i > 2 ? -1 : 0;
 					int j1 = j > 2 ? -1 : 0;
 					BlockPos blockpos1 = blockpos.offset(enumfacing, k + i1).up(l + j1);
-					IBlockState iblockstate = this.worldObj.getBlockState(blockpos1);
+					IBlockState iblockstate = this.world.getBlockState(blockpos1);
 
-					if (iblockstate.isSideSolid(this.worldObj, blockpos1, this.facingDirection))
+					if (iblockstate.isSideSolid(this.world, blockpos1, this.facingDirection))
 						continue;
 
 					if (!iblockstate.getMaterial().isSolid() && !BlockRedstoneDiode.isDiode(iblockstate)) {
@@ -304,7 +307,7 @@ public class EntityWallpaper extends EntityHanging implements IEntityAdditionalS
 				}
 			}
 
-			List<Entity> entities = this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.getEntityBoundingBox());
+			List<Entity> entities = this.world.getEntitiesWithinAABBExcludingEntity(this, this.getEntityBoundingBox());
 			for (int m = 0; m < entities.size(); m++) {
 				if ((entities.get(m) instanceof EntityWallpaper)) {
 					EntityWallpaper entWallpaper = (EntityWallpaper) entities.get(m);
@@ -356,18 +359,18 @@ public class EntityWallpaper extends EntityHanging implements IEntityAdditionalS
 	}
 
 	@Override
-	public void moveEntity(double var1, double var3, double var5) {
-		if ((!this.worldObj.isRemote) && (!this.isDead) && (var1 * var1 + var3 * var3 + var5 * var5 > 0.0D)) {
+	public void move(MoverType type, double var1, double var3, double var5) {
+		if ((!this.world.isRemote) && (!this.isDead) && (var1 * var1 + var3 * var3 + var5 * var5 > 0.0D)) {
 			setDead();
-			this.worldObj.spawnEntityInWorld(new EntityItem(this.worldObj, this.posX, this.posY, this.posZ, new ItemStack(DecorItems.wallpaper)));
+			this.world.spawnEntity(new EntityItem(this.world, this.posX, this.posY, this.posZ, new ItemStack(DecorItems.wallpaper)));
 		}
 	}
 
 	@Override
 	public void addVelocity(double var1, double var3, double var5) {
-		if ((!this.worldObj.isRemote) && (!this.isDead) && (var1 * var1 + var3 * var3 + var5 * var5 > 0.0D)) {
+		if ((!this.world.isRemote) && (!this.isDead) && (var1 * var1 + var3 * var3 + var5 * var5 > 0.0D)) {
 			setDead();
-			this.worldObj.spawnEntityInWorld(new EntityItem(this.worldObj, this.posX, this.posY, this.posZ, new ItemStack(DecorItems.wallpaper)));
+			this.world.spawnEntity(new EntityItem(this.world, this.posX, this.posY, this.posZ, new ItemStack(DecorItems.wallpaper)));
 		}
 	}
 

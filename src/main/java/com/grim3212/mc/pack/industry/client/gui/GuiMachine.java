@@ -22,9 +22,9 @@ public class GuiMachine extends GuiContainer {
 		this.playerInventory = playerInv;
 
 		if (te.getMachineType() == MachineType.DERRICK) {
-			gui = new ResourceLocation(GrimPack.modID, "textures/gui/guiDerrick.png");
+			gui = new ResourceLocation(GrimPack.modID, "textures/gui/gui_derrick.png");
 		} else if (te.getMachineType() == MachineType.REFINERY) {
-			gui = new ResourceLocation(GrimPack.modID, "textures/gui/guiRefinery.png");
+			gui = new ResourceLocation(GrimPack.modID, "textures/gui/gui_refinery.png");
 		}
 	}
 

@@ -74,11 +74,11 @@ public class BlockLightBulb extends BlockBreakable implements IManualBlock {
 
 	@Override
 	public void onBlockAdded(World worldIn, BlockPos pos, IBlockState state) {
-		neighborChanged(state, worldIn, pos, worldIn.getBlockState(pos.up()).getBlock());
+		neighborChanged(state, worldIn, pos, worldIn.getBlockState(pos.up()).getBlock(), pos);
 	}
 
 	@Override
-	public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn) {
+	public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos) {
 		if (worldIn.isBlockIndirectlyGettingPowered(pos) > 0 || worldIn.isBlockIndirectlyGettingPowered(pos.up()) > 0) {
 			worldIn.setBlockState(pos, getDefaultState().withProperty(ACTIVE, true));
 		} else {
@@ -117,7 +117,7 @@ public class BlockLightBulb extends BlockBreakable implements IManualBlock {
 	}
 
 	@Override
-	public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, World worldIn, BlockPos pos) {
+	public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, IBlockAccess source, BlockPos pos) {
 		return NULL_AABB;
 	}
 

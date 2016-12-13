@@ -59,8 +59,8 @@ public class TileEntityColorizer extends TileEntity {
 	@Override
 	public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity pkt) {
 		readFromNBT(pkt.getNbtCompound());
-		worldObj.markBlockRangeForRenderUpdate(pos, pos);
-		worldObj.notifyBlockOfStateChange(pos, blockType);
+		world.markBlockRangeForRenderUpdate(pos, pos);
+		world.notifyNeighborsOfStateChange(pos, blockType, false);
 	}
 
 	@Override

@@ -61,7 +61,7 @@ public class TileEntityCage extends TileEntityLockable implements ITickable {
 
 	@Override
 	public ItemStack getStackInSlot(int index) {
-		return index == 0 ? cageItem : null;
+		return index == 0 ? cageItem : ItemStack.EMPTY;
 	}
 
 	@Override
@@ -69,22 +69,22 @@ public class TileEntityCage extends TileEntityLockable implements ITickable {
 		if (index == 0) {
 			this.cachedEntity = null;
 
-			if (this.cageItem.stackSize <= count) {
+			if (this.cageItem.getCount() <= count) {
 				ItemStack stack = this.cageItem;
-				this.cageItem = null;
+				this.cageItem = ItemStack.EMPTY;
 				return stack;
 			}
 
 			ItemStack stack = this.cageItem.splitStack(count);
 
-			if (this.cageItem.stackSize == 0) {
-				this.cageItem = null;
+			if (this.cageItem.getCount() == 0) {
+				this.cageItem = ItemStack.EMPTY;
 			}
 
 			return stack;
 		}
 
-		return null;
+		return ItemStack.EMPTY;
 	}
 
 	@Override
@@ -94,7 +94,7 @@ public class TileEntityCage extends TileEntityLockable implements ITickable {
 			return cageItem;
 		}
 
-		return null;
+		return ItemStack.EMPTY;
 	}
 
 	@Override
@@ -111,8 +111,8 @@ public class TileEntityCage extends TileEntityLockable implements ITickable {
 	}
 
 	@Override
-	public boolean isUseableByPlayer(EntityPlayer player) {
-		return this.worldObj.getTileEntity(this.pos) != this ? false : player.getDistanceSq((double) this.pos.getX() + 0.5D, (double) this.pos.getY() + 0.5D, (double) this.pos.getZ() + 0.5D) <= 64.0D;
+	public boolean isUsableByPlayer(EntityPlayer player) {
+		return this.world.getTileEntity(this.pos) != this ? false : player.getDistanceSq((double) this.pos.getX() + 0.5D, (double) this.pos.getY() + 0.5D, (double) this.pos.getZ() + 0.5D) <= 64.0D;
 	}
 
 	@Override
@@ -144,7 +144,7 @@ public class TileEntityCage extends TileEntityLockable implements ITickable {
 
 	@Override
 	public void clear() {
-		this.cageItem = null;
+		this.cageItem = ItemStack.EMPTY;
 		this.cachedEntity = null;
 	}
 
@@ -162,7 +162,7 @@ public class TileEntityCage extends TileEntityLockable implements ITickable {
 	public NBTTagCompound writeToNBT(NBTTagCompound compound) {
 		super.writeToNBT(compound);
 
-		if (this.cageItem != null) {
+		if (!this.cageItem.isEmpty()) {
 			NBTTagCompound cageCompound = new NBTTagCompound();
 			this.cageItem.writeToNBT(cageCompound);
 			compound.setTag("CageItem", cageCompound);
@@ -180,7 +180,7 @@ public class TileEntityCage extends TileEntityLockable implements ITickable {
 		super.readFromNBT(compound);
 
 		if (compound.hasKey("CageItem", Constants.NBT.TAG_COMPOUND))
-			this.cageItem = ItemStack.loadItemStackFromNBT(compound.getCompoundTag("CageItem"));
+			this.cageItem = new ItemStack(compound.getCompoundTag("CageItem"));
 
 		if (compound.hasKey("CustomName", 8)) {
 			this.customName = compound.getString("CustomName");
@@ -201,14 +201,19 @@ public class TileEntityCage extends TileEntityLockable implements ITickable {
 
 	public Entity getPokeballEntity() {
 		if (this.cachedEntity == null) {
-			if (this.cageItem != null) {
+			if (!this.cageItem.isEmpty()) {
 				if (this.cageItem.hasTagCompound()) {
-					Entity e = EntityList.createEntityFromNBT(this.cageItem.getTagCompound(), this.worldObj);
+					Entity e = EntityList.createEntityFromNBT(this.cageItem.getTagCompound(), this.world);
 					e.readFromNBT(this.cageItem.getTagCompound());
 					this.cachedEntity = e;
 				}
 			}
 		}
 		return this.cachedEntity;
+	}
+
+	@Override
+	public boolean isEmpty() {
+		return this.cageItem.isEmpty();
 	}
 }

@@ -200,7 +200,7 @@ public class ItemBetterBucket extends ItemManual {
 			if (!empty.isEmpty()) {
 				return super.getItemStackDisplayName(empty);
 			}
-			return super.getItemStackDisplayName(stack);
+			return unloc;
 		}
 
 		return unloc.replaceFirst("\\s", " " + fluidStack.getLocalizedName() + " ");

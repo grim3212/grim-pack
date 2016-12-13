@@ -1,10 +1,10 @@
 package com.grim3212.mc.pack.decor.entity;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import org.apache.commons.lang3.Validate;
 
-import com.google.common.base.Optional;
 import com.google.common.base.Predicate;
 import com.grim3212.mc.pack.core.manual.IManualEntry.IManualEntity;
 import com.grim3212.mc.pack.core.manual.pages.Page;
@@ -37,8 +37,8 @@ import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
 
 public class EntityFlatItemFrame extends EntityItemFrame implements IEntityAdditionalSpawnData, IManualEntity {
 
-	private static final DataParameter<Optional<ItemStack>> ITEM = EntityDataManager.<Optional<ItemStack>> createKey(EntityItemFrame.class, DataSerializers.OPTIONAL_ITEM_STACK);
-	private static final DataParameter<Integer> ROTATION = EntityDataManager.<Integer> createKey(EntityItemFrame.class, DataSerializers.VARINT);
+	private static final DataParameter<ItemStack> ITEM = EntityDataManager.<ItemStack>createKey(EntityItemFrame.class, DataSerializers.OPTIONAL_ITEM_STACK);
+	private static final DataParameter<Integer> ROTATION = EntityDataManager.<Integer>createKey(EntityItemFrame.class, DataSerializers.VARINT);
 	/** Chance for this item frame's item to drop from the frame. */
 	private float itemDropChance = 1.0F;
 
@@ -53,7 +53,7 @@ public class EntityFlatItemFrame extends EntityItemFrame implements IEntityAddit
 	@Override
 	public ItemStack getPickedResult(RayTraceResult target) {
 		ItemStack held = this.getDisplayedItem();
-		if (held == null) {
+		if (held.isEmpty()) {
 			return new ItemStack(DecorItems.flat_item_frame);
 		} else {
 			return held.copy();
@@ -62,13 +62,13 @@ public class EntityFlatItemFrame extends EntityItemFrame implements IEntityAddit
 
 	@Override
 	protected void entityInit() {
-		this.getDataManager().register(ITEM, Optional.<ItemStack> absent());
+		this.getDataManager().register(ITEM, ItemStack.EMPTY);
 		this.getDataManager().register(ROTATION, 0);
 	}
 
 	@Override
 	public void dropItemOrSelf(@Nullable Entity entityIn, boolean dropSelf) {
-		if (this.worldObj.getGameRules().getBoolean("doEntityDrops")) {
+		if (this.world.getGameRules().getBoolean("doEntityDrops")) {
 			ItemStack itemstack = this.getDisplayedItem();
 
 			if (entityIn instanceof EntityPlayer) {
@@ -84,7 +84,7 @@ public class EntityFlatItemFrame extends EntityItemFrame implements IEntityAddit
 				this.entityDropItem(new ItemStack(DecorItems.flat_item_frame), 0.0F);
 			}
 
-			if (itemstack != null && this.rand.nextFloat() < this.itemDropChance) {
+			if (!itemstack.isEmpty() && this.rand.nextFloat() < this.itemDropChance) {
 				itemstack = itemstack.copy();
 				this.removeFrameFromMap(itemstack);
 				this.entityDropItem(itemstack, 0.0F);
@@ -93,9 +93,9 @@ public class EntityFlatItemFrame extends EntityItemFrame implements IEntityAddit
 	}
 
 	private void removeFrameFromMap(ItemStack stack) {
-		if (stack != null) {
+		if (!stack.isEmpty()) {
 			if (stack.getItem() instanceof net.minecraft.item.ItemMap) {
-				MapData mapdata = ((ItemMap) stack.getItem()).getMapData(stack, this.worldObj);
+				MapData mapdata = ((ItemMap) stack.getItem()).getMapData(stack, this.world);
 				mapdata.mapDecorations.remove("frame-" + this.getEntityId());
 			}
 
@@ -114,7 +114,7 @@ public class EntityFlatItemFrame extends EntityItemFrame implements IEntityAddit
 
 	@Override
 	public void writeEntityToNBT(NBTTagCompound compound) {
-		if (this.getDisplayedItem() != null) {
+		if (!this.getDisplayedItem().isEmpty()) {
 			compound.setTag("Item", this.getDisplayedItem().writeToNBT(new NBTTagCompound()));
 			compound.setByte("ItemRotation", (byte) this.getRotation());
 			compound.setFloat("ItemDropChance", this.itemDropChance);
@@ -132,7 +132,7 @@ public class EntityFlatItemFrame extends EntityItemFrame implements IEntityAddit
 		NBTTagCompound nbttagcompound = compound.getCompoundTag("Item");
 
 		if (nbttagcompound != null && !nbttagcompound.hasNoTags()) {
-			this.setDisplayedItemWithUpdate(ItemStack.loadItemStackFromNBT(nbttagcompound), false);
+			this.setDisplayedItemWithUpdate(new ItemStack(nbttagcompound), false);
 			this.setRotation(compound.getByte("ItemRotation"), false);
 
 			if (compound.hasKey("ItemDropChance", 99)) {
@@ -146,30 +146,30 @@ public class EntityFlatItemFrame extends EntityItemFrame implements IEntityAddit
 
 	@Override
 	public ItemStack getDisplayedItem() {
-		return (ItemStack) ((Optional<ItemStack>) this.getDataManager().get(ITEM)).orNull();
+		return this.getDataManager().get(ITEM);
 	}
 
 	@Override
-	public void setDisplayedItem(@Nullable ItemStack stack) {
+	public void setDisplayedItem(@Nonnull ItemStack stack) {
 		this.setDisplayedItemWithUpdate(stack, true);
 	}
 
-	private void setDisplayedItemWithUpdate(@Nullable ItemStack stack, boolean p_174864_2_) {
-		if (stack != null) {
+	private void setDisplayedItemWithUpdate(@Nonnull ItemStack stack, boolean flag) {
+		if (!stack.isEmpty()) {
 			stack = stack.copy();
-			stack.stackSize = 1;
+			stack.setCount(1);
 			stack.setItemFrame(this);
 		}
 
-		this.getDataManager().set(ITEM, Optional.fromNullable(stack));
+		this.getDataManager().set(ITEM, stack);
 		this.getDataManager().setDirty(ITEM);
 
-		if (stack != null) {
+		if (!stack.isEmpty()) {
 			this.playSound(SoundEvents.ENTITY_ITEMFRAME_ADD_ITEM, 1.0F, 1.0F);
 		}
 
-		if (p_174864_2_ && this.hangingPosition != null) {
-			this.worldObj.updateComparatorOutputLevel(this.hangingPosition, Blocks.AIR);
+		if (flag && this.hangingPosition != null) {
+			this.world.updateComparatorOutputLevel(this.hangingPosition, Blocks.AIR);
 		}
 	}
 
@@ -183,11 +183,11 @@ public class EntityFlatItemFrame extends EntityItemFrame implements IEntityAddit
 		this.setRotation(rotationIn, true);
 	}
 
-	private void setRotation(int rotationIn, boolean p_174865_2_) {
+	private void setRotation(int rotationIn, boolean flag) {
 		this.getDataManager().set(ROTATION, Integer.valueOf(rotationIn % 8));
 
-		if (p_174865_2_ && this.hangingPosition != null) {
-			this.worldObj.updateComparatorOutputLevel(this.hangingPosition, Blocks.AIR);
+		if (flag && this.hangingPosition != null) {
+			this.world.updateComparatorOutputLevel(this.hangingPosition, Blocks.AIR);
 		}
 	}
 
@@ -261,7 +261,7 @@ public class EntityFlatItemFrame extends EntityItemFrame implements IEntityAddit
 
 	@Override
 	public boolean onValidSurface() {
-		if (!this.worldObj.getCollisionBoxes(this, this.getEntityBoundingBox()).isEmpty()) {
+		if (!this.world.getCollisionBoxes(this, this.getEntityBoundingBox()).isEmpty()) {
 			return false;
 		} else {
 			int i = Math.max(1, this.getWidthPixels() / 16);
@@ -275,9 +275,9 @@ public class EntityFlatItemFrame extends EntityItemFrame implements IEntityAddit
 					int i1 = (i - 1) / -2;
 					int j1 = (j - 1) / -2;
 					blockpos$mutableblockpos.setPos(blockpos).move(enumfacing, k + i1).move(EnumFacing.UP, l + j1);
-					IBlockState iblockstate = this.worldObj.getBlockState(blockpos$mutableblockpos);
+					IBlockState iblockstate = this.world.getBlockState(blockpos$mutableblockpos);
 
-					if (iblockstate.isSideSolid(this.worldObj, blockpos$mutableblockpos, this.facingDirection))
+					if (iblockstate.isSideSolid(this.world, blockpos$mutableblockpos, this.facingDirection))
 						continue;
 
 					if (!iblockstate.getMaterial().isSolid() && !BlockRedstoneDiode.isDiode(iblockstate)) {
@@ -286,7 +286,7 @@ public class EntityFlatItemFrame extends EntityItemFrame implements IEntityAddit
 				}
 			}
 
-			return this.worldObj.getEntitiesInAABBexcluding(this, this.getEntityBoundingBox(), IS_HANGING_ENTITY).isEmpty();
+			return this.world.getEntitiesInAABBexcluding(this, this.getEntityBoundingBox(), IS_HANGING_ENTITY).isEmpty();
 		}
 	}
 

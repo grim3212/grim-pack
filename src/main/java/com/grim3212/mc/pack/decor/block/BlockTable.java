@@ -11,7 +11,6 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
-import net.minecraft.world.World;
 import net.minecraftforge.common.property.ExtendedBlockState;
 import net.minecraftforge.common.property.IUnlistedProperty;
 
@@ -28,7 +27,7 @@ public class BlockTable extends BlockColorizer implements IManualBlock {
 	}
 
 	@Override
-	public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, World worldIn, BlockPos pos) {
+	public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, IBlockAccess blockAccess, BlockPos pos) {
 		return BlockCounter.COUNTER_AABB;
 	}
 
@@ -56,7 +55,7 @@ public class BlockTable extends BlockColorizer implements IManualBlock {
 	public boolean canPlaceTorchOnTop(IBlockState state, IBlockAccess world, BlockPos pos) {
 		return true;
 	}
-	
+
 	@Override
 	public Page getPage(IBlockState state) {
 		return ManualDecor.table_page;

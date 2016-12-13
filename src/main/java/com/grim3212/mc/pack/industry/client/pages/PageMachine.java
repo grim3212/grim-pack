@@ -22,9 +22,9 @@ import net.minecraft.util.ResourceLocation;
 
 public class PageMachine extends Page {
 
-	private ResourceLocation mFurnaceOverlay = new ResourceLocation(GrimPack.modID, "textures/gui/modernFurnaceOverlay.png");
-	private ResourceLocation derrickOverlay = new ResourceLocation(GrimPack.modID, "textures/gui/derrickOverlay.png");
-	private ResourceLocation refineryOverlay = new ResourceLocation(GrimPack.modID, "textures/gui/refineryOverlay.png");
+	private ResourceLocation mFurnaceOverlay = new ResourceLocation(GrimPack.modID, "textures/gui/modern_furnace_overlay.png");
+	private ResourceLocation derrickOverlay = new ResourceLocation(GrimPack.modID, "textures/gui/derrick_overlay.png");
+	private ResourceLocation refineryOverlay = new ResourceLocation(GrimPack.modID, "textures/gui/refinery_overlay.png");
 
 	private int recipeShown = 0;
 	private int update = 0;

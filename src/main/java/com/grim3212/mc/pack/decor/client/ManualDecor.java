@@ -76,7 +76,7 @@ public class ManualDecor implements IManualPart {
 		clock_page = new PageCrafting("clock", DecorBlocks.clocks, 20);
 		wallpaperInfo_page = new PageInfo("wallpaperinfo");
 		wallpaper_page = new PageCrafting("wallpaper", new ItemStack(DecorItems.wallpaper));
-		framesInfo_page = new PageImageText("frameinfo", "framesInfoPage.png", 0.85F);
+		framesInfo_page = new PageImageText("frameinfo", "frames_info_page.png", 0.85F);
 		frames_page = new PageCrafting("frames", DecorItems.frames, 25);
 		cage_page = new PageCrafting("cage", DecorBlocks.chains, 20);
 		lantern_page = new PageCrafting("lantern", RecipeHelper.getAllIRecipesForItem(new ItemStack(DecorBlocks.lantern)), 20);

@@ -42,7 +42,7 @@ public class ItemSloped extends ItemManualBlock {
 	}
 
 	@Override
-	public EnumActionResult onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
+	public EnumActionResult onItemUse(EntityPlayer playerIn, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
 		IBlockState iblockstate = worldIn.getBlockState(pos);
 		Block block = iblockstate.getBlock();
 
@@ -52,13 +52,14 @@ public class ItemSloped extends ItemManualBlock {
 			pos = pos.offset(facing);
 		}
 
-		if (stack.stackSize == 0) {
+		ItemStack stack = playerIn.getHeldItem(hand);
+		if (stack.getCount() == 0) {
 			return EnumActionResult.FAIL;
 		} else if (!playerIn.canPlayerEdit(pos, facing, stack)) {
 			return EnumActionResult.FAIL;
 		} else if (pos.getY() == 255 && this.block.getDefaultState().getMaterial().isSolid()) {
 			return EnumActionResult.FAIL;
-		} else if (worldIn.canBlockBePlaced(this.block, pos, false, facing, (Entity) null, stack)) {
+		} else if (worldIn.mayPlace(this.block, pos, false, facing, (Entity) null)) {
 			EnumHalf half = EnumHalf.BOTTOM;
 			if (!(facing != EnumFacing.DOWN && (facing == EnumFacing.UP || (double) hitY <= 0.5D))) {
 				half = EnumHalf.TOP;
@@ -66,7 +67,7 @@ public class ItemSloped extends ItemManualBlock {
 
 			if (this.block instanceof BlockSlopedRotate) {
 				if (!simpleRotate) {
-					worldIn.setBlockState(pos, this.block.getDefaultState().withProperty(BlockSlopedRotate.FACING, EnumFacing.getHorizontal(MathHelper.floor_double(playerIn.rotationYaw * 4.0F / 360.0F) & 0x3).rotateY()).withProperty(BlockSloped.HALF, half), 3);
+					worldIn.setBlockState(pos, this.block.getDefaultState().withProperty(BlockSlopedRotate.FACING, EnumFacing.getHorizontal(MathHelper.floor(playerIn.rotationYaw * 4.0F / 360.0F) & 0x3).rotateY()).withProperty(BlockSloped.HALF, half), 3);
 				} else {
 					worldIn.setBlockState(pos, this.block.getDefaultState().withProperty(BlockSlopedRotate.FACING, playerIn.getHorizontalFacing()).withProperty(BlockSloped.HALF, half), 3);
 				}
@@ -74,7 +75,7 @@ public class ItemSloped extends ItemManualBlock {
 				worldIn.setBlockState(pos, this.block.getDefaultState().withProperty(BlockSloped.HALF, half), 3);
 			}
 
-			--stack.stackSize;
+			stack.shrink(1);
 			TileEntity tileentity = worldIn.getTileEntity(pos);
 
 			if (tileentity instanceof TileEntityColorizer) {

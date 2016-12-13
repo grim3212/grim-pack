@@ -15,7 +15,6 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.InventoryHelper;
-import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumBlockRenderType;
@@ -23,6 +22,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
 public class BlockDecoration extends BlockContainer implements IManualBlock, ITileEntityProvider {
@@ -42,16 +42,16 @@ public class BlockDecoration extends BlockContainer implements IManualBlock, ITi
 
 	@Override
 	@SuppressWarnings("deprecation")
-	public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, World worldIn, BlockPos pos) {
+	public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, IBlockAccess blockAccess, BlockPos pos) {
 		if (useCollision) {
-			return super.getCollisionBoundingBox(blockState, worldIn, pos);
+			return super.getCollisionBoundingBox(blockState, blockAccess, pos);
 		} else {
 			return NULL_AABB;
 		}
 	}
 
 	@Override
-	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ) {
+	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
 		if (useCollision) {
 			if (worldIn.isRemote)
 				return true;
@@ -63,7 +63,7 @@ public class BlockDecoration extends BlockContainer implements IManualBlock, ITi
 			return true;
 		}
 
-		return super.onBlockActivated(worldIn, pos, state, playerIn, hand, heldItem, side, hitX, hitY, hitZ);
+		return super.onBlockActivated(worldIn, pos, state, playerIn, hand, side, hitX, hitY, hitZ);
 	}
 
 	@Override

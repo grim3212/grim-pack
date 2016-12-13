@@ -21,19 +21,19 @@ public class ItemFlatItemFrame extends ItemManual {
 	public ItemFlatItemFrame() {
 	}
 
-	public EnumActionResult onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
+	@Override
+	public EnumActionResult onItemUse(EntityPlayer playerIn, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
 		BlockPos blockpos = pos.offset(facing);
 
-		if (playerIn.canPlayerEdit(blockpos, facing, stack)) {
+		if (playerIn.canPlayerEdit(blockpos, facing, playerIn.getHeldItem(hand))) {
 			EntityHanging entityhanging = this.createEntity(worldIn, blockpos, facing);
 
 			if (entityhanging != null && entityhanging.onValidSurface()) {
 				if (!worldIn.isRemote) {
 					entityhanging.playPlaceSound();
-					worldIn.spawnEntityInWorld(entityhanging);
+					worldIn.spawnEntity(entityhanging);
 				}
-
-				--stack.stackSize;
+				playerIn.getHeldItem(hand).shrink(1);
 			}
 
 			return EnumActionResult.SUCCESS;

@@ -19,6 +19,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
@@ -38,7 +39,7 @@ public class BlockCalendar extends BlockManual implements ITileEntityProvider {
 	}
 
 	@Override
-	public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, World worldIn, BlockPos pos) {
+	public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, IBlockAccess blockAccess, BlockPos pos) {
 		return NULL_AABB;
 	}
 
@@ -79,8 +80,8 @@ public class BlockCalendar extends BlockManual implements ITileEntityProvider {
 	}
 
 	@Override
-	public IBlockState onBlockPlaced(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer) {
-		if (facing.getAxis().isHorizontal() && this.canBlockStay(worldIn, pos, facing)) {
+	public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer, EnumHand hand) {
+		if (facing.getAxis().isHorizontal() && this.canBlockStay(world, pos, facing)) {
 			return this.getDefaultState().withProperty(FACING, facing);
 		} else {
 			Iterator<EnumFacing> iterator = EnumFacing.Plane.HORIZONTAL.iterator();
@@ -92,7 +93,7 @@ public class BlockCalendar extends BlockManual implements ITileEntityProvider {
 				}
 
 				enumfacing1 = (EnumFacing) iterator.next();
-			} while (!this.canBlockStay(worldIn, pos, enumfacing1));
+			} while (!this.canBlockStay(world, pos, enumfacing1));
 
 			return this.getDefaultState().withProperty(FACING, enumfacing1);
 		}
@@ -109,8 +110,8 @@ public class BlockCalendar extends BlockManual implements ITileEntityProvider {
 	}
 
 	@Override
-	public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn) {
-		EnumFacing enumfacing = (EnumFacing) state.getValue(FACING);
+	public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos) {
+		EnumFacing enumfacing = state.getValue(FACING);
 
 		if (!this.canBlockStay(worldIn, pos, enumfacing)) {
 			this.dropBlockAsItem(worldIn, pos, state, 0);
@@ -134,7 +135,7 @@ public class BlockCalendar extends BlockManual implements ITileEntityProvider {
 
 	@Override
 	public int getMetaFromState(IBlockState state) {
-		return ((EnumFacing) state.getValue(FACING)).getIndex();
+		return state.getValue(FACING).getIndex();
 	}
 
 	@Override

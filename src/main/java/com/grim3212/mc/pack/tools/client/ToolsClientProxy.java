@@ -150,7 +150,7 @@ public class ToolsClientProxy extends ClientProxy {
 		RenderingRegistry.registerEntityRenderingHandler(EntityPokeball.class, new RenderThrowableFactory(ToolsItems.pokeball));
 		RenderingRegistry.registerEntityRenderingHandler(EntitySlingpellet.class, new RenderThrowableFactory(ToolsItems.sling_pellet));
 		RenderingRegistry.registerEntityRenderingHandler(EntityRayw.class, new RenderRayGunFactory(new ResourceLocation(GrimPack.modID, "textures/entities/sonicw.png")));
-		RenderingRegistry.registerEntityRenderingHandler(EntityAdvRayw.class, new RenderRayGunFactory(new ResourceLocation(GrimPack.modID, "textures/entities/sonicAdv.png")));
+		RenderingRegistry.registerEntityRenderingHandler(EntityAdvRayw.class, new RenderRayGunFactory(new ResourceLocation(GrimPack.modID, "textures/entities/sonic_adv.png")));
 		RenderingRegistry.registerEntityRenderingHandler(EntitySpear.class, new RenderProjectileFactory(new ResourceLocation(GrimPack.modID, "textures/entities/spears.png")));
 		RenderingRegistry.registerEntityRenderingHandler(EntitySlimeSpear.class, new RenderProjectileFactory(new ResourceLocation(GrimPack.modID, "textures/entities/spears.png")));
 		RenderingRegistry.registerEntityRenderingHandler(EntityBallisticKnife.class, new RenderProjectileFactory(new ResourceLocation(GrimPack.modID, "textures/entities/ballistic_knife.png")));

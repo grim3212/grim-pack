@@ -22,10 +22,10 @@ public abstract class BlockSloped extends BlockColorizer implements IManualBlock
 		this.setDefaultState(this.blockState.getBaseState().withProperty(HALF, EnumHalf.BOTTOM));
 	}
 
-	@Override
-	public boolean isVisuallyOpaque() {
-		return false;
-	}
+	// @Override
+	// public boolean isVisuallyOpaque() {
+	// return false;
+	// }
 
 	@Override
 	protected BlockStateContainer createBlockState() {

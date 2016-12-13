@@ -76,7 +76,7 @@ public class ManualTools implements IManualPart {
 		boomerang_page = new PageCrafting("wood", new ItemStack(ToolsItems.boomerang));
 		diamondBoomerang_page = new PageCrafting("diamond", new ItemStack(ToolsItems.diamond_boomerang));
 		backpack_page = new PageCrafting("backpacks", new ItemStack(ToolsItems.backpack));
-		backpackColors_page = new PageImageText("colors", "colorsImage.png");
+		backpackColors_page = new PageImageText("colors", "colors_image.png");
 		portableWorkbench_page = new PageCrafting("portableworkbench", new ItemStack(ToolsItems.portable_workbench));
 		blackOre_page = new PageImageText("blackore", "blackore.png");
 		blackDiamond_page = new PageFurnace("cookOre", new ItemStack(ToolsBlocks.black_diamond_ore));

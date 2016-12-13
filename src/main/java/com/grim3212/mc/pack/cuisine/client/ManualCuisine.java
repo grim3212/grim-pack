@@ -46,7 +46,7 @@ public class ManualCuisine implements IManualPart {
 	public void initPages() {
 		soda_page = new PageCrafting("types", CuisineItems.sodas, 15);
 		carbon_page = new PageCrafting("carbon", CuisineItems.carbon, 25);
-		dragonFruit_page = new PageImageText("dragonfruit", "dragonFruitPage.png");
+		dragonFruit_page = new PageImageText("dragonfruit", "dragon_fruit_page.png");
 		sweets_page = new PageCrafting("sweets", CuisineItems.food, 25);
 		health_page = new PageCrafting("recipes", CuisineItems.health, 25);
 		cheeseMaker_page = new PageCrafting("cheese", new ItemStack(CuisineBlocks.cheese_maker));
@@ -59,7 +59,7 @@ public class ManualCuisine implements IManualPart {
 		cookedEggs_page = new PageFurnace("cooked", new ItemStack(CuisineItems.eggs_mixed));
 		rawPie_page = new PageCrafting("craft", CuisineItems.pie, 25);
 		bakedPie_page = new PageFurnace("bake", new ItemStack[] { new ItemStack(CuisineItems.raw_apple_pie), new ItemStack(CuisineItems.raw_melon_pie), new ItemStack(CuisineItems.raw_melon_pie), new ItemStack(CuisineItems.raw_pork_pie), new ItemStack(CuisineItems.raw_pumpkin_pie) }, 25);
-		cocoaTree_page = new PageImageText("tree", "cocoaTreePage.png");
+		cocoaTree_page = new PageImageText("tree", "cocoa_tree_page.png");
 		cocoaFruit_page = new PageCrafting("fruit", new ItemStack(CuisineItems.cocoa_dust));
 		cocoaDye_page = new PageCrafting("dye", CuisineItems.cocoaRecipe);
 		chocolateBowl_page = new PageCrafting("bowlChoc", new ItemStack(CuisineItems.chocolate_bowl));

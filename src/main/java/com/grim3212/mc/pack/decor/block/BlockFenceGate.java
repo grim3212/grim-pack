@@ -1,7 +1,5 @@
 package com.grim3212.mc.pack.decor.block;
 
-import javax.annotation.Nullable;
-
 import com.grim3212.mc.pack.core.manual.IManualEntry.IManualBlock;
 import com.grim3212.mc.pack.core.manual.pages.Page;
 import com.grim3212.mc.pack.decor.client.ManualDecor;
@@ -12,7 +10,6 @@ import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -41,7 +38,7 @@ public class BlockFenceGate extends BlockFurnitureRotate implements IManualBlock
 	}
 
 	@Override
-	public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, World worldIn, BlockPos pos) {
+	public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, IBlockAccess blockAccess, BlockPos pos) {
 		return blockState.getValue(OPEN) ? NULL_AABB : (blockState.getValue(FACING).getAxis() == EnumFacing.Axis.Z ? AABB_CLOSED_SELECTED_ZAXIS : AABB_CLOSED_SELECTED_XAXIS);
 	}
 
@@ -56,11 +53,11 @@ public class BlockFenceGate extends BlockFurnitureRotate implements IManualBlock
 	}
 
 	@Override
-	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, @Nullable ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ) {
-		if (heldItem != null && heldItem.getItem() != null) {
-			Block block = Block.getBlockFromItem(heldItem.getItem());
+	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
+		if (!playerIn.getHeldItem(hand).isEmpty()) {
+			Block block = Block.getBlockFromItem(playerIn.getHeldItem(hand).getItem());
 			if (block != null) {
-				if (super.onBlockActivated(worldIn, pos, state, playerIn, hand, heldItem, side, hitX, hitY, hitZ)) {
+				if (super.onBlockActivated(worldIn, pos, state, playerIn, hand, side, hitX, hitY, hitZ)) {
 					return true;
 				}
 			}
@@ -85,7 +82,7 @@ public class BlockFenceGate extends BlockFurnitureRotate implements IManualBlock
 	}
 
 	@Override
-	public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn) {
+	public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos) {
 		if (!worldIn.isRemote) {
 			boolean flag = worldIn.isBlockPowered(pos);
 

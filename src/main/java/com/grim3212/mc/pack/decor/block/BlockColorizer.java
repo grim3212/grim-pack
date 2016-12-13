@@ -24,7 +24,6 @@ import net.minecraft.client.particle.ParticleDigging;
 import net.minecraft.client.particle.ParticleManager;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
@@ -36,6 +35,7 @@ import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
@@ -46,7 +46,6 @@ import net.minecraft.world.WorldServer;
 import net.minecraftforge.common.property.ExtendedBlockState;
 import net.minecraftforge.common.property.IExtendedBlockState;
 import net.minecraftforge.common.property.IUnlistedProperty;
-import net.minecraftforge.common.util.FakePlayer;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -110,15 +109,19 @@ public class BlockColorizer extends BlockContainer implements IManualBlock, ICol
 		}
 	}
 
-//	@Override
-//	public void onBlockHarvested(World worldIn, BlockPos pos, IBlockState state, EntityPlayer player) {
-//		if (!player.capabilities.isCreativeMode) {
-//			if (!(((IExtendedBlockState) this.getExtendedState(state, worldIn, pos)).getValue(BLOCK_STATE) == Blocks.AIR.getDefaultState())) {
-//				IBlockState blockState = ((IExtendedBlockState) this.getExtendedState(state, worldIn, pos)).getValue(BLOCK_STATE);
-//				spawnAsEntity(worldIn, pos, new ItemStack(blockState.getBlock(), 1, blockState.getBlock().getMetaFromState(blockState)));
-//			}
-//		}
-//	}
+	// @Override
+	// public void onBlockHarvested(World worldIn, BlockPos pos, IBlockState
+	// state, EntityPlayer player) {
+	// if (!player.capabilities.isCreativeMode) {
+	// if (!(((IExtendedBlockState) this.getExtendedState(state, worldIn,
+	// pos)).getValue(BLOCK_STATE) == Blocks.AIR.getDefaultState())) {
+	// IBlockState blockState = ((IExtendedBlockState)
+	// this.getExtendedState(state, worldIn, pos)).getValue(BLOCK_STATE);
+	// spawnAsEntity(worldIn, pos, new ItemStack(blockState.getBlock(), 1,
+	// blockState.getBlock().getMetaFromState(blockState)));
+	// }
+	// }
+	// }
 
 	@Override
 	public ItemStack getPickBlock(IBlockState state, RayTraceResult target, World world, BlockPos pos, EntityPlayer player) {
@@ -129,7 +132,7 @@ public class BlockColorizer extends BlockContainer implements IManualBlock, ICol
 	}
 
 	@Override
-	public void getSubBlocks(Item itemIn, CreativeTabs tab, List<ItemStack> list) {
+	public void getSubBlocks(Item itemIn, CreativeTabs tab, NonNullList<ItemStack> list) {
 		ItemStack itemstack = new ItemStack(this);
 		NBTHelper.setString(itemstack, "registryName", Block.REGISTRY.getNameForObject(Blocks.AIR).toString());
 		NBTHelper.setInteger(itemstack, "meta", 0);
@@ -153,10 +156,12 @@ public class BlockColorizer extends BlockContainer implements IManualBlock, ICol
 
 	@Override
 	@SuppressWarnings("deprecation")
-	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ) {
+	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
 		TileEntity tileentity = worldIn.getTileEntity(pos);
 
-		if (heldItem != null && heldItem.getItem() != null && tileentity instanceof TileEntityColorizer) {
+		ItemStack heldItem = playerIn.getHeldItem(hand);
+
+		if (!heldItem.isEmpty() && heldItem.getItem() != null && tileentity instanceof TileEntityColorizer) {
 			TileEntityColorizer te = (TileEntityColorizer) tileentity;
 			Block block = Block.getBlockFromItem(heldItem.getItem());
 
@@ -165,8 +170,8 @@ public class BlockColorizer extends BlockContainer implements IManualBlock, ICol
 					// Can only set blockstate if it contains nothing or if
 					// in creative mode
 					if (te.getBlockState() == Blocks.AIR.getDefaultState() || playerIn.capabilities.isCreativeMode) {
-//						if (!playerIn.capabilities.isCreativeMode)
-//							--heldItem.stackSize;
+						// if (!playerIn.capabilities.isCreativeMode)
+						// --heldItem.stackSize;
 
 						setColorizer(worldIn, pos, state, block.getStateFromMeta(heldItem.getMetadata()), playerIn);
 
@@ -310,13 +315,16 @@ public class BlockColorizer extends BlockContainer implements IManualBlock, ICol
 			// Can only clear a filled colorizer
 			if (storedState != Blocks.AIR.getDefaultState()) {
 
-//				EntityItem blockDropped = new EntityItem(worldIn, (double) pos.getX(), (double) pos.getY(), (double) pos.getZ(), new ItemStack(tileColorizer.getBlockState().getBlock(), 1, tileColorizer.getBlockState().getBlock().getMetaFromState(tileColorizer.getBlockState())));
-//				if (!worldIn.isRemote) {
-//					worldIn.spawnEntityInWorld(blockDropped);
-//					if (!(player instanceof FakePlayer)) {
-//						blockDropped.onCollideWithPlayer(player);
-//					}
-//				}
+				// EntityItem blockDropped = new EntityItem(worldIn, (double)
+				// pos.getX(), (double) pos.getY(), (double) pos.getZ(), new
+				// ItemStack(tileColorizer.getBlockState().getBlock(), 1,
+				// tileColorizer.getBlockState().getBlock().getMetaFromState(tileColorizer.getBlockState())));
+				// if (!worldIn.isRemote) {
+				// worldIn.spawnEntityInWorld(blockDropped);
+				// if (!(player instanceof FakePlayer)) {
+				// blockDropped.onCollideWithPlayer(player);
+				// }
+				// }
 
 				// Clear Self
 				setColorizer(worldIn, pos, state, null, player);

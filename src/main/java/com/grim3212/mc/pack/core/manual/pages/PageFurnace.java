@@ -19,7 +19,7 @@ import net.minecraft.util.ResourceLocation;
 
 public class PageFurnace extends Page {
 
-	private ResourceLocation furnaceOverlay = new ResourceLocation(GrimPack.modID, "textures/gui/furnaceOverlay.png");
+	private ResourceLocation furnaceOverlay = new ResourceLocation(GrimPack.modID, "textures/gui/furnace_overlay.png");
 
 	private int recipeShown = 0;
 	private int update = 0;

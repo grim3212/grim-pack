@@ -30,12 +30,12 @@ public class ContainerCage extends Container {
 
 	@Override
 	public boolean canInteractWith(EntityPlayer playerIn) {
-		return this.cage.isUseableByPlayer(playerIn);
+		return this.cage.isUsableByPlayer(playerIn);
 	}
 
 	@Override
 	public ItemStack transferStackInSlot(EntityPlayer playerIn, int index) {
-		ItemStack itemstack = null;
+		ItemStack itemstack = ItemStack.EMPTY;
 		Slot slot = (Slot) inventorySlots.get(index);
 
 		if (slot != null && slot.getHasStack()) {
@@ -43,23 +43,23 @@ public class ContainerCage extends Container {
 			itemstack = itemstack1.copy();
 			if (index == 0) {
 				if (!mergeItemStack(itemstack1, 1, 37, false)) {
-					return null;
+					return ItemStack.EMPTY;
 				}
 			} else if (index >= 1 && index < 37) {
 				if (!mergeItemStack(itemstack1, 0, 1, false)) {
-					return null;
+					return ItemStack.EMPTY;
 				}
 			}
 
-			if (itemstack1.stackSize == 0) {
-				slot.putStack(null);
+			if (itemstack1.getCount() == 0) {
+				slot.putStack(ItemStack.EMPTY);
 			} else {
 				slot.onSlotChanged();
 			}
-			if (itemstack1.stackSize != itemstack.stackSize) {
-				slot.onPickupFromSlot(playerIn, itemstack1);
+			if (itemstack1.getCount() != itemstack.getCount()) {
+				slot.onTake(playerIn, itemstack1);
 			} else {
-				return null;
+				return ItemStack.EMPTY;
 			}
 		}
 		return itemstack;

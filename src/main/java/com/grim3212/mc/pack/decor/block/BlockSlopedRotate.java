@@ -30,10 +30,10 @@ public class BlockSlopedRotate extends BlockFurnitureRotate implements IManualBl
 		this.blockState.getBaseState().withProperty(BlockSloped.HALF, EnumHalf.BOTTOM).withProperty(FACING, EnumFacing.NORTH);
 	}
 
-	@Override
-	public boolean isVisuallyOpaque() {
-		return false;
-	}
+	// @Override
+	// public boolean isVisuallyOpaque() {
+	// return false;
+	// }
 
 	@Override
 	protected BlockStateContainer createBlockState() {

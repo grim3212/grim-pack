@@ -16,7 +16,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class RenderTreasureMob extends RenderLiving<EntityTreasureMob> {
 
-	private static final ResourceLocation resourceLocation = new ResourceLocation(GrimPack.modID, "textures/entities/TreasureMob.png");
+	private static final ResourceLocation resourceLocation = new ResourceLocation(GrimPack.modID, "textures/entities/treasure_mob.png");
 
 	public RenderTreasureMob(RenderManager manager, ModelBase modelbase, float shadowSize) {
 		super(manager, modelbase, shadowSize);

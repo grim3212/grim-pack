@@ -41,7 +41,7 @@ public class ItemBrush extends ItemManual {
 	}
 
 	@Override
-	public EnumActionResult onItemUseFirst(ItemStack stack, EntityPlayer player, World world, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ, EnumHand hand) {
+	public EnumActionResult onItemUseFirst(EntityPlayer player, World world, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ, EnumHand hand) {
 		if (world.isRemote) {
 			if (player.isSneaking()) {
 				TileEntity tileentity = world.getTileEntity(pos);
@@ -51,9 +51,9 @@ public class ItemBrush extends ItemManual {
 
 					ItemStack storedstack = new ItemStack(storedState.getBlock(), 1, storedState.getBlock().getMetaFromState(storedState));
 					if (storedstack.getItem() != null)
-						player.addChatMessage(new TextComponentTranslation("grimpack.decor.brush.stored", storedstack.getDisplayName()));
+						player.sendMessage(new TextComponentTranslation("grimpack.decor.brush.stored", storedstack.getDisplayName()));
 					else
-						player.addChatMessage(new TextComponentTranslation("grimpack.decor.brush.empty"));
+						player.sendMessage(new TextComponentTranslation("grimpack.decor.brush.empty"));
 				}
 				return EnumActionResult.SUCCESS;
 			}
