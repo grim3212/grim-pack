@@ -59,7 +59,7 @@ public class MessageSensorSetBox extends AbstractServerMessage<MessageSensorSetB
 
 	@Override
 	public void process(EntityPlayer player, Side side) {
-		TileEntity te = player.worldObj.getTileEntity(pos);
+		TileEntity te = player.world.getTileEntity(pos);
 
 		if (te instanceof TileEntitySpecificSensor) {
 			((TileEntitySpecificSensor) te).setSenseBox(new AxisAlignedBB(this.minX, this.minY, this.minZ, this.maxX, this.maxY, this.maxZ));

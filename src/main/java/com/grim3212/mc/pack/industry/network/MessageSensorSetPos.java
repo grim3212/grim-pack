@@ -38,7 +38,7 @@ public class MessageSensorSetPos extends AbstractServerMessage<MessageSensorSetP
 
 	@Override
 	public void process(EntityPlayer player, Side side) {
-		TileEntity te = player.worldObj.getTileEntity(pos);
+		TileEntity te = player.world.getTileEntity(pos);
 
 		if (te instanceof TileEntitySpecificSensor) {
 			((TileEntitySpecificSensor) te).setSensorPos(sensePos);

@@ -19,7 +19,6 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
@@ -134,37 +133,37 @@ public class BlockGate extends BlockManual {
 	}
 
 	@Override
-	public IBlockState onBlockPlaced(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer) {
-		for (int j = pos.getY(); worldIn.getBlockState(pos.down()).getBlock() == Blocks.AIR; --j) {
+	public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer, EnumHand hand) {
+		for (int j = pos.getY(); world.getBlockState(pos.down()).getBlock() == Blocks.AIR; --j) {
 			pos = new BlockPos(pos.getX(), j - 1, pos.getZ());
-			worldIn.setBlockState(pos, getDefaultState().withProperty(FACING, placer.getHorizontalFacing().getOpposite()).withProperty(ACTIVE, false), 2);
+			world.setBlockState(pos, getDefaultState().withProperty(FACING, placer.getHorizontalFacing().getOpposite()).withProperty(ACTIVE, false), 2);
 		}
 
-		return getActualState(getDefaultState().withProperty(FACING, placer.getHorizontalFacing().getOpposite()).withProperty(ACTIVE, false), worldIn, pos);
+		return getActualState(getDefaultState().withProperty(FACING, placer.getHorizontalFacing().getOpposite()).withProperty(ACTIVE, false), world, pos);
 	}
 
-	public void updateNeighbors(World worldIn, BlockPos pos, EntityPlayer player, EnumHand hand, ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ) {
+	public void updateNeighbors(World worldIn, BlockPos pos, EntityPlayer player, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
 		boolean active = (Boolean) worldIn.getBlockState(pos).getValue(ACTIVE);
 
 		if ((worldIn.getBlockState(pos.west()).getBlock() == this && worldIn.getBlockState(pos.west()).getValue(FACING) == worldIn.getBlockState(pos).getValue(FACING)) && (((Boolean) worldIn.getBlockState(pos.west()).getValue(ACTIVE)) != active)) {
-			this.onBlockActivated(worldIn, pos.west(), worldIn.getBlockState(pos.west()), player, hand, heldItem, side, hitX, hitY, hitZ);
+			this.onBlockActivated(worldIn, pos.west(), worldIn.getBlockState(pos.west()), player, hand, side, hitX, hitY, hitZ);
 		}
 
 		if ((worldIn.getBlockState(pos.east()).getBlock() == this && worldIn.getBlockState(pos.east()).getValue(FACING) == worldIn.getBlockState(pos).getValue(FACING)) && (((Boolean) worldIn.getBlockState(pos.east()).getValue(ACTIVE)) != active)) {
-			this.onBlockActivated(worldIn, pos.east(), worldIn.getBlockState(pos.east()), player, hand, heldItem, side, hitX, hitY, hitZ);
+			this.onBlockActivated(worldIn, pos.east(), worldIn.getBlockState(pos.east()), player, hand, side, hitX, hitY, hitZ);
 		}
 
 		if ((worldIn.getBlockState(pos.north()).getBlock() == this && worldIn.getBlockState(pos.north()).getValue(FACING) == worldIn.getBlockState(pos).getValue(FACING)) && (((Boolean) worldIn.getBlockState(pos.north()).getValue(ACTIVE)) != active)) {
-			this.onBlockActivated(worldIn, pos.north(), worldIn.getBlockState(pos.north()), player, hand, heldItem, side, hitX, hitY, hitZ);
+			this.onBlockActivated(worldIn, pos.north(), worldIn.getBlockState(pos.north()), player, hand, side, hitX, hitY, hitZ);
 		}
 
 		if ((worldIn.getBlockState(pos.south()).getBlock() == this && worldIn.getBlockState(pos.south()).getValue(FACING) == worldIn.getBlockState(pos).getValue(FACING)) && (((Boolean) worldIn.getBlockState(pos.south()).getValue(ACTIVE)) != active)) {
-			this.onBlockActivated(worldIn, pos.south(), worldIn.getBlockState(pos.south()), player, hand, heldItem, side, hitX, hitY, hitZ);
+			this.onBlockActivated(worldIn, pos.south(), worldIn.getBlockState(pos.south()), player, hand, side, hitX, hitY, hitZ);
 		}
 	}
 
 	@Override
-	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ) {
+	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
 		Item activator = null;
 		if (state.getBlock() == IndustryBlocks.garage) {
 			activator = IndustryItems.garage_remote;
@@ -172,7 +171,7 @@ public class BlockGate extends BlockManual {
 			activator = IndustryItems.gate_trumpet;
 		}
 
-		if (heldItem == null || heldItem.getItem() != activator) {
+		if (playerIn.getHeldItem(hand).isEmpty() || playerIn.getHeldItem(hand).getItem() != activator) {
 			return false;
 		} else {
 			if (worldIn.isRemote) {
@@ -206,7 +205,7 @@ public class BlockGate extends BlockManual {
 
 				}
 
-				this.updateNeighbors(worldIn, pos, playerIn, hand, heldItem, side, hitX, hitY, hitZ);
+				this.updateNeighbors(worldIn, pos, playerIn, hand, side, hitX, hitY, hitZ);
 				worldIn.playEvent((EntityPlayer) null, 1006, pos, 0);
 				return true;
 			}
@@ -252,7 +251,7 @@ public class BlockGate extends BlockManual {
 	}
 
 	@Override
-	public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn) {
+	public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos) {
 		boolean flag = false;
 
 		if (!getActualState(state, worldIn, pos).getValue(TOP)) {

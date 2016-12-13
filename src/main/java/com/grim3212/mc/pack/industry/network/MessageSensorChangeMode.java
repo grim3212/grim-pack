@@ -28,7 +28,7 @@ public class MessageSensorChangeMode extends AbstractServerMessage<MessageSensor
 	@Override
 	protected void read(PacketBuffer buffer) throws IOException {
 		this.pos = buffer.readBlockPos();
-		this.mode = SensorMode.valueOf(buffer.readStringFromBuffer(64));
+		this.mode = SensorMode.valueOf(buffer.readString(64));
 	}
 
 	@Override
@@ -39,7 +39,7 @@ public class MessageSensorChangeMode extends AbstractServerMessage<MessageSensor
 
 	@Override
 	public void process(EntityPlayer player, Side side) {
-		TileEntity te = player.worldObj.getTileEntity(pos);
+		TileEntity te = player.world.getTileEntity(pos);
 
 		if (te instanceof TileEntitySpecificSensor) {
 			((TileEntitySpecificSensor) te).setMode(mode);

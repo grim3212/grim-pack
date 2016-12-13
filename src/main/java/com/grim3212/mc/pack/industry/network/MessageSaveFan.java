@@ -43,14 +43,14 @@ public class MessageSaveFan extends AbstractServerMessage<MessageSaveFan> {
 
 	@Override
 	public void process(EntityPlayer player, Side side) {
-		TileEntity te = player.worldObj.getTileEntity(pos);
+		TileEntity te = player.world.getTileEntity(pos);
 
 		if (te instanceof TileEntityFan) {
 			if (((TileEntityFan) te).getMode() != FanMode.OFF)
 				((TileEntityFan) te).setMode(mode);
 			((TileEntityFan) te).setOldMode(mode);
 			((TileEntityFan) te).setRange(range);
-			player.worldObj.markBlockRangeForRenderUpdate(pos, pos);
+			player.world.markBlockRangeForRenderUpdate(pos, pos);
 		}
 	}
 

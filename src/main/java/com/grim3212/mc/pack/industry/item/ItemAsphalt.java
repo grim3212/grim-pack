@@ -26,13 +26,13 @@ public class ItemAsphalt extends ItemManual {
 	}
 
 	@Override
-	public EnumActionResult onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
+	public EnumActionResult onItemUse(EntityPlayer playerIn, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
 		Block block = worldIn.getBlockState(pos).getBlock();
 		if (worldIn.isRemote) {
 			return EnumActionResult.SUCCESS;
 		} else if (block == Blocks.STONE) {
 			worldIn.setBlockState(pos, IndustryBlocks.rway.getDefaultState());
-			--stack.stackSize;
+			playerIn.getHeldItem(hand).shrink(1);
 			return EnumActionResult.SUCCESS;
 		}
 

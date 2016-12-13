@@ -11,6 +11,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.MoverType;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -26,6 +27,7 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
@@ -52,12 +54,12 @@ public class EntityExtruder extends Entity implements IEntityAdditionalSpawnData
 	public float extrusionCounter;
 
 	private static final DataParameter<String> CUSTOM_NAME = EntityDataManager.createKey(EntityExtruder.class, DataSerializers.STRING);
-	private static final DataParameter<Integer> TIME_SINCE_HIT = EntityDataManager.<Integer> createKey(EntityExtruder.class, DataSerializers.VARINT);
-	private static final DataParameter<Integer> FORWARD_DIRECTION = EntityDataManager.<Integer> createKey(EntityExtruder.class, DataSerializers.VARINT);
-	private static final DataParameter<Integer> FUEL_AMOUNT = EntityDataManager.<Integer> createKey(EntityExtruder.class, DataSerializers.VARINT);
-	private static final DataParameter<Float> DAMAGE_TAKEN = EntityDataManager.<Float> createKey(EntityExtruder.class, DataSerializers.FLOAT);
-	private static final DataParameter<Float> EXTRUSION_WAVE = EntityDataManager.<Float> createKey(EntityExtruder.class, DataSerializers.FLOAT);
-	private static final DataParameter<Boolean> IS_RUNNING = EntityDataManager.<Boolean> createKey(EntityExtruder.class, DataSerializers.BOOLEAN);
+	private static final DataParameter<Integer> TIME_SINCE_HIT = EntityDataManager.<Integer>createKey(EntityExtruder.class, DataSerializers.VARINT);
+	private static final DataParameter<Integer> FORWARD_DIRECTION = EntityDataManager.<Integer>createKey(EntityExtruder.class, DataSerializers.VARINT);
+	private static final DataParameter<Integer> FUEL_AMOUNT = EntityDataManager.<Integer>createKey(EntityExtruder.class, DataSerializers.VARINT);
+	private static final DataParameter<Float> DAMAGE_TAKEN = EntityDataManager.<Float>createKey(EntityExtruder.class, DataSerializers.FLOAT);
+	private static final DataParameter<Float> EXTRUSION_WAVE = EntityDataManager.<Float>createKey(EntityExtruder.class, DataSerializers.FLOAT);
+	private static final DataParameter<Boolean> IS_RUNNING = EntityDataManager.<Boolean>createKey(EntityExtruder.class, DataSerializers.BOOLEAN);
 
 	public EntityExtruder(World worldIn) {
 		super(worldIn);
@@ -109,7 +111,7 @@ public class EntityExtruder extends Entity implements IEntityAdditionalSpawnData
 		BlockPos pos = this.getPosition();
 		pos = pos.offset(getFacing());
 
-		IBlockState state = worldObj.getBlockState(pos);
+		IBlockState state = world.getBlockState(pos);
 
 		if (!(state.getBlock() == Blocks.OBSIDIAN || state.getBlock() == Blocks.BEDROCK)) {
 			if (this.getFuelAmount() <= 0) {
@@ -147,19 +149,19 @@ public class EntityExtruder extends Entity implements IEntityAdditionalSpawnData
 						this.extruderInv.addToMinedInventory(new ItemStack(item, amount, meta));
 					}
 
-					if (!this.worldObj.isRemote) {
-						this.worldObj.setBlockToAir(pos);
-						this.worldObj.notifyBlockOfStateChange(pos, Blocks.AIR);
+					if (!this.world.isRemote) {
+						this.world.setBlockToAir(pos);
+						this.world.notifyNeighborsOfStateChange(pos, Blocks.AIR, true);
 					}
 					this.setFuelAmount(this.getFuelAmount() - IndustryConfig.fuelPerMinedBlock);
 				}
 
 				int prevX = this.getPosition().getX();
 				// Gets Y without 0.5 tacked on
-				int prevY = MathHelper.floor_double(this.getPositionVector().yCoord);
+				int prevY = MathHelper.floor(this.getPositionVector().yCoord);
 				int prevZ = this.getPosition().getZ();
 
-				if (!worldObj.isRemote) {
+				if (!world.isRemote) {
 
 					int xOff = 0;
 					int yOff = 0;
@@ -186,13 +188,13 @@ public class EntityExtruder extends Entity implements IEntityAdditionalSpawnData
 						break;
 					}
 
-					this.moveEntity(IndustryConfig.moveSpeed * speedModifier * xOff, IndustryConfig.moveSpeed * speedModifier * yOff, IndustryConfig.moveSpeed * speedModifier * zOff);
+					this.move(MoverType.SELF, IndustryConfig.moveSpeed * speedModifier * xOff, IndustryConfig.moveSpeed * speedModifier * yOff, IndustryConfig.moveSpeed * speedModifier * zOff);
 
 				}
 
-				int x = MathHelper.floor_double(posX);
-				int y = MathHelper.floor_double(posY);
-				int z = MathHelper.floor_double(posZ);
+				int x = MathHelper.floor(posX);
+				int y = MathHelper.floor(posY);
+				int z = MathHelper.floor(posZ);
 
 				if (x != prevX || y != prevY || z != prevZ) {
 					this.extrudeBlock(this.getPosition(), facing);
@@ -205,18 +207,18 @@ public class EntityExtruder extends Entity implements IEntityAdditionalSpawnData
 	public void extrudeBlock(BlockPos pos, EnumFacing facing) {
 		ItemStack itemstack = this.extruderInv.nextExtruderStack();
 
-		if (itemstack != null) {
+		if (!itemstack.isEmpty()) {
 			if (Block.getBlockFromItem(itemstack.getItem()) != null) {
 				this.setFuelAmount(this.getFuelAmount() - IndustryConfig.fuelPerExtrudedBlock);
-				if (!this.worldObj.isRemote) {
-					worldObj.setBlockState(pos.offset(facing.getOpposite()), Block.getBlockFromItem(itemstack.getItem()).getStateFromMeta(itemstack.getMetadata()));
+				if (!this.world.isRemote) {
+					world.setBlockState(pos.offset(facing.getOpposite()), Block.getBlockFromItem(itemstack.getItem()).getStateFromMeta(itemstack.getMetadata()));
 					SoundType soundType = Block.getBlockFromItem(itemstack.getItem()).getSoundType();
-					worldObj.playSound((EntityPlayer) null, pos.offset(facing.getOpposite()), soundType.getPlaceSound(), SoundCategory.BLOCKS, (soundType.getVolume() + 1.0F) / 2.0F, soundType.getPitch() * 0.8F);
+					world.playSound((EntityPlayer) null, pos.offset(facing.getOpposite()), soundType.getPlaceSound(), SoundCategory.BLOCKS, (soundType.getVolume() + 1.0F) / 2.0F, soundType.getPitch() * 0.8F);
 				}
 			} else {
-				EntityItem entityitem = new EntityItem(worldObj, posX, posY, posZ, itemstack);
-				if (!this.worldObj.isRemote)
-					worldObj.spawnEntityInWorld(entityitem);
+				EntityItem entityitem = new EntityItem(world, posX, posY, posZ, itemstack);
+				if (!this.world.isRemote)
+					world.spawnEntity(entityitem);
 			}
 		}
 	}
@@ -270,7 +272,7 @@ public class EntityExtruder extends Entity implements IEntityAdditionalSpawnData
 
 	@Override
 	public boolean attackEntityFrom(DamageSource source, float amount) {
-		if (this.worldObj.isRemote || this.isDead)
+		if (this.world.isRemote || this.isDead)
 			return true;
 
 		this.setIsRunning(!this.getIsRunning());
@@ -281,7 +283,7 @@ public class EntityExtruder extends Entity implements IEntityAdditionalSpawnData
 		boolean flag = source.getEntity() instanceof EntityPlayer && ((EntityPlayer) source.getEntity()).capabilities.isCreativeMode;
 
 		if (flag || this.getDamageTaken() > 40.0F) {
-			if (!flag && this.worldObj.getGameRules().getBoolean("doEntityDrops")) {
+			if (!flag && this.world.getGameRules().getBoolean("doEntityDrops")) {
 				dropItem(IndustryItems.extruder, 1);
 
 			}
@@ -302,9 +304,9 @@ public class EntityExtruder extends Entity implements IEntityAdditionalSpawnData
 
 	private void emptyItems() {
 		for (ItemStack stack : this.extruderInv.getExtruderContents()) {
-			if (stack != null && stack.getItem() != null) {
-				EntityItem entityitem = new EntityItem(worldObj, (float) posX, (float) posY, (float) posZ, stack);
-				worldObj.spawnEntityInWorld(entityitem);
+			if (!stack.isEmpty() && stack.getItem() != null) {
+				EntityItem entityitem = new EntityItem(world, (float) posX, (float) posY, (float) posZ, stack);
+				world.spawnEntity(entityitem);
 			}
 		}
 	}
@@ -321,9 +323,9 @@ public class EntityExtruder extends Entity implements IEntityAdditionalSpawnData
 	}
 
 	@Override
-	public EnumActionResult applyPlayerInteraction(EntityPlayer player, Vec3d vec, ItemStack stack, EnumHand hand) {
-		if (!player.worldObj.isRemote)
-			player.openGui(GrimPack.INSTANCE, PackGuiHandler.EXTRUDER_GUI_ID, player.worldObj, this.getPosition().getX(), this.getPosition().getY(), this.getPosition().getZ());
+	public EnumActionResult applyPlayerInteraction(EntityPlayer player, Vec3d vec, EnumHand hand) {
+		if (!player.world.isRemote)
+			player.openGui(GrimPack.INSTANCE, PackGuiHandler.EXTRUDER_GUI_ID, player.world, this.getPosition().getX(), this.getPosition().getY(), this.getPosition().getZ());
 
 		return EnumActionResult.SUCCESS;
 	}
@@ -444,14 +446,15 @@ public class EntityExtruder extends Entity implements IEntityAdditionalSpawnData
 		}
 
 		NBTTagList nbttaglist = compound.getTagList("Items", 10);
-		this.extruderInv.setExtruderContents(new ItemStack[extruderInv.getSizeInventory()]);
+
+		this.extruderInv.setExtruderContents(NonNullList.withSize(37, ItemStack.EMPTY));
 
 		for (int i = 0; i < nbttaglist.tagCount(); ++i) {
 			NBTTagCompound nbttagcompound = nbttaglist.getCompoundTagAt(i);
 			int j = nbttagcompound.getByte("Slot");
 
-			if (j >= 0 && j < this.extruderInv.getExtruderContents().length) {
-				this.extruderInv.getExtruderContents()[j] = ItemStack.loadItemStackFromNBT(nbttagcompound);
+			if (j >= 0 && j < this.extruderInv.getExtruderContents().size()) {
+				this.extruderInv.getExtruderContents().set(j, new ItemStack(nbttagcompound));
 			}
 		}
 	}
@@ -470,11 +473,11 @@ public class EntityExtruder extends Entity implements IEntityAdditionalSpawnData
 
 		NBTTagList nbttaglist = new NBTTagList();
 
-		for (int i = 0; i < this.extruderInv.getExtruderContents().length; ++i) {
-			if (this.extruderInv.getExtruderContents()[i] != null) {
+		for (int i = 0; i < this.extruderInv.getExtruderContents().size(); ++i) {
+			if (!this.extruderInv.getExtruderContents().get(i).isEmpty()) {
 				NBTTagCompound nbttagcompound = new NBTTagCompound();
 				nbttagcompound.setByte("Slot", (byte) i);
-				this.extruderInv.getExtruderContents()[i].writeToNBT(nbttagcompound);
+				this.extruderInv.getExtruderContents().get(i).writeToNBT(nbttagcompound);
 				nbttaglist.appendTag(nbttagcompound);
 			}
 		}

@@ -34,7 +34,7 @@ public class BlockToggleRack extends BlockManual {
 	}
 
 	@Override
-	public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block neighborBlock) {
+	public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block neighborBlock, BlockPos fromPos) {
 		if (!worldIn.isRemote) {
 			if (!worldIn.isBlockPowered(pos)) {
 				worldIn.scheduleUpdate(pos, this, 4);

@@ -5,7 +5,6 @@ import com.grim3212.mc.pack.core.manual.pages.Page;
 import com.grim3212.mc.pack.industry.client.ManualIndustry;
 import com.grim3212.mc.pack.industry.tile.TileEntitySensor;
 
-import net.minecraft.block.BlockPistonBase;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.EnumPushReaction;
@@ -73,7 +72,7 @@ public class BlockSensor extends BlockManual implements ITileEntityProvider {
 
 	@Override
 	public void onBlockPlacedBy(World worldIn, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack) {
-		worldIn.setBlockState(pos, state.withProperty(FACING, BlockPistonBase.getFacingFromEntity(pos, placer)), 2);
+		worldIn.setBlockState(pos, state.withProperty(FACING, EnumFacing.getDirectionFromEntityLiving(pos, placer)), 2);
 	}
 
 	@Override

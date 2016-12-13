@@ -8,6 +8,7 @@ import net.minecraft.init.Items;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextComponentTranslation;
@@ -23,7 +24,7 @@ public class InventoryExtruder implements IInventory {
 	 * 
 	 * Slot 10-37 : Extruder Mined contents
 	 */
-	private ItemStack[] extruderContents = new ItemStack[37];
+	private NonNullList<ItemStack> extruderContents = NonNullList.withSize(37, ItemStack.EMPTY);
 	public int contentHead = 1;
 
 	public InventoryExtruder(EntityExtruder extruder) {
@@ -51,32 +52,32 @@ public class InventoryExtruder implements IInventory {
 
 	@Override
 	public int getSizeInventory() {
-		return extruderContents.length;
+		return extruderContents.size();
 	}
 
 	@Override
 	public ItemStack getStackInSlot(int index) {
-		return extruderContents[index];
+		return extruderContents.get(index);
 	}
 
 	@Override
 	public ItemStack decrStackSize(int index, int count) {
-		if (this.extruderContents[index] != null) {
-			if (this.extruderContents[index].stackSize <= count) {
-				ItemStack itemstack1 = this.extruderContents[index];
-				this.extruderContents[index] = null;
+		if (!this.extruderContents.get(index).isEmpty()) {
+			if (this.extruderContents.get(index).getCount() <= count) {
+				ItemStack itemstack1 = this.extruderContents.get(index);
+				this.extruderContents.set(index, ItemStack.EMPTY);
 				return itemstack1;
 			} else {
-				ItemStack itemstack = this.extruderContents[index].splitStack(count);
+				ItemStack itemstack = this.extruderContents.get(index).splitStack(count);
 
-				if (this.extruderContents[index].stackSize == 0) {
-					this.extruderContents[index] = null;
+				if (this.extruderContents.get(index).getCount() == 0) {
+					this.extruderContents.set(index, ItemStack.EMPTY);
 				}
 
 				return itemstack;
 			}
 		} else {
-			return null;
+			return ItemStack.EMPTY;
 		}
 	}
 
@@ -85,36 +86,36 @@ public class InventoryExtruder implements IInventory {
 		if (contentHead >= 10) {
 			contentHead = 1;
 		}
-		ItemStack itemstack = extruderContents[slot];
-		if (itemstack != null) {
+		ItemStack itemstack = extruderContents.get(slot);
+		if (!itemstack.isEmpty()) {
 			if (itemstack.getItem() == Item.getItemFromBlock(Blocks.OBSIDIAN)) {
 				contentHead = 2;
 				slot = 1;
 			}
-			
+
 			return decrStackSize(slot, 1);
 		} else {
-			return null;
+			return ItemStack.EMPTY;
 		}
 	}
 
 	@Override
 	public ItemStack removeStackFromSlot(int index) {
-		if (this.extruderContents[index] != null) {
-			ItemStack itemstack = this.extruderContents[index];
-			this.extruderContents[index] = null;
+		if (!this.extruderContents.get(index).isEmpty()) {
+			ItemStack itemstack = this.extruderContents.get(index);
+			this.extruderContents.set(index, ItemStack.EMPTY);
 			return itemstack;
 		} else {
-			return null;
+			return ItemStack.EMPTY;
 		}
 	}
 
 	@Override
 	public void setInventorySlotContents(int index, ItemStack stack) {
-		this.extruderContents[index] = stack;
+		this.extruderContents.set(index, stack);
 
-		if (stack != null && stack.stackSize > this.getInventoryStackLimit()) {
-			stack.stackSize = this.getInventoryStackLimit();
+		if (!stack.isEmpty() && stack.getCount() > this.getInventoryStackLimit()) {
+			stack.setCount(this.getInventoryStackLimit());
 		}
 	}
 
@@ -128,7 +129,7 @@ public class InventoryExtruder implements IInventory {
 	}
 
 	@Override
-	public boolean isUseableByPlayer(EntityPlayer player) {
+	public boolean isUsableByPlayer(EntityPlayer player) {
 		return player.getDistanceSqToEntity(extruder) <= 64.0D;
 	}
 
@@ -169,20 +170,20 @@ public class InventoryExtruder implements IInventory {
 
 	@Override
 	public void clear() {
-		for (int i = 0; i < this.extruderContents.length; i++) {
-			this.extruderContents[i] = null;
+		for (int i = 0; i < this.extruderContents.size(); i++) {
+			this.extruderContents.set(i, ItemStack.EMPTY);
 		}
 	}
 
-	public ItemStack[] getExtruderContents() {
+	public NonNullList<ItemStack> getExtruderContents() {
 		return extruderContents;
 	}
-	
+
 	public int getExtruderSlotStackSize(int index) {
-		return this.extruderContents[index].stackSize;
+		return this.extruderContents.get(index).getCount();
 	}
 
-	public void setExtruderContents(ItemStack[] extruderContents) {
+	public void setExtruderContents(NonNullList<ItemStack> extruderContents) {
 		this.extruderContents = extruderContents;
 	}
 
@@ -193,15 +194,26 @@ public class InventoryExtruder implements IInventory {
 				break;
 			}
 			ItemStack itemstack1 = getStackInSlot(slot);
-			if (itemstack1 == null) {
+			if (itemstack1.isEmpty()) {
 				setInventorySlotContents(slot, itemstack);
 				break;
 			}
-			if (ItemStack.areItemsEqual(itemstack1, itemstack) && itemstack1.stackSize < getInventoryStackLimit()) {
-				itemstack1.stackSize++;
+			if (ItemStack.areItemsEqual(itemstack1, itemstack) && itemstack1.getCount() < getInventoryStackLimit()) {
+				itemstack1.grow(1);
 				break;
 			}
 			slot++;
 		} while (true);
+	}
+
+	@Override
+	public boolean isEmpty() {
+		for (ItemStack itemstack : this.extruderContents) {
+			if (!itemstack.isEmpty()) {
+				return false;
+			}
+		}
+
+		return true;
 	}
 }

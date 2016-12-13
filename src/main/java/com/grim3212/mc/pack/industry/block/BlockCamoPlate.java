@@ -35,6 +35,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
@@ -134,7 +135,7 @@ public class BlockCamoPlate extends BlockPressurePlate implements ITileEntityPro
 	}
 
 	@Override
-	public void getSubBlocks(Item itemIn, CreativeTabs tab, List<ItemStack> list) {
+	public void getSubBlocks(Item itemIn, CreativeTabs tab, NonNullList<ItemStack> list) {
 		ItemStack itemstack = new ItemStack(this);
 		NBTHelper.setString(itemstack, "registryName", Block.REGISTRY.getNameForObject(Blocks.AIR).toString());
 		NBTHelper.setInteger(itemstack, "meta", 0);

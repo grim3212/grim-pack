@@ -12,7 +12,6 @@ import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.SoundCategory;
@@ -45,13 +44,13 @@ public class BlockNuclearReactor extends BlockManual {
 	}
 
 	@Override
-	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ) {
+	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
 		if (worldIn.isRemote) {
 			return true;
 		} else {
 			worldIn.setBlockState(pos, state.cycleProperty(ACTIVE));
 			worldIn.playSound((EntityPlayer) null, pos, SoundEvents.BLOCK_STONE_BUTTON_CLICK_ON, SoundCategory.BLOCKS, 0.3F, state.getValue(ACTIVE) ? 0.6F : 0.5F);
-			worldIn.notifyNeighborsOfStateChange(pos, this);
+			worldIn.notifyNeighborsOfStateChange(pos, this, true);
 			return true;
 		}
 	}
@@ -59,7 +58,7 @@ public class BlockNuclearReactor extends BlockManual {
 	@Override
 	public void breakBlock(World worldIn, BlockPos pos, IBlockState state) {
 		if ((Boolean) state.getValue(ACTIVE)) {
-			worldIn.notifyNeighborsOfStateChange(pos, this);
+			worldIn.notifyNeighborsOfStateChange(pos, this, true);
 		}
 
 		super.breakBlock(worldIn, pos, state);

@@ -49,7 +49,7 @@ public class BlockGravity extends BlockManual implements ITileEntityProvider {
 	}
 
 	@Override
-	public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn) {
+	public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos) {
 		updateGravitor(worldIn, pos);
 	}
 

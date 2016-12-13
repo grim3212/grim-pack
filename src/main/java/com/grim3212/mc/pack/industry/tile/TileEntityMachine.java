@@ -31,7 +31,7 @@ public class TileEntityMachine extends TileEntityLockable implements ISidedInven
 	/**
 	 * The ItemStacks that hold the items currently being used in the inventory
 	 */
-	private ItemStack[] itemstacks = new ItemStack[2];
+	private ItemStack[] itemstacks = new ItemStack[] { ItemStack.EMPTY, ItemStack.EMPTY };
 
 	private int runTime;
 	private int totalRunTime;
@@ -75,22 +75,22 @@ public class TileEntityMachine extends TileEntityLockable implements ISidedInven
 	 */
 	@Override
 	public ItemStack decrStackSize(int index, int count) {
-		if (this.itemstacks[index] != null) {
-			if (this.itemstacks[index].stackSize <= count) {
+		if (!this.itemstacks[index].isEmpty()) {
+			if (this.itemstacks[index].getCount() <= count) {
 				ItemStack itemstack1 = this.itemstacks[index];
-				this.itemstacks[index] = null;
+				this.itemstacks[index] = ItemStack.EMPTY;
 				return itemstack1;
 			} else {
 				ItemStack itemstack = this.itemstacks[index].splitStack(count);
 
-				if (this.itemstacks[index].stackSize == 0) {
-					this.itemstacks[index] = null;
+				if (this.itemstacks[index].getCount() == 0) {
+					this.itemstacks[index] = ItemStack.EMPTY;
 				}
 
 				return itemstack;
 			}
 		} else {
-			return null;
+			return ItemStack.EMPTY;
 		}
 	}
 
@@ -99,12 +99,12 @@ public class TileEntityMachine extends TileEntityLockable implements ISidedInven
 	 */
 	@Override
 	public ItemStack removeStackFromSlot(int index) {
-		if (this.itemstacks[index] != null) {
+		if (!this.itemstacks[index].isEmpty()) {
 			ItemStack itemstack = this.itemstacks[index];
-			this.itemstacks[index] = null;
+			this.itemstacks[index] = ItemStack.EMPTY;
 			return itemstack;
 		} else {
-			return null;
+			return ItemStack.EMPTY;
 		}
 	}
 
@@ -114,11 +114,11 @@ public class TileEntityMachine extends TileEntityLockable implements ISidedInven
 	 */
 	@Override
 	public void setInventorySlotContents(int index, ItemStack stack) {
-		boolean flag = stack != null && stack.isItemEqual(this.itemstacks[index]) && ItemStack.areItemStackTagsEqual(stack, this.itemstacks[index]);
+		boolean flag = !stack.isEmpty() && stack.isItemEqual(this.itemstacks[index]) && ItemStack.areItemStackTagsEqual(stack, this.itemstacks[index]);
 		this.itemstacks[index] = stack;
 
-		if (stack != null && stack.stackSize > this.getInventoryStackLimit()) {
-			stack.stackSize = this.getInventoryStackLimit();
+		if (!stack.isEmpty() && stack.getCount() > this.getInventoryStackLimit()) {
+			stack.setCount(this.getInventoryStackLimit());
 		}
 
 		if (index == 0 && !flag) {
@@ -155,7 +155,7 @@ public class TileEntityMachine extends TileEntityLockable implements ISidedInven
 			int j = nbttagcompound.getByte("Slot");
 
 			if (j >= 0 && j < this.itemstacks.length) {
-				this.itemstacks[j] = ItemStack.loadItemStackFromNBT(nbttagcompound);
+				this.itemstacks[j] = new ItemStack(nbttagcompound);
 			}
 		}
 
@@ -177,7 +177,7 @@ public class TileEntityMachine extends TileEntityLockable implements ISidedInven
 		NBTTagList nbttaglist = new NBTTagList();
 
 		for (int i = 0; i < this.itemstacks.length; ++i) {
-			if (this.itemstacks[i] != null) {
+			if (!this.itemstacks[i].isEmpty()) {
 				NBTTagCompound nbttagcompound = new NBTTagCompound();
 				nbttagcompound.setByte("Slot", (byte) i);
 				this.itemstacks[i].writeToNBT(nbttagcompound);
@@ -210,7 +210,7 @@ public class TileEntityMachine extends TileEntityLockable implements ISidedInven
 	public void update() {
 		boolean flag1 = false;
 
-		if (!this.worldObj.isRemote) {
+		if (!this.world.isRemote) {
 
 			if (this.getMachineType() == MachineType.REFINERY) {
 				if (this.getWorld().getBlockState(getPos()).getValue(BlockRefinery.ACTIVE) != isWorking()) {
@@ -218,14 +218,14 @@ public class TileEntityMachine extends TileEntityLockable implements ISidedInven
 				}
 			}
 
-			if (this.itemstacks[0] != null) {
+			if (!this.itemstacks[0].isEmpty()) {
 				if (this.canChange()) {
 					flag1 = true;
 
-					if (this.itemstacks[0] != null && this.runTime == this.totalRunTime) {
-						--this.itemstacks[0].stackSize;
+					if (!this.itemstacks[0].isEmpty() && this.runTime == this.totalRunTime) {
+						this.itemstacks[0].shrink(1);
 
-						if (this.itemstacks[0].stackSize == 0) {
+						if (this.itemstacks[0].getCount() == 0) {
 							this.itemstacks[0] = itemstacks[0].getItem().getContainerItem(itemstacks[0]);
 						}
 					}
@@ -260,17 +260,17 @@ public class TileEntityMachine extends TileEntityLockable implements ISidedInven
 	 * destination stack isn't full, etc.
 	 */
 	private boolean canChange() {
-		if (this.itemstacks[0] == null) {
+		if (this.itemstacks[0].isEmpty()) {
 			return false;
 		} else {
 			ItemStack itemstack = MachineRecipes.INSTANCE.getResult(this.itemstacks[0], machineType);
-			if (itemstack == null)
+			if (itemstack.isEmpty())
 				return false;
-			if (this.itemstacks[1] == null)
+			if (this.itemstacks[1].isEmpty())
 				return true;
 			if (!this.itemstacks[1].isItemEqual(itemstack))
 				return false;
-			int result = itemstacks[1].stackSize + itemstack.stackSize;
+			int result = itemstacks[1].getCount() + itemstack.getCount();
 			return result <= getInventoryStackLimit() && result <= this.itemstacks[1].getMaxStackSize();
 		}
 	}
@@ -283,16 +283,16 @@ public class TileEntityMachine extends TileEntityLockable implements ISidedInven
 		if (this.canChange()) {
 			ItemStack itemstack = MachineRecipes.INSTANCE.getResult(this.itemstacks[0], machineType);
 
-			if (this.itemstacks[1] == null) {
+			if (this.itemstacks[1].isEmpty()) {
 				this.itemstacks[1] = itemstack.copy();
 			} else if (this.itemstacks[1].getItem() == itemstack.getItem()) {
-				this.itemstacks[1].stackSize += itemstack.stackSize;
+				this.itemstacks[1].setCount(this.itemstacks[1].getCount() + itemstack.getCount());
 			}
 
-			--this.itemstacks[0].stackSize;
+			this.itemstacks[0].shrink(1);
 
-			if (this.itemstacks[0].stackSize <= 0) {
-				this.itemstacks[0] = null;
+			if (this.itemstacks[0].getCount() <= 0) {
+				this.itemstacks[0] = ItemStack.EMPTY;
 			}
 		}
 	}
@@ -302,8 +302,8 @@ public class TileEntityMachine extends TileEntityLockable implements ISidedInven
 	 * with Container
 	 */
 	@Override
-	public boolean isUseableByPlayer(EntityPlayer player) {
-		return this.worldObj.getTileEntity(this.pos) != this ? false : player.getDistanceSq((double) this.pos.getX() + 0.5D, (double) this.pos.getY() + 0.5D, (double) this.pos.getZ() + 0.5D) <= 64.0D;
+	public boolean isUsableByPlayer(EntityPlayer player) {
+		return this.world.getTileEntity(this.pos) != this ? false : player.getDistanceSq((double) this.pos.getX() + 0.5D, (double) this.pos.getY() + 0.5D, (double) this.pos.getZ() + 0.5D) <= 64.0D;
 	}
 
 	@Override
@@ -429,5 +429,16 @@ public class TileEntityMachine extends TileEntityLockable implements ISidedInven
 	@Override
 	public void handleUpdateTag(NBTTagCompound tag) {
 		readFromNBT(tag);
+	}
+
+	@Override
+	public boolean isEmpty() {
+		for (ItemStack itemstack : this.itemstacks) {
+			if (!itemstack.isEmpty()) {
+				return false;
+			}
+		}
+
+		return true;
 	}
 }

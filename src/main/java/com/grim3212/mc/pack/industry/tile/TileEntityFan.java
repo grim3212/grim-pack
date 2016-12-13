@@ -39,7 +39,7 @@ public class TileEntityFan extends TileEntity implements ITickable {
 
 	@Override
 	public void update() {
-		IBlockState state = worldObj.getBlockState(pos);
+		IBlockState state = world.getBlockState(pos);
 
 		if (mode != FanMode.OFF) {
 
@@ -61,7 +61,7 @@ public class TileEntityFan extends TileEntity implements ITickable {
 						j1--;
 						break;
 					}
-					if (!getIsPassable(worldObj.getBlockState(pos.up(j1)))) {
+					if (!getIsPassable(world.getBlockState(pos.up(j1)))) {
 						j1--;
 						break;
 					}
@@ -76,7 +76,7 @@ public class TileEntityFan extends TileEntity implements ITickable {
 						j1++;
 						break;
 					}
-					if (!getIsPassable(worldObj.getBlockState(pos.up(j1)))) {
+					if (!getIsPassable(world.getBlockState(pos.up(j1)))) {
 						j1++;
 						break;
 					}
@@ -91,7 +91,7 @@ public class TileEntityFan extends TileEntity implements ITickable {
 						k1++;
 						break;
 					}
-					if (!getIsPassable(worldObj.getBlockState(pos.south(k1)))) {
+					if (!getIsPassable(world.getBlockState(pos.south(k1)))) {
 						k1++;
 						break;
 					}
@@ -106,7 +106,7 @@ public class TileEntityFan extends TileEntity implements ITickable {
 						k1--;
 						break;
 					}
-					if (!getIsPassable(worldObj.getBlockState(pos.south(k1)))) {
+					if (!getIsPassable(world.getBlockState(pos.south(k1)))) {
 						k1--;
 						break;
 					}
@@ -121,7 +121,7 @@ public class TileEntityFan extends TileEntity implements ITickable {
 						i1++;
 						break;
 					}
-					if (!getIsPassable(worldObj.getBlockState(pos.east(i1)))) {
+					if (!getIsPassable(world.getBlockState(pos.east(i1)))) {
 						i1++;
 						break;
 					}
@@ -136,7 +136,7 @@ public class TileEntityFan extends TileEntity implements ITickable {
 						i1--;
 						break;
 					}
-					if (!getIsPassable(worldObj.getBlockState(pos.east(i1)))) {
+					if (!getIsPassable(world.getBlockState(pos.east(i1)))) {
 						i1--;
 						break;
 					}
@@ -150,7 +150,7 @@ public class TileEntityFan extends TileEntity implements ITickable {
 				ko *= -1;
 			}
 
-			List<Entity> list = worldObj.getEntitiesWithinAABB(Entity.class, state.getCollisionBoundingBox(worldObj, pos).offset(pos).addCoord(i1, j1, k1));
+			List<Entity> list = world.getEntitiesWithinAABB(Entity.class, state.getCollisionBoundingBox(world, pos).offset(pos).addCoord(i1, j1, k1));
 			Iterator<Entity> iterator = list.iterator();
 			do {
 				if (!iterator.hasNext()) {
@@ -172,17 +172,17 @@ public class TileEntityFan extends TileEntity implements ITickable {
 				}
 			} while (true);
 
-			if (worldObj.isRemote) {
+			if (world.isRemote) {
 				if (IndustryConfig.showFanParticles) {
 					BlockPos particlePos = pos.offset(facing);
 
 					if (mode == FanMode.BLOW) {
 						for (int ii = 1; ii <= range / 4 + 1; ii++) {
-							GrimIndustry.proxy.airParticles(worldObj, particlePos.getX() + rand.nextDouble(), particlePos.getY() + rand.nextDouble(), particlePos.getZ() + rand.nextDouble(), io, jo, ko, this);
+							GrimIndustry.proxy.airParticles(world, particlePos.getX() + rand.nextDouble(), particlePos.getY() + rand.nextDouble(), particlePos.getZ() + rand.nextDouble(), io, jo, ko, this);
 						}
 					} else if (mode == FanMode.SUCK) {
 						for (int ii = 1; ii <= range / 4 + 1; ii++) {
-							GrimIndustry.proxy.airParticles(worldObj, particlePos.getX() + rand.nextDouble() + (i1 * rand.nextDouble()), particlePos.getY() + rand.nextDouble() + (j1 * rand.nextDouble()), particlePos.getZ() + rand.nextDouble() + (k1 * rand.nextDouble()), io, jo, ko, this);
+							GrimIndustry.proxy.airParticles(world, particlePos.getX() + rand.nextDouble() + (i1 * rand.nextDouble()), particlePos.getY() + rand.nextDouble() + (j1 * rand.nextDouble()), particlePos.getZ() + rand.nextDouble() + (k1 * rand.nextDouble()), io, jo, ko, this);
 						}
 					}
 				}

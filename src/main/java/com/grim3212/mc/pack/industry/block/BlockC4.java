@@ -19,7 +19,7 @@ public class BlockC4 extends BlockManual {
 	}
 
 	@Override
-	public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn) {
+	public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos) {
 		if (worldIn.isBlockPowered(pos)) {
 			worldIn.setBlockToAir(pos);
 			worldIn.createExplosion(null, pos.getX(), pos.getY(), pos.getZ(), 7F, true);

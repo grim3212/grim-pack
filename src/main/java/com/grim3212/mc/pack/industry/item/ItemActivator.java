@@ -36,11 +36,12 @@ public class ItemActivator extends ItemManual {
 
 	@Override
 	@SuppressWarnings("incomplete-switch")
-	public ActionResult<ItemStack> onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn, EnumHand hand) {
-		int x = MathHelper.floor_double(playerIn.posX);
-		int y = MathHelper.floor_double(playerIn.posY);
-		int z = MathHelper.floor_double(playerIn.posZ);
+	public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand hand) {
+		int x = MathHelper.floor(playerIn.posX);
+		int y = MathHelper.floor(playerIn.posY);
+		int z = MathHelper.floor(playerIn.posZ);
 
+		ItemStack itemStackIn = playerIn.getHeldItem(hand);
 		Block activationBlock = null;
 		if (itemStackIn.getItem() == IndustryItems.garage_remote) {
 			activationBlock = IndustryBlocks.garage;
@@ -57,7 +58,7 @@ public class ItemActivator extends ItemManual {
 					if (worldIn.getBlockState(pos).getBlock() instanceof BlockGate && worldIn.getBlockState(pos).getBlock() == activationBlock) {
 						EnumFacing facing = (EnumFacing) worldIn.getBlockState(pos).getValue(BlockGate.FACING);
 						BlockGate gate = (BlockGate) worldIn.getBlockState(pos).getBlock();
-						gate.onBlockActivated(worldIn, pos, worldIn.getBlockState(pos), playerIn, hand, itemStackIn, facing, 1, 1, 1);
+						gate.onBlockActivated(worldIn, pos, worldIn.getBlockState(pos), playerIn, hand, facing, 1, 1, 1);
 						return ActionResult.newResult(EnumActionResult.SUCCESS, itemStackIn);
 					}
 				}
@@ -72,7 +73,7 @@ public class ItemActivator extends ItemManual {
 					if (worldIn.getBlockState(pos).getBlock() instanceof BlockGate && worldIn.getBlockState(pos).getBlock() == activationBlock) {
 						EnumFacing facing = (EnumFacing) worldIn.getBlockState(pos).getValue(BlockGate.FACING);
 						BlockGate gate = (BlockGate) worldIn.getBlockState(pos).getBlock();
-						gate.onBlockActivated(worldIn, pos, worldIn.getBlockState(pos), playerIn, hand, itemStackIn, facing, 1, 1, 1);
+						gate.onBlockActivated(worldIn, pos, worldIn.getBlockState(pos), playerIn, hand, facing, 1, 1, 1);
 						return ActionResult.newResult(EnumActionResult.SUCCESS, itemStackIn);
 					}
 				}
@@ -87,7 +88,7 @@ public class ItemActivator extends ItemManual {
 					if (worldIn.getBlockState(pos).getBlock() instanceof BlockGate && worldIn.getBlockState(pos).getBlock() == activationBlock) {
 						EnumFacing facing = (EnumFacing) worldIn.getBlockState(pos).getValue(BlockGate.FACING);
 						BlockGate gate = (BlockGate) worldIn.getBlockState(pos).getBlock();
-						gate.onBlockActivated(worldIn, pos, worldIn.getBlockState(pos), playerIn, hand, itemStackIn, facing, 1, 1, 1);
+						gate.onBlockActivated(worldIn, pos, worldIn.getBlockState(pos), playerIn, hand, facing, 1, 1, 1);
 						return ActionResult.newResult(EnumActionResult.SUCCESS, itemStackIn);
 					}
 				}
@@ -102,7 +103,7 @@ public class ItemActivator extends ItemManual {
 					if (worldIn.getBlockState(pos).getBlock() instanceof BlockGate && worldIn.getBlockState(pos).getBlock() == activationBlock) {
 						EnumFacing facing = (EnumFacing) worldIn.getBlockState(pos).getValue(BlockGate.FACING);
 						BlockGate gate = (BlockGate) worldIn.getBlockState(pos).getBlock();
-						gate.onBlockActivated(worldIn, pos, worldIn.getBlockState(pos), playerIn, hand, itemStackIn, facing, 1, 1, 1);
+						gate.onBlockActivated(worldIn, pos, worldIn.getBlockState(pos), playerIn, hand, facing, 1, 1, 1);
 						return ActionResult.newResult(EnumActionResult.SUCCESS, itemStackIn);
 					}
 				}

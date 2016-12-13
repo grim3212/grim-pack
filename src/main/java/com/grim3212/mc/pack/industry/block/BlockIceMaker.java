@@ -79,7 +79,7 @@ public class BlockIceMaker extends BlockManual {
 
 	@Override
 	public void onBlockClicked(World worldIn, BlockPos pos, EntityPlayer playerIn) {
-		if (((Integer) worldIn.getBlockState(pos).getValue(STAGE)) == 15) {
+		if (worldIn.getBlockState(pos).getValue(STAGE) == 15) {
 			if (!worldIn.isRemote) {
 				worldIn.setBlockState(pos, getDefaultState(), 2);
 				float f = 0.7F;
@@ -88,14 +88,16 @@ public class BlockIceMaker extends BlockManual {
 				double d2 = (double) (worldIn.rand.nextFloat() * f) + (double) (1.0F - f) * 0.5D;
 				EntityItem entityitem = new EntityItem(worldIn, (double) pos.getX() + d, (double) pos.getY() + d1, (double) pos.getZ() + d2, new ItemStack(Blocks.ICE, worldIn.rand.nextInt(5) + 2));
 				entityitem.setPickupDelay(5);
-				worldIn.spawnEntityInWorld(entityitem);
+				worldIn.spawnEntity(entityitem);
 			}
 		}
 	}
 
 	@Override
-	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ) {
-		if (heldItem == null) {
+	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
+		ItemStack heldItem = playerIn.getHeldItem(hand);
+
+		if (heldItem.isEmpty()) {
 			return false;
 		}
 
@@ -109,7 +111,8 @@ public class BlockIceMaker extends BlockManual {
 			if (state.getValue(STAGE) == 0) {
 				IFluidHandler fluidBucket = Utils.getFluidHandler(heldItem);
 				FluidStack fluid = fluidBucket.drain(Fluid.BUCKET_VOLUME, false);
-				// Make sure FluidStack itself is not null or it leads to problems
+				// Make sure FluidStack itself is not null or it leads to
+				// problems
 				if (fluid != null) {
 					if (fluid.getFluid() != null && fluid.getFluid() == FluidRegistry.WATER) {
 						worldIn.setBlockState(pos, state.withProperty(STAGE, 1), 2);

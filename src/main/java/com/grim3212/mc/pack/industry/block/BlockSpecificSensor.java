@@ -37,12 +37,13 @@ public class BlockSpecificSensor extends BlockManual implements ITileEntityProvi
 	}
 
 	@Override
-	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ) {
+	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
 		TileEntity te = worldIn.getTileEntity(pos);
 		if (te instanceof TileEntitySpecificSensor) {
 			TileEntitySpecificSensor teSpecific = (TileEntitySpecificSensor) te;
 
-			if (heldItem != null) {
+			ItemStack heldItem = playerIn.getHeldItem(hand);
+			if (!heldItem.isEmpty()) {
 				if (heldItem.getItem() == IndustryItems.position_finder) {
 					BlockPos coords = ((ItemPositionFinder) heldItem.getItem()).getCoords(heldItem);
 					if (coords != null) {

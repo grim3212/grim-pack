@@ -26,7 +26,7 @@ public class BlockElemental extends BlockManual {
 	}
 
 	@Override
-	public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn) {
+	public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos) {
 		if (!worldIn.isRemote) {
 			boolean isPowered = worldIn.isBlockPowered(pos);
 

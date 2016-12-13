@@ -55,7 +55,7 @@ public class TileEntitySensor extends TileEntity implements ITickable {
 					if (j1 < -15) {
 						break;
 					}
-					IBlockState block = worldObj.getBlockState(pos.up(j1));
+					IBlockState block = world.getBlockState(pos.up(j1));
 					if (isTraversable(block)) {
 						j1++;
 						break;
@@ -68,7 +68,7 @@ public class TileEntitySensor extends TileEntity implements ITickable {
 					if (j1 > 15) {
 						break;
 					}
-					IBlockState block = worldObj.getBlockState(pos.up(j1));
+					IBlockState block = world.getBlockState(pos.up(j1));
 					if (isTraversable(block)) {
 						j1--;
 						break;
@@ -81,7 +81,7 @@ public class TileEntitySensor extends TileEntity implements ITickable {
 					if (k1 < -15) {
 						break;
 					}
-					IBlockState j2 = worldObj.getBlockState(pos.south(k1));
+					IBlockState j2 = world.getBlockState(pos.south(k1));
 					if (isTraversable(j2)) {
 						k1++;
 						break;
@@ -94,7 +94,7 @@ public class TileEntitySensor extends TileEntity implements ITickable {
 					if (k1 > 15) {
 						break;
 					}
-					IBlockState k2 = worldObj.getBlockState(pos.south(k1));
+					IBlockState k2 = world.getBlockState(pos.south(k1));
 					if (isTraversable(k2)) {
 						k1--;
 						break;
@@ -107,7 +107,7 @@ public class TileEntitySensor extends TileEntity implements ITickable {
 					if (i1 < -15) {
 						break;
 					}
-					IBlockState l2 = worldObj.getBlockState(pos.east(i1));
+					IBlockState l2 = world.getBlockState(pos.east(i1));
 					if (isTraversable(l2)) {
 						i1++;
 						break;
@@ -120,7 +120,7 @@ public class TileEntitySensor extends TileEntity implements ITickable {
 					if (i1 > 15) {
 						break;
 					}
-					IBlockState i3 = worldObj.getBlockState(pos.east(i1));
+					IBlockState i3 = world.getBlockState(pos.east(i1));
 					if (isTraversable(i3)) {
 						i1--;
 						break;
@@ -129,12 +129,12 @@ public class TileEntitySensor extends TileEntity implements ITickable {
 				} while (true);
 			}
 
-			List<Entity> list = worldObj.getEntitiesWithinAABB(triggerType, state.getCollisionBoundingBox(worldObj, pos).offset(pos).addCoord(i1, j1, k1));
+			List<Entity> list = world.getEntitiesWithinAABB(triggerType, state.getCollisionBoundingBox(world, pos).offset(pos).addCoord(i1, j1, k1));
 
 			if (list.isEmpty()) {
-				worldObj.setBlockState(pos, state.withProperty(BlockSensor.ACTIVE, false));
+				world.setBlockState(pos, state.withProperty(BlockSensor.ACTIVE, false));
 			} else if (!list.isEmpty() && !state.getValue(BlockSensor.ACTIVE)) {
-				worldObj.setBlockState(pos, state.withProperty(BlockSensor.ACTIVE, true));
+				world.setBlockState(pos, state.withProperty(BlockSensor.ACTIVE, true));
 			}
 		}
 	}

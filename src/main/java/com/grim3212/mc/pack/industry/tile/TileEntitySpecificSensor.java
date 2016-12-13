@@ -24,6 +24,7 @@ import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntityLockable;
 import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.ITickable;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -150,7 +151,7 @@ public class TileEntitySpecificSensor extends TileEntityLockable implements ITic
 		if (compatibleEntities.size() > 0) {
 			if (this.specific.hasSpecific(mode)) {
 				for (int i = 0; i < compatibleEntities.size(); i++) {
-					if (EntityList.isStringEntityName(compatibleEntities.get(i), this.specific.getEntityName())) {
+					if (EntityList.isMatchingName(compatibleEntities.get(i), new ResourceLocation(this.specific.getEntityName()))) {
 						return true;
 					}
 				}
@@ -329,17 +330,17 @@ public class TileEntitySpecificSensor extends TileEntityLockable implements ITic
 
 	@Override
 	public ItemStack getStackInSlot(int index) {
-		return null;
+		return ItemStack.EMPTY;
 	}
 
 	@Override
 	public ItemStack decrStackSize(int index, int count) {
-		return null;
+		return ItemStack.EMPTY;
 	}
 
 	@Override
 	public ItemStack removeStackFromSlot(int index) {
-		return null;
+		return ItemStack.EMPTY;
 	}
 
 	@Override
@@ -352,8 +353,8 @@ public class TileEntitySpecificSensor extends TileEntityLockable implements ITic
 	}
 
 	@Override
-	public boolean isUseableByPlayer(EntityPlayer player) {
-		return this.worldObj.getTileEntity(this.pos) != this ? false : player.getDistanceSq((double) this.pos.getX() + 0.5D, (double) this.pos.getY() + 0.5D, (double) this.pos.getZ() + 0.5D) <= 64.0D;
+	public boolean isUsableByPlayer(EntityPlayer player) {
+		return this.world.getTileEntity(this.pos) != this ? false : player.getDistanceSq((double) this.pos.getX() + 0.5D, (double) this.pos.getY() + 0.5D, (double) this.pos.getZ() + 0.5D) <= 64.0D;
 	}
 
 	@Override
@@ -413,5 +414,10 @@ public class TileEntitySpecificSensor extends TileEntityLockable implements ITic
 	@Override
 	public void handleUpdateTag(NBTTagCompound tag) {
 		readFromNBT(tag);
+	}
+
+	@Override
+	public boolean isEmpty() {
+		return true;
 	}
 }

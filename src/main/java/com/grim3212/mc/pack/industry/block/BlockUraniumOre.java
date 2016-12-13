@@ -26,29 +26,33 @@ public class BlockUraniumOre extends BlockManual {
 	public void onEntityCollidedWithBlock(World worldIn, BlockPos pos, IBlockState state, Entity entityIn) {
 
 		float damage = IndustryConfig.uraniumDamage;
-		float damageFraction = damage/4;
+		float damageFraction = damage / 4;
 		if (entityIn instanceof EntityPlayer) {
-			if (((EntityPlayer) entityIn).inventory.armorInventory[0] != null && ((EntityPlayer) entityIn).inventory.armorInventory[0].getItem() == IndustryItems.anti_radiation_boots) {
+			if (!((EntityPlayer) entityIn).inventory.armorInventory.get(0).isEmpty() && ((EntityPlayer) entityIn).inventory.armorInventory.get(0).getItem() == IndustryItems.anti_radiation_boots) {
 				damage = damage - damageFraction;
-				if (damage < 0) damage = 0;
+				if (damage < 0)
+					damage = 0;
 			}
-			if (((EntityPlayer) entityIn).inventory.armorInventory[1] != null && ((EntityPlayer) entityIn).inventory.armorInventory[1].getItem() == IndustryItems.anti_radiation_legs) {
-				//damage--;
+			if (!((EntityPlayer) entityIn).inventory.armorInventory.get(1).isEmpty() && ((EntityPlayer) entityIn).inventory.armorInventory.get(1).getItem() == IndustryItems.anti_radiation_legs) {
+				// damage--;
 				damage = damage - damageFraction;
-				if (damage < 0) damage = 0;
+				if (damage < 0)
+					damage = 0;
 			}
-			if (((EntityPlayer) entityIn).inventory.armorInventory[2] != null && ((EntityPlayer) entityIn).inventory.armorInventory[2].getItem() == IndustryItems.anti_radiation_chest) {
-				//damage--;
+			if (!((EntityPlayer) entityIn).inventory.armorInventory.get(2).isEmpty() && ((EntityPlayer) entityIn).inventory.armorInventory.get(2).getItem() == IndustryItems.anti_radiation_chest) {
+				// damage--;
 				damage = damage - damageFraction;
-				if (damage < 0) damage = 0;
+				if (damage < 0)
+					damage = 0;
 			}
-			if (((EntityPlayer) entityIn).inventory.armorInventory[3] != null && ((EntityPlayer) entityIn).inventory.armorInventory[3].getItem() == IndustryItems.anti_radiation_helmet) {
-				//damage--;
+			if (!((EntityPlayer) entityIn).inventory.armorInventory.get(3).isEmpty() && ((EntityPlayer) entityIn).inventory.armorInventory.get(3).getItem() == IndustryItems.anti_radiation_helmet) {
+				// damage--;
 				damage = damage - damageFraction;
-				if (damage < 0) damage = 0;
+				if (damage < 0)
+					damage = 0;
 			}
 			if (damage != 0) {
-				entityIn.attackEntityFrom(DamageSource.magic, damage);
+				entityIn.attackEntityFrom(DamageSource.MAGIC, damage);
 			}
 		} else {
 			if (damage != 0) {
@@ -58,35 +62,38 @@ public class BlockUraniumOre extends BlockManual {
 				worldIn.spawnParticle(EnumParticleTypes.REDSTONE, pos.getX() + 0.5D, pos.getY() + 1.75D, pos.getZ() + 0.5D, 0.0D, 4.0D, 0.0D, new int[0]);
 				worldIn.spawnParticle(EnumParticleTypes.REDSTONE, pos.getX() + 0.5D, pos.getY() + 2.0D, pos.getZ() + 0.5D, 0.0D, 4.0D, 0.0D, new int[0]);
 
-				entityIn.attackEntityFrom(DamageSource.magic, damage);
+				entityIn.attackEntityFrom(DamageSource.MAGIC, damage);
 			}
 		}
 	}
 
 	@Override
 	public void onBlockClicked(World worldIn, BlockPos pos, EntityPlayer playerIn) {
-
 		float damage = IndustryConfig.uraniumDamage;
-		float damageFraction = damage/4;
-		if (playerIn.inventory.armorInventory[3] != null && playerIn.inventory.armorInventory[3].getItem() == IndustryItems.anti_radiation_helmet) {
-			//damage--;
+		float damageFraction = damage / 4;
+		if (!playerIn.inventory.armorInventory.get(3).isEmpty() && playerIn.inventory.armorInventory.get(3).getItem() == IndustryItems.anti_radiation_helmet) {
+			// damage--;
 			damage = damage - damageFraction;
-			if (damage < 0) damage = 0;
+			if (damage < 0)
+				damage = 0;
 		}
-		if (playerIn.inventory.armorInventory[2] != null && playerIn.inventory.armorInventory[2].getItem() == IndustryItems.anti_radiation_chest) {
-			//damage--;
+		if (!playerIn.inventory.armorInventory.get(2).isEmpty() && playerIn.inventory.armorInventory.get(2).getItem() == IndustryItems.anti_radiation_chest) {
+			// damage--;
 			damage = damage - damageFraction;
-			if (damage < 0) damage = 0;
+			if (damage < 0)
+				damage = 0;
 		}
-		if (playerIn.inventory.armorInventory[1] != null && playerIn.inventory.armorInventory[1].getItem() == IndustryItems.anti_radiation_legs) {
-			//damage--;
+		if (!playerIn.inventory.armorInventory.get(1).isEmpty() && playerIn.inventory.armorInventory.get(1).getItem() == IndustryItems.anti_radiation_legs) {
+			// damage--;
 			damage = damage - damageFraction;
-			if (damage < 0) damage = 0;
+			if (damage < 0)
+				damage = 0;
 		}
-		if (playerIn.inventory.armorInventory[0] != null && playerIn.inventory.armorInventory[0].getItem() == IndustryItems.anti_radiation_boots) {
-			//damage--;
+		if (!playerIn.inventory.armorInventory.get(0).isEmpty() && playerIn.inventory.armorInventory.get(0).getItem() == IndustryItems.anti_radiation_boots) {
+			// damage--;
 			damage = damage - damageFraction;
-			if (damage < 0) damage = 0;
+			if (damage < 0)
+				damage = 0;
 		}
 		if (damage != 0) {
 			worldIn.spawnParticle(EnumParticleTypes.REDSTONE, pos.getX() + 0.5D, pos.getY() + 1.0D, pos.getZ() + 0.5D, 0.0D, 4.0D, 0.0D, new int[0]);
@@ -95,10 +102,10 @@ public class BlockUraniumOre extends BlockManual {
 			worldIn.spawnParticle(EnumParticleTypes.REDSTONE, pos.getX() + 0.5D, pos.getY() + 1.75D, pos.getZ() + 0.5D, 0.0D, 4.0D, 0.0D, new int[0]);
 			worldIn.spawnParticle(EnumParticleTypes.REDSTONE, pos.getX() + 0.5D, pos.getY() + 2.0D, pos.getZ() + 0.5D, 0.0D, 4.0D, 0.0D, new int[0]);
 
-			playerIn.attackEntityFrom(DamageSource.magic, damage);
+			playerIn.attackEntityFrom(DamageSource.MAGIC, damage);
 		}
 	}
-	
+
 	@Override
 	public Page getPage(IBlockState state) {
 		return ManualIndustry.uranium_page;

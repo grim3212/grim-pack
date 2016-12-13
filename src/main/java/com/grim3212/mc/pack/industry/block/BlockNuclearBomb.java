@@ -19,7 +19,7 @@ public class BlockNuclearBomb extends BlockManual {
 	}
 
 	@Override
-	public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn) {
+	public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos) {
 		if (worldIn.isBlockPowered(pos)) {
 			worldIn.setBlockToAir(pos);
 			worldIn.createExplosion(null, pos.getX(), pos.getY(), pos.getZ(), 50, true);
@@ -33,7 +33,7 @@ public class BlockNuclearBomb extends BlockManual {
 			worldIn.createExplosion(null, pos.getX(), pos.getY(), pos.getZ(), 50, true);
 		}
 	}
-	
+
 	@Override
 	public Page getPage(IBlockState state) {
 		return ManualIndustry.nuclearBomb_page;

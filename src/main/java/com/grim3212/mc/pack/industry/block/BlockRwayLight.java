@@ -21,7 +21,7 @@ public class BlockRwayLight extends BlockManual {
 	}
 
 	@Override
-	public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn) {
+	public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos) {
 		boolean powered = worldIn.isBlockPowered(pos) || worldIn.isBlockPowered(pos.up());
 		if (powered) {
 			worldIn.setBlockState(pos, IndustryBlocks.rway_light_on.getDefaultState());

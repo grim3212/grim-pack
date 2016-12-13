@@ -27,7 +27,7 @@ public class MessageSensorSetEntity extends AbstractServerMessage<MessageSensorS
 	@Override
 	protected void read(PacketBuffer buffer) throws IOException {
 		this.pos = buffer.readBlockPos();
-		this.entityName = buffer.readStringFromBuffer(64);
+		this.entityName = buffer.readString(64);
 	}
 
 	@Override
@@ -38,7 +38,7 @@ public class MessageSensorSetEntity extends AbstractServerMessage<MessageSensorS
 
 	@Override
 	public void process(EntityPlayer player, Side side) {
-		TileEntity te = player.worldObj.getTileEntity(pos);
+		TileEntity te = player.world.getTileEntity(pos);
 
 		if (te instanceof TileEntitySpecificSensor) {
 			((TileEntitySpecificSensor) te).getSpecific().setEntitySpecific(entityName);

@@ -68,12 +68,12 @@ public class ContainerMachine extends Container {
 
 	@Override
 	public boolean canInteractWith(EntityPlayer player) {
-		return this.machine.isUseableByPlayer(player);
+		return this.machine.isUsableByPlayer(player);
 	}
 
 	@Override
 	public ItemStack transferStackInSlot(EntityPlayer player, int index) {
-		ItemStack itemstack = null;
+		ItemStack itemstack = ItemStack.EMPTY;
 		Slot slot = (Slot) this.inventorySlots.get(index);
 
 		if (slot != null && slot.getHasStack()) {
@@ -82,37 +82,37 @@ public class ContainerMachine extends Container {
 
 			if (index == 1) {
 				if (!this.mergeItemStack(itemstack1, 2, 38, true)) {
-					return null;
+					return ItemStack.EMPTY;
 				}
 
 				slot.onSlotChange(itemstack1, itemstack);
 			} else if (index != 0) {
-				if (MachineRecipes.INSTANCE.getResult(itemstack1, machine.getMachineType()) != null) {
+				if (!MachineRecipes.INSTANCE.getResult(itemstack1, machine.getMachineType()).isEmpty()) {
 					if (!this.mergeItemStack(itemstack1, 0, 1, false)) {
-						return null;
+						return ItemStack.EMPTY;
 					}
 				} else if (index >= 2 && index < 29) {
 					if (!this.mergeItemStack(itemstack1, 29, 38, false)) {
-						return null;
+						return ItemStack.EMPTY;
 					}
 				} else if (index >= 29 && index < 38 && !this.mergeItemStack(itemstack1, 2, 29, false)) {
-					return null;
+					return ItemStack.EMPTY;
 				}
 			} else if (!this.mergeItemStack(itemstack1, 2, 38, false)) {
-				return null;
+				return ItemStack.EMPTY;
 			}
 
-			if (itemstack1.stackSize == 0) {
-				slot.putStack((ItemStack) null);
+			if (itemstack1.getCount() == 0) {
+				slot.putStack(ItemStack.EMPTY);
 			} else {
 				slot.onSlotChanged();
 			}
 
-			if (itemstack1.stackSize == itemstack.stackSize) {
-				return null;
+			if (itemstack1.getCount() == itemstack.getCount()) {
+				return ItemStack.EMPTY;
 			}
 
-			slot.onPickupFromSlot(player, itemstack1);
+			slot.onTake(player, itemstack1);
 		}
 
 		return itemstack;

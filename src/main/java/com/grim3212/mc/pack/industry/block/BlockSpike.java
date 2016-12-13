@@ -20,6 +20,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
@@ -98,7 +99,7 @@ public class BlockSpike extends BlockManual {
 	}
 
 	@Override
-	public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, World worldIn, BlockPos pos) {
+	public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, IBlockAccess blockAccess, BlockPos pos) {
 		return NULL_AABB;
 	}
 
@@ -118,13 +119,13 @@ public class BlockSpike extends BlockManual {
 	}
 
 	@Override
-	public IBlockState onBlockPlaced(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer) {
-		return worldIn.isSideSolid(pos.offset(facing.getOpposite()), facing, true) ? this.getDefaultState().withProperty(FACING, facing).withProperty(ACTIVE, false) : this.getDefaultState().withProperty(FACING, EnumFacing.DOWN).withProperty(ACTIVE, false);
+	public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer, EnumHand hand) {
+		return world.isSideSolid(pos.offset(facing.getOpposite()), facing, true) ? this.getDefaultState().withProperty(FACING, facing).withProperty(ACTIVE, false) : this.getDefaultState().withProperty(FACING, EnumFacing.DOWN).withProperty(ACTIVE, false);
 	}
 
 	@Override
 	public void onBlockPlacedBy(World worldIn, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack) {
-		this.neighborChanged(state, worldIn, pos, this);
+		this.neighborChanged(state, worldIn, pos, this, pos);
 	}
 
 	@Override
@@ -149,7 +150,7 @@ public class BlockSpike extends BlockManual {
 	}
 
 	@Override
-	public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn) {
+	public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos) {
 		this.checkForDrop(worldIn, pos);
 
 		if (!state.getValue(ACTIVE) && worldIn.isBlockPowered(pos)) {
@@ -171,7 +172,7 @@ public class BlockSpike extends BlockManual {
 	@Override
 	public void onEntityCollidedWithBlock(World worldIn, BlockPos pos, IBlockState state, Entity entityIn) {
 		if (worldIn.getBlockState(pos).getValue(ACTIVE) && entityIn instanceof EntityLivingBase) {
-			entityIn.attackEntityFrom(DamageSource.inWall, 10);
+			entityIn.attackEntityFrom(DamageSource.IN_WALL, 10);
 		}
 	}
 

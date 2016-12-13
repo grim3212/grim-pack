@@ -11,7 +11,7 @@ import com.grim3212.mc.pack.decor.item.DecorItems;
 import com.grim3212.mc.pack.decor.network.MessageParticles;
 import com.grim3212.mc.pack.decor.tile.DecorTileEntities;
 
-import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
@@ -51,8 +51,8 @@ public class GrimDecor extends GrimPart {
 	}
 
 	@Override
-	protected Item getCreativeTabIcon() {
-		return Item.getItemFromBlock(DecorBlocks.calendar);
+	protected ItemStack getCreativeTabIcon() {
+		return new ItemStack(DecorBlocks.calendar);
 	}
 
 	@Override

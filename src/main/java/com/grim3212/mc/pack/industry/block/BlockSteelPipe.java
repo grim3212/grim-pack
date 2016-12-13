@@ -29,7 +29,7 @@ public class BlockSteelPipe extends BlockManual {
 	}
 
 	@Override
-	public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn) {
+	public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos) {
 		boolean flag = !canPlaceBlockAt(worldIn, pos);
 		if (flag) {
 			this.dropBlockAsItem(worldIn, pos, state, 0);
@@ -56,7 +56,7 @@ public class BlockSteelPipe extends BlockManual {
 	public boolean isFullCube(IBlockState state) {
 		return false;
 	}
-	
+
 	@Override
 	public Page getPage(IBlockState state) {
 		return ManualIndustry.steelStuff_page;

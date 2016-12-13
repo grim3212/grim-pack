@@ -43,7 +43,7 @@ public class TileEntityDGravity extends TileEntity implements ITickable {
 		double var9 = 1.0D;
 		double var11 = 1.0D;
 
-		int powerLevel = worldObj.isBlockIndirectlyGettingPowered(pos);
+		int powerLevel = world.isBlockIndirectlyGettingPowered(pos);
 
 		if (powerLevel > 0) {
 			var1 = BBfromSide[side][0];
@@ -53,7 +53,7 @@ public class TileEntityDGravity extends TileEntity implements ITickable {
 			var9 = BBfromSide[side][4];
 			var11 = BBfromSide[side][5];
 			AxisAlignedBB aabb = new AxisAlignedBB((double) pos.getX() + var1, (double) pos.getY() + var3, (double) pos.getZ() + var5, (double) pos.getX() + var7, (double) pos.getY() + var9, (double) pos.getZ() + var11);
-			List<Entity> entityList = this.worldObj.getEntitiesWithinAABBExcludingEntity((Entity) null, aabb);
+			List<Entity> entityList = this.world.getEntitiesWithinAABBExcludingEntity((Entity) null, aabb);
 
 			for (int i = 0; i < entityList.size(); ++i) {
 				Item gravBoots = IndustryItems.gravity_boots;

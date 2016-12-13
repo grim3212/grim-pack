@@ -24,13 +24,13 @@ public class ItemLowGravityController extends ItemManual {
 	}
 
 	@Override
-	public ActionResult<ItemStack> onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn, EnumHand hand) {
+	public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand hand) {
 		if (this.tickCount > 10) {
 			this.On = (!this.On);
 			this.tickCount = 0;
 		}
 
-		return ActionResult.newResult(EnumActionResult.SUCCESS, itemStackIn);
+		return ActionResult.newResult(EnumActionResult.SUCCESS, playerIn.getHeldItem(hand));
 	}
 
 	@Override

@@ -43,12 +43,12 @@ public class ContainerExtruder extends Container {
 
 	@Override
 	public boolean canInteractWith(EntityPlayer playerIn) {
-		return extruderInv.isUseableByPlayer(playerIn);
+		return extruderInv.isUsableByPlayer(playerIn);
 	}
 
 	@Override
 	public ItemStack transferStackInSlot(EntityPlayer player, int index) {
-		ItemStack itemstack = null;
+		ItemStack itemstack = ItemStack.EMPTY;
 		Slot slot = (Slot) inventorySlots.get(index);
 
 		if (slot != null && slot.getHasStack()) {
@@ -56,27 +56,27 @@ public class ContainerExtruder extends Container {
 			itemstack = itemstack1.copy();
 			if (index < 10) {
 				if (!mergeItemStack(itemstack1, 38, 73, false)) {
-					return null;
+					return ItemStack.EMPTY;
 				}
 			} else if (index >= 10 && index < 38) {
 				if (!mergeItemStack(itemstack1, 38, 73, false)) {
-					return null;
+					return ItemStack.EMPTY;
 				}
 			} else if (index >= 38 && index < 73) {
 				if (!mergeItemStack(itemstack1, 0, 38, false)) {
-					return null;
+					return ItemStack.EMPTY;
 				}
 			}
 
-			if (itemstack1.stackSize == 0) {
-				slot.putStack(null);
+			if (itemstack1.getCount() == 0) {
+				slot.putStack(ItemStack.EMPTY);
 			} else {
 				slot.onSlotChanged();
 			}
-			if (itemstack1.stackSize != itemstack.stackSize) {
-				slot.onPickupFromSlot(player, itemstack1);
+			if (itemstack1.getCount() != itemstack.getCount()) {
+				slot.onTake(player, itemstack1);
 			} else {
-				return null;
+				return ItemStack.EMPTY;
 			}
 		}
 		return itemstack;

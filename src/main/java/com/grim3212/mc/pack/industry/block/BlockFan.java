@@ -10,7 +10,6 @@ import com.grim3212.mc.pack.industry.tile.TileEntityFan.FanMode;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockDirectional;
-import net.minecraft.block.BlockPistonBase;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
@@ -48,13 +47,13 @@ public class BlockFan extends BlockManual implements ITileEntityProvider {
 	}
 
 	@Override
-	public IBlockState onBlockPlaced(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer) {
-		return this.getDefaultState().withProperty(FACING, BlockPistonBase.getFacingFromEntity(pos, placer));
+	public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer, EnumHand hand) {
+		return this.getDefaultState().withProperty(FACING, EnumFacing.getDirectionFromEntityLiving(pos, placer));
 	}
 
 	@Override
 	public void onBlockPlacedBy(World worldIn, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack) {
-		worldIn.setBlockState(pos, state.withProperty(FACING, BlockPistonBase.getFacingFromEntity(pos, placer)), 2);
+		worldIn.setBlockState(pos, state.withProperty(FACING, EnumFacing.getDirectionFromEntityLiving(pos, placer)), 2);
 	}
 
 	private void setDefaultDirection(World worldIn, BlockPos pos, IBlockState state) {
@@ -83,7 +82,7 @@ public class BlockFan extends BlockManual implements ITileEntityProvider {
 	}
 
 	@Override
-	public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn) {
+	public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos) {
 		boolean powered = worldIn.isBlockPowered(pos) || worldIn.isBlockPowered(pos.up());
 		TileEntity te = worldIn.getTileEntity(pos);
 
@@ -140,7 +139,7 @@ public class BlockFan extends BlockManual implements ITileEntityProvider {
 	}
 
 	@Override
-	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ) {
+	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
 		playerIn.openGui(GrimPack.INSTANCE, PackGuiHandler.FAN_GUI_ID, worldIn, pos.getX(), pos.getY(), pos.getZ());
 
 		return true;

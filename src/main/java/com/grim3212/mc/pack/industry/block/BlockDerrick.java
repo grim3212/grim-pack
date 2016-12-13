@@ -40,7 +40,7 @@ public class BlockDerrick extends BlockManual implements ITileEntityProvider {
 	}
 
 	@Override
-	public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn) {
+	public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos) {
 		boolean flag = !this.canPlaceBlockAt(worldIn, pos);
 		if (flag) {
 			this.dropBlockAsItem(worldIn, pos, state, 0);
@@ -75,7 +75,7 @@ public class BlockDerrick extends BlockManual implements ITileEntityProvider {
 	}
 
 	@Override
-	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ) {
+	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
 		if (worldIn.isRemote)
 			return true;
 

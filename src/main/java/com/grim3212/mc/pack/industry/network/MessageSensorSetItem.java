@@ -28,18 +28,18 @@ public class MessageSensorSetItem extends AbstractServerMessage<MessageSensorSet
 	@Override
 	protected void read(PacketBuffer buffer) throws IOException {
 		this.pos = buffer.readBlockPos();
-		this.stack = buffer.readItemStackFromBuffer();
+		this.stack = buffer.readItemStack();
 	}
 
 	@Override
 	protected void write(PacketBuffer buffer) throws IOException {
 		buffer.writeBlockPos(pos);
-		buffer.writeItemStackToBuffer(stack);
+		buffer.writeItemStack(stack);
 	}
 
 	@Override
 	public void process(EntityPlayer player, Side side) {
-		TileEntity te = player.worldObj.getTileEntity(pos);
+		TileEntity te = player.world.getTileEntity(pos);
 
 		if (te instanceof TileEntitySpecificSensor) {
 			((TileEntitySpecificSensor) te).getSpecific().setItemStackSpecific(stack);

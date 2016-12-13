@@ -27,7 +27,7 @@ public class MessageSensorSetPlayer extends AbstractServerMessage<MessageSensorS
 	@Override
 	protected void read(PacketBuffer buffer) throws IOException {
 		this.pos = buffer.readBlockPos();
-		this.playerName = buffer.readStringFromBuffer(64);
+		this.playerName = buffer.readString(64);
 	}
 
 	@Override
@@ -38,7 +38,7 @@ public class MessageSensorSetPlayer extends AbstractServerMessage<MessageSensorS
 
 	@Override
 	public void process(EntityPlayer player, Side side) {
-		TileEntity te = player.worldObj.getTileEntity(pos);
+		TileEntity te = player.world.getTileEntity(pos);
 
 		if (te instanceof TileEntitySpecificSensor) {
 			((TileEntitySpecificSensor) te).getSpecific().setPlayerSpecific(playerName);
