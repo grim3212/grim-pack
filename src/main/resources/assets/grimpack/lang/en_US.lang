@@ -777,6 +777,9 @@ grimpack.cuisine.soda.tooltip.cocoa=One of the better sodas
 grimpack.cuisine.soda.tooltip.carbonated_water=CO2 and water
 grimpack.cuisine.soda.tooltip.mushroom=Doesn't heal much and doesn't taste good
 
+generator.floating_islands=Floating Islands
+generator.floating_islands.info=[GrimPack] Floating Islands World Type
+
 #================= INSTRUCTION MANUAL =================#
 grimpack.manual.title=Grim Instruction Manual
 grimpack.manual.shapeless=Shapeless Recipe
