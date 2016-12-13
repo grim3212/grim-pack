@@ -9,7 +9,7 @@ import com.grim3212.mc.pack.core.manual.IManualPart;
 import com.grim3212.mc.pack.core.manual.ManualPart;
 import com.grim3212.mc.pack.core.part.IPartEntities.IPartTileEntities;
 
-import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fml.client.event.ConfigChangedEvent.OnConfigChangedEvent;
@@ -140,8 +140,8 @@ public abstract class GrimPart {
 	public void postInit(FMLPostInitializationEvent event) {
 	}
 
-	protected Item getCreativeTabIcon() {
-		return null;
+	protected ItemStack getCreativeTabIcon() {
+		return ItemStack.EMPTY;
 	}
 
 	public String getPartId() {

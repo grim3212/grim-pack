@@ -31,17 +31,17 @@ public class ItemFungicide extends ItemManual {
 	}
 
 	@Override
-	public ActionResult<ItemStack> onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn, EnumHand hand) {
-		playerIn.swingArm(hand);
+	public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn) {
+		playerIn.swingArm(handIn);
 
 		killf(worldIn, playerIn.getPosition());
 		worldIn.playSound((EntityPlayer) null, playerIn.getPosition(), SoundEvents.BLOCK_FIRE_EXTINGUISH, SoundCategory.BLOCKS, 0.2F, 0.3F / (itemRand.nextFloat() * 0.4F + 0.8F));
 
-		return ActionResult.newResult(EnumActionResult.SUCCESS, itemStackIn);
+		return ActionResult.newResult(EnumActionResult.SUCCESS, playerIn.getHeldItem(handIn));
 	}
 
 	@Override
-	public EnumActionResult onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
+	public EnumActionResult onItemUse(EntityPlayer player, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
 		killf(worldIn, pos);
 		worldIn.playSound((EntityPlayer) null, pos, SoundEvents.BLOCK_FIRE_EXTINGUISH, SoundCategory.BLOCKS, 0.2F, 0.3F / (itemRand.nextFloat() * 0.4F + 0.8F));
 
@@ -75,7 +75,7 @@ public class ItemFungicide extends ItemManual {
 		float x = MathHelper.abs(x1 - x2);
 		float y = MathHelper.abs(y1 - y2);
 
-		return MathHelper.sqrt_float(x * x + y * y);
+		return MathHelper.sqrt(x * x + y * y);
 	}
 
 	public void spawnParticles(World world, BlockPos pos, Random rand) {

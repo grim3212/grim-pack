@@ -44,7 +44,7 @@ public class EntityIceCube extends Entity {
 		double d0 = p_i1755_3_.posX - shooter.posX;
 		double d1 = p_i1755_3_.getEntityBoundingBox().minY + (double) (p_i1755_3_.height / 3.0F) - this.posY;
 		double d2 = p_i1755_3_.posZ - shooter.posZ;
-		double d3 = (double) MathHelper.sqrt_double(d0 * d0 + d2 * d2);
+		double d3 = (double) MathHelper.sqrt(d0 * d0 + d2 * d2);
 
 		if (d3 >= 1.0E-7D) {
 			float f2 = (float) (Math.atan2(d2, d0) * 180.0D / Math.PI) - 90.0F;
@@ -83,7 +83,7 @@ public class EntityIceCube extends Entity {
 	}
 
 	public void setArrowHeading(double d, double d1, double d2, float f, float f1) {
-		float f2 = MathHelper.sqrt_double(d * d + d1 * d1 + d2 * d2);
+		float f2 = MathHelper.sqrt(d * d + d1 * d1 + d2 * d2);
 		d /= f2;
 		d1 /= f2;
 		d2 /= f2;
@@ -96,7 +96,7 @@ public class EntityIceCube extends Entity {
 		motionX = d;
 		motionY = d1;
 		motionZ = d2;
-		float f3 = MathHelper.sqrt_double(d * d + d2 * d2);
+		float f3 = MathHelper.sqrt(d * d + d2 * d2);
 		prevRotationYaw = rotationYaw = (float) ((Math.atan2(d, d2) * 180D) / 3.1415927410125732D);
 		prevRotationPitch = rotationPitch = (float) ((Math.atan2(d1, f3) * 180D) / 3.1415927410125732D);
 	}
@@ -106,7 +106,7 @@ public class EntityIceCube extends Entity {
 		motionY = d1;
 		motionZ = d2;
 		if (prevRotationPitch == 0.0F && prevRotationYaw == 0.0F) {
-			float f = MathHelper.sqrt_double(d * d + d2 * d2);
+			float f = MathHelper.sqrt(d * d + d2 * d2);
 			prevRotationYaw = rotationYaw = (float) ((Math.atan2(d, d2) * 180D) / 3.1415927410125732D);
 			prevRotationPitch = rotationPitch = (float) ((Math.atan2(d1, f) * 180D) / 3.1415927410125732D);
 			prevRotationPitch = rotationPitch;
@@ -119,21 +119,21 @@ public class EntityIceCube extends Entity {
 	public void onUpdate() {
 		super.onUpdate();
 		if (prevRotationPitch == 0.0F && prevRotationYaw == 0.0F) {
-			float f = MathHelper.sqrt_double(motionX * motionX + motionZ * motionZ);
+			float f = MathHelper.sqrt(motionX * motionX + motionZ * motionZ);
 			prevRotationYaw = rotationYaw = (float) ((Math.atan2(motionX, motionZ) * 180D) / 3.1415927410125732D);
 			prevRotationPitch = rotationPitch = (float) ((Math.atan2(motionY, f) * 180D) / 3.1415927410125732D);
 		}
 		ticksInAir++;
 		Vec3d vec3d = new Vec3d(posX, posY, posZ);
 		Vec3d vec3d1 = new Vec3d(posX + motionX, posY + motionY, posZ + motionZ);
-		RayTraceResult raytrace = this.worldObj.rayTraceBlocks(vec3d, vec3d1, false, true, false);
+		RayTraceResult raytrace = this.world.rayTraceBlocks(vec3d, vec3d1, false, true, false);
 		vec3d = new Vec3d(posX, posY, posZ);
 		vec3d1 = new Vec3d(posX + motionX, posY + motionY, posZ + motionZ);
 		if (raytrace != null) {
 			vec3d1 = new Vec3d(raytrace.hitVec.xCoord, raytrace.hitVec.yCoord, raytrace.hitVec.zCoord);
 		}
 		Entity entity = null;
-		List<Entity> list = worldObj.getEntitiesWithinAABBExcludingEntity(this, this.getEntityBoundingBox().addCoord(motionX, motionY, motionZ).expand(1.0D, 1.0D, 1.0D));
+		List<Entity> list = world.getEntitiesWithinAABBExcludingEntity(this, this.getEntityBoundingBox().addCoord(motionX, motionY, motionZ).expand(1.0D, 1.0D, 1.0D));
 		double d = 0.0D;
 		for (int i = 0; i < list.size(); i++) {
 			Entity entity1 = (Entity) list.get(i);
@@ -158,10 +158,10 @@ public class EntityIceCube extends Entity {
 		}
 		if (raytrace != null) {
 			if (raytrace.entityHit != null) {
-				float f1 = MathHelper.sqrt_double(motionX * motionX + motionY * motionY + motionZ * motionZ);
+				float f1 = MathHelper.sqrt(motionX * motionX + motionY * motionY + motionZ * motionZ);
 				int j = (int) Math.ceil((double) f1 * 2D);
 				if (raytrace.entityHit.attackEntityFrom(DamageSource.causeThrownDamage(this, shootingEntity), j)) {
-					worldObj.playSound((EntityPlayer) null, this.getPosition(), SoundEvents.BLOCK_WOOD_BUTTON_CLICK_ON, SoundCategory.HOSTILE, 1.0F, 1.2F / (rand.nextFloat() * 0.2F + 0.9F));
+					world.playSound((EntityPlayer) null, this.getPosition(), SoundEvents.BLOCK_WOOD_BUTTON_CLICK_ON, SoundCategory.HOSTILE, 1.0F, 1.2F / (rand.nextFloat() * 0.2F + 0.9F));
 					setDead();
 				} else if (ticksInAir > 10) {
 					motionX *= -0.10000000149011612D;
@@ -175,11 +175,11 @@ public class EntityIceCube extends Entity {
 				motionX = (float) (raytrace.hitVec.xCoord - posX);
 				motionY = (float) (raytrace.hitVec.yCoord - posY);
 				motionZ = (float) (raytrace.hitVec.zCoord - posZ);
-				float f2 = MathHelper.sqrt_double(motionX * motionX + motionY * motionY + motionZ * motionZ);
+				float f2 = MathHelper.sqrt(motionX * motionX + motionY * motionY + motionZ * motionZ);
 				posX -= (motionX / (double) f2) * 0.05000000074505806D;
 				posY -= (motionY / (double) f2) * 0.05000000074505806D;
 				posZ -= (motionZ / (double) f2) * 0.05000000074505806D;
-				worldObj.playSound((EntityPlayer) null, this.getPosition(), SoundEvents.BLOCK_WOOD_BUTTON_CLICK_ON, SoundCategory.HOSTILE, 1.0F, 1.2F / (rand.nextFloat() * 0.2F + 0.9F));
+				world.playSound((EntityPlayer) null, this.getPosition(), SoundEvents.BLOCK_WOOD_BUTTON_CLICK_ON, SoundCategory.HOSTILE, 1.0F, 1.2F / (rand.nextFloat() * 0.2F + 0.9F));
 				Random random = new Random();
 				double d1 = (float) posX + random.nextFloat();
 				double d3 = (float) posY + 1.0F + random.nextFloat() * 0.1F;
@@ -190,14 +190,14 @@ public class EntityIceCube extends Entity {
 				d8 = ((double) random.nextFloat() - 0.5D) * 0.5D;
 				d10 = ((double) random.nextFloat() - 0.5D) * 0.5D;
 				d12 = ((double) random.nextFloat() - 0.5D) * 0.5D;
-				worldObj.spawnParticle(EnumParticleTypes.SNOW_SHOVEL, d1, d3, d6, d8, d10, d12);
+				world.spawnParticle(EnumParticleTypes.SNOW_SHOVEL, d1, d3, d6, d8, d10, d12);
 				setDead();
 			}
 		}
 		posX += motionX;
 		posY += motionY;
 		posZ += motionZ;
-		float f3 = MathHelper.sqrt_double(motionX * motionX + motionZ * motionZ);
+		float f3 = MathHelper.sqrt(motionX * motionX + motionZ * motionZ);
 		rotationYaw = (float) ((Math.atan2(motionX, motionZ) * 180D) / 3.1415927410125732D);
 		for (rotationPitch = (float) ((Math.atan2(motionY, f3) * 180D) / 3.1415927410125732D); rotationPitch - prevRotationPitch < -180F; prevRotationPitch -= 360F) {
 		}
@@ -214,7 +214,7 @@ public class EntityIceCube extends Entity {
 		if (isInWater()) {
 			for (int l = 0; l < 4; l++) {
 				float f7 = 0.25F;
-				worldObj.spawnParticle(EnumParticleTypes.WATER_BUBBLE, posX - motionX * (double) f7, posY - motionY * (double) f7, posZ - motionZ * (double) f7, motionX, motionY, motionZ);
+				world.spawnParticle(EnumParticleTypes.WATER_BUBBLE, posX - motionX * (double) f7, posY - motionY * (double) f7, posZ - motionZ * (double) f7, motionX, motionY, motionZ);
 			}
 
 			f4 = 0.8F;

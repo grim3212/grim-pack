@@ -14,7 +14,7 @@ import com.grim3212.mc.pack.world.gen.WorldEvents;
 import com.grim3212.mc.pack.world.items.WorldItems;
 import com.grim3212.mc.pack.world.util.LootTables;
 
-import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Optional;
 import net.minecraftforge.fml.common.SidedProxy;
@@ -68,8 +68,8 @@ public class GrimWorld extends GrimPart {
 	}
 
 	@Override
-	protected Item getCreativeTabIcon() {
-		return WorldItems.gunpowder_reed_item;
+	protected ItemStack getCreativeTabIcon() {
+		return new ItemStack(WorldItems.gunpowder_reed_item);
 	}
 
 	@Override

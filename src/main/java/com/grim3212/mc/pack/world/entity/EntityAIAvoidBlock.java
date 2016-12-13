@@ -62,7 +62,7 @@ public class EntityAIAvoidBlock extends EntityAIBase {
 		for (int j = (int) (-3D + pos.getX()); (double) j <= 3D + pos.getX(); j++) {
 			for (int k = (int) (-3D + pos.getY()); (double) k <= 3D + pos.getY(); k++) {
 				for (int l = (int) (-3D + pos.getZ()); (double) l <= 3D + pos.getZ(); l++) {
-					Block toAvoid = this.theEntityCreature.worldObj.getBlockState(new BlockPos(j, k, l)).getBlock();
+					Block toAvoid = this.theEntityCreature.world.getBlockState(new BlockPos(j, k, l)).getBlock();
 					if (toAvoid == this.block) {
 						i++;
 					}

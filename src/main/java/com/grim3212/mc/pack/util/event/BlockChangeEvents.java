@@ -20,11 +20,11 @@ public class BlockChangeEvents {
 			if (!event.getEntityPlayer().isSneaking()) {
 				IBlockState state = event.getWorld().getBlockState(event.getPos());
 				if (state.getBlock() instanceof BlockDoor) {
-					DoubleDoor.activateDoubleDoor(event.getWorld(), event.getPos(), state, event.getEntityPlayer(), event.getHand(), event.getItemStack(), event.getFace(), event.getHitVec());
+					DoubleDoor.activateDoubleDoor(event.getWorld(), event.getPos(), state, event.getEntityPlayer(), event.getHand(), event.getFace(), event.getHitVec());
 				} else if (state.getBlock() instanceof BlockTrapDoor) {
-					DoubleTrapDoor.activateDoubleTrap(event.getWorld(), event.getPos(), state, true, event.getEntityPlayer(), event.getHand(), event.getItemStack(), event.getFace(), event.getHitVec());
+					DoubleTrapDoor.activateDoubleTrap(event.getWorld(), event.getPos(), state, true, event.getEntityPlayer(), event.getHand(), event.getFace(), event.getHitVec());
 				} else if (state.getBlock() instanceof BlockFenceGate) {
-					DoubleFenceGate.updateFenceGate(event.getWorld(), event.getPos(), state, event.getEntityPlayer(), event.getHand(), event.getItemStack(), event.getFace(), event.getHitVec());
+					DoubleFenceGate.updateFenceGate(event.getWorld(), event.getPos(), state, event.getEntityPlayer(), event.getHand(), event.getFace(), event.getHitVec());
 				}
 			}
 		}

@@ -51,10 +51,10 @@ public class EntityMiner extends EntityCreature implements IManualEntity {
 	public boolean getCanSpawnHere() {
 		BlockPos blockpos = new BlockPos(this.posX, this.getEntityBoundingBox().minY, this.posZ);
 
-		if (blockpos.getY() >= this.worldObj.getSeaLevel()) {
+		if (blockpos.getY() >= this.world.getSeaLevel()) {
 			return false;
 		} else {
-			int i = this.worldObj.getLightFromNeighbors(blockpos);
+			int i = this.world.getLightFromNeighbors(blockpos);
 			int j = 4;
 
 			if (this.rand.nextBoolean()) {

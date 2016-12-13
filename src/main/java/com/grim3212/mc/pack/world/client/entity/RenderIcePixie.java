@@ -19,13 +19,7 @@ public class RenderIcePixie extends RenderBiped<EntityIcePixie> {
 	private static final ResourceLocation resourceLocation = new ResourceLocation(GrimPack.modID, "textures/entities/icepixie.png");
 
 	public RenderIcePixie(RenderManager renderManager, ModelBiped model, float shadowSize) {
-		this(renderManager, model, shadowSize, 1.0F);
-	}
-
-	public RenderIcePixie(RenderManager renderManager, ModelBiped model, float shadowSize, float scale) {
 		super(renderManager, model, shadowSize);
-		this.modelBipedMain = model;
-		this.scale = scale;
 	}
 
 	@Override

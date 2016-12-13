@@ -44,8 +44,8 @@ public class KeyBindHelper {
 
 		if (fusrodah.isPressed() && UtilConfig.enableFusRoDah) {
 			if (mc.inGameHasFocus) {
-				World world = mc.theWorld;
-				EntityPlayerSP player = mc.thePlayer;
+				World world = mc.world;
+				EntityPlayerSP player = mc.player;
 				float yaw = player.rotationYaw * 0.01745329F;
 				double xPower = (double) (-MathHelper.sin(yaw)) * UtilConfig.frd_power;
 				double zPower = (double) MathHelper.cos(yaw) * UtilConfig.frd_power;

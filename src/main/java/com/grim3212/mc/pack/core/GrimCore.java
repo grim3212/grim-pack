@@ -11,7 +11,7 @@ import com.grim3212.mc.pack.core.network.PacketDispatcher;
 import com.grim3212.mc.pack.core.part.GrimPart;
 import com.grim3212.mc.pack.core.proxy.CommonProxy;
 
-import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
@@ -55,8 +55,8 @@ public class GrimCore extends GrimPart {
 	}
 
 	@Override
-	protected Item getCreativeTabIcon() {
-		return CoreItems.instruction_manual;
+	protected ItemStack getCreativeTabIcon() {
+		return new ItemStack(CoreItems.instruction_manual);
 	}
 
 	@Override

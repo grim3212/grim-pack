@@ -44,7 +44,7 @@ public class ClientUtil {
 		float partialTicks = Minecraft.getMinecraft().getRenderPartialTicks();
 
 		if (entity != null) {
-			if (Minecraft.getMinecraft().theWorld != null) {
+			if (Minecraft.getMinecraft().world != null) {
 				double d0 = (double) Minecraft.getMinecraft().playerController.getBlockReachDistance();
 				RayTraceResult objectMouseOver = entity.rayTrace(d0, partialTicks);
 				Vec3d vec3d = entity.getPositionEyes(partialTicks);
@@ -68,7 +68,7 @@ public class ClientUtil {
 				Vec3d vec3d2 = vec3d.addVector(vec3d1.xCoord * d0, vec3d1.yCoord * d0, vec3d1.zCoord * d0);
 				pointedEntity = null;
 				Vec3d vec3d3 = null;
-				List<Entity> list = Minecraft.getMinecraft().theWorld.getEntitiesInAABBexcluding(entity, entity.getEntityBoundingBox().addCoord(vec3d1.xCoord * d0, vec3d1.yCoord * d0, vec3d1.zCoord * d0).expand(1.0D, 1.0D, 1.0D), Predicates.and(EntitySelectors.NOT_SPECTATING, new Predicate<Entity>() {
+				List<Entity> list = Minecraft.getMinecraft().world.getEntitiesInAABBexcluding(entity, entity.getEntityBoundingBox().addCoord(vec3d1.xCoord * d0, vec3d1.yCoord * d0, vec3d1.zCoord * d0).expand(1.0D, 1.0D, 1.0D), Predicates.and(EntitySelectors.NOT_SPECTATING, new Predicate<Entity>() {
 					public boolean apply(@Nullable Entity entity) {
 						return entity != null;
 					}
