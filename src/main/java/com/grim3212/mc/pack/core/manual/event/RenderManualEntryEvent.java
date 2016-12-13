@@ -31,11 +31,11 @@ public class RenderManualEntryEvent {
 	@SubscribeEvent
 	public void onEvent(RenderTickEvent event) {
 		if (event.phase == Phase.END && CoreConfig.showCheckmark) {
-			if (mc.thePlayer != null && mc.theWorld != null && !mc.isGamePaused()) {
+			if (mc.player != null && mc.world != null && !mc.isGamePaused()) {
 
 				boolean flag = false;
-				EntityPlayer player = mc.thePlayer;
-				World world = mc.thePlayer.worldObj;
+				EntityPlayer player = mc.player;
+				World world = mc.player.world;
 				RayTraceResult pos = ClientUtil.getMouseOver();
 
 				if (player.getHeldItemMainhand() != null && player.getHeldItemMainhand().getItem() == CoreItems.instruction_manual) {

@@ -1,6 +1,5 @@
 package com.grim3212.mc.pack.core.util;
 
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -15,6 +14,7 @@ import net.minecraft.item.crafting.CraftingManager;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.item.crafting.ShapedRecipes;
 import net.minecraft.item.crafting.ShapelessRecipes;
+import net.minecraft.util.NonNullList;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
@@ -36,7 +36,7 @@ public class OreDictionaryHelper {
 			if (obj instanceof ShapedRecipes) {
 				ShapedRecipes recipe = (ShapedRecipes) obj;
 				ItemStack output = recipe.getRecipeOutput();
-				if (output != null && containsMatch(false, exclusions, output)) {
+				if (!output.isEmpty() && containsMatch(false, exclusions, output)) {
 					continue;
 				}
 
@@ -47,7 +47,7 @@ public class OreDictionaryHelper {
 			} else if (obj instanceof ShapelessRecipes) {
 				ShapelessRecipes recipe = (ShapelessRecipes) obj;
 				ItemStack output = recipe.getRecipeOutput();
-				if (output != null && containsMatch(false, exclusions, output)) {
+				if (!output.isEmpty() && containsMatch(false, exclusions, output)) {
 					continue;
 				}
 
@@ -60,13 +60,13 @@ public class OreDictionaryHelper {
 			if (obj instanceof ShapedOreRecipe) {
 				ShapedOreRecipe recipe = (ShapedOreRecipe) obj;
 				ItemStack output = recipe.getRecipeOutput();
-				if (output != null && containsMatch(false, exclusions, output)) {
+				if (!output.isEmpty() && containsMatch(false, exclusions, output)) {
 					continue;
 				}
 
 				ArrayList<ItemStack> check = new ArrayList<ItemStack>();
 				for (Object object : recipe.getInput()) {
-					ItemStack item = null;
+					ItemStack item = ItemStack.EMPTY;
 
 					if (object instanceof ItemStack) {
 						item = (ItemStack) object;
@@ -76,7 +76,7 @@ public class OreDictionaryHelper {
 						item = new ItemStack((Block) object, 1, OreDictionary.WILDCARD_VALUE);
 					}
 
-					if (item != null) {
+					if (!item.isEmpty()) {
 						check.add(item);
 					}
 				}
@@ -88,13 +88,13 @@ public class OreDictionaryHelper {
 			} else if (obj instanceof ShapelessOreRecipe) {
 				ShapelessOreRecipe recipe = (ShapelessOreRecipe) obj;
 				ItemStack output = recipe.getRecipeOutput();
-				if (output != null && containsMatch(false, exclusions, output)) {
+				if (!output.isEmpty() && containsMatch(false, exclusions, output)) {
 					continue;
 				}
 
 				ArrayList<ItemStack> check = new ArrayList<ItemStack>();
 				for (Object object : recipe.getInput()) {
-					ItemStack item = null;
+					ItemStack item = ItemStack.EMPTY;
 
 					if (object instanceof ItemStack) {
 						item = (ItemStack) object;
@@ -104,7 +104,7 @@ public class OreDictionaryHelper {
 						item = new ItemStack((Block) object, 1, OreDictionary.WILDCARD_VALUE);
 					}
 
-					if (item != null) {
+					if (!item.isEmpty()) {
 						check.add(item);
 					}
 				}
@@ -155,7 +155,7 @@ public class OreDictionaryHelper {
 		for (int i = 1; i < y + 1; i++) {
 			String f = "";
 			for (int k = 1; k < x + 1; k++) {
-				f += items[k + ((i - 1) * x) - 1] == null ? " " : s[k + ((i - 1) * x) - 1];
+				f += items[k + ((i - 1) * x) - 1].isEmpty() ? " " : s[k + ((i - 1) * x) - 1];
 			}
 			returnArray[i - 1] = f;
 		}
@@ -165,7 +165,7 @@ public class OreDictionaryHelper {
 		}
 
 		for (int i = 0; i < x * y; i++) {
-			if (items[i] != null) {
+			if (!items[i].isEmpty()) {
 				ItemStack item = items[i];
 				boolean b = false;
 
@@ -196,7 +196,7 @@ public class OreDictionaryHelper {
 
 		for (ItemStack item : items) {
 			boolean b = false;
-			if (item != null) {
+			if (!item.isEmpty()) {
 				for (Entry<ItemStack, String> entry : toReplace.entrySet()) {
 					if (OreDictionary.itemMatches(entry.getKey(), item, true)) {
 						String oreName = entry.getValue();
@@ -221,20 +221,8 @@ public class OreDictionaryHelper {
 		Object[] objects = recipe.getInput();
 		ArrayList<Object> inputs = new ArrayList<Object>();
 
-		int x = 0;
-		int y = 0;
-
-		try {
-			Field fieldW = recipe.getClass().getDeclaredField("width");
-			fieldW.setAccessible(true);
-			x = fieldW.getInt(recipe);
-
-			Field fieldH = recipe.getClass().getDeclaredField("height");
-			fieldH.setAccessible(true);
-			y = fieldH.getInt(recipe);
-		} catch (Exception e) {
-			return null;
-		}
+		int x = recipe.getWidth();
+		int y = recipe.getHeight();
 
 		if (x * y == 0 || x * y > 9)
 			return null;
@@ -259,7 +247,7 @@ public class OreDictionaryHelper {
 		// item
 		for (int i = 0; i < x * y; i++) {
 			boolean b = false;
-			ItemStack item = null;
+			ItemStack item = ItemStack.EMPTY;
 			Object obj = objects[i];
 
 			if (obj == null) {
@@ -277,7 +265,7 @@ public class OreDictionaryHelper {
 					List<ItemStack> list = (List<ItemStack>) obj;
 
 					for (ItemStack oreItem : list) {
-						if (oreItem == null || OreDictionary.getOreIDs(oreItem).length == 0)
+						if (oreItem.isEmpty() || OreDictionary.getOreIDs(oreItem).length == 0)
 							continue;
 						int[] id = OreDictionary.getOreIDs(oreItem);
 
@@ -302,7 +290,7 @@ public class OreDictionaryHelper {
 				}
 			}
 
-			if (item != null) {
+			if (!item.isEmpty()) {
 				for (Entry<ItemStack, String> entry : toReplace.entrySet()) {
 					if (OreDictionary.itemMatches(entry.getKey(), item, true)) {
 						String oreName = entry.getValue();
@@ -327,12 +315,12 @@ public class OreDictionaryHelper {
 	@SuppressWarnings("unchecked")
 	private static ShapelessOreRecipe addShapelessOreRecipe(Map<ItemStack, String> toReplace, ShapelessOreRecipe recipe) {
 		ItemStack output = recipe.getRecipeOutput();
-		ArrayList<Object> objects = recipe.getInput();
+		NonNullList<Object> objects = recipe.getInput();
 		ArrayList<Object> inputs = new ArrayList<Object>();
 
 		for (Object obj : objects) {
 			boolean b = false;
-			ItemStack item = null;
+			ItemStack item = ItemStack.EMPTY;
 
 			if (obj instanceof ItemStack) {
 				item = (ItemStack) obj;
@@ -344,7 +332,7 @@ public class OreDictionaryHelper {
 				if ((List<ItemStack>) obj != null && !((List<ItemStack>) obj).isEmpty()) {
 					List<ItemStack> list = (List<ItemStack>) obj;
 					for (ItemStack oreItem : list) {
-						if (oreItem == null || OreDictionary.getOreIDs(oreItem).length == 0)
+						if (oreItem.isEmpty() || OreDictionary.getOreIDs(oreItem).length == 0)
 							continue;
 						int[] id = OreDictionary.getOreIDs(oreItem);
 						for (int j = 0; j < id.length; j++) {
@@ -366,7 +354,7 @@ public class OreDictionaryHelper {
 				}
 			}
 
-			if (item != null) {
+			if (!item.isEmpty()) {
 				for (Entry<ItemStack, String> entry : toReplace.entrySet()) {
 					if (OreDictionary.itemMatches(entry.getKey(), item, true)) {
 						String oreName = entry.getValue();

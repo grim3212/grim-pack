@@ -22,12 +22,12 @@ public class WorldHelper {
 	 * @return True if the Material is in the BoundingBox false otherwise
 	 */
 	public static boolean isAABBInMaterial(World worldObj, AxisAlignedBB boundingBox, Material material) {
-		int i = MathHelper.floor_double(boundingBox.minX);
-		int j = MathHelper.floor_double(boundingBox.maxX + 1.0D);
-		int k = MathHelper.floor_double(boundingBox.minY);
-		int l = MathHelper.floor_double(boundingBox.maxY + 1.0D);
-		int i1 = MathHelper.floor_double(boundingBox.minZ);
-		int j1 = MathHelper.floor_double(boundingBox.maxZ + 1.0D);
+		int i = MathHelper.floor(boundingBox.minX);
+		int j = MathHelper.floor(boundingBox.maxX + 1.0D);
+		int k = MathHelper.floor(boundingBox.minY);
+		int l = MathHelper.floor(boundingBox.maxY + 1.0D);
+		int i1 = MathHelper.floor(boundingBox.minZ);
+		int j1 = MathHelper.floor(boundingBox.maxZ + 1.0D);
 
 		for (int k1 = i; k1 < j; ++k1) {
 			for (int l1 = k; l1 < l; ++l1) {

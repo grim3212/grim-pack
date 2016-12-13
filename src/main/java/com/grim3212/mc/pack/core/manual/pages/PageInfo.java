@@ -39,7 +39,7 @@ public class PageInfo extends Page {
 		renderer.setUnicodeFlag(true);
 
 		for (int i = 0; i < paragraphs.length; i++) {
-			int length = renderer.splitStringWidth(paragraphs[i], 162);
+			int length = renderer.getWordWrappedHeight(paragraphs[i], 162);
 			renderer.drawSplitString(paragraphs[i], x, y, 162, 0);
 
 			y += length + 10;

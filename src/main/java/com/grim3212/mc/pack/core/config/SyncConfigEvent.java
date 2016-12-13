@@ -16,7 +16,7 @@ public class SyncConfigEvent {
 
 	@SubscribeEvent
 	public void syncConfig(PlayerLoggedInEvent event) {
-		if (!event.player.worldObj.isRemote) {
+		if (!event.player.world.isRemote) {
 			PacketDispatcher.sendTo(new MessageSyncConfig(), (EntityPlayerMP) event.player);
 		}
 	}

@@ -9,12 +9,13 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ClickType;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.NonNullList;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.ClientTickEvent;
 
 public class AutoItemTickHandler {
 
-	private ItemStack prevItemStack = null;
+	private ItemStack prevItemStack = ItemStack.EMPTY;
 	private int prevSlot = 0;
 	private int ticks = 0;
 
@@ -37,16 +38,16 @@ public class AutoItemTickHandler {
 				ticks = 0;
 		} else {
 			Minecraft mc = Minecraft.getMinecraft();
-			EntityPlayer player = mc.thePlayer;
+			EntityPlayer player = mc.player;
 
 			ItemStack currentItemStack = player.getHeldItemMainhand();
 			int currentSlot = player.inventory.currentItem;
 
 			if (mc.currentScreen == null) {
-				ItemStack[] inventory = player.inventory.mainInventory;
-				currentItemStack = inventory[currentSlot];
+				NonNullList<ItemStack> inventory = player.inventory.mainInventory;
+				currentItemStack = inventory.get(currentSlot);
 
-				if (currentItemStack == null && prevItemStack != null && currentSlot == prevSlot) {
+				if (currentItemStack.isEmpty() && !prevItemStack.isEmpty() && currentSlot == prevSlot) {
 					Item item = prevItemStack.getItem();
 					boolean subTypes = prevItemStack.getHasSubtypes();
 					boolean stackable = prevItemStack.isStackable();
@@ -55,18 +56,18 @@ public class AutoItemTickHandler {
 
 					boolean hotbar = false;
 					int found = -1;
-					for (int i = 0; i < inventory.length; i++) {
-						ItemStack foundItemStack = inventory[i];
-						if (foundItemStack != null && item == foundItemStack.getItem() && (!subTypes || damage == foundItemStack.getItemDamage()) && foundItemStack.stackSize > 0) {
+					for (int i = 0; i < inventory.size(); i++) {
+						ItemStack foundItemStack = inventory.get(i);
+						if (!foundItemStack.isEmpty() && item == foundItemStack.getItem() && (!subTypes || damage == foundItemStack.getItemDamage()) && foundItemStack.getCount() > 0) {
 							if (found < 0) {
 								found = i;
 							} else if (!stackable) {
 								if (!damageable) {
 									found = i;
-								} else if (foundItemStack.getItemDamage() > inventory[found].getItemDamage()) {
+								} else if (foundItemStack.getItemDamage() > inventory.get(found).getItemDamage()) {
 									found = i;
 								}
-							} else if (foundItemStack.stackSize > inventory[found].stackSize) {
+							} else if (foundItemStack.getCount() > inventory.get(found).getCount()) {
 								found = i;
 							}
 
@@ -83,12 +84,12 @@ public class AutoItemTickHandler {
 						int windowId = player.inventoryContainer.windowId;
 
 						if (hotbar)
-							playerController.windowClick(windowId, found + inventory.length, 0, ClickType.PICKUP, player);
+							playerController.windowClick(windowId, found + inventory.size(), 0, ClickType.PICKUP, player);
 						else
 							playerController.windowClick(windowId, found, 0, ClickType.PICKUP, player);
-						playerController.windowClick(windowId, currentSlot + inventory.length, 0, ClickType.PICKUP, player);
+						playerController.windowClick(windowId, currentSlot + inventory.size(), 0, ClickType.PICKUP, player);
 
-						currentItemStack = inventory[currentSlot];
+						currentItemStack = inventory.get(currentSlot);
 						ticks++;
 					}
 

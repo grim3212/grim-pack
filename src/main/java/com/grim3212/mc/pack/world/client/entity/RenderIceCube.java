@@ -33,7 +33,7 @@ public class RenderIceCube extends Render<EntityIceCube> {
 		GlStateManager.rotate(45F, 1.0F, 0.0F, 0.0F);
 		GlStateManager.scale(1F, 1F, 1F);
 
-		EntityItem ice = new EntityItem(renderManager.worldObj, renderManager.viewerPosX, renderManager.viewerPosY, renderManager.viewerPosZ, new ItemStack(Blocks.ICE));
+		EntityItem ice = new EntityItem(renderManager.world, renderManager.viewerPosX, renderManager.viewerPosY, renderManager.viewerPosZ, new ItemStack(Blocks.ICE));
 		ice.hoverStart = 0.0F;
 		this.renderManager.doRenderEntity(ice, 0, 0, 0, 0, 0, false);
 		GlStateManager.disableRescaleNormal();

@@ -56,7 +56,7 @@ public class BlockFungusGrowing extends BlockFungusBase implements IManualBlock 
 		EntityItem entityitem = new EntityItem(worldIn, (double) pos.getX() + d, (double) pos.getY() + d1, (double) pos.getZ() + d2, new ItemStack(Items.SLIME_BALL, worldIn.rand.nextInt(2) + 1));
 		entityitem.setPickupDelay(10);
 		if (!worldIn.isRemote)
-			worldIn.spawnEntityInWorld(entityitem);
+			worldIn.spawnEntity(entityitem);
 	}
 
 	@Override
@@ -117,10 +117,10 @@ public class BlockFungusGrowing extends BlockFungusBase implements IManualBlock 
 
 	@Override
 	public Page getPage(IBlockState state) {
-		if(state.getValue(TYPE) == 0 || state.getValue(TYPE) == 8){
+		if (state.getValue(TYPE) == 0 || state.getValue(TYPE) == 8) {
 			return ManualWorld.greenFungus_page;
 		}
-		
+
 		return ManualWorld.colorFungus_page;
 	}
 }

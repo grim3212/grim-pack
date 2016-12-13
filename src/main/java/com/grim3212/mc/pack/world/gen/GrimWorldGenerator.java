@@ -81,21 +81,21 @@ public class GrimWorldGenerator extends GrimWorldGen {
 		Biome biome = world.getBiomeProvider().getBiome(new BlockPos(blockX + 16, 60, blockZ + 16));
 
 		if (biome != null) {
-			if (random.nextInt(WorldConfig.frequencyWheatField) == 0 && BiomeDictionary.isBiomeOfType(biome, Type.PLAINS)) {
+			if (random.nextInt(WorldConfig.frequencyWheatField) == 0 && BiomeDictionary.hasType(biome, Type.PLAINS)) {
 				for (int i = 0; i < 5; i++) {
 					int j = random.nextInt(40) + 60;
 					new WorldGenFarmland(random.nextInt(8) + 4, random.nextInt(6) + 2).generate(world, random, new BlockPos(blockX + random.nextInt(16), j, blockZ + random.nextInt(16)));
 				}
 			}
 
-			if (random.nextInt(WorldConfig.frequencySaplings) == 0 && !BiomeDictionary.isBiomeOfType(biome, Type.SANDY)) {
+			if (random.nextInt(WorldConfig.frequencySaplings) == 0 && !BiomeDictionary.hasType(biome, Type.SANDY)) {
 				for (int i = 0; i < 5; i++) {
 					int j = random.nextInt(30) + 60;
 					new WorldGenSaplingsAndStumps(random.nextInt(16) + 1, true).generate(world, random, new BlockPos(blockX + random.nextInt(16), j, blockZ + random.nextInt(16)));
 				}
 			}
 
-			if (random.nextInt(WorldConfig.frequencyTreeStumps) == 0 && !BiomeDictionary.isBiomeOfType(biome, Type.SANDY)) {
+			if (random.nextInt(WorldConfig.frequencyTreeStumps) == 0 && !BiomeDictionary.hasType(biome, Type.SANDY)) {
 				for (int i = 0; i < 5; i++) {
 					int j = random.nextInt(30) + 60;
 					new WorldGenSaplingsAndStumps(random.nextInt(12) + 3, false).generate(world, random, new BlockPos(blockX + random.nextInt(16), j, blockZ + random.nextInt(16)));

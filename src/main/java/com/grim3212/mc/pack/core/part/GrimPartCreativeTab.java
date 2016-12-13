@@ -1,7 +1,7 @@
 package com.grim3212.mc.pack.core.part;
 
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 
 public class GrimPartCreativeTab extends CreativeTabs {
 
@@ -18,7 +18,7 @@ public class GrimPartCreativeTab extends CreativeTabs {
 	}
 
 	@Override
-	public Item getTabIconItem() {
+	public ItemStack getTabIconItem() {
 		return this.part.getCreativeTabIcon();
 	}
 }

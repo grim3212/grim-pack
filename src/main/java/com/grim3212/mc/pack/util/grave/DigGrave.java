@@ -95,20 +95,27 @@ public class DigGrave {
 		if ((coffin_a == null) || (coffin_b == null))
 			return;
 
-		for (int i = 0; i < player.inventory.mainInventory.length; i++) {
+		for (int i = 0; i < player.inventory.mainInventory.size(); i++) {
 			if (i < 9) {
-				coffin_b.setInventorySlotContents(i, player.inventory.mainInventory[i]);
+				coffin_b.setInventorySlotContents(i, player.inventory.mainInventory.get(i));
 			} else {
-				coffin_a.setInventorySlotContents(i - 9, player.inventory.mainInventory[i]);
+				coffin_a.setInventorySlotContents(i - 9, player.inventory.mainInventory.get(i));
 			}
 
-			player.inventory.mainInventory[i] = null;
+			player.inventory.mainInventory.set(i, ItemStack.EMPTY);
 		}
 
-		for (int i = 0; i < player.inventory.armorInventory.length; i++) {
-			coffin_b.setInventorySlotContents(i + 9, player.inventory.armorInventory[i]);
+		for (int i = 0; i < player.inventory.armorInventory.size(); i++) {
+			coffin_b.setInventorySlotContents(i + 9, player.inventory.armorInventory.get(i));
 
-			player.inventory.armorInventory[i] = null;
+			player.inventory.armorInventory.set(i, ItemStack.EMPTY);
+		}
+		
+		//TODO: MAke sure this doesn't overwrite anything
+		for (int i = 0; i < player.inventory.offHandInventory.size(); i++) {
+			coffin_b.setInventorySlotContents(25, player.inventory.offHandInventory.get(i));
+
+			player.inventory.offHandInventory.set(i, ItemStack.EMPTY);
 		}
 
 		int total_xp = getTotalXP(player);
@@ -163,26 +170,26 @@ public class DigGrave {
 	}
 
 	public static void digGrave(EntityPlayerMP player) {
-		if (player.worldObj == null)
+		if (player.world == null)
 			return;
 
 		GrimLog.info(GrimUtil.partName, "Dig grave for '" + player.getName() + "'");
 
-		int player_view = MathHelper.floor_double(player.rotationYaw * 4.0F / 360.0F + 0.5D) & 0x3;
+		int player_view = MathHelper.floor(player.rotationYaw * 4.0F / 360.0F + 0.5D) & 0x3;
 		GraveBlocks tmp_grave = new GraveBlocks((int) player.posX, (int) player.posY, (int) player.posZ, player_view);
 
-		int blocking_blocks_0 = checkGround(player.worldObj, tmp_grave);
+		int blocking_blocks_0 = checkGround(player.world, tmp_grave);
 
 		if (blocking_blocks_0 != 0) {
-			int rotation_yaw = MathHelper.wrapDegrees(player.rotationYaw) < 0.0F ? MathHelper.floor_double(MathHelper.wrapDegrees(player.rotationYaw) + 360.0D) : MathHelper.floor_double(MathHelper.wrapDegrees(player.rotationYaw));
+			int rotation_yaw = MathHelper.wrapDegrees(player.rotationYaw) < 0.0F ? MathHelper.floor(MathHelper.wrapDegrees(player.rotationYaw) + 360.0D) : MathHelper.floor(MathHelper.wrapDegrees(player.rotationYaw));
 
 			GraveBlocks tmp_grave_90_left = new GraveBlocks((int) player.posX, (int) player.posY, (int) player.posZ, player_view - 1 & 0x3);
 			GraveBlocks tmp_grave_90_right = new GraveBlocks((int) player.posX, (int) player.posY, (int) player.posZ, player_view + 1 & 0x3);
 			GraveBlocks tmp_grave_180 = new GraveBlocks((int) player.posX, (int) player.posY, (int) player.posZ, player_view + 2 & 0x3);
 
-			int blocking_blocks_90_left = checkGround(player.worldObj, tmp_grave_90_left);
-			int blocking_blocks_90_right = checkGround(player.worldObj, tmp_grave_90_right);
-			int blocking_blocks_180 = checkGround(player.worldObj, tmp_grave_180);
+			int blocking_blocks_90_left = checkGround(player.world, tmp_grave_90_left);
+			int blocking_blocks_90_right = checkGround(player.world, tmp_grave_90_right);
+			int blocking_blocks_180 = checkGround(player.world, tmp_grave_180);
 
 			if (rotation_yaw % 90 < 45) {
 				if (blocking_blocks_90_right == 0)
@@ -217,15 +224,15 @@ public class DigGrave {
 
 		GrimLog.info(GrimUtil.partName, player.getName() + "'s grave: set blocks");
 
-		player.worldObj.setBlockState(tmp_grave.gravestone.pos, Blocks.QUARTZ_BLOCK.getDefaultState().withProperty(BlockQuartz.VARIANT, BlockQuartz.EnumType.CHISELED), 2);
-		player.worldObj.setBlockState(tmp_grave.graveplant.pos, Blocks.FLOWER_POT.getDefaultState().withProperty(BlockFlowerPot.CONTENTS, BlockFlowerPot.EnumFlowerType.DEAD_BUSH).withProperty(BlockFlowerPot.LEGACY_DATA, 10), 2);
-		player.worldObj.setBlockState(tmp_grave.gravesign.pos, Blocks.WALL_SIGN.getDefaultState().withProperty(BlockWallSign.FACING, EnumFacing.getFront(tmp_grave.gravesign_dir)), 2);
-		player.worldObj.setBlockState(tmp_grave.coffin_a.pos, Blocks.CHEST.getDefaultState(), 2);
-		player.worldObj.setBlockState(tmp_grave.coffin_b.pos, Blocks.CHEST.getDefaultState(), 2);
+		player.world.setBlockState(tmp_grave.gravestone.pos, Blocks.QUARTZ_BLOCK.getDefaultState().withProperty(BlockQuartz.VARIANT, BlockQuartz.EnumType.CHISELED), 2);
+		player.world.setBlockState(tmp_grave.graveplant.pos, Blocks.FLOWER_POT.getDefaultState().withProperty(BlockFlowerPot.CONTENTS, BlockFlowerPot.EnumFlowerType.DEAD_BUSH).withProperty(BlockFlowerPot.LEGACY_DATA, 10), 2);
+		player.world.setBlockState(tmp_grave.gravesign.pos, Blocks.WALL_SIGN.getDefaultState().withProperty(BlockWallSign.FACING, EnumFacing.getFront(tmp_grave.gravesign_dir)), 2);
+		player.world.setBlockState(tmp_grave.coffin_a.pos, Blocks.CHEST.getDefaultState(), 2);
+		player.world.setBlockState(tmp_grave.coffin_b.pos, Blocks.CHEST.getDefaultState(), 2);
 
 		GrimLog.info(GrimUtil.partName, player.getName() + "'s grave: create sign");
 
-		TileEntitySign sign = (TileEntitySign) player.worldObj.getTileEntity(tmp_grave.gravesign.pos);
+		TileEntitySign sign = (TileEntitySign) player.world.getTileEntity(tmp_grave.gravesign.pos);
 		if (sign != null) {
 			String[] text = gsi_modder == null ? gsi.getInscription(player) : gsi_modder.getInscription(player);
 
@@ -255,10 +262,10 @@ public class DigGrave {
 
 		GrimLog.info(GrimUtil.partName, player.getName() + "'s grave: fill coffin");
 
-		fillCoffin(player, (TileEntityChest) player.worldObj.getTileEntity(tmp_grave.coffin_a.pos), (TileEntityChest) player.worldObj.getTileEntity(tmp_grave.coffin_b.pos));
+		fillCoffin(player, (TileEntityChest) player.world.getTileEntity(tmp_grave.coffin_a.pos), (TileEntityChest) player.world.getTileEntity(tmp_grave.coffin_b.pos));
 
-		convertGraveGround(player.worldObj, tmp_grave.graveground_a.pos);
-		convertGraveGround(player.worldObj, tmp_grave.graveground_b.pos);
+		convertGraveGround(player.world, tmp_grave.graveground_a.pos);
+		convertGraveGround(player.world, tmp_grave.graveground_b.pos);
 
 		GrimLog.info(GrimUtil.partName, player.getName() + "'s grave: grave was dug");
 	}

@@ -27,21 +27,21 @@ public class RenderBoundingBoxEvent {
 		if (UtilConfig.showCollisionBoxes) {
 			if (event.getTarget().typeOfHit == RayTraceResult.Type.BLOCK) {
 				Minecraft mc = Minecraft.getMinecraft();
-				EntityPlayer player = mc.thePlayer;
+				EntityPlayer player = mc.player;
 
 				if (player.isSneaking()) {
 					event.setCanceled(true);
 
-					World world = mc.theWorld;
+					World world = mc.world;
 
 					GlStateManager.pushMatrix();
 					GlStateManager.pushAttrib();
 
 					GlStateManager.enableBlend();
-		            GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
-		            GlStateManager.glLineWidth(2.0F);
-		            GlStateManager.disableTexture2D();
-		            GlStateManager.depthMask(false);
+					GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
+					GlStateManager.glLineWidth(2.0F);
+					GlStateManager.disableTexture2D();
+					GlStateManager.depthMask(false);
 
 					BlockPos blockpos = event.getTarget().getBlockPos();
 					IBlockState iblockstate = world.getBlockState(blockpos);
@@ -53,7 +53,7 @@ public class RenderBoundingBoxEvent {
 
 						drawSelectionBoundingBox(iblockstate.getSelectedBoundingBox(world, blockpos).expandXyz(0.0020000000949949026D).offset(-d0, -d1, -d2), 0.5F, 0.5F, 0.3F, 0.4F);
 
-						List<AxisAlignedBB> collisionBoxes = Lists.<AxisAlignedBB> newArrayList();
+						List<AxisAlignedBB> collisionBoxes = Lists.<AxisAlignedBB>newArrayList();
 						iblockstate.addCollisionBoxToList(world, blockpos, iblockstate.getSelectedBoundingBox(world, blockpos).expandXyz(3.0d), collisionBoxes, player);
 
 						for (int i = 0; i < collisionBoxes.size(); i++)
@@ -61,8 +61,8 @@ public class RenderBoundingBoxEvent {
 					}
 
 					GlStateManager.depthMask(true);
-		            GlStateManager.enableTexture2D();
-		            GlStateManager.disableBlend();
+					GlStateManager.enableTexture2D();
+					GlStateManager.disableBlend();
 
 					GlStateManager.popAttrib();
 					GlStateManager.popMatrix();
