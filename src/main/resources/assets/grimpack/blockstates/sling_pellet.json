@@ -1,0 +1,15 @@
+{
+    "forge_marker": 1,
+    "defaults": {
+        "transform": "forge:default-item",
+        "model": "forge:item-layer"
+    },
+    "variants": {
+        "stone": [{ "textures": { "layer0": "grimpack:items/sling_pellet_stone" }}],
+        "iron": [{ "textures": { "layer0": "grimpack:items/sling_pellet_iron" }}],
+        "netherrack": [{ "textures": { "layer0": "grimpack:items/sling_pellet_netherrack" }}],
+        "light": [{ "textures": { "layer0": "grimpack:items/sling_pellet_light" }}],
+        "fire": [{ "textures": { "layer0": "grimpack:items/sling_pellet_fire" }}],
+        "explosion": [{ "textures": { "layer0": "grimpack:items/sling_pellet_explosion" }}]
+    }
+}

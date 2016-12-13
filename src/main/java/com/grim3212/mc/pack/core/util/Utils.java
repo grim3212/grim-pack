@@ -1,20 +1,29 @@
 package com.grim3212.mc.pack.core.util;
 
+import java.util.Iterator;
 import java.util.function.Predicate;
+
+import javax.annotation.Nullable;
 
 import com.grim3212.mc.pack.GrimPack;
 import com.grim3212.mc.pack.core.item.ItemManualBlock;
+import com.grim3212.mc.pack.core.network.MessageBetterExplosion;
+import com.grim3212.mc.pack.core.network.PacketDispatcher;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
+import net.minecraft.enchantment.Enchantment;
 import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.World;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
@@ -51,6 +60,11 @@ public class Utils {
 	public static void registerItem(Item item, String name) {
 		GameRegistry.register(item, new ResourceLocation(GrimPack.modID, name));
 	}
+	
+	//added by scotto
+	public static void registerEnchantment(Enchantment ench, String name) {
+		GameRegistry.register(ench, new ResourceLocation(GrimPack.modID, name));
+	}
 
 	public static SoundEvent registerSound(String name) {
 		ResourceLocation location = new ResourceLocation(GrimPack.modID, name);
@@ -67,7 +81,7 @@ public class Utils {
 	 * 
 	 * @param player
 	 * @param checkStack
-	 * @return
+	 * @return The handler for the itemstack
 	 */
 	public static IItemHandler findItemStackSlot(EntityPlayer player, Predicate<ItemStack> checkStack) {
 		if (checkStack.test(player.getHeldItemOffhand())) {
@@ -96,12 +110,25 @@ public class Utils {
 		return null;
 	}
 
-	public static boolean consumeInventoryItem(EntityPlayer player, final Item item, int amount) {
+	public static IItemHandler findItemStackSlot(IItemHandler handler, Predicate<ItemStack> checkStack) {
+		for (int slot = 0; slot < handler.getSlots(); ++slot) {
+			final ItemStack itemStack = handler.getStackInSlot(slot);
+
+			if (checkStack.test(itemStack)) {
+				return new RangedWrapper((IItemHandlerModifiable) handler, slot, slot + 1);
+			}
+		}
+
+		return null;
+	}
+
+	@Nullable
+	public static ItemStack consumePlayerItem(EntityPlayer player, final ItemStack item, int amount, boolean simulate) {
 		IItemHandler handler = findItemStackSlot(player, new Predicate<ItemStack>() {
 			@Override
 			public boolean test(ItemStack t) {
 				if (!t.isEmpty()) {
-					return t.getItem() == item;
+					return ItemStack.areItemsEqual(t, item);
 				} else {
 					return false;
 				}
@@ -109,15 +136,54 @@ public class Utils {
 		});
 
 		if (handler != null) {
-			handler.extractItem(0, amount, false);
-			return true;
+			return handler.extractItem(0, amount, simulate);
 		}
 
-		return false;
+		return null;
 	}
 
-	public static boolean consumeInventoryItem(EntityPlayer player, final Item item) {
-		return Utils.consumeInventoryItem(player, item, 1);
+	@Nullable
+	public static ItemStack consumePlayerItem(EntityPlayer player, final ItemStack item) {
+		return Utils.consumePlayerItem(player, item, 1, false);
+	}
+
+	@Nullable
+	public static ItemStack consumeHandlerItem(IItemHandler handler, final ItemStack item, int amount, boolean simulate) {
+		IItemHandler itemHandler = findItemStackSlot(handler, new Predicate<ItemStack>() {
+			@Override
+			public boolean test(ItemStack t) {
+				if (t != null && item != null) {
+					return ItemStack.areItemsEqual(t, item);
+				} else {
+					return false;
+				}
+			}
+		});
+
+		if (itemHandler != null) {
+			return itemHandler.extractItem(0, amount, simulate);
+		}
+
+		return null;
+	}
+
+	@Nullable
+	public static ItemStack consumeHandlerItem(IItemHandler handler, final ItemStack item) {
+		return Utils.consumeHandlerItem(handler, item, 1, false);
+	}
+
+	public static IItemHandler getItemHandler(ItemStack stack) {
+		if (stack.hasCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null)) {
+			return stack.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
+		}
+		return null;
+	}
+
+	public static boolean hasItemHandler(ItemStack stack) {
+		if (stack.hasCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null)) {
+			return true;
+		}
+		return false;
 	}
 
 	public static IFluidHandler getFluidHandler(ItemStack stack) {
@@ -132,5 +198,35 @@ public class Utils {
 			return true;
 		}
 		return false;
+	}
+
+	public static BetterExplosion createExplosion(World world, Entity entity, double x, double y, double z, float size, boolean smoking, boolean destroyBlocks, boolean hurtEntities) {
+		return newExplosion(world, entity, x, y, z, size, false, smoking, destroyBlocks, hurtEntities);
+	}
+
+	public static BetterExplosion newExplosion(World world, Entity entity, double x, double y, double z, float size, boolean flaming, boolean smoking, boolean destroyBlocks, boolean hurtEntities) {
+		BetterExplosion explosion = new BetterExplosion(world, entity, x, y, z, size, flaming, smoking, destroyBlocks, hurtEntities);
+		if (net.minecraftforge.event.ForgeEventFactory.onExplosionStart(world, explosion)) {
+			return explosion;
+		}
+		explosion.doExplosionA();
+		explosion.doExplosionB(true);
+
+		if (!smoking) {
+			explosion.clearAffectedBlockPositions();
+		}
+
+		Iterator<EntityPlayer> iterator = world.playerEntities.iterator();
+
+		while (iterator.hasNext()) {
+			EntityPlayer entityPlayer = (EntityPlayer) iterator.next();
+
+			if (entityPlayer.getDistanceSq(x, y, z) < 4096.0D) {
+				PacketDispatcher.sendTo(new MessageBetterExplosion(x, y, z, size, destroyBlocks, explosion.getAffectedBlockPositions(), (Vec3d) explosion.getPlayerKnockbackMap().get(entityPlayer)), (EntityPlayerMP) entityPlayer);
+			}
+		}
+
+		// end new
+		return explosion;
 	}
 }

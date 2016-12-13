@@ -4,8 +4,11 @@ import com.grim3212.mc.pack.GrimPack;
 import com.grim3212.mc.pack.core.client.RenderHelper;
 import com.grim3212.mc.pack.core.proxy.ClientProxy;
 import com.grim3212.mc.pack.world.blocks.BlockFungusBuilding;
+import com.grim3212.mc.pack.world.blocks.BlockFungusLayer;
 import com.grim3212.mc.pack.world.blocks.BlockFungusGrowing;
 import com.grim3212.mc.pack.world.blocks.BlockFungusKilling;
+import com.grim3212.mc.pack.world.blocks.BlockFungusMaze;
+import com.grim3212.mc.pack.world.blocks.BlockFungusOre;
 import com.grim3212.mc.pack.world.blocks.BlockGlowstoneSeed;
 import com.grim3212.mc.pack.world.blocks.BlockGunpowderReed;
 import com.grim3212.mc.pack.world.blocks.WorldBlocks;
@@ -44,16 +47,24 @@ public class WorldClientProxy extends ClientProxy {
 		ModelLoader.setCustomStateMapper(WorldBlocks.gunpowder_reed_block, new StateMap.Builder().ignore(BlockGunpowderReed.AGE).build());
 		ModelLoader.setCustomStateMapper(WorldBlocks.glowstone_seeds, new StateMap.Builder().ignore(BlockGlowstoneSeed.STEP).build());
 		ModelLoader.setCustomStateMapper(WorldBlocks.fungus_building, new StateMap.Builder().ignore(BlockFungusBuilding.TYPE).build());
+		ModelLoader.setCustomStateMapper(WorldBlocks.fungus_layer_building, new StateMap.Builder().ignore(BlockFungusLayer.TYPE).build());
+		ModelLoader.setCustomStateMapper(WorldBlocks.fungus_ore_building, new StateMap.Builder().ignore(BlockFungusOre.TYPE).build());
 		ModelLoader.setCustomStateMapper(WorldBlocks.fungus_growing, new StateMap.Builder().ignore(BlockFungusGrowing.TYPE).build());
 		ModelLoader.setCustomStateMapper(WorldBlocks.fungus_killing, new StateMap.Builder().ignore(BlockFungusKilling.TYPE).build());
+		
+		ModelLoader.setCustomStateMapper(WorldBlocks.fungus_maze, new StateMap.Builder().ignore(BlockFungusMaze.TYPE).build());
 
 		RenderHelper.renderBlock(WorldBlocks.randomite);
 		RenderHelper.renderBlock(WorldBlocks.gunpowder_reed_block);
 		RenderHelper.renderBlock(WorldBlocks.glowstone_seeds);
 		RenderHelper.renderBlock(WorldBlocks.corruption_block);
 		RenderHelper.renderBlockWithMetaInInventory(WorldBlocks.fungus_building, 16);
+		RenderHelper.renderBlockWithMetaInInventory(WorldBlocks.fungus_ore_building, 1);
+		RenderHelper.renderBlockWithMetaInInventory(WorldBlocks.fungus_layer_building, 16);
 		RenderHelper.renderBlockWithMetaInInventory(WorldBlocks.fungus_growing, 16);
 		RenderHelper.renderBlockWithMetaInInventory(WorldBlocks.fungus_killing, 16);
+		
+		RenderHelper.renderBlockWithMetaInInventory(WorldBlocks.fungus_maze, 1);
 
 		RenderHelper.renderItem(WorldItems.gunpowder_reed_item);
 		RenderHelper.renderItem(WorldItems.fungicide);
@@ -79,13 +90,19 @@ public class WorldClientProxy extends ClientProxy {
 					return BlockFungusKilling.color[state.getValue(BlockFungusKilling.TYPE)];
 				else if (state.getBlock() instanceof BlockFungusBuilding)
 					return BlockFungusBuilding.color[state.getValue(BlockFungusBuilding.TYPE)];
+				else if (state.getBlock() instanceof BlockFungusOre)
+					return BlockFungusOre.color[state.getValue(BlockFungusOre.TYPE)];
+				else if (state.getBlock() instanceof BlockFungusLayer)
+					return BlockFungusLayer.color[state.getValue(BlockFungusLayer.TYPE)];
 				else if (state.getBlock() instanceof BlockFungusGrowing)
 					return BlockFungusGrowing.color[state.getValue(BlockFungusGrowing.TYPE)];
+				else if (state.getBlock() instanceof BlockFungusMaze)
+					return BlockFungusMaze.color[state.getValue(BlockFungusMaze.TYPE)];
 				else
 					return 0xffffff;
 			}
 
-		}, WorldBlocks.fungus_growing, WorldBlocks.fungus_building, WorldBlocks.fungus_killing);
+		}, WorldBlocks.fungus_growing, WorldBlocks.fungus_building, WorldBlocks.fungus_ore_building, WorldBlocks.fungus_layer_building, WorldBlocks.fungus_killing, WorldBlocks.fungus_maze);
 
 		Minecraft.getMinecraft().getItemColors().registerItemColorHandler(new IItemColor() {
 			@Override
@@ -99,13 +116,22 @@ public class WorldClientProxy extends ClientProxy {
 					if (stack.getItem() == Item.getItemFromBlock(WorldBlocks.fungus_building)) {
 						return BlockFungusBuilding.color[meta];
 					}
+					if (stack.getItem() == Item.getItemFromBlock(WorldBlocks.fungus_ore_building)) {
+						return BlockFungusOre.color[meta];
+					}
+					if (stack.getItem() == Item.getItemFromBlock(WorldBlocks.fungus_layer_building)) {
+						return BlockFungusLayer.color[meta];
+					}
 					if (stack.getItem() == Item.getItemFromBlock(WorldBlocks.fungus_killing)) {
 						return BlockFungusKilling.color[meta];
+					}
+					if (stack.getItem() == Item.getItemFromBlock(WorldBlocks.fungus_maze)) {
+					return BlockFungusMaze.color[meta];
 					}
 				}
 				return 0xffffff;
 			}
-		}, WorldBlocks.fungus_growing, WorldBlocks.fungus_building, WorldBlocks.fungus_killing);
+		}, WorldBlocks.fungus_growing, WorldBlocks.fungus_building, WorldBlocks.fungus_ore_building, WorldBlocks.fungus_layer_building, WorldBlocks.fungus_killing, WorldBlocks.fungus_maze);
 
 	}
 }

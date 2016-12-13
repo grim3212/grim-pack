@@ -8,8 +8,10 @@ import com.grim3212.mc.pack.tools.items.ItemBreakingWand;
 import com.grim3212.mc.pack.tools.items.ItemBuildingWand;
 import com.grim3212.mc.pack.tools.items.ItemMiningWand;
 import com.grim3212.mc.pack.tools.items.ItemPowerStaff;
+import com.grim3212.mc.pack.tools.items.ItemSlingshot;
 import com.grim3212.mc.pack.tools.items.ItemWand;
-import com.grim3212.mc.pack.tools.network.MessageSwitchModes;
+import com.grim3212.mc.pack.tools.network.MessagePowerStaffSwitchModes;
+import com.grim3212.mc.pack.tools.network.MessageSlingshotSwitchModes;
 import com.grim3212.mc.pack.tools.network.MessageWandKeys;
 
 import net.minecraft.client.Minecraft;
@@ -31,7 +33,7 @@ public class KeyBindHelper {
 	private KeyBinding Key_3 = new KeyBinding("Wands Key 3", Keyboard.KEY_V, GrimTools.partName);
 	private KeyBinding Key_Help = new KeyBinding("Wands Help Key", Keyboard.KEY_LCONTROL, GrimTools.partName);
 
-	private KeyBinding modeSwitch = new KeyBinding("Powerstaff Switch Modes", Keyboard.KEY_M, GrimTools.partName);
+	private KeyBinding modeSwitch = new KeyBinding("GrimTools Switch Modes", Keyboard.KEY_M, GrimTools.partName);
 
 	public KeyBindHelper() {
 		mc = Minecraft.getMinecraft();
@@ -49,7 +51,13 @@ public class KeyBindHelper {
 				if (player.getHeldItemMainhand() != null) {
 					if (player.getHeldItemMainhand().getItem() instanceof ItemPowerStaff) {
 						if (modeSwitch.isPressed()) {
-							PacketDispatcher.sendToServer(new MessageSwitchModes(EnumHand.MAIN_HAND));
+							PacketDispatcher.sendToServer(new MessagePowerStaffSwitchModes(EnumHand.MAIN_HAND));
+						}
+					}
+
+					if (player.getHeldItemMainhand().getItem() instanceof ItemSlingshot) {
+						if (modeSwitch.isPressed()) {
+							PacketDispatcher.sendToServer(new MessageSlingshotSwitchModes(EnumHand.MAIN_HAND));
 						}
 					}
 
@@ -67,7 +75,13 @@ public class KeyBindHelper {
 			if (player.getHeldItemOffhand() != null) {
 				if (player.getHeldItemOffhand().getItem() instanceof ItemPowerStaff) {
 					if (modeSwitch.isPressed()) {
-						PacketDispatcher.sendToServer(new MessageSwitchModes(EnumHand.OFF_HAND));
+						PacketDispatcher.sendToServer(new MessagePowerStaffSwitchModes(EnumHand.OFF_HAND));
+					}
+				}
+
+				if (player.getHeldItemOffhand().getItem() instanceof ItemSlingshot) {
+					if (modeSwitch.isPressed()) {
+						PacketDispatcher.sendToServer(new MessageSlingshotSwitchModes(EnumHand.OFF_HAND));
 					}
 				}
 

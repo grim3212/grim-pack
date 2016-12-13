@@ -23,6 +23,7 @@ import com.grim3212.mc.pack.tools.util.BackpackRecipeHandler;
 import com.grim3212.mc.pack.tools.util.ChiselRegistry;
 import com.grim3212.mc.pack.tools.util.DispenseBehaviors;
 import com.grim3212.mc.pack.tools.util.EnumSpearType;
+import com.grim3212.mc.pack.tools.util.PelletBagRecipeHandler;
 
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -45,6 +46,7 @@ import net.minecraftforge.oredict.ShapelessOreRecipe;
 public class ToolsItems implements IPartItems {
 
 	public static Item backpack;
+	public static Item pellet_bag;
 	public static Item portable_workbench;
 	public static Item tomahawk;
 	public static Item grip;
@@ -54,7 +56,6 @@ public class ToolsItems implements IPartItems {
 	public static Item ammo_part;
 	public static Item button_part;
 	public static Item spring_part;
-	public static Item rod_part;
 	public static Item black_diamond;
 	public static Item black_diamond_pickaxe;
 	public static Item black_diamond_shovel;
@@ -141,13 +142,13 @@ public class ToolsItems implements IPartItems {
 		boomerang = (new ItemBoomerang()).setUnlocalizedName("boomerang").setCreativeTab(GrimTools.INSTANCE.getCreativeTab());
 		diamond_boomerang = (new ItemDiamondBoomerang()).setUnlocalizedName("diamond_boomerang").setCreativeTab(GrimTools.INSTANCE.getCreativeTab());
 		backpack = new ItemBackpack().setUnlocalizedName("backpack").setCreativeTab(GrimTools.INSTANCE.getCreativeTab());
+		pellet_bag = new ItemPelletBag().setUnlocalizedName("pellet_bag").setCreativeTab(GrimTools.INSTANCE.getCreativeTab());
 		portable_workbench = new ItemPortableWorkbench().setUnlocalizedName("portable_workbench").setCreativeTab(GrimTools.INSTANCE.getCreativeTab());
 		loaded_knife = (new ItemBallisticKnife(true, false)).setUnlocalizedName("loaded_knife").setCreativeTab(GrimTools.INSTANCE.getCreativeTab());
 		unloaded_knife = (new ItemBallisticKnife(false, false)).setMaxStackSize(1).setUnlocalizedName("unloaded_knife").setCreativeTab(GrimTools.INSTANCE.getCreativeTab());
 		ammo_part = (new ItemBallisticKnife(false, true)).setMaxStackSize(64).setUnlocalizedName("ammo_part").setCreativeTab(GrimTools.INSTANCE.getCreativeTab());
 		button_part = (new ItemManualPage("tools:ballistic.part3")).setMaxStackSize(1).setUnlocalizedName("button_part").setCreativeTab(GrimTools.INSTANCE.getCreativeTab());
 		spring_part = (new ItemManualPage("tools:ballistic.part2")).setMaxStackSize(1).setUnlocalizedName("spring_part").setCreativeTab(GrimTools.INSTANCE.getCreativeTab());
-		rod_part = (new ItemManualPage("tools:ballistic.part4")).setMaxStackSize(64).setUnlocalizedName("rod_part").setCreativeTab(GrimTools.INSTANCE.getCreativeTab());
 		black_diamond = (new ItemManualPage("tools:black.cookOre")).setUnlocalizedName("black_diamond").setCreativeTab(GrimTools.INSTANCE.getCreativeTab());
 		black_diamond_boots = (new ItemManualArmor(blackarmor, 4, EntityEquipmentSlot.FEET, "tools:tools.armor")).setUnlocalizedName("black_diamond_boots").setCreativeTab(GrimTools.INSTANCE.getCreativeTab());
 		black_diamond_leggings = (new ItemManualArmor(blackarmor, 4, EntityEquipmentSlot.LEGS, "tools:tools.armor")).setUnlocalizedName("black_diamond_leggings").setCreativeTab(GrimTools.INSTANCE.getCreativeTab());
@@ -211,7 +212,7 @@ public class ToolsItems implements IPartItems {
 		advanced_ray_gun = (new ItemAdvRayg()).setUnlocalizedName("advanced_ray_gun").setCreativeTab(GrimTools.INSTANCE.getCreativeTab());
 		dark_iron_ingot = (new ItemManualPage("tools:raygun.darkIron")).setUnlocalizedName("dark_iron_ingot").setCreativeTab(GrimTools.INSTANCE.getCreativeTab());
 		sling_shot = (new ItemSlingshot()).setUnlocalizedName("sling_shot").setCreativeTab(GrimTools.INSTANCE.getCreativeTab());
-		sling_pellet = (new ItemManualPage("tools:sling.pellets")).setUnlocalizedName("sling_pellet").setCreativeTab(GrimTools.INSTANCE.getCreativeTab());
+		sling_pellet = (new ItemSlingPellet()).setUnlocalizedName("sling_pellet").setCreativeTab(GrimTools.INSTANCE.getCreativeTab());
 		spear = (new ItemSpear(EnumSpearType.STONE)).setUnlocalizedName("spear").setCreativeTab(GrimTools.INSTANCE.getCreativeTab());
 		iron_spear = (new ItemSpear(EnumSpearType.IRON)).setUnlocalizedName("iron_spear").setCreativeTab(GrimTools.INSTANCE.getCreativeTab());
 		diamond_spear = (new ItemSpear(EnumSpearType.DIAMOND)).setUnlocalizedName("diamond_spear").setCreativeTab(GrimTools.INSTANCE.getCreativeTab());
@@ -223,6 +224,7 @@ public class ToolsItems implements IPartItems {
 		ultimate_fist = (new ItemUltimateFist()).setUnlocalizedName("ultimate_fist").setCreativeTab(GrimTools.INSTANCE.getCreativeTab());
 		mask = (new ItemMaskArmor(masks, 3)).setUnlocalizedName("mask");
 
+		Utils.registerItem(pellet_bag, "pellet_bag");
 		Utils.registerItem(boomerang, "boomerang");
 		Utils.registerItem(diamond_boomerang, "diamond_boomerang");
 		Utils.registerItem(mask, "mask");
@@ -294,7 +296,6 @@ public class ToolsItems implements IPartItems {
 		Utils.registerItem(ammo_part, "ammo_part");
 		Utils.registerItem(button_part, "button_part");
 		Utils.registerItem(spring_part, "spring_part");
-		Utils.registerItem(rod_part, "rod_part");
 		Utils.registerItem(backpack, "backpack");
 		Utils.registerItem(portable_workbench, "portable_workbench");
 		Utils.registerItem(black_diamond_helmet, "black_diamond_helmet");
@@ -348,17 +349,13 @@ public class ToolsItems implements IPartItems {
 		OreDictionary.registerOre("bucketMilk", golden_milk_bucket);
 		OreDictionary.registerOre("bucketMilk", diamond_milk_bucket);
 		OreDictionary.registerOre("bucketMilk", obsidian_milk_bucket);
-		OreDictionary.registerOre("ingotMetal", Items.IRON_INGOT);
-		OreDictionary.registerOre("rod", rod_part);
-		OreDictionary.registerOre("rodMetal", rod_part);
-		OreDictionary.registerOre("stickMetal", rod_part);
 
 		// Register chiseleable blocks
 		ChiselRegistry.registerBlock(Blocks.DIAMOND_ORE, Blocks.STONE, Items.DIAMOND, 1, 0);
 		ChiselRegistry.registerBlock(Blocks.EMERALD_ORE, Blocks.STONE, Items.EMERALD, 1, 0);
 		ChiselRegistry.registerBlock(Blocks.QUARTZ_ORE, Blocks.NETHERRACK, Items.QUARTZ, 1, 0);
-		ChiselRegistry.registerBlock(Blocks.GOLD_ORE, Blocks.STONE, gold_ore_item, 1, 0);
-		ChiselRegistry.registerBlock(Blocks.IRON_ORE, Blocks.STONE, iron_ore_item, 1, 0);
+		ChiselRegistry.registerBlock(Blocks.GOLD_ORE, Blocks.STONE, Items.GOLD_INGOT, 1, 0);
+		ChiselRegistry.registerBlock(Blocks.IRON_ORE, Blocks.STONE, Items.IRON_INGOT, 1, 0);
 		ChiselRegistry.registerBlock(Blocks.REDSTONE_ORE, Blocks.STONE, Items.REDSTONE, 4, 0);
 		ChiselRegistry.registerBlock(Blocks.LIT_REDSTONE_ORE, Blocks.STONE, Items.REDSTONE, 4, 0);
 		ChiselRegistry.registerBlock(Blocks.COAL_ORE, Blocks.STONE, Items.COAL, 1, 0);
@@ -373,13 +370,16 @@ public class ToolsItems implements IPartItems {
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(backpack, 1), new Object[] { "LLS", "LIS", "LLL", 'L', "leather", 'S', "string", 'I', "ingotIron" }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(portable_workbench, 1), new Object[] { "III", "IWI", "III", 'W', "workbench", 'I', "ingotIron" }));
 
+		// Backpack Recipes
 		CraftingManager.getInstance().getRecipeList().add(new BackpackRecipeHandler());
-		RecipeSorter.register("Backpack_Recipes", BackpackRecipeHandler.class, Category.SHAPELESS, "after:grim3212core");
+		RecipeSorter.register("Backpack_Recipes", BackpackRecipeHandler.class, Category.SHAPELESS, "after:grimpack");
 
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(iron_chisel, 1), new Object[] { " B", "I ", 'B', "ingotIron", 'I', "rodMetal" }));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(iron_chisel, 1), new Object[] { " B", "I ", 'B', "ingotIron", 'I', "stickMetal" }));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(diamond_chisel, 1), new Object[] { " B", "I ", 'B', "gemDiamond", 'I', "rodMetal" }));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(diamond_chisel, 1), new Object[] { " B", "I ", 'B', "gemDiamond", 'I', "stickMetal" }));
+		// Pellet Bag Recipes
+		CraftingManager.getInstance().getRecipeList().add(new PelletBagRecipeHandler());
+		RecipeSorter.register("Pellet_Bag_Recipes", PelletBagRecipeHandler.class, Category.SHAPELESS, "after:grimpack");
+
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(iron_chisel, 1), new Object[] { " B", "I ", 'B', "ingotIron", 'I', IndustryItems.iron_stick }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(diamond_chisel, 1), new Object[] { " B", "I ", 'B', "gemDiamond", 'I', IndustryItems.iron_stick }));
 		chisels = RecipeHelper.getLatestIRecipes(4);
 
 		GameRegistry.addSmelting(iron_ore_item, new ItemStack(Items.IRON_INGOT), 0.4F);
@@ -389,12 +389,10 @@ public class ToolsItems implements IPartItems {
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(throwing_knife, 4), new Object[] { "Y", "X", 'Y', "ingotIron", 'X', grip }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(grip, 2), new Object[] { "Y", "Y", 'Y', "leather" }));
 
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ammo_part, 1), new Object[] { "#  ", " # ", "  !", '#', "ingotIron", '!', rod_part }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ammo_part, 1), new Object[] { "#  ", " # ", "  !", '#', "ingotIron", '!', IndustryItems.iron_stick }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(spring_part, 1), new Object[] { "#  ", " ! ", "  #", '#', "ingotIron", '!', "string" }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(button_part, 1), new Object[] { " # ", "#!#", " # ", '#', "dustRedstone", '!', Blocks.STONE_BUTTON }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(unloaded_knife, 1), new Object[] { " #", "! ", " @", '#', button_part, '!', spring_part, '@', grip }));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(rod_part, 2), new Object[] { "#", "#", '#', "ingotMetal" }));
-
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(black_diamond_pickaxe, 1), new Object[] { "###", " X ", " X ", 'X', "stickWood", '#', black_diamond }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(black_diamond_sword, 1), new Object[] { "#", "#", "X", 'X', "stickWood", '#', black_diamond }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(black_diamond_axe, 1), new Object[] { "## ", "#X ", " X ", 'X', "stickWood", '#', black_diamond }));
@@ -419,29 +417,19 @@ public class ToolsItems implements IPartItems {
 		GameRegistry.addShapelessRecipe(new ItemStack(extinguisher, 1), new Object[] { Items.WATER_BUCKET, Items.WATER_BUCKET, new ItemStack(extinguisher, 1, 1) });
 		extinguisherRefillRecipe = RecipeHelper.getLatestIRecipe();
 
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(wood_hammer, 1), new Object[] { "MMM", "MMM", " G ", 'M', "plankWood", 'G', "rodMetal" }));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(stone_hammer, 1), new Object[] { "MMM", "MMM", " G ", 'M', "cobblestone", 'G', "rodMetal" }));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(gold_hammer, 1), new Object[] { "MMM", "MMM", " G ", 'M', "ingotGold", 'G', "rodMetal" }));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(iron_hammer, 1), new Object[] { "MMM", "MMM", " G ", 'M', "ingotIron", 'G', "rodMetal" }));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(diamond_hammer, 1), new Object[] { "MMM", "MMM", " G ", 'M', "gemDiamond", 'G', "rodMetal" }));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(wood_hammer, 1), new Object[] { "MMM", "MMM", " G ", 'M', "plankWood", 'G', "stickMetal" }));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(stone_hammer, 1), new Object[] { "MMM", "MMM", " G ", 'M', "cobblestone", 'G', "stickMetal" }));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(gold_hammer, 1), new Object[] { "MMM", "MMM", " G ", 'M', "ingotGold", 'G', "stickMetal" }));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(iron_hammer, 1), new Object[] { "MMM", "MMM", " G ", 'M', "ingotIron", 'G', "stickMetal" }));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(diamond_hammer, 1), new Object[] { "MMM", "MMM", " G ", 'M', "gemDiamond", 'G', "stickMetal" }));
-		hammers = RecipeHelper.getLatestIRecipes(10);
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(wood_hammer, 1), new Object[] { "MMM", "MMM", " G ", 'M', "plankWood", 'G', IndustryItems.iron_stick }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(stone_hammer, 1), new Object[] { "MMM", "MMM", " G ", 'M', "cobblestone", 'G', IndustryItems.iron_stick  }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(gold_hammer, 1), new Object[] { "MMM", "MMM", " G ", 'M', "ingotGold", 'G', IndustryItems.iron_stick }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(iron_hammer, 1), new Object[] { "MMM", "MMM", " G ", 'M', "ingotIron", 'G', IndustryItems.iron_stick }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(diamond_hammer, 1), new Object[] { "MMM", "MMM", " G ", 'M', "gemDiamond", 'G', IndustryItems.iron_stick }));
+		hammers = RecipeHelper.getLatestIRecipes(5);
 
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(machete_wood, 1), new Object[] { " XX", "XX ", "#  ", 'X', "plankWood", '#', "rodMetal" }));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(machete_stone, 1), new Object[] { " XX", "XX ", "#  ", 'X', "cobblestone", '#', "rodMetal" }));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(machete_gold, 1), new Object[] { " XX", "XX ", "#  ", 'X', "ingotGold", '#', "rodMetal" }));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(machete_iron, 1), new Object[] { " XX", "XX ", "#  ", 'X', "ingotIron", '#', "rodMetal" }));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(machete_diamond, 1), new Object[] { " XX", "XX ", "#  ", 'X', "gemDiamond", '#', "rodMetal" }));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(machete_wood, 1), new Object[] { " XX", "XX ", "#  ", 'X', "plankWood", '#', "stickMetal" }));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(machete_stone, 1), new Object[] { " XX", "XX ", "#  ", 'X', "cobblestone", '#', "stickMetal" }));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(machete_gold, 1), new Object[] { " XX", "XX ", "#  ", 'X', "ingotGold", '#', "stickMetal" }));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(machete_iron, 1), new Object[] { " XX", "XX ", "#  ", 'X', "ingotIron", '#', "stickMetal" }));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(machete_diamond, 1), new Object[] { " XX", "XX ", "#  ", 'X', "gemDiamond", '#', "stickMetal" }));
-		machetes = RecipeHelper.getLatestIRecipes(10);
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(machete_wood, 1), new Object[] { " XX", "XX ", "#  ", 'X', "plankWood", '#', IndustryItems.iron_stick  }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(machete_stone, 1), new Object[] { " XX", "XX ", "#  ", 'X', "cobblestone", '#', IndustryItems.iron_stick  }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(machete_gold, 1), new Object[] { " XX", "XX ", "#  ", 'X', "ingotGold", '#', IndustryItems.iron_stick  }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(machete_iron, 1), new Object[] { " XX", "XX ", "#  ", 'X', "ingotIron", '#', IndustryItems.iron_stick  }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(machete_diamond, 1), new Object[] { " XX", "XX ", "#  ", 'X', "gemDiamond", '#', IndustryItems.iron_stick  }));
+		machetes = RecipeHelper.getLatestIRecipes(5);
 
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(machete_slime, 1), new Object[] { " XX", "XX ", "#  ", 'X', "slimeball", '#', "stickWood" }));
 

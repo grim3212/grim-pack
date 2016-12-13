@@ -2,13 +2,13 @@ package com.grim3212.mc.pack.tools.inventory;
 
 import com.grim3212.mc.pack.tools.items.ToolsItems;
 
-import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.items.IItemHandler;
+import net.minecraftforge.items.SlotItemHandler;
 
-public class SlotBackpack extends Slot {
+public class SlotBackpack extends SlotItemHandler {
 
-	public SlotBackpack(IInventory inventory, int x, int y, int z) {
+	public SlotBackpack(IItemHandler inventory, int x, int y, int z) {
 		super(inventory, x, y, z);
 	}
 

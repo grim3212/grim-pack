@@ -45,7 +45,7 @@ public class ItemLowGravityController extends ItemManual {
 
 			for (int i = 0; i < entityList.size(); i++) {
 				if (((Entity) entityList.get(i)).motionY < 2.0D)
-					((Entity) entityList.get(i)).motionY += 0.038D;
+					((Entity) entityList.get(i)).motionY += 0.05D;
 			}
 		}
 		this.tickCount += 1;

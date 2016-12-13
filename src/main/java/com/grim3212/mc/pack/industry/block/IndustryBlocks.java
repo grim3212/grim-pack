@@ -216,7 +216,6 @@ public class IndustryBlocks implements IPartItems {
 		OreDictionary.registerOre("oreUranium", uranium_ore);
 		OreDictionary.registerOre("blockGlass", tempered_glass);
 		OreDictionary.registerOre("blockSteel", steel_block);
-		OreDictionary.registerOre("blockMetal", steel_block);
 		OreDictionary.registerOre("oreAluminum", aluminum_ore);
 
 		GameRegistry.addSmelting(aluminum_ore, new ItemStack(IndustryItems.aluminum_ingot, 1), 0.45F);
@@ -278,7 +277,7 @@ public class IndustryBlocks implements IPartItems {
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(fire_block, 1), new Object[] { "###", "#!#", "###", '#', "blockIron", '!', Items.FLINT_AND_STEEL }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(water_block, 1), new Object[] { "###", "#!#", "###", '#', "blockIron", '!', Items.WATER_BUCKET }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(lava_block, 1), new Object[] { "###", "#!#", "###", '#', "blockIron", '!', Items.LAVA_BUCKET }));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(spike, 8), new Object[] { "X X", " X ", "XXX", 'X', "rodMetal" }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(spike, 8), new Object[] { "X X", " X ", "XXX", 'X', "iron_stick" }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(spike, 8), new Object[] { "X X", " X ", "XXX", 'X', "stickMetal" }));
 
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(wooden_sensor), new Object[] { "IGI", "XYX", "IXI", 'X', "plankWood", 'Y', "dustRedstone", 'G', "blockGlass", 'I', "ingotIron" }));

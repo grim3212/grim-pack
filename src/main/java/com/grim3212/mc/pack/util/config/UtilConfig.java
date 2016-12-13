@@ -45,7 +45,7 @@ public class UtilConfig extends GrimConfig {
 		fusrodahCooldown = config.get(CONFIG_GENERAL_NAME, "FusRoDah cooldown (seconds)", 5).getDouble();
 		infiniteLava = config.get(CONFIG_GENERAL_NAME, "Use Infinite Lava", false).getBoolean();
 		doubleDoors = config.get(CONFIG_GENERAL_NAME, "Use Double Doors", true).getBoolean();
-		enableAutoReplace = config.get(CONFIG_GENERAL_NAME, "Enable Automatic Item Replacer", true).getBoolean();
+		enableAutoReplace = config.get(CONFIG_GENERAL_NAME, "Enable Automatic Item Replacer", false).getBoolean();
 		showCollisionBoxes = config.get(CONFIG_DEBUG_NAME, "Show collision boxes", false).getBoolean();
 
 		super.syncConfig();

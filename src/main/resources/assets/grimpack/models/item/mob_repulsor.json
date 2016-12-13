@@ -1,6 +1,6 @@
 {
     "parent": "item/generated",
     "textures": {
-        "layer0": "grimpack:items/sling_pellet"
+        "layer0": "grimpack:items/mob_repulsor"
     }
 }

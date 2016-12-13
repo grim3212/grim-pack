@@ -28,6 +28,7 @@ public class DecorItems implements IPartItems {
 	public static Item brush;
 	public static Item pruners;
 	public static Item flat_item_frame;
+	public static Item decor_door_item;
 
 	public static List<IRecipe> frames;
 
@@ -42,6 +43,7 @@ public class DecorItems implements IPartItems {
 		unfired_craft = (new ItemManualPage("decor:deco.crafts")).setUnlocalizedName("unfired_craft").setCreativeTab(GrimDecor.INSTANCE.getCreativeTab());
 		lamp_item = new ItemLampPost().setUnlocalizedName("lamp_item").setCreativeTab(GrimDecor.INSTANCE.getCreativeTab());
 		flat_item_frame = new ItemFlatItemFrame().setUnlocalizedName("flat_item_frame").setCreativeTab(GrimDecor.INSTANCE.getCreativeTab());
+		decor_door_item = new ItemDecorDoor().setUnlocalizedName("decor_door_item").setCreativeTab(GrimDecor.INSTANCE.getCreativeTab());
 
 		Utils.registerItem(flat_item_frame, "flat_item_frame");
 		Utils.registerItem(pruners, "pruners");
@@ -52,6 +54,7 @@ public class DecorItems implements IPartItems {
 		Utils.registerItem(wallpaper, "wallpaper");
 		Utils.registerItem(unfired_craft, "unfired_craft");
 		Utils.registerItem(unfired_pot, "unfired_pot");
+		Utils.registerItem(decor_door_item, "decor_door_item");
 	}
 
 	@Override

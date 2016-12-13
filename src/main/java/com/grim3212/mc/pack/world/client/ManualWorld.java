@@ -62,7 +62,7 @@ public class ManualWorld implements IManualPart {
 		greenFungus_page = new PageCrafting("green", WorldBlocks.greenFungus, 25);
 		colorFungus_page = new PageCrafting("color", WorldBlocks.coloredFungus, 15);
 		buildFungus_page = new PageCrafting("build", WorldBlocks.buildingFungus, 15);
-		mazeFungus_page = new PageCrafting("maze", WorldBlocks.mazeFungusRecipe);
+		mazeFungus_page = new PageCrafting("maze", WorldBlocks.mazeFungus, 15);
 		killingFungus_page = new PageCrafting("kill", WorldBlocks.acidFungus, 25);
 		eatingFungus_page = new PageCrafting("blockEater", WorldBlocks.breakingFungus, 15);
 		verticalFungus_page = new PageCrafting("vert", WorldBlocks.vertFungus, 20);
