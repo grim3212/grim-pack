@@ -9,6 +9,7 @@ import com.grim3212.mc.pack.core.manual.pages.PageFurnace;
 import com.grim3212.mc.pack.core.manual.pages.PageImageText;
 import com.grim3212.mc.pack.core.manual.pages.PageInfo;
 import com.grim3212.mc.pack.core.util.RecipeHelper;
+import com.grim3212.mc.pack.industry.item.IndustryItems;
 import com.grim3212.mc.pack.tools.blocks.ToolsBlocks;
 import com.grim3212.mc.pack.tools.items.ToolsItems;
 
@@ -91,7 +92,7 @@ public class ManualTools implements IManualPart {
 		grip_page = new PageCrafting("grip", new ItemStack(ToolsItems.grip));
 		spring_page = new PageCrafting("part2", new ItemStack(ToolsItems.spring_part));
 		button_page = new PageCrafting("part3", new ItemStack(ToolsItems.button_part));
-		rod_page = new PageCrafting("part4", new ItemStack(ToolsItems.rod_part));
+		rod_page = new PageCrafting("part4", new ItemStack(IndustryItems.iron_stick ));
 		ballistic_page = new PageCrafting("ballistic", new ItemStack(ToolsItems.unloaded_knife));
 		ballisticKnife_page = new PageCrafting("knives", new ItemStack(ToolsItems.ammo_part));
 		throwingKnife_page = new PageCrafting("knife", new ItemStack(ToolsItems.throwing_knife));

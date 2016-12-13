@@ -74,7 +74,7 @@ public class ItemBreakingWand extends ItemWand {
 	protected boolean doEffect(World world, EntityPlayer entityplayer, WandCoord3D start, WandCoord3D end, WandCoord3D clicked, int keys, IBlockState state) {
 		boolean damage = do_Breaking(world, start, end, clicked, keys, entityplayer);
 		if (damage)
-			world.playSound((EntityPlayer) null, end.pos, SoundEvents.ENTITY_GENERIC_EXPLODE, SoundCategory.BLOCKS, 2.5F, 0.5F + world.rand.nextFloat() * 0.3F);
+			world.playSound((EntityPlayer) null, end.pos, SoundEvents.ENTITY_GENERIC_EXPLODE, SoundCategory.BLOCKS, 1.0F, 0.5F + world.rand.nextFloat() * 0.3F);
 		return damage;
 	}
 

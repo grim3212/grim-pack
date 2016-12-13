@@ -110,15 +110,15 @@ public class BlockColorizer extends BlockContainer implements IManualBlock, ICol
 		}
 	}
 
-	@Override
-	public void onBlockHarvested(World worldIn, BlockPos pos, IBlockState state, EntityPlayer player) {
-		if (!player.capabilities.isCreativeMode) {
-			if (!(((IExtendedBlockState) this.getExtendedState(state, worldIn, pos)).getValue(BLOCK_STATE) == Blocks.AIR.getDefaultState())) {
-				IBlockState blockState = ((IExtendedBlockState) this.getExtendedState(state, worldIn, pos)).getValue(BLOCK_STATE);
-				spawnAsEntity(worldIn, pos, new ItemStack(blockState.getBlock(), 1, blockState.getBlock().getMetaFromState(blockState)));
-			}
-		}
-	}
+//	@Override
+//	public void onBlockHarvested(World worldIn, BlockPos pos, IBlockState state, EntityPlayer player) {
+//		if (!player.capabilities.isCreativeMode) {
+//			if (!(((IExtendedBlockState) this.getExtendedState(state, worldIn, pos)).getValue(BLOCK_STATE) == Blocks.AIR.getDefaultState())) {
+//				IBlockState blockState = ((IExtendedBlockState) this.getExtendedState(state, worldIn, pos)).getValue(BLOCK_STATE);
+//				spawnAsEntity(worldIn, pos, new ItemStack(blockState.getBlock(), 1, blockState.getBlock().getMetaFromState(blockState)));
+//			}
+//		}
+//	}
 
 	@Override
 	public ItemStack getPickBlock(IBlockState state, RayTraceResult target, World world, BlockPos pos, EntityPlayer player) {
@@ -165,8 +165,8 @@ public class BlockColorizer extends BlockContainer implements IManualBlock, ICol
 					// Can only set blockstate if it contains nothing or if
 					// in creative mode
 					if (te.getBlockState() == Blocks.AIR.getDefaultState() || playerIn.capabilities.isCreativeMode) {
-						if (!playerIn.capabilities.isCreativeMode)
-							--heldItem.stackSize;
+//						if (!playerIn.capabilities.isCreativeMode)
+//							--heldItem.stackSize;
 
 						setColorizer(worldIn, pos, state, block.getStateFromMeta(heldItem.getMetadata()), playerIn);
 
@@ -310,13 +310,13 @@ public class BlockColorizer extends BlockContainer implements IManualBlock, ICol
 			// Can only clear a filled colorizer
 			if (storedState != Blocks.AIR.getDefaultState()) {
 
-				EntityItem blockDropped = new EntityItem(worldIn, (double) pos.getX(), (double) pos.getY(), (double) pos.getZ(), new ItemStack(tileColorizer.getBlockState().getBlock(), 1, tileColorizer.getBlockState().getBlock().getMetaFromState(tileColorizer.getBlockState())));
-				if (!worldIn.isRemote) {
-					worldIn.spawnEntityInWorld(blockDropped);
-					if (!(player instanceof FakePlayer)) {
-						blockDropped.onCollideWithPlayer(player);
-					}
-				}
+//				EntityItem blockDropped = new EntityItem(worldIn, (double) pos.getX(), (double) pos.getY(), (double) pos.getZ(), new ItemStack(tileColorizer.getBlockState().getBlock(), 1, tileColorizer.getBlockState().getBlock().getMetaFromState(tileColorizer.getBlockState())));
+//				if (!worldIn.isRemote) {
+//					worldIn.spawnEntityInWorld(blockDropped);
+//					if (!(player instanceof FakePlayer)) {
+//						blockDropped.onCollideWithPlayer(player);
+//					}
+//				}
 
 				// Clear Self
 				setColorizer(worldIn, pos, state, null, player);

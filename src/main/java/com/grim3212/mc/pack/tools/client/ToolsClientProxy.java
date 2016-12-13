@@ -63,7 +63,6 @@ public class ToolsClientProxy extends ClientProxy {
 		RenderHelper.renderItem(ToolsItems.ammo_part);
 		RenderHelper.renderItem(ToolsItems.button_part);
 		RenderHelper.renderItem(ToolsItems.spring_part);
-		RenderHelper.renderItem(ToolsItems.rod_part);
 		RenderHelper.renderItem(ToolsItems.black_diamond);
 		RenderHelper.renderItem(ToolsItems.black_diamond_helmet);
 		RenderHelper.renderItem(ToolsItems.black_diamond_chestplate);

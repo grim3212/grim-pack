@@ -177,6 +177,10 @@ public class InventoryExtruder implements IInventory {
 	public ItemStack[] getExtruderContents() {
 		return extruderContents;
 	}
+	
+	public int getExtruderSlotStackSize(int index) {
+		return this.extruderContents[index].stackSize;
+	}
 
 	public void setExtruderContents(ItemStack[] extruderContents) {
 		this.extruderContents = extruderContents;
