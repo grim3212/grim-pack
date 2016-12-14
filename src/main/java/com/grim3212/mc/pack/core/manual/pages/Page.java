@@ -24,7 +24,7 @@ public class Page {
 	private ManualChapter chapter;
 	protected int relativeMouseX;
 	protected int relativeMouseY;
-	protected ItemStack tooltipItem;
+	protected ItemStack tooltipItem = ItemStack.EMPTY;
 	private boolean setupMethod = false;
 	private GuiManualPage link;
 
@@ -140,6 +140,6 @@ public class Page {
 	}
 
 	public void addButtons(GuiManualPage gui, List<GuiButton> buttonList) {
-		
+
 	}
 }
