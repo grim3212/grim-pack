@@ -147,7 +147,7 @@ public class ItemBetterBucket extends ItemManual {
 	@SideOnly(Side.CLIENT)
 	public void getSubItems(Item itemIn, CreativeTabs tab, NonNullList<ItemStack> subItems) {
 		// Add empty
-		ItemStack emptyStack = new ItemStack(this);
+		ItemStack emptyStack = new ItemStack(itemIn);
 		setFluid(emptyStack, "empty");
 		setAmount(emptyStack, 0);
 		subItems.add(emptyStack);
@@ -160,7 +160,7 @@ public class ItemBetterBucket extends ItemManual {
 			// add all fluids that the bucket can be filled with
 			FluidStack fs = new FluidStack(fluid, maxCapacity);
 			if (fs.getFluid().getTemperature() < maxPickupTemp) {
-				ItemStack stack = new ItemStack(this);
+				ItemStack stack = new ItemStack(itemIn);
 
 				if (Utils.getFluidHandler(stack).fill(fs, true) == fs.amount) {
 					subItems.add(stack);
@@ -172,13 +172,13 @@ public class ItemBetterBucket extends ItemManual {
 		for (String other : extraPickups) {
 			if (!other.equals("milk"))
 				if (!other.equals("fire")) {
-					ItemStack stack = new ItemStack(this);
+					ItemStack stack = new ItemStack(itemIn);
 					setFluid(stack, other);
 					setAmount(stack, maxCapacity);
 					subItems.add(stack);
 				} else {
 					if (this.pickupFire) {
-						ItemStack stack = new ItemStack(this);
+						ItemStack stack = new ItemStack(itemIn);
 						setFluid(stack, other);
 						setAmount(stack, maxCapacity);
 						subItems.add(stack);

@@ -186,15 +186,31 @@ public class Utils {
 		return false;
 	}
 
+	/**
+	 * This is for the Item capability hence FLUID_HANDLER_ITEM_CAPABILITY 
+	 * Gets the IFluidHandler for this stack
+	 * 
+	 * @param stack
+	 *            Stack to get capability from
+	 * @return The capability if found otherwise null
+	 */
 	public static IFluidHandler getFluidHandler(ItemStack stack) {
-		if (stack.hasCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, null)) {
-			return stack.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, null);
+		if (hasFluidHandler(stack)) {
+			return stack.getCapability(CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY, null);
 		}
 		return null;
 	}
 
+	/**
+	 * This is for the Item capability hence FLUID_HANDLER_ITEM_CAPABILITY 
+	 * Check if this stack has the fluid capability
+	 * 
+	 * @param stack
+	 *            Stack to check for capability
+	 * @return True if this has the capability
+	 */
 	public static boolean hasFluidHandler(ItemStack stack) {
-		if (stack.hasCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, null)) {
+		if (stack.hasCapability(CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY, null)) {
 			return true;
 		}
 		return false;
