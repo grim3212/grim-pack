@@ -13,6 +13,8 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.DimensionType;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
+import net.minecraft.world.chunk.IChunkProvider;
+import net.minecraft.world.chunk.storage.ExtendedBlockStorage;
 import net.minecraft.world.gen.feature.WorldGenMinable;
 import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.common.BiomeDictionary.Type;
@@ -41,36 +43,31 @@ public class GrimWorldGenerator extends GrimWorldGen {
 
 		FloatingIslandsBlacklist.generateFloatingIslands(world, random, i, j);
 
-		if (WorldConfig.generateFlatBedRockSurface)
-			surfaceFlatBedrock(world, i, j);
-
 		generateExtras(world, random, i, j);
 	}
 
-	private void surfaceFlatBedrock(World world, int blockX, int blockZ) {
-		// Used to determine if Flatbedrock should be generated
-		boolean foundStone = false;
+	@Override
+	protected void generateSurface(World world, IChunkProvider chunkProvider, Random random, int chunkX, int chunkZ) {
+		if (WorldConfig.generateFlatBedRockSurface) {
+			// Check if void chunk first
+			boolean voidWorld = world.getBlockState(new BlockPos(chunkX * 16, 0, chunkZ * 16)).getBlock() == Blocks.AIR;
 
-		for (int k = 1; k <= 5; k++) {
-			for (int i1 = blockX; i1 < blockX + 16; i1++) {
-				for (int k1 = blockZ; k1 < blockZ + 16; k1++) {
-					BlockPos pos = new BlockPos(i1, k, k1);
-					if (world.getBlockState(pos).getBlock() == Blocks.BEDROCK) {
-						if (!foundStone)
-							foundStone = true;
-
-						world.setBlockState(pos, Blocks.STONE.getDefaultState(), 2);
-					}
-				}
+			if (voidWorld) {
+				return;
 			}
-		}
 
-		if (foundStone) {
-			for (int l = blockX; l < blockX + 16; l++) {
-				for (int j1 = blockZ; j1 < blockZ + 16; j1++) {
-					BlockPos pos = new BlockPos(l, 0, j1);
-					if (world.getBlockState(pos).getBlock() != Blocks.BEDROCK) {
-						world.setBlockState(pos, Blocks.BEDROCK.getDefaultState(), 2);
+			ExtendedBlockStorage[] storage = chunkProvider.getLoadedChunk(chunkX, chunkZ).getBlockStorageArray();
+
+			for (ExtendedBlockStorage blocks : storage) {
+				if (blocks != null) {
+					for (int y = 1; y <= 5; y++) {
+						for (int x = 0; x < 16; x++) {
+							for (int z = 0; z < 16; z++) {
+								if (blocks.get(x, y, z).getBlock() == Blocks.BEDROCK) {
+									blocks.set(x, y, z, Blocks.STONE.getDefaultState());
+								}
+							}
+						}
 					}
 				}
 			}
@@ -133,37 +130,45 @@ public class GrimWorldGenerator extends GrimWorldGen {
 	}
 
 	@Override
-	protected void generateNether(World world, Random random, int i, int j) {
-		if (WorldConfig.generateFlatBedRockNether)
-			netherFlatBedrock(world, i, j);
+	protected void generateNether(World world, IChunkProvider chunkProvider, Random random, int chunkX, int chunkZ) {
+		if (WorldConfig.generateFlatBedRockNether) {
+			ExtendedBlockStorage[] storage = chunkProvider.getLoadedChunk(chunkX, chunkZ).getBlockStorageArray();
 
+			for (ExtendedBlockStorage blocks : storage) {
+				if (blocks != null) {
+					// Bottom layer
+					for (int y = 1; y <= 5; y++) {
+						for (int x = 0; x < 16; x++) {
+							for (int z = 0; z < 16; z++) {
+								if (blocks.get(x, y, z).getBlock() == Blocks.BEDROCK) {
+									blocks.set(x, y, z, Blocks.NETHERRACK.getDefaultState());
+								}
+							}
+						}
+					}
+
+					// Top layer
+					for (int y = 11; y < 15; y++) {
+						for (int x = 0; x < 16; x++) {
+							for (int z = 0; z < 16; z++) {
+								if (blocks.get(x, y, z).getBlock() == Blocks.BEDROCK) {
+									blocks.set(x, y, z, Blocks.NETHERRACK.getDefaultState());
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+	@Override
+	protected void generateNether(World world, Random random, int i, int j) {
 		for (int var5 = 0; var5 < 39; ++var5) {
 			int var6 = i + random.nextInt(16);
 			int var7 = random.nextInt(128);
 			int var8 = j + random.nextInt(16);
 			(new WorldGenCorruption(10, WorldBlocks.corruption_block)).generate(world, random, new BlockPos(var6, var7, var8));
-		}
-	}
-
-	private void netherFlatBedrock(World world, int blockX, int blockZ) {
-		for (int k = 1; k <= 5; k++) {
-			for (int i1 = blockX; i1 < blockX + 16; i1++) {
-				for (int k1 = blockZ; k1 < blockZ + 16; k1++) {
-					BlockPos pos = new BlockPos(i1, k, k1);
-					if (world.getBlockState(pos).getBlock() == Blocks.BEDROCK) {
-						world.setBlockState(pos, Blocks.STONE.getDefaultState(), 2);
-					}
-				}
-			}
-		}
-
-		for (int l = blockX; l < blockX + 16; l++) {
-			for (int j1 = blockZ; j1 < blockZ + 16; j1++) {
-				BlockPos pos = new BlockPos(l, 0, j1);
-				if (world.getBlockState(pos).getBlock() != Blocks.BEDROCK) {
-					world.setBlockState(pos, Blocks.BEDROCK.getDefaultState(), 2);
-				}
-			}
 		}
 	}
 

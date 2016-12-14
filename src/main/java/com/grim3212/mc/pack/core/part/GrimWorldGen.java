@@ -16,8 +16,10 @@ public abstract class GrimWorldGen implements IWorldGenerator {
 	 */
 	public void generate(Random random, int chunkX, int chunkZ, World world, IChunkGenerator chunkGenerator, IChunkProvider chunkProvider) {
 		if (world.provider.getDimensionType() == DimensionType.NETHER && world.provider.getDimension() == -1) {
+			generateNether(world, chunkProvider, random, chunkX, chunkZ);
 			generateNether(world, random, chunkX * 16, chunkZ * 16);
 		} else if (world.provider.getDimensionType() == DimensionType.OVERWORLD && world.provider.getDimension() == 0) {
+			generateSurface(world, chunkProvider, random, chunkX, chunkZ);
 			generateSurface(world, random, chunkX * 16, chunkZ * 16);
 		} else if (world.provider.getDimensionType() == DimensionType.THE_END && world.provider.getDimension() == 1) {
 			generateEnd(world, random, chunkX * 16, chunkZ * 16);
@@ -29,7 +31,19 @@ public abstract class GrimWorldGen implements IWorldGenerator {
 	/**
 	 * Generate on the surface
 	 */
+	protected void generateSurface(World world, IChunkProvider chunkProvider, Random random, int chunkX, int chunkZ) {
+	}
+
+	/**
+	 * Generate on the surface
+	 */
 	protected void generateSurface(World world, Random random, int i, int j) {
+	}
+
+	/**
+	 * Generate in the nether
+	 */
+	protected void generateNether(World world, IChunkProvider chunkProvider, Random random, int chunkX, int chunkZ) {
 	}
 
 	/**
