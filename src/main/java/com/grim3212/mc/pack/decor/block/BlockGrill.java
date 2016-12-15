@@ -9,7 +9,6 @@ import com.grim3212.mc.pack.decor.client.ManualDecor;
 import com.grim3212.mc.pack.decor.network.MessageParticles;
 import com.grim3212.mc.pack.decor.tile.TileEntityGrill;
 
-import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
@@ -51,11 +50,8 @@ public class BlockGrill extends BlockFireplaceBase implements IManualBlock {
 		ItemStack heldItem = playerIn.getHeldItem(hand);
 
 		if (!heldItem.isEmpty()) {
-			Block block = Block.getBlockFromItem(heldItem.getItem());
-			if (block != null) {
-				if (super.onBlockActivated(worldIn, pos, state, playerIn, hand, side, hitX, hitY, hitZ)) {
-					return true;
-				}
+			if (super.onBlockActivated(worldIn, pos, state, playerIn, hand, side, hitX, hitY, hitZ)) {
+				return true;
 			}
 		}
 

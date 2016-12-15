@@ -1,7 +1,5 @@
 package com.grim3212.mc.pack.util.event;
 
-import com.grim3212.mc.pack.decor.block.BlockDecorDoor;
-
 import net.minecraft.block.BlockDoor;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
@@ -17,7 +15,7 @@ public class DoubleDoor {
 		BlockPos blockpos1 = state.getValue(BlockDoor.HALF) == BlockDoor.EnumDoorHalf.LOWER ? pos : pos.down();
 		IBlockState iblockstate1 = pos.equals(blockpos1) ? state : world.getBlockState(blockpos1);
 
-		if (iblockstate1.getBlock() instanceof BlockDoor || iblockstate1.getBlock() instanceof BlockDecorDoor)
+		if (iblockstate1.getBlock() instanceof BlockDoor)
 			state = iblockstate1.cycleProperty(BlockDoor.OPEN);
 
 		int coordX = 0;
@@ -48,18 +46,21 @@ public class DoubleDoor {
 		BlockPos neighborPos = new BlockPos(coordX, pos.getY(), coordZ);
 		IBlockState neighborState = world.getBlockState(neighborPos);
 
-		if (!(neighborState.getBlock() instanceof BlockDoor || neighborState.getBlock() instanceof BlockDecorDoor)) {
+		// Make sure this is a valid door first
+		if (!(neighborState.getBlock() instanceof BlockDoor)) {
 			return;
 		}
 
+		// Check to make sure open property is the same
 		if (state.getValue(BlockDoor.OPEN) == BlockDoor.isOpen(world, neighborPos)) {
 			return;
 		}
 
-		neighborState.getBlock().onBlockActivated(world, neighborPos, neighborState, entityPlayer, enumHand, facing, (float) vec3d.xCoord, neighborState.getBlock() instanceof BlockDecorDoor ? -2 : (float) vec3d.yCoord, (float) vec3d.zCoord);
+		// Open the neighbor state
+		neighborState.getBlock().onBlockActivated(world, neighborPos, neighborState, entityPlayer, enumHand, facing, (float) vec3d.xCoord, (float) vec3d.yCoord, (float) vec3d.zCoord);
 	}
 
-	protected static boolean isHingeLeft(int combinedMeta) {
+	public static boolean isHingeLeft(int combinedMeta) {
 		return (combinedMeta & 16) != 0;
 	}
 }

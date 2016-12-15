@@ -51,6 +51,7 @@ public class ManualDecor implements IManualPart {
 	public static Page firering_page;
 	public static Page grill_page;
 	public static Page lamps_page;
+	public static Page doors_page;
 	public static Page slopeInfo_page;
 	public static Page corner_page;
 	public static Page slope_page;
@@ -100,6 +101,7 @@ public class ManualDecor implements IManualPart {
 		firering_page = new PageCrafting("firering", new ItemStack(DecorBlocks.firering));
 		grill_page = new PageCrafting("grill", new ItemStack(DecorBlocks.grill));
 		lamps_page = new PageCrafting("recipes", new ItemStack(DecorItems.lamp_item));
+		doors_page = new PageCrafting("doors", new ItemStack(DecorItems.decor_door_item));
 		slopeInfo_page = new PageInfo("slope_info");
 		corner_page = new PageCrafting("corner", new ItemStack(DecorBlocks.corner));
 		slope_page = new PageCrafting("slope", new ItemStack(DecorBlocks.slope));
@@ -119,7 +121,7 @@ public class ManualDecor implements IManualPart {
 		ManualRegistry.addChapter("intro", part).addPages(fancyPack_page, moss_page, fancyStone_page, road_page);
 		ManualRegistry.addChapter("hanging", part).addPages(calendar_page, clock_page, wallpaperInfo_page, wallpaper_page, framesInfo_page, frames_page, flatItemFrame_page);
 		ManualRegistry.addChapter("deco", part).addPages(cage_page, lantern_page, crafts_page, firing_page, lights_page);
-		ManualRegistry.addChapter("furniture", part).addPages(colorizer_page, brush_page, table_page, chair_page, stool_page, counter_page);
+		ManualRegistry.addChapter("furniture", part).addPages(colorizer_page, brush_page, table_page, chair_page, stool_page, counter_page, doors_page);
 		ManualRegistry.addChapter("other", part).addPages(fence_page, fenceGate_page, wall_page);
 		ManualRegistry.addChapter("fires", part).addPages(burningWood_page, fireplace_page, chimney_page, stove_page, firepit_page, firering_page);
 		ManualRegistry.addChapter("grill", part).addPages(grill_page);

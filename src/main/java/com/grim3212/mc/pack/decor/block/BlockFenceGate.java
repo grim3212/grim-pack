@@ -1,6 +1,5 @@
 package com.grim3212.mc.pack.decor.block;
 
-import com.grim3212.mc.pack.core.manual.IManualEntry.IManualBlock;
 import com.grim3212.mc.pack.core.manual.pages.Page;
 import com.grim3212.mc.pack.decor.client.ManualDecor;
 
@@ -19,7 +18,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.property.ExtendedBlockState;
 import net.minecraftforge.common.property.IUnlistedProperty;
 
-public class BlockFenceGate extends BlockFurnitureRotate implements IManualBlock {
+public class BlockFenceGate extends BlockFurnitureRotate {
 
 	public static final PropertyBool OPEN = PropertyBool.create("open");
 	public static final PropertyBool POWERED = PropertyBool.create("powered");
@@ -55,11 +54,8 @@ public class BlockFenceGate extends BlockFurnitureRotate implements IManualBlock
 	@Override
 	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
 		if (!playerIn.getHeldItem(hand).isEmpty()) {
-			Block block = Block.getBlockFromItem(playerIn.getHeldItem(hand).getItem());
-			if (block != null) {
-				if (super.onBlockActivated(worldIn, pos, state, playerIn, hand, side, hitX, hitY, hitZ)) {
-					return true;
-				}
+			if (super.onBlockActivated(worldIn, pos, state, playerIn, hand, side, hitX, hitY, hitZ)) {
+				return true;
 			}
 		}
 

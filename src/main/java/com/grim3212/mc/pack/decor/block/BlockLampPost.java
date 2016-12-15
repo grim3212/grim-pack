@@ -2,10 +2,10 @@ package com.grim3212.mc.pack.decor.block;
 
 import java.util.Random;
 
-import com.grim3212.mc.pack.core.manual.IManualEntry.IManualBlock;
 import com.grim3212.mc.pack.core.manual.pages.Page;
 import com.grim3212.mc.pack.core.util.NBTHelper;
 import com.grim3212.mc.pack.decor.client.ManualDecor;
+import com.grim3212.mc.pack.decor.config.DecorConfig;
 import com.grim3212.mc.pack.decor.item.DecorItems;
 import com.grim3212.mc.pack.decor.tile.TileEntityColorizer;
 import com.grim3212.mc.pack.decor.util.BlockHelper;
@@ -29,7 +29,7 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.FakePlayer;
 
-public class BlockLampPost extends BlockColorizer implements IManualBlock {
+public class BlockLampPost extends BlockColorizer {
 
 	public BlockLampPost(boolean isGlowing) {
 		this.setHardness(1.0F);
@@ -69,19 +69,22 @@ public class BlockLampPost extends BlockColorizer implements IManualBlock {
 		ItemStack heldItem = playerIn.getHeldItem(hand);
 
 		if (!heldItem.isEmpty() && tileentity instanceof TileEntityColorizer) {
+			if (heldItem.getItem() == DecorItems.brush) {
+				if (this.tryUseBrush(worldIn, playerIn, hand, pos)) {
+					return true;
+				}
+			}
+
 			TileEntityColorizer te = (TileEntityColorizer) tileentity;
 			Block block = Block.getBlockFromItem(heldItem.getItem());
 
-			if (block != null && !(block instanceof BlockColorizer)) {
+			if (block != Blocks.AIR && !(block instanceof BlockColorizer)) {
 				if (BlockHelper.getUsableBlocks().contains(block)) {
 					// Can only set blockstate if it contains nothing or if
 					// in creative mode
 					if (te.getBlockState() == Blocks.AIR.getDefaultState() || playerIn.capabilities.isCreativeMode) {
-						if (!playerIn.capabilities.isCreativeMode)
-							heldItem.shrink(1);
-
 						IBlockState toPlaceState = block.getStateFromMeta(heldItem.getMetadata());
-						this.setColorizer(worldIn, pos, state, toPlaceState, playerIn);
+						this.setColorizer(worldIn, pos, state, toPlaceState, playerIn, hand, true);
 
 						worldIn.playSound(playerIn, pos, block.getSoundType().getPlaceSound(), SoundCategory.BLOCKS, (block.getSoundType().getVolume() + 1.0F) / 2.0F, block.getSoundType().getPitch() * 0.8F);
 						return true;
@@ -175,7 +178,7 @@ public class BlockLampPost extends BlockColorizer implements IManualBlock {
 
 	@Override
 	@SuppressWarnings("deprecation")
-	public void clearColorizer(World worldIn, BlockPos pos, IBlockState state, EntityPlayer player) {
+	public boolean clearColorizer(World worldIn, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand) {
 		TileEntity te = worldIn.getTileEntity(pos);
 		if (te instanceof TileEntityColorizer) {
 			TileEntityColorizer tileColorizer = (TileEntityColorizer) te;
@@ -184,52 +187,60 @@ public class BlockLampPost extends BlockColorizer implements IManualBlock {
 			// Can only clear a filled colorizer
 			if (storedState != Blocks.AIR.getDefaultState()) {
 
-				EntityItem blockDropped = new EntityItem(worldIn, (double) pos.getX(), (double) pos.getY(), (double) pos.getZ(), new ItemStack(tileColorizer.getBlockState().getBlock(), 1, tileColorizer.getBlockState().getBlock().getMetaFromState(tileColorizer.getBlockState())));
-				if (!worldIn.isRemote) {
-					worldIn.spawnEntity(blockDropped);
-					if (!(player instanceof FakePlayer)) {
-						blockDropped.onCollideWithPlayer(player);
+				if (DecorConfig.consumeBlock && !player.capabilities.isCreativeMode) {
+					EntityItem blockDropped = new EntityItem(worldIn, (double) pos.getX(), (double) pos.getY(), (double) pos.getZ(), new ItemStack(tileColorizer.getBlockState().getBlock(), 1, tileColorizer.getBlockState().getBlock().getMetaFromState(tileColorizer.getBlockState())));
+					if (!worldIn.isRemote) {
+						worldIn.spawnEntity(blockDropped);
+						if (!(player instanceof FakePlayer)) {
+							blockDropped.onCollideWithPlayer(player);
+						}
 					}
 				}
 
 				// Clear self
-				super.setColorizer(worldIn, pos, state, null, player);
+				if (super.setColorizer(worldIn, pos, state, null, player, hand, false)) {
 
-				// Clear other lamp parts
-				if (state.getBlock() == DecorBlocks.lamp_post_bottom) {
-					super.setColorizer(worldIn, pos.up(), state, null, player);
-					super.setColorizer(worldIn, pos.up(2), state, null, player);
-				} else if (state.getBlock() == DecorBlocks.lamp_post_middle) {
-					super.setColorizer(worldIn, pos.up(), state, null, player);
-					super.setColorizer(worldIn, pos.down(), state, null, player);
-				} else if (state.getBlock() == DecorBlocks.lamp_post_top) {
-					super.setColorizer(worldIn, pos.down(), state, null, player);
-					super.setColorizer(worldIn, pos.down(2), state, null, player);
+					// Clear other lamp parts
+					if (state.getBlock() == DecorBlocks.lamp_post_bottom) {
+						super.setColorizer(worldIn, pos.up(), state, null, player, hand, false);
+						super.setColorizer(worldIn, pos.up(2), state, null, player, hand, false);
+					} else if (state.getBlock() == DecorBlocks.lamp_post_middle) {
+						super.setColorizer(worldIn, pos.up(), state, null, player, hand, false);
+						super.setColorizer(worldIn, pos.down(), state, null, player, hand, false);
+					} else if (state.getBlock() == DecorBlocks.lamp_post_top) {
+						super.setColorizer(worldIn, pos.down(), state, null, player, hand, false);
+						super.setColorizer(worldIn, pos.down(2), state, null, player, hand, false);
+					}
+
+					worldIn.playSound(player, pos, state.getBlock().getSoundType().getPlaceSound(), SoundCategory.BLOCKS, (state.getBlock().getSoundType().getVolume() + 1.0F) / 2.0F, state.getBlock().getSoundType().getPitch() * 0.8F);
+					return true;
 				}
-
-				worldIn.playSound(player, pos, state.getBlock().getSoundType().getPlaceSound(), SoundCategory.BLOCKS, (state.getBlock().getSoundType().getVolume() + 1.0F) / 2.0F, state.getBlock().getSoundType().getPitch() * 0.8F);
 			}
 		}
+		return false;
 	}
 
 	@Override
-	public void setColorizer(World worldIn, BlockPos pos, IBlockState state, IBlockState toSetState, EntityPlayer player) {
+	public boolean setColorizer(World worldIn, BlockPos pos, IBlockState state, IBlockState toSetState, EntityPlayer player, EnumHand hand, boolean consumeItem) {
 		// Set self block
-		super.setColorizer(worldIn, pos, state, toSetState, player);
+		if (super.setColorizer(worldIn, pos, state, toSetState, player, hand, consumeItem)) {
 
-		Block self = state.getBlock();
+			Block self = state.getBlock();
 
-		// Set other parts of lantern
-		if (self == DecorBlocks.lamp_post_bottom) {
-			super.setColorizer(worldIn, pos.up(), state, toSetState, player);
-			super.setColorizer(worldIn, pos.up(2), state, toSetState, player);
-		} else if (self == DecorBlocks.lamp_post_middle) {
-			super.setColorizer(worldIn, pos.up(), state, toSetState, player);
-			super.setColorizer(worldIn, pos.down(), state, toSetState, player);
-		} else if (self == DecorBlocks.lamp_post_top) {
-			super.setColorizer(worldIn, pos.down(), state, toSetState, player);
-			super.setColorizer(worldIn, pos.down(2), state, toSetState, player);
+			// Set other parts of lantern
+			if (self == DecorBlocks.lamp_post_bottom) {
+				super.setColorizer(worldIn, pos.up(), state, toSetState, player, hand, false);
+				super.setColorizer(worldIn, pos.up(2), state, toSetState, player, hand, false);
+			} else if (self == DecorBlocks.lamp_post_middle) {
+				super.setColorizer(worldIn, pos.up(), state, toSetState, player, hand, false);
+				super.setColorizer(worldIn, pos.down(), state, toSetState, player, hand, false);
+			} else if (self == DecorBlocks.lamp_post_top) {
+				super.setColorizer(worldIn, pos.down(), state, toSetState, player, hand, false);
+				super.setColorizer(worldIn, pos.down(2), state, toSetState, player, hand, false);
+			}
+			return true;
 		}
+		return false;
 	}
 
 	@Override

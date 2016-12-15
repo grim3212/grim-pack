@@ -70,7 +70,7 @@ public class ItemDecorStairs extends ItemBlock {
 	public String getItemStackDisplayName(ItemStack stack) {
 		ItemStack toPlaceStack = new ItemStack(Block.REGISTRY.getObject(new ResourceLocation(NBTHelper.getString(stack, "registryName"))), 1, NBTHelper.getInt(stack, "meta"));
 
-		if (toPlaceStack.getItem() != null) {
+		if (!toPlaceStack.isEmpty()) {
 			return I18n.translateToLocal(toPlaceStack.getDisplayName() + " " + I18n.translateToLocal(this.block.getUnlocalizedName() + ".name"));
 		} else {
 			return I18n.translateToLocal(this.block.getUnlocalizedName() + ".name");

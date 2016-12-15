@@ -4,10 +4,13 @@ import java.util.Random;
 
 import javax.annotation.Nullable;
 
-import com.grim3212.mc.pack.core.manual.IManualEntry.IManualBlock;
 import com.grim3212.mc.pack.core.manual.pages.Page;
+import com.grim3212.mc.pack.decor.config.DecorConfig;
+import com.grim3212.mc.pack.decor.item.DecorItems;
 import com.grim3212.mc.pack.decor.tile.TileEntityColorizer;
 import com.grim3212.mc.pack.decor.util.BlockHelper;
+import com.grim3212.mc.pack.util.config.UtilConfig;
+import com.grim3212.mc.pack.util.event.DoubleDoor;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockDoor;
@@ -20,7 +23,6 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -42,7 +44,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SuppressWarnings("deprecation")
-public class BlockDecorDoor extends BlockColorizer implements IManualBlock {
+public class BlockDecorDoor extends BlockColorizer {
 
 	protected static final AxisAlignedBB SOUTH_AABB = new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 1.0D, 0.1875D);
 	protected static final AxisAlignedBB NORTH_AABB = new AxisAlignedBB(0.0D, 0.0D, 0.8125D, 1.0D, 1.0D, 1.0D);
@@ -103,7 +105,7 @@ public class BlockDecorDoor extends BlockColorizer implements IManualBlock {
 
 		ItemStack heldItem = playerIn.getHeldItem(hand);
 
-		if (!heldItem.isEmpty() && heldItem.getItem() != null && tileentity instanceof TileEntityColorizer) {
+		if (!heldItem.isEmpty() && tileentity instanceof TileEntityColorizer) {
 			TileEntityColorizer te = (TileEntityColorizer) tileentity;
 			Block block = Block.getBlockFromItem(heldItem.getItem());
 
@@ -112,71 +114,98 @@ public class BlockDecorDoor extends BlockColorizer implements IManualBlock {
 					// Can only set blockstate if it contains nothing or if
 					// in creative mode
 					if (te.getBlockState() == Blocks.AIR.getDefaultState() || playerIn.capabilities.isCreativeMode) {
-						if (!playerIn.capabilities.isCreativeMode)
-							heldItem.shrink(1);
 
 						IBlockState toPlaceState = block.getStateFromMeta(heldItem.getMetadata());
-						this.setColorizer(worldIn, pos, state, toPlaceState, playerIn);
+						this.setColorizer(worldIn, pos, state, toPlaceState, playerIn, hand, true);
 
 						worldIn.playSound(playerIn, pos, block.getSoundType().getPlaceSound(), SoundCategory.BLOCKS, (block.getSoundType().getVolume() + 1.0F) / 2.0F, block.getSoundType().getPitch() * 0.8F);
 						return true;
 					} else if (te.getBlockState() != Blocks.AIR.getDefaultState()) {
 						return false;
 					}
-				} else {
-					return false;
 				}
-			} else {
-				return false;
-			}
-		}
-		return true;
-	}
-
-	@Override
-	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
-		// TODO
-		if (hitY > -2) {
-			ItemStack heldItem = playerIn.getHeldItem(hand);
-
-			if (!heldItem.isEmpty()) {
-				Block block = Block.getBlockFromItem(heldItem.getItem());
-				System.out.println(hitY);
-				if (block != null) {
-					if (changeDoors(worldIn, pos, state, playerIn, hand, side)) {
-						return true;
-					}
-				}
-			}
-
-			BlockPos blockpos = state.getValue(BlockDoor.HALF) == BlockDoor.EnumDoorHalf.LOWER ? pos : pos.down();
-			IBlockState iblockstate = pos.equals(blockpos) ? state : worldIn.getBlockState(blockpos);
-
-			if (iblockstate.getBlock() != this) {
-				return false;
-			} else {
-				state = iblockstate.cycleProperty(BlockDoor.OPEN);
-				worldIn.setBlockState(blockpos, state, 10);
-				worldIn.markBlockRangeForRenderUpdate(blockpos, pos);
-				worldIn.playEvent(playerIn, state.getValue(BlockDoor.OPEN) ? this.getOpenSound() : this.getCloseSound(), pos, 0);
-				return true;
 			}
 		}
 		return false;
 	}
 
-	public void toggleDoor(World worldIn, BlockPos pos, boolean open) {
-		IBlockState iblockstate = worldIn.getBlockState(pos);
+	@Override
+	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
+		ItemStack heldItem = playerIn.getHeldItem(hand);
 
-		if (iblockstate.getBlock() == this) {
-			BlockPos blockpos = iblockstate.getValue(BlockDoor.HALF) == BlockDoor.EnumDoorHalf.LOWER ? pos : pos.down();
-			IBlockState iblockstate1 = pos == blockpos ? iblockstate : worldIn.getBlockState(blockpos);
-
-			if (iblockstate1.getBlock() == this && iblockstate1.getValue(BlockDoor.OPEN) != open) {
-				worldIn.setBlockState(blockpos, iblockstate1.withProperty(BlockDoor.OPEN, open), 10);
-				worldIn.markBlockRangeForRenderUpdate(blockpos, pos);
-				worldIn.playEvent((EntityPlayer) null, open ? this.getOpenSound() : this.getCloseSound(), pos, 0);
+		if (!heldItem.isEmpty()) {
+			if (heldItem.getItem() == DecorItems.brush) {
+				if (this.tryUseBrush(worldIn, playerIn, hand, pos)) {
+					return true;
+				}
 			}
+
+			Block block = Block.getBlockFromItem(heldItem.getItem());
+			if (block != Blocks.AIR) {
+				if (changeDoors(worldIn, pos, state, playerIn, hand, side)) {
+					return true;
+				}
+			}
+		}
+
+		BlockPos blockpos = state.getValue(BlockDoor.HALF) == BlockDoor.EnumDoorHalf.LOWER ? pos : pos.down();
+		IBlockState iblockstate = pos.equals(blockpos) ? state : worldIn.getBlockState(blockpos);
+
+		if (iblockstate.getBlock() != this) {
+			return false;
+		} else {
+			state = iblockstate.cycleProperty(BlockDoor.OPEN);
+			worldIn.setBlockState(blockpos, state, 10);
+			worldIn.markBlockRangeForRenderUpdate(blockpos, pos);
+			worldIn.playEvent(playerIn, state.getValue(BlockDoor.OPEN) ? this.getOpenSound() : this.getCloseSound(), pos, 0);
+
+			// Used to simplify double door logic that would need to be specific
+			// for this
+			if (UtilConfig.doubleDoors) {
+
+				int coordX = 0;
+				int coordZ = 0;
+				int coordOffset = DoubleDoor.isHingeLeft(BlockDoor.combineMetadata(worldIn, blockpos)) ? -1 : 1;
+
+				switch (state.getValue(BlockDoor.FACING)) {
+				case SOUTH:
+					coordX = blockpos.getX() - coordOffset;
+					coordZ = blockpos.getZ();
+					break;
+				case WEST:
+					coordX = blockpos.getX();
+					coordZ = blockpos.getZ() - coordOffset;
+					break;
+				case NORTH:
+					coordX = blockpos.getX() + coordOffset;
+					coordZ = blockpos.getZ();
+					break;
+				case EAST:
+					coordX = blockpos.getX();
+					coordZ = blockpos.getZ() + coordOffset;
+					break;
+				default:
+					break;
+				}
+
+				BlockPos neighborPos = new BlockPos(coordX, blockpos.getY(), coordZ);
+				IBlockState neighborState = worldIn.getBlockState(neighborPos);
+
+				// Make sure this is a valid door first and same state
+				if (!(neighborState.getBlock() instanceof BlockDecorDoor) || state.getValue(BlockDoor.OPEN) == BlockDoor.isOpen(worldIn, neighborPos)) {
+					return true;
+				}
+
+				BlockPos neighborOtherPos = neighborState.getValue(BlockDoor.HALF) == BlockDoor.EnumDoorHalf.LOWER ? neighborPos : neighborPos.down();
+
+				// Open the neighbor state
+				neighborState = neighborState.cycleProperty(BlockDoor.OPEN);
+				worldIn.setBlockState(neighborPos, neighborState, 10);
+				worldIn.markBlockRangeForRenderUpdate(neighborOtherPos, neighborPos);
+				worldIn.playEvent(playerIn, state.getValue(BlockDoor.OPEN) ? this.getOpenSound() : this.getCloseSound(), neighborPos, 0);
+			}
+
+			return true;
 		}
 	}
 
@@ -254,24 +283,6 @@ public class BlockDecorDoor extends BlockColorizer implements IManualBlock {
 	}
 
 	@Override
-	public void onBlockHarvested(World worldIn, BlockPos pos, IBlockState state, EntityPlayer player) {
-		BlockPos blockpos = pos.down();
-		BlockPos blockpos1 = pos.up();
-
-		if (player.capabilities.isCreativeMode && state.getValue(BlockDoor.HALF) == BlockDoor.EnumDoorHalf.UPPER && worldIn.getBlockState(blockpos).getBlock() == this) {
-			worldIn.setBlockToAir(blockpos);
-		}
-
-		if (state.getValue(BlockDoor.HALF) == BlockDoor.EnumDoorHalf.LOWER && worldIn.getBlockState(blockpos1).getBlock() == this) {
-			if (player.capabilities.isCreativeMode) {
-				worldIn.setBlockToAir(pos);
-			}
-
-			worldIn.setBlockToAir(blockpos1);
-		}
-	}
-
-	@Override
 	@SideOnly(Side.CLIENT)
 	public BlockRenderLayer getBlockLayer() {
 		return BlockRenderLayer.CUTOUT;
@@ -338,17 +349,17 @@ public class BlockDecorDoor extends BlockColorizer implements IManualBlock {
 
 	@Override
 	public ItemStack getItem(World worldIn, BlockPos pos, IBlockState state) {
-		return new ItemStack(Items.OAK_DOOR);
+		return new ItemStack(DecorItems.decor_door_item);
 	}
 
 	@Override
 	@Nullable
 	public Item getItemDropped(IBlockState state, Random rand, int fortune) {
-		return state.getValue(BlockDoor.HALF) == BlockDoor.EnumDoorHalf.UPPER ? null : Items.OAK_DOOR;
+		return state.getValue(BlockDoor.HALF) == BlockDoor.EnumDoorHalf.UPPER ? null : DecorItems.decor_door_item;
 	}
 
 	@Override
-	public void clearColorizer(World worldIn, BlockPos pos, IBlockState state, EntityPlayer player) {
+	public boolean clearColorizer(World worldIn, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand) {
 		TileEntity te = worldIn.getTileEntity(pos);
 		if (te instanceof TileEntityColorizer) {
 			TileEntityColorizer tileColorizer = (TileEntityColorizer) te;
@@ -356,40 +367,65 @@ public class BlockDecorDoor extends BlockColorizer implements IManualBlock {
 
 			// Can only clear a filled colorizer
 			if (storedState != Blocks.AIR.getDefaultState()) {
-
-				EntityItem blockDropped = new EntityItem(worldIn, (double) pos.getX(), (double) pos.getY(), (double) pos.getZ(), new ItemStack(tileColorizer.getBlockState().getBlock(), 1, tileColorizer.getBlockState().getBlock().getMetaFromState(tileColorizer.getBlockState())));
-				if (!worldIn.isRemote) {
-					worldIn.spawnEntity(blockDropped);
-					if (!(player instanceof FakePlayer)) {
-						blockDropped.onCollideWithPlayer(player);
+				if (DecorConfig.consumeBlock && !player.capabilities.isCreativeMode) {
+					EntityItem blockDropped = new EntityItem(worldIn, (double) pos.getX(), (double) pos.getY(), (double) pos.getZ(), new ItemStack(tileColorizer.getBlockState().getBlock(), 1, tileColorizer.getBlockState().getBlock().getMetaFromState(tileColorizer.getBlockState())));
+					if (!worldIn.isRemote) {
+						worldIn.spawnEntity(blockDropped);
+						if (!(player instanceof FakePlayer)) {
+							blockDropped.onCollideWithPlayer(player);
+						}
 					}
 				}
 
 				// Clear self
-				super.setColorizer(worldIn, pos, state, null, player);
+				if (super.setColorizer(worldIn, pos, state, null, player, hand, false)) {
 
-				// Clear other half of door
-				if (state.getValue(BlockDoor.HALF) == EnumDoorHalf.LOWER) {
-					super.setColorizer(worldIn, pos.up(), state, null, player);
-				} else if (state.getValue(BlockDoor.HALF) == EnumDoorHalf.UPPER) {
-					super.setColorizer(worldIn, pos.down(), state, null, player);
+					// Sound if cleared
+					worldIn.playSound(player, pos, state.getBlock().getSoundType().getPlaceSound(), SoundCategory.BLOCKS, (state.getBlock().getSoundType().getVolume() + 1.0F) / 2.0F, state.getBlock().getSoundType().getPitch() * 0.8F);
+
+					// Clear other half of door
+					if (state.getValue(BlockDoor.HALF) == EnumDoorHalf.LOWER) {
+						return super.setColorizer(worldIn, pos.up(), state, null, player, hand, false);
+					} else if (state.getValue(BlockDoor.HALF) == EnumDoorHalf.UPPER) {
+						return super.setColorizer(worldIn, pos.down(), state, null, player, hand, false);
+					}
 				}
-
-				worldIn.playSound(player, pos, state.getBlock().getSoundType().getPlaceSound(), SoundCategory.BLOCKS, (state.getBlock().getSoundType().getVolume() + 1.0F) / 2.0F, state.getBlock().getSoundType().getPitch() * 0.8F);
 			}
 		}
+
+		return false;
 	}
 
 	@Override
-	public void setColorizer(World worldIn, BlockPos pos, IBlockState state, IBlockState toSetState, EntityPlayer player) {
+	public boolean setColorizer(World worldIn, BlockPos pos, IBlockState state, IBlockState toSetState, EntityPlayer player, EnumHand hand, boolean consumeItem) {
 		// Set self
-		super.setColorizer(worldIn, pos, state, toSetState, player);
+		if (super.setColorizer(worldIn, pos, state, toSetState, player, hand, consumeItem)) {
 
-		// Set other half of door
-		if (state.getValue(BlockDoor.HALF) == EnumDoorHalf.LOWER) {
-			super.setColorizer(worldIn, pos.up(), state, toSetState, player);
-		} else if (state.getValue(BlockDoor.HALF) == EnumDoorHalf.UPPER) {
-			super.setColorizer(worldIn, pos.down(), state, toSetState, player);
+			// Set other half of door and consume once
+			if (state.getValue(BlockDoor.HALF) == EnumDoorHalf.LOWER) {
+				return super.setColorizer(worldIn, pos.up(), state, toSetState, player, hand, false);
+			} else if (state.getValue(BlockDoor.HALF) == EnumDoorHalf.UPPER) {
+				return super.setColorizer(worldIn, pos.down(), state, toSetState, player, hand, false);
+			}
+		}
+		return false;
+	}
+
+	@Override
+	public void onBlockHarvested(World worldIn, BlockPos pos, IBlockState state, EntityPlayer player) {
+		BlockPos blockpos = pos.down();
+		BlockPos blockpos1 = pos.up();
+
+		if (player.capabilities.isCreativeMode && state.getValue(BlockDoor.HALF) == BlockDoor.EnumDoorHalf.UPPER && worldIn.getBlockState(blockpos).getBlock() == this) {
+			worldIn.setBlockToAir(blockpos);
+		}
+
+		if (state.getValue(BlockDoor.HALF) == BlockDoor.EnumDoorHalf.LOWER && worldIn.getBlockState(blockpos1).getBlock() == this) {
+			if (player.capabilities.isCreativeMode) {
+				worldIn.setBlockToAir(pos);
+			}
+
+			worldIn.setBlockToAir(blockpos1);
 		}
 	}
 }

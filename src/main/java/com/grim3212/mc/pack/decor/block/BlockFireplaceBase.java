@@ -5,7 +5,6 @@ import com.grim3212.mc.pack.decor.GrimDecor;
 import com.grim3212.mc.pack.decor.network.MessageParticles;
 import com.grim3212.mc.pack.decor.tile.TileEntityColorizer;
 
-import net.minecraft.block.Block;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.state.BlockStateContainer;
@@ -66,11 +65,8 @@ public class BlockFireplaceBase extends BlockColorizer {
 		ItemStack heldItem = playerIn.getHeldItem(hand);
 
 		if (!heldItem.isEmpty()) {
-			Block block = Block.getBlockFromItem(heldItem.getItem());
-			if (block != null) {
-				if (super.onBlockActivated(worldIn, pos, state, playerIn, hand, side, hitX, hitY, hitZ)) {
-					return true;
-				}
+			if (super.onBlockActivated(worldIn, pos, state, playerIn, hand, side, hitX, hitY, hitZ)) {
+				return true;
 			}
 		}
 

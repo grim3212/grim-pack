@@ -195,53 +195,52 @@ public class DecorBlocks implements IPartItems {
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Blocks.STONE, 8), new Object[] { "#", '#', fancy_stone }));
 		stone = RecipeHelper.getLatestIRecipes(2);
 
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(cage, 2), new Object[] { "###", "# #", "###", '#', "rodMetal" }));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(cage, 2), new Object[] { "###", "# #", "###", '#', "stickMetal" }));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(chain, 2), new Object[] { "#", "#", '#', "rodMetal" }));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(chain, 2), new Object[] { "#", "#", '#', "stickMetal" }));
-		chains = RecipeHelper.getLatestIRecipes(4);
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(cage, 2), new Object[] { "###", "# #", "###", '#', "stickIron" }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(chain, 2), new Object[] { "#", "#", '#', "stickIron" }));
+		chains = RecipeHelper.getLatestIRecipes(2);
 
 		GameRegistry.addSmelting(Blocks.GRAVEL, new ItemStack(road, 1), 0.15F);
 
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(hardened_wood, 9), new Object[] { "###", "#W#", "###", '#', "stone", 'W', "plankWood" }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(colorizer, 2), new Object[] { " # ", "#W#", " # ", '#', "dye", 'W', hardened_wood }));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(colorizer_light, 1), new Object[] { " # ", "#W#", " # ", '#', colorizer, 'W', Items.GLOWSTONE_DUST }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(colorizer_light, 4), new Object[] { " # ", "#W#", " # ", '#', colorizer, 'W', Items.GLOWSTONE_DUST }));
 		colorizers = RecipeHelper.getLatestIRecipes(3);
 
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(burning_wood, 5), new Object[] { " # ", "#W#", " # ", '#', "netherrack", 'W', "plankWood" }));
 
-		addFurnitureRecipe(corner, 4, "###", "## ", "#  ");
-		addFurnitureRecipe(slope, 4, "#  ", "## ", "###");
-		addFurnitureRecipe(sloped_angle, 5, " ##", "###");
-		addFurnitureRecipe(slanted_corner, 5, "  #", "  #", "###");
-		addFurnitureRecipe(oblique_slope, 4, "  #", "###");
-		addFurnitureRecipe(sloped_post, 6, "# ", "##", "##");
-		addFurnitureRecipe(sloped_intersection, 4, "## ", "# #");
-		addFurnitureRecipe(pyramid, 4, " # ", "###");
-		addFurnitureRecipe(full_pyramid, 4, " # ", " # ", "###");
-		addFurnitureRecipe(decor_stairs, 4, "  #", " ##", "###");
-		addFurnitureRecipe(stool, 4, "###", "S S");
-		addFurnitureRecipe(counter, 4, "###", " S ");
-		addFurnitureRecipe(table, 4, "###", "S S", "S S");
-		addFurnitureRecipe(chair, 4, "#  ", "###", "S S");
-		addFurnitureRecipe(wall, 4, "#", "#", "#");
-		addFurnitureRecipe(fence, 4, "###", "#S#");
-		addFurnitureRecipe(fence_gate, 4, "S#S", "SSS");
-		addFurnitureRecipe(DecorItems.lamp_item, 2, "#G#", "###", " # ");
-		addFurnitureRecipe(fireplace, 2, "###", "#P#", "###");
-		addFurnitureRecipe(chimney, 6, "# #", "# #", "#I#");
-		addFurnitureRecipe(firepit, 2, " I ", "#P#", "###");
-		addFurnitureRecipe(firering, 2, " # ", "#P#", " # ");
-		addFurnitureRecipe(stove, 2, "###", "BPB", "###");
-		addFurnitureRecipe(grill, 2, "#C#", "#P#", " # ");
-		addFurnitureRecipe(grill, 2, "#H#", "#P#", " # ");
+		addColorizerRecipe(corner, 4, "###", "## ", "#  ");
+		addColorizerRecipe(slope, 4, "#  ", "## ", "###");
+		addColorizerRecipe(sloped_angle, 5, " ##", "###");
+		addColorizerRecipe(slanted_corner, 5, "  #", "  #", "###");
+		addColorizerRecipe(oblique_slope, 4, "  #", "###");
+		addColorizerRecipe(sloped_post, 6, "# ", "##", "##");
+		addColorizerRecipe(sloped_intersection, 4, "## ", "# #");
+		addColorizerRecipe(pyramid, 4, " # ", "###");
+		addColorizerRecipe(full_pyramid, 4, " # ", " # ", "###");
+		addColorizerRecipe(decor_stairs, 4, "  #", " ##", "###");
+		addColorizerRecipe(stool, 4, "###", "S S");
+		addColorizerRecipe(counter, 4, "###", " S ");
+		addColorizerRecipe(table, 4, "###", "S S", "S S");
+		addColorizerRecipe(chair, 4, "#  ", "###", "S S");
+		addColorizerRecipe(wall, 4, "#", "#", "#");
+		addColorizerRecipe(fence, 4, "###", "#S#");
+		addColorizerRecipe(fence_gate, 4, "S#S", "SSS");
+		addColorizerRecipe(DecorItems.lamp_item, 2, "#G#", "###", " # ");
+		addColorizerRecipe(fireplace, 2, "###", "#P#", "###");
+		addColorizerRecipe(chimney, 6, "# #", "# #", "#I#");
+		addColorizerRecipe(firepit, 2, " I ", "#P#", "###");
+		addColorizerRecipe(firering, 2, " # ", "#P#", " # ");
+		addColorizerRecipe(stove, 2, "###", "BPB", "###");
+		addColorizerRecipe(grill, 2, "#C#", "#P#", " # ");
+		addColorizerRecipe(grill, 2, "#H#", "#P#", " # ");
+		addColorizerRecipe(DecorItems.decor_door_item, 3, "##", "##", "##");
 	}
 
-	private void addFurnitureRecipe(Block furnType, int amount, String... pattern) {
-		addFurnitureRecipe(Item.getItemFromBlock(furnType), amount, pattern);
+	private void addColorizerRecipe(Block furnType, int amount, String... pattern) {
+		addColorizerRecipe(Item.getItemFromBlock(furnType), amount, pattern);
 	}
 
-	private void addFurnitureRecipe(Item furnType, int amount, String... pattern) {
+	private void addColorizerRecipe(Item furnType, int amount, String... pattern) {
 		ItemStack itemstack = new ItemStack(furnType, amount);
 		NBTHelper.setString(itemstack, "registryName", Block.REGISTRY.getNameForObject(Blocks.AIR).toString());
 		NBTHelper.setInteger(itemstack, "meta", 0);
