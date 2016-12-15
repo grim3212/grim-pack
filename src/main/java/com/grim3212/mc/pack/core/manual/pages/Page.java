@@ -2,9 +2,13 @@ package com.grim3212.mc.pack.core.manual.pages;
 
 import java.util.List;
 
+import javax.annotation.Nullable;
+
 import org.lwjgl.opengl.GL11;
 
+import com.grim3212.mc.pack.core.manual.IManualEntry.IManualItem;
 import com.grim3212.mc.pack.core.manual.ManualChapter;
+import com.grim3212.mc.pack.core.manual.gui.GuiManualIndex;
 import com.grim3212.mc.pack.core.manual.gui.GuiManualPage;
 
 import net.minecraft.client.Minecraft;
@@ -15,6 +19,8 @@ import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.RenderItem;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.oredict.OreDictionary;
 
 public class Page {
@@ -141,5 +147,22 @@ public class Page {
 
 	public void addButtons(GuiManualPage gui, List<GuiButton> buttonList) {
 
+	}
+
+	public void handleMouseClick(int mouseX, int mouseY, int mouseButton) {
+		if (mouseButton == 0) {
+			if (!tooltipItem.isEmpty()) {
+				if (tooltipItem.getItem() instanceof IManualItem) {
+					updatePage(((IManualItem) tooltipItem.getItem()).getPage(tooltipItem));
+				}
+			}
+		}
+	}
+
+	@SideOnly(Side.CLIENT)
+	private void updatePage(@Nullable Page page) {
+		if (page != null) {
+			Minecraft.getMinecraft().displayGuiScreen(GuiManualIndex.activeManualPage = page.getLink().copySelf());
+		}
 	}
 }

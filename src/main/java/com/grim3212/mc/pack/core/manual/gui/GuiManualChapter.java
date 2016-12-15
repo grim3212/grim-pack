@@ -2,8 +2,8 @@ package com.grim3212.mc.pack.core.manual.gui;
 
 import java.util.ArrayList;
 
-import com.grim3212.mc.pack.core.manual.ManualPart;
 import com.grim3212.mc.pack.core.manual.ManualChapter;
+import com.grim3212.mc.pack.core.manual.ManualPart;
 import com.grim3212.mc.pack.core.manual.button.GuiButtonChangePage;
 import com.grim3212.mc.pack.core.manual.button.GuiButtonHome;
 import com.grim3212.mc.pack.core.manual.button.GuiButtonModSection;
@@ -99,7 +99,7 @@ public class GuiManualChapter extends GuiManualIndex {
 	}
 
 	@Override
-	protected void updateButtons() {
+	public void updateButtons() {
 		buttonList.clear();
 		buttonList.add(this.changeForward = new GuiButtonChangePage(0, x + manualWidth - 20, y + manualHeight - 12, true));
 		buttonList.add(this.changeBack = new GuiButtonChangePage(1, x + 2, y + manualHeight - 12, false));
@@ -141,7 +141,6 @@ public class GuiManualChapter extends GuiManualIndex {
 				this.updateButtons();
 			}
 			break;
-
 		case 2:
 			mc.displayGuiScreen(new GuiManualIndex(0));
 			break;

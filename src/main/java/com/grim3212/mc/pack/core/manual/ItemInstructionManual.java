@@ -13,6 +13,7 @@ import com.grim3212.mc.pack.core.manual.gui.GuiManualIndex;
 import com.grim3212.mc.pack.core.manual.pages.Page;
 
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -78,7 +79,7 @@ public class ItemInstructionManual extends Item implements IManualItem {
 
 	@Override
 	public void addInformation(ItemStack stack, EntityPlayer player, List<String> list, boolean flag) {
-		list.add("Mods Registered: " + ManualRegistry.getLoadedMods().size());
+		list.add(I18n.format("tooltip.manual.number") + ManualRegistry.getLoadedMods().size());
 	}
 
 	@Override

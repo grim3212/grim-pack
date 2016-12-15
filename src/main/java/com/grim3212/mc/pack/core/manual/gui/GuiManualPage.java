@@ -1,5 +1,7 @@
 package com.grim3212.mc.pack.core.manual.gui;
 
+import java.io.IOException;
+
 import com.grim3212.mc.pack.core.manual.ManualChapter;
 import com.grim3212.mc.pack.core.manual.button.GuiButtonChangePage;
 import com.grim3212.mc.pack.core.manual.button.GuiButtonHome;
@@ -70,7 +72,7 @@ public class GuiManualPage extends GuiManualIndex {
 		this.updateButtons();
 	}
 
-	protected void updateButtons() {
+	public void updateButtons() {
 		buttonList.clear();
 		buttonList.add(changeForward = new GuiButtonChangePage(0, x + manualWidth - 20, y + manualHeight - 12, true));
 		buttonList.add(changeBack = new GuiButtonChangePage(1, x + 2, y + manualHeight - 12, false));
@@ -187,5 +189,13 @@ public class GuiManualPage extends GuiManualIndex {
 	@Override
 	public void onGuiClosed() {
 		activeManualPage = this;
+	}
+
+	@Override
+	protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
+		super.mouseClicked(mouseX, mouseY, mouseButton);
+
+		Page page = chapter.getPages().get(this.page);
+		page.handleMouseClick(mouseX, mouseY, mouseButton);
 	}
 }

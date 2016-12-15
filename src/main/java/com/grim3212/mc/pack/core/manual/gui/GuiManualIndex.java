@@ -3,6 +3,7 @@ package com.grim3212.mc.pack.core.manual.gui;
 import com.grim3212.mc.pack.GrimPack;
 import com.grim3212.mc.pack.core.manual.ManualRegistry;
 import com.grim3212.mc.pack.core.manual.button.GuiButtonChangePage;
+import com.grim3212.mc.pack.core.manual.button.GuiButtonHistory;
 import com.grim3212.mc.pack.core.manual.button.GuiButtonHome;
 import com.grim3212.mc.pack.core.manual.button.GuiButtonModSection;
 
@@ -34,6 +35,7 @@ public class GuiManualIndex extends GuiScreen {
 	protected GuiButtonChangePage changeForward;
 	protected GuiButtonChangePage changeBack;
 	protected GuiButtonHome goHome;
+	protected GuiButtonHistory historyBackButton;
 
 	public GuiManualIndex() {
 	}
@@ -108,7 +110,7 @@ public class GuiManualIndex extends GuiScreen {
 	/**
 	 * Updates all buttons on page including forward, back, and mod buttons
 	 */
-	protected void updateButtons() {
+	public void updateButtons() {
 		buttonList.clear();
 		buttonList.add(changeForward = new GuiButtonChangePage(0, x + manualWidth - 20, y + manualHeight - 12, true));
 		buttonList.add(changeBack = new GuiButtonChangePage(1, x + 2, y + manualHeight - 12, false));

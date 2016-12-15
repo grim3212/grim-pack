@@ -74,6 +74,8 @@ public class PageMachine extends Page {
 		GL11.glColor4f(1F, 1F, 1F, 1F);
 		((GuiScreen) gui).drawTexturedModalRect(gui.getX(), gui.getY(), 0, 0, gui.getManualWidth(), gui.getManualHeight());
 
+		tooltipItem = ItemStack.EMPTY;
+
 		this.renderItem(gui, inputs.get(recipeShown), gui.getX() + 49, gui.getY() + 145);
 
 		ItemStack output = MachineRecipes.INSTANCE.getResult(inputs.get(recipeShown), this.type);
@@ -85,8 +87,6 @@ public class PageMachine extends Page {
 		if (!tooltipItem.isEmpty()) {
 			TooltipHelper.renderToolTip(tooltipItem, mouseX, mouseY);
 		}
-
-		tooltipItem = ItemStack.EMPTY;
 	}
 
 	@Override

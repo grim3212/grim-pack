@@ -38,7 +38,7 @@ public class RenderManualEntryEvent {
 				World world = mc.player.world;
 				RayTraceResult pos = ClientUtil.getMouseOver();
 
-				if (player.getHeldItemMainhand() != null && player.getHeldItemMainhand().getItem() == CoreItems.instruction_manual) {
+				if (!player.getHeldItemMainhand().isEmpty() && player.getHeldItemMainhand().getItem() == CoreItems.instruction_manual) {
 					if (pos != null) {
 						switch (pos.typeOfHit) {
 						case BLOCK:

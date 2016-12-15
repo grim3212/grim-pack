@@ -23,8 +23,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.item.crafting.ShapedRecipes;
 import net.minecraft.item.crafting.ShapelessRecipes;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.relauncher.ReflectionHelper;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
 
@@ -84,13 +84,13 @@ public class PageCrafting extends Page {
 		GL11.glColor4f(1F, 1F, 1F, 1F);
 		((GuiScreen) gui).drawTexturedModalRect(gui.getX() + 21, gui.getY() + 120, 21, 120, 147, 85);
 
+		tooltipItem = ItemStack.EMPTY;
+
 		this.renderRecipe(gui, outputRecipes);
 
 		if (!tooltipItem.isEmpty()) {
 			TooltipHelper.renderToolTip(tooltipItem, mouseX, mouseY);
 		}
-
-		tooltipItem = ItemStack.EMPTY;
 	}
 
 	public void renderRecipe(GuiManualPage gui, List<IRecipe> output) {
@@ -120,7 +120,7 @@ public class PageCrafting extends Page {
 	public void drawOreDictionaryItem(GuiManualPage gui, Object item, int x, int y) {
 		if (item instanceof ItemStack) {
 			this.renderItemCutWild(gui, (ItemStack) item, x - 1, y - 1);
-		} else if (item instanceof List<?>) {
+		} else if (item instanceof NonNullList<?>) {
 			GlStateManager.pushMatrix();
 			GlStateManager.enableBlend();
 			TextureManager render = Minecraft.getMinecraft().renderEngine;
@@ -130,7 +130,7 @@ public class PageCrafting extends Page {
 			GlStateManager.disableBlend();
 			GlStateManager.popMatrix();
 
-			this.renderItemCutWild(gui, NBTHelper.setStringItemStack(((List<ItemStack>) item).get(0), "customTooltip", I18n.format("grimpack.manual.oredictionary") + " : " + RecipeHelper.getOreDict((List<ItemStack>) item)), x - 1, y - 1);
+			this.renderItemCutWild(gui, NBTHelper.setStringItemStack(((NonNullList<ItemStack>) item).get(0), "customTooltip", I18n.format("grimpack.manual.oredictionary") + " : " + RecipeHelper.getOreDict((NonNullList<ItemStack>) item)), x - 1, y - 1);
 		}
 	}
 
@@ -174,8 +174,8 @@ public class PageCrafting extends Page {
 		// ore dictionary classes
 		else if (recipe instanceof ShapedOreRecipe) {
 			ShapedOreRecipe shapedOre = (ShapedOreRecipe) recipe;
-			int width = ReflectionHelper.<Integer, ShapedOreRecipe>getPrivateValue(ShapedOreRecipe.class, shapedOre, 4);
-			int height = ReflectionHelper.<Integer, ShapedOreRecipe>getPrivateValue(ShapedOreRecipe.class, shapedOre, 5);
+			int width = shapedOre.getWidth();
+			int height = shapedOre.getHeight();
 
 			for (int y = 0; y < height; y++) {
 				for (int x = 0; x < width; x++) {
@@ -202,5 +202,4 @@ public class PageCrafting extends Page {
 			isShapeless = true;
 		}
 	}
-
 }
