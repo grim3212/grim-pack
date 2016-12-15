@@ -497,6 +497,7 @@ grimpack.decor.cfg.IsFireParticles=Is Fire Particles
 grimpack.decor.cfg.EnableFirepitNet.tooltip=True if you want the firepit to have the metal net around it.
 grimpack.decor.cfg.IsFireParticles.tooltip=When False the fire when blocks are active are actual fire if true this uses particles instead.
 Flip Blocks in Flat Item Frames.tooltip=If true then when a Flat Item Frame is placed on the ceiling or floor blocks will render with the top up.
+Colorizers Consume Block.tooltip=Should colorizer blocks consume the block when they take on the blocks look.
 
 grimpack.industry.cfg.tooltip=Config options for the mechanical part of the Grim Pack
 grimpack.industry.cfg.general=General Options
@@ -776,6 +777,9 @@ grimpack.cuisine.soda.tooltip.orange=Pretty basic soda
 grimpack.cuisine.soda.tooltip.cocoa=One of the better sodas
 grimpack.cuisine.soda.tooltip.carbonated_water=CO2 and water
 grimpack.cuisine.soda.tooltip.mushroom=Doesn't heal much and doesn't taste good
+
+generator.floating_islands=Floating Islands
+generator.floating_islands.info=[GrimPack] Floating Islands World Type
 
 #================= INSTRUCTION MANUAL =================#
 grimpack.manual.title=Grim Instruction Manual

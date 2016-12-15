@@ -12,6 +12,7 @@ import com.grim3212.mc.pack.world.event.WorldPostInitEvent;
 import com.grim3212.mc.pack.world.gen.GrimWorldGenerator;
 import com.grim3212.mc.pack.world.gen.WorldEvents;
 import com.grim3212.mc.pack.world.items.WorldItems;
+import com.grim3212.mc.pack.world.types.WorldTypes;
 import com.grim3212.mc.pack.world.util.LootTables;
 
 import net.minecraft.item.ItemStack;
@@ -65,6 +66,7 @@ public class GrimWorld extends GrimPart {
 	@Override
 	public void postInit(FMLPostInitializationEvent event) {
 		MinecraftForge.EVENT_BUS.post(new WorldPostInitEvent());
+		WorldTypes.registerTypes();
 	}
 
 	@Override
