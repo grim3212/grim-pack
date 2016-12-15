@@ -616,6 +616,10 @@ Spawn Treasure Mobs.tooltip=Should treasure mobs spawn in the world
 Spawn Ice Pixies.tooltip=Should ice pixies spawn in the world
 ### END CONFIG TOOLTIPS ###
 
+tooltip.manual.number=Parts Loaded: 
+tooltip.pokeball.stored=Stored: 
+tooltip.pokeball.empty=Empty
+
 grimpack.decor.brush.empty=Stored: Empty
 grimpack.decor.brush.stored=Stored: %s
 grimpack.decor.brush_info=Clear block information from furniture
@@ -937,6 +941,8 @@ grimpack.manual.decor.subsection.furniture.page.stool=Stools are smaller than ch
 grimpack.manual.decor.subsection.furniture.page.stool.title=Stools
 grimpack.manual.decor.subsection.furniture.page.counter=Counters are like the tables except without the legs so they just kinda float there.
 grimpack.manual.decor.subsection.furniture.page.counter.title=Counters
+grimpack.manual.decor.subsection.furniture.page.doors=You can also colorize doors to hide entrances to your base or just make something classy.
+grimpack.manual.decor.subsection.furniture.page.doors.title=Doors
 #End Furniture
 
 #Start Other

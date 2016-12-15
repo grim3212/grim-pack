@@ -8,6 +8,7 @@ import com.grim3212.mc.pack.tools.GrimTools;
 import com.grim3212.mc.pack.tools.client.ManualTools;
 import com.grim3212.mc.pack.tools.entity.EntityPokeball;
 
+import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemEgg;
@@ -53,14 +54,13 @@ public class ItemPokeball extends ItemEgg implements IManualItem {
 	@Override
 	public void addInformation(ItemStack itemstack, EntityPlayer entityplayer, List<String> list, boolean flag) {
 		if (itemstack.hasTagCompound()) {
-			// TODO: Localize this
 			if (itemstack.getTagCompound().hasKey("name")) {
-				list.add("Stored: " + itemstack.getTagCompound().getString("name"));
+				list.add(I18n.format("tooltip.pokeball.stored") + itemstack.getTagCompound().getString("name"));
 			} else {
-				list.add("Stored: " + itemstack.getTagCompound().getString("id"));
+				list.add(I18n.format("tooltip.pokeball.stored") + itemstack.getTagCompound().getString("id"));
 			}
 		} else {
-			list.add("Stored: Empty");
+			list.add(I18n.format("tooltip.pokeball.stored") + I18n.format("tooltip.pokeball.empty"));
 		}
 	}
 }

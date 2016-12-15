@@ -277,8 +277,7 @@ public class IndustryBlocks implements IPartItems {
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(fire_block, 1), new Object[] { "###", "#!#", "###", '#', "blockIron", '!', Items.FLINT_AND_STEEL }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(water_block, 1), new Object[] { "###", "#!#", "###", '#', "blockIron", '!', Items.WATER_BUCKET }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(lava_block, 1), new Object[] { "###", "#!#", "###", '#', "blockIron", '!', Items.LAVA_BUCKET }));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(spike, 8), new Object[] { "X X", " X ", "XXX", 'X', "iron_stick" }));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(spike, 8), new Object[] { "X X", " X ", "XXX", 'X', "stickMetal" }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(spike, 8), new Object[] { "X X", " X ", "XXX", 'X', "stickIron" }));
 
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(wooden_sensor), new Object[] { "IGI", "XYX", "IXI", 'X', "plankWood", 'Y', "dustRedstone", 'G', "blockGlass", 'I', "ingotIron" }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(stone_sensor), new Object[] { "IGI", "XYX", "IXI", 'X', "stone", 'Y', "dustRedstone", 'G', "blockGlass", 'I', "ingotIron" }));

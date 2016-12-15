@@ -55,7 +55,6 @@ public class WorldEntities implements IPartEntities {
 
 		// Ice pixie
 		if (WorldConfig.spawnIcePixies)
-			// TODO: Might not work as expected
 			EntityRegistry.addSpawn(EntityIcePixie.class, 100, 2, 5, EnumCreatureType.CREATURE, BiomeDictionary.getBiomes(Type.SNOWY).toArray(new Biome[BiomeDictionary.getBiomes(Type.SNOWY).size()]));
 
 		// TreasureMob
