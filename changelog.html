@@ -1,6 +1,63 @@
-<h1>Version: 4.0.0.0</h1>
-<br>
+<h1>Version: 4.0.0.0 Alpha</h1>
+<h2 style="color: #0000FF">Update to 1.11</h2>
+
+<h3>Requirements</h3>
+<ul>
+	<li>Minecraft 1.11</li>
+	<li>Minecraft Forge 13.19.1.2189</li>
+	<li>(Optional) JEI 4.1.0.204</li>
+	<li>(Optional) JER 0.6.1.100 [Any 1.11 versions
+			should work but this is what I built with]</li>
+</ul>
+
+<p>
+	Give a huge thanks to scottosx who added a large portion of the new
+	features. Also, I have done minimal testing so far so report any bugs at <a
+		href="https://github.com/grim3212/Grim-Pack/issues">https://github.com/grim3212/Grim-Pack/issues</a>.
+	There is also some things that are still being worked on and will be added before the full release.
+</p>
+
 <h2>Changes</h2>
 <ul>
-	<li>Update to 1.11</li>
+	<li>Add in new Decor Door that can be colorized</li>
+	<li>Add in colorizer light that works the same as the default
+		colorizer but emits light</li>
+	<li>New backend changes for colorizer blocks</li>
+	<li>New config changes to decide if colorizers consume a block
+		when set or not</li>
+	<li>Slingshot changes</li>
+	<li>Add in new slingshots, pellets, and a pellet bag to store the
+		different pellets</li>
+	<li>FlatBedrock now generates on the ceiling in the nether</li>
+	<li>Manual recipe pages support clicking the items. If a item has
+		a manual page then it takes you to that page</li>
+	<li>Added mob repulsor, similar to a portable repulsor</li>
+	<li>Cheeseburger recipe now uses steak instead of pork</li>
+	<li>Sound effect for magic wand slightly reduced</li>
+	<li>Added new modes to powerstaff</li>
+	<li>There are now four modes the powerstaff supports (floating
+		push, floating pull, dropping push, dropping pull)</li>
+	<li>These floating modes stop the block from automatically getting
+		affected by gravity</li>
+	<li>Automatic item replacer is set to false by default since many
+		mods do this</li>
+	<li>Default extruder fuel values changed to be more predictable</li>
+	<li>Basic tameable TreasureMob... The start more to come</li>
+	<li>Use oredict stickIron for some recipes to stop some conflicts</li>
+	<li>Add more information to extruder GUI</li>
+	<li>Add in the start of Fungus changes</li>
+	<li>Add in Floating Island world type</li>
+</ul>
+
+<h2>Bug fixes for 1.11</h2>
+<ul>
+	<li>Remove some OreDict recipes that included vanilla to stop
+		compatibility issues</li>
+	<li>FlatBedrock was causing crashes in 1.11 so the way it has
+		worked has changed so now it modifies the chunks data directly.</li>
+	<li>BetterBUckets use the correct capability for 1.11.</li>
+	<li>Many ItemStack crash fixes that I didn't catch for the first
+		round of updating.</li>
+	<li>Fix some broken recipes and add some more localizations to
+		Pokeball and Manual.</li>
 </ul>

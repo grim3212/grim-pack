@@ -91,6 +91,8 @@ curseforge {
         id = props.grimpack_id ? props.grimpack_id : '0'
 		mainArtifact jar
         releaseType = mod_release_type
+		addGameVersion '1.8'
+		addGameVersion '1.7'
         changelogType = 'html'
         changelog = file("changelog.html")
         relations {
