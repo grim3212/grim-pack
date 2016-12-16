@@ -22,3 +22,5 @@ gradle
 eclipse
 run
 developmentMods
+WinSCP
+secrets.properties
