@@ -21,3 +21,6 @@ gradle
 # other
 eclipse
 run
+developmentMods
+WinSCP
+secrets.properties
