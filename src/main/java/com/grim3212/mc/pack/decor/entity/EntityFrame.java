@@ -325,15 +325,18 @@ public class EntityFrame extends EntityHanging implements IEntityAdditionalSpawn
 	@SideOnly(Side.CLIENT)
 	public boolean canBeCollidedWith() {
 		EntityPlayer player = Minecraft.getMinecraft().player;
-		ItemStack itemstack = player.getHeldItem(player.getActiveHand());
 
-		if (!itemstack.isEmpty()) {
-			if ((this.material == 0) && (((itemstack.getItem() == DecorItems.frame) && (itemstack.getItemDamage() == this.material)) || (itemstack.getItem() instanceof ItemAxe) || (itemstack.getItem() == Items.DYE))) {
-				return true;
-			}
+		for (EnumHand hand : EnumHand.values()) {
+			ItemStack handStack = player.getHeldItem(hand);
 
-			if ((this.material == 1) && (((itemstack.getItem() == DecorItems.frame) && (itemstack.getItemDamage() == this.material)) || (itemstack.getItem() instanceof ItemPickaxe) || (itemstack.getItem() == Items.DYE))) {
-				return true;
+			if (!handStack.isEmpty()) {
+				if ((this.material == 0) && (((handStack.getItem() == DecorItems.frame) && (handStack.getItemDamage() == this.material)) || (handStack.getItem() instanceof ItemAxe) || (handStack.getItem() == Items.DYE))) {
+					return true;
+				}
+
+				if ((this.material == 1) && (((handStack.getItem() == DecorItems.frame) && (handStack.getItemDamage() == this.material)) || (handStack.getItem() instanceof ItemPickaxe) || (handStack.getItem() == Items.DYE))) {
+					return true;
+				}
 			}
 		}
 

@@ -183,8 +183,14 @@ public class EntityWallpaper extends EntityHanging implements IEntityAdditionalS
 	@SideOnly(Side.CLIENT)
 	public boolean canBeCollidedWith() {
 		EntityPlayer player = Minecraft.getMinecraft().player;
-		ItemStack stack = player.getHeldItem(player.getActiveHand());
-		return !stack.isEmpty() && ((stack.getItem() == DecorItems.wallpaper) || (stack.getItem() instanceof ItemAxe) || (stack.getItem() == Items.DYE));
+
+		for (EnumHand hand : EnumHand.values()) {
+			ItemStack handStack = player.getHeldItem(hand);
+
+			return !handStack.isEmpty() && ((handStack.getItem() == DecorItems.wallpaper) || (handStack.getItem() instanceof ItemAxe) || (handStack.getItem() == Items.DYE));
+		}
+
+		return false;
 	}
 
 	@Override
