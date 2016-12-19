@@ -5,6 +5,7 @@ import java.util.Random;
 import javax.annotation.Nullable;
 
 import com.grim3212.mc.pack.core.manual.pages.Page;
+import com.grim3212.mc.pack.decor.client.ManualDecor;
 import com.grim3212.mc.pack.decor.config.DecorConfig;
 import com.grim3212.mc.pack.decor.item.DecorItems;
 import com.grim3212.mc.pack.decor.tile.TileEntityColorizer;
@@ -59,7 +60,7 @@ public class BlockDecorDoor extends BlockColorizer {
 
 	@Override
 	public Page getPage(IBlockState state) {
-		return null;
+		return ManualDecor.doors_page;
 	}
 
 	@Override
