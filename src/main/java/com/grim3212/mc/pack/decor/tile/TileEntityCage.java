@@ -19,7 +19,7 @@ import net.minecraftforge.common.util.Constants;
 
 public class TileEntityCage extends TileEntityLockable implements ITickable {
 
-	public ItemStack cageItem;
+	public ItemStack cageItem = ItemStack.EMPTY;
 	private String customName;
 	private Entity cachedEntity;
 
