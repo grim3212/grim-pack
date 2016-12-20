@@ -6,6 +6,8 @@ import com.grim3212.mc.pack.industry.item.IndustryItems;
 import com.grim3212.mc.pack.industry.util.MachineRecipes;
 import com.grim3212.mc.pack.industry.util.MachineRecipes.MachineType;
 
+import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -15,7 +17,11 @@ import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemBlock;
+import net.minecraft.item.ItemHoe;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.ItemSword;
+import net.minecraft.item.ItemTool;
 import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -285,7 +291,7 @@ public class TileEntityMFurnace extends TileEntityLockable implements ITickable,
 	 * @return How long it takes to smelt this stack
 	 */
 	public int getCookTime(ItemStack stack) {
-		return 140;
+		return 100;
 	}
 
 	/**
@@ -351,13 +357,58 @@ public class TileEntityMFurnace extends TileEntityLockable implements ITickable,
 			return 0;
 		} else {
 			Item item = stack.getItem();
-			return item == IndustryItems.fuel ? 1600 : 0;
+
+            if (item instanceof ItemBlock && Block.getBlockFromItem(item) != Blocks.AIR)
+            {
+                Block block = Block.getBlockFromItem(item);
+
+                if (block == Blocks.WOODEN_SLAB)
+                {
+                    return 150;
+                }
+
+                if (block.getDefaultState().getMaterial() == Material.WOOD)
+                {
+                    return 300;
+                }
+
+                if (block == Blocks.COAL_BLOCK)
+                {
+                    return 16000;
+                }
+            }
+
+            if (item instanceof ItemTool && "WOOD".equals(((ItemTool)item).getToolMaterialName())) return 200;
+            if (item instanceof ItemSword && "WOOD".equals(((ItemSword)item).getToolMaterialName())) return 200;
+            if (item instanceof ItemHoe && "WOOD".equals(((ItemHoe)item).getMaterialName())) return 200;
+            if (item == Items.STICK) return 100;
+            if (item == Items.COAL) return 1600;
+            if (item == Items.LAVA_BUCKET) return 20000;
+            if (item == Item.getItemFromBlock(Blocks.SAPLING)) return 100;
+            if (item == Items.BLAZE_ROD) return 2400;
+            if (item == IndustryItems.fuel) return 3200;
+            return net.minecraftforge.fml.common.registry.GameRegistry.getFuelValue(stack);
 		}
 	}
 
-	public static boolean isItemFuel(ItemStack stack) {
-		return stack.getItem() == IndustryItems.fuel;
-	}
+//	public static boolean isItemFuel(ItemStack stack) {
+//		if (stack.getItem() == Items.COAL ||
+//				stack.getItem() == Items.LAVA_BUCKET ||
+//				stack.getItem() == IndustryItems.fuel) {
+//		return true;
+//		}else{
+//			return false;
+//		}
+//	}
+	
+	 public static boolean isItemFuel(ItemStack stack)
+	    {
+	        /**
+	         * Returns the number of ticks that the supplied fuel item will keep the furnace burning, or 0 if the item isn't
+	         * fuel
+	         */
+	        return getItemBurnTime(stack) > 0;
+	    }
 
 	/**
 	 * Do not make give this method the name canInteractWith because it clashes
