@@ -11,7 +11,6 @@ import com.grim3212.mc.pack.core.network.MessageBetterExplosion;
 import com.grim3212.mc.pack.core.network.PacketDispatcher;
 import com.grim3212.mc.pack.core.part.GrimPart;
 import com.grim3212.mc.pack.core.proxy.CommonProxy;
-import com.grim3212.mc.pack.world.world.WorldTypeFloatingIslands;
 
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
@@ -53,9 +52,6 @@ public class GrimCore extends GrimPart {
 	public void postInit(FMLPostInitializationEvent event) {
 		super.postInit(event);
 		
-		//scotto - adding world type preset. Works but maybe code goes elsewhere?
-		new WorldTypeFloatingIslands("floating_islands");
-
 		// Register Syncing config
 		MinecraftForge.EVENT_BUS.register(new SyncConfigEvent());
 	}
