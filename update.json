@@ -1,8 +1,10 @@
 {
 	"homepage": "http://mods.grim3212.com/grim-pack/",
 	"promos": {
-		"1.10.2-latest": "3.4.17.52",
-		"1.10.2-recommended": "3.4.17.52",
+		"1.11-latest": "4.0.0.0-alpha.1",
+		"1.11-recommended": "4.0.0.0-alpha.1",
+		"1.10.2-latest": "3.4.17.53",
+		"1.10.2-recommended": "3.4.17.53",
 		"1.9-latest": "2.1.3.7",
 		"1.9-recommended": "2.1.3.7",
 		"1.8.9-latest": "1.0.0.3",
@@ -21,6 +23,7 @@
 		"2.0.0.0": "Combines all parts mods into 1 mod and combine a lot of the logic. Lots of bugfixes and changes."
 	},
 	"1.10.2": {
+		"3.4.17.53": "Fix a crash that would sometimes occur with entity spawning",
 		"3.4.17.52": "Fix Infinite Lava loop",
 		"3.4.17.51": "Add in Specific Sensors, GPS, more Refinery and Modern Furnace recipes, and a config option for uranium damage. Fix compatibility with refined storage and fix a problem with the cutting knife and mixer and fix machines not dropping xp.",
 		"3.4.16.45": "Mo' People bug fixes, armor values being wrong. Secret",
@@ -49,5 +52,9 @@
 		"3.2.2.8": "A huge amount of changes. Many of these change recipes as well as a overhaul of decor furniture.",
 		"3.0.0.1": "Fix a world generation crash that would sometimes happen with Biomes O' Plenty. Also change version to actually be what the update is looking for.",
 		"3.0.0.0": "Fix vanilla desert wells from spawning. Add a config option for workbench upgrades. Requires Forge 12.18.1.2039."
+	},
+	"1.11": {
+		"4.0.0.0-alpha.1": "Fix crashes with Frames, Wallpaper, cages, and machines.",
+		"4.0.0.0-alpha": "Port to 1.11. Many changes to decor, powerstaff, slingshots, fungus, and more. See full changelog at curseforge."
 	}
 }

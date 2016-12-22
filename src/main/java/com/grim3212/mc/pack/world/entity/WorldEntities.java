@@ -1,21 +1,16 @@
 package com.grim3212.mc.pack.world.entity;
 
-import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
 
-import com.google.common.collect.Iterables;
 import com.grim3212.mc.pack.core.part.IPartEntities;
 import com.grim3212.mc.pack.core.util.GrimLog;
 import com.grim3212.mc.pack.core.util.Utils;
 import com.grim3212.mc.pack.world.GrimWorld;
 import com.grim3212.mc.pack.world.config.WorldConfig;
 
+import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.world.biome.Biome;
-import net.minecraft.world.biome.BiomeEnd;
-import net.minecraft.world.biome.BiomeHell;
-import net.minecraft.world.biome.BiomeVoid;
 import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.common.BiomeDictionary.Type;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
@@ -41,34 +36,47 @@ public class WorldEntities implements IPartEntities {
 	}
 
 	public static void addSpawns() {
-		List<Biome> compatibleBiomes = new ArrayList<Biome>();
-		Iterator<Biome> itr = Biome.REGISTRY.iterator();
-		while (itr.hasNext()) {
-			Biome biome = itr.next();
-
-			if (!(biome instanceof BiomeHell) && !(biome instanceof BiomeEnd) && !(biome instanceof BiomeVoid))
-				compatibleBiomes.add(biome);
-		}
-		Biome[] biomes = Iterables.toArray(compatibleBiomes, Biome.class);
-
-		GrimLog.info(GrimWorld.partName, "Biome array size " + biomes.length);
+		GrimLog.info(GrimWorld.partName, "Adding entity spawns");
 
 		// Ice pixie
 		if (WorldConfig.spawnIcePixies)
 			EntityRegistry.addSpawn(EntityIcePixie.class, 100, 2, 5, EnumCreatureType.CREATURE, BiomeDictionary.getBiomesForType(Type.SNOWY));
 
-		// TreasureMob
-		if (WorldConfig.spawnTreasureMobs)
-			EntityRegistry.addSpawn(EntityTreasureMob.class, 10, 1, 1, EnumCreatureType.CREATURE, biomes);
+		try {
+			int numBiomes = 0;
+			Iterator<Biome> biomeIterator = Biome.REGISTRY.iterator();
+			while (biomeIterator.hasNext()) {
+				Biome biome = biomeIterator.next();
 
-		// More People
-		if (WorldConfig.spawnMorePeople) {
-			EntityRegistry.addSpawn(EntityNotch.class, 4, 0, 1, EnumCreatureType.CREATURE, biomes);
-			EntityRegistry.addSpawn(EntityPsycho.class, 4, 1, 2, EnumCreatureType.CREATURE, biomes);
-			EntityRegistry.addSpawn(EntityFarmer.class, 8, 1, 2, EnumCreatureType.CREATURE, biomes);
-			EntityRegistry.addSpawn(EntityLumberJack.class, 8, 1, 2, EnumCreatureType.CREATURE, biomes);
-			EntityRegistry.addSpawn(EntityMiner.class, 4, 1, 2, EnumCreatureType.CREATURE, biomes);
-			EntityRegistry.addSpawn(EntityBomber.class, 4, 1, 2, EnumCreatureType.CREATURE, biomes);
+				if (biome != null && ((BiomeDictionary.isBiomeOfType(biome, BiomeDictionary.Type.HOT) || BiomeDictionary.isBiomeOfType(biome, BiomeDictionary.Type.COLD) || BiomeDictionary.isBiomeOfType(biome, BiomeDictionary.Type.WET) || BiomeDictionary.isBiomeOfType(biome, BiomeDictionary.Type.DRY) || BiomeDictionary.isBiomeOfType(biome, BiomeDictionary.Type.SAVANNA) || BiomeDictionary.isBiomeOfType(biome, BiomeDictionary.Type.CONIFEROUS) || BiomeDictionary.isBiomeOfType(biome, BiomeDictionary.Type.LUSH) || BiomeDictionary.isBiomeOfType(biome, BiomeDictionary.Type.MUSHROOM)
+						|| BiomeDictionary.isBiomeOfType(biome, BiomeDictionary.Type.FOREST) || BiomeDictionary.isBiomeOfType(biome, BiomeDictionary.Type.PLAINS) || BiomeDictionary.isBiomeOfType(biome, BiomeDictionary.Type.SANDY) || BiomeDictionary.isBiomeOfType(biome, BiomeDictionary.Type.SNOWY) || BiomeDictionary.isBiomeOfType(biome, BiomeDictionary.Type.BEACH)))) {
+					// TreasureMob
+					if (WorldConfig.spawnTreasureMobs)
+						EntityRegistry.addSpawn(EntityTreasureMob.class, 10, 1, 1, EnumCreatureType.CREATURE, biome);
+
+					// More People
+					if (WorldConfig.spawnMorePeople) {
+						EntityRegistry.addSpawn(EntityNotch.class, 4, 0, 1, EnumCreatureType.CREATURE, biome);
+						EntityRegistry.addSpawn(EntityPsycho.class, 4, 1, 2, EnumCreatureType.CREATURE, biome);
+						EntityRegistry.addSpawn(EntityFarmer.class, 8, 1, 2, EnumCreatureType.CREATURE, biome);
+						EntityRegistry.addSpawn(EntityLumberJack.class, 8, 1, 2, EnumCreatureType.CREATURE, biome);
+						EntityRegistry.addSpawn(EntityMiner.class, 4, 1, 2, EnumCreatureType.CREATURE, biome);
+						EntityRegistry.addSpawn(EntityBomber.class, 4, 1, 2, EnumCreatureType.CREATURE, biome);
+					}
+
+					numBiomes++;
+				}
+			}
+
+			GrimLog.info(GrimWorld.partName, "Spawn added to " + numBiomes + " biomes");
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
+
+		GrimLog.info(GrimWorld.partName, "Finished adding entity spawns");
+	}
+
+	public void addAllSpawn(Class<? extends EntityLiving> c, int weight, int min, int max, EnumCreatureType type) {
+
 	}
 }
