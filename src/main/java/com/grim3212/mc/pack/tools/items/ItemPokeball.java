@@ -36,16 +36,16 @@ public class ItemPokeball extends ItemEgg implements IManualItem {
 	public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand hand) {
 		ItemStack itemStackIn = playerIn.getHeldItem(hand);
 
-		if (!playerIn.capabilities.isCreativeMode) {
-			itemStackIn.shrink(1);
-		}
-
-		worldIn.playSound(playerIn, playerIn.getPosition(), SoundEvents.ENTITY_ARROW_SHOOT, SoundCategory.PLAYERS, 0.5F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
-
 		if (!worldIn.isRemote) {
 			EntityPokeball pokeball = new EntityPokeball(worldIn, playerIn, itemStackIn.copy());
 			pokeball.setHeadingFromThrower(playerIn, playerIn.rotationPitch, playerIn.rotationYaw, 0.0F, 1.5F, 1.0F);
 			worldIn.spawnEntity(pokeball);
+		}
+
+		worldIn.playSound(playerIn, playerIn.getPosition(), SoundEvents.ENTITY_ARROW_SHOOT, SoundCategory.PLAYERS, 0.5F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
+
+		if (!playerIn.capabilities.isCreativeMode) {
+			itemStackIn.shrink(1);
 		}
 
 		return ActionResult.newResult(EnumActionResult.SUCCESS, itemStackIn);

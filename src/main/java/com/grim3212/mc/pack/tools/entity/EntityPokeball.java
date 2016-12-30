@@ -60,7 +60,7 @@ public class EntityPokeball extends EntityThrowable {
 					this.currentPokeball.setTagCompound(entity);
 					this.currentPokeball.damageItem(1, (EntityLivingBase) hitEntity);
 					this.currentPokeball.setCount(1);
-					this.entityDropItem(this.currentPokeball, 0.0F);
+					this.entityDropItem(this.currentPokeball, 1.0F);
 					hitEntity.setDead();
 					this.setDead();
 				}
