@@ -68,7 +68,7 @@ public class BlockDecorStairs extends BlockFurnitureRotate {
 	}
 
 	@Override
-	public void addCollisionBoxToList(IBlockState state, World worldIn, BlockPos pos, AxisAlignedBB entityBox, List<AxisAlignedBB> collidingBoxes, @Nullable Entity entityIn) {
+	public void addCollisionBoxToList(IBlockState state, World worldIn, BlockPos pos, AxisAlignedBB entityBox, List<AxisAlignedBB> collidingBoxes, @Nullable Entity entityIn, boolean flag) {
 		state = this.getActualState(state, worldIn, pos);
 
 		for (AxisAlignedBB axisalignedbb : getCollisionBoxList(state)) {

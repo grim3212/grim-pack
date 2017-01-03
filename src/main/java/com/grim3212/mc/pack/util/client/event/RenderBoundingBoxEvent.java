@@ -54,7 +54,7 @@ public class RenderBoundingBoxEvent {
 						drawSelectionBoundingBox(iblockstate.getSelectedBoundingBox(world, blockpos).expandXyz(0.0020000000949949026D).offset(-d0, -d1, -d2), 0.5F, 0.5F, 0.3F, 0.4F);
 
 						List<AxisAlignedBB> collisionBoxes = Lists.<AxisAlignedBB>newArrayList();
-						iblockstate.addCollisionBoxToList(world, blockpos, iblockstate.getSelectedBoundingBox(world, blockpos).expandXyz(3.0d), collisionBoxes, player);
+						iblockstate.addCollisionBoxToList(world, blockpos, iblockstate.getSelectedBoundingBox(world, blockpos).expandXyz(3.0d), collisionBoxes, player, false);
 
 						for (int i = 0; i < collisionBoxes.size(); i++)
 							drawSelectionBoundingBox(collisionBoxes.get(i).expandXyz(0.0020000000949949026D).offset(-d0, -d1, -d2), 0.0F, 0.0F, 0.2F, 0.4F);

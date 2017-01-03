@@ -67,8 +67,6 @@ public class ItemSlingshot extends ItemManual {
 				worldIn.spawnEntity(pellet);
 			}
 			return ActionResult.newResult(EnumActionResult.SUCCESS, playerIn.getHeldItem(hand));
-		} else {
-
 		}
 
 		if (!playerIn.capabilities.isCreativeMode && !playerIn.inventory.hasItemStack(new ItemStack(ToolsItems.sling_pellet))) {
