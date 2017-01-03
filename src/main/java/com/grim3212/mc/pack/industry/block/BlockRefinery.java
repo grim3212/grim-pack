@@ -30,6 +30,7 @@ import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.Mirror;
 import net.minecraft.util.Rotation;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
 public class BlockRefinery extends BlockManual implements ITileEntityProvider {
@@ -126,6 +127,14 @@ public class BlockRefinery extends BlockManual implements ITileEntityProvider {
 		}
 
 		super.breakBlock(worldIn, pos, state);
+	}
+
+	@Override
+	public int getLightValue(IBlockState state, IBlockAccess world, BlockPos pos) {
+		if (world.getBlockState(pos).getBlock() == this && world.getBlockState(pos).getValue(ACTIVE)) {
+			return 15;
+		}
+		return super.getLightValue(state, world, pos);
 	}
 
 	@Override

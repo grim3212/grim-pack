@@ -110,8 +110,8 @@ public class IndustryBlocks implements IPartItems {
 		direction_attractor = (new BlockDGravity(-1)).setHardness(0.3F).setUnlocalizedName("direction_attractor");
 		direction_repulsor = (new BlockDGravity(1)).setHardness(0.3F).setUnlocalizedName("direction_repulsor");
 		direction_gravitor = (new BlockDGravity(0)).setHardness(0.3F).setUnlocalizedName("direction_gravitor");
-		nuclear_bomb = (new BlockNuclearBomb()).setHardness(1.0F).setCreativeTab(GrimIndustry.INSTANCE.getCreativeTab()).setUnlocalizedName("nuclear_bomb");
-		reactor = (new BlockNuclearReactor()).setHardness(1.0F).setCreativeTab(GrimIndustry.INSTANCE.getCreativeTab()).setUnlocalizedName("reactor");
+		nuclear_bomb = (new BlockNuclearBomb()).setHardness(1.0F).setCreativeTab(GrimIndustry.INSTANCE.getCreativeTab()).setUnlocalizedName("nuclear_bomb").setLightLevel(0.8F).setLightOpacity(10);
+		reactor = (new BlockNuclearReactor()).setHardness(1.0F).setCreativeTab(GrimIndustry.INSTANCE.getCreativeTab()).setUnlocalizedName("reactor").setLightLevel(0.8F).setLightOpacity(10);
 		bomb_shell = (new BlockManualPage(Material.IRON, SoundType.METAL, "industry:explosives.bomb_shell")).setHardness(1.0F).setCreativeTab(GrimIndustry.INSTANCE.getCreativeTab()).setUnlocalizedName("bomb_shell");
 		c4 = (new BlockC4()).setHardness(1.0F).setCreativeTab(GrimIndustry.INSTANCE.getCreativeTab()).setUnlocalizedName("c4");
 		uranium_ore = (new BlockUraniumOre()).setHardness(1.0F).setLightLevel(0.55F).setCreativeTab(GrimIndustry.INSTANCE.getCreativeTab()).setUnlocalizedName("uranium_ore");
