@@ -1,5 +1,7 @@
 package com.grim3212.mc.pack.tools.items;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 import com.grim3212.mc.pack.core.item.ItemManual;
@@ -7,7 +9,7 @@ import com.grim3212.mc.pack.core.manual.pages.Page;
 import com.grim3212.mc.pack.core.util.NBTHelper;
 import com.grim3212.mc.pack.core.util.Utils;
 import com.grim3212.mc.pack.tools.client.ManualTools;
-import com.grim3212.mc.pack.tools.entity.EntitySlingpellet;
+import com.grim3212.mc.pack.tools.entity.EntitySlingPellet;
 import com.grim3212.mc.pack.tools.util.EnumPelletType;
 import com.grim3212.mc.pack.tools.util.EnumSlingshotModes;
 
@@ -45,7 +47,7 @@ public class ItemSlingshot extends ItemManual {
 	public void onCreated(ItemStack stack, World worldIn, EntityPlayer playerIn) {
 		NBTHelper.setString(stack, "Mode", EnumSlingshotModes.RANDOM.getUnlocalized());
 	}
-	
+
 	@Override
 	public void getSubItems(Item itemIn, CreativeTabs tab, NonNullList<ItemStack> subItems) {
 		ItemStack self = new ItemStack(itemIn, 1, 0);
@@ -62,24 +64,57 @@ public class ItemSlingshot extends ItemManual {
 
 			worldIn.playSound(playerIn, playerIn.getPosition(), SoundEvents.ENTITY_ARROW_SHOOT, SoundCategory.PLAYERS, 0.5F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
 			if (!worldIn.isRemote) {
-				EntitySlingpellet pellet = new EntitySlingpellet(worldIn, playerIn, ammo);
-				pellet.setHeadingFromThrower(playerIn, playerIn.rotationPitch, playerIn.rotationYaw, 0.0F, 1.5F, 1.8F);
+				EntitySlingPellet pellet = new EntitySlingPellet(worldIn, playerIn, ammo);
+				pellet.setHeadingFromThrower(playerIn, playerIn.rotationPitch, playerIn.rotationYaw, 0.0F, 1.5F, 1.0F);
 				worldIn.spawnEntity(pellet);
 			}
 			return ActionResult.newResult(EnumActionResult.SUCCESS, playerIn.getHeldItem(hand));
 		}
 
-		if (!playerIn.capabilities.isCreativeMode && !playerIn.inventory.hasItemStack(new ItemStack(ToolsItems.sling_pellet))) {
-			return ActionResult.newResult(EnumActionResult.SUCCESS, playerIn.getHeldItem(hand));
-		} else {
-			ItemStack stack = Utils.consumePlayerItem(playerIn, new ItemStack(ToolsItems.sling_pellet));
-			EnumPelletType type = ItemSlingPellet.getPelletType(stack);
+		if (!playerIn.capabilities.isCreativeMode) {
 
-			worldIn.playSound(playerIn, playerIn.getPosition(), SoundEvents.ENTITY_ARROW_SHOOT, SoundCategory.PLAYERS, 0.5F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
-			if (!worldIn.isRemote) {
-				EntitySlingpellet pellet = new EntitySlingpellet(worldIn, playerIn, type);
-				pellet.setHeadingFromThrower(playerIn, playerIn.rotationPitch, playerIn.rotationYaw, 0.0F, 1.5F, 1.8F);
-				worldIn.spawnEntity(pellet);
+			// Get type of ammo required
+			EnumPelletType ammoRequired = this.getAmmo(mode, playerIn, worldIn, false);
+
+			// If player has ammo shoot it and consume
+			if (playerIn.inventory.hasItemStack(new ItemStack(ToolsItems.sling_pellet, 1, ammoRequired.ordinal()))) {
+				// Consume item
+				Utils.consumePlayerItem(playerIn, new ItemStack(ToolsItems.sling_pellet, 1, ammoRequired.ordinal()));
+				worldIn.playSound(playerIn, playerIn.getPosition(), SoundEvents.ENTITY_ARROW_SHOOT, SoundCategory.PLAYERS, 0.5F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
+				if (!worldIn.isRemote) {
+					EntitySlingPellet pellet = new EntitySlingPellet(worldIn, playerIn, ammoRequired);
+					pellet.setHeadingFromThrower(playerIn, playerIn.rotationPitch, playerIn.rotationYaw, 0.0F, 1.5F, 1.0F);
+					worldIn.spawnEntity(pellet);
+				}
+				return ActionResult.newResult(EnumActionResult.SUCCESS, playerIn.getHeldItem(hand));
+			}
+
+			// If player has pellet bag search them for ammo
+			if (playerIn.inventory.hasItemStack(new ItemStack(ToolsItems.pellet_bag))) {
+
+				// Search players inventory
+				for (int i = 0; i < playerIn.inventory.getSizeInventory(); i++) {
+					// Check if the item is a pellet bag
+					ItemStack foundBag = playerIn.inventory.getStackInSlot(i);
+					if (foundBag.getItem() == ToolsItems.pellet_bag) {
+						if (Utils.hasItemHandler(foundBag)) {
+
+							// Try and simulate a consume and see if it was
+							// empty if not then consume the item and shoot
+							if (!Utils.consumeHandlerItem(Utils.getItemHandler(foundBag), new ItemStack(ToolsItems.sling_pellet, 1, ammoRequired.ordinal()), 1, true, false).isEmpty()) {
+								// Consume item
+								Utils.consumeHandlerItem(Utils.getItemHandler(foundBag), new ItemStack(ToolsItems.sling_pellet, 1, ammoRequired.ordinal()));
+								worldIn.playSound(playerIn, playerIn.getPosition(), SoundEvents.ENTITY_ARROW_SHOOT, SoundCategory.PLAYERS, 0.5F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
+								if (!worldIn.isRemote) {
+									EntitySlingPellet pellet = new EntitySlingPellet(worldIn, playerIn, ammoRequired);
+									pellet.setHeadingFromThrower(playerIn, playerIn.rotationPitch, playerIn.rotationYaw, 0.0F, 1.5F, 1.0F);
+									worldIn.spawnEntity(pellet);
+								}
+								return ActionResult.newResult(EnumActionResult.SUCCESS, playerIn.getHeldItem(hand));
+							}
+						}
+					}
+				}
 			}
 		}
 
@@ -93,8 +128,24 @@ public class ItemSlingshot extends ItemManual {
 				return EnumPelletType.values[worldIn.rand.nextInt(EnumPelletType.values.length)];
 			}
 
-			ItemStack stack = Utils.consumePlayerItem(player, new ItemStack(ToolsItems.sling_pellet), 1, true);
-			return ItemSlingPellet.getPelletType(stack);
+			for (int i = 0; i < player.inventory.getSizeInventory(); i++) {
+				ItemStack foundItem = player.inventory.getStackInSlot(i);
+				if (!foundItem.isEmpty()) {
+					if (foundItem.getItem() == ToolsItems.sling_pellet) {
+						return ItemSlingPellet.getPelletType(foundItem);
+					}
+					if (foundItem.getItem() == ToolsItems.pellet_bag) {
+						if (Utils.hasItemHandler(foundItem)) {
+							ItemStack pelletStack = Utils.consumeHandlerItem(Utils.getItemHandler(foundItem), new ItemStack(ToolsItems.sling_pellet), 1, true, true);
+
+							if (!pelletStack.isEmpty()) {
+								return ItemSlingPellet.getPelletType(pelletStack);
+							}
+						}
+					}
+				}
+			}
+			return EnumPelletType.STONE;
 		case EXPLOSIVE:
 			return EnumPelletType.EXPLOSION;
 		case FIRE:
@@ -110,28 +161,37 @@ public class ItemSlingshot extends ItemManual {
 				return EnumPelletType.values[worldIn.rand.nextInt(EnumPelletType.values.length)];
 			}
 
-			boolean[] foundTypes = new boolean[EnumPelletType.values.length];
+			// Create set so there are no duplicates
+			HashSet<EnumPelletType> types = new HashSet<EnumPelletType>();
 
+			// Search player inventory
 			for (int i = 0; i < EnumPelletType.values.length; i++) {
 				if (player.inventory.hasItemStack(new ItemStack(ToolsItems.sling_pellet, 1, i))) {
-					foundTypes[i] = true;
+					types.add(EnumPelletType.values[i]);
 				}
 			}
 
+			// Search player inventory for Pellet Bags then search those
 			if (player.inventory.hasItemStack(new ItemStack(ToolsItems.pellet_bag))) {
 				for (int i = 0; i < player.inventory.getSizeInventory(); i++) {
 					ItemStack foundBag = player.inventory.getStackInSlot(i);
 					if (foundBag.getItem() == ToolsItems.pellet_bag) {
 						for (int j = 0; j < EnumPelletType.values.length; j++) {
 							if (Utils.hasItemHandler(foundBag)) {
-								foundTypes[j] = !Utils.consumeHandlerItem(Utils.getItemHandler(foundBag), new ItemStack(ToolsItems.sling_pellet, 1, j), 1, true).isEmpty();
+
+								if (!Utils.consumeHandlerItem(Utils.getItemHandler(foundBag), new ItemStack(ToolsItems.sling_pellet, 1, j), 1, true, false).isEmpty()) {
+									types.add(EnumPelletType.values[j]);
+								}
 							}
 						}
 					}
 				}
 			}
 
-			break;
+			// Add set to list and get random value
+			List<EnumPelletType> pelletTypes = new ArrayList<EnumPelletType>();
+			pelletTypes.addAll(types);
+			return pelletTypes.get(worldIn.rand.nextInt(pelletTypes.size()));
 		case STONE:
 			return EnumPelletType.STONE;
 		}

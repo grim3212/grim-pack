@@ -15,6 +15,8 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class EntityPokeball extends EntityThrowable {
 
@@ -44,10 +46,6 @@ public class EntityPokeball extends EntityThrowable {
 	@Override
 	protected void onImpact(RayTraceResult result) {
 		Entity hitEntity = result.entityHit;
-
-		for (int j = 0; j < 8; ++j) {
-			this.world.spawnParticle(EnumParticleTypes.SNOWBALL, this.posX, this.posY, this.posZ, 0.0D, 0.0D, 0.0D);
-		}
 
 		if (!world.isRemote) {
 			if (hitEntity != null && this.notCaught && !(hitEntity instanceof EntityPlayer || hitEntity instanceof EntityDragon)) {
@@ -85,7 +83,18 @@ public class EntityPokeball extends EntityThrowable {
 		}
 
 		if (!this.world.isRemote) {
+			this.world.setEntityState(this, (byte) 3);
 			this.setDead();
+		}
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public void handleStatusUpdate(byte id) {
+		if (id == 3) {
+			for (int i = 0; i < 8; ++i) {
+				this.world.spawnParticle(EnumParticleTypes.SNOWBALL, this.posX, this.posY, this.posZ, 0.0D, 0.0D, 0.0D, new int[0]);
+			}
 		}
 	}
 }

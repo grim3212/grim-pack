@@ -1,7 +1,5 @@
 package com.grim3212.mc.pack.tools.items;
 
-import javax.annotation.Nullable;
-
 import com.grim3212.mc.pack.core.item.ItemManual;
 import com.grim3212.mc.pack.core.manual.pages.Page;
 import com.grim3212.mc.pack.tools.client.ManualTools;
@@ -38,7 +36,6 @@ public class ItemSlingPellet extends ItemManual {
 		}
 	}
 
-	@Nullable
 	public static EnumPelletType getPelletType(ItemStack stack) {
 		if (stack.getItem() == ToolsItems.sling_pellet) {
 			switch (stack.getMetadata()) {
@@ -57,6 +54,6 @@ public class ItemSlingPellet extends ItemManual {
 			}
 		}
 
-		return null;
+		return EnumPelletType.STONE;
 	}
 }

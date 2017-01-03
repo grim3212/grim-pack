@@ -148,11 +148,16 @@ public class Utils {
 	}
 
 	@Nullable
-	public static ItemStack consumeHandlerItem(IItemHandler handler, final ItemStack item, int amount, boolean simulate) {
+	public static ItemStack consumeHandlerItem(IItemHandler handler, final ItemStack item, int amount, boolean simulate, final boolean ignoreMeta) {
 		IItemHandler itemHandler = findItemStackSlot(handler, new Predicate<ItemStack>() {
 			@Override
 			public boolean test(ItemStack t) {
 				if (!t.isEmpty()) {
+
+					if (ignoreMeta) {
+						return t.getItem() == item.getItem();
+					}
+
 					return ItemStack.areItemsEqual(t, item);
 				} else {
 					return false;
@@ -169,7 +174,7 @@ public class Utils {
 
 	@Nullable
 	public static ItemStack consumeHandlerItem(IItemHandler handler, final ItemStack item) {
-		return Utils.consumeHandlerItem(handler, item, 1, false);
+		return Utils.consumeHandlerItem(handler, item, 1, false, false);
 	}
 
 	public static IItemHandler getItemHandler(ItemStack stack) {
@@ -187,8 +192,8 @@ public class Utils {
 	}
 
 	/**
-	 * This is for the Item capability hence FLUID_HANDLER_ITEM_CAPABILITY 
-	 * Gets the IFluidHandler for this stack
+	 * This is for the Item capability hence FLUID_HANDLER_ITEM_CAPABILITY Gets
+	 * the IFluidHandler for this stack
 	 * 
 	 * @param stack
 	 *            Stack to get capability from
@@ -202,8 +207,8 @@ public class Utils {
 	}
 
 	/**
-	 * This is for the Item capability hence FLUID_HANDLER_ITEM_CAPABILITY 
-	 * Check if this stack has the fluid capability
+	 * This is for the Item capability hence FLUID_HANDLER_ITEM_CAPABILITY Check
+	 * if this stack has the fluid capability
 	 * 
 	 * @param stack
 	 *            Stack to check for capability

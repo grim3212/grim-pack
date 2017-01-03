@@ -40,7 +40,7 @@ public class ItemBackpack extends ItemManual {
 		return new InventoryCapability(new ItemStackHandler(18) {
 			@Override
 			public ItemStack insertItem(int slot, ItemStack toInsert, boolean simulate) {
-				if (toInsert != null && toInsert.getItem() != ToolsItems.backpack)
+				if (!toInsert.isEmpty() && toInsert.getItem() != ToolsItems.backpack)
 					return super.insertItem(slot, toInsert, simulate);
 				else
 					return toInsert;

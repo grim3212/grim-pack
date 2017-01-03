@@ -40,11 +40,4 @@ public class GuiPelletBag extends GuiContainer {
 		int var6 = (this.height - this.ySize) / 2;
 		this.drawTexturedModalRect(var5, var6, 0, 0, this.xSize, this.ySize);
 	}
-
-	@Override
-	public void onGuiClosed() {
-		super.onGuiClosed();
-		// Notify pellet bag of change
-		inventorySlots.getSlot(0).onSlotChanged();
-	}
 }
