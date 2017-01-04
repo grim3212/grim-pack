@@ -1,12 +1,15 @@
 package com.grim3212.mc.pack.tools.util;
 
+import com.grim3212.mc.pack.tools.config.ToolsConfig;
+
 import net.minecraft.util.IStringSerializable;
 
 public enum EnumPelletType implements IStringSerializable {
-	STONE(0.5F, "stone"), IRON(1.5F, "iron"), NETHERRACK(1.0F, "netherrack"), LIGHT(1.0F, "light"), FIRE(1.5F, "fire"), EXPLOSION(1.5F, "explosion");
+	STONE(ToolsConfig.stonePelletDamage, "stone"), IRON(ToolsConfig.ironPelletDamage, "iron"), NETHERRACK(ToolsConfig.netherrackPelletDamage, "netherrack"), LIGHT(ToolsConfig.lightPelletDamage, "light"), FIRE(ToolsConfig.firePelletDamage, "fire"), EXPLOSION(ToolsConfig.explosivePelletDamage, "explosion");
 
 	private float damage;
 	private String unlocalized;
+
 	private EnumPelletType(float damage, String unlocalized) {
 		this.damage = damage;
 		this.unlocalized = unlocalized;
@@ -15,7 +18,7 @@ public enum EnumPelletType implements IStringSerializable {
 	public float getDamage() {
 		return damage;
 	}
-	
+
 	public String getUnlocalized() {
 		return unlocalized;
 	}

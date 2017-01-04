@@ -20,6 +20,7 @@ public class ToolsConfig extends GrimConfig {
 
 	public static final String CONFIG_NAME = "tools";
 	public static final String CONFIG_GENERAL_NAME = "tools.general";
+	public static final String CONFIG_SLINGSHOT_NAME = "tools.slingshot";
 	public static final String CONFIG_FIST_NAME = "tools.ultimatefist";
 	public static final String CONFIG_BOOMERANG_NAME = "tools.boomerang";
 
@@ -52,6 +53,14 @@ public class ToolsConfig extends GrimConfig {
 	public static int diamondBoomerangDamage;
 	public static boolean diamondBoomerangFollows;
 
+	// Slingshot config
+	public static float stonePelletDamage;
+	public static float ironPelletDamage;
+	public static float netherrackPelletDamage;
+	public static float lightPelletDamage;
+	public static float firePelletDamage;
+	public static float explosivePelletDamage;
+
 	@Override
 	public void syncConfig() {
 		fistEntityDamage = config.get(CONFIG_FIST_NAME, "Ultimate Fist Damage Against Entity's", 1561).getDouble();
@@ -73,6 +82,13 @@ public class ToolsConfig extends GrimConfig {
 		powerstaff_pull_push_blocks = config.get(CONFIG_GENERAL_NAME, "Blocks allowed when restrict powerstaff is active", new String[] { "dirt" }).getStringList();
 		generateBlackDiamond = config.get(CONFIG_GENERAL_NAME, "Generate Black Diamond", true).getBoolean();
 		generateElement115 = config.get(CONFIG_GENERAL_NAME, "Generate Element 115", true).getBoolean();
+
+		stonePelletDamage = Float.parseFloat(config.get(CONFIG_SLINGSHOT_NAME, "Stone Pellet Damage", 1.0f).setRequiresMcRestart(true).getString());
+		ironPelletDamage = Float.parseFloat(config.get(CONFIG_SLINGSHOT_NAME, "Iron Pellet Damage", 6.0f).setRequiresMcRestart(true).getString());
+		netherrackPelletDamage = Float.parseFloat(config.get(CONFIG_SLINGSHOT_NAME, "Netherrack Pellet Damage", 5.0f).setRequiresMcRestart(true).getString());
+		lightPelletDamage = Float.parseFloat(config.get(CONFIG_SLINGSHOT_NAME, "Light Pellet Damage", 1.0f).setRequiresMcRestart(true).getString());
+		firePelletDamage = Float.parseFloat(config.get(CONFIG_SLINGSHOT_NAME, "Fire Pellet Damage", 1.5f).setRequiresMcRestart(true).getString());
+		explosivePelletDamage = Float.parseFloat(config.get(CONFIG_SLINGSHOT_NAME, "Explosive Pellet Damage", 1.5f).setRequiresMcRestart(true).getString());
 
 		turnAroundItem = config.get(CONFIG_BOOMERANG_NAME, "Turn Around Items", false).getBoolean();
 		turnAroundMob = config.get(CONFIG_BOOMERANG_NAME, "Turn Around Mobs", false).getBoolean();
@@ -98,6 +114,7 @@ public class ToolsConfig extends GrimConfig {
 		List<IConfigElement> list = new ArrayList<IConfigElement>();
 		list.add(new DummyCategoryElement("toolsGeneralCfg", "grimpack.tools.cfg.general", new ConfigElement(GrimTools.INSTANCE.getConfig().getCategory(CONFIG_GENERAL_NAME)).getChildElements()));
 		list.add(new DummyCategoryElement("toolsUltimateFistCfg", "grimpack.tools.cfg.ultimatefist", new ConfigElement(GrimTools.INSTANCE.getConfig().getCategory(CONFIG_FIST_NAME)).getChildElements()));
+		list.add(new DummyCategoryElement("toolsSlingshotCfg", "grimpack.tools.cfg.slingshot", new ConfigElement(GrimTools.INSTANCE.getConfig().getCategory(CONFIG_SLINGSHOT_NAME)).getChildElements()));
 		list.add(new DummyCategoryElement("toolsBoomerangCfg", "grimpack.tools.cfg.boomerang", new ConfigElement(GrimTools.INSTANCE.getConfig().getCategory(CONFIG_BOOMERANG_NAME)).getChildElements()));
 		return list;
 	}
