@@ -228,6 +228,11 @@ public class IndustryItems implements IPartItems {
 		OreDictionary.registerOre("ingotRefinedPlutonium", refined_plutonium);
 		OreDictionary.registerOre("ingotAluminum", aluminum_ingot);
 		OreDictionary.registerOre("stickIron", iron_stick);
+		OreDictionary.registerOre("can", aluminum_can);
+		OreDictionary.registerOre("canOil", crude_oil);
+		OreDictionary.registerOre("canCrudeOil", super_crude_oil);
+		OreDictionary.registerOre("canFuel", fuel);
+		OreDictionary.registerOre("tar", tarball);
 
 		GameRegistry.addSmelting(tarball, new ItemStack(asphalt, 1), 0.35F);
 		GameRegistry.addSmelting(Items.FLINT, new ItemStack(graphite), 0.35F);

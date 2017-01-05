@@ -16,6 +16,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
 
@@ -43,7 +44,6 @@ public class WorldBlocks implements IPartItems {
 		fungus_ore_building = new BlockFungusOre().setHardness(0.0F).setResistance(0.0F).setUnlocalizedName("fungus_ore_building").setLightLevel(0.8F).setLightOpacity(10);
 		fungus_layer_building = new BlockFungusLayer().setHardness(0.0F).setResistance(0.0F).setUnlocalizedName("fungus_layer_building").setLightLevel(0.8F).setLightOpacity(10);
 		fungus_killing = new BlockFungusKilling().setHardness(0.0F).setResistance(0.0F).setUnlocalizedName("fungus_killing").setLightLevel(0.8F).setLightOpacity(10);
-		
 		fungus_maze = new BlockFungusMaze().setHardness(0.0F).setResistance(0.0F).setUnlocalizedName("fungus_maze").setLightLevel(0.8F).setLightOpacity(10);
 
 		Utils.registerBlock(fungus_growing, "fungus_growing", new ItemFungus(fungus_growing));
@@ -51,9 +51,7 @@ public class WorldBlocks implements IPartItems {
 		Utils.registerBlock(fungus_ore_building, "fungus_ore_building", new ItemFungus(fungus_ore_building));
 		Utils.registerBlock(fungus_layer_building, "fungus_layer_building", new ItemFungus(fungus_layer_building));
 		Utils.registerBlock(fungus_killing, "fungus_killing", new ItemFungus(fungus_killing));
-		
 		Utils.registerBlock(fungus_maze, "fungus_maze", new ItemFungus(fungus_maze));
-		
 		Utils.registerBlock(corruption_block, "corruption_block");
 		Utils.registerBlock(glowstone_seeds, "glowstone_seeds");
 		Utils.registerBlock(gunpowder_reed_block, "gunpowder_reed_block");
@@ -70,11 +68,18 @@ public class WorldBlocks implements IPartItems {
 	public static List<IRecipe> acidFungus = new ArrayList<IRecipe>();
 	public static List<IRecipe> breakingFungus = new ArrayList<IRecipe>();
 	public static List<IRecipe> vertFungus = new ArrayList<IRecipe>();
-	
 	public static List<IRecipe> mazeFungus = new ArrayList<IRecipe>();
 
 	@Override
 	public void addRecipes() {
+		OreDictionary.registerOre("blockFungus", fungus_ore_building);
+		OreDictionary.registerOre("blockFungus", fungus_building);
+		OreDictionary.registerOre("blockFungus", fungus_growing);
+		OreDictionary.registerOre("blockFungus", fungus_killing);
+		OreDictionary.registerOre("blockFungus", fungus_layer_building);
+		OreDictionary.registerOre("blockFungus", fungus_maze);
+		OreDictionary.registerOre("oreRandomite", randomite);
+		
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(glowstone_seeds), new Object[] { "GSG", " G ", 'G', "dustGlowstone", 'S', Blocks.SOUL_SAND }));
 
 		// ====================BASIC==================== //

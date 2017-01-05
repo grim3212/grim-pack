@@ -14,6 +14,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 
 public class ToolsBlocks implements IPartItems {
@@ -37,6 +38,10 @@ public class ToolsBlocks implements IPartItems {
 
 	@Override
 	public void addRecipes() {
+		OreDictionary.registerOre("oreBlackDiamond", black_diamond_ore);
+		OreDictionary.registerOre("blockBlackDiamond", black_diamond_block);
+		OreDictionary.registerOre("oreElement115", element_115_ore);
+		
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(black_diamond_block, 1), new Object[] { "###", "###", "###", '#', ToolsItems.black_diamond }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ToolsItems.black_diamond, 9), new Object[] { "#", '#', black_diamond_block }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ToolsItems.black_diamond, 1), new Object[] { " X ", "X#X", " X ", 'X', "obsidian", '#', "gemDiamond" }));

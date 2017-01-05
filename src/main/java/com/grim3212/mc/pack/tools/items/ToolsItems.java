@@ -349,6 +349,12 @@ public class ToolsItems implements IPartItems {
 		OreDictionary.registerOre("bucketMilk", golden_milk_bucket);
 		OreDictionary.registerOre("bucketMilk", diamond_milk_bucket);
 		OreDictionary.registerOre("bucketMilk", obsidian_milk_bucket);
+		OreDictionary.registerOre("gemBlackDiamond", black_diamond);
+		OreDictionary.registerOre("element115", element_115);
+		OreDictionary.registerOre("oreIron", iron_ore_item);
+		OreDictionary.registerOre("oreGold", gold_ore_item);
+		OreDictionary.registerOre("canEnergy", energy_canister);
+		OreDictionary.registerOre("canAdvancedEnergy", advanced_energy_canister);
 
 		// Register chiseleable blocks
 		ChiselRegistry.registerBlock(Blocks.DIAMOND_ORE, Blocks.STONE, Items.DIAMOND, 1, 0);
