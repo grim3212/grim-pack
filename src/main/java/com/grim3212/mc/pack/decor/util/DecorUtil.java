@@ -3,6 +3,7 @@ package com.grim3212.mc.pack.decor.util;
 import java.util.List;
 
 import com.grim3212.mc.pack.core.util.NBTHelper;
+import com.grim3212.mc.pack.decor.block.BlockDecorFacing;
 import com.grim3212.mc.pack.decor.block.BlockHedge;
 import com.grim3212.mc.pack.decor.block.BlockSloped;
 import com.grim3212.mc.pack.decor.block.BlockSloped.EnumHalf;
@@ -353,7 +354,7 @@ public class DecorUtil {
 
 		} else if (state.getBlock() instanceof BlockHedge) {
 			if (state.getBlock() == DecorBlocks.pyramid) {
-				switch (state.getValue(BlockHedge.FACING)) {
+				switch (state.getValue(BlockDecorFacing.FACING)) {
 				case DOWN:
 					return new AxisAlignedBB(zeroOffset * 0.5F, 1.0F - oneOffset * 0.68F, zeroOffset * 0.5F, 1.0F - zeroOffset * 0.5F, 1.0F, 1.0F - zeroOffset * 0.5F);
 				case EAST:
@@ -372,7 +373,7 @@ public class DecorUtil {
 			}
 
 			if (state.getBlock() == DecorBlocks.full_pyramid) {
-				switch (state.getValue(BlockHedge.FACING)) {
+				switch (state.getValue(BlockDecorFacing.FACING)) {
 				case DOWN:
 					return new AxisAlignedBB(zeroOffset * 0.5F, 1.0F - oneOffset, zeroOffset * 0.5F, 1.0F - zeroOffset * 0.5F, 1.0F, 1.0F - zeroOffset * 0.5F);
 				case EAST:

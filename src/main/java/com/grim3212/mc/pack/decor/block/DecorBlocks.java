@@ -72,6 +72,7 @@ public class DecorBlocks implements IPartItems {
 	public static Block sloped_post;
 	public static Block decor_stairs;
 	public static Block decor_door;
+	public static Block pillar;
 
 	@Override
 	public void initItems() {
@@ -117,6 +118,7 @@ public class DecorBlocks implements IPartItems {
 		sloped_post = (new BlockHedge(SlopeType.SlopedPost)).setUnlocalizedName("sloped_post");
 		decor_stairs = (new BlockDecorStairs()).setUnlocalizedName("decor_stairs");
 		decor_door = (new BlockDecorDoor()).setUnlocalizedName("decor_door");
+		pillar = (new BlockDecorFacing()).setUnlocalizedName("pillar");
 
 		Utils.registerBlock(calendar, "calendar");
 		Utils.registerBlock(wall_clock, "wall_clock");
@@ -158,6 +160,7 @@ public class DecorBlocks implements IPartItems {
 		Utils.registerBlock(pyramid, "pyramid", new ItemSloped(pyramid));
 		Utils.registerBlock(full_pyramid, "full_pyramid", new ItemSloped(full_pyramid));
 		Utils.registerBlock(sloped_post, "sloped_post", new ItemSloped(sloped_post));
+		Utils.registerBlock(pillar, "pillar", new ItemSloped(pillar));
 		Utils.registerBlock(decor_stairs, "decor_stairs", new ItemDecorStairs(decor_stairs));
 		Utils.registerBlock(decor_door, "decor_door");
 	}

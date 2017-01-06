@@ -59,6 +59,7 @@ tile.stool.name=Stool
 tile.chimney.name=Chimney
 tile.chair.name=Chair
 tile.wall.name=Wall
+tile.pillar.name=Pillar
 tile.fence.name=Fence
 tile.fence_gate.name=Fence Gate
 tile.lamp_post_bottom.name=Lamp Post Bottom

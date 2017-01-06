@@ -2,7 +2,7 @@ package com.grim3212.mc.pack.decor.item;
 
 import com.grim3212.mc.pack.core.item.ItemManualBlock;
 import com.grim3212.mc.pack.core.util.NBTHelper;
-import com.grim3212.mc.pack.decor.block.BlockHedge;
+import com.grim3212.mc.pack.decor.block.BlockDecorFacing;
 import com.grim3212.mc.pack.decor.block.BlockSloped;
 import com.grim3212.mc.pack.decor.block.BlockSloped.EnumHalf;
 import com.grim3212.mc.pack.decor.block.BlockSlopedRotate;
@@ -30,6 +30,10 @@ import net.minecraft.world.World;
 public class ItemSloped extends ItemManualBlock {
 
 	private Block block;
+	/*
+	 * Determines if the rotation should be based on the direction the player is
+	 * looking
+	 */
 	private boolean simpleRotate = false;
 
 	public ItemSloped(Block block) {
@@ -72,8 +76,8 @@ public class ItemSloped extends ItemManualBlock {
 				} else {
 					worldIn.setBlockState(pos, this.block.getDefaultState().withProperty(BlockSlopedRotate.FACING, playerIn.getHorizontalFacing()).withProperty(BlockSloped.HALF, half), 3);
 				}
-			} else if (this.block instanceof BlockHedge) {
-				worldIn.setBlockState(pos, this.block.getDefaultState().withProperty(BlockHedge.FACING, facing), 3);
+			} else if (this.block instanceof BlockDecorFacing) {
+				worldIn.setBlockState(pos, this.block.getDefaultState().withProperty(BlockDecorFacing.FACING, facing), 3);
 			} else {
 				worldIn.setBlockState(pos, this.block.getDefaultState().withProperty(BlockSloped.HALF, half), 3);
 			}
