@@ -1,25 +1,50 @@
 {
 	"forge_marker": 1,
-    "defaults": {
+	"defaults": {
 		"transform": "forge:default-block",
-        "model": "grimpack:decor_slope",
+		"model": "grimpack:decor_slope",
 		"textures": {
-		  "#None": "grimpack:blocks/colorizer"
+			"#None": "grimpack:blocks/colorizer"
 		},
 		"custom": {
-			"models": { 
+			"models": {
 				"pyramid": {
 					"model": "grimpack:block/pyramid.obj",
-					"custom": { "flip-v": true }
+					"custom": {
+						"flip-v": true
+					}
 				}
 			}
 		}
-    },
-    "variants": {
-		"half": {
-			"top": { "x": 180 },
-			"bottom": {}
+	},
+	"variants": {
+		"facing": {
+			"up": {
+				
+			},
+			"down": {
+				"x": 180
+			},
+			"north": {
+				"x": 90
+			},
+			"south": {
+				"x": 90,
+				"y": 180
+			},
+			"east": {
+				"x": 90,
+				"y": 90
+			},
+			"west": {
+				"x": 90,
+				"y": 270
+			}
 		},
-		"inventory": [{}]
-    }
+		"inventory": [
+			{
+				
+			}
+		]
+	}
 }
