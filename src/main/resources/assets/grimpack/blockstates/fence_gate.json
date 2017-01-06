@@ -5,16 +5,22 @@
 		"model": "grimpack:decor_colorizer"
     },
     "variants": {
-        "facing": { 
-			"north": { "y": 180, "uvlock": true },
-            "south": { },
-            "west": { "y": 90, "uvlock": true },
-            "east": { "y": 270, "uvlock": true }
-		},
-		"open": { 
-			"false": { "custom": {"models": ["grimpack:block/fence_gate_closed"]} },
-            "true": { "custom": {"models": ["grimpack:block/fence_gate_open"]} }
-		},
+    	"facing=south,in_wall=false,open=false": [{ "custom": {"models": ["grimpack:block/fence_gate_closed"]} }],
+        "facing=west,in_wall=false,open=false":  [{ "custom": {"models": ["grimpack:block/fence_gate_closed"]}, "y": 90, "uvlock": true }],
+        "facing=north,in_wall=false,open=false": [{ "custom": {"models": ["grimpack:block/fence_gate_closed"]}, "y": 180, "uvlock": true }],
+        "facing=east,in_wall=false,open=false":  [{ "custom": {"models": ["grimpack:block/fence_gate_closed"]}, "y": 270, "uvlock": true }],
+        "facing=south,in_wall=false,open=true": [{ "custom": {"models": ["grimpack:block/fence_gate_open"]} }],
+        "facing=west,in_wall=false,open=true":  [{ "custom": {"models": ["grimpack:block/fence_gate_open"]}, "y": 90, "uvlock": true }],
+        "facing=north,in_wall=false,open=true": [{ "custom": {"models": ["grimpack:block/fence_gate_open"]}, "y": 180, "uvlock": true }],
+        "facing=east,in_wall=false,open=true":  [{ "custom": {"models": ["grimpack:block/fence_gate_open"]}, "y": 270, "uvlock": true }],
+        "facing=south,in_wall=true,open=false": [{ "custom": {"models": ["grimpack:block/wall_gate_closed"]} }],
+        "facing=west,in_wall=true,open=false":  [{ "custom": {"models": ["grimpack:block/wall_gate_closed"]}, "y": 90, "uvlock": true }],
+        "facing=north,in_wall=true,open=false": [{ "custom": {"models": ["grimpack:block/wall_gate_closed"]}, "y": 180, "uvlock": true }],
+        "facing=east,in_wall=true,open=false":  [{ "custom": {"models": ["grimpack:block/wall_gate_closed"]}, "y": 270, "uvlock": true }],
+        "facing=south,in_wall=true,open=true": [{ "custom": {"models": ["grimpack:block/wall_gate_open"]} }],
+        "facing=west,in_wall=true,open=true":  [{ "custom": {"models": ["grimpack:block/wall_gate_open"]}, "y": 90, "uvlock": true }],
+        "facing=north,in_wall=true,open=true": [{ "custom": {"models": ["grimpack:block/wall_gate_open"]}, "y": 180, "uvlock": true }],
+        "facing=east,in_wall=true,open=true":  [{ "custom": {"models": ["grimpack:block/wall_gate_open"]}, "y": 270, "uvlock": true }],
 		"inventory": [{ 
 			"custom": {"models": ["grimpack:block/fence_gate_closed"]}
 		}]

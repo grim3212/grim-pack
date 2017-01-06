@@ -1,5 +1,7 @@
 package com.grim3212.mc.pack.decor.block;
 
+import javax.annotation.Nullable;
+
 import com.grim3212.mc.pack.core.manual.pages.Page;
 import com.grim3212.mc.pack.decor.client.ManualDecor;
 
@@ -22,13 +24,16 @@ public class BlockFenceGate extends BlockFurnitureRotate {
 
 	public static final PropertyBool OPEN = PropertyBool.create("open");
 	public static final PropertyBool POWERED = PropertyBool.create("powered");
+	public static final PropertyBool IN_WALL = PropertyBool.create("in_wall");
 	protected static final AxisAlignedBB AABB_COLLIDE_ZAXIS = new AxisAlignedBB(0.0D, 0.0D, 0.375D, 1.0D, 1.0D, 0.625D);
 	protected static final AxisAlignedBB AABB_COLLIDE_XAXIS = new AxisAlignedBB(0.375D, 0.0D, 0.0D, 0.625D, 1.0D, 1.0D);
+	protected static final AxisAlignedBB AABB_COLLIDE_ZAXIS_INWALL = new AxisAlignedBB(0.0D, 0.0D, 0.375D, 1.0D, 0.8125D, 0.625D);
+	protected static final AxisAlignedBB AABB_COLLIDE_XAXIS_INWALL = new AxisAlignedBB(0.375D, 0.0D, 0.0D, 0.625D, 0.8125D, 1.0D);
 	protected static final AxisAlignedBB AABB_CLOSED_SELECTED_ZAXIS = new AxisAlignedBB(0.0D, 0.0D, 0.375D, 1.0D, 1.5D, 0.625D);
 	protected static final AxisAlignedBB AABB_CLOSED_SELECTED_XAXIS = new AxisAlignedBB(0.375D, 0.0D, 0.0D, 0.625D, 1.5D, 1.0D);
 
 	public BlockFenceGate() {
-		this.setDefaultState(this.getDefaultState().withProperty(OPEN, false).withProperty(POWERED, false));
+		this.setDefaultState(this.getDefaultState().withProperty(OPEN, false).withProperty(POWERED, false).withProperty(IN_WALL, false));
 	}
 
 	@Override
@@ -37,13 +42,26 @@ public class BlockFenceGate extends BlockFurnitureRotate {
 	}
 
 	@Override
-	public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, IBlockAccess blockAccess, BlockPos pos) {
-		return blockState.getValue(OPEN) ? NULL_AABB : (blockState.getValue(FACING).getAxis() == EnumFacing.Axis.Z ? AABB_CLOSED_SELECTED_ZAXIS : AABB_CLOSED_SELECTED_XAXIS);
+	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
+		state = this.getActualState(state, source, pos);
+		return state.getValue(IN_WALL) ? state.getValue(FACING).getAxis() == EnumFacing.Axis.X ? AABB_COLLIDE_XAXIS_INWALL : AABB_COLLIDE_ZAXIS_INWALL : state.getValue(FACING).getAxis() == EnumFacing.Axis.X ? AABB_COLLIDE_XAXIS : AABB_COLLIDE_ZAXIS;
 	}
 
 	@Override
-	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
-		return state.getValue(FACING).getAxis() == EnumFacing.Axis.X ? AABB_COLLIDE_XAXIS : AABB_COLLIDE_ZAXIS;
+	public IBlockState getActualState(IBlockState state, IBlockAccess worldIn, BlockPos pos) {
+		EnumFacing.Axis enumfacing$axis = state.getValue(FACING).getAxis();
+
+		if (enumfacing$axis == EnumFacing.Axis.Z && (canFenceGateConnectTo(worldIn, pos, EnumFacing.WEST) || canFenceGateConnectTo(worldIn, pos, EnumFacing.EAST)) || enumfacing$axis == EnumFacing.Axis.X && (canFenceGateConnectTo(worldIn, pos, EnumFacing.NORTH) || canFenceGateConnectTo(worldIn, pos, EnumFacing.SOUTH))) {
+			state = state.withProperty(IN_WALL, true);
+		}
+
+		return state;
+	}
+
+	@Override
+	@Nullable
+	public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, IBlockAccess worldIn, BlockPos pos) {
+		return blockState.getValue(OPEN) ? NULL_AABB : blockState.getValue(FACING).getAxis() == EnumFacing.Axis.Z ? AABB_CLOSED_SELECTED_ZAXIS : AABB_CLOSED_SELECTED_XAXIS;
 	}
 
 	@Override
@@ -119,7 +137,18 @@ public class BlockFenceGate extends BlockFurnitureRotate {
 
 	@Override
 	protected BlockStateContainer createBlockState() {
-		return new ExtendedBlockState(this, new IProperty[] { FACING, OPEN, POWERED }, new IUnlistedProperty[] { BLOCK_STATE });
+		return new ExtendedBlockState(this, new IProperty[] { FACING, OPEN, POWERED, IN_WALL }, new IUnlistedProperty[] { BLOCK_STATE });
+	}
+
+	@Override
+	public boolean canBeConnectedTo(IBlockAccess world, BlockPos pos, EnumFacing facing) {
+		Block connector = world.getBlockState(pos.offset(facing)).getBlock();
+		return connector instanceof BlockFence || connector instanceof BlockWall;
+	}
+
+	private boolean canFenceGateConnectTo(IBlockAccess world, BlockPos pos, EnumFacing facing) {
+		Block block = world.getBlockState(pos.offset(facing)).getBlock();
+		return block.canBeConnectedTo(world, pos.offset(facing), facing.getOpposite());
 	}
 
 	@Override
