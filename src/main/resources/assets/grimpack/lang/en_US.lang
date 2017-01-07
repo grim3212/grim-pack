@@ -8,6 +8,8 @@ grimpack.creative.util=Grim Util
 grimpack.creative.world=Grim World
 
 #================= BLOCKS =================#
+tile.arrow_sensor.name=Arrow Target
+tile.metal_mesh.name=Metal Mesh
 tile.fan.name=Fan
 tile.decor_door.name=Decor Door
 tile.decor_stairs.name=Stairs
