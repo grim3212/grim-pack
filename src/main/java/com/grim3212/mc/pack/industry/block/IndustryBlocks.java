@@ -83,6 +83,7 @@ public class IndustryBlocks implements IPartItems {
 	public static Block upgraded_specific_sensor;
 	public static Block arrow_sensor;
 	public static Block metal_mesh;
+	public static Block fire_sensor;
 
 	@Override
 	public void initItems() {
@@ -144,7 +145,9 @@ public class IndustryBlocks implements IPartItems {
 		upgraded_specific_sensor = (new BlockSpecificSensor()).setHardness(3.0F).setResistance(12F).setUnlocalizedName("upgraded_specific_sensor").setCreativeTab(GrimIndustry.INSTANCE.getCreativeTab());
 		arrow_sensor = (new BlockSensorArrow()).setHardness(0.3F).setResistance(2.0F).setUnlocalizedName("arrow_sensor").setCreativeTab(GrimIndustry.INSTANCE.getCreativeTab());
 		metal_mesh = (new BlockMetalMesh()).setHardness(0.4F).setResistance(1.0F).setUnlocalizedName("metal_mesh").setCreativeTab(GrimIndustry.INSTANCE.getCreativeTab());
+		fire_sensor = (new BlockFireSensor()).setHardness(4.0F).setResistance(7.0F).setUnlocalizedName("fire_sensor").setCreativeTab(GrimIndustry.INSTANCE.getCreativeTab());
 
+		Utils.registerBlock(fire_sensor, "fire_sensor");
 		Utils.registerBlock(metal_mesh, "metal_mesh");
 		Utils.registerBlock(arrow_sensor, "arrow_sensor");
 		Utils.registerBlock(upgraded_specific_sensor, "upgraded_specific_sensor");
@@ -314,6 +317,9 @@ public class IndustryBlocks implements IPartItems {
 
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(arrow_sensor, 1), new Object[] { "XXX", "S#S", "XXX", 'X', Blocks.WOOL, 'S', metal_mesh, '#', Items.ARROW }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(metal_mesh, 1), new Object[] { "XX", "XX", 'X', "stickIron" }));
+
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(fire_sensor, 1), new Object[] { "SSS", "SNS", "X#X", 'X', "stickIron", '#', "dustRedstone", 'N', "netherrack", 'S', "stone" }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(fire_sensor, 1), new Object[] { "SSS", "SNS", "X#X", 'X', "stickIron", '#', "dustRedstone", 'N', Items.FLINT_AND_STEEL, 'S', "stone" }));
 	}
 
 }

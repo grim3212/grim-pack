@@ -2,6 +2,7 @@ package com.grim3212.mc.pack.industry.client;
 
 import com.grim3212.mc.pack.core.client.RenderHelper;
 import com.grim3212.mc.pack.industry.IndustryCommonProxy;
+import com.grim3212.mc.pack.industry.block.BlockFireSensor;
 import com.grim3212.mc.pack.industry.block.BlockFountain;
 import com.grim3212.mc.pack.industry.block.BlockModernDoor;
 import com.grim3212.mc.pack.industry.block.BlockSensorArrow;
@@ -46,6 +47,7 @@ public class IndustryClientProxy extends IndustryCommonProxy {
 		// Register all custom models for camo plates
 		ModelLoaderRegistry.registerLoader(CamoPlateModelLoader.instance);
 
+		ModelLoader.setCustomStateMapper(IndustryBlocks.fire_sensor, new StateMap.Builder().ignore(BlockFireSensor.POWERED).build());
 		ModelLoader.setCustomStateMapper(IndustryBlocks.arrow_sensor, new StateMap.Builder().ignore(BlockSensorArrow.POWERED).build());
 		ModelLoader.setCustomStateMapper(IndustryBlocks.door_chain, new StateMap.Builder().ignore(BlockModernDoor.POWERED).build());
 		ModelLoader.setCustomStateMapper(IndustryBlocks.door_glass, new StateMap.Builder().ignore(BlockModernDoor.POWERED).build());
@@ -110,6 +112,7 @@ public class IndustryClientProxy extends IndustryCommonProxy {
 		RenderHelper.renderItem(IndustryItems.steel_sword);
 
 		// BLOCKS
+		RenderHelper.renderBlock(IndustryBlocks.fire_sensor);
 		RenderHelper.renderBlock(IndustryBlocks.arrow_sensor);
 		RenderHelper.renderBlock(IndustryBlocks.metal_mesh);
 		RenderHelper.renderBlock(IndustryBlocks.upgraded_specific_sensor);
