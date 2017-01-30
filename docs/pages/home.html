@@ -1,0 +1,14 @@
+﻿<div class="jumbotron text-center">
+    <h1>Grim Pack</h1>
+    <p>Latest: <a href="https://minecraft.curseforge.com/projects/grim-pack/files/2364763">Grim Pack-1.11.2-4.0.0.0-beta</a></p>
+</div>
+
+<div class="page-header">
+    <h3>
+    <ul class="list-inline text-center">
+      <li ng-repeat="part in grimpackParts" ui-sref-active="active">
+          <a href="" ui-sref="Parts.page({partName: part.name})" uib-popover="{{part.underTitle}}" popover-trigger="'mouseenter'">{{part.name}}</a>
+      </li>
+    </ul>
+  </h3>
+</div>

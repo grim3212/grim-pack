@@ -1,0 +1,15 @@
+﻿<div class="jumbotron text-center">
+    <h1>{{ name }}</h1>
+
+    <p>{{ currentPart.underTitle }}</p>
+</div>
+
+<uib-tabset active="activeJustified" justified="true">
+    <uib-tab index="0" heading="Information">
+        <div ui-view="info"></div>
+    </uib-tab>
+    <uib-tab index="1" heading="Releases">
+        <hr />
+        <div ui-view="releases"></div>
+    </uib-tab>
+</uib-tabset>
