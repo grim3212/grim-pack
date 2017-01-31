@@ -84,13 +84,6 @@ module.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider,
                         return 'pages/parts/' + fileName + 'Info.html';
                     },
                     controller: 'PartsInfoCtrl'
-                },
-                'releases@Parts': {
-                    templateUrl: function (stateParams) {
-                        var fileName = stateParams.partName.replace(/[\s]/g, '').toLowerCase();
-                        return 'pages/parts/' + fileName + 'Releases.html';
-                    },
-                    controller: 'PartsReleasesCtrl'
                 }
             }
         });
@@ -130,8 +123,4 @@ module.controller('PartsCtrl', ['$rootScope', '$scope', '$stateParams', 'partSer
 }]);
 
 module.controller('PartsInfoCtrl', ['$scope', 'partService', function ($scope, partService) {
-}]);
-
-module.controller('PartsReleasesCtrl', ['$scope', 'partService', function ($scope, partService) {
-    $scope.isCollapsed = true;
 }]);
