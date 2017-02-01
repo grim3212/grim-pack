@@ -1,0 +1,19 @@
+<!-- Main jumbotron for a primary marketing message or call to action -->
+  <div class="jumbotron">
+    <div class="container">
+      <h1 class="display-3">Grim Pack</h1>
+      <p>A Minecraft mod that adds a ton of different items, blocks, entities, and more.</p>
+      <p>Latest: <a href="https://minecraft.curseforge.com/projects/grim-pack/files/2364763">Grim Pack-1.11.2-4.0.0.0-beta</a></p>
+    </div>
+  </div>
+
+  <div class="container">
+    <!-- Display each part from the part service -->
+    <div *ngFor="let row of partService.buildPartArray(3)" class="row">
+      <div *ngFor="let part of row" class="col-md-4">
+        <h2>{{part.name}}</h2>
+        <p>{{part.info}}</p>
+        <p><a class="btn btn-secondary" href="#" role="button">View details &raquo;</a></p>
+      </div>
+    </div>
+  </div>
