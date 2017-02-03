@@ -1,8 +1,17 @@
 <div class="jumbotron">
   <div class="container">
-    <h1 class="display-3">Part</h1>
+    <h1 class="display-3">{{part.name}}</h1>
+    <p>{{part.info}}</p>
   </div>
 </div>
 
-<!-- Router outlet for each parts information -->
-<router-outlet></router-outlet>
+<div class="container">
+  <div class="row">
+    <div class="col-12 col-md-3 push-md-9 ">
+      <app-nav-side-bar [partName]="part.shortName"></app-nav-side-bar>
+    </div>
+    <div class="col-12 col-md-9 pull-md-3">
+      <ng-container *ngComponentOutlet="currentComponent"></ng-container>
+    </div>
+  </div>
+</div>

@@ -1,44 +1,43 @@
 <!-- All of the following is loaded within the index.html app-root tags -->
-<body>
-  <nav class="navbar navbar-toggleable-md navbar-inverse fixed-top bg-inverse">
-    <div class="container">
-    <button class="navbar-toggler navbar-toggler-right" type="button" (click)="navbarCollapsed = !navbarCollapsed" [attr.aria-expanded]="!navbarCollapsed" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <a class="navbar-brand" routerLink="/home">Grim Pack</a>
 
-    <div class="collapse navbar-collapse" [ngbCollapse]="navbarCollapsed" id="navbarContent">
-      <ul class="navbar-nav mr-auto">
-        <li class="nav-item">
-          <a class="nav-link" routerLink="/about">About</a>
-        </li>
-        <li ngbDropdown class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="javascript:void(0)" id="partDropDown" ngbDropdownToggle>Parts</a>
-          <ul class="dropdown-menu" aria-labelledby="partDropDown">
-            <li *ngFor="let part of partService.getParts()">
-              <a class="dropdown-item" routerLink="/part/{{part.shortName}}">{{part.name}}</a>
-            </li>
-          </ul>
-        </li>
-      </ul>
-      <form class="form-inline my-2 my-lg-0">
-        <input class="form-control mr-sm-2" type="text" placeholder="Search">
-        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-      </form>
-    </div>
-    </div>
-  </nav>
+<header class="navbar navbar-toggleable-md navbar-inverse fixed-top bg-inverse">
+  <button class="navbar-toggler navbar-toggler-right" type="button" (click)="navbarCollapsed = !navbarCollapsed" [attr.aria-expanded]="!navbarCollapsed" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <a class="navbar-brand" routerLink="/home">Grim Pack</a>
 
+  <div class="collapse navbar-collapse" [ngbCollapse]="navbarCollapsed" id="navbarContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/about">About</a>
+      </li>
+      <li ngbDropdown class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="javascript:void(0)" id="partDropDown" ngbDropdownToggle>Parts</a>
+        <ul class="dropdown-menu" aria-labelledby="partDropDown">
+          <li *ngFor="let part of partService.getParts()">
+            <a class="dropdown-item" routerLink="/part/{{part.shortName}}">{{part.name}}</a>
+          </li>
+        </ul>
+      </li>
+    </ul>
+    <!-- Implement later to easily search for relevant info -->
+    <form *ngIf="false" class="form-inline my-2 my-lg-0">
+      <input class="form-control mr-sm-2" type="text" placeholder="Search">
+      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+    </form>
+  </div>
+</header>
 
 <!-- Anchor for the top -->
-<a id="top"></a>
+<body>
+  <a id="top"></a>
 
-<!-- Don't assume we want this to automatically be contained in a container -->
-<router-outlet></router-outlet>
+  <!-- Don't assume we want this to automatically be contained in a container -->
+  <router-outlet></router-outlet>
+</body>
 
-      <footer class="bd-footer text-muted">
-        <div class="container">
-        <p>&copy; Company 2017</p>
-      </div>
-      </footer>
-    </body>
+<footer class="bd-footer text-muted">
+  <div class="container">
+    <p>&copy; Company 2017</p>
+  </div>
+</footer>

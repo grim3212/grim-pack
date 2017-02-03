@@ -13,7 +13,7 @@
       <div *ngFor="let part of row" class="col-md-4">
         <h2>{{part.name}}</h2>
         <p>{{part.info}}</p>
-        <p><a class="btn btn-secondary" href="#" role="button">View details &raquo;</a></p>
+        <p><a class="btn btn-secondary" routerLink="/part/{{part.shortName}}" role="button">View details &raquo;</a></p>
       </div>
     </div>
   </div>

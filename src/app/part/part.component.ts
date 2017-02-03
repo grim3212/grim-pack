@@ -1,5 +1,5 @@
-import { Component, ViewContainerRef, ViewChild, ReflectiveInjector, ComponentFactoryResolver, OnInit } from '@angular/core';
-import { ActivatedRoute, Params } from '@angular/router';
+import { Component } from '@angular/core';
+import { ActivatedRoute, Router, Params } from '@angular/router';
 import { GrimPartService } from '../grim-part.service';
 import { GrimPart } from '../grim-part';
 import { CoreComponent }   from './core/core.component';
@@ -12,26 +12,45 @@ import { WorldComponent }   from './world/world.component';
 
 @Component({
   selector: 'app-part',
-  entryComponents: [CoreComponent,CuisineComponent,DecorComponent,IndustryComponent,ToolsComponent,UtilComponent,WorldComponent],
-  template: `<div #partContainer></div>`,
+  templateUrl: './part.component.html',
   styleUrls: ['./part.component.css']
 })
-export class PartComponent implements OnInit {
-  currentComponent = null;
-  @ViewChild('partContainer', { read: ViewContainerRef }) partContainer: ViewContainerRef;
+export class PartComponent {
+  currentComponent: Component;
+  part: GrimPart;
 
-  private currentPart: GrimPart;
+  constructor(private route: ActivatedRoute, private partService: GrimPartService, private router: Router) {
+    this.route.params.subscribe((param) => {
+      let partName = param['partName'];
 
-  constructor(private route: ActivatedRoute, private partService : GrimPartService, private resolver: ComponentFactoryResolver) {
-  }
+      this.part = this.partService.getPartFromName(partName);
 
-  ngOnInit() {
-
-    console.log(this.route.firstChild.data);
-
-    this.route.firstChild.data.subscribe(data => {
-      console.log(data);
+      switch (partName) {
+        case 'core':
+          this.currentComponent = CoreComponent;
+          break;
+        case 'cuisine':
+          this.currentComponent = CuisineComponent;
+          break;
+        case 'decor':
+          this.currentComponent = DecorComponent;
+          break;
+        case 'industry':
+          this.currentComponent = IndustryComponent;
+          break;
+        case 'tools':
+          this.currentComponent = ToolsComponent;
+          break;
+        case 'util':
+          this.currentComponent = UtilComponent;
+          break
+        case 'world':
+          this.currentComponent = WorldComponent;
+          break;
+        default:
+          this.router.navigate(['/404']);
+          break;
+      }
     });
   }
-
 }

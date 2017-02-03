@@ -1,0 +1,15 @@
+<div class="bd-sidebar">
+  <nav>
+    <div *ngFor="let part of partService.getParts()" class="bd-toc-item">
+      <h4>
+        <a *ngIf="partName === part.shortName" class="text-muted chosen" routerLink="/part/{{part.shortName}}">{{part.name}}</a>
+        <a *ngIf="partName !== part.shortName" class="text-muted" routerLink="/part/{{part.shortName}}">{{part.name}}</a>
+      </h4>
+      <div id="partSections" *ngIf="part.sections.length > 0 && partName === part.shortName">
+        <ul>
+          <li *ngFor="let section of part.sections"><a class="text-primary" [routerLink]="fixLink(part.shortName, section)">{{section}}</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+</div>

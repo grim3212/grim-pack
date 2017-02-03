@@ -2,6 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
+import { MaterialModule } from '@angular/material';
 
 import { AppComponent } from './app.component';
 import { GrimPartService } from './grim-part.service';
@@ -17,6 +18,9 @@ import { IndustryComponent } from './part/industry/industry.component';
 import { ToolsComponent } from './part/tools/tools.component';
 import { UtilComponent } from './part/util/util.component';
 import { WorldComponent } from './part/world/world.component';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { NavSideBarComponent } from './nav-side-bar/nav-side-bar.component';
+import { InstructionManualComponent } from './part/core/instruction-manual/instruction-manual.component';
 
 @NgModule({
   declarations: [
@@ -30,6 +34,18 @@ import { WorldComponent } from './part/world/world.component';
     IndustryComponent,
     ToolsComponent,
     UtilComponent,
+    WorldComponent,
+    PageNotFoundComponent,
+    NavSideBarComponent,
+    InstructionManualComponent
+  ],
+  entryComponents: [
+    CoreComponent,
+    CuisineComponent,
+    DecorComponent,
+    IndustryComponent,
+    ToolsComponent,
+    UtilComponent,
     WorldComponent
   ],
   imports: [
@@ -37,6 +53,7 @@ import { WorldComponent } from './part/world/world.component';
     FormsModule,
     HttpModule,
     NgbModule.forRoot(),
+    MaterialModule.forRoot(),
     AppRoutingModule
   ],
   providers: [GrimPartService],
