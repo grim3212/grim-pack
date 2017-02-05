@@ -7,7 +7,7 @@
       </h4>
       <div id="partSections" *ngIf="part.sections.length > 0 && partName === part.shortName">
         <ul>
-          <li *ngFor="let section of part.sections"><a class="text-primary" [routerLink]="fixLink(part.shortName, section)">{{section}}</a></li>
+          <li *ngFor="let section of part.sections"><a class="text-primary" routerLink="/part/{{part.shortName}}/{{section.shortName}}">{{section.name}}</a></li>
         </ul>
       </div>
     </div>

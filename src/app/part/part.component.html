@@ -1,17 +1,30 @@
 <div class="jumbotron">
-  <div class="container">
-    <h1 class="display-3">{{part.name}}</h1>
-    <p>{{part.info}}</p>
+  <div class="container" *ngIf="part">
+    <div *ngIf="section">
+      <h1 class="display-3">{{part.name}} - {{section.name}}</h1>
+      <p>{{part.info}}</p>
+    </div>
+    <div *ngIf="!section">
+      <h1 class="display-3">{{part.name}}</h1>
+      <p>{{part.info}}</p>
+    </div>
+  </div>
+  <div class="container" *ngIf="!part">
+    <h1 class="display-3">Current Parts</h1>
+    <p>All the current parts included in Grim Pack</p>
   </div>
 </div>
 
 <div class="container">
-  <div class="row">
-    <div class="col-12 col-md-3 push-md-9 ">
+  <div class="row" *ngIf="part">
+    <div class="col-12 col-md-3 push-md-9">
       <app-nav-side-bar [partName]="part.shortName"></app-nav-side-bar>
     </div>
     <div class="col-12 col-md-9 pull-md-3">
       <ng-container *ngComponentOutlet="currentComponent"></ng-container>
     </div>
+  </div>
+  <div *ngIf="!part && !section">
+    <ng-container *ngComponentOutlet="currentComponent"></ng-container>
   </div>
 </div>

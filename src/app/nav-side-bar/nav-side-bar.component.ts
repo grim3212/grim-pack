@@ -13,8 +13,4 @@ export class NavSideBarComponent {
 
   constructor(private partService: GrimPartService) { }
 
-  fixLink(s: string, s2): string{
-    return "/part/" + s + "/" + s2.replace(/\s+/g, '_').toLowerCase();;
-  }
-
 }

@@ -1,10 +1,12 @@
+import {Component} from '@angular/core';
+
 export class GrimPart {
   name: string;
   info: string;
   shortName: string;
-  sections: Array<string>;
+  sections: {name:string, shortName: string, component: Component}[];
 
-  constructor(partName: string, partInfo: string, partShortName: string, partSections: Array<string>){
+  constructor(partName: string, partInfo: string, partShortName: string, partSections: {name:string, shortName: string, component: Component}[]){
     this.name = partName;
     this.info = partInfo;
     this.shortName = partShortName;

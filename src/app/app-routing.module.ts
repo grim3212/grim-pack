@@ -16,7 +16,9 @@ const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: 'home', component: HomeComponent },
   { path: 'about', component: AboutComponent },
+  { path: 'part', component: PartComponent },
   { path: 'part/:partName', component: PartComponent },
+  { path: 'part/:partName/:section', component: PartComponent },
   { path: '404', component: PageNotFoundComponent },
   { path: '**', redirectTo: '/404' }
 ];
