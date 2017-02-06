@@ -21,7 +21,7 @@ import { WorldComponent } from './part/world/world.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { NavSideBarComponent } from './nav-side-bar/nav-side-bar.component';
 import { InstructionManualComponent } from './part/core/instruction-manual/instruction-manual.component';
-import { ChocolateComponent } from './part/cuisine/sections/sections.component';
+import { ChocolateComponent, SodaComponent } from './part/cuisine/sections/sections.component';
 import { EmptyComponent } from './part/empty/empty.component';
 
 @NgModule({
@@ -41,6 +41,7 @@ import { EmptyComponent } from './part/empty/empty.component';
     NavSideBarComponent,
     InstructionManualComponent,
     ChocolateComponent,
+    SodaComponent,
     EmptyComponent
   ],
   entryComponents: [
@@ -52,7 +53,8 @@ import { EmptyComponent } from './part/empty/empty.component';
     UtilComponent,
     WorldComponent,
     EmptyComponent,
-    ChocolateComponent
+    ChocolateComponent,
+    SodaComponent
   ],
   imports: [
     BrowserModule,
