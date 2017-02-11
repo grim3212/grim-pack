@@ -1,6 +1,6 @@
 import { browser, element, by } from 'protractor';
 
-export class GrimPackSitePage {
+export class GrimPackPage {
   navigateTo() {
     return browser.get('/');
   }

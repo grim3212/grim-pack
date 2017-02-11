@@ -2,7 +2,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
-import { MaterialModule } from '@angular/material';
 
 import { AppComponent } from './app.component';
 import { GrimPartService } from './grim-part.service';
@@ -61,7 +60,6 @@ import { EmptyComponent } from './part/empty/empty.component';
     FormsModule,
     HttpModule,
     NgbModule.forRoot(),
-    MaterialModule.forRoot(),
     AppRoutingModule
   ],
   providers: [GrimPartService],

@@ -1,10 +1,10 @@
-import { GrimPackSitePage } from './app.po';
+import { GrimPackPage } from './app.po';
 
-describe('grim-pack-site App', function() {
-  let page: GrimPackSitePage;
+describe('grim-pack App', function() {
+  let page: GrimPackPage;
 
   beforeEach(() => {
-    page = new GrimPackSitePage();
+    page = new GrimPackPage();
   });
 
   it('should display message saying app works', () => {
