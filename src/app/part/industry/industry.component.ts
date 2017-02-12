@@ -1,19 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-industry',
   templateUrl: './industry.component.html',
   styleUrls: ['./industry.component.css']
 })
-export class IndustryComponent implements OnInit {
-
-  name: string;
+export class IndustryComponent {
 
   constructor() {
-    this.name = "Grim industry";
-  }
-
-  ngOnInit() {
   }
 
 }

@@ -1,10 +1,10 @@
 import { Injectable, Component } from '@angular/core';
 import { GrimPart } from './grim-part';
-import { ChocolateComponent, SodaComponent } from './part/cuisine/sections/sections.component';
+import { SECTIONS as CuisineSections } from './part/cuisine/cuisine.component';
 
 export const GRIMPARTS: GrimPart[] = [
   { name: "Grim Core", info: "The core part containing shared classes and the instruction manual", shortName: "core", sections: [] },
-  { name: "Grim Cuisine", info: "Cuisine contains food and health related items", shortName: "cuisine", sections: [{ name: "Chocolate", shortName: "chocolate", component: ChocolateComponent }, {name: "Soda", shortName: "soda", component: SodaComponent}] },
+  { name: "Grim Cuisine", info: "Cuisine contains food and health related items", shortName: "cuisine", sections: CuisineSections },
   { name: "Grim Decor", info: "Decor is for decorating and eye candy", shortName: "decor", sections: [] },
   { name: "Grim Industry", info: "Industry allows for more complex machinery or items", shortName: "industry", sections: [] },
   { name: "Grim Tools", info: "Tools adds in many different weapons and tools", shortName: "tools", sections: [] },
@@ -48,11 +48,13 @@ export class GrimPartService {
     return GRIMPARTS[0];
   }
 
-  public matchSection(part: GrimPart, shortName: string): {name:string, shortName: string, component: Component} {
-    for (let section of part.sections) {
-      if (section.shortName == shortName)
-        //Return matched component
-        return section;
+  public matchSection(part: GrimPart, shortName: string): { name: string, shortName: string, component: Component } {
+    if (part.sections.length > 0) {
+      for (let section of part.sections) {
+        if (section.shortName == shortName)
+          //Return matched component
+          return section;
+      }
     }
 
     //Return null to indicate we failed at matching
