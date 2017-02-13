@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'cuisine-chocolate',
   templateUrl: './chocolate.component.html',
-  styleUrls: ['./sections.component.css']
+  styleUrls: ['./cuisine-sections.component.css']
 })
 export class ChocolateComponent {
 
@@ -14,7 +14,7 @@ export class ChocolateComponent {
 @Component({
   selector: 'cuisine-soda',
   templateUrl: './soda.component.html',
-  styleUrls: ['./sections.component.css']
+  styleUrls: ['./cuisine-sections.component.css']
 })
 export class SodaComponent {
 
@@ -25,7 +25,7 @@ export class SodaComponent {
 @Component({
   selector: 'cuisine-cooking',
   templateUrl: './cooking.component.html',
-  styleUrls: ['./sections.component.css']
+  styleUrls: ['./cuisine-sections.component.css']
 })
 export class CookingComponent {
 
@@ -36,7 +36,7 @@ export class CookingComponent {
 @Component({
   selector: 'cuisine-health',
   templateUrl: './health.component.html',
-  styleUrls: ['./sections.component.css']
+  styleUrls: ['./cuisine-sections.component.css']
 })
 export class HealthComponent {
 
@@ -46,7 +46,7 @@ export class HealthComponent {
 @Component({
   selector: 'cuisine-dragon-fruit',
   templateUrl: './dragon-fruit.component.html',
-  styleUrls: ['./sections.component.css']
+  styleUrls: ['./cuisine-sections.component.css']
 })
 export class DragonFruitComponent {
 

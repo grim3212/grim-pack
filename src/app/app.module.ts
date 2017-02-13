@@ -2,6 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
+import {Ng2PageScrollModule} from 'ng2-page-scroll';
 
 import { AppComponent } from './app.component';
 import { GrimPartService } from './grim-part.service';
@@ -20,7 +21,8 @@ import { WorldComponent } from './part/world/world.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { NavSideBarComponent } from './nav-side-bar/nav-side-bar.component';
 import { InstructionManualComponent } from './part/core/instruction-manual/instruction-manual.component';
-import { ChocolateComponent, CookingComponent, DragonFruitComponent, HealthComponent, SodaComponent } from './part/cuisine/sections/sections.component';
+import { ChocolateComponent, CookingComponent, DragonFruitComponent, HealthComponent, SodaComponent } from './part/cuisine/sections/cuisine-sections.component';
+import { DecorationComponent, HangingComponent } from './part/decor/sections/decor-sections.component';
 import { EmptyComponent } from './part/empty/empty.component';
 
 @NgModule({
@@ -44,6 +46,8 @@ import { EmptyComponent } from './part/empty/empty.component';
     DragonFruitComponent,
     HealthComponent,
     SodaComponent,
+    DecorationComponent,
+    HangingComponent,
     EmptyComponent
   ],
   entryComponents: [
@@ -59,13 +63,16 @@ import { EmptyComponent } from './part/empty/empty.component';
     CookingComponent,
     DragonFruitComponent,
     HealthComponent,
-    SodaComponent
+    SodaComponent,
+    DecorationComponent,
+    HangingComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
     HttpModule,
     NgbModule.forRoot(),
+    Ng2PageScrollModule.forRoot(),
     AppRoutingModule
   ],
   providers: [GrimPartService],

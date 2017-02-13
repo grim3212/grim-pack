@@ -1,5 +1,4 @@
 import {Component} from '@angular/core';
-import {Part} from './part';
 
 export class GrimPart {
   name: string;

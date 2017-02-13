@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {ChocolateComponent, CookingComponent, DragonFruitComponent, HealthComponent, SodaComponent} from './sections/sections.component';
+import {ChocolateComponent, CookingComponent, DragonFruitComponent, HealthComponent, SodaComponent} from './sections/cuisine-sections.component';
 
 export const SECTIONS: {name:string, shortName: string, component: Component}[] = [
   {name: "Chocolate", shortName: "chocolate", component: ChocolateComponent},
