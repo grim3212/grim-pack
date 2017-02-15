@@ -5,6 +5,7 @@ import com.grim3212.mc.pack.core.client.gui.PackGuiHandler;
 import com.grim3212.mc.pack.core.inventory.InventoryCapability;
 import com.grim3212.mc.pack.core.item.ItemManual;
 import com.grim3212.mc.pack.core.manual.pages.Page;
+import com.grim3212.mc.pack.tools.client.ManualTools;
 
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
@@ -49,7 +50,7 @@ public class ItemPelletBag extends ItemManual {
 
 	@Override
 	public Page getPage(ItemStack stack) {
-		return null;
+		return ManualTools.pelletBag_page;
 	}
 
 	@Override

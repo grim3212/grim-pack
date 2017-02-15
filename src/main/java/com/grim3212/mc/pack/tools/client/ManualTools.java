@@ -61,8 +61,6 @@ public class ManualTools implements IManualPart {
 	public static Page darkIron_page;
 	public static Page advCanister_page;
 	public static Page advRaygun_page;
-	public static Page pellets_page;
-	public static Page slingshot_page;
 	public static Page spears_page;
 	public static Page specialSpears_page;
 	public static Page ultimateFist_page;
@@ -70,6 +68,9 @@ public class ManualTools implements IManualPart {
 	public static Page mobMask_page;
 	public static Page boomerang_page;
 	public static Page diamondBoomerang_page;
+	public static Page pellets_page;
+	public static Page slingshot_page;
+	public static Page pelletBag_page;
 
 	@Override
 	public void initPages() {
@@ -116,13 +117,14 @@ public class ManualTools implements IManualPart {
 		darkIron_page = new PageCrafting("darkIron", new ItemStack(ToolsItems.dark_iron_ingot));
 		advCanister_page = new PageCrafting("advCanisters", ToolsItems.advCanisters, 25);
 		advRaygun_page = new PageCrafting("advraygun", new ItemStack(ToolsItems.advanced_ray_gun));
-		pellets_page = new PageCrafting("pellets", ToolsItems.pellets, 20);
-		slingshot_page = new PageCrafting("slingshot", new ItemStack(ToolsItems.sling_shot));
 		spears_page = new PageCrafting("basics", ToolsItems.basics, 20);
 		specialSpears_page = new PageCrafting("specials", ToolsItems.specials, 20);
 		ultimateFist_page = new PageCrafting("fist", new ItemStack(ToolsItems.ultimate_fist));
 		emptyMask_page = new PageCrafting("empty", ToolsItems.emptyRecipe);
 		mobMask_page = new PageCrafting("mobs", ToolsItems.mobs, 15);
+		pellets_page = new PageCrafting("pellets", ToolsItems.pellets, 20);
+		slingshot_page = new PageCrafting("slingshot", new ItemStack(ToolsItems.sling_shot));
+		pelletBag_page = new PageCrafting("pelletBag", new ItemStack(ToolsItems.pellet_bag));
 	}
 
 	@Override
@@ -144,7 +146,7 @@ public class ManualTools implements IManualPart {
 		ManualRegistry.addChapter("pokeball", part).addPages(pokeball_page);
 		ManualRegistry.addChapter("staff", part).addPages(powerstaff_page);
 		ManualRegistry.addChapter("raygun", part).addPages(element115_page, canister_page, raygun_page, darkIron_page, advCanister_page, advRaygun_page);
-		ManualRegistry.addChapter("sling", part).addPages(pellets_page, slingshot_page);
+		ManualRegistry.addChapter("sling", part).addPages(pellets_page, slingshot_page, pelletBag_page);
 		ManualRegistry.addChapter("spears", part).addPages(spears_page, specialSpears_page);
 		ManualRegistry.addChapter("ultimate", part).addPages(ultimateFist_page);
 		ManualRegistry.addChapter("masks", part).addPages(emptyMask_page, mobMask_page);

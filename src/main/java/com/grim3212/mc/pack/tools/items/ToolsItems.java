@@ -478,7 +478,9 @@ public class ToolsItems implements IPartItems {
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(advanced_ray_gun, 1), new Object[] { "XZ ", " XY", " XX", 'X', "ingotDarkIron", 'Y', ray_gun, 'Z', "dustRedstone" }));
 
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(sling_shot, 1), new Object[] { "#@#", " # ", " # ", '#', "stickWood", '@', Items.STRING }));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(sling_pellet, 2), new Object[] { "#", '#', "dirt" }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(pellet_bag, 1), new Object[] { "SIL", "LLL", 'L', "leather", 'S', "string", 'I', "ingotIron" }));
+			
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(sling_pellet, 4, 0), new Object[] { "#", '#', "dirt" }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(sling_pellet, 2), new Object[] { "#", '#', "cobblestone" }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(sling_pellet, 4), new Object[] { "#", '#', "stone" }));
 		pellets = RecipeHelper.getLatestIRecipes(3);

@@ -1,6 +1,7 @@
 package com.grim3212.mc.pack.decor.block;
 
 import com.grim3212.mc.pack.core.manual.pages.Page;
+import com.grim3212.mc.pack.decor.client.ManualDecor;
 
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyDirection;
@@ -48,7 +49,7 @@ public class BlockDecorFacing extends BlockColorizer {
 	@Override
 	public Page getPage(IBlockState state) {
 		if (state.getBlock() == DecorBlocks.pillar) {
-			return null;
+			return ManualDecor.pillar_page;
 		}
 
 		return null;
