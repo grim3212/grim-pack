@@ -15,12 +15,13 @@ import net.minecraftforge.client.model.IModel;
 import net.minecraftforge.client.model.IModelCustomData;
 import net.minecraftforge.client.model.IPerspectiveAwareModel;
 import net.minecraftforge.client.model.IRetexturableModel;
+import net.minecraftforge.client.model.ModelLoaderRegistry;
 import net.minecraftforge.common.model.IModelState;
 import net.minecraftforge.common.model.TRSRTransformation;
 
 public class DecorModel implements IRetexturableModel, IModelCustomData {
 
-	public static final DecorModel MODEL = new DecorModel(ImmutableList.<ResourceLocation> of(), new ResourceLocation("grimpack:blocks/colorizer"), EnumDecorModelType.Unknown);
+	public static final DecorModel MODEL = new DecorModel(ImmutableList.<ResourceLocation>of(), new ResourceLocation("grimpack:blocks/colorizer"), EnumDecorModelType.Unknown);
 
 	private final ImmutableList<ResourceLocation> modelLocation;
 	private final ResourceLocation textureLocation;
@@ -85,7 +86,13 @@ public class DecorModel implements IRetexturableModel, IModelCustomData {
 			modelLocations.add(new ResourceLocation(model));
 		}
 
-		return new DecorModel(modelLocations.build(), this.textureLocation, this.modelType);
+		ImmutableList<ResourceLocation> immutableModels = modelLocations.build();
+		for (int i = 1; i < immutableModels.size(); i++) {
+			//Load the extra models and this should load the sub-model textures
+			ModelLoaderRegistry.getModelOrLogError(immutableModels.get(i), "Model couldn't be found " + immutableModels.get(i));
+		}
+
+		return new DecorModel(immutableModels, this.textureLocation, this.modelType);
 	}
 
 	public static enum EnumDecorModelType {
