@@ -480,10 +480,13 @@ public class ToolsItems implements IPartItems {
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(sling_shot, 1), new Object[] { "#@#", " # ", " # ", '#', "stickWood", '@', Items.STRING }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(pellet_bag, 1), new Object[] { "SIL", "LLL", 'L', "leather", 'S', "string", 'I', "ingotIron" }));
 			
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(sling_pellet, 4, 0), new Object[] { "#", '#', "dirt" }));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(sling_pellet, 2), new Object[] { "#", '#', "cobblestone" }));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(sling_pellet, 4), new Object[] { "#", '#', "stone" }));
-		pellets = RecipeHelper.getLatestIRecipes(3);
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(sling_pellet, 2, 0), new Object[] { "#", '#', "cobblestone" }));
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(sling_pellet, 2, 1), new Object[] { new ItemStack(sling_pellet, 1, 0), "ingotIron" }));
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(sling_pellet, 2, 2), new Object[] { new ItemStack(sling_pellet, 1, 0), "netherrack" }));
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(sling_pellet, 1, 3), new Object[] { new ItemStack(sling_pellet, 1, 0), Blocks.TORCH }));
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(sling_pellet, 1, 4), new Object[] { new ItemStack(sling_pellet, 1, 0), Items.COAL }));
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(sling_pellet, 1, 5), new Object[] { new ItemStack(sling_pellet, 1, 2), "gunpowder" }));
+		pellets = RecipeHelper.getLatestIRecipes(6);
 
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(spear, 1), new Object[] { "#  ", " X ", "  X", '#', Items.FLINT, 'X', "stickWood" }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(spear, 1), new Object[] { "XX#", '#', Items.FLINT, 'X', "stickWood" }));
