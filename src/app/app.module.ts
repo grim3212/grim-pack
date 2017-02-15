@@ -22,7 +22,7 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
 import { NavSideBarComponent } from './nav-side-bar/nav-side-bar.component';
 import { InstructionManualComponent } from './part/core/instruction-manual/instruction-manual.component';
 import { ChocolateComponent, CookingComponent, DragonFruitComponent, HealthComponent, SodaComponent } from './part/cuisine/sections/cuisine-sections.component';
-import { DecorationComponent, HangingComponent } from './part/decor/sections/decor-sections.component';
+import { DecorationComponent, FurnitureComponent, HangingComponent } from './part/decor/sections/decor-sections.component';
 import { EmptyComponent } from './part/empty/empty.component';
 
 @NgModule({
@@ -48,6 +48,7 @@ import { EmptyComponent } from './part/empty/empty.component';
     SodaComponent,
     DecorationComponent,
     HangingComponent,
+    FurnitureComponent,
     EmptyComponent
   ],
   entryComponents: [
@@ -65,6 +66,7 @@ import { EmptyComponent } from './part/empty/empty.component';
     HealthComponent,
     SodaComponent,
     DecorationComponent,
+    FurnitureComponent,
     HangingComponent
   ],
   imports: [

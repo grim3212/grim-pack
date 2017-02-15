@@ -21,3 +21,14 @@ export class HangingComponent {
   constructor() {
   }
 }
+
+@Component({
+  selector: 'decor-furniture',
+  templateUrl: './furniture.component.html',
+  styleUrls: ['./decor-sections.component.css']
+})
+export class FurnitureComponent {
+
+  constructor() {
+  }
+}
