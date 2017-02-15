@@ -65,6 +65,7 @@ public class ManualDecor implements IManualPart {
 	public static Page stairs_page;
 	public static Page pruners_page;
 	public static Page flatItemFrame_page;
+	public static Page pillar_page;
 
 	@Override
 	public void initPages() {
@@ -114,6 +115,7 @@ public class ManualDecor implements IManualPart {
 		slopedPost_page = new PageCrafting("sloped_post", new ItemStack(DecorBlocks.sloped_post));
 		stairs_page = new PageCrafting("stairs", new ItemStack(DecorBlocks.decor_stairs));
 		pruners_page = new PageCrafting("pruners", new ItemStack(DecorItems.pruners));
+		pillar_page = new PageCrafting("pillar", new ItemStack(DecorBlocks.pillar));
 	}
 
 	@Override
@@ -126,7 +128,7 @@ public class ManualDecor implements IManualPart {
 		ManualRegistry.addChapter("fires", part).addPages(burningWood_page, fireplace_page, chimney_page, stove_page, firepit_page, firering_page);
 		ManualRegistry.addChapter("grill", part).addPages(grill_page);
 		ManualRegistry.addChapter("lamps", part).addPages(lamps_page);
-		ManualRegistry.addChapter("superslopes", part).addPages(slopeInfo_page, slope_page, slopedAngle_page, slantedCorner_page, corner_page, obliqueSlope_page, slopedIntersection_page, stairs_page, pyramid_page, fullPyramid_page, slopedPost_page, pruners_page);
+		ManualRegistry.addChapter("superslopes", part).addPages(slopeInfo_page, slope_page, slopedAngle_page, slantedCorner_page, corner_page, obliqueSlope_page, slopedIntersection_page, stairs_page, pyramid_page, fullPyramid_page, slopedPost_page, pillar_page, pruners_page);
 	}
 
 }

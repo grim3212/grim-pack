@@ -236,6 +236,7 @@ public class DecorBlocks implements IPartItems {
 		addColorizerRecipe(stove, 2, "###", "BPB", "###");
 		addColorizerRecipe(grill, 2, "#C#", "#P#", " # ");
 		addColorizerRecipe(grill, 2, "#H#", "#P#", " # ");
+		addColorizerRecipe(pillar, 2, "#", "S", "#");
 		addColorizerRecipe(DecorItems.decor_door_item, 3, "##", "##", "##");
 	}
 

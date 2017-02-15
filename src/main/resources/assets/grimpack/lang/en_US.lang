@@ -992,6 +992,8 @@ grimpack.manual.decor.subsection.superslopes.page.pruners=Pruners are used to co
 grimpack.manual.decor.subsection.superslopes.page.pruners.title=Pruners
 grimpack.manual.decor.subsection.superslopes.page.corner=Corners are a sideways cut of a full block.
 grimpack.manual.decor.subsection.superslopes.page.corner.title=Corners
+grimpack.manual.decor.subsection.superslopes.page.pillar=Pillars are simple colorizeable blocks that can be placed at all angles and are just a large post.
+grimpack.manual.decor.subsection.superslopes.page.pillar.title=Pillar
 
 ### Grim Industry ###
 grimpack.manual.industry.modinfo=Adds a bunch of tech stuff.
