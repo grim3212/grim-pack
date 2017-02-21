@@ -8,8 +8,11 @@ import org.lwjgl.opengl.GL11;
 
 import com.grim3212.mc.pack.core.manual.IManualEntry.IManualItem;
 import com.grim3212.mc.pack.core.manual.ManualChapter;
+import com.grim3212.mc.pack.core.manual.ManualRegistry;
 import com.grim3212.mc.pack.core.manual.gui.GuiManualIndex;
 import com.grim3212.mc.pack.core.manual.gui.GuiManualPage;
+import com.grim3212.mc.pack.core.network.MessageUpdateManual;
+import com.grim3212.mc.pack.core.network.PacketDispatcher;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
@@ -19,8 +22,6 @@ import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.RenderItem;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.oredict.OreDictionary;
 
 public class Page {
@@ -153,16 +154,16 @@ public class Page {
 		if (mouseButton == 0) {
 			if (!tooltipItem.isEmpty()) {
 				if (tooltipItem.getItem() instanceof IManualItem) {
-					updatePage(((IManualItem) tooltipItem.getItem()).getPage(tooltipItem));
+					Page page = ((IManualItem) tooltipItem.getItem()).getPage(tooltipItem);
+					System.out.println(page.pageName);
+					System.out.println(page.getLink().getChapter());
+					System.out.println(page.getLink().getChapter().getPartId());
+					Minecraft.getMinecraft().displayGuiScreen(page.getLink().copySelf());
 				}
 			}
 		}
 	}
 
-	@SideOnly(Side.CLIENT)
 	private void updatePage(@Nullable Page page) {
-		if (page != null) {
-			Minecraft.getMinecraft().displayGuiScreen(GuiManualIndex.activeManualPage = page.getLink().copySelf());
-		}
 	}
 }

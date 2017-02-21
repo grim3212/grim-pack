@@ -33,6 +33,10 @@ public class ManualChapter {
 	public void setPart(ManualPart part) {
 		this.part = part;
 	}
+	
+	public String getPartId() {
+		return partId;
+	}
 
 	public String getChapterId() {
 		return chapterId;

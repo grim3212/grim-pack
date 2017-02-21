@@ -64,6 +64,15 @@ public class ManualRegistry {
 		return null;
 	}
 
+	@Nullable
+	public static String getStringFromPage(Page page) {
+		if (page != null) {
+			return page.getLink().getChapter().getPartId() + ":" + page.getLink().getChapter() + "." + page.getPageName();
+		}
+
+		return null;
+	}
+
 	public static void clearManual() {
 		for (ManualPart part : getLoadedMods())
 			part.getChapters().clear();
