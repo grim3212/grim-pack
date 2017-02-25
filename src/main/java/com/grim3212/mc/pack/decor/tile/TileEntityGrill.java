@@ -10,6 +10,7 @@ import com.grim3212.mc.pack.decor.network.MessageParticles;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.init.Blocks;
@@ -186,7 +187,13 @@ public class TileEntityGrill extends TileEntityColorizer implements ITickable, I
 
 	@Override
 	public String getName() {
-		return this.hasCustomName() ? this.customName : "container.grill";
+		if (this.hasCustomName()) {
+			return this.customName;
+		} else {
+			ItemStack toPlaceStack = new ItemStack(getBlockState().getBlock(), 1, getBlockState().getBlock().getMetaFromState(getBlockState()));
+
+			return toPlaceStack.getDisplayName() + " " + I18n.format("container.grill");
+		}
 	}
 
 	@Override
@@ -261,18 +268,23 @@ public class TileEntityGrill extends TileEntityColorizer implements ITickable, I
 	public int getTier() {
 		IBlockState grillType = this.getBlockState();
 
-		if (grillType.getBlock() == Blocks.DIAMOND_BLOCK || grillType.getBlock() == Blocks.EMERALD_BLOCK) {
-			return 6;
-		} else if (grillType.getMaterial() == Material.IRON) {
-			return 5;
-		} else if (grillType.getBlock() == Blocks.OBSIDIAN || grillType.getBlock() == Blocks.END_STONE || grillType.getBlock() == Blocks.LAPIS_BLOCK) {
-			return 4;
-		} else if (grillType.getMaterial() == Material.ROCK) {
+		if (DecorConfig.consumeBlock) {
+			if (grillType.getBlock() == Blocks.DIAMOND_BLOCK || grillType.getBlock() == Blocks.EMERALD_BLOCK) {
+				return 6;
+			} else if (grillType.getMaterial() == Material.IRON) {
+				return 5;
+			} else if (grillType.getBlock() == Blocks.OBSIDIAN || grillType.getBlock() == Blocks.END_STONE || grillType.getBlock() == Blocks.LAPIS_BLOCK) {
+				return 4;
+			} else if (grillType.getMaterial() == Material.ROCK) {
+				return 3;
+			} else if (grillType.getMaterial() == Material.SAND) {
+				return 1;
+			}
+			return 2;
+		} else {
+			// If you don't have to consume blocks then use a flat rate
 			return 3;
-		} else if (grillType.getMaterial() == Material.SAND) {
-			return 1;
 		}
-		return 2;
 	}
 
 	public float getTierTime() {

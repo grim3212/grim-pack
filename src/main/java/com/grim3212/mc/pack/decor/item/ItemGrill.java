@@ -57,7 +57,9 @@ public class ItemGrill extends ItemManualBlock {
 
 			if (tileentity instanceof TileEntityGrill) {
 				((TileEntityGrill) tileentity).setBlockState(NBTHelper.getString(stack, "registryName"), NBTHelper.getInt(stack, "meta"));
-				((TileEntityGrill) tileentity).setCustomName(stack.getDisplayName());
+				if (!stack.getDisplayName().equals("Air")) {
+					((TileEntityGrill) tileentity).setCustomName(stack.getDisplayName());
+				}
 				worldIn.playSound(playerIn, pos, this.block.getSoundType().getPlaceSound(), SoundCategory.BLOCKS, (this.block.getSoundType().getVolume() + 1.0F) / 2.0F, this.block.getSoundType().getPitch() * 0.8F);
 			}
 
