@@ -153,6 +153,8 @@ public class CuisineItems implements IPartItems {
 
 	@Override
 	public void addRecipes() {
+		OreDictionary.registerOre("bucketMilk", Items.MILK_BUCKET);
+		
 		GameRegistry.addSmelting(chocolate_bowl, new ItemStack(chocolate_bowl_hot), 0.3F);
 		GameRegistry.addSmelting(eggs_mixed, new ItemStack(eggs_cooked), 0.35F);
 
@@ -164,7 +166,7 @@ public class CuisineItems implements IPartItems {
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(soda, 1, 0), new Object[] { "X", "Y", 'X', Items.APPLE, 'Y', new ItemStack(soda, 1, 11) }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(soda, 1, 4), new Object[] { "X", "Y", 'X', Items.GOLDEN_APPLE, 'Y', new ItemStack(soda, 1, 11) }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(soda, 1, 6), new Object[] { "X", "Y", 'X', Items.WHEAT_SEEDS, 'Y', new ItemStack(soda, 1, 11) }));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(soda, 1, 7), new Object[] { "X", "Y", 'X', Items.MILK_BUCKET, 'Y', new ItemStack(soda, 1, 9) }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(soda, 1, 7), new Object[] { "X", "Y", 'X', "bucketMilk", 'Y', new ItemStack(soda, 1, 9) }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(soda, 1, 8), new Object[] { "X", "Y", 'X', "gemDiamond", 'Y', new ItemStack(soda, 1, 11) }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(soda, 1, 9), new Object[] { "X", "Y", 'X', Blocks.PUMPKIN, 'Y', new ItemStack(soda, 1, 11) }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(soda, 1, 10), new Object[] { "X", "Y", 'X', "dyeBrown", 'Y', new ItemStack(soda, 1, 11) }));
@@ -196,7 +198,7 @@ public class CuisineItems implements IPartItems {
 		candy = RecipeHelper.getLatestIRecipes(2);
 
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(cocoa_dust, 2), new Object[] { "X", 'X', cocoa_fruit }));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(chocolate_bowl), new Object[] { " X ", "XAX", " B ", 'X', cocoa_dust, 'A', Items.SUGAR, 'B', Items.MILK_BUCKET }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(chocolate_bowl), new Object[] { " X ", "XAX", " B ", 'X', cocoa_dust, 'A', Items.SUGAR, 'B', "bucketMilk" }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(chocolate_ball, 2), new Object[] { "X", 'X', chocolate_bowl_hot }));
 
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(knife, 1), new Object[] { "X  ", " W ", "  W", 'X', "plankWood", 'W', "ingotIron" }));
@@ -204,7 +206,7 @@ public class CuisineItems implements IPartItems {
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(pan, 1), new Object[] { "X X", " X ", 'X', "stone" }));
 		utensils = RecipeHelper.getLatestIRecipes(3);
 
-		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(dough, 2), new Object[] { Items.MILK_BUCKET, "cropWheat", "cropWheat", "egg" }));
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(dough, 2), new Object[] { "bucketMilk", "cropWheat", "cropWheat", "egg" }));
 		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(pumpkin_slice, 6), new Object[] { Blocks.PUMPKIN, new ItemStack(knife, 1, OreDictionary.WILDCARD_VALUE) }));
 		extra = RecipeHelper.getLatestIRecipes(2);
 

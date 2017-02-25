@@ -4,6 +4,7 @@ import com.grim3212.mc.pack.core.manual.IManualPart;
 import com.grim3212.mc.pack.core.network.PacketDispatcher;
 import com.grim3212.mc.pack.core.part.GrimPart;
 import com.grim3212.mc.pack.core.proxy.CommonProxy;
+import com.grim3212.mc.pack.core.util.OreDictionaryHelper;
 import com.grim3212.mc.pack.core.util.Utils;
 import com.grim3212.mc.pack.tools.blocks.ToolsBlocks;
 import com.grim3212.mc.pack.tools.client.ManualTools;
@@ -16,11 +17,13 @@ import com.grim3212.mc.pack.tools.network.MessageSlingshotSwitchModes;
 import com.grim3212.mc.pack.tools.network.MessageWandKeys;
 import com.grim3212.mc.pack.tools.world.ToolsGenerate;
 
+import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.SoundEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
@@ -64,6 +67,13 @@ public class GrimTools extends GrimPart {
 	public void init(FMLInitializationEvent event) {
 		super.init(event);
 		proxy.initColors();
+	}
+	
+	@Override
+	public void postInit(FMLPostInitializationEvent event) {
+		super.postInit(event);
+		// Replace milk buckets
+		OreDictionaryHelper.replaceRecipes(new ItemStack(Items.MILK_BUCKET), "bucketMilk", null);
 	}
 
 	@Override

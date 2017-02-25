@@ -12,7 +12,6 @@ import com.grim3212.mc.pack.core.item.ItemManualPickaxe;
 import com.grim3212.mc.pack.core.item.ItemManualSpade;
 import com.grim3212.mc.pack.core.item.ItemManualSword;
 import com.grim3212.mc.pack.core.part.IPartItems;
-import com.grim3212.mc.pack.core.util.OreDictionaryHelper;
 import com.grim3212.mc.pack.core.util.RecipeHelper;
 import com.grim3212.mc.pack.core.util.Utils;
 import com.grim3212.mc.pack.industry.item.IndustryItems;
@@ -367,9 +366,6 @@ public class ToolsItems implements IPartItems {
 		ChiselRegistry.registerBlock(Blocks.COAL_ORE, Blocks.STONE, Items.COAL, 1, 0);
 		ChiselRegistry.registerBlock(Blocks.LAPIS_ORE, Blocks.STONE, Items.DYE, 3, 4);
 
-		// Replace milk buckets
-		OreDictionaryHelper.replaceRecipes(new ItemStack(Items.MILK_BUCKET), "bucketMilk", null);
-
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(boomerang, 1), new Object[] { "XX ", "X  ", "XX ", 'X', "plankWood" }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(diamond_boomerang, 1), new Object[] { "XX ", "XY ", "XX ", 'X', "gemDiamond", 'Y', boomerang }));
 
@@ -424,17 +420,17 @@ public class ToolsItems implements IPartItems {
 		extinguisherRefillRecipe = RecipeHelper.getLatestIRecipe();
 
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(wood_hammer, 1), new Object[] { "MMM", "MMM", " G ", 'M', "plankWood", 'G', "stickIron" }));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(stone_hammer, 1), new Object[] { "MMM", "MMM", " G ", 'M', "cobblestone", 'G', "stickIron"  }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(stone_hammer, 1), new Object[] { "MMM", "MMM", " G ", 'M', "cobblestone", 'G', "stickIron" }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(gold_hammer, 1), new Object[] { "MMM", "MMM", " G ", 'M', "ingotGold", 'G', "stickIron" }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(iron_hammer, 1), new Object[] { "MMM", "MMM", " G ", 'M', "ingotIron", 'G', "stickIron" }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(diamond_hammer, 1), new Object[] { "MMM", "MMM", " G ", 'M', "gemDiamond", 'G', "stickIron" }));
 		hammers = RecipeHelper.getLatestIRecipes(5);
 
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(machete_wood, 1), new Object[] { " XX", "XX ", "#  ", 'X', "plankWood", '#', "stickIron"  }));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(machete_stone, 1), new Object[] { " XX", "XX ", "#  ", 'X', "cobblestone", '#', "stickIron"  }));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(machete_gold, 1), new Object[] { " XX", "XX ", "#  ", 'X', "ingotGold", '#', "stickIron"  }));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(machete_iron, 1), new Object[] { " XX", "XX ", "#  ", 'X', "ingotIron", '#', "stickIron"  }));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(machete_diamond, 1), new Object[] { " XX", "XX ", "#  ", 'X', "gemDiamond", '#', "stickIron"  }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(machete_wood, 1), new Object[] { " XX", "XX ", "#  ", 'X', "plankWood", '#', "stickIron" }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(machete_stone, 1), new Object[] { " XX", "XX ", "#  ", 'X', "cobblestone", '#', "stickIron" }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(machete_gold, 1), new Object[] { " XX", "XX ", "#  ", 'X', "ingotGold", '#', "stickIron" }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(machete_iron, 1), new Object[] { " XX", "XX ", "#  ", 'X', "ingotIron", '#', "stickIron" }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(machete_diamond, 1), new Object[] { " XX", "XX ", "#  ", 'X', "gemDiamond", '#', "stickIron" }));
 		machetes = RecipeHelper.getLatestIRecipes(5);
 
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(machete_slime, 1), new Object[] { " XX", "XX ", "#  ", 'X', "slimeball", '#', "stickWood" }));
@@ -479,7 +475,7 @@ public class ToolsItems implements IPartItems {
 
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(sling_shot, 1), new Object[] { "#@#", " # ", " # ", '#', "stickWood", '@', Items.STRING }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(pellet_bag, 1), new Object[] { "SIL", "LLL", 'L', "leather", 'S', "string", 'I', "ingotIron" }));
-			
+
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(sling_pellet, 2, 0), new Object[] { "#", '#', "cobblestone" }));
 		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(sling_pellet, 2, 1), new Object[] { new ItemStack(sling_pellet, 1, 0), "ingotIron" }));
 		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(sling_pellet, 2, 2), new Object[] { new ItemStack(sling_pellet, 1, 0), "netherrack" }));

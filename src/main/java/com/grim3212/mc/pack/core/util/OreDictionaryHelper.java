@@ -22,6 +22,16 @@ import net.minecraftforge.oredict.ShapelessOreRecipe;
 
 public class OreDictionaryHelper {
 
+	/**
+	 * Must be called in PostInit or it can cause recipe issues
+	 * 
+	 * @param stack
+	 *            ItemStack to find and replace
+	 * @param name
+	 *            The OreDictionary name to replace with
+	 * @param exclusions
+	 *            Recipe outputs that should be excluded
+	 */
 	public static void replaceRecipes(ItemStack stack, String name, ItemStack[] exclusions) {
 		Map<ItemStack, String> replacements = Maps.newHashMap();
 		replacements.put(stack, name);
