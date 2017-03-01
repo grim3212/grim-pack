@@ -1,5 +1,4 @@
 <!-- All of the following is loaded within the index.html app-root tags -->
-
 <header class="navbar navbar-toggleable-md navbar-inverse fixed-top bg-inverse">
   <button class="navbar-toggler navbar-toggler-right" type="button" (click)="navbarCollapsed = !navbarCollapsed" [attr.aria-expanded]="!navbarCollapsed" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
@@ -29,15 +28,15 @@
 </header>
 
 <!-- Anchor for the top -->
-<body>
-  <a id="top"></a>
+<a id="top"></a>
 
-  <!-- Don't assume we want this to automatically be contained in a container -->
-  <router-outlet></router-outlet>
-</body>
+<!-- Don't assume we want this to automatically be contained in a container -->
+<router-outlet></router-outlet>
 
 <footer class="bd-footer text-muted">
   <div class="container">
-    <p>&copy; Company 2017</p>
+    <p>Copyright &copy;
+      {{year}}
+      - Dakota Pierone (Grim3212)</p>
   </div>
 </footer>

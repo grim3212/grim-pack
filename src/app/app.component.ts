@@ -9,7 +9,11 @@ import { GrimPartService } from './grim-part.service';
 export class AppComponent {
   navbarCollapsed = true;
 
-  constructor(private partService : GrimPartService){
+  constructor(private partService: GrimPartService) {
   }
 
+  get year(): number {
+    var d = new Date();
+    return d.getFullYear();
+  }
 }
