@@ -1,25 +1,8 @@
 /* You can add global styles to this file, and also import other style files */
 
-html {
-  position: relative;
-  min-height: 100%;
-}
-
 body {
   /* Padding for Jumbotrons */
   padding-top: 2rem;
-  padding-bottom: 4rem;
-
-  margin: 0 0 100px;
-  /* bottom = footer height */
-}
-
-footer {
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  height: 100px;
-  width: 100%;
 }
 
 .jumbotron {
