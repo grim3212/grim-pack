@@ -8,11 +8,7 @@ import org.lwjgl.opengl.GL11;
 
 import com.grim3212.mc.pack.core.manual.IManualEntry.IManualItem;
 import com.grim3212.mc.pack.core.manual.ManualChapter;
-import com.grim3212.mc.pack.core.manual.ManualRegistry;
-import com.grim3212.mc.pack.core.manual.gui.GuiManualIndex;
 import com.grim3212.mc.pack.core.manual.gui.GuiManualPage;
-import com.grim3212.mc.pack.core.network.MessageUpdateManual;
-import com.grim3212.mc.pack.core.network.PacketDispatcher;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;

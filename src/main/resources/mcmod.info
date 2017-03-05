@@ -5,7 +5,7 @@
   "description": "The cohesion of all of grims mods into one super pack.",
   "version": "$version",
   "mcversion": "$mcversion",
-  "url": "http://mods.grim3212.com/grim-pack/",
+  "url": "https://grim3212.github.io/grim-pack/home",
   "authorList": ["Grim3212"],
   "credits": "Thanks to all the mod authors of mods that I have updated. Thanks to the Forge team and everyone who has helped contribute or request mods.",
   "logoFile": "assets/grimpack/grimpack-logo.png",
