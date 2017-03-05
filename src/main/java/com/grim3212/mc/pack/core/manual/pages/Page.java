@@ -2,8 +2,6 @@ package com.grim3212.mc.pack.core.manual.pages;
 
 import java.util.List;
 
-import javax.annotation.Nullable;
-
 import org.lwjgl.opengl.GL11;
 
 import com.grim3212.mc.pack.core.manual.IManualEntry.IManualItem;
@@ -151,15 +149,9 @@ public class Page {
 			if (!tooltipItem.isEmpty()) {
 				if (tooltipItem.getItem() instanceof IManualItem) {
 					Page page = ((IManualItem) tooltipItem.getItem()).getPage(tooltipItem);
-					System.out.println(page.pageName);
-					System.out.println(page.getLink().getChapter());
-					System.out.println(page.getLink().getChapter().getPartId());
 					Minecraft.getMinecraft().displayGuiScreen(page.getLink().copySelf());
 				}
 			}
 		}
-	}
-
-	private void updatePage(@Nullable Page page) {
 	}
 }

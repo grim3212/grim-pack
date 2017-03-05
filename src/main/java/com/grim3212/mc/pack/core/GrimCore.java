@@ -8,7 +8,6 @@ import com.grim3212.mc.pack.core.item.CoreItems;
 import com.grim3212.mc.pack.core.manual.IManualPart;
 import com.grim3212.mc.pack.core.manual.event.GiveManualEvent;
 import com.grim3212.mc.pack.core.network.MessageBetterExplosion;
-import com.grim3212.mc.pack.core.network.MessageUpdateManual;
 import com.grim3212.mc.pack.core.network.PacketDispatcher;
 import com.grim3212.mc.pack.core.part.GrimPart;
 import com.grim3212.mc.pack.core.proxy.CommonProxy;
@@ -43,7 +42,7 @@ public class GrimCore extends GrimPart {
 		// Register config syncing
 		PacketDispatcher.registerMessage(MessageSyncConfig.class);
 		PacketDispatcher.registerMessage(MessageBetterExplosion.class);
-		PacketDispatcher.registerMessage(MessageUpdateManual.class);
+		// PacketDispatcher.registerMessage(MessageUpdateManual.class);
 
 		// Register LoginEvent for receiving the Instruction Manual
 		MinecraftForge.EVENT_BUS.register(new GiveManualEvent());
