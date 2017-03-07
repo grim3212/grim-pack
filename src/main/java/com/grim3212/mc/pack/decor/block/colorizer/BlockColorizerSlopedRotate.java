@@ -1,10 +1,10 @@
-package com.grim3212.mc.pack.decor.block;
+package com.grim3212.mc.pack.decor.block.colorizer;
 
 import java.util.List;
 
 import com.grim3212.mc.pack.core.manual.IManualEntry.IManualBlock;
 import com.grim3212.mc.pack.core.manual.pages.Page;
-import com.grim3212.mc.pack.decor.block.BlockSloped.EnumHalf;
+import com.grim3212.mc.pack.decor.block.colorizer.BlockColorizerSloped.EnumHalf;
 import com.grim3212.mc.pack.decor.client.ManualDecor;
 import com.grim3212.mc.pack.decor.util.DecorUtil;
 import com.grim3212.mc.pack.decor.util.DecorUtil.SlopeType;
@@ -21,13 +21,13 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.property.ExtendedBlockState;
 import net.minecraftforge.common.property.IUnlistedProperty;
 
-public class BlockSlopedRotate extends BlockFurnitureRotate implements IManualBlock {
+public class BlockColorizerSlopedRotate extends BlockColorizerFurnitureRotate implements IManualBlock {
 
 	private final SlopeType type;
 
-	public BlockSlopedRotate(SlopeType type) {
+	public BlockColorizerSlopedRotate(SlopeType type) {
 		this.type = type;
-		this.blockState.getBaseState().withProperty(BlockSloped.HALF, EnumHalf.BOTTOM).withProperty(FACING, EnumFacing.NORTH);
+		this.blockState.getBaseState().withProperty(BlockColorizerSloped.HALF, EnumHalf.BOTTOM).withProperty(FACING, EnumFacing.NORTH);
 	}
 
 	// @Override
@@ -37,12 +37,12 @@ public class BlockSlopedRotate extends BlockFurnitureRotate implements IManualBl
 
 	@Override
 	protected BlockStateContainer createBlockState() {
-		return new ExtendedBlockState(this, new IProperty[] { BlockSloped.HALF, FACING }, new IUnlistedProperty[] { BLOCK_STATE });
+		return new ExtendedBlockState(this, new IProperty[] { BlockColorizerSloped.HALF, FACING }, new IUnlistedProperty[] { BLOCK_STATE });
 	}
 
 	@Override
 	public IBlockState getStateFromMeta(int meta) {
-		IBlockState iblockstate = this.getDefaultState().withProperty(BlockSloped.HALF, (meta & 4) > 0 ? EnumHalf.TOP : EnumHalf.BOTTOM);
+		IBlockState iblockstate = this.getDefaultState().withProperty(BlockColorizerSloped.HALF, (meta & 4) > 0 ? EnumHalf.TOP : EnumHalf.BOTTOM);
 		iblockstate = iblockstate.withProperty(FACING, EnumFacing.getFront(5 - (meta & 3)));
 		return iblockstate;
 	}
@@ -51,7 +51,7 @@ public class BlockSlopedRotate extends BlockFurnitureRotate implements IManualBl
 	public int getMetaFromState(IBlockState state) {
 		int i = 0;
 
-		if (state.getValue(BlockSloped.HALF) == EnumHalf.TOP) {
+		if (state.getValue(BlockColorizerSloped.HALF) == EnumHalf.TOP) {
 			i |= 4;
 		}
 

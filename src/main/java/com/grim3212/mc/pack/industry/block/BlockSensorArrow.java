@@ -40,6 +40,7 @@ public class BlockSensorArrow extends BlockManual {
 	}
 
 	@Override
+	@SuppressWarnings("deprecation")
 	public void onEntityCollidedWithBlock(World worldIn, BlockPos pos, IBlockState state, Entity entityIn) {
 		if (!worldIn.isRemote && entityIn != null && entityIn instanceof EntityArrow) {
 			EntityArrow arrow = (EntityArrow) entityIn;

@@ -13,7 +13,7 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 import com.grim3212.mc.pack.core.client.model.CompositeModel;
 import com.grim3212.mc.pack.core.util.NBTHelper;
-import com.grim3212.mc.pack.decor.block.BlockColorizer;
+import com.grim3212.mc.pack.decor.block.colorizer.BlockColorizer;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockDirt;

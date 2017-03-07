@@ -1,9 +1,10 @@
-package com.grim3212.mc.pack.decor.block;
+package com.grim3212.mc.pack.decor.block.colorizer;
 
 import java.util.Random;
 
 import com.grim3212.mc.pack.core.manual.pages.Page;
 import com.grim3212.mc.pack.core.util.NBTHelper;
+import com.grim3212.mc.pack.decor.block.DecorBlocks;
 import com.grim3212.mc.pack.decor.client.ManualDecor;
 import com.grim3212.mc.pack.decor.config.DecorConfig;
 import com.grim3212.mc.pack.decor.item.DecorItems;
@@ -29,9 +30,9 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.FakePlayer;
 
-public class BlockLampPost extends BlockColorizer {
+public class BlockColorizerLampPost extends BlockColorizer {
 
-	public BlockLampPost(boolean isGlowing) {
+	public BlockColorizerLampPost(boolean isGlowing) {
 		this.setHardness(1.0F);
 		this.setCreativeTab(null);
 

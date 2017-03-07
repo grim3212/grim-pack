@@ -2,7 +2,7 @@ package com.grim3212.mc.pack.decor.item;
 
 import com.grim3212.mc.pack.core.item.ItemManualBlock;
 import com.grim3212.mc.pack.core.util.NBTHelper;
-import com.grim3212.mc.pack.decor.block.BlockFurnitureRotate;
+import com.grim3212.mc.pack.decor.block.colorizer.BlockColorizerFurnitureRotate;
 import com.grim3212.mc.pack.decor.tile.TileEntityColorizer;
 
 import net.minecraft.block.Block;
@@ -51,8 +51,8 @@ public class ItemColorizer extends ItemManualBlock {
 		} else if (pos.getY() == 255 && this.block.getDefaultState().getMaterial().isSolid()) {
 			return EnumActionResult.FAIL;
 		} else if (worldIn.mayPlace(this.block, pos, false, facing, (Entity) null)) {
-			if (this.block instanceof BlockFurnitureRotate) {
-				worldIn.setBlockState(pos, this.block.getDefaultState().withProperty(BlockFurnitureRotate.FACING, playerIn.getHorizontalFacing()), 3);
+			if (this.block instanceof BlockColorizerFurnitureRotate) {
+				worldIn.setBlockState(pos, this.block.getDefaultState().withProperty(BlockColorizerFurnitureRotate.FACING, playerIn.getHorizontalFacing()), 3);
 			} else {
 				worldIn.setBlockState(pos, this.block.getDefaultState(), 3);
 			}

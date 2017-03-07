@@ -1,7 +1,8 @@
-package com.grim3212.mc.pack.decor.block;
+package com.grim3212.mc.pack.decor.block.colorizer;
 
 import com.grim3212.mc.pack.core.network.PacketDispatcher;
 import com.grim3212.mc.pack.decor.GrimDecor;
+import com.grim3212.mc.pack.decor.block.DecorBlocks;
 import com.grim3212.mc.pack.decor.network.MessageParticles;
 import com.grim3212.mc.pack.decor.tile.TileEntityColorizer;
 
@@ -23,11 +24,11 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.property.ExtendedBlockState;
 import net.minecraftforge.common.property.IUnlistedProperty;
 
-public class BlockFireplaceBase extends BlockColorizer {
+public class BlockColorizerFireplaceBase extends BlockColorizer {
 
 	public static final PropertyBool ACTIVE = PropertyBool.create("active");
 
-	protected BlockFireplaceBase() {
+	protected BlockColorizerFireplaceBase() {
 		setCreativeTab(GrimDecor.INSTANCE.getCreativeTab());
 		this.setDefaultState(this.blockState.getBaseState().withProperty(ACTIVE, false));
 	}

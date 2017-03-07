@@ -1,4 +1,4 @@
-package com.grim3212.mc.pack.decor.block;
+package com.grim3212.mc.pack.decor.block.colorizer;
 
 import com.grim3212.mc.pack.GrimPack;
 import com.grim3212.mc.pack.core.client.gui.PackGuiHandler;
@@ -23,9 +23,9 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class BlockGrill extends BlockFireplaceBase implements IManualBlock {
+public class BlockColorizerGrill extends BlockColorizerFireplaceBase implements IManualBlock {
 
-	public BlockGrill() {
+	public BlockColorizerGrill() {
 		super();
 	}
 

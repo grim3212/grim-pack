@@ -1,4 +1,4 @@
-package com.grim3212.mc.pack.decor.block;
+package com.grim3212.mc.pack.decor.block.colorizer;
 
 import java.util.List;
 
@@ -31,7 +31,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.property.ExtendedBlockState;
 import net.minecraftforge.common.property.IUnlistedProperty;
 
-public class BlockDecorStairs extends BlockFurnitureRotate {
+public class BlockColorizerStairs extends BlockColorizerFurnitureRotate {
 
 	public static final PropertyDirection FACING = BlockHorizontal.FACING;
 	public static final PropertyEnum<BlockStairs.EnumHalf> HALF = PropertyEnum.<BlockStairs.EnumHalf>create("half", BlockStairs.EnumHalf.class);
@@ -56,7 +56,7 @@ public class BlockDecorStairs extends BlockFurnitureRotate {
 	protected static final AxisAlignedBB AABB_OCT_BOT_SW = new AxisAlignedBB(0.0D, 0.0D, 0.5D, 0.5D, 0.5D, 1.0D);
 	protected static final AxisAlignedBB AABB_OCT_BOT_SE = new AxisAlignedBB(0.5D, 0.0D, 0.5D, 1.0D, 0.5D, 1.0D);
 
-	public BlockDecorStairs() {
+	public BlockColorizerStairs() {
 		this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH).withProperty(HALF, BlockStairs.EnumHalf.BOTTOM).withProperty(SHAPE, BlockStairs.EnumShape.STRAIGHT));
 		this.setLightOpacity(255);
 		this.useNeighborBrightness = true;
@@ -287,7 +287,7 @@ public class BlockDecorStairs extends BlockFurnitureRotate {
 	}
 
 	public static boolean isBlockStairs(IBlockState state) {
-		return state.getBlock() instanceof BlockDecorStairs;
+		return state.getBlock() instanceof BlockColorizerStairs;
 	}
 
 	/**

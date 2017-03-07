@@ -4,10 +4,10 @@ import java.util.Set;
 
 import com.google.common.collect.Sets;
 import com.grim3212.mc.pack.decor.GrimDecor;
-import com.grim3212.mc.pack.decor.block.BlockHedge;
-import com.grim3212.mc.pack.decor.block.BlockSloped;
-import com.grim3212.mc.pack.decor.block.BlockSloped.EnumHalf;
 import com.grim3212.mc.pack.decor.block.DecorBlocks;
+import com.grim3212.mc.pack.decor.block.colorizer.BlockColorizerHedge;
+import com.grim3212.mc.pack.decor.block.colorizer.BlockColorizerSloped;
+import com.grim3212.mc.pack.decor.block.colorizer.BlockColorizerSloped.EnumHalf;
 import com.grim3212.mc.pack.decor.tile.TileEntityColorizer;
 
 import net.minecraft.block.Block;
@@ -45,9 +45,9 @@ public class ItemPruners extends ItemTool {
 			stack.damageItem(1, playerIn);
 
 			if (playerIn.isSneaking()) {
-				worldIn.setBlockState(pos, DecorBlocks.sloped_post.getDefaultState().withProperty(BlockSloped.HALF, EnumHalf.TOP), 3);
+				worldIn.setBlockState(pos, DecorBlocks.sloped_post.getDefaultState().withProperty(BlockColorizerSloped.HALF, EnumHalf.TOP), 3);
 			} else {
-				worldIn.setBlockState(pos, DecorBlocks.sloped_post.getDefaultState().withProperty(BlockSloped.HALF, EnumHalf.BOTTOM), 3);
+				worldIn.setBlockState(pos, DecorBlocks.sloped_post.getDefaultState().withProperty(BlockColorizerSloped.HALF, EnumHalf.BOTTOM), 3);
 			}
 
 			TileEntity tileentity = worldIn.getTileEntity(pos);
@@ -57,16 +57,16 @@ public class ItemPruners extends ItemTool {
 				worldIn.playSound(playerIn, pos, state.getBlock().getSoundType().getPlaceSound(), SoundCategory.BLOCKS, (state.getBlock().getSoundType().getVolume() + 1.0F) / 2.0F, state.getBlock().getSoundType().getPitch() * 0.8F);
 			}
 			return EnumActionResult.SUCCESS;
-		} else if (state.getBlock() instanceof BlockHedge) {
+		} else if (state.getBlock() instanceof BlockColorizerHedge) {
 			if (state.getBlock() == DecorBlocks.sloped_post) {
-				IBlockState exState = ((IExtendedBlockState) state.getBlock().getExtendedState(state, worldIn, pos)).getValue(BlockHedge.BLOCK_STATE);
+				IBlockState exState = ((IExtendedBlockState) state.getBlock().getExtendedState(state, worldIn, pos)).getValue(BlockColorizerHedge.BLOCK_STATE);
 
 				if (exState.getBlock() instanceof BlockLeaves) {
 					stack.damageItem(1, playerIn);
 					if (playerIn.isSneaking()) {
-						worldIn.setBlockState(pos, DecorBlocks.full_pyramid.getDefaultState().withProperty(BlockSloped.HALF, EnumHalf.TOP), 3);
+						worldIn.setBlockState(pos, DecorBlocks.full_pyramid.getDefaultState().withProperty(BlockColorizerSloped.HALF, EnumHalf.TOP), 3);
 					} else {
-						worldIn.setBlockState(pos, DecorBlocks.full_pyramid.getDefaultState().withProperty(BlockSloped.HALF, EnumHalf.BOTTOM), 3);
+						worldIn.setBlockState(pos, DecorBlocks.full_pyramid.getDefaultState().withProperty(BlockColorizerSloped.HALF, EnumHalf.BOTTOM), 3);
 					}
 
 					TileEntity tileentity = worldIn.getTileEntity(pos);
@@ -79,15 +79,15 @@ public class ItemPruners extends ItemTool {
 					return EnumActionResult.SUCCESS;
 				}
 			} else if (state.getBlock() == DecorBlocks.full_pyramid) {
-				IBlockState exState = ((IExtendedBlockState) state.getBlock().getExtendedState(state, worldIn, pos)).getValue(BlockHedge.BLOCK_STATE);
+				IBlockState exState = ((IExtendedBlockState) state.getBlock().getExtendedState(state, worldIn, pos)).getValue(BlockColorizerHedge.BLOCK_STATE);
 
 				if (exState.getBlock() instanceof BlockLeaves) {
 					stack.damageItem(1, playerIn);
 
 					if (playerIn.isSneaking()) {
-						worldIn.setBlockState(pos, DecorBlocks.pyramid.getDefaultState().withProperty(BlockSloped.HALF, EnumHalf.TOP), 3);
+						worldIn.setBlockState(pos, DecorBlocks.pyramid.getDefaultState().withProperty(BlockColorizerSloped.HALF, EnumHalf.TOP), 3);
 					} else {
-						worldIn.setBlockState(pos, DecorBlocks.pyramid.getDefaultState().withProperty(BlockSloped.HALF, EnumHalf.BOTTOM), 3);
+						worldIn.setBlockState(pos, DecorBlocks.pyramid.getDefaultState().withProperty(BlockColorizerSloped.HALF, EnumHalf.BOTTOM), 3);
 					}
 
 					TileEntity tileentity = worldIn.getTileEntity(pos);

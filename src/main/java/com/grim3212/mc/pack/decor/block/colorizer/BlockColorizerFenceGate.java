@@ -1,4 +1,4 @@
-package com.grim3212.mc.pack.decor.block;
+package com.grim3212.mc.pack.decor.block.colorizer;
 
 import javax.annotation.Nullable;
 
@@ -20,7 +20,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.property.ExtendedBlockState;
 import net.minecraftforge.common.property.IUnlistedProperty;
 
-public class BlockFenceGate extends BlockFurnitureRotate {
+public class BlockColorizerFenceGate extends BlockColorizerFurnitureRotate {
 
 	public static final PropertyBool OPEN = PropertyBool.create("open");
 	public static final PropertyBool POWERED = PropertyBool.create("powered");
@@ -32,7 +32,7 @@ public class BlockFenceGate extends BlockFurnitureRotate {
 	protected static final AxisAlignedBB AABB_CLOSED_SELECTED_ZAXIS = new AxisAlignedBB(0.0D, 0.0D, 0.375D, 1.0D, 1.5D, 0.625D);
 	protected static final AxisAlignedBB AABB_CLOSED_SELECTED_XAXIS = new AxisAlignedBB(0.375D, 0.0D, 0.0D, 0.625D, 1.5D, 1.0D);
 
-	public BlockFenceGate() {
+	public BlockColorizerFenceGate() {
 		this.setDefaultState(this.getDefaultState().withProperty(OPEN, false).withProperty(POWERED, false).withProperty(IN_WALL, false));
 	}
 
@@ -143,7 +143,7 @@ public class BlockFenceGate extends BlockFurnitureRotate {
 	@Override
 	public boolean canBeConnectedTo(IBlockAccess world, BlockPos pos, EnumFacing facing) {
 		Block connector = world.getBlockState(pos.offset(facing)).getBlock();
-		return connector instanceof BlockFence || connector instanceof BlockWall;
+		return connector instanceof BlockColorizerFence || connector instanceof BlockColorizerWall;
 	}
 
 	private boolean canFenceGateConnectTo(IBlockAccess world, BlockPos pos, EnumFacing facing) {

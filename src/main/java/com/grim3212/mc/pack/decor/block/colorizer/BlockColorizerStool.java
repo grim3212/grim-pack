@@ -1,6 +1,7 @@
-package com.grim3212.mc.pack.decor.block;
+package com.grim3212.mc.pack.decor.block.colorizer;
 
 import com.grim3212.mc.pack.core.manual.pages.Page;
+import com.grim3212.mc.pack.decor.block.DecorBlocks;
 import com.grim3212.mc.pack.decor.client.ManualDecor;
 
 import net.minecraft.block.properties.IProperty;
@@ -13,7 +14,7 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.common.property.ExtendedBlockState;
 import net.minecraftforge.common.property.IUnlistedProperty;
 
-public class BlockStool extends BlockColorizer {
+public class BlockColorizerStool extends BlockColorizer {
 
 	public static final PropertyBool UP = PropertyBool.create("up");
 	private static final AxisAlignedBB STOOL_AABB = new AxisAlignedBB(0.18F, 0.0F, 0.18F, 0.82F, 0.63F, 0.82F);

@@ -1,4 +1,4 @@
-package com.grim3212.mc.pack.decor.block;
+package com.grim3212.mc.pack.decor.block.colorizer;
 
 import com.grim3212.mc.pack.core.manual.IManualEntry.IManualBlock;
 import com.grim3212.mc.pack.core.manual.pages.Page;
@@ -10,11 +10,11 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 
-public class BlockFirepit extends BlockFireplaceBase implements IManualBlock {
+public class BlockColorizerFirepit extends BlockColorizerFireplaceBase implements IManualBlock {
 
 	public static final AxisAlignedBB FIREPIT_AABB = new AxisAlignedBB(0.0F, 0.0F, 0.0F, 1.0F, 0.6F, 1.0F);
 
-	public BlockFirepit() {
+	public BlockColorizerFirepit() {
 	}
 
 	@Override

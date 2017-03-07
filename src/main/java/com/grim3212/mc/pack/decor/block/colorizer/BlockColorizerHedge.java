@@ -1,4 +1,4 @@
-package com.grim3212.mc.pack.decor.block;
+package com.grim3212.mc.pack.decor.block.colorizer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,11 +27,11 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.property.IExtendedBlockState;
 
-public class BlockHedge extends BlockDecorFacing {
+public class BlockColorizerHedge extends BlockColorizerFacing {
 
 	private final SlopeType type;
 
-	public BlockHedge(SlopeType type) {
+	public BlockColorizerHedge(SlopeType type) {
 		super();
 		this.type = type;
 	}

@@ -17,12 +17,12 @@ import com.grim3212.mc.pack.core.util.Utils;
 import com.grim3212.mc.pack.industry.item.IndustryItems;
 import com.grim3212.mc.pack.tools.GrimTools;
 import com.grim3212.mc.pack.tools.config.ToolsConfig;
+import com.grim3212.mc.pack.tools.crafting.BackpackRecipe;
+import com.grim3212.mc.pack.tools.crafting.PelletBagRecipe;
 import com.grim3212.mc.pack.tools.items.ItemBetterBucket.BucketType;
-import com.grim3212.mc.pack.tools.util.BackpackRecipeHandler;
 import com.grim3212.mc.pack.tools.util.ChiselRegistry;
 import com.grim3212.mc.pack.tools.util.DispenseBehaviors;
 import com.grim3212.mc.pack.tools.util.EnumSpearType;
-import com.grim3212.mc.pack.tools.util.PelletBagRecipeHandler;
 
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -32,7 +32,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.Item.ToolMaterial;
 import net.minecraft.item.ItemArmor.ArmorMaterial;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.CraftingManager;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraftforge.common.util.EnumHelper;
 import net.minecraftforge.fml.common.registry.GameRegistry;
@@ -138,6 +137,9 @@ public class ToolsItems implements IPartItems {
 
 	@Override
 	public void initItems() {
+		//TODO: Possibly look into dynamic bucket creation and use that
+		//for bucketWater and bucketLava, and so on for recipes
+		
 		boomerang = (new ItemBoomerang()).setUnlocalizedName("boomerang").setCreativeTab(GrimTools.INSTANCE.getCreativeTab());
 		diamond_boomerang = (new ItemDiamondBoomerang()).setUnlocalizedName("diamond_boomerang").setCreativeTab(GrimTools.INSTANCE.getCreativeTab());
 		backpack = new ItemBackpack().setUnlocalizedName("backpack").setCreativeTab(GrimTools.INSTANCE.getCreativeTab());
@@ -373,12 +375,12 @@ public class ToolsItems implements IPartItems {
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(portable_workbench, 1), new Object[] { "III", "IWI", "III", 'W', "workbench", 'I', "ingotIron" }));
 
 		// Backpack Recipes
-		CraftingManager.getInstance().getRecipeList().add(new BackpackRecipeHandler());
-		RecipeSorter.register("Backpack_Recipes", BackpackRecipeHandler.class, Category.SHAPELESS, "after:grimpack");
+		GameRegistry.addRecipe(new BackpackRecipe());
+		RecipeSorter.register("Backpack_Recipes", BackpackRecipe.class, Category.SHAPELESS, "after:grimpack");
 
 		// Pellet Bag Recipes
-		CraftingManager.getInstance().getRecipeList().add(new PelletBagRecipeHandler());
-		RecipeSorter.register("Pellet_Bag_Recipes", PelletBagRecipeHandler.class, Category.SHAPELESS, "after:grimpack");
+		GameRegistry.addRecipe(new PelletBagRecipe());
+		RecipeSorter.register("Pellet_Bag_Recipes", PelletBagRecipe.class, Category.SHAPELESS, "after:grimpack");
 
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(iron_chisel, 1), new Object[] { " B", "I ", 'B', "ingotIron", 'I', "stickIron" }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(diamond_chisel, 1), new Object[] { " B", "I ", 'B', "gemDiamond", 'I', "stickIron" }));

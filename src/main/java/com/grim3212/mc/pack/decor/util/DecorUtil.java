@@ -3,11 +3,11 @@ package com.grim3212.mc.pack.decor.util;
 import java.util.List;
 
 import com.grim3212.mc.pack.core.util.NBTHelper;
-import com.grim3212.mc.pack.decor.block.BlockDecorFacing;
-import com.grim3212.mc.pack.decor.block.BlockHedge;
-import com.grim3212.mc.pack.decor.block.BlockSloped;
-import com.grim3212.mc.pack.decor.block.BlockSloped.EnumHalf;
-import com.grim3212.mc.pack.decor.block.BlockSlopedRotate;
+import com.grim3212.mc.pack.decor.block.colorizer.BlockColorizerFacing;
+import com.grim3212.mc.pack.decor.block.colorizer.BlockColorizerHedge;
+import com.grim3212.mc.pack.decor.block.colorizer.BlockColorizerSloped;
+import com.grim3212.mc.pack.decor.block.colorizer.BlockColorizerSlopedRotate;
+import com.grim3212.mc.pack.decor.block.colorizer.BlockColorizerSloped.EnumHalf;
 import com.grim3212.mc.pack.decor.block.DecorBlocks;
 import com.grim3212.mc.pack.decor.config.DecorConfig;
 
@@ -89,10 +89,10 @@ public class DecorUtil {
 		float zeroOffset = (float) smoothness / (float) DecorConfig.smoothness;
 		float oneOffset = (float) (smoothness + 1) / (float) DecorConfig.smoothness;
 
-		if (state.getBlock() instanceof BlockSlopedRotate) {
+		if (state.getBlock() instanceof BlockColorizerSlopedRotate) {
 			if (state.getBlock() == DecorBlocks.slanted_corner) {
-				if (state.getValue(BlockSloped.HALF) == EnumHalf.BOTTOM) {
-					switch (state.getValue(BlockSlopedRotate.FACING)) {
+				if (state.getValue(BlockColorizerSloped.HALF) == EnumHalf.BOTTOM) {
+					switch (state.getValue(BlockColorizerSlopedRotate.FACING)) {
 					case EAST:
 						return new AxisAlignedBB(zeroPieceOffset + zeroOffset * (1.0F - zeroPieceOffset), 0.0F, 0.0F, 1.0F, onePieceOffset, oneOffset * (1.0F - zeroPieceOffset));
 					case NORTH:
@@ -105,7 +105,7 @@ public class DecorUtil {
 						return Block.NULL_AABB;
 					}
 				} else {
-					switch (state.getValue(BlockSlopedRotate.FACING)) {
+					switch (state.getValue(BlockColorizerSlopedRotate.FACING)) {
 					case EAST:
 						return new AxisAlignedBB(zeroPieceOffset + zeroOffset * (1.0F - zeroPieceOffset), 1.0F - onePieceOffset, 0.0F, 1.0F, 1.0F, oneOffset * (1.0F - zeroPieceOffset));
 					case NORTH:
@@ -121,8 +121,8 @@ public class DecorUtil {
 			}
 
 			if (state.getBlock() == DecorBlocks.sloped_angle) {
-				if (state.getValue(BlockSloped.HALF) == EnumHalf.BOTTOM) {
-					switch (state.getValue(BlockSlopedRotate.FACING)) {
+				if (state.getValue(BlockColorizerSloped.HALF) == EnumHalf.BOTTOM) {
+					switch (state.getValue(BlockColorizerSlopedRotate.FACING)) {
 					case EAST:
 						return new AxisAlignedBB(zeroOffset, 0.0F, 0.0F, 1.0F, oneOffset, 1.0F - zeroOffset);
 					case NORTH:
@@ -135,7 +135,7 @@ public class DecorUtil {
 						return Block.NULL_AABB;
 					}
 				} else {
-					switch (state.getValue(BlockSlopedRotate.FACING)) {
+					switch (state.getValue(BlockColorizerSlopedRotate.FACING)) {
 					case EAST:
 						return new AxisAlignedBB(zeroOffset, 1.0F - oneOffset, 0.0F, 1.0F, 1.0F, 1.0F - zeroOffset);
 					case NORTH:
@@ -151,8 +151,8 @@ public class DecorUtil {
 			}
 
 			if (state.getBlock() == DecorBlocks.slope) {
-				if (state.getValue(BlockSloped.HALF) == EnumHalf.BOTTOM) {
-					switch (state.getValue(BlockSlopedRotate.FACING)) {
+				if (state.getValue(BlockColorizerSloped.HALF) == EnumHalf.BOTTOM) {
+					switch (state.getValue(BlockColorizerSlopedRotate.FACING)) {
 					case EAST:
 						return new AxisAlignedBB(zeroOffset, 0.0F, 0.0F, 1.0F, oneOffset, 1.0F);
 					case NORTH:
@@ -165,7 +165,7 @@ public class DecorUtil {
 						return Block.NULL_AABB;
 					}
 				} else {
-					switch (state.getValue(BlockSlopedRotate.FACING)) {
+					switch (state.getValue(BlockColorizerSlopedRotate.FACING)) {
 					case EAST:
 						return new AxisAlignedBB(zeroOffset, 1.0F - oneOffset, 0.0F, 1.0F, 1.0F, 1.0F);
 					case NORTH:
@@ -181,8 +181,8 @@ public class DecorUtil {
 			}
 
 			if (state.getBlock() == DecorBlocks.oblique_slope) {
-				if (state.getValue(BlockSloped.HALF) == EnumHalf.BOTTOM) {
-					switch (state.getValue(BlockSlopedRotate.FACING)) {
+				if (state.getValue(BlockColorizerSloped.HALF) == EnumHalf.BOTTOM) {
+					switch (state.getValue(BlockColorizerSlopedRotate.FACING)) {
 					case EAST:
 						switch (piece) {
 						case 1:
@@ -223,7 +223,7 @@ public class DecorUtil {
 						return Block.NULL_AABB;
 					}
 				} else {
-					switch (state.getValue(BlockSlopedRotate.FACING)) {
+					switch (state.getValue(BlockColorizerSlopedRotate.FACING)) {
 					case EAST:
 						switch (piece) {
 						case 1:
@@ -268,8 +268,8 @@ public class DecorUtil {
 			}
 
 			if (state.getBlock() == DecorBlocks.sloped_intersection) {
-				if (state.getValue(BlockSloped.HALF) == EnumHalf.BOTTOM) {
-					switch (state.getValue(BlockSlopedRotate.FACING)) {
+				if (state.getValue(BlockColorizerSloped.HALF) == EnumHalf.BOTTOM) {
+					switch (state.getValue(BlockColorizerSlopedRotate.FACING)) {
 					case EAST:
 						switch (piece) {
 						case 1:
@@ -302,7 +302,7 @@ public class DecorUtil {
 						return Block.NULL_AABB;
 					}
 				} else {
-					switch (state.getValue(BlockSlopedRotate.FACING)) {
+					switch (state.getValue(BlockColorizerSlopedRotate.FACING)) {
 					case EAST:
 						switch (piece) {
 						case 1:
@@ -338,7 +338,7 @@ public class DecorUtil {
 			}
 
 			if (state.getBlock() == DecorBlocks.corner) {
-				switch (state.getValue(BlockSlopedRotate.FACING)) {
+				switch (state.getValue(BlockColorizerSlopedRotate.FACING)) {
 				case EAST:
 					return new AxisAlignedBB(zeroOffset, 0.0F, 0.0F, 1.0F, 1.0F, oneOffset);
 				case NORTH:
@@ -352,9 +352,9 @@ public class DecorUtil {
 				}
 			}
 
-		} else if (state.getBlock() instanceof BlockHedge) {
+		} else if (state.getBlock() instanceof BlockColorizerHedge) {
 			if (state.getBlock() == DecorBlocks.pyramid) {
-				switch (state.getValue(BlockDecorFacing.FACING)) {
+				switch (state.getValue(BlockColorizerFacing.FACING)) {
 				case DOWN:
 					return new AxisAlignedBB(zeroOffset * 0.5F, 1.0F - oneOffset * 0.68F, zeroOffset * 0.5F, 1.0F - zeroOffset * 0.5F, 1.0F, 1.0F - zeroOffset * 0.5F);
 				case EAST:
@@ -373,7 +373,7 @@ public class DecorUtil {
 			}
 
 			if (state.getBlock() == DecorBlocks.full_pyramid) {
-				switch (state.getValue(BlockDecorFacing.FACING)) {
+				switch (state.getValue(BlockColorizerFacing.FACING)) {
 				case DOWN:
 					return new AxisAlignedBB(zeroOffset * 0.5F, 1.0F - oneOffset, zeroOffset * 0.5F, 1.0F - zeroOffset * 0.5F, 1.0F, 1.0F - zeroOffset * 0.5F);
 				case EAST:

@@ -2,10 +2,10 @@ package com.grim3212.mc.pack.decor.item;
 
 import com.grim3212.mc.pack.core.item.ItemManualBlock;
 import com.grim3212.mc.pack.core.util.NBTHelper;
-import com.grim3212.mc.pack.decor.block.BlockDecorFacing;
-import com.grim3212.mc.pack.decor.block.BlockSloped;
-import com.grim3212.mc.pack.decor.block.BlockSloped.EnumHalf;
-import com.grim3212.mc.pack.decor.block.BlockSlopedRotate;
+import com.grim3212.mc.pack.decor.block.colorizer.BlockColorizerFacing;
+import com.grim3212.mc.pack.decor.block.colorizer.BlockColorizerSloped;
+import com.grim3212.mc.pack.decor.block.colorizer.BlockColorizerSlopedRotate;
+import com.grim3212.mc.pack.decor.block.colorizer.BlockColorizerSloped.EnumHalf;
 import com.grim3212.mc.pack.decor.tile.TileEntityColorizer;
 
 import net.minecraft.block.Block;
@@ -70,16 +70,16 @@ public class ItemSloped extends ItemManualBlock {
 				half = EnumHalf.TOP;
 			}
 
-			if (this.block instanceof BlockSlopedRotate) {
+			if (this.block instanceof BlockColorizerSlopedRotate) {
 				if (!simpleRotate) {
-					worldIn.setBlockState(pos, this.block.getDefaultState().withProperty(BlockSlopedRotate.FACING, EnumFacing.getHorizontal(MathHelper.floor(playerIn.rotationYaw * 4.0F / 360.0F) & 0x3).rotateY()).withProperty(BlockSloped.HALF, half), 3);
+					worldIn.setBlockState(pos, this.block.getDefaultState().withProperty(BlockColorizerSlopedRotate.FACING, EnumFacing.getHorizontal(MathHelper.floor(playerIn.rotationYaw * 4.0F / 360.0F) & 0x3).rotateY()).withProperty(BlockColorizerSloped.HALF, half), 3);
 				} else {
-					worldIn.setBlockState(pos, this.block.getDefaultState().withProperty(BlockSlopedRotate.FACING, playerIn.getHorizontalFacing()).withProperty(BlockSloped.HALF, half), 3);
+					worldIn.setBlockState(pos, this.block.getDefaultState().withProperty(BlockColorizerSlopedRotate.FACING, playerIn.getHorizontalFacing()).withProperty(BlockColorizerSloped.HALF, half), 3);
 				}
-			} else if (this.block instanceof BlockDecorFacing) {
-				worldIn.setBlockState(pos, this.block.getDefaultState().withProperty(BlockDecorFacing.FACING, facing), 3);
+			} else if (this.block instanceof BlockColorizerFacing) {
+				worldIn.setBlockState(pos, this.block.getDefaultState().withProperty(BlockColorizerFacing.FACING, facing), 3);
 			} else {
-				worldIn.setBlockState(pos, this.block.getDefaultState().withProperty(BlockSloped.HALF, half), 3);
+				worldIn.setBlockState(pos, this.block.getDefaultState().withProperty(BlockColorizerSloped.HALF, half), 3);
 			}
 
 			stack.shrink(1);

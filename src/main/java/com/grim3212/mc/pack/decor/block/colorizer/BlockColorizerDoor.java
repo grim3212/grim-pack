@@ -1,4 +1,4 @@
-package com.grim3212.mc.pack.decor.block;
+package com.grim3212.mc.pack.decor.block.colorizer;
 
 import java.util.Random;
 
@@ -45,14 +45,14 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SuppressWarnings("deprecation")
-public class BlockDecorDoor extends BlockColorizer {
+public class BlockColorizerDoor extends BlockColorizer {
 
 	protected static final AxisAlignedBB SOUTH_AABB = new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 1.0D, 0.1875D);
 	protected static final AxisAlignedBB NORTH_AABB = new AxisAlignedBB(0.0D, 0.0D, 0.8125D, 1.0D, 1.0D, 1.0D);
 	protected static final AxisAlignedBB WEST_AABB = new AxisAlignedBB(0.8125D, 0.0D, 0.0D, 1.0D, 1.0D, 1.0D);
 	protected static final AxisAlignedBB EAST_AABB = new AxisAlignedBB(0.0D, 0.0D, 0.0D, 0.1875D, 1.0D, 1.0D);
 
-	protected BlockDecorDoor() {
+	public BlockColorizerDoor() {
 		super();
 		this.setDefaultState(this.blockState.getBaseState().withProperty(BlockDoor.FACING, EnumFacing.NORTH).withProperty(BlockDoor.OPEN, false).withProperty(BlockDoor.HINGE, BlockDoor.EnumHingePosition.LEFT).withProperty(BlockDoor.POWERED, false).withProperty(BlockDoor.HALF, BlockDoor.EnumDoorHalf.LOWER));
 		this.setCreativeTab(null);
@@ -193,7 +193,7 @@ public class BlockDecorDoor extends BlockColorizer {
 				IBlockState neighborState = worldIn.getBlockState(neighborPos);
 
 				// Make sure this is a valid door first and same state
-				if (!(neighborState.getBlock() instanceof BlockDecorDoor) || state.getValue(BlockDoor.OPEN) == BlockDoor.isOpen(worldIn, neighborPos)) {
+				if (!(neighborState.getBlock() instanceof BlockColorizerDoor) || state.getValue(BlockDoor.OPEN) == BlockDoor.isOpen(worldIn, neighborPos)) {
 					return true;
 				}
 

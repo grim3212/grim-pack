@@ -30,6 +30,7 @@ import net.minecraftforge.items.ItemStackHandler;
 public class ItemBackpack extends ItemManual {
 
 	public static final String[] colorNumbers = new String[] { "454554", "BE3030", "667F33", "704425", "3366CC", "B266E5", "4C99B2", "999999", "4C4C4C", "F2B2CC", "7FCC19", "E5E533", "99B2F2", "E57FD8", "F4B33F", "FFFFFF" };
+	public static final int[] colorMeta = new int[] { -1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 };
 
 	public ItemBackpack() {
 		this.maxStackSize = 1;
@@ -56,9 +57,9 @@ public class ItemBackpack extends ItemManual {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void getSubItems(Item par1, CreativeTabs par2CreativeTabs, NonNullList<ItemStack> list) {
-		for (int i = 0; i < 17; i++) {
+		for (int color : colorMeta) {
 			NBTTagCompound nbt = new NBTTagCompound();
-			nbt.setInteger("color", i - 1);
+			nbt.setInteger("color", color);
 
 			ItemStack backpack = new ItemStack(ToolsItems.backpack);
 			backpack.setTagCompound(nbt);

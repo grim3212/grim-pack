@@ -1,6 +1,6 @@
-package com.grim3212.mc.pack.tools.util;
+package com.grim3212.mc.pack.tools.crafting;
 
-import com.grim3212.mc.pack.tools.items.ItemBackpack;
+import com.grim3212.mc.pack.tools.items.ItemPelletBag;
 import com.grim3212.mc.pack.tools.items.ToolsItems;
 
 import net.minecraft.init.Items;
@@ -13,7 +13,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.oredict.OreDictionary;
 
-public class BackpackRecipeHandler implements IRecipe {
+public class PelletBagRecipe implements IRecipe {
 
 	@Override
 	public boolean matches(InventoryCrafting inventoryCrafting, World world) {
@@ -28,7 +28,7 @@ public class BackpackRecipeHandler implements IRecipe {
 						} else {
 							colorFound = true;
 						}
-					} else if (inventoryCrafting.getStackInSlot(i).getItem() == ToolsItems.backpack) {
+					} else if (inventoryCrafting.getStackInSlot(i).getItem() == ToolsItems.pellet_bag) {
 						if (backpackFound) {
 							return false;
 						} else {
@@ -56,7 +56,7 @@ public class BackpackRecipeHandler implements IRecipe {
 						color = MathHelper.clamp(inventoryCrafting.getStackInSlot(i).getItemDamage(), 0, 15);
 					} else if (inventoryCrafting.getStackInSlot(i).getItem() == Items.WATER_BUCKET) {
 						color = -1;
-					} else if (inventoryCrafting.getStackInSlot(i).getItem() == ToolsItems.backpack) {
+					} else if (inventoryCrafting.getStackInSlot(i).getItem() == ToolsItems.pellet_bag) {
 						itemStack = inventoryCrafting.getStackInSlot(i);
 					} else {
 						return ItemStack.EMPTY;
@@ -68,8 +68,8 @@ public class BackpackRecipeHandler implements IRecipe {
 		ItemStack tmpStack = ItemStack.EMPTY;
 		if (!itemStack.isEmpty()) {
 			tmpStack = itemStack.copy();
-			if (itemStack.getItem() == ToolsItems.backpack) {
-				ItemBackpack.setColor(tmpStack, color);
+			if (itemStack.getItem() == ToolsItems.pellet_bag) {
+				ItemPelletBag.setColor(tmpStack, color);
 			}
 		} else {
 			return ItemStack.EMPTY;

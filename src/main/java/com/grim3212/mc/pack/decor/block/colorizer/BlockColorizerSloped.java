@@ -1,4 +1,4 @@
-package com.grim3212.mc.pack.decor.block;
+package com.grim3212.mc.pack.decor.block.colorizer;
 
 import com.grim3212.mc.pack.core.manual.IManualEntry.IManualBlock;
 import com.grim3212.mc.pack.core.manual.pages.Page;
@@ -14,11 +14,11 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.common.property.ExtendedBlockState;
 import net.minecraftforge.common.property.IUnlistedProperty;
 
-public abstract class BlockSloped extends BlockColorizer implements IManualBlock {
+public abstract class BlockColorizerSloped extends BlockColorizer implements IManualBlock {
 
 	public static final PropertyEnum<EnumHalf> HALF = PropertyEnum.<EnumHalf> create("half", EnumHalf.class);
 
-	public BlockSloped() {
+	public BlockColorizerSloped() {
 		this.setDefaultState(this.blockState.getBaseState().withProperty(HALF, EnumHalf.BOTTOM));
 	}
 

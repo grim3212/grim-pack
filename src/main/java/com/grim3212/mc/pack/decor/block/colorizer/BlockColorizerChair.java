@@ -1,4 +1,4 @@
-package com.grim3212.mc.pack.decor.block;
+package com.grim3212.mc.pack.decor.block.colorizer;
 
 import java.util.List;
 
@@ -12,7 +12,7 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class BlockChair extends BlockFurnitureRotate implements IManualBlock {
+public class BlockColorizerChair extends BlockColorizerFurnitureRotate implements IManualBlock {
 
 	private static final AxisAlignedBB BASE_AABB = new AxisAlignedBB(0, 0, 0, 1, 0.5f, 1);
 	private static final AxisAlignedBB EAST_AABB = new AxisAlignedBB(0.81F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);

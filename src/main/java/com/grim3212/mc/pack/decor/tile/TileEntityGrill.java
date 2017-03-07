@@ -3,7 +3,7 @@ package com.grim3212.mc.pack.decor.tile;
 import javax.annotation.Nonnull;
 
 import com.grim3212.mc.pack.core.network.PacketDispatcher;
-import com.grim3212.mc.pack.decor.block.BlockGrill;
+import com.grim3212.mc.pack.decor.block.colorizer.BlockColorizerGrill;
 import com.grim3212.mc.pack.decor.config.DecorConfig;
 import com.grim3212.mc.pack.decor.inventory.ContainerGrill;
 import com.grim3212.mc.pack.decor.network.MessageParticles;
@@ -138,7 +138,7 @@ public class TileEntityGrill extends TileEntityColorizer implements ITickable, I
 		if (DecorConfig.infiniteGrillFuel)
 			this.grillCoal = 4000;
 
-		if ((this.grillCoal <= 1) && (getWorld().getBlockState(getPos()).getValue(BlockGrill.ACTIVE))) {
+		if ((this.grillCoal <= 1) && (getWorld().getBlockState(getPos()).getValue(BlockColorizerGrill.ACTIVE))) {
 			if (!getStackInSlot(4).isEmpty() && (getStackInSlot(4).getItem() == Items.COAL)) {
 				this.grillCoal = 4001;
 
@@ -149,10 +149,10 @@ public class TileEntityGrill extends TileEntityColorizer implements ITickable, I
 			}
 		}
 
-		if ((this.grillCoal <= 0) && (getWorld().getBlockState(getPos()).getValue(BlockGrill.ACTIVE)) && this.nextUpdate == 50) {
+		if ((this.grillCoal <= 0) && (getWorld().getBlockState(getPos()).getValue(BlockColorizerGrill.ACTIVE)) && this.nextUpdate == 50) {
 			if (!world.isRemote) {
 				PacketDispatcher.sendToDimension(new MessageParticles(pos), world.provider.getDimension());
-				world.setBlockState(getPos(), getWorld().getBlockState(getPos()).withProperty(BlockGrill.ACTIVE, false));
+				world.setBlockState(getPos(), getWorld().getBlockState(getPos()).withProperty(BlockColorizerGrill.ACTIVE, false));
 			}
 			world.playSound(pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D, SoundEvents.BLOCK_FIRE_EXTINGUISH, SoundCategory.BLOCKS, 1.0F, world.rand.nextFloat() * 0.4F + 0.8F, false);
 		}
@@ -260,7 +260,7 @@ public class TileEntityGrill extends TileEntityColorizer implements ITickable, I
 	}
 
 	public boolean isGrillBurning() {
-		if (getWorld().getBlockState(getPos()).getValue(BlockGrill.ACTIVE) && (this.grillCoal > 0))
+		if (getWorld().getBlockState(getPos()).getValue(BlockColorizerGrill.ACTIVE) && (this.grillCoal > 0))
 			return true;
 		return false;
 	}

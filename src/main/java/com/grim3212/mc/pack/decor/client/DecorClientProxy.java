@@ -4,11 +4,11 @@ import com.grim3212.mc.pack.GrimPack;
 import com.grim3212.mc.pack.core.client.RenderHelper;
 import com.grim3212.mc.pack.core.util.NBTHelper;
 import com.grim3212.mc.pack.decor.DecorCommonProxy;
-import com.grim3212.mc.pack.decor.block.BlockChimney;
-import com.grim3212.mc.pack.decor.block.BlockColorizer;
-import com.grim3212.mc.pack.decor.block.BlockFenceGate;
 import com.grim3212.mc.pack.decor.block.BlockLantern.EnumLanternType;
-import com.grim3212.mc.pack.decor.block.BlockSloped;
+import com.grim3212.mc.pack.decor.block.colorizer.BlockColorizer;
+import com.grim3212.mc.pack.decor.block.colorizer.BlockColorizerChimney;
+import com.grim3212.mc.pack.decor.block.colorizer.BlockColorizerFenceGate;
+import com.grim3212.mc.pack.decor.block.colorizer.BlockColorizerSloped;
 import com.grim3212.mc.pack.decor.block.DecorBlocks;
 import com.grim3212.mc.pack.decor.client.entity.RenderFlatItemFrame.FlatItemFrameFactory;
 import com.grim3212.mc.pack.decor.client.entity.RenderFrame.FrameFactory;
@@ -66,10 +66,10 @@ public class DecorClientProxy extends DecorCommonProxy {
 		ModelLoaderRegistry.registerLoader(SlopedModelLoader.instance);
 		ModelLoaderRegistry.registerLoader(DecorModelLoader.instance);
 
-		ModelLoader.setCustomStateMapper(DecorBlocks.corner, new StateMap.Builder().ignore(BlockSloped.HALF).build());
-		ModelLoader.setCustomStateMapper(DecorBlocks.fence_gate, new StateMap.Builder().ignore(BlockFenceGate.POWERED).build());
+		ModelLoader.setCustomStateMapper(DecorBlocks.corner, new StateMap.Builder().ignore(BlockColorizerSloped.HALF).build());
+		ModelLoader.setCustomStateMapper(DecorBlocks.fence_gate, new StateMap.Builder().ignore(BlockColorizerFenceGate.POWERED).build());
 		ModelLoader.setCustomStateMapper(DecorBlocks.decor_door, new StateMap.Builder().ignore(BlockDoor.POWERED).build());
-		ModelLoader.setCustomStateMapper(DecorBlocks.chimney, new StateMap.Builder().ignore(BlockChimney.ACTIVE).build());
+		ModelLoader.setCustomStateMapper(DecorBlocks.chimney, new StateMap.Builder().ignore(BlockColorizerChimney.ACTIVE).build());
 
 		// ITEMS
 		RenderHelper.renderVariantForge(DecorItems.flat_item_frame, "held", "base", "map");
