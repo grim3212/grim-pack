@@ -41,11 +41,10 @@ public class ToolsBlocks implements IPartItems {
 		OreDictionary.registerOre("oreBlackDiamond", black_diamond_ore);
 		OreDictionary.registerOre("blockBlackDiamond", black_diamond_block);
 		OreDictionary.registerOre("oreElement115", element_115_ore);
-		
+
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(black_diamond_block, 1), new Object[] { "###", "###", "###", '#', ToolsItems.black_diamond }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ToolsItems.black_diamond, 9), new Object[] { "#", '#', black_diamond_block }));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ToolsItems.black_diamond, 1), new Object[] { " X ", "X#X", " X ", 'X', "obsidian", '#', "gemDiamond" }));
-		black = RecipeHelper.getLatestIRecipes(3);
+		black = RecipeHelper.getLatestIRecipes(2);
 
 		GameRegistry.addSmelting(black_diamond_ore, new ItemStack(ToolsItems.black_diamond, 1), 1.0F);
 	}

@@ -15,6 +15,7 @@ public class IndustryGenerate extends GrimWorldGen {
 
 	@Override
 	protected void generateSurface(World world, Random random, int i, int j) {
+		//TODO: Tweak spawn rates to be less common
 		if (IndustryConfig.generateUranium) {
 			for (int k = 0; k < 18; k++) {
 				int l = i + random.nextInt(17);

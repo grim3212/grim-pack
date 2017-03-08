@@ -956,6 +956,8 @@ grimpack.manual.decor.subsection.furniture.page.counter=Counters are like the ta
 grimpack.manual.decor.subsection.furniture.page.counter.title=Counters
 grimpack.manual.decor.subsection.furniture.page.doors=You can also colorize doors to hide entrances to your base or just make something classy.
 grimpack.manual.decor.subsection.furniture.page.doors.title=Doors
+grimpack.manual.decor.subsection.furniture.page.trap_door=You can also colorize trap doors so that you can have another way to hide an entrance but without breaking the look of the floor.
+grimpack.manual.decor.subsection.furniture.page.trap_door.title=Trap Doors
 #End Furniture
 
 #Start Other
@@ -1223,7 +1225,7 @@ grimpack.manual.tools.subsection.black.page.blackore=Black Diamond ore can be fo
 grimpack.manual.tools.subsection.black.page.blackore.title=Ore
 grimpack.manual.tools.subsection.black.page.cookOre=Once you have found and mined some black diamond to get the actually gem from the ore you need to smelt the ore.
 grimpack.manual.tools.subsection.black.page.cookOre.title=Smelting
-grimpack.manual.tools.subsection.black.page.craftblack=If you need some black diamond you can also craft it by combining a diamond and some obsidian. With 9 black diamonds you can also store them into a block of black diamond.
+grimpack.manual.tools.subsection.black.page.craftblack=You are also able to compact black diamonds in the same way you can with regular diamonds.
 grimpack.manual.tools.subsection.black.page.craftblack.title=Crafting
 grimpack.manual.tools.subsection.tools=Black Diamond Tools
 grimpack.manual.tools.subsection.tools.page.tools=Using black diamonds you can craft a full tool set, all of which are better then diamond tools.
