@@ -66,6 +66,7 @@ public class ManualDecor implements IManualPart {
 	public static Page pruners_page;
 	public static Page flatItemFrame_page;
 	public static Page pillar_page;
+	public static Page decorTrapDoor_page;
 
 	@Override
 	public void initPages() {
@@ -116,6 +117,7 @@ public class ManualDecor implements IManualPart {
 		stairs_page = new PageCrafting("stairs", new ItemStack(DecorBlocks.decor_stairs));
 		pruners_page = new PageCrafting("pruners", new ItemStack(DecorItems.pruners));
 		pillar_page = new PageCrafting("pillar", new ItemStack(DecorBlocks.pillar));
+		decorTrapDoor_page = new PageCrafting("trap_door", new ItemStack(DecorBlocks.decor_trap_door));
 	}
 
 	@Override
@@ -123,7 +125,7 @@ public class ManualDecor implements IManualPart {
 		ManualRegistry.addChapter("intro", part).addPages(fancyPack_page, moss_page, fancyStone_page, road_page);
 		ManualRegistry.addChapter("hanging", part).addPages(calendar_page, clock_page, wallpaperInfo_page, wallpaper_page, framesInfo_page, frames_page, flatItemFrame_page);
 		ManualRegistry.addChapter("deco", part).addPages(cage_page, lantern_page, crafts_page, firing_page, lights_page);
-		ManualRegistry.addChapter("furniture", part).addPages(colorizer_page, brush_page, table_page, chair_page, stool_page, counter_page, doors_page);
+		ManualRegistry.addChapter("furniture", part).addPages(colorizer_page, brush_page, table_page, chair_page, stool_page, counter_page, doors_page, decorTrapDoor_page);
 		ManualRegistry.addChapter("other", part).addPages(fence_page, fenceGate_page, wall_page);
 		ManualRegistry.addChapter("fires", part).addPages(burningWood_page, fireplace_page, chimney_page, stove_page, firepit_page, firering_page);
 		ManualRegistry.addChapter("grill", part).addPages(grill_page);

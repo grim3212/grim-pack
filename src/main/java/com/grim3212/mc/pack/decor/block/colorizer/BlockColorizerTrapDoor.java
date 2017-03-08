@@ -2,6 +2,8 @@ package com.grim3212.mc.pack.decor.block.colorizer;
 
 import javax.annotation.Nullable;
 
+import com.grim3212.mc.pack.core.manual.pages.Page;
+import com.grim3212.mc.pack.decor.client.ManualDecor;
 import com.grim3212.mc.pack.decor.item.DecorItems;
 import com.grim3212.mc.pack.decor.tile.TileEntityColorizer;
 import com.grim3212.mc.pack.decor.util.BlockHelper;
@@ -95,7 +97,7 @@ public class BlockColorizerTrapDoor extends BlockColorizer {
 	public boolean isPassable(IBlockAccess worldIn, BlockPos pos) {
 		return !worldIn.getBlockState(pos).getValue(BlockTrapDoor.OPEN);
 	}
-	
+
 	@SuppressWarnings("deprecation")
 	public boolean changeDoors(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing side) {
 		TileEntity tileentity = worldIn.getTileEntity(pos);
@@ -148,14 +150,14 @@ public class BlockColorizerTrapDoor extends BlockColorizer {
 		}
 
 		state = state.cycleProperty(BlockTrapDoor.OPEN);
-		
-		if(UtilConfig.doubleDoors){
+
+		if (UtilConfig.doubleDoors) {
 			DoubleTrapDoor.setDoubleTrap(worldIn, pos, state, true);
 		}
-		
-		//Set after check to make sure all neighbors are open
+
+		// Set after check to make sure all neighbors are open
 		worldIn.setBlockState(pos, state, 2);
-		
+
 		this.playSound(playerIn, worldIn, pos, state.getValue(BlockTrapDoor.OPEN));
 		return true;
 	}
@@ -314,5 +316,10 @@ public class BlockColorizerTrapDoor extends BlockColorizer {
 				return down.getValue(BlockLadder.FACING) == state.getValue(BlockTrapDoor.FACING);
 		}
 		return false;
+	}
+
+	@Override
+	public Page getPage(IBlockState state) {
+		return ManualDecor.decorTrapDoor_page;
 	}
 }
