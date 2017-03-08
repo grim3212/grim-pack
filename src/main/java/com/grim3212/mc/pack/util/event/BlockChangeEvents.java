@@ -1,8 +1,5 @@
 package com.grim3212.mc.pack.util.event;
 
-import com.grim3212.mc.pack.decor.block.colorizer.BlockColorizerDoor;
-import com.grim3212.mc.pack.decor.block.colorizer.BlockColorizerFenceGate;
-import com.grim3212.mc.pack.decor.block.colorizer.BlockColorizerTrapDoor;
 import com.grim3212.mc.pack.util.config.UtilConfig;
 
 import net.minecraft.block.BlockDoor;
@@ -22,11 +19,11 @@ public class BlockChangeEvents {
 		if (UtilConfig.doubleDoors) {
 			if (!event.getEntityPlayer().isSneaking()) {
 				IBlockState state = event.getWorld().getBlockState(event.getPos());
-				if (state.getBlock() instanceof BlockDoor || state.getBlock() instanceof BlockColorizerDoor) {
+				if (state.getBlock() instanceof BlockDoor) {
 					DoubleDoor.activateDoubleDoor(event.getWorld(), event.getPos(), state, event.getEntityPlayer(), event.getHand(), event.getFace(), event.getHitVec());
-				} else if (state.getBlock() instanceof BlockTrapDoor || state.getBlock() instanceof BlockColorizerTrapDoor) {
+				} else if (state.getBlock() instanceof BlockTrapDoor) {
 					DoubleTrapDoor.activateDoubleTrap(event.getWorld(), event.getPos(), state, true, event.getEntityPlayer(), event.getHand(), event.getFace(), event.getHitVec());
-				} else if (state.getBlock() instanceof BlockFenceGate || state.getBlock() instanceof BlockColorizerFenceGate) {
+				} else if (state.getBlock() instanceof BlockFenceGate) {
 					DoubleFenceGate.updateFenceGate(event.getWorld(), event.getPos(), state, event.getEntityPlayer(), event.getHand(), event.getFace(), event.getHitVec());
 				}
 			}

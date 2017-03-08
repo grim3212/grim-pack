@@ -6,11 +6,10 @@ import com.grim3212.mc.pack.decor.block.colorizer.BlockColorizerFurnitureRotate;
 import com.grim3212.mc.pack.decor.tile.TileEntityColorizer;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockSnow;
+import net.minecraft.block.SoundType;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumActionResult;
@@ -37,36 +36,27 @@ public class ItemColorizer extends ItemManualBlock {
 		IBlockState iblockstate = worldIn.getBlockState(pos);
 		Block block = iblockstate.getBlock();
 
-		if (block == Blocks.SNOW_LAYER && ((Integer) iblockstate.getValue(BlockSnow.LAYERS)).intValue() < 1) {
-			facing = EnumFacing.UP;
-		} else if (!block.isReplaceable(worldIn, pos)) {
+		if (!block.isReplaceable(worldIn, pos)) {
 			pos = pos.offset(facing);
 		}
 
-		ItemStack stack = playerIn.getHeldItem(hand);
-		if (stack.getCount() == 0) {
-			return EnumActionResult.FAIL;
-		} else if (!playerIn.canPlayerEdit(pos, facing, stack)) {
-			return EnumActionResult.FAIL;
-		} else if (pos.getY() == 255 && this.block.getDefaultState().getMaterial().isSolid()) {
-			return EnumActionResult.FAIL;
-		} else if (worldIn.mayPlace(this.block, pos, false, facing, (Entity) null)) {
-			if (this.block instanceof BlockColorizerFurnitureRotate) {
-				worldIn.setBlockState(pos, this.block.getDefaultState().withProperty(BlockColorizerFurnitureRotate.FACING, playerIn.getHorizontalFacing()), 3);
-			} else {
-				worldIn.setBlockState(pos, this.block.getDefaultState(), 3);
-			}
+		ItemStack itemstack = playerIn.getHeldItem(hand);
 
-			stack.shrink(1);
-			TileEntity tileentity = worldIn.getTileEntity(pos);
+		if (!itemstack.isEmpty() && playerIn.canPlayerEdit(pos, facing, itemstack) && worldIn.mayPlace(this.block, pos, false, facing, (Entity) null)) {
+			int i = this.getMetadata(itemstack.getMetadata());
+			IBlockState toPlace = this.block.getStateForPlacement(worldIn, pos, facing, hitX, hitY, hitZ, i, playerIn, hand);
 
-			if (tileentity instanceof TileEntityColorizer) {
-				((TileEntityColorizer) tileentity).setBlockState(NBTHelper.getString(stack, "registryName"), NBTHelper.getInt(stack, "meta"));
-				worldIn.playSound(playerIn, pos, this.block.getSoundType().getPlaceSound(), SoundCategory.BLOCKS, (this.block.getSoundType().getVolume() + 1.0F) / 2.0F, this.block.getSoundType().getPitch() * 0.8F);
+			if (placeBlockAt(itemstack, playerIn, worldIn, pos, facing, hitX, hitY, hitZ, toPlace)) {
+				TileEntity tileentity = worldIn.getTileEntity(pos);
+				if (tileentity instanceof TileEntityColorizer)
+					((TileEntityColorizer) tileentity).setBlockState(NBTHelper.getString(itemstack, "registryName"), NBTHelper.getInt(itemstack, "meta"));
+
+				SoundType soundtype = worldIn.getBlockState(pos).getBlock().getSoundType(worldIn.getBlockState(pos), worldIn, pos, playerIn);
+				worldIn.playSound(playerIn, pos, soundtype.getPlaceSound(), SoundCategory.BLOCKS, (soundtype.getVolume() + 1.0F) / 2.0F, soundtype.getPitch() * 0.8F);
+				itemstack.shrink(1);
 			}
 
 			return EnumActionResult.SUCCESS;
-
 		} else {
 			return EnumActionResult.FAIL;
 		}
@@ -86,5 +76,19 @@ public class ItemColorizer extends ItemManualBlock {
 		} else {
 			return I18n.translateToLocal(this.block.getUnlocalizedName() + ".name");
 		}
+	}
+
+	@Override
+	public boolean placeBlockAt(ItemStack stack, EntityPlayer player, World world, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ, IBlockState newState) {
+		if (!world.setBlockState(pos, this.block instanceof BlockColorizerFurnitureRotate ? newState.withProperty(BlockColorizerFurnitureRotate.FACING, player.getHorizontalFacing()) : newState, 11))
+			return false;
+
+		IBlockState state = world.getBlockState(pos);
+		if (state.getBlock() == this.block) {
+			setTileEntityNBT(world, player, pos, stack);
+			this.block.onBlockPlacedBy(world, pos, state, player, stack);
+		}
+
+		return true;
 	}
 }

@@ -2,6 +2,12 @@ package com.grim3212.mc.pack.decor.block.colorizer;
 
 import javax.annotation.Nullable;
 
+import com.grim3212.mc.pack.decor.item.DecorItems;
+import com.grim3212.mc.pack.decor.tile.TileEntityColorizer;
+import com.grim3212.mc.pack.decor.util.BlockHelper;
+import com.grim3212.mc.pack.util.config.UtilConfig;
+import com.grim3212.mc.pack.util.event.DoubleTrapDoor;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockLadder;
 import net.minecraft.block.BlockTrapDoor;
@@ -12,11 +18,14 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.Mirror;
 import net.minecraft.util.Rotation;
+import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
@@ -86,20 +95,67 @@ public class BlockColorizerTrapDoor extends BlockColorizer {
 	public boolean isPassable(IBlockAccess worldIn, BlockPos pos) {
 		return !worldIn.getBlockState(pos).getValue(BlockTrapDoor.OPEN);
 	}
+	
+	@SuppressWarnings("deprecation")
+	public boolean changeDoors(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing side) {
+		TileEntity tileentity = worldIn.getTileEntity(pos);
+		ItemStack heldItem = playerIn.getHeldItem(hand);
+
+		if (!heldItem.isEmpty() && tileentity instanceof TileEntityColorizer) {
+			TileEntityColorizer te = (TileEntityColorizer) tileentity;
+			Block block = Block.getBlockFromItem(heldItem.getItem());
+
+			if (block != null && !(block instanceof BlockColorizer)) {
+				if (BlockHelper.getUsableBlocks().contains(block)) {
+					// Can only set blockstate if it contains nothing or if
+					// in creative mode
+					if (te.getBlockState() == Blocks.AIR.getDefaultState() || playerIn.capabilities.isCreativeMode) {
+
+						IBlockState toPlaceState = block.getStateFromMeta(heldItem.getMetadata());
+						this.setColorizer(worldIn, pos, state, toPlaceState, playerIn, hand, true);
+
+						worldIn.playSound(playerIn, pos, block.getSoundType().getPlaceSound(), SoundCategory.BLOCKS, (block.getSoundType().getVolume() + 1.0F) / 2.0F, block.getSoundType().getPitch() * 0.8F);
+						return true;
+					} else if (te.getBlockState() != Blocks.AIR.getDefaultState()) {
+						return false;
+					}
+				}
+			}
+		}
+		return false;
+	}
 
 	/**
 	 * Called when the block is right clicked by a player.
 	 */
 	@Override
 	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
-		if (!playerIn.getHeldItem(hand).isEmpty()) {
-			if (super.onBlockActivated(worldIn, pos, state, playerIn, hand, facing, hitX, hitY, hitZ)) {
-				return true;
+		ItemStack heldItem = playerIn.getHeldItem(hand);
+
+		if (!heldItem.isEmpty()) {
+			if (heldItem.getItem() == DecorItems.brush) {
+				if (this.tryUseBrush(worldIn, playerIn, hand, pos)) {
+					return true;
+				}
+			}
+
+			Block block = Block.getBlockFromItem(heldItem.getItem());
+			if (block != Blocks.AIR) {
+				if (changeDoors(worldIn, pos, state, playerIn, hand, facing)) {
+					return true;
+				}
 			}
 		}
 
 		state = state.cycleProperty(BlockTrapDoor.OPEN);
+		
+		if(UtilConfig.doubleDoors){
+			DoubleTrapDoor.setDoubleTrap(worldIn, pos, state, true);
+		}
+		
+		//Set after check to make sure all neighbors are open
 		worldIn.setBlockState(pos, state, 2);
+		
 		this.playSound(playerIn, worldIn, pos, state.getValue(BlockTrapDoor.OPEN));
 		return true;
 	}

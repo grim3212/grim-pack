@@ -35,4 +35,24 @@ public class DoubleFenceGate {
 			downBlocks++;
 		}
 	}
+
+	public static void setFenceGate(World world, BlockPos pos, IBlockState state) {
+		// Get all fence gates above the block
+		int upBlocks = 1;
+		while (isFenceGate(world, pos.up(upBlocks), state)) {
+			IBlockState neighborState = world.getBlockState(pos.up(upBlocks));
+			
+			world.setBlockState(pos.up(upBlocks), neighborState.withProperty(BlockFenceGate.OPEN, state.getValue(BlockFenceGate.OPEN)));
+			upBlocks++;
+		}
+
+		// Get all fence gates below the block
+		int downBlocks = 1;
+		while (isFenceGate(world, pos.down(downBlocks), state)) {
+			IBlockState neighborState = world.getBlockState(pos.down(downBlocks));
+			
+			world.setBlockState(pos.down(downBlocks), neighborState.withProperty(BlockFenceGate.OPEN, state.getValue(BlockFenceGate.OPEN)));
+			downBlocks++;
+		}
+	}
 }

@@ -59,6 +59,52 @@ public class DoubleTrapDoor {
 		}
 	}
 
+	public static void setDoubleTrap(World world, BlockPos pos, IBlockState state, boolean include_left_right) {
+		NeighbourBlocks neighbour_blocks = _neighbour_blocks[getMetaForFacing(state.getValue(BlockTrapDoor.FACING))];
+
+		int coord_x = pos.getX() + neighbour_blocks.counterpart.x;
+		int coord_z = pos.getZ() + neighbour_blocks.counterpart.z;
+		BlockPos neighborPos = new BlockPos(coord_x, pos.getY(), coord_z);
+		IBlockState neighborState = world.getBlockState(neighborPos);
+
+		if (isValidNeighbor(world, pos, neighborPos)) {
+			setDoubleTrap(world, neighborPos, state, false);
+			world.setBlockState(neighborPos, neighborState.withProperty(BlockTrapDoor.OPEN, state.getValue(BlockTrapDoor.OPEN)));
+		}
+
+		if (include_left_right) {
+			int left_x = pos.getX() + neighbour_blocks.left.x;
+			int left_z = pos.getZ() + neighbour_blocks.left.z;
+			BlockPos leftPos = new BlockPos(left_x, pos.getY(), left_z);
+
+			int right_x = pos.getX() + neighbour_blocks.right.x;
+			int right_z = pos.getZ() + neighbour_blocks.right.z;
+			BlockPos rightPos = new BlockPos(right_x, pos.getY(), right_z);
+
+			if ((!isValidNeighbor(world, pos, leftPos)) && (isValidNeighbor(world, pos, rightPos))) {
+				left_x = right_x + neighbour_blocks.right.x;
+				left_z = right_z + neighbour_blocks.right.z;
+				leftPos = new BlockPos(left_x, pos.getY(), left_z);
+			} else if ((!isValidNeighbor(world, pos, rightPos)) && (isValidNeighbor(world, pos, leftPos))) {
+				right_x = left_x + neighbour_blocks.left.x;
+				right_z = left_z + neighbour_blocks.left.z;
+				rightPos = new BlockPos(right_x, pos.getY(), right_z);
+			}
+
+			IBlockState leftState = world.getBlockState(leftPos);
+			if (isValidNeighbor(world, pos, leftPos)) {
+				setDoubleTrap(world, leftPos, state, false);
+				world.setBlockState(leftPos, leftState.withProperty(BlockTrapDoor.OPEN, state.getValue(BlockTrapDoor.OPEN)));
+			}
+
+			IBlockState rightState = world.getBlockState(rightPos);
+			if (isValidNeighbor(world, pos, rightPos)) {
+				setDoubleTrap(world, rightPos, state, false);
+				world.setBlockState(rightPos, rightState.withProperty(BlockTrapDoor.OPEN, state.getValue(BlockTrapDoor.OPEN)));
+			}
+		}
+	}
+
 	protected static int getMetaForFacing(EnumFacing facing) {
 		switch (facing) {
 		case NORTH:
@@ -77,7 +123,7 @@ public class DoubleTrapDoor {
 		IBlockState source_state = world.getBlockState(source);
 		IBlockState source_neighbor = world.getBlockState(neighbor);
 
-		if ((source_neighbor.getBlock() instanceof BlockTrapDoor) && (source_state.getValue(BlockTrapDoor.HALF) == source_neighbor.getValue(BlockTrapDoor.HALF)) && source_state.getValue(BlockTrapDoor.OPEN) == source_neighbor.getValue(BlockTrapDoor.OPEN)) {
+		if ((source_neighbor.getBlock() == source_state.getBlock()) && (source_state.getValue(BlockTrapDoor.HALF) == source_neighbor.getValue(BlockTrapDoor.HALF)) && source_state.getValue(BlockTrapDoor.OPEN) == source_neighbor.getValue(BlockTrapDoor.OPEN)) {
 			return true;
 		}
 

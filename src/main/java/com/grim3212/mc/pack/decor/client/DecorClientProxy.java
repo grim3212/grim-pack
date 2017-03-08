@@ -5,11 +5,10 @@ import com.grim3212.mc.pack.core.client.RenderHelper;
 import com.grim3212.mc.pack.core.util.NBTHelper;
 import com.grim3212.mc.pack.decor.DecorCommonProxy;
 import com.grim3212.mc.pack.decor.block.BlockLantern.EnumLanternType;
+import com.grim3212.mc.pack.decor.block.DecorBlocks;
 import com.grim3212.mc.pack.decor.block.colorizer.BlockColorizer;
 import com.grim3212.mc.pack.decor.block.colorizer.BlockColorizerChimney;
-import com.grim3212.mc.pack.decor.block.colorizer.BlockColorizerFenceGate;
 import com.grim3212.mc.pack.decor.block.colorizer.BlockColorizerSloped;
-import com.grim3212.mc.pack.decor.block.DecorBlocks;
 import com.grim3212.mc.pack.decor.client.entity.RenderFlatItemFrame.FlatItemFrameFactory;
 import com.grim3212.mc.pack.decor.client.entity.RenderFrame.FrameFactory;
 import com.grim3212.mc.pack.decor.client.entity.RenderWallpaper.WallpaperFactory;
@@ -27,6 +26,7 @@ import com.grim3212.mc.pack.decor.tile.TileEntityColorizer;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockDoor;
+import net.minecraft.block.BlockFenceGate;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.statemap.StateMap;
@@ -67,7 +67,7 @@ public class DecorClientProxy extends DecorCommonProxy {
 		ModelLoaderRegistry.registerLoader(DecorModelLoader.instance);
 
 		ModelLoader.setCustomStateMapper(DecorBlocks.corner, new StateMap.Builder().ignore(BlockColorizerSloped.HALF).build());
-		ModelLoader.setCustomStateMapper(DecorBlocks.fence_gate, new StateMap.Builder().ignore(BlockColorizerFenceGate.POWERED).build());
+		ModelLoader.setCustomStateMapper(DecorBlocks.fence_gate, new StateMap.Builder().ignore(BlockFenceGate.POWERED).build());
 		ModelLoader.setCustomStateMapper(DecorBlocks.decor_door, new StateMap.Builder().ignore(BlockDoor.POWERED).build());
 		ModelLoader.setCustomStateMapper(DecorBlocks.chimney, new StateMap.Builder().ignore(BlockColorizerChimney.ACTIVE).build());
 
@@ -84,6 +84,7 @@ public class DecorClientProxy extends DecorCommonProxy {
 		RenderHelper.renderItem(DecorItems.decor_door_item);
 
 		// BLOCKS
+		RenderHelper.renderBlock(DecorBlocks.decor_trap_door);
 		RenderHelper.renderBlock(DecorBlocks.pillar);
 		RenderHelper.renderBlock(DecorBlocks.decor_door);
 		RenderHelper.renderBlock(DecorBlocks.decor_stairs);
@@ -152,8 +153,8 @@ public class DecorClientProxy extends DecorCommonProxy {
 				}
 				return 16777215;
 			}
-		}, DecorBlocks.decor_stairs, DecorBlocks.decor_door, DecorBlocks.corner, DecorBlocks.sloped_post, DecorBlocks.full_pyramid, DecorBlocks.slope, DecorBlocks.sloped_angle, DecorBlocks.sloped_intersection, DecorBlocks.oblique_slope, DecorBlocks.slanted_corner, DecorBlocks.pyramid, DecorBlocks.colorizer, DecorBlocks.colorizer_light, DecorBlocks.counter, DecorBlocks.table, DecorBlocks.stool, DecorBlocks.chair, DecorBlocks.wall, DecorBlocks.fence, DecorBlocks.fence_gate, DecorBlocks.lamp_post_bottom, DecorBlocks.lamp_post_middle, DecorBlocks.lamp_post_top, DecorBlocks.grill,
-				DecorBlocks.chimney, DecorBlocks.stove, DecorBlocks.firepit, DecorBlocks.firering, DecorBlocks.fireplace, DecorBlocks.pillar);
+		}, DecorBlocks.decor_stairs, DecorBlocks.decor_trap_door, DecorBlocks.decor_door, DecorBlocks.corner, DecorBlocks.sloped_post, DecorBlocks.full_pyramid, DecorBlocks.slope, DecorBlocks.sloped_angle, DecorBlocks.sloped_intersection, DecorBlocks.oblique_slope, DecorBlocks.slanted_corner, DecorBlocks.pyramid, DecorBlocks.colorizer, DecorBlocks.colorizer_light, DecorBlocks.counter, DecorBlocks.table, DecorBlocks.stool, DecorBlocks.chair, DecorBlocks.wall, DecorBlocks.fence, DecorBlocks.fence_gate, DecorBlocks.lamp_post_bottom, DecorBlocks.lamp_post_middle, DecorBlocks.lamp_post_top,
+				DecorBlocks.grill, DecorBlocks.chimney, DecorBlocks.stove, DecorBlocks.firepit, DecorBlocks.firering, DecorBlocks.fireplace, DecorBlocks.pillar);
 
 		Minecraft.getMinecraft().getItemColors().registerItemColorHandler(new IItemColor() {
 			@Override
@@ -176,8 +177,8 @@ public class DecorClientProxy extends DecorCommonProxy {
 				}
 				return 16777215;
 			}
-		}, DecorBlocks.decor_stairs, DecorBlocks.decor_door, DecorBlocks.corner, DecorBlocks.sloped_post, DecorBlocks.full_pyramid, DecorBlocks.slope, DecorBlocks.sloped_angle, DecorBlocks.sloped_intersection, DecorBlocks.oblique_slope, DecorBlocks.slanted_corner, DecorBlocks.pyramid, DecorBlocks.colorizer, DecorBlocks.colorizer_light, DecorBlocks.grill, DecorBlocks.chimney, DecorBlocks.stove, DecorBlocks.firepit, DecorBlocks.firering, DecorBlocks.fireplace, DecorBlocks.counter, DecorBlocks.table, DecorBlocks.stool, DecorBlocks.chair, DecorBlocks.wall, DecorBlocks.fence,
-				DecorBlocks.fence_gate, DecorBlocks.lamp_post_bottom, DecorBlocks.lamp_post_middle, DecorBlocks.lamp_post_top, DecorBlocks.pillar);
+		}, DecorBlocks.decor_stairs, DecorBlocks.decor_trap_door, DecorBlocks.decor_door, DecorBlocks.corner, DecorBlocks.sloped_post, DecorBlocks.full_pyramid, DecorBlocks.slope, DecorBlocks.sloped_angle, DecorBlocks.sloped_intersection, DecorBlocks.oblique_slope, DecorBlocks.slanted_corner, DecorBlocks.pyramid, DecorBlocks.colorizer, DecorBlocks.colorizer_light, DecorBlocks.grill, DecorBlocks.chimney, DecorBlocks.stove, DecorBlocks.firepit, DecorBlocks.firering, DecorBlocks.fireplace, DecorBlocks.counter, DecorBlocks.table, DecorBlocks.stool, DecorBlocks.chair, DecorBlocks.wall,
+				DecorBlocks.fence, DecorBlocks.fence_gate, DecorBlocks.lamp_post_bottom, DecorBlocks.lamp_post_middle, DecorBlocks.lamp_post_top, DecorBlocks.pillar);
 
 		Minecraft.getMinecraft().getItemColors().registerItemColorHandler(new IItemColor() {
 			@Override
