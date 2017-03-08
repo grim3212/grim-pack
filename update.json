@@ -59,7 +59,7 @@
 		"4.0.0.0-alpha.1": "Fix crashes with Frames, Wallpaper, cages, and machines.",
 		"4.0.0.0-alpha": "Port to 1.11. Many changes to decor, powerstaff, slingshots, fungus, and more. See full changelog at curseforge."
 	},
-	"1.11": {
+	"1.11.2": {
 		"4.0.0.0": "Many changes... ",
 		"4.0.0.0-beta": "Update to 1.11.2. More changes to slingshots. Add in more OreDictionary entries and allow Modern Furnaces to accept vanilla fuel."
 	}
