@@ -15,18 +15,17 @@ public class IndustryGenerate extends GrimWorldGen {
 
 	@Override
 	protected void generateSurface(World world, Random random, int i, int j) {
-		//TODO: Tweak spawn rates to be less common
 		if (IndustryConfig.generateUranium) {
-			for (int k = 0; k < 18; k++) {
-				int l = i + random.nextInt(17);
-				int i1 = random.nextInt(17);
-				int j1 = j + random.nextInt(17);
+			for (int k = 0; k < 10; k++) {
+				int l = i + random.nextInt(16);
+				int i1 = random.nextInt(22);
+				int j1 = j + random.nextInt(16);
 				(new WorldGenMinable(IndustryBlocks.uranium_ore.getDefaultState(), 5)).generate(world, random, new BlockPos(l, i1, j1));
 			}
 		}
 
 		if (IndustryConfig.generateAluminum) {
-			for (int k = 0; k < 10; ++k) {
+			for (int k = 0; k < 12; ++k) {
 				int x = i + random.nextInt(16);
 				int y = random.nextInt(64);
 				int z = j + random.nextInt(16);
@@ -35,7 +34,7 @@ public class IndustryGenerate extends GrimWorldGen {
 		}
 
 		if (IndustryConfig.generateOilOre) {
-			for (int k = 0; k < 2; ++k) {
+			for (int k = 0; k < 6; ++k) {
 				int x = i + random.nextInt(16);
 				int y = random.nextInt(32);
 				int z = j + random.nextInt(16);

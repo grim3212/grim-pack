@@ -24,7 +24,7 @@ public class GrimWorldGenerator extends GrimWorldGen {
 	@Override
 	protected void generateSurface(World world, Random random, int i, int j) {
 		if (WorldConfig.generateRandomite) {
-			for (int var5 = 0; var5 < 11; ++var5) {
+			for (int itr = 0; itr < 11; ++itr) {
 				int x = i + random.nextInt(16);
 				int y = random.nextInt(110);
 				int z = j + random.nextInt(16);
@@ -41,6 +41,7 @@ public class GrimWorldGenerator extends GrimWorldGen {
 			}
 		}
 
+		//TODO: Check if trailing chunks are occurring with the following generation
 		FloatingIslandsBlacklist.generateFloatingIslands(world, random, i, j);
 
 		generateExtras(world, random, i, j);
@@ -164,7 +165,7 @@ public class GrimWorldGenerator extends GrimWorldGen {
 
 	@Override
 	protected void generateNether(World world, Random random, int i, int j) {
-		for (int var5 = 0; var5 < 39; ++var5) {
+		for (int var5 = 0; var5 < 18; ++var5) {
 			int var6 = i + random.nextInt(16);
 			int var7 = random.nextInt(128);
 			int var8 = j + random.nextInt(16);

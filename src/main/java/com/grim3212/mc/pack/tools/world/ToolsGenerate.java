@@ -18,7 +18,7 @@ public class ToolsGenerate extends GrimWorldGen {
 		if (ToolsConfig.generateBlackDiamond) {
 			for (int k = 0; k < 1; k++) {
 				int l = i + random.nextInt(16);
-				int i1 = random.nextInt(16);
+				int i1 = random.nextInt(14);
 				int j1 = j + random.nextInt(16);
 				(new WorldGenMinable(ToolsBlocks.black_diamond_ore.getDefaultState(), 5)).generate(world, random, new BlockPos(l, i1, j1));
 			}
