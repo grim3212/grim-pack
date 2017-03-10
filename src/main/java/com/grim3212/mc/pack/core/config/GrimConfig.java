@@ -15,7 +15,6 @@ public class GrimConfig {
 
 	public GrimConfig() {
 		config = new Configuration(new File(Loader.instance().getConfigDir(), Loader.instance().activeModContainer().getModId() + ".cfg"));
-		syncConfig();
 	}
 
 	public void syncConfig() {

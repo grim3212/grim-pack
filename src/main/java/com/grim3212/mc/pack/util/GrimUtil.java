@@ -36,7 +36,7 @@ public class GrimUtil extends GrimPart {
 	public static SoundEvent fusrodahOldSound;
 
 	public GrimUtil() {
-		super(GrimUtil.partID, GrimUtil.partName, new UtilConfig(), false);
+		super(GrimUtil.partID, GrimUtil.partName, new UtilConfig(), false, false);
 		addItem(new UtilBlocks());
 	}
 

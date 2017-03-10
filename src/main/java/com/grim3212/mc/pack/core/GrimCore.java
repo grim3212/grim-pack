@@ -31,7 +31,7 @@ public class GrimCore extends GrimPart {
 	public static final String partName = "Grim Core";
 
 	public GrimCore() {
-		super(GrimCore.partId, GrimCore.partName, new CoreConfig());
+		super(GrimCore.partId, GrimCore.partName, new CoreConfig(), true, true);
 		addItem(new CoreItems());
 	}
 

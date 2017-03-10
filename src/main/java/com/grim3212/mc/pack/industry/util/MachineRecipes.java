@@ -40,24 +40,24 @@ public class MachineRecipes {
 		addRecipe(IndustryItems.aluminum_can, new ItemStack(IndustryItems.crude_oil), 0.1f, MachineType.DERRICK);
 
 		// Refinery recipes
-		addRecipe(IndustryItems.crude_oil, new ItemStack(IndustryItems.fuel), 0.25f, MachineType.REFINERY);
-		addRecipe(IndustryItems.super_crude_oil, new ItemStack(IndustryItems.crude_oil), 0.1f, MachineType.REFINERY);
-		addRecipeForBlock(Blocks.LOG, new ItemStack(IndustryItems.rubber), 0.1f, MachineType.REFINERY);
-		addRecipeForBlock(Blocks.LOG2, new ItemStack(IndustryItems.rubber), 0.1f, MachineType.REFINERY);
-		addRecipeForBlock(Blocks.DIRT, new ItemStack(Items.CLAY_BALL), 0.25f, MachineType.REFINERY);
-
-		// Refinery Transmutations
-		addRecipe(Items.ROTTEN_FLESH, new ItemStack(Items.LEATHER), 0.25f, MachineType.REFINERY);
-		addRecipe(Items.POISONOUS_POTATO, new ItemStack(Items.POTATO), 0.25f, MachineType.REFINERY);
-		addRecipe(Items.SPIDER_EYE, new ItemStack(Items.NETHER_WART), 0.25f, MachineType.REFINERY);
-		addRecipe(Items.PAPER, new ItemStack(Items.PAINTING), 0.25f, MachineType.REFINERY);
-		addRecipe(Items.EGG, new ItemStack(Items.FEATHER), 0.25f, MachineType.REFINERY);
-		addRecipe(Items.WATER_BUCKET, new ItemStack(Items.FISH), 0.25f, MachineType.REFINERY);
-		addRecipe(Items.LAVA_BUCKET, new ItemStack(Items.FIRE_CHARGE), 0.25f, MachineType.REFINERY);
-		addRecipe(Items.CARROT_ON_A_STICK, new ItemStack(Items.LEAD), 0.25f, MachineType.REFINERY);
-		addRecipe(Items.GUNPOWDER, new ItemStack(Items.BLAZE_POWDER), 0.25f, MachineType.REFINERY);
-		addRecipeForBlock(Blocks.VINE, new ItemStack(Items.STRING), 0.25f, MachineType.REFINERY);
-		addRecipe(Items.ENDER_PEARL, new ItemStack(Items.ENDER_EYE), 0.25f, MachineType.REFINERY);
+//		addRecipe(IndustryItems.crude_oil, new ItemStack(IndustryItems.fuel), 0.25f, MachineType.REFINERY);
+//		addRecipe(IndustryItems.super_crude_oil, new ItemStack(IndustryItems.crude_oil), 0.1f, MachineType.REFINERY);
+//		addRecipeForBlock(Blocks.LOG, new ItemStack(IndustryItems.rubber), 0.1f, MachineType.REFINERY);
+//		addRecipeForBlock(Blocks.LOG2, new ItemStack(IndustryItems.rubber), 0.1f, MachineType.REFINERY);
+//		addRecipeForBlock(Blocks.DIRT, new ItemStack(Items.CLAY_BALL), 0.25f, MachineType.REFINERY);
+//
+//		// Refinery Transmutations
+//		addRecipe(Items.ROTTEN_FLESH, new ItemStack(Items.LEATHER), 0.25f, MachineType.REFINERY);
+//		addRecipe(Items.POISONOUS_POTATO, new ItemStack(Items.POTATO), 0.25f, MachineType.REFINERY);
+//		addRecipe(Items.SPIDER_EYE, new ItemStack(Items.NETHER_WART), 0.25f, MachineType.REFINERY);
+//		addRecipe(Items.PAPER, new ItemStack(Items.PAINTING), 0.25f, MachineType.REFINERY);
+//		addRecipe(Items.EGG, new ItemStack(Items.FEATHER), 0.25f, MachineType.REFINERY);
+//		addRecipe(Items.WATER_BUCKET, new ItemStack(Items.FISH), 0.25f, MachineType.REFINERY);
+//		addRecipe(Items.LAVA_BUCKET, new ItemStack(Items.FIRE_CHARGE), 0.25f, MachineType.REFINERY);
+//		addRecipe(Items.CARROT_ON_A_STICK, new ItemStack(Items.LEAD), 0.25f, MachineType.REFINERY);
+//		addRecipe(Items.GUNPOWDER, new ItemStack(Items.BLAZE_POWDER), 0.25f, MachineType.REFINERY);
+//		addRecipeForBlock(Blocks.VINE, new ItemStack(Items.STRING), 0.25f, MachineType.REFINERY);
+//		addRecipe(Items.ENDER_PEARL, new ItemStack(Items.ENDER_EYE), 0.25f, MachineType.REFINERY);
 	}
 
 	/**

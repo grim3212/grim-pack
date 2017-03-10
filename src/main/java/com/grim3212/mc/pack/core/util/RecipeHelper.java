@@ -4,10 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.common.collect.Lists;
+import com.grim3212.mc.pack.GrimPack;
 
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.CraftingManager;
 import net.minecraft.item.crafting.IRecipe;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.oredict.OreDictionary;
 
 public class RecipeHelper {
@@ -35,6 +38,27 @@ public class RecipeHelper {
 		}
 
 		return "No Ore Dict Found!";
+	}
+
+	public static ItemStack getItemStackFromString(String s) {
+		try {
+			if (s.contains(":")) {
+				String[] split = s.split(":");
+
+				if (split.length == 2) {
+					return new ItemStack((Item) Item.REGISTRY.getObject(new ResourceLocation(s)));
+				} else if (split.length == 3) {
+					return new ItemStack((Item) Item.REGISTRY.getObject(new ResourceLocation(split[0], split[1])), 1, Integer.parseInt(split[2]));
+				}
+			} else {
+				return new ItemStack((Item) Item.REGISTRY.getObject(new ResourceLocation(s)));
+			}
+		} catch (Exception e) {
+			GrimLog.error(GrimPack.modName, e.getMessage());
+			return ItemStack.EMPTY;
+		}
+
+		return ItemStack.EMPTY;
 	}
 
 	public static List<IRecipe> getLatestIRecipes(int numRecipes) {

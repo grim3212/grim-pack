@@ -33,12 +33,26 @@ public abstract class GrimPart {
 	private List<IPartEntities> entities;
 	private List<IPartTileEntities> tileentities;
 	private boolean useCreativeTab;
+	private boolean syncConfigInstantly;
 
 	public GrimPart(String partId, String partName, GrimConfig config) {
-		this(partId, partName, config, true);
+		this(partId, partName, config, true, false);
 	}
 
-	public GrimPart(String partId, String partName, GrimConfig config, boolean useCreativeTab) {
+	/**
+	 * Constructor for a GrimPart
+	 * 
+	 * @param partId
+	 * @param partName
+	 * @param config
+	 *            The config to use
+	 * @param useCreativeTab
+	 *            If the part should have a creative tab
+	 * @param syncConfigInstantly
+	 *            If the config should be synced during creation. The only thing
+	 *            that uses this is GrimCore for determining which parts to load
+	 */
+	public GrimPart(String partId, String partName, GrimConfig config, boolean useCreativeTab, boolean syncConfigInstantly) {
 		this.partId = partId;
 		this.partName = partName;
 		this.useCreativeTab = useCreativeTab;
@@ -46,6 +60,11 @@ public abstract class GrimPart {
 		this.items = new ArrayList<IPartItems>();
 		this.entities = new ArrayList<IPartEntities>();
 		this.tileentities = new ArrayList<IPartTileEntities>();
+		this.syncConfigInstantly = syncConfigInstantly;
+
+		if (syncConfigInstantly) {
+			this.config.syncConfig();
+		}
 	}
 
 	@SubscribeEvent
@@ -111,6 +130,9 @@ public abstract class GrimPart {
 		for (int i = 0; i < this.entities.size(); i++) {
 			this.entities.get(i).initEntities();
 		}
+
+		if (!syncConfigInstantly)
+			this.getGrimConfig().syncConfig();
 	}
 
 	/**
