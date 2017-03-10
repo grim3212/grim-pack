@@ -37,6 +37,9 @@ import com.grim3212.mc.pack.tools.inventory.ContainerBackpack;
 import com.grim3212.mc.pack.tools.inventory.ContainerCustomWorkbench;
 import com.grim3212.mc.pack.tools.inventory.ContainerPelletBag;
 import com.grim3212.mc.pack.tools.inventory.PelletBagInventory;
+import com.grim3212.mc.pack.util.client.gui.GuiGrave;
+import com.grim3212.mc.pack.util.grave.ContainerGrave;
+import com.grim3212.mc.pack.util.grave.TileEntityGrave;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -70,6 +73,7 @@ public class PackGuiHandler implements IGuiHandler {
 	public static final int SPECIFIC_SENSOR_GUI_ID = 18;
 	public static final int PELLET_BAG_MAIN_GUI_ID = 19;
 	public static final int PELLET_BAG_OFF_GUI_ID = 20;
+	public static final int GRAVE_GUI_ID = 21;
 
 	@Override
 	public Object getServerGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
@@ -110,6 +114,8 @@ public class PackGuiHandler implements IGuiHandler {
 		} else if (ID == PELLET_BAG_OFF_GUI_ID) {
 			PelletBagInventory pelletBagInventory = new PelletBagInventory(player.getHeldItemOffhand());
 			return new ContainerPelletBag(pelletBagInventory, player.inventory);
+		} else if (ID == GRAVE_GUI_ID) {
+			return new ContainerGrave((TileEntityGrave) tileentity, player.inventory);
 		}
 
 		return null;
@@ -164,6 +170,8 @@ public class PackGuiHandler implements IGuiHandler {
 		} else if (ID == PELLET_BAG_OFF_GUI_ID) {
 			PelletBagInventory pelletBagInventory = new PelletBagInventory(player.getHeldItemOffhand());
 			return new GuiPelletBag(pelletBagInventory, player.inventory);
+		} else if (ID == GRAVE_GUI_ID) {
+			return new GuiGrave(player.inventory, (TileEntityGrave) tileentity);
 		}
 
 		return null;

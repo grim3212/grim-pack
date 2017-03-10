@@ -8,6 +8,7 @@ grimpack.creative.util=Grim Util
 grimpack.creative.world=Grim World
 
 #================= BLOCKS =================#
+tile.grave.name=Gravestone
 tile.fire_sensor.name=Fire Alarm
 tile.arrow_sensor.name=Arrow Target
 tile.metal_mesh.name=Metal Mesh
@@ -653,6 +654,7 @@ grimpack.industry.fan.minusFive=-5
 grimpack.industry.fan.BLOW=Blow
 grimpack.industry.fan.SUCK=Suck
 
+container.grave=Grave
 container.crafting_iron=Iron Crafting (2x)
 container.crafting_diamond=Diamond Crafting (4x)
 container.derrick=Oil Derrick
@@ -1300,7 +1302,7 @@ grimpack.manual.util.subsection.time=Time
 grimpack.manual.util.subsection.time.page.info=Adds a toggleable display that shows the time. This is activated by default using the G key but can be changed in the options.
 grimpack.manual.util.subsection.time.page.info.title=Info
 grimpack.manual.util.subsection.grave=Grave
-grimpack.manual.util.subsection.grave.page.info=When you die a "Grave" is created when you die so that your items won't be lost. When you a die a chest will be buried underground that contains all of your items. Above ground a quartz block with a sign with your name, the date, and time of death will be recorded. On top of that block will be a potted plant.
+grimpack.manual.util.subsection.grave.page.info=When you die a Grave is created so that your items won't be lost. This grave will appear at your death location and will contain all of your items as well as current experience level. The headstone will contain your name, the date, and time of death. You can right click and open the gui or break to get everything back.
 grimpack.manual.util.subsection.grave.page.info.title=Info
 grimpack.manual.util.subsection.lava=Infinite Lava
 grimpack.manual.util.subsection.lava.page.info=Infinite Lava changes how lava works so that it is able to be produced infinitely like water. All you need is two buckets of lava to make an infinite pool of lava.

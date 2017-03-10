@@ -9,13 +9,16 @@ import com.grim3212.mc.pack.util.client.ManualUtil;
 import com.grim3212.mc.pack.util.config.UtilConfig;
 import com.grim3212.mc.pack.util.event.BlockChangeEvents;
 import com.grim3212.mc.pack.util.event.EntityDeathEvent;
+import com.grim3212.mc.pack.util.grave.TileEntityGrave;
 import com.grim3212.mc.pack.util.init.UtilBlocks;
 import com.grim3212.mc.pack.util.network.MessageFusRoDah;
 
 import net.minecraft.util.SoundEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.SidedProxy;
+import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -48,6 +51,13 @@ public class GrimUtil extends GrimPart {
 		fusrodahOldSound = Utils.registerSound("fusrodah-old");
 
 		proxy.preInit();
+	}
+
+	@Override
+	public void init(FMLInitializationEvent event) {
+		super.init(event);
+
+		GameRegistry.registerTileEntity(TileEntityGrave.class, "grimpack:grave");
 	}
 
 	@Override

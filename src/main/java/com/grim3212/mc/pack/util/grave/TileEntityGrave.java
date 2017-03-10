@@ -3,57 +3,118 @@ package com.grim3212.mc.pack.util.grave;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
+import net.minecraft.inventory.ItemStackHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntityLockable;
 import net.minecraft.util.NonNullList;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextComponentString;
 
 public class TileEntityGrave extends TileEntityLockable {
 
-	private NonNullList<ItemStack> itemstacks = NonNullList.withSize(2, ItemStack.EMPTY);
-	
+	private NonNullList<ItemStack> itemstacks = NonNullList.<ItemStack>withSize(45, ItemStack.EMPTY);
+	public ITextComponent[] signText = new ITextComponent[] { new TextComponentString(""), new TextComponentString(""), new TextComponentString(""), new TextComponentString("") };
+
 	public TileEntityGrave() {
 	}
 
 	@Override
+	public NBTTagCompound writeToNBT(NBTTagCompound compound) {
+		super.writeToNBT(compound);
+
+		for (int i = 0; i < 4; ++i) {
+			String s = ITextComponent.Serializer.componentToJson(this.signText[i]);
+			compound.setString("Text" + (i + 1), s);
+		}
+
+		ItemStackHelper.saveAllItems(compound, this.itemstacks);
+
+		return compound;
+	}
+
+	@Override
+	public void readFromNBT(NBTTagCompound compound) {
+		super.readFromNBT(compound);
+
+		for (int i = 0; i < 4; ++i) {
+			String s = compound.getString("Text" + (i + 1));
+			ITextComponent itextcomponent = ITextComponent.Serializer.jsonToComponent(s);
+			this.signText[i] = itextcomponent;
+		}
+
+		this.itemstacks = NonNullList.<ItemStack>withSize(this.getSizeInventory(), ItemStack.EMPTY);
+		ItemStackHelper.loadAllItems(compound, this.itemstacks);
+	}
+
+	@Override
 	public int getSizeInventory() {
-		return 0;
+		return itemstacks.size();
 	}
 
 	@Override
 	public boolean isEmpty() {
-		return false;
+		for (int i = 0; i < itemstacks.size(); i++) {
+			if (!itemstacks.get(i).isEmpty())
+				return false;
+		}
+
+		return true;
 	}
 
 	@Override
 	public ItemStack getStackInSlot(int index) {
-		return null;
+		if (index < this.getSizeInventory() && index >= 0)
+			return itemstacks.get(index);
+		return ItemStack.EMPTY;
 	}
 
 	@Override
 	public ItemStack decrStackSize(int index, int count) {
-		return null;
+		if (index < this.getSizeInventory() && index >= 0) {
+			if (this.itemstacks.get(index).getCount() <= count) {
+				ItemStack stack = this.itemstacks.get(index);
+				this.itemstacks.set(index, ItemStack.EMPTY);
+				return stack;
+			}
+
+			ItemStack stack = this.itemstacks.get(index).splitStack(count);
+
+			if (this.itemstacks.get(index).getCount() == 0) {
+				this.itemstacks.set(index, ItemStack.EMPTY);
+			}
+
+			return stack;
+		}
+		return ItemStack.EMPTY;
 	}
 
 	@Override
 	public ItemStack removeStackFromSlot(int index) {
-		return null;
+		if (index < this.getSizeInventory() && index >= 0) {
+			ItemStack stack = this.itemstacks.get(index);
+			this.itemstacks.set(index, ItemStack.EMPTY);
+			return stack;
+		}
+		return ItemStack.EMPTY;
 	}
 
 	@Override
 	public void setInventorySlotContents(int index, ItemStack stack) {
+		if (index < this.getSizeInventory() && index >= 0)
+			this.itemstacks.set(index, stack);
 	}
 
 	@Override
 	public int getInventoryStackLimit() {
-		return 0;
+		return 64;
 	}
 
 	@Override
 	public boolean isUsableByPlayer(EntityPlayer player) {
-		return false;
+		return this.world.getTileEntity(this.pos) != this ? false : player.getDistanceSq((double) this.pos.getX() + 0.5D, (double) this.pos.getY() + 0.5D, (double) this.pos.getZ() + 0.5D) <= 64.0D;
 	}
 
 	@Override
@@ -66,6 +127,8 @@ public class TileEntityGrave extends TileEntityLockable {
 
 	@Override
 	public boolean isItemValidForSlot(int index, ItemStack stack) {
+		if (index < this.getSizeInventory() && index >= 0)
+			return true;
 		return false;
 	}
 
@@ -85,11 +148,14 @@ public class TileEntityGrave extends TileEntityLockable {
 
 	@Override
 	public void clear() {
+		for (int i = 0; i < this.itemstacks.size(); i++) {
+			this.itemstacks.set(i, ItemStack.EMPTY);
+		}
 	}
 
 	@Override
 	public String getName() {
-		return null;
+		return "container.grave";
 	}
 
 	@Override
@@ -99,12 +165,12 @@ public class TileEntityGrave extends TileEntityLockable {
 
 	@Override
 	public Container createContainer(InventoryPlayer playerInventory, EntityPlayer playerIn) {
-		return null;
+		return new ContainerGrave(this, playerInventory);
 	}
 
 	@Override
 	public String getGuiID() {
-		return null;
+		return "util:grave";
 	}
 
 	@Override
