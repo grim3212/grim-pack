@@ -48,23 +48,19 @@ public class WorldClientProxy extends ClientProxy {
 		ModelLoader.setCustomStateMapper(WorldBlocks.glowstone_seeds, new StateMap.Builder().ignore(BlockGlowstoneSeed.STEP).build());
 		ModelLoader.setCustomStateMapper(WorldBlocks.fungus_building, new StateMap.Builder().ignore(BlockFungusBuilding.TYPE).build());
 		ModelLoader.setCustomStateMapper(WorldBlocks.fungus_layer_building, new StateMap.Builder().ignore(BlockFungusLayer.TYPE).build());
-		ModelLoader.setCustomStateMapper(WorldBlocks.fungus_ore_building, new StateMap.Builder().ignore(BlockFungusOre.TYPE).build());
 		ModelLoader.setCustomStateMapper(WorldBlocks.fungus_growing, new StateMap.Builder().ignore(BlockFungusGrowing.TYPE).build());
 		ModelLoader.setCustomStateMapper(WorldBlocks.fungus_killing, new StateMap.Builder().ignore(BlockFungusKilling.TYPE).build());
-
-		ModelLoader.setCustomStateMapper(WorldBlocks.fungus_maze, new StateMap.Builder().ignore(BlockFungusMaze.TYPE).build());
 
 		RenderHelper.renderBlock(WorldBlocks.randomite);
 		RenderHelper.renderBlock(WorldBlocks.gunpowder_reed_block);
 		RenderHelper.renderBlock(WorldBlocks.glowstone_seeds);
 		RenderHelper.renderBlock(WorldBlocks.corruption_block);
+		RenderHelper.renderBlock(WorldBlocks.fungus_maze);
+		RenderHelper.renderBlock(WorldBlocks.fungus_ore_building);
 		RenderHelper.renderBlockWithMetaInInventory(WorldBlocks.fungus_building, 16);
-		RenderHelper.renderBlockWithMetaInInventory(WorldBlocks.fungus_ore_building, 1);
 		RenderHelper.renderBlockWithMetaInInventory(WorldBlocks.fungus_layer_building, 16);
 		RenderHelper.renderBlockWithMetaInInventory(WorldBlocks.fungus_growing, 16);
 		RenderHelper.renderBlockWithMetaInInventory(WorldBlocks.fungus_killing, 16);
-
-		RenderHelper.renderBlockWithMetaInInventory(WorldBlocks.fungus_maze, 1);
 
 		RenderHelper.renderItem(WorldItems.gunpowder_reed_item);
 		RenderHelper.renderItem(WorldItems.fungicide);
@@ -91,13 +87,13 @@ public class WorldClientProxy extends ClientProxy {
 				else if (state.getBlock() instanceof BlockFungusBuilding)
 					return BlockFungusBuilding.color[state.getValue(BlockFungusBuilding.TYPE)];
 				else if (state.getBlock() instanceof BlockFungusOre)
-					return BlockFungusOre.color[state.getValue(BlockFungusOre.TYPE)];
+					return BlockFungusOre.color;
 				else if (state.getBlock() instanceof BlockFungusLayer)
 					return BlockFungusLayer.color[state.getValue(BlockFungusLayer.TYPE)];
 				else if (state.getBlock() instanceof BlockFungusGrowing)
 					return BlockFungusGrowing.color[state.getValue(BlockFungusGrowing.TYPE)];
 				else if (state.getBlock() instanceof BlockFungusMaze)
-					return BlockFungusMaze.color[state.getValue(BlockFungusMaze.TYPE)];
+					return BlockFungusMaze.color;
 				else
 					return 0xffffff;
 			}
@@ -117,7 +113,7 @@ public class WorldClientProxy extends ClientProxy {
 						return BlockFungusBuilding.color[meta];
 					}
 					if (stack.getItem() == Item.getItemFromBlock(WorldBlocks.fungus_ore_building)) {
-						return BlockFungusOre.color[meta];
+						return BlockFungusOre.color;
 					}
 					if (stack.getItem() == Item.getItemFromBlock(WorldBlocks.fungus_layer_building)) {
 						return BlockFungusLayer.color[meta];
@@ -126,7 +122,7 @@ public class WorldClientProxy extends ClientProxy {
 						return BlockFungusKilling.color[meta];
 					}
 					if (stack.getItem() == Item.getItemFromBlock(WorldBlocks.fungus_maze)) {
-						return BlockFungusMaze.color[meta];
+						return BlockFungusMaze.color;
 					}
 				}
 				return 0xffffff;

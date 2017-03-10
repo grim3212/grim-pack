@@ -4,31 +4,66 @@ import java.util.Random;
 
 import com.grim3212.mc.pack.core.manual.IManualEntry.IManualBlock;
 import com.grim3212.mc.pack.core.manual.pages.Page;
+import com.grim3212.mc.pack.industry.block.IndustryBlocks;
 import com.grim3212.mc.pack.world.client.ManualWorld;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockBush;
+import net.minecraft.block.properties.IProperty;
+import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Blocks;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public class BlockFungusOre extends BlockFungusBase implements IManualBlock {
 
 	protected BlockFungusOre() {
-		super(true);
+		super(true, false);
+	}
+
+	@Override
+	public void getSubBlocks(Item itemIn, CreativeTabs tab, NonNullList<ItemStack> list) {
+		list.add(new ItemStack(this));
+	}
+
+	@Override
+	public int damageDropped(IBlockState state) {
+		return 0;
+	}
+
+	@Override
+	public IBlockState getStateFromMeta(int meta) {
+		return this.getDefaultState();
+	}
+
+	@Override
+	public int getMetaFromState(IBlockState state) {
+		return 0;
+	}
+
+	@Override
+	protected BlockStateContainer createBlockState() {
+		return new BlockStateContainer(this, new IProperty[] {});
 	}
 
 	@Override
 	public boolean canReplace(IBlockState side, IBlockState state) {
 		Block block = side.getBlock();
-		int meta = (Integer) state.getValue(TYPE);
-		return ((block == Blocks.FLOWING_WATER || block == Blocks.WATER) && !(meta == 0)) || ((block == Blocks.FLOWING_LAVA || block == Blocks.LAVA) && !(meta == 8)) || block == Blocks.AIR || block instanceof BlockBush || block == Blocks.FIRE || block == Blocks.SNOW_LAYER || block == Blocks.REEDS || block == Blocks.VINE || ((block == WorldBlocks.fungus_growing || block == WorldBlocks.fungus_building || block == WorldBlocks.fungus_killing) && (side != state || block != this));
+		return (block == Blocks.FLOWING_WATER || block == Blocks.WATER) || block == Blocks.AIR || block instanceof BlockBush || block == Blocks.FIRE || block == Blocks.SNOW_LAYER || block == Blocks.REEDS || block == Blocks.VINE || ((block == WorldBlocks.fungus_growing || block == WorldBlocks.fungus_building || block == WorldBlocks.fungus_killing) && (side != state || block != this));
 	}
 
 	public Block getOre(Random random) {
 		int number = random.nextInt(100);
 		if (number <= 30) {
 			return Blocks.COAL_ORE;
+		}
+		if (number <= 40) {
+			return IndustryBlocks.aluminum_ore;
 		}
 		if (number <= 50) {
 			return Blocks.IRON_ORE;
@@ -56,14 +91,16 @@ public class BlockFungusOre extends BlockFungusBase implements IManualBlock {
 
 	@Override
 	public void updateTick(World worldIn, BlockPos pos, IBlockState state, Random rand) {
-		if (!spreadToSide(worldIn, pos, state, false, true)) {
-			Block i2b = getOre(rand);
-			worldIn.setBlockState(pos, i2b.getDefaultState(), 2);
-		}
+		// 10% Chance to grow after updateTick is called
+		if (rand.nextInt(10) == 0)
+			if (!spreadToSide(worldIn, pos, state, false, true)) {
+				Block i2b = getOre(rand);
+				worldIn.setBlockState(pos, i2b.getDefaultState(), 2);
+			}
 		return;
 	}
 
-	public static final int[] color = { 0x5A9CFF };
+	public static final int color = 0x5A9CFF;
 
 	@Override
 	public Page getPage(IBlockState state) {

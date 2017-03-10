@@ -9,8 +9,14 @@ import com.grim3212.mc.pack.world.client.ManualWorld;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockBush;
 import net.minecraft.block.BlockStoneBrick;
+import net.minecraft.block.properties.IProperty;
+import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Blocks;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
@@ -21,12 +27,33 @@ import net.minecraft.world.World;
 public class BlockFungusMaze extends BlockFungusBase implements IManualBlock {
 
 	protected BlockFungusMaze() {
-		super(true);
+		super(true, false);
 	}
 
-	public static final Block[] buildId = { Blocks.STONEBRICK, // 0
-	};
+	@Override
+	public void getSubBlocks(Item itemIn, CreativeTabs tab, NonNullList<ItemStack> list) {
+		list.add(new ItemStack(this));
+	}
 
+	@Override
+	public int damageDropped(IBlockState state) {
+		return 0;
+	}
+
+	@Override
+	public IBlockState getStateFromMeta(int meta) {
+		return this.getDefaultState();
+	}
+
+	@Override
+	public int getMetaFromState(IBlockState state) {
+		return 0;
+	}
+
+	@Override
+	protected BlockStateContainer createBlockState() {
+		return new BlockStateContainer(this, new IProperty[] {});
+	}
 
 	@Override
 	public boolean canReplace(IBlockState side, IBlockState state) {
@@ -34,7 +61,7 @@ public class BlockFungusMaze extends BlockFungusBase implements IManualBlock {
 		return block == Blocks.AIR || block instanceof BlockBush || block == Blocks.FIRE || block == Blocks.SNOW_LAYER || block == Blocks.REEDS || block == Blocks.VINE || ((block == WorldBlocks.fungus_growing || block == WorldBlocks.fungus_building || block == WorldBlocks.fungus_killing) && (side != state || block != this));
 	}
 
-	//maze builds with bricks.. this returns a random brick type
+	// maze builds with bricks.. this returns a random brick type
 	public int getBrick(Random random) {
 		int number = random.nextInt(30);
 		if (number <= 8) {
@@ -50,17 +77,34 @@ public class BlockFungusMaze extends BlockFungusBase implements IManualBlock {
 	}
 
 	@Override
-	public void updateTick(World worldIn, BlockPos pos, IBlockState state, Random rand) { 
-		//ticks randomly? Does each new instance have a separate tick?
-		
+	public void updateTick(World worldIn, BlockPos pos, IBlockState state, Random rand) {
+		// ticks randomly? Does each new instance have a separate tick?
+
 		// builder 'except maze
-		//Scotto: Maze should mirror new blocks it creates 4 high if possible. Maze passages should be at least 2 wide instead of 1
-		//Scotto: Maze tends to create lots of closed in spaces
-		//Dark acid fungus is useless on maze as is fungicide once maze is large because of non contiguous blocks
-		//changed last condition from meta 11 to meta 1
-		if (worldIn.getBlockState(pos.up()).getBlock() == Blocks.AIR) { //this line shows a test for AIR for hole filling
-			//way to create random numbers if(random.nextInt(7)==0){return;}
-			boolean spread = spreadToSideMaze(worldIn, pos, state); //spreadToSideMaze returns boolean after testing meta values
+		// Scotto: Maze should mirror new blocks it creates 4 high if possible.
+		// Maze passages should be at least 2 wide instead of 1
+		// Scotto: Maze tends to create lots of closed in spaces
+		// Dark acid fungus is useless on maze as is fungicide once maze is
+		// large because of non contiguous blocks
+		// changed last condition from meta 11 to meta 1
+		if (worldIn.getBlockState(pos.up()).getBlock() == Blocks.AIR) { // this
+																		// line
+																		// shows
+																		// a
+																		// test
+																		// for
+																		// AIR
+																		// for
+																		// hole
+																		// filling
+			// way to create random numbers if(random.nextInt(7)==0){return;}
+			boolean spread = spreadToSideMaze(worldIn, pos, state); // spreadToSideMaze
+																	// returns
+																	// boolean
+																	// after
+																	// testing
+																	// meta
+																	// values
 			if (!spread) {
 				int m2b = getBrick(worldIn.rand);
 				IBlockState stonebrick = Blocks.STONEBRICK.getDefaultState().withProperty(BlockStoneBrick.VARIANT, BlockStoneBrick.EnumType.byMetadata(m2b));
@@ -87,7 +131,7 @@ public class BlockFungusMaze extends BlockFungusBase implements IManualBlock {
 					return;
 				}
 			}
-			//block above is not air
+			// block above is not air
 		} else {
 			if (canReplace(worldIn.getBlockState(pos.down()), state)) {
 				worldIn.setBlockState(pos.down(), state);
@@ -99,7 +143,7 @@ public class BlockFungusMaze extends BlockFungusBase implements IManualBlock {
 			}
 		}
 		return;
-		//		}
+		// }
 	}
 
 	// MAZE START
@@ -194,16 +238,10 @@ public class BlockFungusMaze extends BlockFungusBase implements IManualBlock {
 		return good || world.rand.nextInt(200) == 0;
 	}
 
-	public static final int[] color = { 0x66849a // 0 MAZE
-	};
+	public static final int color = 0x66849a;
 
 	@Override
 	public Page getPage(IBlockState state) {
-		if(state.getValue(TYPE) == 0){
-			return ManualWorld.mazeFungus_page;
-		}
-
-		return ManualWorld.buildFungus_page;
+		return ManualWorld.mazeFungus_page;
 	}
 }
-

@@ -30,13 +30,18 @@ public abstract class BlockFungusBase extends Block {
 
 	private boolean canGrowUp;
 
-	protected BlockFungusBase(boolean growUp) {
+	protected BlockFungusBase(boolean growUp, boolean useMeta) {
 		super(new MaterialFungus());
 		setTickRandomly(true);
 		setCreativeTab(GrimWorld.INSTANCE.getCreativeTab());
 		this.canGrowUp = growUp;
-		this.setDefaultState(this.blockState.getBaseState().withProperty(TYPE, 0));
+		if (useMeta)
+			this.setDefaultState(this.blockState.getBaseState().withProperty(TYPE, 0));
 		setSoundType(SoundType.PLANT);
+	}
+
+	protected BlockFungusBase(boolean growUp) {
+		this(growUp, true);
 	}
 
 	@Override

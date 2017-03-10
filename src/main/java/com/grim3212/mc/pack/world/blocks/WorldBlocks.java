@@ -135,7 +135,7 @@ public class WorldBlocks implements IPartItems {
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(fungus_building, 3, 15), new Object[] { "XXX", "aaa", "XXX", 'X', "slimeball", 'a', Blocks.END_STONE }));
 		
 		//Ore building
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(fungus_ore_building, 3, 0), new Object[] { "XXX", "aaa", "XXX", 'X', "slimeball", 'a', Blocks.EMERALD_ORE }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(fungus_ore_building, 1), new Object[] { "DRQ", "EFG", "ILC", 'F', new ItemStack(fungus_building, 1, 11), 'Q', Blocks.QUARTZ_ORE, 'I', Blocks.IRON_ORE, 'C', Blocks.COAL_ORE, 'E', Blocks.EMERALD_ORE, 'R', Blocks.REDSTONE_ORE, 'D', Blocks.DIAMOND_ORE, 'L', Blocks.LAPIS_ORE, 'G', Blocks.GOLD_ORE }));
 		
 		// glass builder
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(fungus_killing, 1, 7), new Object[] { "XXX", "XaX", "XXX", 'X', "slimeball", 'a', "blockGlass" }));
