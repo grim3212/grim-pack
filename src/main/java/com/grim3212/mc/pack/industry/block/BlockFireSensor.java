@@ -2,6 +2,7 @@ package com.grim3212.mc.pack.industry.block;
 
 import com.grim3212.mc.pack.core.block.BlockManual;
 import com.grim3212.mc.pack.core.manual.pages.Page;
+import com.grim3212.mc.pack.industry.client.ManualIndustry;
 import com.grim3212.mc.pack.industry.tile.TileEntityFireSensor;
 
 import net.minecraft.block.ITileEntityProvider;
@@ -63,7 +64,7 @@ public class BlockFireSensor extends BlockManual implements ITileEntityProvider 
 
 	@Override
 	public Page getPage(IBlockState state) {
-		return null;
+		return ManualIndustry.fireSensor_page;
 	}
 
 }

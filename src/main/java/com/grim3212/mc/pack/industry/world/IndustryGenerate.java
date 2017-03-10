@@ -16,7 +16,7 @@ public class IndustryGenerate extends GrimWorldGen {
 	@Override
 	protected void generateSurface(World world, Random random, int i, int j) {
 		if (IndustryConfig.generateUranium) {
-			for (int k = 0; k < 10; k++) {
+			for (int k = 0; k < 8; k++) {
 				int l = i + random.nextInt(16);
 				int i1 = random.nextInt(22);
 				int j1 = j + random.nextInt(16);

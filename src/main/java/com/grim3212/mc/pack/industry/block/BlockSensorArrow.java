@@ -6,6 +6,7 @@ import java.util.Random;
 
 import com.grim3212.mc.pack.core.block.BlockManual;
 import com.grim3212.mc.pack.core.manual.pages.Page;
+import com.grim3212.mc.pack.industry.client.ManualIndustry;
 
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
@@ -116,7 +117,7 @@ public class BlockSensorArrow extends BlockManual {
 
 	@Override
 	public Page getPage(IBlockState state) {
-		return null;
+		return ManualIndustry.arrowSensor_page;
 	}
 
 }

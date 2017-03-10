@@ -9,6 +9,7 @@ import com.grim3212.mc.pack.util.client.ManualUtil;
 import com.grim3212.mc.pack.util.config.UtilConfig;
 import com.grim3212.mc.pack.util.event.BlockChangeEvents;
 import com.grim3212.mc.pack.util.event.EntityDeathEvent;
+import com.grim3212.mc.pack.util.init.UtilBlocks;
 import com.grim3212.mc.pack.util.network.MessageFusRoDah;
 
 import net.minecraft.util.SoundEvent;
@@ -33,6 +34,7 @@ public class GrimUtil extends GrimPart {
 
 	public GrimUtil() {
 		super(GrimUtil.partID, GrimUtil.partName, new UtilConfig(), false);
+		addItem(new UtilBlocks());
 	}
 
 	@Override

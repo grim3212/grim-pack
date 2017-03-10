@@ -118,9 +118,6 @@ public class BakedColorizerModel implements IPerspectiveAwareModel, IResourceMan
 		return this.cache.get(blockState);
 	}
 
-	
-	//TODO: Add support for IModelCustomData
-	
 	/**
 	 * Generate the model defined in json that is a combination of all models
 	 * defined
@@ -186,7 +183,7 @@ public class BakedColorizerModel implements IPerspectiveAwareModel, IResourceMan
 		return itemHandler;
 	}
 
-	private final ItemOverrideList itemHandler = new ItemOverrideList(Lists.<ItemOverride> newArrayList()) {
+	private final ItemOverrideList itemHandler = new ItemOverrideList(Lists.<ItemOverride>newArrayList()) {
 		@Override
 		public IBakedModel handleItemState(IBakedModel model, ItemStack stack, World world, EntityLivingBase entity) {
 			if (stack.hasTagCompound() && stack.getTagCompound().hasKey("registryName") && stack.getTagCompound().hasKey("meta")) {

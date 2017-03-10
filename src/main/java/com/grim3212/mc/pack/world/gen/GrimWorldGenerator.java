@@ -22,29 +22,30 @@ import net.minecraftforge.common.BiomeDictionary.Type;
 public class GrimWorldGenerator extends GrimWorldGen {
 
 	@Override
-	protected void generateSurface(World world, Random random, int i, int j) {
+	protected void generateSurface(World world, Random random, int posX, int posZ) {
 		if (WorldConfig.generateRandomite) {
 			for (int itr = 0; itr < 11; ++itr) {
-				int x = i + random.nextInt(16);
+				int x = posX + random.nextInt(16);
 				int y = random.nextInt(110);
-				int z = j + random.nextInt(16);
+				int z = posZ + random.nextInt(16);
 				(new WorldGenMinable(WorldBlocks.randomite.getDefaultState(), 6)).generate(world, random, new BlockPos(x, y, z));
 			}
 		}
 
 		if (WorldConfig.generateGunpowderReeds) {
 			for (int reed = 0; reed < 5; ++reed) {
-				int Xcoord1 = i + random.nextInt(16) + 8;
+				int Xcoord1 = posX + random.nextInt(16) + 8;
 				int Ycoord1 = random.nextInt(128);
-				int Zcoord1 = j + random.nextInt(16) + 8;
+				int Zcoord1 = posZ + random.nextInt(16) + 8;
 				(new WorldGenGunReeds()).generate(world, random, new BlockPos(Xcoord1, Ycoord1, Zcoord1));
 			}
 		}
 
 		//TODO: Check if trailing chunks are occurring with the following generation
-		FloatingIslandsBlacklist.generateFloatingIslands(world, random, i, j);
+		//Not sure if this is going to work needs testing
+		FloatingIslandsBlacklist.generateFloatingIslands(world, random, posX + 8, posZ + 8);
 
-		generateExtras(world, random, i, j);
+		generateExtras(world, random, posX + 8, posZ + 8);
 	}
 
 	@Override

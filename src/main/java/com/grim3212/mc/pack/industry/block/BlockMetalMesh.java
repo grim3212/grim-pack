@@ -6,6 +6,7 @@ import javax.annotation.Nullable;
 
 import com.grim3212.mc.pack.core.block.BlockManual;
 import com.grim3212.mc.pack.core.manual.pages.Page;
+import com.grim3212.mc.pack.industry.client.ManualIndustry;
 import com.grim3212.mc.pack.industry.item.IndustryItems;
 
 import net.minecraft.block.SoundType;
@@ -74,7 +75,7 @@ public class BlockMetalMesh extends BlockManual {
 
 	@Override
 	public Page getPage(IBlockState state) {
-		return null;
+		return ManualIndustry.metalMesh_page;
 	}
 
 }

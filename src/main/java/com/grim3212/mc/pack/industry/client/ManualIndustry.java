@@ -91,9 +91,15 @@ public class ManualIndustry implements IManualPart {
 	public static Page positionFinder_page;
 	public static Page specificSensorInfo_page;
 	public static Page specificSensorInfo2_page;
+	public static Page arrowSensor_page;
+	public static Page fireSensor_page;
+	public static Page metalMesh_page;
 
 	@Override
 	public void initPages() {
+		arrowSensor_page = new PageCrafting("arrow_sensor", new ItemStack(IndustryBlocks.arrow_sensor));
+		fireSensor_page = new PageCrafting("fire_sensor", new ItemStack(IndustryBlocks.fire_sensor));
+		metalMesh_page = new PageCrafting("metal_mesh", new ItemStack(IndustryBlocks.metal_mesh));
 		specificSensorInfo_page = new PageInfo("specific_sensor_info");
 		specificSensorInfo2_page = new PageInfo("specific_sensor_info2");
 		positionFinder_page = new PageCrafting("position_finder", new ItemStack(IndustryItems.position_finder));
@@ -174,7 +180,7 @@ public class ManualIndustry implements IManualPart {
 		ManualRegistry.addChapter("spikes", part).addPages(spike_page);
 		ManualRegistry.addChapter("fan", part).addPages(fan_page);
 		ManualRegistry.addChapter("extruders", part).addPages(extruder_page, extruderInfo_page);
-		ManualRegistry.addChapter("sensors", part).addPages(sensor_page, positionFinder_page, specificSensorInfo_page, specificSensorInfo2_page, specificSensor_page, upgradedSpecificSensor_page);
+		ManualRegistry.addChapter("sensors", part).addPages(sensor_page, positionFinder_page, specificSensorInfo_page, specificSensorInfo2_page, specificSensor_page, upgradedSpecificSensor_page, arrowSensor_page, fireSensor_page);
 		ManualRegistry.addChapter("gravity", part).addPages(gravityBoots_page, controller_page, attract_page, gravitor_page, repulse_page, mob_repulsor_page);
 		ManualRegistry.addChapter("refining", part).addPages(uranium_page, radiationSuit_page, uraniumSmelt_page, refinedUranium_page, plutonium_page, refinedPlutonium_page, reactorCore_page);
 		ManualRegistry.addChapter("reactor", part).addPages(graphite_page, graphiteRod_page, reactorCase_page, ironParts_page, reactor_page);
@@ -183,7 +189,7 @@ public class ManualIndustry implements IManualPart {
 		ManualRegistry.addChapter("hlights", part).addPages(hLight_page, hTorch_page);
 		ManualRegistry.addChapter("rways", part).addPages(sidewalk_page, tarball_page, asphalt_page, rways_page, paint_page);
 		ManualRegistry.addChapter("moderntech", part).addPages(doors_page, others_page, decoration_page, paintTech_page);
-		ManualRegistry.addChapter("metalworks", part).addPages(alumIngot_page, alumStuff_page, buckLadd_page, coalIron_page, steelIngot_page, steelStuff_page, steelTools_page, fuel_page);
+		ManualRegistry.addChapter("metalworks", part).addPages(alumIngot_page, alumStuff_page, buckLadd_page, coalIron_page, steelIngot_page, steelStuff_page, steelTools_page, fuel_page, metalMesh_page);
 		ManualRegistry.addChapter("machines", part).addPages(machineInfo_page, refinery_page, refineryRecipes_page, derrick_page, derrickRecipes_page, modernFurnace_page, modernFurnaceRecipes_page);
 	}
 
