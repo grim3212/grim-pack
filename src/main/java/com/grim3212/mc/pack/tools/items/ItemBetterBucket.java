@@ -71,16 +71,15 @@ public class ItemBetterBucket extends ItemManual {
 		this(maxCapacity, milkingLevel, 5000f, stack, bucketType);
 	}
 
-	public ItemBetterBucket(int maxCapacity, int milkingLevel, float maxPickupTemp, ItemStack stack, BucketType bucketType) {
-		this(maxCapacity, milkingLevel, maxPickupTemp, false, bucketType);
-		setOnBroken(stack);
+	public ItemBetterBucket(int maxCapacity, int milkingLevel, float maxPickupTemp, ItemStack brokenStack, BucketType bucketType) {
+		this(maxCapacity, milkingLevel, maxPickupTemp, false, bucketType, brokenStack);
 	}
 
 	public ItemBetterBucket(int maxCapacity, int milkingLevel, boolean pickupFire, BucketType bucketType) {
-		this(maxCapacity, milkingLevel, 5000f, pickupFire, bucketType);
+		this(maxCapacity, milkingLevel, 5000f, pickupFire, bucketType, ItemStack.EMPTY);
 	}
 
-	public ItemBetterBucket(int maxCapacity, int milkingLevel, float maxPickupTemp, boolean pickupFire, BucketType bucketType) {
+	public ItemBetterBucket(int maxCapacity, int milkingLevel, float maxPickupTemp, boolean pickupFire, BucketType bucketType, ItemStack brokenStack) {
 		this.maxCapacity = Fluid.BUCKET_VOLUME * maxCapacity;
 
 		ItemStack stack = new ItemStack(this);
@@ -93,6 +92,7 @@ public class ItemBetterBucket extends ItemManual {
 		this.pickupFire = pickupFire;
 		this.milkingLevel = milkingLevel;
 		this.bucketType = bucketType;
+		this.onBroken = brokenStack;
 	}
 
 	@Override
@@ -114,11 +114,6 @@ public class ItemBetterBucket extends ItemManual {
 	public void onCreated(ItemStack stack, World worldIn, EntityPlayer playerIn) {
 		setFluid(stack, "empty");
 		setAmount(stack, 0);
-	}
-
-	public Item setOnBroken(ItemStack onBroken) {
-		this.onBroken = onBroken;
-		return this;
 	}
 
 	public void pauseForMilk() {
@@ -432,10 +427,12 @@ public class ItemBetterBucket extends ItemManual {
 
 	public ItemStack tryBreakBucket(ItemStack stack) {
 		if (getAmount(stack) <= 0) {
-			if (!this.onBroken.isEmpty()) {
-				return this.onBroken.copy();
-			} else {
-				return this.empty.copy();
+			if (this.onBroken != null && this.empty != null) {
+				if (!this.onBroken.isEmpty()) {
+					return this.onBroken.copy();
+				} else {
+					return this.empty.copy();
+				}
 			}
 		}
 		return stack.copy();

@@ -11,6 +11,6 @@ Will be updated as more things need to be done or are completed
 - [ ] Add in more things to Cuisine
 - [ ] Fix Instruction Manual clicking
 - [ ] Look into possible world generation problems
-- [ ] Change grave to use new block instead of a chest
+- [X] Change grave to use new block instead of a chest
 - [ ] Add Grim Pack ores by default to magic wand list
 - [ ] Add tools for the various ores included, as well as multi tools, hammers, and machetes
