@@ -8,7 +8,6 @@ import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.util.NonNullList;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.oredict.OreDictionary;
@@ -16,29 +15,35 @@ import net.minecraftforge.oredict.OreDictionary;
 public class PelletBagRecipe implements IRecipe {
 
 	@Override
-	public boolean matches(InventoryCrafting inventoryCrafting, World world) {
-		boolean colorFound = false;
-		boolean backpackFound = false;
-		for (int i = 0; i < inventoryCrafting.getSizeInventory(); i++) {
-			if (!inventoryCrafting.getStackInSlot(i).isEmpty()) {
-				for (int j = 0; j < OreDictionary.getOres("dye").size(); j++) {
-					if (inventoryCrafting.getStackInSlot(i).getItem() == OreDictionary.getOres("dye").get(j).getItem() || inventoryCrafting.getStackInSlot(i).getItem() == Items.WATER_BUCKET) {
-						if (colorFound) {
-							return false;
-						} else {
-							colorFound = true;
-						}
-					} else if (inventoryCrafting.getStackInSlot(i).getItem() == ToolsItems.pellet_bag) {
-						if (backpackFound) {
-							return false;
-						} else {
-							backpackFound = true;
-						}
+	public boolean matches(InventoryCrafting inv, World world) {
+		ItemStack bag = ItemStack.EMPTY;
+		ItemStack dye = ItemStack.EMPTY;
+
+		for (int i = 0; i < inv.getSizeInventory(); ++i) {
+			ItemStack tmp = inv.getStackInSlot(i);
+
+			if (!tmp.isEmpty()) {
+				if (tmp.getItem() == Items.WATER_BUCKET || OreDictionary.containsMatch(false, OreDictionary.getOres("dye"), new ItemStack(tmp.getItem(), 1, OreDictionary.WILDCARD_VALUE))) {
+					if (!dye.isEmpty()) {
+						return false;
 					}
+
+					dye = tmp;
+				} else {
+					if (tmp.getItem() != ToolsItems.pellet_bag) {
+						return false;
+					}
+
+					if (!bag.isEmpty()) {
+						return false;
+					}
+
+					bag = tmp;
 				}
 			}
 		}
-		if (colorFound && backpackFound) {
+
+		if (!bag.isEmpty() && !dye.isEmpty()) {
 			return true;
 		} else {
 			return false;
@@ -46,35 +51,38 @@ public class PelletBagRecipe implements IRecipe {
 	}
 
 	@Override
-	public ItemStack getCraftingResult(InventoryCrafting inventoryCrafting) {
-		int color = -1;
-		ItemStack itemStack = ItemStack.EMPTY;
-		for (int i = 0; i < inventoryCrafting.getSizeInventory(); i++) {
-			if (!inventoryCrafting.getStackInSlot(i).isEmpty()) {
-				for (int j = 0; j < OreDictionary.getOres("dye").size(); j++) {
-					if (inventoryCrafting.getStackInSlot(i).getItem() == OreDictionary.getOres("dye").get(j).getItem()) {
-						color = MathHelper.clamp(inventoryCrafting.getStackInSlot(i).getItemDamage(), 0, 15);
-					} else if (inventoryCrafting.getStackInSlot(i).getItem() == Items.WATER_BUCKET) {
-						color = -1;
-					} else if (inventoryCrafting.getStackInSlot(i).getItem() == ToolsItems.pellet_bag) {
-						itemStack = inventoryCrafting.getStackInSlot(i);
-					} else {
-						return ItemStack.EMPTY;
+	public ItemStack getCraftingResult(InventoryCrafting inv) {
+		ItemStack dye = ItemStack.EMPTY;
+		ItemStack bag = ItemStack.EMPTY;
+
+		for (int i = 0; i < inv.getSizeInventory(); ++i) {
+			ItemStack tmp = inv.getStackInSlot(i);
+
+			if (!tmp.isEmpty()) {
+				if (OreDictionary.containsMatch(false, OreDictionary.getOres("dye"), new ItemStack(tmp.getItem(), 1, OreDictionary.WILDCARD_VALUE)) || tmp.getItem() == Items.WATER_BUCKET) {
+					dye = tmp;
+				} else if (tmp.getItem() == ToolsItems.pellet_bag) {
+					bag = tmp.copy();
+				}
+			}
+		}
+
+		if (bag.isEmpty()) {
+			return bag;
+		} else {
+			if (dye.getItem() == Items.WATER_BUCKET) {
+				return ItemPelletBag.setColor(bag, -1);
+			} else {
+				String[] dyes = { "Black", "Red", "Green", "Brown", "Blue", "Purple", "Cyan", "LightGray", "Gray", "Pink", "Lime", "Yellow", "LightBlue", "Magenta", "Orange", "White" };
+				for (int i = 0; i < dyes.length; i++) {
+					if (OreDictionary.containsMatch(false, OreDictionary.getOres("dye" + dyes[i]), dye)) {
+						return ItemPelletBag.setColor(bag, i);
 					}
 				}
 			}
 
+			return bag;
 		}
-		ItemStack tmpStack = ItemStack.EMPTY;
-		if (!itemStack.isEmpty()) {
-			tmpStack = itemStack.copy();
-			if (itemStack.getItem() == ToolsItems.pellet_bag) {
-				ItemPelletBag.setColor(tmpStack, color);
-			}
-		} else {
-			return ItemStack.EMPTY;
-		}
-		return tmpStack;
 	}
 
 	@Override
@@ -89,15 +97,14 @@ public class PelletBagRecipe implements IRecipe {
 
 	@Override
 	public NonNullList<ItemStack> getRemainingItems(InventoryCrafting invCrafting) {
-		NonNullList<ItemStack> itemsLeft = NonNullList.create();
+		NonNullList<ItemStack> nonnulllist = NonNullList.<ItemStack>withSize(invCrafting.getSizeInventory(), ItemStack.EMPTY);
 
-		// TODO: Might need some work
-		for (int i = 0; i < invCrafting.getSizeInventory(); ++i) {
+		for (int i = 0; i < nonnulllist.size(); ++i) {
 			ItemStack itemstack = invCrafting.getStackInSlot(i);
-			itemsLeft.add(ForgeHooks.getContainerItem(itemstack));
+			nonnulllist.set(i, ForgeHooks.getContainerItem(itemstack));
 		}
 
-		return itemsLeft;
+		return nonnulllist;
 	}
 
 }

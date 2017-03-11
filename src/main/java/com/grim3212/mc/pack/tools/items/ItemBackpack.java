@@ -130,12 +130,14 @@ public class ItemBackpack extends ItemManual {
 		}
 	}
 
-	public static void setColor(ItemStack itemStack, int color) {
+	public static ItemStack setColor(ItemStack itemStack, int color) {
 		NBTTagCompound nbtTagCompound = itemStack.getTagCompound();
 		if (nbtTagCompound == null) {
 			nbtTagCompound = new NBTTagCompound();
 			itemStack.setTagCompound(nbtTagCompound);
 		}
 		nbtTagCompound.setInteger("color", color);
+		
+		return itemStack;
 	}
 }
