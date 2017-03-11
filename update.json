@@ -1,8 +1,8 @@
 {
 	"homepage": "https://grim3212.github.io/grim-pack/home",
 	"promos": {
-		"1.11.2-latest": "4.0.0.0",
-		"1.11.2-recommended": "4.0.0.0",
+		"1.11.2-latest": "4.0.0.2",
+		"1.11.2-recommended": "4.0.0.2",
 		"1.11-latest": "4.0.0.0-alpha.2",
 		"1.11-recommended": "4.0.0.0-alpha.2",
 		"1.10.2-latest": "3.4.17.52",
@@ -60,6 +60,7 @@
 		"4.0.0.0-alpha": "Port to 1.11. Many changes to decor, powerstaff, slingshots, fungus, and more. See full changelog at curseforge."
 	},
 	"1.11.2": {
+		"4.0.0.2": "Fix Backpack and pellet bag recipes sometimes not working and a compatibility with other mods and my tool materials.",
 		"4.0.0.0": "A bunch of stuff has changed. Slingshot changes, new blocks, more JEI support, more documentation, lots of bug fixes, and more!!!",
 		"4.0.0.0-beta": "Update to 1.11.2. More changes to slingshots. Add in more OreDictionary entries and allow Modern Furnaces to accept vanilla fuel."
 	}
