@@ -129,17 +129,24 @@ public class ToolsItems implements IPartItems {
 	public static Item boomerang;
 	public static Item diamond_boomerang;
 
-	public static ToolMaterial multitool = EnumHelper.addToolMaterial("multitool", 4, 5122, 15F, 5F, 20);
-	public static ToolMaterial blackdiamond = EnumHelper.addToolMaterial("black_diamond", 4, 5122, 15F, 5F, 20);
-	public static ToolMaterial obsidianToolMaterial = EnumHelper.addToolMaterial("obsidian", 3, 3333, 9.5F, 7f, 14);
-	public static ArmorMaterial masks = EnumHelper.addArmorMaterial("mask", GrimPack.modID + ":masks", 5, new int[] { 1, 2, 3, 1 }, 15, SoundEvents.BLOCK_CLOTH_PLACE, 0.0F);
-	public static ArmorMaterial blackarmor = EnumHelper.addArmorMaterial("blackarmor", GrimPack.modID + ":blackarmor", 35, new int[] { 4, 8, 10, 4 }, 20, SoundEvents.ITEM_ARMOR_EQUIP_DIAMOND, 2.5F);
+	public static ToolMaterial blackdiamond;
+	public static ToolMaterial obsidianToolMaterial;
+	public static ArmorMaterial masks;
+	public static ArmorMaterial blackarmor;
 
 	@Override
 	public void initItems() {
-		//TODO: Possibly look into dynamic bucket creation and use that
-		//for bucketWater and bucketLava, and so on for recipes
-		
+		// Tool Materials
+		blackdiamond = EnumHelper.addToolMaterial("black_diamond", 4, 5122, 15F, 5F, 20);
+		obsidianToolMaterial = EnumHelper.addToolMaterial("obsidian", 3, 3333, 9.5F, 7f, 14);
+
+		// Armor Materials
+		masks = EnumHelper.addArmorMaterial("mask", GrimPack.modID + ":masks", 5, new int[] { 1, 2, 3, 1 }, 15, SoundEvents.BLOCK_CLOTH_PLACE, 0.0F);
+		blackarmor = EnumHelper.addArmorMaterial("blackarmor", GrimPack.modID + ":blackarmor", 35, new int[] { 4, 8, 10, 4 }, 20, SoundEvents.ITEM_ARMOR_EQUIP_DIAMOND, 2.5F);
+
+		// TODO: Possibly look into dynamic bucket creation and use that
+		// for bucketWater and bucketLava, and so on for recipes
+
 		boomerang = (new ItemBoomerang()).setUnlocalizedName("boomerang").setCreativeTab(GrimTools.INSTANCE.getCreativeTab());
 		diamond_boomerang = (new ItemDiamondBoomerang()).setUnlocalizedName("diamond_boomerang").setCreativeTab(GrimTools.INSTANCE.getCreativeTab());
 		backpack = new ItemBackpack().setUnlocalizedName("backpack").setCreativeTab(GrimTools.INSTANCE.getCreativeTab());
@@ -195,6 +202,13 @@ public class ToolsItems implements IPartItems {
 		reinforced_building_wand = (new ItemBuildingWand(true)).setUnlocalizedName("reinforced_building_wand");
 		reinforced_breaking_wand = (new ItemBreakingWand(true)).setUnlocalizedName("reinforced_breaking_wand");
 		reinforced_mining_wand = (new ItemMiningWand(true)).setUnlocalizedName("reinforced_mining_wand");
+
+		// Set repair items
+		obsidianToolMaterial.setRepairItem(new ItemStack(Blocks.OBSIDIAN));
+		blackdiamond.setRepairItem(new ItemStack(black_diamond));
+		blackarmor.setRepairItem(new ItemStack(black_diamond));
+		masks.setRepairItem(new ItemStack(Items.PAPER));
+
 		diamond_multi_tool = (new ItemMultiTool(addMultiToolMaterial(ToolMaterial.DIAMOND))).setUnlocalizedName("diamond_multi_tool");
 		wooden_multi_tool = (new ItemMultiTool(addMultiToolMaterial(ToolMaterial.WOOD))).setUnlocalizedName("wooden_multi_tool");
 		stone_multi_tool = (new ItemMultiTool(addMultiToolMaterial(ToolMaterial.STONE))).setUnlocalizedName("stone_multi_tool");
@@ -339,10 +353,6 @@ public class ToolsItems implements IPartItems {
 
 	@Override
 	public void addRecipes() {
-		// Set repair items
-		obsidianToolMaterial.setRepairItem(new ItemStack(Blocks.OBSIDIAN));
-		blackdiamond.setRepairItem(new ItemStack(black_diamond));
-
 		OreDictionary.registerOre("ingotDarkIron", dark_iron_ingot);
 		OreDictionary.registerOre("bucketMilk", Items.MILK_BUCKET);
 		OreDictionary.registerOre("bucketMilk", wooden_milk_bucket);
@@ -376,11 +386,11 @@ public class ToolsItems implements IPartItems {
 
 		// Backpack Recipes
 		GameRegistry.addRecipe(new BackpackRecipe());
-		RecipeSorter.register("Backpack_Recipes", BackpackRecipe.class, Category.SHAPELESS, "after:grimpack");
+		RecipeSorter.register("Backpack_Recipes", BackpackRecipe.class, Category.SHAPELESS, "after:forge:shapelessore");
 
 		// Pellet Bag Recipes
 		GameRegistry.addRecipe(new PelletBagRecipe());
-		RecipeSorter.register("Pellet_Bag_Recipes", PelletBagRecipe.class, Category.SHAPELESS, "after:grimpack");
+		RecipeSorter.register("Pellet_Bag_Recipes", PelletBagRecipe.class, Category.SHAPELESS, "after:forge:shapelessore");
 
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(iron_chisel, 1), new Object[] { " B", "I ", 'B', "ingotIron", 'I', "stickIron" }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(diamond_chisel, 1), new Object[] { " B", "I ", 'B', "gemDiamond", 'I', "stickIron" }));
@@ -528,6 +538,9 @@ public class ToolsItems implements IPartItems {
 	}
 
 	private static ToolMaterial addMultiToolMaterial(ToolMaterial material) {
-		return EnumHelper.addToolMaterial(material.name() + "_multitool", material.getHarvestLevel(), (int) (material.getMaxUses() * ToolsConfig.multiToolDurabilityMultiplier), material.getEfficiencyOnProperMaterial(), material.getDamageVsEntity(), material.getEnchantability());
+		ToolMaterial multiMaterial = EnumHelper.addToolMaterial(material.name() + "_multitool", material.getHarvestLevel(), (int) (material.getMaxUses() * ToolsConfig.multiToolDurabilityMultiplier), material.getEfficiencyOnProperMaterial(), material.getDamageVsEntity(), material.getEnchantability());
+		if (!material.getRepairItemStack().isEmpty())
+			multiMaterial.setRepairItem(material.getRepairItemStack());
+		return multiMaterial;
 	}
 }

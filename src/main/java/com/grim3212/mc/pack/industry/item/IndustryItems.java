@@ -90,12 +90,16 @@ public class IndustryItems implements IPartItems {
 	public static Item portable_iron_workbench;
 	public static Item position_finder;
 
-	public static ToolMaterial steel = EnumHelper.addToolMaterial("steel", 3, 1200, 7.5F, 2.5F, 12);
-	public static ArmorMaterial antiRadiation = EnumHelper.addArmorMaterial("antiRadiation", GrimPack.modID + ":radiation", 5, new int[] { 2, 5, 3, 1 }, 15, SoundEvents.BLOCK_CLOTH_PLACE, 0.0F);
-	public static ArmorMaterial gravboots = EnumHelper.addArmorMaterial("gravityboots", GrimPack.modID + ":gravity", 15, new int[] { 2, 6, 5, 2 }, 9, SoundEvents.ITEM_ARMOR_EQUIP_IRON, 0.0F);
+	public static ToolMaterial steel;
+	public static ArmorMaterial antiRadiation;
+	public static ArmorMaterial gravboots;
 
 	@Override
 	public void initItems() {
+		steel = EnumHelper.addToolMaterial("steel", 3, 1200, 7.5F, 2.5F, 12);
+		antiRadiation = EnumHelper.addArmorMaterial("antiRadiation", GrimPack.modID + ":radiation", 5, new int[] { 2, 5, 3, 1 }, 15, SoundEvents.BLOCK_CLOTH_PLACE, 0.0F);
+		gravboots = EnumHelper.addArmorMaterial("gravityboots", GrimPack.modID + ":gravity", 15, new int[] { 2, 6, 5, 2 }, 9, SoundEvents.ITEM_ARMOR_EQUIP_IRON, 0.0F);
+
 		iron_stick = (new ItemManualPage("industry:gates.iron_stick")).setUnlocalizedName("iron_stick").setCreativeTab(GrimIndustry.INSTANCE.getCreativeTab());
 		rubber = (new ItemManualPage("industry:machines.refinery_recipes")).setUnlocalizedName("rubber").setCreativeTab(GrimIndustry.INSTANCE.getCreativeTab());
 		aluminum_can = (new ItemManualPage("industry:explosives.aluminium")).setUnlocalizedName("aluminum_can").setCreativeTab(GrimIndustry.INSTANCE.getCreativeTab());
@@ -203,6 +207,11 @@ public class IndustryItems implements IPartItems {
 		Utils.registerItem(aluminum_ingot, "aluminum_ingot");
 		Utils.registerItem(refined_uranium, "refined_uranium");
 		Utils.registerItem(uranium_ingot, "uranium_ingot");
+
+		// Set repair items
+		steel.setRepairItem(new ItemStack(steel_ingot));
+		antiRadiation.setRepairItem(new ItemStack(Blocks.WOOL));
+		gravboots.setRepairItem(new ItemStack(Items.IRON_INGOT));
 	}
 
 	public static List<IRecipe> armor;
