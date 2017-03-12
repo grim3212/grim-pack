@@ -16,7 +16,16 @@ public class GrimConfig {
 	public GrimConfig() {
 		config = new Configuration(new File(Loader.instance().getConfigDir(), Loader.instance().activeModContainer().getModId() + ".cfg"));
 	}
+	
+	/**
+	 * Used to load config options early that item construction may depend on
+	 */
+	public void syncFirst() {
+	}
 
+	/**
+	 * Called after PreInit of each GrimPart this should sync all available config options
+	 */
 	public void syncConfig() {
 		if (config.hasChanged()) {
 			config.save();

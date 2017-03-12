@@ -129,21 +129,13 @@ public class ToolsItems implements IPartItems {
 	public static Item boomerang;
 	public static Item diamond_boomerang;
 
-	public static ToolMaterial blackdiamond;
-	public static ToolMaterial obsidianToolMaterial;
-	public static ArmorMaterial masks;
-	public static ArmorMaterial blackarmor;
+	public static ToolMaterial blackdiamond = EnumHelper.addToolMaterial("black_diamond", 4, 5122, 15F, 5F, 20);
+	public static ToolMaterial obsidianToolMaterial = EnumHelper.addToolMaterial("obsidian", 3, 3333, 9.5F, 7f, 14);
+	public static ArmorMaterial masks = EnumHelper.addArmorMaterial("mask", GrimPack.modID + ":masks", 5, new int[] { 1, 2, 3, 1 }, 15, SoundEvents.BLOCK_CLOTH_PLACE, 0.0F);
+	public static ArmorMaterial blackarmor = EnumHelper.addArmorMaterial("blackarmor", GrimPack.modID + ":blackarmor", 35, new int[] { 4, 8, 10, 4 }, 20, SoundEvents.ITEM_ARMOR_EQUIP_DIAMOND, 2.5F);
 
 	@Override
 	public void initItems() {
-		// Tool Materials
-		blackdiamond = EnumHelper.addToolMaterial("black_diamond", 4, 5122, 15F, 5F, 20);
-		obsidianToolMaterial = EnumHelper.addToolMaterial("obsidian", 3, 3333, 9.5F, 7f, 14);
-
-		// Armor Materials
-		masks = EnumHelper.addArmorMaterial("mask", GrimPack.modID + ":masks", 5, new int[] { 1, 2, 3, 1 }, 15, SoundEvents.BLOCK_CLOTH_PLACE, 0.0F);
-		blackarmor = EnumHelper.addArmorMaterial("blackarmor", GrimPack.modID + ":blackarmor", 35, new int[] { 4, 8, 10, 4 }, 20, SoundEvents.ITEM_ARMOR_EQUIP_DIAMOND, 2.5F);
-
 		// TODO: Possibly look into dynamic bucket creation and use that
 		// for bucketWater and bucketLava, and so on for recipes
 
@@ -271,6 +263,12 @@ public class ToolsItems implements IPartItems {
 		Utils.registerItem(golden_multi_tool, "golden_multi_tool");
 		Utils.registerItem(obsidian_multi_tool, "obsidian_multi_tool");
 		Utils.registerItem(black_diamond_multi_tool, "black_diamond_multi_tool");
+
+		if (CoreConfig.useIndustry) {
+			steel_multi_tool = (new ItemMultiTool(addMultiToolMaterial(IndustryItems.steel))).setUnlocalizedName("steel_multi_tool");
+			Utils.registerItem(steel_multi_tool, "steel_multi_tool");
+		}
+
 		Utils.registerItem(building_wand, "building_wand");
 		Utils.registerItem(breaking_wand, "breaking_wand");
 		Utils.registerItem(mining_wand, "mining_wand");
@@ -323,11 +321,6 @@ public class ToolsItems implements IPartItems {
 		Utils.registerItem(black_diamond_shovel, "black_diamond_shovel");
 		Utils.registerItem(black_diamond_pickaxe, "black_diamond_pickaxe");
 		Utils.registerItem(black_diamond, "black_diamond");
-
-		if (CoreConfig.useIndustry) {
-			steel_multi_tool = (new ItemMultiTool(addMultiToolMaterial(IndustryItems.steel))).setUnlocalizedName("steel_multi_tool");
-			Utils.registerItem(steel_multi_tool, "steel_multi_tool");
-		}
 
 		// Register all of the dispenser behaviors
 		DispenseBehaviors.register();

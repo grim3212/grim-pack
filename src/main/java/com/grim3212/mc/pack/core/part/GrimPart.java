@@ -121,6 +121,9 @@ public abstract class GrimPart {
 	 */
 	public void preInit(FMLPreInitializationEvent event) {
 		MinecraftForge.EVENT_BUS.register(this);
+		
+		if (!syncConfigInstantly)
+			this.getGrimConfig().syncFirst();
 
 		// Initialize all items and blocks first
 		for (int i = 0; i < this.items.size(); i++) {

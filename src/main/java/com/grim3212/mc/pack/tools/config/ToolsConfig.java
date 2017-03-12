@@ -60,6 +60,11 @@ public class ToolsConfig extends GrimConfig {
 	public static float lightPelletDamage;
 	public static float firePelletDamage;
 	public static float explosivePelletDamage;
+	
+	@Override
+	public void syncFirst() {
+		multiToolDurabilityMultiplier = (float) config.get(CONFIG_GENERAL_NAME, "Multitool durability multiplier", 3).getDouble();
+	}
 
 	@Override
 	public void syncConfig() {
