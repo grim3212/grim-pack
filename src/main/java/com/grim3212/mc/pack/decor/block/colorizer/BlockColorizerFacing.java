@@ -11,15 +11,41 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.Mirror;
 import net.minecraft.util.Rotation;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.common.property.ExtendedBlockState;
 import net.minecraftforge.common.property.IUnlistedProperty;
 
 public class BlockColorizerFacing extends BlockColorizer {
 
 	public static final PropertyDirection FACING = PropertyDirection.create("facing");
+	private static final AxisAlignedBB X_AABB = new AxisAlignedBB(0.0F, 0.25F, 0.25F, 1.0F, 0.75F, 0.75F);
+	private static final AxisAlignedBB Y_AABB = new AxisAlignedBB(0.25F, 0.0F, 0.25F, 0.75F, 1.0F, 0.75F);
+	private static final AxisAlignedBB Z_AABB = new AxisAlignedBB(0.25F, 0.25F, 0.0F, 0.75F, 0.75F, 1.0F);
 
 	public BlockColorizerFacing() {
 		this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH);
+	}
+
+	@Override
+	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
+		if (state.getBlock() == DecorBlocks.pillar) {
+			switch (state.getValue(FACING)) {
+			case WEST:
+			case EAST:
+				return X_AABB;
+			case NORTH:
+			case SOUTH:
+				return Z_AABB;
+			case UP:
+			case DOWN:
+			default:
+				return Y_AABB;
+			}
+		}
+
+		return FULL_BLOCK_AABB;
 	}
 
 	@Override
