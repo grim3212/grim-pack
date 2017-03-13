@@ -6,6 +6,7 @@ import java.util.List;
 import org.apache.commons.lang3.tuple.ImmutableTriple;
 import org.apache.commons.lang3.tuple.Triple;
 
+import com.grim3212.mc.pack.core.util.RecipeHelper;
 import com.grim3212.mc.pack.industry.block.IndustryBlocks;
 import com.grim3212.mc.pack.industry.item.IndustryItems;
 
@@ -115,21 +116,13 @@ public class MachineRecipes {
 
 		if (recipeList != null) {
 			for (Triple<ItemStack, ItemStack, Float> triple : recipeList) {
-				if (this.compareItemStacks(stack, triple.getLeft())) {
+				if (RecipeHelper.compareItemStacks(stack, triple.getLeft())) {
 					return triple.getMiddle();
 				}
 			}
 		}
 
 		return ItemStack.EMPTY;
-	}
-
-	/**
-	 * Compares two itemstacks to ensure that they are the same. This checks
-	 * both the item and the metadata of the item.
-	 */
-	private boolean compareItemStacks(ItemStack stack1, ItemStack stack2) {
-		return stack2.getItem() == stack1.getItem() && (stack2.getMetadata() == 32767 || stack2.getMetadata() == stack1.getMetadata());
 	}
 
 	public List<Triple<ItemStack, ItemStack, Float>> getModernFurnaceList() {
@@ -164,7 +157,7 @@ public class MachineRecipes {
 
 		if (type == MachineType.MODERN_FURNACE) {
 			for (Triple<ItemStack, ItemStack, Float> triple : this.getRecipeList(type)) {
-				if (this.compareItemStacks(stack, triple.getMiddle())) {
+				if (RecipeHelper.compareItemStacks(stack, triple.getMiddle())) {
 					ret = triple.getRight();
 					break;
 				}
@@ -176,7 +169,7 @@ public class MachineRecipes {
 				return FurnaceRecipes.instance().getSmeltingExperience(stack);
 		} else {
 			for (Triple<ItemStack, ItemStack, Float> triple : this.getRecipeList(type)) {
-				if (this.compareItemStacks(stack, triple.getMiddle())) {
+				if (RecipeHelper.compareItemStacks(stack, triple.getMiddle())) {
 					return triple.getRight();
 				}
 			}

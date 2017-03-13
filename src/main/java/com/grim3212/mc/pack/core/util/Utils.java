@@ -38,7 +38,7 @@ public class Utils {
 
 	private static int entityID = 0;
 	public static final AxisAlignedBB NULL_AABB = new AxisAlignedBB(0f, 0f, 0f, 0f, 0f, 0f);
-	
+
 	public static void registerEntity(Class<? extends Entity> entityClass, String entityName, int trackingRange, int updateFrequency, boolean sendsVelocityUpdates) {
 		EntityRegistry.registerModEntity(new ResourceLocation(GrimPack.modID, entityName), entityClass, entityName, entityID++, GrimPack.INSTANCE, trackingRange, updateFrequency, sendsVelocityUpdates);
 	}
@@ -249,5 +249,31 @@ public class Utils {
 
 		// end new
 		return explosion;
+	}
+
+	/**
+	 * Checks if a string is an integer http://stackoverflow.com/a/5439547
+	 * 
+	 * @param s
+	 * @return True if it is an integer
+	 */
+	public static boolean isInteger(String s) {
+		return isInteger(s, 10);
+	}
+
+	public static boolean isInteger(String s, int radix) {
+		if (s.isEmpty())
+			return false;
+		for (int i = 0; i < s.length(); i++) {
+			if (i == 0 && s.charAt(i) == '-') {
+				if (s.length() == 1)
+					return false;
+				else
+					continue;
+			}
+			if (Character.digit(s.charAt(i), radix) < 0)
+				return false;
+		}
+		return true;
 	}
 }

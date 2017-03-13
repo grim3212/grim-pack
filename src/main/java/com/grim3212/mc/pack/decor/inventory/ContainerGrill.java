@@ -124,10 +124,10 @@ public class ContainerGrill extends Container {
 				}
 
 			} else {
-				if (DecorConfig.grillRecipes.keySet().contains(realstack.getItem())) {
+				if (DecorConfig.grillRecipesContain(realstack)) {
 					for (int i = 0; i < 4; i++) {
 						if (this.grill.getStackInSlot(i).isEmpty()) {
-							ItemStack newstack = new ItemStack(realstack.getItem(), 1, 0);
+							ItemStack newstack = new ItemStack(realstack.getItem(), 1, realstack.getMetadata());
 
 							this.grill.setInventorySlotContents(i, newstack);
 
@@ -140,7 +140,6 @@ public class ContainerGrill extends Container {
 							break;
 						}
 					}
-
 				}
 
 				if (realstack.getItem() == Items.COAL) {

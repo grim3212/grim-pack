@@ -3,15 +3,13 @@ package com.grim3212.mc.pack.tools.config;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.grim3212.mc.pack.core.config.ConfigUtils;
 import com.grim3212.mc.pack.core.config.GrimConfig;
-import com.grim3212.mc.pack.core.util.GrimLog;
 import com.grim3212.mc.pack.tools.GrimTools;
 import com.grim3212.mc.pack.tools.items.ItemBreakingWand;
 import com.grim3212.mc.pack.tools.items.ItemMiningWand;
 import com.grim3212.mc.pack.tools.items.ItemPowerStaff;
 
-import net.minecraft.block.Block;
-import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.config.ConfigElement;
 import net.minecraftforge.fml.client.config.DummyConfigElement.DummyCategoryElement;
 import net.minecraftforge.fml.client.config.IConfigElement;
@@ -60,7 +58,7 @@ public class ToolsConfig extends GrimConfig {
 	public static float lightPelletDamage;
 	public static float firePelletDamage;
 	public static float explosivePelletDamage;
-	
+
 	@Override
 	public void syncFirst() {
 		multiToolDurabilityMultiplier = (float) config.get(CONFIG_GENERAL_NAME, "Multitool durability multiplier", 3).getDouble();
@@ -107,9 +105,9 @@ public class ToolsConfig extends GrimConfig {
 		diamondBoomerangDamage = config.get(CONFIG_BOOMERANG_NAME, "Diamond Boomerang Damage", 5).getInt();
 		diamondBoomerangFollows = config.get(CONFIG_BOOMERANG_NAME, "Diamond Boomerang Follows", false).getBoolean();
 
-		registerBlocksPossible(powerstaff_pull_push_blocks, ItemPowerStaff.allowedBlocks);
-		registerBlocksPossible(BLOCKS_Destructive_wand_spared_ores, ItemBreakingWand.ores);
-		registerBlocksPossible(BLOCKS_Mining_wand_ores_for_surface_mining, ItemMiningWand.m_ores);
+		ConfigUtils.loadBlocksOntoMap(powerstaff_pull_push_blocks, ItemPowerStaff.allowedBlocks);
+		ConfigUtils.loadBlocksOntoMap(BLOCKS_Destructive_wand_spared_ores, ItemBreakingWand.ores);
+		ConfigUtils.loadBlocksOntoMap(BLOCKS_Mining_wand_ores_for_surface_mining, ItemMiningWand.m_ores);
 
 		super.syncConfig();
 	}
@@ -122,21 +120,5 @@ public class ToolsConfig extends GrimConfig {
 		list.add(new DummyCategoryElement("toolsSlingshotCfg", "grimpack.tools.cfg.slingshot", new ConfigElement(GrimTools.INSTANCE.getConfig().getCategory(CONFIG_SLINGSHOT_NAME)).getChildElements()));
 		list.add(new DummyCategoryElement("toolsBoomerangCfg", "grimpack.tools.cfg.boomerang", new ConfigElement(GrimTools.INSTANCE.getConfig().getCategory(CONFIG_BOOMERANG_NAME)).getChildElements()));
 		return list;
-	}
-
-	public void registerBlocksPossible(String[] string, ArrayList<Block> blocklist) {
-		// Clear to make sure we are not getting duplicates
-		blocklist.clear();
-
-		if (string.length > 0) {
-			for (String u : string) {
-				Block block = Block.REGISTRY.getObject(new ResourceLocation(u));
-				if (block != null) {
-					blocklist.add(block);
-				} else {
-					GrimLog.error(GrimTools.partName, "Can't find block with name: " + u);
-				}
-			}
-		}
 	}
 }

@@ -163,11 +163,11 @@ public class TileEntityGrill extends TileEntityColorizer implements ITickable, I
 			int tiertime = (int) getTierTime();
 
 			for (int i = 0; i < 4; i++) {
-				if (!getStackInSlot(i).isEmpty() && (DecorConfig.grillRecipes.keySet().contains(getStackInSlot(i).getItem()))) {
+				if (!getStackInSlot(i).isEmpty() && (DecorConfig.grillRecipesContain(getStackInSlot(i)))) {
 					this.cookTimes[i] += 1;
 
 					if (this.cookTimes[i] > tiertime) {
-						this.inventory.set(i, new ItemStack((DecorConfig.grillRecipes.get(this.inventory.get(i).getItem()))));
+						this.inventory.set(i, DecorConfig.getOutput(this.inventory.get(i)));
 						this.cookTimes[i] = 0;
 					} else {
 						this.cookTimes[i] += 1;

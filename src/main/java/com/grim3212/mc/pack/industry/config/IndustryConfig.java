@@ -3,16 +3,14 @@ package com.grim3212.mc.pack.industry.config;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.grim3212.mc.pack.core.config.ConfigUtils;
 import com.grim3212.mc.pack.core.config.GrimConfig;
-import com.grim3212.mc.pack.core.util.GrimLog;
-import com.grim3212.mc.pack.core.util.RecipeHelper;
+import com.grim3212.mc.pack.core.config.Recipe;
 import com.grim3212.mc.pack.industry.GrimIndustry;
 import com.grim3212.mc.pack.industry.util.MachineRecipes;
 
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketBuffer;
-import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.config.ConfigElement;
 import net.minecraftforge.fml.client.config.DummyConfigElement.DummyCategoryElement;
 import net.minecraftforge.fml.client.config.IConfigElement;
@@ -82,7 +80,8 @@ public class IndustryConfig extends GrimConfig {
 		speedModifierRedstone = (float) config.get(CONFIG_EXTRUDER_NAME, "Redstone speed modifier", 1.4F).getDouble();
 		speedModifierMagmaCream = (float) config.get(CONFIG_EXTRUDER_NAME, "Magmacream speed modifier", 2.2F).getDouble();
 
-		registerWorkbenchList(workbenchList, IndustryConfig.workbenchUpgradeList);
+		// Workbench list
+		ConfigUtils.loadItemsOntoList(workbenchList, IndustryConfig.workbenchUpgradeList);
 
 		uraniumDamage = config.get(CONFIG_GENERAL_NAME, "Damage from Uranium Ore", 4).getInt();
 
@@ -92,30 +91,7 @@ public class IndustryConfig extends GrimConfig {
 
 		if (!config.getCategory(CONFIG_REFINERY_RECIPES_NAME).isEmpty()) {
 			String[] recipes = config.getCategory(CONFIG_REFINERY_RECIPES_NAME).get("grimpack.industry.cfg.refineryRecipes").getStringList();
-
-			// Clear to then repopulate
-			MachineRecipes.INSTANCE.getRefineryList().clear();
-
-			for (int i = 0; i < recipes.length; i++) {
-				String[] rawids = recipes[i].split(">");
-				ItemStack input = RecipeHelper.getItemStackFromString(rawids[0]);
-				if (!input.isEmpty()) {
-					ItemStack output = RecipeHelper.getItemStackFromString(rawids[1]);
-
-					if (!output.isEmpty()) {
-						if (rawids.length == 3) {
-							float exp = Float.parseFloat(rawids[2]);
-							MachineRecipes.INSTANCE.addRefineryRecipe(input, output, exp);
-						} else {
-							MachineRecipes.INSTANCE.addRefineryRecipe(input, output, 0.0F);
-						}
-					} else {
-						GrimLog.error(GrimIndustry.partName, "Couldn't add recipe: '" + recipes[i] + "' output is empty!");
-					}
-				} else {
-					GrimLog.error(GrimIndustry.partName, "Couldn't add recipe: '" + recipes[i] + "' input is empty!");
-				}
-			}
+			this.loadMachineRecipes(recipes);
 		}
 		super.syncConfig();
 	}
@@ -139,30 +115,14 @@ public class IndustryConfig extends GrimConfig {
 		buffer.writeBoolean(useWorkbenchUpgrades);
 	}
 
-	public void registerWorkbenchList(String[] string, List<ItemStack> stacklist) {
-		if (string.length > 0) {
-			if (stacklist != null) {
-				stacklist.clear();
+	public void loadMachineRecipes(String[] string) {
+		// Clear to then repopulate
+		MachineRecipes.INSTANCE.getRefineryList().clear();
 
-				for (String name : string) {
+		List<Recipe> recipes = ConfigUtils.loadConfigurableRecipes(string, true);
 
-					String[] split = name.split(":");
-
-					if (split.length == 3) {
-						Item item = Item.REGISTRY.getObject(new ResourceLocation(split[0], split[1]));
-						if (item != null)
-							stacklist.add(new ItemStack(item, 1, Integer.valueOf(split[2])));
-						else
-							GrimLog.error(GrimIndustry.partName, "Tried to add [" + split[0] + ":" + split[1] + "] to Workbench List. ITEM NOT REGISTERED");
-					} else {
-						Item item = Item.REGISTRY.getObject(new ResourceLocation(name));
-						if (item != null)
-							stacklist.add(new ItemStack(item, 1, 0));
-						else
-							GrimLog.error(GrimIndustry.partName, "Tried to add [" + name + "] to Workbench List. ITEM NOT REGISTERED");
-					}
-				}
-			}
+		for (Recipe recipe : recipes) {
+			MachineRecipes.INSTANCE.addRefineryRecipe(recipe.getInput(), recipe.getOutput(), recipe.getExperience());
 		}
 	}
 }

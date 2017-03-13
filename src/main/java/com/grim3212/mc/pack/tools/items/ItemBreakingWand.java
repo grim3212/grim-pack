@@ -1,13 +1,14 @@
 package com.grim3212.mc.pack.tools.items;
 
-import java.util.ArrayList;
+import java.util.Map;
 
+import com.google.common.collect.Maps;
+import com.grim3212.mc.pack.core.config.ConfigUtils;
 import com.grim3212.mc.pack.core.manual.pages.Page;
 import com.grim3212.mc.pack.tools.client.ManualTools;
 import com.grim3212.mc.pack.tools.config.ToolsConfig;
 import com.grim3212.mc.pack.tools.util.WandCoord3D;
 
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockCrops;
 import net.minecraft.block.BlockFlower;
 import net.minecraft.block.BlockLiquid;
@@ -22,7 +23,7 @@ import net.minecraft.world.World;
 
 public class ItemBreakingWand extends ItemWand {
 
-	public static ArrayList<Block> ores = new ArrayList<Block>();
+	public static Map<IBlockState, Boolean> ores = Maps.newHashMap();
 
 	private static final int BREAK_XORES = 100;
 	private static final int BREAK_ALL = 10;
@@ -41,8 +42,8 @@ public class ItemBreakingWand extends ItemWand {
 		return ManualTools.reinforcedWand_page;
 	}
 
-	protected static boolean isOre(Block id) {
-		return ores.contains(id);
+	protected static boolean isOre(IBlockState state) {
+		return ConfigUtils.isStateFound(ores, state);
 	}
 
 	@Override
@@ -51,7 +52,7 @@ public class ItemBreakingWand extends ItemWand {
 
 		switch (keys) {
 		case BREAK_XORES:
-			return (state.getBlock() != Blocks.BEDROCK || ToolsConfig.ENABLE_bedrock_breaking) && !isOre(state.getBlock());
+			return (state.getBlock() != Blocks.BEDROCK || ToolsConfig.ENABLE_bedrock_breaking) && !isOre(state);
 		case BREAK_ALL:
 			return (state.getBlock() != Blocks.BEDROCK || ToolsConfig.ENABLE_bedrock_breaking);
 		case BREAK_WEAK:

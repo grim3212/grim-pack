@@ -2,6 +2,7 @@ package com.grim3212.mc.pack.industry.inventory;
 
 import java.util.Iterator;
 
+import com.grim3212.mc.pack.core.util.RecipeHelper;
 import com.grim3212.mc.pack.industry.block.IndustryBlocks;
 import com.grim3212.mc.pack.industry.config.IndustryConfig;
 
@@ -39,7 +40,7 @@ public class ContainerDiamondWorkbench extends ContainerWorkbench {
 			while (itr.hasNext()) {
 				ItemStack stack = itr.next();
 
-				if (ItemStack.areItemsEqual(found, stack)) {
+				if (RecipeHelper.compareItemStacks(found, stack)) {
 					this.craftResult.setInventorySlotContents(0, found);
 					break;
 				}
@@ -52,7 +53,7 @@ public class ContainerDiamondWorkbench extends ContainerWorkbench {
 			while (itr.hasNext()) {
 				ItemStack stack = itr.next();
 
-				if (ItemStack.areItemsEqual(found, stack)) {
+				if (RecipeHelper.compareItemStacks(found, stack)) {
 					blacklisted = true;
 					break;
 				}

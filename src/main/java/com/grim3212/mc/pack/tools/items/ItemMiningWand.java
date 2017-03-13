@@ -1,13 +1,14 @@
 package com.grim3212.mc.pack.tools.items;
 
-import java.util.ArrayList;
+import java.util.Map;
 
+import com.google.common.collect.Maps;
+import com.grim3212.mc.pack.core.config.ConfigUtils;
 import com.grim3212.mc.pack.core.manual.pages.Page;
 import com.grim3212.mc.pack.tools.client.ManualTools;
 import com.grim3212.mc.pack.tools.config.ToolsConfig;
 import com.grim3212.mc.pack.tools.util.WandCoord3D;
 
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockFlower;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -26,7 +27,7 @@ import net.minecraft.world.World;
 @SuppressWarnings("deprecation")
 public class ItemMiningWand extends ItemWand {
 
-	public static ArrayList<Block> m_ores = new ArrayList<Block>();
+	public static Map<IBlockState, Boolean> m_ores = Maps.newHashMap();
 
 	private static final int MINE_ALL = 100;
 	private static final int MINE_DIRT = 10;
@@ -46,8 +47,8 @@ public class ItemMiningWand extends ItemWand {
 		return ManualTools.reinforcedWand_page;
 	}
 
-	private static boolean isMiningOre(Block block) {
-		return m_ores.contains(block);
+	private static boolean isMiningOre(IBlockState state) {
+		return ConfigUtils.isStateFound(m_ores, state);
 	}
 
 	@Override
@@ -62,7 +63,7 @@ public class ItemMiningWand extends ItemWand {
 		case MINE_WOOD:
 			return state.getMaterial() == Material.WOOD;
 		case MINE_ORES:
-			return isMiningOre(state.getBlock()) && (state.getBlock() != Blocks.BEDROCK || ToolsConfig.ENABLE_bedrock_breaking) && (state.getBlock() != Blocks.OBSIDIAN || ToolsConfig.ENABLE_easy_mining_obsidian);
+			return isMiningOre(state) && (state.getBlock() != Blocks.BEDROCK || ToolsConfig.ENABLE_bedrock_breaking) && (state.getBlock() != Blocks.OBSIDIAN || ToolsConfig.ENABLE_easy_mining_obsidian);
 		}
 		return false;
 	}
@@ -118,7 +119,7 @@ public class ItemMiningWand extends ItemWand {
 			Iterable<BlockPos> iterable = BlockPos.getAllInBox(new BlockPos(start.pos.getX(), 1, start.pos.getZ()), new BlockPos(end.pos.getX(), 128, end.pos.getZ()));
 			for (BlockPos pos : iterable) {
 				stateAt = world.getBlockState(pos);
-				if (isMiningOre(stateAt.getBlock())) {
+				if (isMiningOre(stateAt)) {
 					// add more drops for redstone and lapis
 					if (stateAt.getBlock() == Blocks.REDSTONE_ORE || stateAt.getBlock() == Blocks.LIT_REDSTONE_ORE || stateAt.getBlock() == Blocks.LAPIS_ORE) {
 						blocks2Dig += 4;
@@ -149,7 +150,7 @@ public class ItemMiningWand extends ItemWand {
 						surfaceBlock = isSurface(stateAt);
 						if (!underground && surfaceBlock)
 							underground = true;
-						if (isMiningOre(stateAt.getBlock())) {
+						if (isMiningOre(stateAt)) {
 							TileEntity tile = world.getTileEntity(pos);
 							if (world.setBlockState(pos, Blocks.STONE.getDefaultState())) {
 								pos = new BlockPos(X, surface, Z);

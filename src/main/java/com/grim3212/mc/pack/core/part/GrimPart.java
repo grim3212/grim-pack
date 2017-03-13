@@ -121,7 +121,7 @@ public abstract class GrimPart {
 	 */
 	public void preInit(FMLPreInitializationEvent event) {
 		MinecraftForge.EVENT_BUS.register(this);
-		
+
 		if (!syncConfigInstantly)
 			this.getGrimConfig().syncFirst();
 
@@ -133,9 +133,6 @@ public abstract class GrimPart {
 		for (int i = 0; i < this.entities.size(); i++) {
 			this.entities.get(i).initEntities();
 		}
-
-		if (!syncConfigInstantly)
-			this.getGrimConfig().syncConfig();
 	}
 
 	/**
@@ -145,6 +142,11 @@ public abstract class GrimPart {
 	 *            event
 	 */
 	public void init(FMLInitializationEvent event) {
+		// Sync config after preinit so we make sure all blocks and items are
+		// loaded
+		if (!syncConfigInstantly)
+			this.getGrimConfig().syncConfig();
+
 		// Then create recipes after all blocks are loaded
 		for (int i = 0; i < this.items.size(); i++) {
 			this.items.get(i).addRecipes();

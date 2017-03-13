@@ -2,15 +2,19 @@ package com.grim3212.mc.pack.decor.config;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
 import com.google.common.collect.Maps;
+import com.grim3212.mc.pack.core.config.ConfigUtils;
 import com.grim3212.mc.pack.core.config.GrimConfig;
+import com.grim3212.mc.pack.core.config.Recipe;
+import com.grim3212.mc.pack.core.util.GrimLog;
+import com.grim3212.mc.pack.core.util.RecipeHelper;
 import com.grim3212.mc.pack.decor.GrimDecor;
 
-import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketBuffer;
-import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.config.ConfigElement;
 import net.minecraftforge.fml.client.config.DummyConfigElement.DummyCategoryElement;
 import net.minecraftforge.fml.client.config.IConfigElement;
@@ -37,7 +41,7 @@ public class DecorConfig extends GrimConfig {
 	public static boolean enableFirepitNet;
 	public static int smoothness;
 
-	public static HashMap<Item, Item> grillRecipes = Maps.newHashMap();
+	public static HashMap<ItemStack, ItemStack> grillRecipes = Maps.newHashMap();
 	public static final String CONFIG_NAME = "decor";
 	public static final String CONFIG_GENERAL_NAME = "decor.general";
 	public static final String CONFIG_GRILL_RECIPES_NAME = "decor.customgrillrecipes";
@@ -51,6 +55,8 @@ public class DecorConfig extends GrimConfig {
 		burnWallpaper = config.get(CONFIG_GENERAL_NAME, "BurnWallpaper", true).getBoolean();
 		numWallpapers = config.get(CONFIG_GENERAL_NAME, "NumWallpapers", 24).getInt();
 		useAllBlocks = config.get(CONFIG_GENERAL_NAME, "UseAllBlocks", true).getBoolean();
+
+		// TODO: Change this to use new configutils
 		decorationBlocks = config.get(CONFIG_GENERAL_NAME, "DecorationBlocks", new String[] { "mossy_cobblestone", "diamond_ore" }).getStringList();
 		infiniteGrillFuel = config.get(CONFIG_GENERAL_NAME, "grimpack.decor.cfg.InfiniteGrillFuel", false).getBoolean();
 
@@ -66,13 +72,7 @@ public class DecorConfig extends GrimConfig {
 
 		if (!config.getCategory(CONFIG_GRILL_RECIPES_NAME).isEmpty()) {
 			String[] recipes = config.getCategory(CONFIG_GRILL_RECIPES_NAME).get("grimpack.decor.cfg.recipes").getStringList();
-
-			for (int i = 0; i < recipes.length; i++) {
-				String[] rawids = recipes[i].split(">");
-				Item rawid1 = (Item) Item.REGISTRY.getObject(new ResourceLocation(rawids[0]));
-				Item rawid2 = (Item) Item.REGISTRY.getObject(new ResourceLocation(rawids[1]));
-				grillRecipes.put(rawid1, rawid2);
-			}
+			loadGrillRecipes(recipes);
 		}
 
 		super.syncConfig();
@@ -106,5 +106,42 @@ public class DecorConfig extends GrimConfig {
 		buffer.writeBoolean(useAllBlocks);
 		buffer.writeBoolean(flipBlocks);
 		buffer.writeBoolean(consumeBlock);
+	}
+
+	public void loadGrillRecipes(String[] config) {
+		DecorConfig.grillRecipes.clear();
+
+		List<Recipe> recipes = ConfigUtils.loadConfigurableRecipes(config, false);
+
+		for (Recipe recipe : recipes) {
+			GrimLog.info(GrimDecor.partName, "Registered grill recipe: " + recipe);
+			DecorConfig.grillRecipes.put(recipe.getInput(), recipe.getOutput());
+		}
+	}
+
+	public static boolean grillRecipesContain(ItemStack stack) {
+		Iterator<ItemStack> itr = DecorConfig.grillRecipes.keySet().iterator();
+		while (itr.hasNext()) {
+			ItemStack compare = itr.next();
+
+			if (RecipeHelper.compareItemStacks(stack, compare)) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	public static ItemStack getOutput(ItemStack stack) {
+		Iterator<ItemStack> itr = DecorConfig.grillRecipes.keySet().iterator();
+		while (itr.hasNext()) {
+			ItemStack compare = itr.next();
+			if (RecipeHelper.compareItemStacks(stack, compare)) {
+				// Copy so we don't mess with the ItemStack
+				return DecorConfig.grillRecipes.get(compare).copy();
+			}
+		}
+
+		return ItemStack.EMPTY;
 	}
 }

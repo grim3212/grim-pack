@@ -16,15 +16,18 @@ public class SlotGrill extends Slot {
 		this.isFuel = isFuel;
 	}
 
+	@Override
 	public int getSlotStackLimit() {
 		if (!this.isFuel)
 			return 1;
 		return super.getSlotStackLimit();
 	}
 
+	@Override
 	public boolean isItemValid(ItemStack item) {
 		if (this.isFuel)
 			return (item.getItem() != null) && (item.getItem() == Items.COAL);
-		return DecorConfig.grillRecipes.keySet().contains(item.getItem());
+
+		return DecorConfig.grillRecipesContain(item);
 	}
 }

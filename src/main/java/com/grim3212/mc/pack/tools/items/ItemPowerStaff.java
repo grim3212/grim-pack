@@ -1,8 +1,10 @@
 package com.grim3212.mc.pack.tools.items;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
+import com.google.common.collect.Maps;
+import com.grim3212.mc.pack.core.config.ConfigUtils;
 import com.grim3212.mc.pack.core.item.ItemManual;
 import com.grim3212.mc.pack.core.manual.pages.Page;
 import com.grim3212.mc.pack.core.util.NBTHelper;
@@ -11,7 +13,6 @@ import com.grim3212.mc.pack.tools.config.ToolsConfig;
 import com.grim3212.mc.pack.tools.entity.EntityBlockPushPull;
 import com.grim3212.mc.pack.tools.util.EnumPowerStaffModes;
 
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.BlockDoublePlant;
 import net.minecraft.block.BlockFalling;
@@ -33,7 +34,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ItemPowerStaff extends ItemManual {
 
-	public static ArrayList<Block> allowedBlocks = new ArrayList<Block>();
+	public static Map<IBlockState, Boolean> allowedBlocks = Maps.newHashMap();
 
 	protected ItemPowerStaff() {
 		setMaxStackSize(1);
@@ -157,7 +158,7 @@ public class ItemPowerStaff extends ItemManual {
 		if (state.getBlock() == null || state.getMaterial().isLiquid() || state.getBlock() == Blocks.FIRE || state.getBlock() == Blocks.SNOW_LAYER || state.getBlock() instanceof BlockDoublePlant || state.getBlock() instanceof BlockContainer)
 			return EnumActionResult.FAIL;
 
-		if (ToolsConfig.restrictPowerStaffBlocks && allowedBlocks.contains(state.getBlock())) {
+		if (ToolsConfig.restrictPowerStaffBlocks && ConfigUtils.isStateFound(allowedBlocks, state)) {
 			onPower(mode, state, worldIn, pos, xMov, zMov, yMov);
 		} else if (!ToolsConfig.restrictPowerStaffBlocks) {
 			// Default not-allowed blocks
