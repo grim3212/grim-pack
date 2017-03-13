@@ -1,4 +1,4 @@
-<h1>Current: 4.0.0.4</h1>
+<h1>Current: 4.0.0.10</h1>
 
 <h3>Requirements</h3>
 <ul>
@@ -8,6 +8,17 @@
 	<li>(Optional) JER 0.6.2.104+</li>
 </ul>
 <p>
+Configuration lists (magic wands, grill recipes, workbench list). Have now been updated.
+They now support OreDictionary by using 'oredict:name'. They now also support metadata by appending an extra colon and number to the end. You can alsu use a '?' to indicate any meta.
+<br><b>Example: 'dye:4', 'minecraft:dye:?', 'modname:item:meta'.</b><br>
+The OreDictionary tags also support this. As well as supporting meta overriding for the OreDictionary.
+<br><b>Example: 'oredict:dye:2' (So all dyes will meta 2) or 'oredict:dye:?' (So all dyes with any meta).</b><br>
+
+This is especially helpful for block lists (i.e. magic wands).
+So, if you want all stairs you can 'oredict:stairWood'. You may want to ignore states so that no matter how the stair is placed it will still be counted so use 'oredict:stairWood:?'.
+</p>
+
+<p>
 	Many things are still work in progress but it should be stable now.
 	There are probably more things missing below but a lot of things have changed.
 	There may be things missing below but all information will end up being updated and changed at the current site <a href="https://grim3212.github.io/grim-pack/">https://grim3212.github.io/grim-pack/</a>.
@@ -16,6 +27,12 @@
 
 <h3>Changes</h3>
 <ul>
+	<li>All configurable lists should now support metadata and possible OreDict tags so it matches any oredictionary item.</li>
+	<li>Add in more default entries for magic wands and for the workbench upgrade list</li>
+	<li>Add in Bauble support for Graves</li>
+	<li>Fix page links not working sometimes</li>
+	<li>Update held item models to actually be handheld</li>
+	<li>Fix compatibility with lumberjack</li>
 	<li>Update Pillar's bounding box</li>
 	<li>Fix multitool's having 0 durability</li>
 	<li>Fix compatibility with my tool materials</li>
