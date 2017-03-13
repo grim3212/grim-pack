@@ -149,6 +149,11 @@ public class Page {
 			if (!tooltipItem.isEmpty()) {
 				if (tooltipItem.getItem() instanceof IManualItem) {
 					Page page = ((IManualItem) tooltipItem.getItem()).getPage(tooltipItem);
+
+					// Reset tooltip for this page...
+					// Caused hours of headaches!!
+					// It was so simple
+					tooltipItem = ItemStack.EMPTY;
 					Minecraft.getMinecraft().displayGuiScreen(page.getLink().copySelf());
 				}
 			}

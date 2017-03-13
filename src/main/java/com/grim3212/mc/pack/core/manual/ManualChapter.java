@@ -1,8 +1,10 @@
 package com.grim3212.mc.pack.core.manual;
 
-import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Lists;
 import com.grim3212.mc.pack.core.manual.gui.GuiManualChapter;
 import com.grim3212.mc.pack.core.manual.gui.GuiManualPage;
 import com.grim3212.mc.pack.core.manual.pages.Page;
@@ -14,7 +16,7 @@ public class ManualChapter {
 	private final String chapterId;
 	private int page;
 	private String partId;
-	private ArrayList<Page> pages = new ArrayList<Page>();
+	private List<Page> pages = Lists.newArrayList();
 	private ManualPart part;
 
 	public ManualChapter(String chapterId, String partId) {
@@ -33,7 +35,7 @@ public class ManualChapter {
 	public void setPart(ManualPart part) {
 		this.part = part;
 	}
-	
+
 	public String getPartId() {
 		return partId;
 	}
@@ -69,7 +71,12 @@ public class ManualChapter {
 		return this;
 	}
 
-	public ArrayList<Page> getPages() {
-		return this.pages;
+	/**
+	 * Have to stop changing these
+	 * 
+	 * @return A ImmutableList of pages
+	 */
+	public List<Page> getPages() {
+		return ImmutableList.copyOf(this.pages);
 	}
 }

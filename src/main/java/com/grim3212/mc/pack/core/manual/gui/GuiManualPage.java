@@ -194,8 +194,6 @@ public class GuiManualPage extends GuiManualIndex {
 	@Override
 	protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
 		super.mouseClicked(mouseX, mouseY, mouseButton);
-
-		Page page = chapter.getPages().get(this.page);
-		page.handleMouseClick(mouseX, mouseY, mouseButton);
+		chapter.getPages().get(this.page).handleMouseClick(mouseX, mouseY, mouseButton);
 	}
 }
