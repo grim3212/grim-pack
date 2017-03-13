@@ -15,7 +15,7 @@ import net.minecraft.util.text.TextComponentString;
 
 public class TileEntityGrave extends TileEntityLockable {
 
-	private NonNullList<ItemStack> itemstacks = NonNullList.<ItemStack>withSize(45, ItemStack.EMPTY);
+	private NonNullList<ItemStack> itemstacks = NonNullList.<ItemStack>withSize(54, ItemStack.EMPTY);
 	public ITextComponent[] signText = new ITextComponent[] { new TextComponentString(""), new TextComponentString(""), new TextComponentString(""), new TextComponentString("") };
 
 	public TileEntityGrave() {

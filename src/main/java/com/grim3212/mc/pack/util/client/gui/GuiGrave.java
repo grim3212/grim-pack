@@ -19,7 +19,7 @@ public class GuiGrave extends GuiContainer {
 		super(new ContainerGrave(te, playerInv));
 		this.grave = te;
 		this.playerInventory = playerInv;
-		this.ySize = 204;
+		this.ySize = 222;
 	}
 
 	@Override

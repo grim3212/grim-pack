@@ -4,6 +4,7 @@ import com.grim3212.mc.pack.core.manual.IManualPart;
 import com.grim3212.mc.pack.core.network.PacketDispatcher;
 import com.grim3212.mc.pack.core.part.GrimPart;
 import com.grim3212.mc.pack.core.proxy.CommonProxy;
+import com.grim3212.mc.pack.core.util.GrimLog;
 import com.grim3212.mc.pack.core.util.Utils;
 import com.grim3212.mc.pack.util.client.ManualUtil;
 import com.grim3212.mc.pack.util.config.UtilConfig;
@@ -15,6 +16,7 @@ import com.grim3212.mc.pack.util.network.MessageFusRoDah;
 
 import net.minecraft.util.SoundEvent;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
@@ -34,6 +36,7 @@ public class GrimUtil extends GrimPart {
 
 	public static SoundEvent fusrodahSound;
 	public static SoundEvent fusrodahOldSound;
+	public static boolean baubles = false;
 
 	public GrimUtil() {
 		super(GrimUtil.partID, GrimUtil.partName, new UtilConfig(), false, false);
@@ -49,6 +52,11 @@ public class GrimUtil extends GrimPart {
 		MinecraftForge.EVENT_BUS.register(new BlockChangeEvents());
 		fusrodahSound = Utils.registerSound("fusrodah");
 		fusrodahOldSound = Utils.registerSound("fusrodah-old");
+
+		baubles = Loader.isModLoaded("baubles");
+		if (baubles) {
+			GrimLog.info(GrimUtil.partName, "Found Baubles enabling grave support");
+		}
 
 		proxy.preInit();
 	}

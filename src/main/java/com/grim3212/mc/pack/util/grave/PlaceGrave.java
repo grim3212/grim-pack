@@ -4,6 +4,8 @@ import com.grim3212.mc.pack.core.util.GrimLog;
 import com.grim3212.mc.pack.util.GrimUtil;
 import com.grim3212.mc.pack.util.init.UtilBlocks;
 
+import baubles.api.BaublesApi;
+import baubles.api.cap.IBaublesItemHandler;
 import net.minecraft.block.BlockHorizontal;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
@@ -62,27 +64,35 @@ public class PlaceGrave {
 			return;
 
 		for (int i = 0; i < player.inventory.mainInventory.size(); i++) {
-			grave.setInventorySlotContents(i, player.inventory.mainInventory.get(i));
-
+			grave.setInventorySlotContents(i, player.inventory.mainInventory.get(i).copy());
 			player.inventory.mainInventory.set(i, ItemStack.EMPTY);
 		}
 
 		for (int i = 0; i < player.inventory.armorInventory.size(); i++) {
-			grave.setInventorySlotContents(i + player.inventory.mainInventory.size(), player.inventory.armorInventory.get(i));
-
+			grave.setInventorySlotContents(i + player.inventory.mainInventory.size(), player.inventory.armorInventory.get(i).copy());
 			player.inventory.armorInventory.set(i, ItemStack.EMPTY);
 		}
 
 		for (int i = 0; i < player.inventory.offHandInventory.size(); i++) {
-			grave.setInventorySlotContents(i + player.inventory.mainInventory.size() + player.inventory.armorInventory.size(), player.inventory.offHandInventory.get(i));
-
+			grave.setInventorySlotContents(i + player.inventory.mainInventory.size() + player.inventory.armorInventory.size(), player.inventory.offHandInventory.get(i).copy());
 			player.inventory.offHandInventory.set(i, ItemStack.EMPTY);
+		}
+
+		// Baubles inventory
+		if (GrimUtil.baubles) {
+			IBaublesItemHandler baubles = BaublesApi.getBaublesHandler(player);
+
+			for (int i = 0; i < baubles.getSlots(); ++i) {
+				grave.setInventorySlotContents(i + player.inventory.mainInventory.size() + player.inventory.armorInventory.size() + player.inventory.offHandInventory.size(), baubles.getStackInSlot(i).copy());
+				baubles.setStackInSlot(i, ItemStack.EMPTY);
+			}
+
 		}
 
 		int total_xp = getTotalXP(player);
 
 		int amount_of_flasks = total_xp / 11;
-		int slot = 44;
+		int slot = 53;
 
 		while ((amount_of_flasks > 0) && (slot > 40)) {
 			int stack_size = amount_of_flasks > 64 ? 64 : amount_of_flasks;
