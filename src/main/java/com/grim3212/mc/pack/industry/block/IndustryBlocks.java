@@ -206,6 +206,13 @@ public class IndustryBlocks implements IPartItems {
 		Utils.registerBlock(c4, "c4");
 		Utils.registerBlock(nuclear_bomb, "nuclear_bomb");
 		Utils.registerBlock(reactor, "reactor");
+		
+		//Register at the end of preinit
+		OreDictionary.registerOre("oreUranium", uranium_ore);
+		OreDictionary.registerOre("blockGlass", tempered_glass);
+		OreDictionary.registerOre("blockSteel", steel_block);
+		OreDictionary.registerOre("oreAluminum", aluminum_ore);
+		OreDictionary.registerOre("oreOil", oil_ore);
 	}
 
 	public static List<IRecipe> sensors;
@@ -222,12 +229,6 @@ public class IndustryBlocks implements IPartItems {
 
 	@Override
 	public void addRecipes() {
-		OreDictionary.registerOre("oreUranium", uranium_ore);
-		OreDictionary.registerOre("blockGlass", tempered_glass);
-		OreDictionary.registerOre("blockSteel", steel_block);
-		OreDictionary.registerOre("oreAluminum", aluminum_ore);
-		OreDictionary.registerOre("oreOil", oil_ore);
-
 		GameRegistry.addSmelting(aluminum_ore, new ItemStack(IndustryItems.aluminum_ingot, 1), 0.45F);
 		GameRegistry.addSmelting(uranium_ore, new ItemStack(IndustryItems.uranium_ingot), 0.7F);
 

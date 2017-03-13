@@ -208,6 +208,22 @@ public class IndustryItems implements IPartItems {
 		steel.setRepairItem(new ItemStack(steel_ingot));
 		antiRadiation.setRepairItem(new ItemStack(Blocks.WOOL));
 		gravboots.setRepairItem(new ItemStack(Items.IRON_INGOT));
+		
+		//Oredict at end of preinit
+		OreDictionary.registerOre("rubber", rubber);
+		OreDictionary.registerOre("dustCoal", coal_dust);
+		OreDictionary.registerOre("ingotSteel", steel_ingot);
+		OreDictionary.registerOre("ingotUranium", uranium_ingot);
+		OreDictionary.registerOre("ingotRefinedUranium", refined_uranium);
+		OreDictionary.registerOre("ingotPlutonium", plutonium_ingot);
+		OreDictionary.registerOre("ingotRefinedPlutonium", refined_plutonium);
+		OreDictionary.registerOre("ingotAluminum", aluminum_ingot);
+		OreDictionary.registerOre("stickIron", iron_stick);
+		OreDictionary.registerOre("can", aluminum_can);
+		OreDictionary.registerOre("canOil", crude_oil);
+		OreDictionary.registerOre("canCrudeOil", super_crude_oil);
+		OreDictionary.registerOre("canFuel", fuel);
+		OreDictionary.registerOre("tar", tarball);
 	}
 
 	public static List<IRecipe> armor;
@@ -224,21 +240,6 @@ public class IndustryItems implements IPartItems {
 
 	@Override
 	public void addRecipes() {
-		OreDictionary.registerOre("rubber", rubber);
-		OreDictionary.registerOre("dustCoal", coal_dust);
-		OreDictionary.registerOre("ingotSteel", steel_ingot);
-		OreDictionary.registerOre("ingotUranium", uranium_ingot);
-		OreDictionary.registerOre("ingotRefinedUranium", refined_uranium);
-		OreDictionary.registerOre("ingotPlutonium", plutonium_ingot);
-		OreDictionary.registerOre("ingotRefinedPlutonium", refined_plutonium);
-		OreDictionary.registerOre("ingotAluminum", aluminum_ingot);
-		OreDictionary.registerOre("stickIron", iron_stick);
-		OreDictionary.registerOre("can", aluminum_can);
-		OreDictionary.registerOre("canOil", crude_oil);
-		OreDictionary.registerOre("canCrudeOil", super_crude_oil);
-		OreDictionary.registerOre("canFuel", fuel);
-		OreDictionary.registerOre("tar", tarball);
-
 		GameRegistry.addSmelting(tarball, new ItemStack(asphalt, 1), 0.35F);
 		GameRegistry.addSmelting(Items.FLINT, new ItemStack(graphite), 0.35F);
 		GameRegistry.addSmelting(coal_iron_ingot, new ItemStack(steel_ingot, 1), 0.5F);

@@ -32,16 +32,16 @@ public class ToolsBlocks implements IPartItems {
 		Utils.registerBlock(element_115_ore, "element_115_ore");
 		Utils.registerBlock(black_diamond_ore, "black_diamond_ore");
 		Utils.registerBlock(black_diamond_block, "black_diamond_block");
+		
+		OreDictionary.registerOre("oreBlackDiamond", black_diamond_ore);
+		OreDictionary.registerOre("blockBlackDiamond", black_diamond_block);
+		OreDictionary.registerOre("oreElement115", element_115_ore);
 	}
 
 	public static List<IRecipe> black;
 
 	@Override
 	public void addRecipes() {
-		OreDictionary.registerOre("oreBlackDiamond", black_diamond_ore);
-		OreDictionary.registerOre("blockBlackDiamond", black_diamond_block);
-		OreDictionary.registerOre("oreElement115", element_115_ore);
-
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(black_diamond_block, 1), new Object[] { "###", "###", "###", '#', ToolsItems.black_diamond }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ToolsItems.black_diamond, 9), new Object[] { "#", '#', black_diamond_block }));
 		black = RecipeHelper.getLatestIRecipes(2);

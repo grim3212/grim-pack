@@ -78,11 +78,11 @@ public class ToolsConfig extends GrimConfig {
 		ENABLE_bedrock_breaking = config.get(CONFIG_GENERAL_NAME, "Enable Bedrock Breaking", false).getBoolean();
 		ENABLE_easy_mining_obsidian = config.get(CONFIG_GENERAL_NAME, "Enable Easy Mining Obsidian", false).getBoolean();
 
-		BLOCKS_Destructive_wand_spared_ores = config.get(CONFIG_GENERAL_NAME, "Destructive Wand Spared Ores", new String[] { "gold_ore", "iron_ore", "coal_ore", "lapis_ore", "mossy_cobblestone", "mob_spawner", "chest", "diamond_ore", "redstone_ore", "lit_redstone_ore", "emerald_ore", "quartz_ore" }).getStringList();
-		BLOCKS_Mining_wand_ores_for_surface_mining = config.get(CONFIG_GENERAL_NAME, "Mining Wand Ores for Surface Mining", new String[] { "gold_ore", "iron_ore", "coal_ore", "lapis_ore", "diamond_ore", "redstone_ore", "lit_redstone_ore", "emerald_ore", "quartz_ore" }).getStringList();
+		BLOCKS_Destructive_wand_spared_ores = config.get(CONFIG_GENERAL_NAME, "Destructive Wand Spared Ores", new String[] { "oredict:oreGold", "oredict:oreIron", "oredict:oreCoal", "oredict:oreLapis", "minecraft:mob_spawner", "oredict:chest", "oredict:oreDiamond", "oredict:oreRedstone", "minecraft:lit_redstone_ore", "oredict:oreEmerald", "oredict:oreQuartz", "oredict:oreUranium", "oredict:oreAluminum", "oredict:oreOil", "oredict:oreElement115", "oredict:oreBlackDiamond", "oredict:oreRandomite" }).getStringList();
+		BLOCKS_Mining_wand_ores_for_surface_mining = config.get(CONFIG_GENERAL_NAME, "Mining Wand Ores for Surface Mining", new String[] { "oredict:oreGold", "oredict:oreIron", "oredict:oreCoal", "oredict:oreLapis", "oredict:oreDiamond", "oredict:oreRedstone", "minecraft:lit_redstone_ore", "oredict:oreEmerald", "oredict:oreQuartz", "oredict:oreUranium", "oredict:oreAluminum", "oredict:oreOil", "oredict:oreElement115", "oredict:oreBlackDiamond", "oredict:oreRandomite" }).getStringList();
 
 		restrictPowerStaffBlocks = config.get(CONFIG_GENERAL_NAME, "Restrict powerstaff blocks", false).getBoolean();
-		powerstaff_pull_push_blocks = config.get(CONFIG_GENERAL_NAME, "Blocks allowed when restrict powerstaff is active", new String[] { "dirt" }).getStringList();
+		powerstaff_pull_push_blocks = config.get(CONFIG_GENERAL_NAME, "Blocks allowed when restrict powerstaff is active", new String[] { "dirt", "grass", "cobblestone", "stone" }).getStringList();
 		generateBlackDiamond = config.get(CONFIG_GENERAL_NAME, "Generate Black Diamond", true).getBoolean();
 		generateElement115 = config.get(CONFIG_GENERAL_NAME, "Generate Element 115", true).getBoolean();
 

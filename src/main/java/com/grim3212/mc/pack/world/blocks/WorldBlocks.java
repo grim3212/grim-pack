@@ -56,6 +56,14 @@ public class WorldBlocks implements IPartItems {
 		Utils.registerBlock(glowstone_seeds, "glowstone_seeds");
 		Utils.registerBlock(gunpowder_reed_block, "gunpowder_reed_block");
 		Utils.registerBlock(randomite, "randomite");
+		
+		OreDictionary.registerOre("blockFungus", fungus_ore_building);
+		OreDictionary.registerOre("blockFungus", fungus_building);
+		OreDictionary.registerOre("blockFungus", fungus_growing);
+		OreDictionary.registerOre("blockFungus", fungus_killing);
+		OreDictionary.registerOre("blockFungus", fungus_layer_building);
+		OreDictionary.registerOre("blockFungus", fungus_maze);
+		OreDictionary.registerOre("oreRandomite", randomite);
 	}
 
 	//public static IRecipe mazeFungusRecipe;
@@ -72,14 +80,6 @@ public class WorldBlocks implements IPartItems {
 
 	@Override
 	public void addRecipes() {
-		OreDictionary.registerOre("blockFungus", fungus_ore_building);
-		OreDictionary.registerOre("blockFungus", fungus_building);
-		OreDictionary.registerOre("blockFungus", fungus_growing);
-		OreDictionary.registerOre("blockFungus", fungus_killing);
-		OreDictionary.registerOre("blockFungus", fungus_layer_building);
-		OreDictionary.registerOre("blockFungus", fungus_maze);
-		OreDictionary.registerOre("oreRandomite", randomite);
-		
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(glowstone_seeds), new Object[] { "GSG", " G ", 'G', "dustGlowstone", 'S', Blocks.SOUL_SAND }));
 
 		// ====================BASIC==================== //

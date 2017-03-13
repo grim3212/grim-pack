@@ -135,6 +135,16 @@ public class CuisineItems implements IPartItems {
 		Utils.registerItem(raw_pumpkin_pie, "raw_pumpkin_pie");
 		Utils.registerItem(raw_melon_pie, "raw_melon_pie");
 		Utils.registerItem(raw_pork_pie, "raw_pork_pie");
+		
+		OreDictionary.registerOre("bread", bread_slice);
+		OreDictionary.registerOre("foodCheese", cheese);
+		OreDictionary.registerOre("foodDough", dough);
+		OreDictionary.registerOre("foodScrambledegg", eggs_cooked);
+		OreDictionary.registerOre("listAllbread", bread_slice);
+		OreDictionary.registerOre("listAllbutter", butter);
+		OreDictionary.registerOre("toolCuttingboard", new ItemStack(knife, 1, OreDictionary.WILDCARD_VALUE));
+		OreDictionary.registerOre("toolJuicer", new ItemStack(mixer, 1, OreDictionary.WILDCARD_VALUE));
+		OreDictionary.registerOre("bucketMilk", Items.MILK_BUCKET);
 	}
 
 	public static IRecipe cocoaRecipe;
@@ -153,17 +163,6 @@ public class CuisineItems implements IPartItems {
 
 	@Override
 	public void addRecipes() {
-		OreDictionary.registerOre("bread", bread_slice);
-		OreDictionary.registerOre("foodCheese", cheese);
-		OreDictionary.registerOre("foodDough", dough);
-		OreDictionary.registerOre("foodScrambledegg", eggs_cooked);
-		OreDictionary.registerOre("listAllbread", bread_slice);
-		OreDictionary.registerOre("listAllbutter", butter);
-		OreDictionary.registerOre("toolCuttingboard", new ItemStack(knife, 1, OreDictionary.WILDCARD_VALUE));
-		OreDictionary.registerOre("toolJuicer", new ItemStack(mixer, 1, OreDictionary.WILDCARD_VALUE));
-
-		OreDictionary.registerOre("bucketMilk", Items.MILK_BUCKET);
-
 		GameRegistry.addSmelting(chocolate_bowl, new ItemStack(chocolate_bowl_hot), 0.3F);
 		GameRegistry.addSmelting(eggs_mixed, new ItemStack(eggs_cooked), 0.35F);
 

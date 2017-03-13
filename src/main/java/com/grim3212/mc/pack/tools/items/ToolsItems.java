@@ -16,6 +16,7 @@ import com.grim3212.mc.pack.core.util.RecipeHelper;
 import com.grim3212.mc.pack.core.util.Utils;
 import com.grim3212.mc.pack.industry.item.IndustryItems;
 import com.grim3212.mc.pack.tools.GrimTools;
+import com.grim3212.mc.pack.tools.blocks.ToolsBlocks;
 import com.grim3212.mc.pack.tools.crafting.BackpackRecipe;
 import com.grim3212.mc.pack.tools.crafting.PelletBagRecipe;
 import com.grim3212.mc.pack.tools.items.ItemBetterBucket.BucketType;
@@ -323,6 +324,20 @@ public class ToolsItems implements IPartItems {
 
 		// Register all of the dispenser behaviors
 		DispenseBehaviors.register();
+
+		OreDictionary.registerOre("ingotDarkIron", dark_iron_ingot);
+		OreDictionary.registerOre("bucketMilk", Items.MILK_BUCKET);
+		OreDictionary.registerOre("bucketMilk", wooden_milk_bucket);
+		OreDictionary.registerOre("bucketMilk", stone_milk_bucket);
+		OreDictionary.registerOre("bucketMilk", golden_milk_bucket);
+		OreDictionary.registerOre("bucketMilk", diamond_milk_bucket);
+		OreDictionary.registerOre("bucketMilk", obsidian_milk_bucket);
+		OreDictionary.registerOre("gemBlackDiamond", black_diamond);
+		OreDictionary.registerOre("element115", element_115);
+		OreDictionary.registerOre("oreIron", iron_ore_item);
+		OreDictionary.registerOre("oreGold", gold_ore_item);
+		OreDictionary.registerOre("canEnergy", energy_canister);
+		OreDictionary.registerOre("canAdvancedEnergy", advanced_energy_canister);
 	}
 
 	public static List<IRecipe> blackTools;
@@ -345,20 +360,6 @@ public class ToolsItems implements IPartItems {
 
 	@Override
 	public void addRecipes() {
-		OreDictionary.registerOre("ingotDarkIron", dark_iron_ingot);
-		OreDictionary.registerOre("bucketMilk", Items.MILK_BUCKET);
-		OreDictionary.registerOre("bucketMilk", wooden_milk_bucket);
-		OreDictionary.registerOre("bucketMilk", stone_milk_bucket);
-		OreDictionary.registerOre("bucketMilk", golden_milk_bucket);
-		OreDictionary.registerOre("bucketMilk", diamond_milk_bucket);
-		OreDictionary.registerOre("bucketMilk", obsidian_milk_bucket);
-		OreDictionary.registerOre("gemBlackDiamond", black_diamond);
-		OreDictionary.registerOre("element115", element_115);
-		OreDictionary.registerOre("oreIron", iron_ore_item);
-		OreDictionary.registerOre("oreGold", gold_ore_item);
-		OreDictionary.registerOre("canEnergy", energy_canister);
-		OreDictionary.registerOre("canAdvancedEnergy", advanced_energy_canister);
-
 		// Register chiseleable blocks
 		ChiselRegistry.registerBlock(Blocks.DIAMOND_ORE, Blocks.STONE, Items.DIAMOND, 1, 0);
 		ChiselRegistry.registerBlock(Blocks.EMERALD_ORE, Blocks.STONE, Items.EMERALD, 1, 0);
@@ -369,6 +370,7 @@ public class ToolsItems implements IPartItems {
 		ChiselRegistry.registerBlock(Blocks.LIT_REDSTONE_ORE, Blocks.STONE, Items.REDSTONE, 4, 0);
 		ChiselRegistry.registerBlock(Blocks.COAL_ORE, Blocks.STONE, Items.COAL, 1, 0);
 		ChiselRegistry.registerBlock(Blocks.LAPIS_ORE, Blocks.STONE, Items.DYE, 3, 4);
+		ChiselRegistry.registerBlock(ToolsBlocks.black_diamond_ore, Blocks.STONE, black_diamond, 1, 0);
 
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(boomerang, 1), new Object[] { "XX ", "X  ", "XX ", 'X', "plankWood" }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(diamond_boomerang, 1), new Object[] { "XX ", "XY ", "XX ", 'X', "gemDiamond", 'Y', boomerang }));
