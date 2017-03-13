@@ -34,6 +34,11 @@ public class ItemSpear extends ItemManual {
 	}
 
 	@Override
+	public boolean isFull3D() {
+		return true;
+	}
+
+	@Override
 	public Page getPage(ItemStack stack) {
 		if (stack.getItem() == ToolsItems.spear || stack.getItem() == ToolsItems.iron_spear || stack.getItem() == ToolsItems.diamond_spear)
 			return ManualTools.spears_page;

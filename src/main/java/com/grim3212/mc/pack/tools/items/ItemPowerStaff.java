@@ -28,6 +28,8 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ItemPowerStaff extends ItemManual {
 
@@ -37,6 +39,12 @@ public class ItemPowerStaff extends ItemManual {
 		setMaxStackSize(1);
 		setMaxDamage(0);
 		setHasSubtypes(true);
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public boolean isFull3D() {
+		return true;
 	}
 
 	@Override
@@ -63,11 +71,6 @@ public class ItemPowerStaff extends ItemManual {
 	@Override
 	public int getMetadata(int damage) {
 		return damage;
-	}
-
-	@Override
-	public boolean isFull3D() {
-		return true;
 	}
 
 	@Override

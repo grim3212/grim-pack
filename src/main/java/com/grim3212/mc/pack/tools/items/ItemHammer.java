@@ -12,6 +12,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.stats.StatList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ItemHammer extends ItemManual {
 
@@ -19,6 +21,12 @@ public class ItemHammer extends ItemManual {
 		setMaxStackSize(1);
 		setCreativeTab(GrimTools.INSTANCE.getCreativeTab());
 		this.setMaxDamage(toolMaterial.getMaxUses());
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public boolean isFull3D() {
+		return true;
 	}
 
 	@Override
@@ -50,11 +58,6 @@ public class ItemHammer extends ItemManual {
 
 	@Override
 	public boolean canHarvestBlock(IBlockState state, ItemStack stack) {
-		return true;
-	}
-
-	@Override
-	public boolean isFull3D() {
 		return true;
 	}
 

@@ -14,3 +14,5 @@ Will be updated as more things need to be done or are completed
 - [X] Change grave to use new block instead of a chest
 - [ ] Add Grim Pack ores by default to magic wand list
 - [ ] Add tools for the various ores included, as well as multi tools, hammers, and machetes
+- [ ] Look into better handling for loading blocks configs? Ex. Wands, Grill Items, etc...
+- [ ] Possibly look into better part management and interaction
