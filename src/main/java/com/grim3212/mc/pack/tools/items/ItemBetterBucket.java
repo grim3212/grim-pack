@@ -11,6 +11,7 @@ import com.grim3212.mc.pack.tools.client.ManualTools;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
@@ -23,6 +24,7 @@ import net.minecraft.stats.StatList;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
@@ -317,9 +319,43 @@ public class ItemBetterBucket extends ItemManual {
 	}
 
 	public boolean tryPlaceFluid(EntityPlayer player, FluidStack block, World worldIn, BlockPos pos, ItemStack stack) {
-		// TODO: Use FluidUtil for placing fluids possibly picking them up too
-		FluidActionResult result = FluidUtil.tryPlaceFluid(player, worldIn, pos, stack, block);
-		return result.isSuccess();
+		if (block != null) {
+			// Handle vanilla differently
+			if (block.getFluid() == FluidRegistry.WATER || block.getFluid() == FluidRegistry.WATER) {
+				IBlockState iblockstate = worldIn.getBlockState(pos);
+				Material material = iblockstate.getMaterial();
+				boolean flag = !material.isSolid();
+				boolean flag1 = iblockstate.getBlock().isReplaceable(worldIn, pos);
+
+				if (!worldIn.isAirBlock(pos) && !flag && !flag1) {
+					return false;
+				} else {
+					if (worldIn.provider.doesWaterVaporize() && block.getFluid() == FluidRegistry.WATER) {
+						int l = pos.getX();
+						int i = pos.getY();
+						int j = pos.getZ();
+						worldIn.playSound(player, pos, SoundEvents.BLOCK_FIRE_EXTINGUISH, SoundCategory.BLOCKS, 0.5F, 2.6F + (worldIn.rand.nextFloat() - worldIn.rand.nextFloat()) * 0.8F);
+
+						for (int k = 0; k < 8; ++k) {
+							worldIn.spawnParticle(EnumParticleTypes.SMOKE_LARGE, (double) l + Math.random(), (double) i + Math.random(), (double) j + Math.random(), 0.0D, 0.0D, 0.0D, new int[0]);
+						}
+					} else {
+						if (!worldIn.isRemote && (flag || flag1) && !material.isLiquid()) {
+							worldIn.destroyBlock(pos, true);
+						}
+
+						worldIn.playSound(player, pos, block.getFluid() == FluidRegistry.WATER ? SoundEvents.ITEM_BUCKET_EMPTY : SoundEvents.ITEM_BUCKET_EMPTY_LAVA, SoundCategory.BLOCKS, 1.0F, 1.0F);
+						// Specify exactly which blocks to place
+						worldIn.setBlockState(pos, block.getFluid() == FluidRegistry.WATER ? Blocks.FLOWING_WATER.getDefaultState() : Blocks.FLOWING_LAVA.getDefaultState(), 11);
+					}
+
+					return true;
+				}
+			} else {
+				return FluidUtil.tryPlaceFluid(player, worldIn, pos, stack, block).isSuccess();
+			}
+		}
+		return false;
 	}
 
 	@Override
