@@ -222,6 +222,12 @@ public class ItemBetterBucket extends ItemManual {
 			if (canContainMore) {
 				FluidActionResult filledResult = FluidUtil.tryPickUpFluid(itemStackIn, playerIn, worldIn, clickPos, raytrace.sideHit);
 				if (filledResult.isSuccess()) {
+
+					// Don't change if in creative
+					if (playerIn.capabilities.isCreativeMode) {
+						return ActionResult.newResult(EnumActionResult.SUCCESS, itemStackIn);
+					}
+
 					return ActionResult.newResult(EnumActionResult.SUCCESS, filledResult.result);
 				} else {
 					// New Pos to account for Fire
@@ -321,7 +327,7 @@ public class ItemBetterBucket extends ItemManual {
 	public boolean tryPlaceFluid(EntityPlayer player, FluidStack block, World worldIn, BlockPos pos, ItemStack stack) {
 		if (block != null) {
 			// Handle vanilla differently
-			if (block.getFluid() == FluidRegistry.WATER || block.getFluid() == FluidRegistry.WATER) {
+			if (block.getFluid() == FluidRegistry.WATER || block.getFluid() == FluidRegistry.LAVA) {
 				IBlockState iblockstate = worldIn.getBlockState(pos);
 				Material material = iblockstate.getMaterial();
 				boolean flag = !material.isSolid();
