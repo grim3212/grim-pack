@@ -460,6 +460,44 @@ grimpack.tools.cfg=Tools Config
 grimpack.util.cfg=Util Config
 grimpack.world.cfg=World Config
 
+# Achievements
+achievement.open_manual=Open Instruction Manual
+achievement.open_manual.desc=Right click an instruction manual to open it.
+
+achievement.cuisine_start=Cuisine Start
+achievement.cuisine_start.desc=Open the Cuisine section in the instruction manual.
+achievement.cocoa=Chocolaty
+achievement.cocoa.desc=Break some cocoa pods and pick up the powder.
+achievement.chocolate_mould=Moulding the Future
+achievement.chocolate_mould.desc=Craft a chocolate bar mould
+achievement.chocolate_bar=Appetite Spoiler
+achievement.chocolate_bar.desc=Craft a wrapped chocolate bar
+achievement.bake_chocolate_cake=The Cake Isn't A Lie
+achievement.bake_chocolate_cake.desc=Craft a chocolate cake
+achievement.hot_chocolate=Drink of Winter
+achievement.hot_chocolate.desc=Make some hot chocolate
+achievement.soda=Poppin Bottles
+achievement.soda.desc=Create some fizzy soda drinks
+achievement.pie_pan=Not A Frying Pan
+achievement.pie_pan.desc=Craft a pie pan
+achievement.pie=Delicious Pie
+achievement.pie.desc=Bake your favorite pie flavor
+
+achievement.decor_start=Decor Start
+achievement.decor_start.desc=Open the Decor section in the instruction manual.
+
+achievement.industry_start=Industry Start
+achievement.industry_start.desc=Open the Industry section in the instruction manual.
+
+achievement.tools_start=Tools Start
+achievement.tools_start.desc=Open the Tools section in the instruction manual.
+
+achievement.util_start=Util Start
+achievement.util_start.desc=Open the Util section in the instruction manual.
+
+achievement.world_start=World Start
+achievement.world_start.desc=Open the World section in the instruction manual.
+
 #### Config Tooltips ###
 grimpack.core.cfg.tooltip=Config options for the core part of the Grim Pack
 grimpack.core.cfg.parts=Grim Parts

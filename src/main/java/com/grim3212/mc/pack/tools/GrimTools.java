@@ -1,5 +1,6 @@
 package com.grim3212.mc.pack.tools;
 
+import com.grim3212.mc.pack.core.GrimCore;
 import com.grim3212.mc.pack.core.manual.IManualPart;
 import com.grim3212.mc.pack.core.network.PacketDispatcher;
 import com.grim3212.mc.pack.core.part.GrimPart;
@@ -19,6 +20,7 @@ import com.grim3212.mc.pack.tools.world.ToolsGenerate;
 
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraft.stats.Achievement;
 import net.minecraft.util.SoundEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.SidedProxy;
@@ -41,6 +43,8 @@ public class GrimTools extends GrimPart {
 
 	public static SoundEvent raygunSound;
 
+	public static Achievement TOOLS_START;
+
 	public GrimTools() {
 		super(GrimTools.partId, GrimTools.partName, new ToolsConfig());
 		addItem(new ToolsItems());
@@ -60,6 +64,8 @@ public class GrimTools extends GrimPart {
 		GameRegistry.registerWorldGenerator(new ToolsGenerate(), 25);
 		raygunSound = Utils.registerSound("raysh");
 
+		TOOLS_START = Utils.addAchievement("achievement.tools_start", "tools_start", 5, -5, new ItemStack(ToolsItems.backpack), GrimCore.OPEN_MANUAL);
+
 		proxy.preInit();
 	}
 
@@ -68,7 +74,7 @@ public class GrimTools extends GrimPart {
 		super.init(event);
 		proxy.initColors();
 	}
-	
+
 	@Override
 	public void postInit(FMLPostInitializationEvent event) {
 		super.postInit(event);

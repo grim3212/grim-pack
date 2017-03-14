@@ -72,7 +72,7 @@ public class CuisineBlocks implements IPartItems {
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(cheese_block, 1), new Object[] { "CCC", "CCC", "CCC", 'C', CuisineItems.cheese }));
 		CuisineItems.cheeseRecipe.add(RecipeHelper.getLatestIRecipe());
 
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(chocolate_cake, 1), new Object[] { "BXB", "SES", "WWW", 'B', CuisineItems.chocolate_ball, 'X', Items.MILK_BUCKET, 'S', Items.SUGAR, 'E', "egg", 'W', "cropWheat" }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(chocolate_cake, 1), new Object[] { "BXB", "SES", "WWW", 'B', CuisineItems.chocolate_ball, 'X', "bucketMilk", 'S', Items.SUGAR, 'E', "egg", 'W', "cropWheat" }));
 
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(chocolate_block, 1), new Object[] { "XXX", "XXX", "XXX", 'X', CuisineItems.chocolate_bar }));
 		CuisineItems.choc.add(RecipeHelper.getLatestIRecipe());

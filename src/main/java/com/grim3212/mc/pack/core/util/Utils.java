@@ -9,6 +9,7 @@ import com.grim3212.mc.pack.GrimPack;
 import com.grim3212.mc.pack.core.item.ItemManualBlock;
 import com.grim3212.mc.pack.core.network.MessageBetterExplosion;
 import com.grim3212.mc.pack.core.network.PacketDispatcher;
+import com.grim3212.mc.pack.core.part.GrimPart;
 
 import net.minecraft.block.Block;
 import net.minecraft.enchantment.Enchantment;
@@ -18,6 +19,7 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
+import net.minecraft.stats.Achievement;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
@@ -275,5 +277,12 @@ public class Utils {
 				return false;
 		}
 		return true;
+	}
+
+	public static Achievement addAchievement(String unlocalizedName, String identifier, int column, int row, ItemStack iconStack, Achievement parent) {
+		Achievement achievement = new Achievement(unlocalizedName, identifier, column, row, iconStack, parent);
+		achievement.registerStat();
+		GrimPart.packAchievementPage.getAchievements().add(achievement);
+		return achievement;
 	}
 }

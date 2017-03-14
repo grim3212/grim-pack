@@ -1,5 +1,6 @@
 package com.grim3212.mc.pack.util;
 
+import com.grim3212.mc.pack.core.GrimCore;
 import com.grim3212.mc.pack.core.manual.IManualPart;
 import com.grim3212.mc.pack.core.network.PacketDispatcher;
 import com.grim3212.mc.pack.core.part.GrimPart;
@@ -14,6 +15,9 @@ import com.grim3212.mc.pack.util.grave.TileEntityGrave;
 import com.grim3212.mc.pack.util.init.UtilBlocks;
 import com.grim3212.mc.pack.util.network.MessageFusRoDah;
 
+import net.minecraft.init.Items;
+import net.minecraft.item.ItemStack;
+import net.minecraft.stats.Achievement;
 import net.minecraft.util.SoundEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Loader;
@@ -31,15 +35,17 @@ public class GrimUtil extends GrimPart {
 	@SidedProxy(clientSide = "com.grim3212.mc.pack.util.client.UtilClientProxy", serverSide = COMMON_PROXY)
 	public static CommonProxy proxy;
 
-	public static final String partID = "util";
+	public static final String partId = "util";
 	public static final String partName = "Grim Util";
 
 	public static SoundEvent fusrodahSound;
 	public static SoundEvent fusrodahOldSound;
 	public static boolean baubles = false;
 
+	public static Achievement UTIL_START;
+
 	public GrimUtil() {
-		super(GrimUtil.partID, GrimUtil.partName, new UtilConfig(), false, false);
+		super(GrimUtil.partId, GrimUtil.partName, new UtilConfig(), false, false);
 		addItem(new UtilBlocks());
 	}
 
@@ -57,6 +63,8 @@ public class GrimUtil extends GrimPart {
 		if (baubles) {
 			GrimLog.info(GrimUtil.partName, "Found Baubles enabling grave support");
 		}
+
+		UTIL_START = Utils.addAchievement("achievement.util_start", "util_start", -5, 0, new ItemStack(Items.COMPASS), GrimCore.OPEN_MANUAL);
 
 		proxy.preInit();
 	}

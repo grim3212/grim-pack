@@ -15,6 +15,15 @@ public class ManualRegistry {
 		loadedMods.add(part);
 	}
 
+	public static ManualPart getPartFromId(String partId) {
+		for (ManualPart part : loadedMods) {
+			if (part.getPartId().equals(partId)) {
+				return part;
+			}
+		}
+		return null;
+	}
+
 	public static ArrayList<ManualPart> getLoadedMods() {
 		return loadedMods;
 	}

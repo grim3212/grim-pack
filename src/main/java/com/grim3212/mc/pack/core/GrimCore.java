@@ -8,11 +8,14 @@ import com.grim3212.mc.pack.core.item.CoreItems;
 import com.grim3212.mc.pack.core.manual.IManualPart;
 import com.grim3212.mc.pack.core.manual.event.GiveManualEvent;
 import com.grim3212.mc.pack.core.network.MessageBetterExplosion;
+import com.grim3212.mc.pack.core.network.MessageManualAchievement;
 import com.grim3212.mc.pack.core.network.PacketDispatcher;
 import com.grim3212.mc.pack.core.part.GrimPart;
 import com.grim3212.mc.pack.core.proxy.CommonProxy;
+import com.grim3212.mc.pack.core.util.Utils;
 
 import net.minecraft.item.ItemStack;
+import net.minecraft.stats.Achievement;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
@@ -30,6 +33,8 @@ public class GrimCore extends GrimPart {
 	public static final String partId = "core";
 	public static final String partName = "Grim Core";
 
+	public static Achievement OPEN_MANUAL;
+
 	public GrimCore() {
 		super(GrimCore.partId, GrimCore.partName, new CoreConfig(), true, true);
 		addItem(new CoreItems());
@@ -42,10 +47,13 @@ public class GrimCore extends GrimPart {
 		// Register config syncing
 		PacketDispatcher.registerMessage(MessageSyncConfig.class);
 		PacketDispatcher.registerMessage(MessageBetterExplosion.class);
-		// PacketDispatcher.registerMessage(MessageUpdateManual.class);
+		PacketDispatcher.registerMessage(MessageManualAchievement.class);
 
 		// Register LoginEvent for receiving the Instruction Manual
 		MinecraftForge.EVENT_BUS.register(new GiveManualEvent());
+
+		OPEN_MANUAL = Utils.addAchievement("achievement.open_manual", "open_manual", 0, 0, new ItemStack(CoreItems.instruction_manual), OPEN_MANUAL);
+
 		proxy.preInit();
 	}
 

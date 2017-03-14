@@ -1,11 +1,15 @@
 package com.grim3212.mc.pack.core.manual.gui;
 
 import com.grim3212.mc.pack.GrimPack;
+import com.grim3212.mc.pack.core.GrimCore;
+import com.grim3212.mc.pack.core.manual.ManualPart;
 import com.grim3212.mc.pack.core.manual.ManualRegistry;
 import com.grim3212.mc.pack.core.manual.button.GuiButtonChangePage;
 import com.grim3212.mc.pack.core.manual.button.GuiButtonHistory;
 import com.grim3212.mc.pack.core.manual.button.GuiButtonHome;
 import com.grim3212.mc.pack.core.manual.button.GuiButtonModSection;
+import com.grim3212.mc.pack.core.network.MessageManualAchievement;
+import com.grim3212.mc.pack.core.network.PacketDispatcher;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
@@ -157,10 +161,20 @@ public class GuiManualIndex extends GuiScreen {
 			this.updateButtons();
 			break;
 		default:
-			if (page == 0)
-				mc.displayGuiScreen(new GuiManualChapter(ManualRegistry.getLoadedMods().get(button.id - 3), this.page));
-			else
-				mc.displayGuiScreen(new GuiManualChapter(ManualRegistry.getLoadedMods().get(12 + ((page - 1) * 14 + (button.id - 3))), this.page));
+			if (page == 0) {
+				ManualPart part = ManualRegistry.getLoadedMods().get(button.id - 3);
+				mc.displayGuiScreen(new GuiManualChapter(part, this.page));
+				if (!part.getPartId().equals(GrimCore.partId)) {
+					PacketDispatcher.sendToServer(new MessageManualAchievement(part.getPartId()));
+				}
+			} else {
+				ManualPart part = ManualRegistry.getLoadedMods().get(12 + ((page - 1) * 14 + (button.id - 3)));
+				mc.displayGuiScreen(new GuiManualChapter(part, this.page));
+
+				if (!part.getPartId().equals(GrimCore.partId)) {
+					PacketDispatcher.sendToServer(new MessageManualAchievement(part.getPartId()));
+				}
+			}
 		}
 	}
 

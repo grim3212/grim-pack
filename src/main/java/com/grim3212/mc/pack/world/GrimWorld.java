@@ -1,8 +1,10 @@
 package com.grim3212.mc.pack.world;
 
+import com.grim3212.mc.pack.core.GrimCore;
 import com.grim3212.mc.pack.core.manual.IManualPart;
 import com.grim3212.mc.pack.core.part.GrimPart;
 import com.grim3212.mc.pack.core.proxy.CommonProxy;
+import com.grim3212.mc.pack.core.util.Utils;
 import com.grim3212.mc.pack.world.blocks.WorldBlocks;
 import com.grim3212.mc.pack.world.client.ManualWorld;
 import com.grim3212.mc.pack.world.compat.jer.JERWorld;
@@ -16,6 +18,7 @@ import com.grim3212.mc.pack.world.types.WorldTypes;
 import com.grim3212.mc.pack.world.util.LootTables;
 
 import net.minecraft.item.ItemStack;
+import net.minecraft.stats.Achievement;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Optional;
 import net.minecraftforge.fml.common.SidedProxy;
@@ -34,11 +37,13 @@ public class GrimWorld extends GrimPart {
 	@SidedProxy(clientSide = "com.grim3212.mc.pack.world.client.WorldClientProxy", serverSide = COMMON_PROXY)
 	public static CommonProxy proxy;
 
-	public static final String partID = "world";
+	public static final String partId = "world";
 	public static final String partName = "Grim World";
 
+	public static Achievement WORLD_START;
+
 	public GrimWorld() {
-		super(GrimWorld.partID, GrimWorld.partName, new WorldConfig());
+		super(GrimWorld.partId, GrimWorld.partName, new WorldConfig());
 		addItem(new WorldBlocks());
 		addItem(new WorldItems());
 		addEntity(new WorldEntities());
@@ -51,6 +56,8 @@ public class GrimWorld extends GrimPart {
 		GameRegistry.registerWorldGenerator(new GrimWorldGenerator(), 5);
 		MinecraftForge.TERRAIN_GEN_BUS.register(new WorldEvents());
 		LootTables.initLootTables();
+
+		WORLD_START = Utils.addAchievement("achievement.world_start", "world_start", 5, 0, new ItemStack(WorldItems.gunpowder_reed_item), GrimCore.OPEN_MANUAL);
 
 		proxy.preInit();
 	}

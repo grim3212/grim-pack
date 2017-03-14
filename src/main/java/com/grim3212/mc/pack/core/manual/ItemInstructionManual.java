@@ -5,6 +5,7 @@ import java.util.List;
 import javax.annotation.Nullable;
 
 import com.grim3212.mc.pack.GrimPack;
+import com.grim3212.mc.pack.core.GrimCore;
 import com.grim3212.mc.pack.core.client.ClientUtil;
 import com.grim3212.mc.pack.core.client.ManualCore;
 import com.grim3212.mc.pack.core.client.gui.PackGuiHandler;
@@ -53,6 +54,8 @@ public class ItemInstructionManual extends Item implements IManualItem {
 			}
 		}
 
+		// Try and give achievement
+		playerIn.addStat(GrimCore.OPEN_MANUAL);
 		playerIn.openGui(GrimPack.INSTANCE, PackGuiHandler.MANUAL_GUI_ID, worldIn, 0, 0, 0);
 		return ActionResult.newResult(EnumActionResult.SUCCESS, playerIn.getHeldItem(hand));
 	}
@@ -64,6 +67,8 @@ public class ItemInstructionManual extends Item implements IManualItem {
 			if (world.isRemote)
 				updatePage(((IManualBlock) state.getBlock()).getPage(state));
 
+			// Try and give achievement
+			player.addStat(GrimCore.OPEN_MANUAL);
 			player.openGui(GrimPack.INSTANCE, PackGuiHandler.MANUAL_GUI_ID, world, 0, 0, 0);
 			return EnumActionResult.SUCCESS;
 		}

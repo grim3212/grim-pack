@@ -10,6 +10,7 @@ import com.grim3212.mc.pack.core.manual.ManualPart;
 import com.grim3212.mc.pack.core.part.IPartEntities.IPartTileEntities;
 
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.common.AchievementPage;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fml.client.event.ConfigChangedEvent.OnConfigChangedEvent;
@@ -23,6 +24,11 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public abstract class GrimPart {
 
 	public static final String COMMON_PROXY = "com.grim3212.mc.pack.core.proxy.CommonProxy";
+	public static final AchievementPage packAchievementPage = new AchievementPage("Grim Pack");
+
+	static {
+		AchievementPage.registerAchievementPage(packAchievementPage);
+	}
 
 	private String partId;
 	private String partName;

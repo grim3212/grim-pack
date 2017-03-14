@@ -1,6 +1,7 @@
 package com.grim3212.mc.pack.core.manual;
 
 import java.util.ArrayList;
+
 import net.minecraft.client.resources.I18n;
 
 public class ManualPart {
