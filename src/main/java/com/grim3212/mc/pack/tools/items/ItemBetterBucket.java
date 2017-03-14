@@ -10,9 +10,7 @@ import com.grim3212.mc.pack.core.util.Utils;
 import com.grim3212.mc.pack.tools.client.ManualTools;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockLiquid;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
@@ -25,7 +23,6 @@ import net.minecraft.stats.StatList;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
-import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
@@ -33,10 +30,10 @@ import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.fluids.Fluid;
+import net.minecraftforge.fluids.FluidActionResult;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.IFluidBlock;
-import net.minecraftforge.fluids.capability.IFluidHandler;
+import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.fluids.capability.templates.FluidHandlerItemStack;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -211,7 +208,7 @@ public class ItemBetterBucket extends ItemManual {
 			return ActionResult.newResult(EnumActionResult.SUCCESS, itemStackIn);
 		}
 
-		IFluidHandler fluidHandler = Utils.getFluidHandler(itemStackIn);
+		// IFluidHandler fluidHandler = Utils.getFluidHandler(itemStackIn);
 
 		// clicked on a block?
 		RayTraceResult raytrace = this.rayTrace(worldIn, playerIn, canContainMore);
@@ -221,83 +218,16 @@ public class ItemBetterBucket extends ItemManual {
 			BlockPos clickPos = raytrace.getBlockPos();
 
 			if (canContainMore) {
-				IBlockState state = worldIn.getBlockState(clickPos);
-
-				if (state.getBlock() instanceof IFluidBlock) {
-					IFluidBlock fluidBlock = (IFluidBlock) state.getBlock();
-					if (fluidBlock.canDrain(worldIn, clickPos)) {
-						FluidStack drained = fluidBlock.drain(worldIn, clickPos, false);
-						// check if it fits exactly
-						if (drained != null && drained.amount % Fluid.BUCKET_VOLUME == 0) {
-							// Check to make sure the temperature isn't too hot
-							if (this.maxPickupTemp >= drained.getFluid().getTemperature()) {
-								// check if the container accepts it
-								int filled = fluidHandler.fill(drained, false);
-								if (filled == drained.amount) {
-									// actually transfer the fluid
-									drained = fluidBlock.drain(worldIn, clickPos, true);
-
-									if (playerIn.capabilities.isCreativeMode) {
-										return ActionResult.newResult(EnumActionResult.SUCCESS, itemStackIn);
-									}
-
-									fluidHandler.fill(drained, true);
-
-									return ActionResult.newResult(EnumActionResult.SUCCESS, itemStackIn);
-								}
-							}
-						}
-					}
+				FluidActionResult filledResult = FluidUtil.tryPickUpFluid(itemStackIn, playerIn, worldIn, clickPos, raytrace.sideHit);
+				if (filledResult.isSuccess()) {
+					return ActionResult.newResult(EnumActionResult.SUCCESS, filledResult.result);
 				} else {
-
-					if (!worldIn.isBlockModifiable(playerIn, clickPos)) {
-						return ActionResult.newResult(EnumActionResult.PASS, itemStackIn);
-					}
-					if (!playerIn.canPlayerEdit(clickPos.offset(raytrace.sideHit), raytrace.sideHit, itemStackIn)) {
-						return ActionResult.newResult(EnumActionResult.PASS, itemStackIn);
-					}
-
-					Material material = state.getMaterial();
-					if (material == Material.WATER && state.getValue(BlockLiquid.LEVEL) == 0) {
-						if (this.maxPickupTemp >= FluidRegistry.WATER.getTemperature()) {
-							worldIn.setBlockToAir(clickPos);
-							playerIn.addStat(StatList.getObjectUseStats(this));
-
-							if (playerIn.capabilities.isCreativeMode) {
-								return ActionResult.newResult(EnumActionResult.SUCCESS, itemStackIn);
-							}
-
-							FluidStack fluidStack = new FluidStack(FluidRegistry.WATER, Fluid.BUCKET_VOLUME);
-
-							if (fluidHandler.fill(fluidStack, false) == fluidStack.amount) {
-								fluidHandler.fill(fluidStack, true);
-								return ActionResult.newResult(EnumActionResult.SUCCESS, itemStackIn);
-							}
-						}
-					}
-
-					if (material == Material.LAVA && state.getValue(BlockLiquid.LEVEL) == 0) {
-						if (this.maxPickupTemp >= FluidRegistry.LAVA.getTemperature()) {
-							worldIn.setBlockToAir(clickPos);
-							playerIn.addStat(StatList.getObjectUseStats(this));
-
-							if (playerIn.capabilities.isCreativeMode) {
-								return ActionResult.newResult(EnumActionResult.SUCCESS, itemStackIn);
-							}
-
-							FluidStack fluidStack = new FluidStack(FluidRegistry.LAVA, Fluid.BUCKET_VOLUME);
-
-							if (fluidHandler.fill(fluidStack, false) == fluidStack.amount) {
-								fluidHandler.fill(fluidStack, true);
-								return ActionResult.newResult(EnumActionResult.SUCCESS, itemStackIn);
-							}
-						}
-					}
-
 					// New Pos to account for Fire
 					BlockPos firePos = raytrace.getBlockPos().offset(raytrace.sideHit);
 					if (worldIn.getBlockState(firePos).getBlock() == Blocks.FIRE && isEmptyOrContains(itemStackIn, "fire") && this.pickupFire) {
 						worldIn.setBlockToAir(firePos);
+						playerIn.addStat(StatList.getObjectUseStats(this));
+						playerIn.playSound(SoundEvents.BLOCK_FIRE_EXTINGUISH, 1.0F, 1.0F);
 
 						if (playerIn.capabilities.isCreativeMode) {
 							return ActionResult.newResult(EnumActionResult.SUCCESS, itemStackIn);
@@ -328,14 +258,14 @@ public class ItemBetterBucket extends ItemManual {
 
 						// try placing liquid
 						if (fluidStack != null) {
-							if (this.tryPlaceFluid(fluidStack.getFluid().getBlock(), worldIn, targetPos) && !playerIn.capabilities.isCreativeMode) {
+							if (this.tryPlaceFluid(playerIn, fluidStack, worldIn, targetPos, itemStackIn) && !playerIn.capabilities.isCreativeMode) {
 								// success!
 								playerIn.addStat(StatList.getObjectUseStats(this));
 								setAmount(itemStackIn, amount - Fluid.BUCKET_VOLUME);
 								return ActionResult.newResult(EnumActionResult.SUCCESS, this.tryBreakBucket(itemStackIn));
 							}
 						} else if (getFluid(itemStackIn).equals("fire")) {
-							if (this.tryPlaceFluid(Blocks.FIRE, worldIn, targetPos) && !playerIn.capabilities.isCreativeMode) {
+							if (this.tryPlaceBlock(playerIn, Blocks.FIRE, worldIn, targetPos) && !playerIn.capabilities.isCreativeMode) {
 								// success!
 								playerIn.addStat(StatList.getObjectUseStats(this));
 								setAmount(itemStackIn, amount - Fluid.BUCKET_VOLUME);
@@ -363,7 +293,7 @@ public class ItemBetterBucket extends ItemManual {
 		return getFluid(stack).equals("empty") || getFluid(stack).equals(type);
 	}
 
-	public boolean tryPlaceFluid(Block block, World worldIn, BlockPos pos) {
+	public boolean tryPlaceBlock(EntityPlayer player, Block block, World worldIn, BlockPos pos) {
 		if (block == null) {
 			return false;
 		}
@@ -377,24 +307,19 @@ public class ItemBetterBucket extends ItemManual {
 		}
 
 		// water goes poof?
-		if (worldIn.provider.doesWaterVaporize() && (block == Blocks.FLOWING_WATER || block == Blocks.WATER)) {
-			int i = pos.getX();
-			int j = pos.getY();
-			int k = pos.getZ();
-			worldIn.playSound((EntityPlayer) null, pos, SoundEvents.BLOCK_LAVA_EXTINGUISH, SoundCategory.BLOCKS, 0.5F, 2.6F + (worldIn.rand.nextFloat() - worldIn.rand.nextFloat()) * 0.8F);
-
-			for (int l = 0; l < 8; ++l) {
-				worldIn.spawnParticle(EnumParticleTypes.SMOKE_LARGE, (double) i + Math.random(), (double) j + Math.random(), (double) k + Math.random(), 0.0D, 0.0D, 0.0D);
-			}
-		} else {
-			if (!worldIn.isRemote && !isSolid && !material.isLiquid()) {
-				worldIn.destroyBlock(pos, true);
-			}
-
-			worldIn.setBlockState(pos, block.getDefaultState(), 3);
-			worldIn.notifyNeighborsOfStateChange(pos, block, true);
+		if (!worldIn.isRemote && !isSolid && !material.isLiquid()) {
+			worldIn.destroyBlock(pos, true);
 		}
+
+		worldIn.playSound(player, pos, block == Blocks.FIRE ? SoundEvents.ITEM_FLINTANDSTEEL_USE : SoundEvents.ITEM_BUCKET_EMPTY, SoundCategory.BLOCKS, 1.0F, 1.0F);
+		worldIn.setBlockState(pos, block.getDefaultState(), 11);
 		return true;
+	}
+
+	public boolean tryPlaceFluid(EntityPlayer player, FluidStack block, World worldIn, BlockPos pos, ItemStack stack) {
+		// TODO: Use FluidUtil for placing fluids possibly picking them up too
+		FluidActionResult result = FluidUtil.tryPlaceFluid(player, worldIn, pos, stack, block);
+		return result.isSuccess();
 	}
 
 	@Override
