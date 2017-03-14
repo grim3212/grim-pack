@@ -333,7 +333,7 @@ public class ConfigUtils {
 											blocklist.put(block.getStateFromMeta(stack.getMetadata()), false);
 										}
 									} else {
-										GrimLog.error(GrimPack.modName, "Ignoring item '" + stack.getUnlocalizedName() + "' in OreDict '" + parts[1] + "'!");
+										GrimLog.error(GrimPack.modName, "Ignoring item '" + stack.getUnlocalizedName() + "' in OreDict '" + parts[1] + "' for blocks only list!");
 									}
 								}
 							} else {
