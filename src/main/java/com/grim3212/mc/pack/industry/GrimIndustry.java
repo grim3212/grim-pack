@@ -1,6 +1,5 @@
 package com.grim3212.mc.pack.industry;
 
-import com.grim3212.mc.pack.core.GrimCore;
 import com.grim3212.mc.pack.core.manual.IManualPart;
 import com.grim3212.mc.pack.core.network.PacketDispatcher;
 import com.grim3212.mc.pack.core.part.GrimPart;
@@ -9,6 +8,7 @@ import com.grim3212.mc.pack.industry.block.IndustryBlocks;
 import com.grim3212.mc.pack.industry.client.ManualIndustry;
 import com.grim3212.mc.pack.industry.config.IndustryConfig;
 import com.grim3212.mc.pack.industry.entity.IndustryEntities;
+import com.grim3212.mc.pack.industry.event.IndustryAchievements;
 import com.grim3212.mc.pack.industry.item.IndustryItems;
 import com.grim3212.mc.pack.industry.network.MessageExtruderDirection;
 import com.grim3212.mc.pack.industry.network.MessageSaveFan;
@@ -23,7 +23,6 @@ import com.grim3212.mc.pack.industry.tile.IndustryTileEntities;
 import com.grim3212.mc.pack.industry.world.IndustryGenerate;
 
 import net.minecraft.item.ItemStack;
-import net.minecraft.stats.Achievement;
 import net.minecraft.util.SoundEvent;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -44,8 +43,6 @@ public class GrimIndustry extends GrimPart {
 
 	public static SoundEvent spikeDeploySound;
 	public static SoundEvent spikeCloseSound;
-
-	public static Achievement INDUSTRY_START;
 
 	public GrimIndustry() {
 		super(GrimIndustry.partId, GrimIndustry.partName, new IndustryConfig());
@@ -69,11 +66,10 @@ public class GrimIndustry extends GrimPart {
 		PacketDispatcher.registerMessage(MessageSaveFan.class);
 		PacketDispatcher.registerMessage(MessageExtruderDirection.class);
 		GameRegistry.registerWorldGenerator(new IndustryGenerate(), 10);
+		IndustryAchievements.init();
 
 		spikeDeploySound = Utils.registerSound("spikeDeploy");
 		spikeCloseSound = Utils.registerSound("spikeClose");
-
-		INDUSTRY_START = Utils.addAchievement("achievement.industry_start", "industry_start", -5, 5, new ItemStack(IndustryBlocks.refinery), GrimCore.OPEN_MANUAL);
 
 		proxy.preInit();
 	}

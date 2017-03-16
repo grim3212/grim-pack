@@ -2,6 +2,7 @@ package com.grim3212.mc.pack.world.entity;
 
 import com.grim3212.mc.pack.core.manual.pages.Page;
 import com.grim3212.mc.pack.world.client.ManualWorld;
+import com.grim3212.mc.pack.world.event.WorldAchievements;
 import com.grim3212.mc.pack.world.util.LootTables;
 
 import net.minecraft.block.Block;
@@ -138,5 +139,13 @@ public class EntityIcePixie extends EntityDayMob implements IRangedAttackMob {
 	@Override
 	public Page getPage(Entity entity) {
 		return ManualWorld.icePixie_page;
+	}
+
+	@Override
+	public void onDeath(DamageSource cause) {
+		super.onDeath(cause);
+		if (cause.getEntity() instanceof EntityPlayer) {
+			((EntityPlayer) cause.getEntity()).addStat(WorldAchievements.ICE_PIXIE);
+		}
 	}
 }

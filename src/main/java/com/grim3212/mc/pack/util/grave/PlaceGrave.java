@@ -2,6 +2,7 @@ package com.grim3212.mc.pack.util.grave;
 
 import com.grim3212.mc.pack.core.util.GrimLog;
 import com.grim3212.mc.pack.util.GrimUtil;
+import com.grim3212.mc.pack.util.event.UtilAchievements;
 import com.grim3212.mc.pack.util.init.UtilBlocks;
 
 import baubles.api.BaublesApi;
@@ -163,6 +164,8 @@ public class PlaceGrave {
 			}
 
 			fillGrave(player, (TileEntityGrave) player.world.getTileEntity(pos));
+			// Trigger grave achievement
+			player.addStat(UtilAchievements.DIE);
 		} else {
 			GrimLog.info(GrimUtil.partName, "Could not find valid position for grave!");
 		}

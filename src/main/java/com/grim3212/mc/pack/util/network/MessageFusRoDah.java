@@ -7,6 +7,7 @@ import java.util.List;
 import com.grim3212.mc.pack.core.network.AbstractMessage.AbstractServerMessage;
 import com.grim3212.mc.pack.util.GrimUtil;
 import com.grim3212.mc.pack.util.config.UtilConfig;
+import com.grim3212.mc.pack.util.event.UtilAchievements;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -49,6 +50,9 @@ public class MessageFusRoDah extends AbstractServerMessage<MessageFusRoDah> {
 				entity.addVelocity(xPower, UtilConfig.frd_lift, zPower);
 			}
 		}
+
+		// Trigger Fus Ro Dah achivement
+		player.addStat(UtilAchievements.FUS_RO_DAH);
 
 		if (UtilConfig.soundEnabled) {
 			if (UtilConfig.useOldSound)

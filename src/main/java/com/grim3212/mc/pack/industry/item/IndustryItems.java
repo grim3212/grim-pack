@@ -208,8 +208,8 @@ public class IndustryItems implements IPartItems {
 		steel.setRepairItem(new ItemStack(steel_ingot));
 		antiRadiation.setRepairItem(new ItemStack(Blocks.WOOL));
 		gravboots.setRepairItem(new ItemStack(Items.IRON_INGOT));
-		
-		//Oredict at end of preinit
+
+		// Oredict at end of preinit
 		OreDictionary.registerOre("rubber", rubber);
 		OreDictionary.registerOre("dustCoal", coal_dust);
 		OreDictionary.registerOre("ingotSteel", steel_ingot);

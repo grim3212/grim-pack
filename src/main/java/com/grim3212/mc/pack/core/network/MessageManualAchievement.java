@@ -4,11 +4,17 @@ import java.io.IOException;
 
 import com.grim3212.mc.pack.core.network.AbstractMessage.AbstractServerMessage;
 import com.grim3212.mc.pack.cuisine.GrimCuisine;
+import com.grim3212.mc.pack.cuisine.event.CuisineAchievements;
 import com.grim3212.mc.pack.decor.GrimDecor;
+import com.grim3212.mc.pack.decor.event.DecorAchievements;
 import com.grim3212.mc.pack.industry.GrimIndustry;
+import com.grim3212.mc.pack.industry.event.IndustryAchievements;
 import com.grim3212.mc.pack.tools.GrimTools;
+import com.grim3212.mc.pack.tools.event.ToolsAchievements;
 import com.grim3212.mc.pack.util.GrimUtil;
+import com.grim3212.mc.pack.util.event.UtilAchievements;
 import com.grim3212.mc.pack.world.GrimWorld;
+import com.grim3212.mc.pack.world.event.WorldAchievements;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.network.PacketBuffer;
@@ -40,22 +46,22 @@ public class MessageManualAchievement extends AbstractServerMessage<MessageManua
 		// TODO: Possibly make this more abstract?
 		switch (this.partId) {
 		case GrimCuisine.partId:
-			player.addStat(GrimCuisine.CUISINE_START);
+			player.addStat(CuisineAchievements.CUISINE_START);
 			break;
 		case GrimDecor.partId:
-			player.addStat(GrimDecor.DECOR_START);
+			player.addStat(DecorAchievements.DECOR_START);
 			break;
 		case GrimIndustry.partId:
-			player.addStat(GrimIndustry.INDUSTRY_START);
+			player.addStat(IndustryAchievements.INDUSTRY_START);
 			break;
 		case GrimTools.partId:
-			player.addStat(GrimTools.TOOLS_START);
+			player.addStat(ToolsAchievements.TOOLS_START);
 			break;
 		case GrimUtil.partId:
-			player.addStat(GrimUtil.UTIL_START);
+			player.addStat(UtilAchievements.UTIL_START);
 			break;
 		case GrimWorld.partId:
-			player.addStat(GrimWorld.WORLD_START);
+			player.addStat(WorldAchievements.WORLD_START);
 			break;
 		}
 	}

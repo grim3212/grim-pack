@@ -16,4 +16,4 @@ Will be updated as more things need to be done or are completed
 - [ ] Add tools for the various ores included, as well as multi tools, hammers, and machetes
 - [X] Look into better handling for loading blocks configs? Ex. Wands, Grill Items, etc...
 - [ ] Possibly look into better part management and interaction
-- [ ] Add in Achievements
+- [X] Add in Achievements
