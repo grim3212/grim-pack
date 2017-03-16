@@ -170,7 +170,7 @@ public class ItemMiningWand extends ItemWand {
 			return true;
 		}
 		// NORMAL MINING
-		Iterable<BlockPos> iterable = BlockPos.getAllInBox(startPos, endPos.up());
+		Iterable<BlockPos> iterable = BlockPos.getAllInBox(startPos, endPos);
 		for (BlockPos pos : iterable) {
 			stateAt = world.getBlockState(pos);
 			if (canBreak(keys, world, pos)) {
@@ -192,7 +192,7 @@ public class ItemMiningWand extends ItemWand {
 				error(entityplayer, clicked, "nowork");
 			return false;
 		}
-		iterable = BlockPos.getAllInBox(startPos, endPos.up());
+		iterable = BlockPos.getAllInBox(startPos, endPos);
 		for (Object object : iterable) {
 			BlockPos newPos = (BlockPos) object;
 			stateAt = world.getBlockState(newPos);
