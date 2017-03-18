@@ -279,8 +279,9 @@ public class Utils {
 		return true;
 	}
 
-	public static Achievement addAchievement(String unlocalizedName, String identifier, int column, int row, ItemStack iconStack, Achievement parent) {
-		Achievement achievement = new Achievement(unlocalizedName, identifier, column, row, iconStack, parent);
+	public static Achievement addAchievement(String id, String unlocalizedName, int column, int row, ItemStack iconStack, Achievement parent) {
+		// Achievements params are switched
+		Achievement achievement = new Achievement(id, unlocalizedName, column, row, iconStack, parent);
 		achievement.registerStat();
 		GrimPart.packAchievementPage.getAchievements().add(achievement);
 		return achievement;

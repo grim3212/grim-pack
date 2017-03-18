@@ -27,13 +27,13 @@ public class WorldAchievements {
 	public static void init() {
 		MinecraftForge.EVENT_BUS.register(new WorldAchievements());
 
-		WORLD_START = Utils.addAchievement("achievement.world_start", "world_start", 5, 0, new ItemStack(WorldItems.gunpowder_reed_item), GrimCore.OPEN_MANUAL);
-		FUNGUS = Utils.addAchievement("achievement.fungus", "fungus", 7, 1, new ItemStack(WorldBlocks.fungus_growing), WORLD_START);
-		BUILDING_FUNGUS = Utils.addAchievement("achievement.building_fungus", "building_fungus", 9, 1, new ItemStack(WorldBlocks.fungus_building), FUNGUS);
-		FUNGICIDE = Utils.addAchievement("achievement.fungicide", "fungicide", 11, 1, new ItemStack(WorldItems.fungicide), BUILDING_FUNGUS);
-		ORE_BUILDING_FUNGUS = Utils.addAchievement("achievement.ore_building_fungus", "ore_building_fungus", 11, 3, new ItemStack(WorldBlocks.fungus_ore_building), FUNGICIDE).setSpecial();
-		TREASURE = Utils.addAchievement("achievement.treasure", "treasure", 4, 1, new ItemStack(Blocks.CHEST), WORLD_START);
-		ICE_PIXIE = Utils.addAchievement("achievement.ice_pixie", "ice_pixie", 2, 1, new ItemStack(Blocks.ICE), TREASURE).setSpecial();
+		WORLD_START = Utils.addAchievement("achievement.world.world_start", "world.world_start", 5, 0, new ItemStack(WorldItems.gunpowder_reed_item), GrimCore.OPEN_MANUAL);
+		FUNGUS = Utils.addAchievement("achievement.world.fungus", "world.fungus", 7, 1, new ItemStack(WorldBlocks.fungus_growing), WORLD_START);
+		BUILDING_FUNGUS = Utils.addAchievement("achievement.world.building_fungus", "world.building_fungus", 9, 1, new ItemStack(WorldBlocks.fungus_building), FUNGUS);
+		FUNGICIDE = Utils.addAchievement("achievement.world.fungicide", "world.fungicide", 11, 1, new ItemStack(WorldItems.fungicide), BUILDING_FUNGUS);
+		ORE_BUILDING_FUNGUS = Utils.addAchievement("achievement.world.ore_building_fungus", "world.ore_building_fungus", 11, 3, new ItemStack(WorldBlocks.fungus_ore_building), FUNGICIDE).setSpecial();
+		TREASURE = Utils.addAchievement("achievement.world.treasure", "world.treasure", 4, 1, new ItemStack(Blocks.CHEST), WORLD_START);
+		ICE_PIXIE = Utils.addAchievement("achievement.world.ice_pixie", "world.ice_pixie", 2, 1, new ItemStack(Blocks.ICE), TREASURE).setSpecial();
 	}
 
 	@SubscribeEvent

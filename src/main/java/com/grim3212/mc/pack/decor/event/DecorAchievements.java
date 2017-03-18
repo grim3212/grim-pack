@@ -24,11 +24,11 @@ public class DecorAchievements {
 	public static void init() {
 		MinecraftForge.EVENT_BUS.register(new DecorAchievements());
 
-		DECOR_START = Utils.addAchievement("achievement.decor_start", "decor_start", -5, -5, new ItemStack(DecorBlocks.calendar), GrimCore.OPEN_MANUAL);
-		COLORIZER = Utils.addAchievement("achievement.colorizer", "colorizer", -7, -5, new ItemStack(DecorBlocks.colorizer), DECOR_START);
-		COLORIZER_LAMP = Utils.addAchievement("achievement.colorizer_lamp", "colorizer_lamp", -7, -3, new ItemStack(DecorItems.lamp_item), COLORIZER);
-		COLORIZER_HIDDEN = Utils.addAchievement("achievement.colorizer_hidden", "colorizer_hidden", -7, -7, new ItemStack(DecorItems.decor_door_item), COLORIZER);
-		COLORIZER_FIREPLACE = Utils.addAchievement("achievement.colorizer_fireplace", "colorizer_fireplace", -9, -5, new ItemStack(DecorBlocks.fireplace), COLORIZER);
+		DECOR_START = Utils.addAchievement("achievement.decor.decor_start", "decor.decor_start", -5, -5, new ItemStack(DecorBlocks.calendar), GrimCore.OPEN_MANUAL);
+		COLORIZER = Utils.addAchievement("achievement.decor.colorizer", "decor.colorizer", -7, -5, new ItemStack(DecorBlocks.colorizer), DECOR_START);
+		COLORIZER_LAMP = Utils.addAchievement("achievement.decor.colorizer_lamp", "decor.colorizer_lamp", -7, -3, new ItemStack(DecorItems.lamp_item), COLORIZER);
+		COLORIZER_HIDDEN = Utils.addAchievement("achievement.decor.colorizer_hidden", "decor.colorizer_hidden", -7, -7, new ItemStack(DecorItems.decor_door_item), COLORIZER);
+		COLORIZER_FIREPLACE = Utils.addAchievement("achievement.decor.colorizer_fireplace", "decor.colorizer_fireplace", -9, -5, new ItemStack(DecorBlocks.fireplace), COLORIZER);
 	}
 
 	@SubscribeEvent

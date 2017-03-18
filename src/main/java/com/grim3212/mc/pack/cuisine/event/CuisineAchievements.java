@@ -30,15 +30,15 @@ public class CuisineAchievements {
 	public static void init() {
 		MinecraftForge.EVENT_BUS.register(new CuisineAchievements());
 
-		CUISINE_START = Utils.addAchievement("achievement.cuisine_start", "cuisine_start", 5, 5, new ItemStack(CuisineItems.cheese), GrimCore.OPEN_MANUAL);
-		SODA = Utils.addAchievement("achievement.soda", "soda", 5, 3, new ItemStack(CuisineItems.soda), CUISINE_START);
-		PIE_PAN = Utils.addAchievement("achievement.pie_pan", "pie_pan", 5, 7, new ItemStack(CuisineItems.pan), CUISINE_START);
-		PIE = Utils.addAchievement("achievement.pie", "pie", 5, 9, new ItemStack(CuisineBlocks.apple_pie), PIE_PAN);
-		COCOA = Utils.addAchievement("achievement.cocoa", "cocoa", 7, 5, new ItemStack(CuisineItems.cocoa_dust), CUISINE_START);
-		CHOCOLATE_MOULD = Utils.addAchievement("achievement.chocolate_mould", "chocolate_mould", 9, 3, new ItemStack(CuisineBlocks.chocolate_bar_mould), COCOA);
-		CHOCOLATE_BAR = Utils.addAchievement("achievement.chocolate_bar", "chocolate_bar", 9, 5, new ItemStack(CuisineItems.chocolate_bar_wrapped), CHOCOLATE_MOULD);
-		HOT_CHOCOLATE = Utils.addAchievement("achievement.hot_chocolate", "hot_chocolate", 7, 7, new ItemStack(CuisineItems.chocolate_bowl_hot), COCOA);
-		BAKE_CHOCOLATE_CAKE = Utils.addAchievement("achievement.bake_chocolate_cake", "bake_chocolate_cake", 7, 9, new ItemStack(CuisineBlocks.chocolate_cake), HOT_CHOCOLATE);
+		CUISINE_START = Utils.addAchievement("achievement.cuisine.cuisine_start", "cuisine.cuisine_start", 5, 5, new ItemStack(CuisineItems.cheese), GrimCore.OPEN_MANUAL);
+		SODA = Utils.addAchievement("achievement.cuisine.soda", "cuisine.soda", 5, 3, new ItemStack(CuisineItems.soda), CUISINE_START);
+		PIE_PAN = Utils.addAchievement("achievement.cuisine.pie_pan", "cuisine.pie_pan", 5, 7, new ItemStack(CuisineItems.pan), CUISINE_START);
+		PIE = Utils.addAchievement("achievement.cuisine.pie", "cuisine.pie", 5, 9, new ItemStack(CuisineBlocks.apple_pie), PIE_PAN);
+		COCOA = Utils.addAchievement("achievement.cuisine.cocoa", "cuisine.cocoa", 7, 5, new ItemStack(CuisineItems.cocoa_dust), CUISINE_START);
+		CHOCOLATE_MOULD = Utils.addAchievement("achievement.cuisine.chocolate_mould", "cuisine.chocolate_mould", 9, 3, new ItemStack(CuisineBlocks.chocolate_bar_mould), COCOA);
+		CHOCOLATE_BAR = Utils.addAchievement("achievement.cuisine.chocolate_bar", "cuisine.chocolate_bar", 9, 5, new ItemStack(CuisineItems.chocolate_bar_wrapped), CHOCOLATE_MOULD);
+		HOT_CHOCOLATE = Utils.addAchievement("achievement.cuisine.hot_chocolate", "cuisine.hot_chocolate", 7, 7, new ItemStack(CuisineItems.chocolate_bowl_hot), COCOA);
+		BAKE_CHOCOLATE_CAKE = Utils.addAchievement("achievement.cuisine.bake_chocolate_cake", "cuisine.bake_chocolate_cake", 7, 9, new ItemStack(CuisineBlocks.chocolate_cake), HOT_CHOCOLATE);
 	}
 
 	@SubscribeEvent

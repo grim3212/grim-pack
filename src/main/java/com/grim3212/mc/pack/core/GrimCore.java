@@ -52,7 +52,7 @@ public class GrimCore extends GrimPart {
 		// Register LoginEvent for receiving the Instruction Manual
 		MinecraftForge.EVENT_BUS.register(new GiveManualEvent());
 
-		OPEN_MANUAL = Utils.addAchievement("achievement.open_manual", "open_manual", 0, 0, new ItemStack(CoreItems.instruction_manual), OPEN_MANUAL);
+		OPEN_MANUAL = Utils.addAchievement("achievement.core.open_manual", "core.open_manual", 0, 0, new ItemStack(CoreItems.instruction_manual), OPEN_MANUAL);
 
 		proxy.preInit();
 	}

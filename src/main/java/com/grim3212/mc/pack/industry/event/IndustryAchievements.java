@@ -30,16 +30,16 @@ public class IndustryAchievements {
 	public static void init() {
 		MinecraftForge.EVENT_BUS.register(new IndustryAchievements());
 
-		INDUSTRY_START = Utils.addAchievement("achievement.industry_start", "industry_start", -5, 5, new ItemStack(IndustryBlocks.concrete), GrimCore.OPEN_MANUAL);
-		ALUMINUM = Utils.addAchievement("achievement.aluminum", "aluminum", -7, 5, new ItemStack(IndustryItems.aluminum_ingot), INDUSTRY_START);
-		C4 = Utils.addAchievement("achievement.c4", "c4", -7, 7, new ItemStack(IndustryBlocks.c4), ALUMINUM);
-		BOMB_SHELL = Utils.addAchievement("achievement.bomb_shell", "bomb_shell", -7, 9, new ItemStack(IndustryBlocks.bomb_shell), C4);
-		NUCLEAR_BOMB = Utils.addAchievement("achievement.nuclear_bomb", "nuclear_bomb", -7, 11, new ItemStack(IndustryBlocks.nuclear_bomb), BOMB_SHELL).setSpecial();
-		SENSOR = Utils.addAchievement("achievement.sensor", "sensor", -5, 7, new ItemStack(IndustryBlocks.specific_sensor), INDUSTRY_START);
-		UPGRADED_SENSOR = Utils.addAchievement("achievement.upgraded_sensor", "upgraded_sensor", -5, 9, new ItemStack(IndustryBlocks.upgraded_specific_sensor), SENSOR);
-		GRAVITY_SCIENCE = Utils.addAchievement("achievement.gravity_science", "gravity_science", -3, 6, new ItemStack(IndustryBlocks.attractor), INDUSTRY_START);
-		STEEL = Utils.addAchievement("achievement.steel", "steel", -5, 3, new ItemStack(IndustryItems.steel_ingot), INDUSTRY_START);
-		MODERN_FURNACE = Utils.addAchievement("achievement.modern_furnace", "modern_furnace", -3, 3, new ItemStack(IndustryBlocks.modern_furnace), STEEL);
+		INDUSTRY_START = Utils.addAchievement("achievement.industry.industry_start", "industry.industry_start", -5, 5, new ItemStack(IndustryBlocks.concrete), GrimCore.OPEN_MANUAL);
+		ALUMINUM = Utils.addAchievement("achievement.industry.aluminum", "industry.aluminum", -7, 5, new ItemStack(IndustryItems.aluminum_ingot), INDUSTRY_START);
+		C4 = Utils.addAchievement("achievement.industry.c4", "industry.c4", -7, 7, new ItemStack(IndustryBlocks.c4), ALUMINUM);
+		BOMB_SHELL = Utils.addAchievement("achievement.industry.bomb_shell", "industry.bomb_shell", -7, 9, new ItemStack(IndustryBlocks.bomb_shell), C4);
+		NUCLEAR_BOMB = Utils.addAchievement("achievement.industry.nuclear_bomb", "industry.nuclear_bomb", -7, 11, new ItemStack(IndustryBlocks.nuclear_bomb), BOMB_SHELL).setSpecial();
+		SENSOR = Utils.addAchievement("achievement.industry.sensor", "industry.sensor", -5, 7, new ItemStack(IndustryBlocks.specific_sensor), INDUSTRY_START);
+		UPGRADED_SENSOR = Utils.addAchievement("achievement.industry.upgraded_sensor", "industry.upgraded_sensor", -5, 9, new ItemStack(IndustryBlocks.upgraded_specific_sensor), SENSOR);
+		GRAVITY_SCIENCE = Utils.addAchievement("achievement.industry.gravity_science", "industry.gravity_science", -3, 6, new ItemStack(IndustryBlocks.attractor), INDUSTRY_START);
+		STEEL = Utils.addAchievement("achievement.industry.steel", "industry.steel", -5, 3, new ItemStack(IndustryItems.steel_ingot), INDUSTRY_START);
+		MODERN_FURNACE = Utils.addAchievement("achievement.industry.modern_furnace", "industry.modern_furnace", -3, 3, new ItemStack(IndustryBlocks.modern_furnace), STEEL);
 	}
 
 	@SubscribeEvent

@@ -35,21 +35,21 @@ public class ToolsAchievements {
 	public static void init() {
 		MinecraftForge.EVENT_BUS.register(new ToolsAchievements());
 
-		TOOLS_START = Utils.addAchievement("achievement.tools_start", "tools_start", 5, -5, new ItemStack(ToolsItems.backpack), GrimCore.OPEN_MANUAL);
-		OBSIDIAN_BUCKET = Utils.addAchievement("achievement.obsidian_bucket", "obsidian_bucket", 5, -2, new ItemStack(ToolsItems.obsidian_bucket), TOOLS_START);
-		BLACK_DIAMOND = Utils.addAchievement("achievement.black_diamond", "black_diamond", 5, -8, new ItemStack(ToolsItems.black_diamond), TOOLS_START);
-		BLACK_TOOLS = Utils.addAchievement("achievement.black_tools", "black_tools", 7, -8, new ItemStack(ToolsItems.black_diamond_pickaxe), BLACK_DIAMOND);
-		BLACK_ARMOR = Utils.addAchievement("achievement.black_armor", "black_armor", 9, -8, new ItemStack(ToolsItems.black_diamond_helmet), BLACK_DIAMOND);
-		SPEAR = Utils.addAchievement("achievement.spear", "spear", 3, -6, new ItemStack(ToolsItems.spear), TOOLS_START);
-		SPEAR_LIGHTNING = Utils.addAchievement("achievement.spear_lightning", "spear_lightning", 1, -6, new ItemStack(ToolsItems.lightning_spear), SPEAR);
-		BOOMERANG = Utils.addAchievement("achievement.boomerang", "boomerang", 8, -4, new ItemStack(ToolsItems.boomerang), TOOLS_START);
-		DIAMOND_BOOMERANG = Utils.addAchievement("achievement.diamond_boomerang", "diamond_boomerang", 10, -4, new ItemStack(ToolsItems.diamond_boomerang), BOOMERANG);
-		MAGIC_WAND = Utils.addAchievement("achievement.magic_wand", "magic_wand", 3, -3, new ItemStack(ToolsItems.building_wand), TOOLS_START);
-		BETTER_MAGIC_WAND = Utils.addAchievement("achievement.better_magic_wand", "better_magic_wand", 3, -1, new ItemStack(ToolsItems.reinforced_building_wand), MAGIC_WAND);
-		POKEBALL = Utils.addAchievement("achievement.pokeball", "pokeball", 8, -6, new ItemStack(ToolsItems.pokeball), TOOLS_START);
-		ELEMENT_115 = Utils.addAchievement("achievement.element_115", "element_115", 7, -3, new ItemStack(ToolsItems.element_115), TOOLS_START);
-		RAY_GUN = Utils.addAchievement("achievement.ray_gun", "ray_gun", 9, -3, new ItemStack(ToolsItems.ray_gun), ELEMENT_115);
-		ADVANCED_RAY_GUN = Utils.addAchievement("achievement.advanced_ray_gun", "advanced_ray_gun", 9, -1, new ItemStack(ToolsItems.advanced_ray_gun), RAY_GUN);
+		TOOLS_START = Utils.addAchievement("achievement.tools.tools_start", "tools.tools_start", 5, -5, new ItemStack(ToolsItems.backpack), GrimCore.OPEN_MANUAL);
+		OBSIDIAN_BUCKET = Utils.addAchievement("achievement.tools.obsidian_bucket", "tools.obsidian_bucket", 5, -2, new ItemStack(ToolsItems.obsidian_bucket), TOOLS_START);
+		BLACK_DIAMOND = Utils.addAchievement("achievement.tools.black_diamond", "tools.black_diamond", 5, -8, new ItemStack(ToolsItems.black_diamond), TOOLS_START);
+		BLACK_TOOLS = Utils.addAchievement("achievement.tools.black_tools", "tools.black_tools", 7, -8, new ItemStack(ToolsItems.black_diamond_pickaxe), BLACK_DIAMOND);
+		BLACK_ARMOR = Utils.addAchievement("achievement.tools.black_armor", "tools.black_armor", 9, -8, new ItemStack(ToolsItems.black_diamond_helmet), BLACK_DIAMOND);
+		SPEAR = Utils.addAchievement("achievement.tools.spear", "tools.spear", 3, -6, new ItemStack(ToolsItems.spear), TOOLS_START);
+		SPEAR_LIGHTNING = Utils.addAchievement("achievement.tools.spear_lightning", "tools.spear_lightning", 1, -6, new ItemStack(ToolsItems.lightning_spear), SPEAR);
+		BOOMERANG = Utils.addAchievement("achievement.tools.boomerang", "tools.boomerang", 8, -4, new ItemStack(ToolsItems.boomerang), TOOLS_START);
+		DIAMOND_BOOMERANG = Utils.addAchievement("achievement.tools.diamond_boomerang", "tools.diamond_boomerang", 10, -4, new ItemStack(ToolsItems.diamond_boomerang), BOOMERANG);
+		MAGIC_WAND = Utils.addAchievement("achievement.tools.magic_wand", "tools.magic_wand", 3, -3, new ItemStack(ToolsItems.building_wand), TOOLS_START);
+		BETTER_MAGIC_WAND = Utils.addAchievement("achievement.tools.better_magic_wand", "tools.better_magic_wand", 3, -1, new ItemStack(ToolsItems.reinforced_building_wand), MAGIC_WAND);
+		POKEBALL = Utils.addAchievement("achievement.tools.pokeball", "tools.pokeball", 8, -6, new ItemStack(ToolsItems.pokeball), TOOLS_START);
+		ELEMENT_115 = Utils.addAchievement("achievement.tools.element_115", "tools.element_115", 7, -3, new ItemStack(ToolsItems.element_115), TOOLS_START);
+		RAY_GUN = Utils.addAchievement("achievement.tools.ray_gun", "tools.ray_gun", 9, -3, new ItemStack(ToolsItems.ray_gun), ELEMENT_115);
+		ADVANCED_RAY_GUN = Utils.addAchievement("achievement.tools.advanced_ray_gun", "tools.advanced_ray_gun", 9, -1, new ItemStack(ToolsItems.advanced_ray_gun), RAY_GUN);
 	}
 
 	@SubscribeEvent
