@@ -1,6 +1,7 @@
 package com.grim3212.mc.pack.industry.client;
 
 import com.grim3212.mc.pack.core.client.RenderHelper;
+import com.grim3212.mc.pack.core.client.model.EmptyStateMap;
 import com.grim3212.mc.pack.industry.IndustryCommonProxy;
 import com.grim3212.mc.pack.industry.block.BlockFireSensor;
 import com.grim3212.mc.pack.industry.block.BlockFountain;
@@ -13,20 +14,24 @@ import com.grim3212.mc.pack.industry.client.event.TextureStitch;
 import com.grim3212.mc.pack.industry.client.model.CamoPlateModel.CamoPlateModelLoader;
 import com.grim3212.mc.pack.industry.client.particle.ParticleAir;
 import com.grim3212.mc.pack.industry.client.tile.TileEntitySpecificSensorRenderer;
+import com.grim3212.mc.pack.industry.client.tile.TileEntityWarehouseCrateRenderer;
 import com.grim3212.mc.pack.industry.entity.EntityExtruder;
 import com.grim3212.mc.pack.industry.item.IndustryItems;
 import com.grim3212.mc.pack.industry.tile.TileEntityCamo;
 import com.grim3212.mc.pack.industry.tile.TileEntityFan;
 import com.grim3212.mc.pack.industry.tile.TileEntitySpecificSensor;
+import com.grim3212.mc.pack.industry.tile.TileEntityWarehouseCrate;
 
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.statemap.StateMap;
 import net.minecraft.client.renderer.color.IBlockColor;
+import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.client.ForgeHooksClient;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.client.model.ModelLoaderRegistry;
 import net.minecraftforge.common.MinecraftForge;
@@ -47,6 +52,8 @@ public class IndustryClientProxy extends IndustryCommonProxy {
 		// Register all custom models for camo plates
 		ModelLoaderRegistry.registerLoader(CamoPlateModelLoader.instance);
 
+		ForgeHooksClient.registerTESRItemStack(Item.getItemFromBlock(IndustryBlocks.warehouse_crate), 0, TileEntityWarehouseCrate.class);
+
 		ModelLoader.setCustomStateMapper(IndustryBlocks.fire_sensor, new StateMap.Builder().ignore(BlockFireSensor.POWERED).build());
 		ModelLoader.setCustomStateMapper(IndustryBlocks.arrow_sensor, new StateMap.Builder().ignore(BlockSensorArrow.POWERED).build());
 		ModelLoader.setCustomStateMapper(IndustryBlocks.door_chain, new StateMap.Builder().ignore(BlockModernDoor.POWERED).build());
@@ -55,8 +62,12 @@ public class IndustryClientProxy extends IndustryCommonProxy {
 		ModelLoader.setCustomStateMapper(IndustryBlocks.fountain, new StateMap.Builder().ignore(BlockFountain.ACTIVE).build());
 		ModelLoader.setCustomStateMapper(IndustryBlocks.horizontal_siding, new StateMap.Builder().ignore(BlockSiding.COLOR).build());
 		ModelLoader.setCustomStateMapper(IndustryBlocks.vertical_siding, new StateMap.Builder().ignore(BlockSiding.COLOR).build());
+		ModelLoader.setCustomStateMapper(IndustryBlocks.warehouse_crate, new EmptyStateMap());
 
 		// ITEMS
+		RenderHelper.renderItem(IndustryItems.locksmith_key);
+		RenderHelper.renderItem(IndustryItems.locksmith_lock);
+		RenderHelper.renderItem(IndustryItems.drill_head_item);
 		RenderHelper.renderItem(IndustryItems.position_finder);
 		RenderHelper.renderItem(IndustryItems.portable_iron_workbench);
 		RenderHelper.renderItem(IndustryItems.portable_diamond_workbench);
@@ -112,6 +123,10 @@ public class IndustryClientProxy extends IndustryCommonProxy {
 		RenderHelper.renderItem(IndustryItems.steel_sword);
 
 		// BLOCKS
+		RenderHelper.renderBlock(IndustryBlocks.warehouse_crate);
+		RenderHelper.renderBlock(IndustryBlocks.drill);
+		RenderHelper.renderBlock(IndustryBlocks.drill_head);
+		RenderHelper.renderBlock(IndustryBlocks.conveyor_belt);
 		RenderHelper.renderBlock(IndustryBlocks.fire_sensor);
 		RenderHelper.renderBlock(IndustryBlocks.arrow_sensor);
 		RenderHelper.renderBlock(IndustryBlocks.metal_mesh);
@@ -174,6 +189,7 @@ public class IndustryClientProxy extends IndustryCommonProxy {
 
 		// TileEntities
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntitySpecificSensor.class, new TileEntitySpecificSensorRenderer());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityWarehouseCrate.class, new TileEntityWarehouseCrateRenderer());
 
 		// Entities
 		RenderingRegistry.registerEntityRenderingHandler(EntityExtruder.class, new ExtruderFactory());

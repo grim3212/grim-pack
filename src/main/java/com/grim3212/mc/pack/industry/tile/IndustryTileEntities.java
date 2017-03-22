@@ -17,6 +17,7 @@ public class IndustryTileEntities implements IPartTileEntities {
 		GameRegistry.registerTileEntity(TileEntityFan.class, "fan");
 		GameRegistry.registerTileEntity(TileEntitySpecificSensor.class, "specific_sensor");
 		GameRegistry.registerTileEntity(TileEntityFireSensor.class, "fire_sensor");
+		GameRegistry.registerTileEntity(TileEntityWarehouseCrate.class, "grimpack_warehouse_crate");
 	}
 
 }

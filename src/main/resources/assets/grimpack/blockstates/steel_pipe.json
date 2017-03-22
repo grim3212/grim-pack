@@ -1,11 +1,24 @@
 {
 	"forge_marker": 1,
-    "defaults": {
+	"defaults": {
 		"transform": "forge:default-block",
-        "model": "grimpack:steel_pipe"
-    },
-    "variants": {
-        "normal": [{}],
-		"inventory": [{}]
-    }
+		"model": "grimpack:pipe",
+		"textures": {
+			"top": "grimpack:blocks/steel_pipe_top",
+			"side": "grimpack:blocks/steel_pipe_side",
+			"particle": "grimpack:blocks/steel_pipe_side"
+		}
+	},
+	"variants": {
+		"normal": [
+			{
+				
+			}
+		],
+		"inventory": [
+			{
+				
+			}
+		]
+	}
 }

@@ -1,10 +1,5 @@
 {
 "__comment": "Designed by Grim3212 with BDcraft Cubik PRO 0.96 Beta - http://bdcraft.net",
-"textures": {
-	"top": "grimpack:blocks/steel_pipe_top",
-	"side": "grimpack:blocks/steel_pipe_side",
-	"particle": "grimpack:blocks/steel_pipe_side"
-},
 "elements": [ 
 {
     "from": [ 4, 0, 4 ],

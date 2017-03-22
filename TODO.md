@@ -4,7 +4,7 @@
 Will be updated as more things need to be done or are completed
 
 - [ ] Finish new website
-- [ ] Add in the rest of We(raft
+- [X] Add in the rest of We(raft
 - [ ] More config options for enabling and disabling items and blocks
 - [ ] More bridges between different parts
 - [X] Fix fungus changes

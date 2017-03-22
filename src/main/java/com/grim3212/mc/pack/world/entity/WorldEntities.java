@@ -55,11 +55,11 @@ public class WorldEntities implements IPartEntities {
 
 		// Ice pixie
 		if (WorldConfig.spawnIcePixies)
-			EntityRegistry.addSpawn(EntityIcePixie.class, 100, 2, 5, EnumCreatureType.CREATURE, BiomeDictionary.getBiomes(Type.SNOWY).toArray(new Biome[BiomeDictionary.getBiomes(Type.SNOWY).size()]));
+			EntityRegistry.addSpawn(EntityIcePixie.class, 50, 2, 5, EnumCreatureType.CREATURE, BiomeDictionary.getBiomes(Type.SNOWY).toArray(new Biome[BiomeDictionary.getBiomes(Type.SNOWY).size()]));
 
 		// TreasureMob
 		if (WorldConfig.spawnTreasureMobs)
-			EntityRegistry.addSpawn(EntityTreasureMob.class, 10, 1, 1, EnumCreatureType.CREATURE, biomes);
+			EntityRegistry.addSpawn(EntityTreasureMob.class, 5, 1, 1, EnumCreatureType.CREATURE, biomes);
 
 		// More People
 		if (WorldConfig.spawnMorePeople) {

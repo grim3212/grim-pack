@@ -9,6 +9,17 @@ grimpack.creative.world=Grim World
 
 #================= BLOCKS =================#
 tile.grave.name=Gravestone
+tile.warehouse_crate.name=Warehouse Crate
+tile.obsidian_safe.name=\u00a75Obsidian Safe
+tile.gold_safe.name=\u00a76Gold Safe
+tile.locker.name=Locker
+tile.item_tower.name=Item Tower
+tile.glass_cabinet.name=Glass Cabinet
+tile.wood_cabinet.name=Wooden Cabinet
+tile.locksmith_workbench.name=Locksmith Workbench
+tile.drill.name=Drill
+tile.drill_head.name=Drill Head
+tile.conveyor_belt.name=Conveyor Belt
 tile.fire_sensor.name=Fire Alarm
 tile.arrow_sensor.name=Arrow Target
 tile.metal_mesh.name=Metal Mesh
@@ -213,6 +224,7 @@ tile.fungus_killing.15.name=Glass Layer Building Fungus
 
 #================= ITEMS =================#
 item.instruction_manual.name=Instruction Manual
+item.drill_head_item.name=Drill Head
 item.decor_door_item.name=Decor Door
 item.position_finder.name=GPS
 item.portable_diamond_workbench.name=Portable Diamond Workbench
@@ -765,7 +777,9 @@ grimpack.industry.fan.minusOne=-1
 grimpack.industry.fan.minusFive=-5
 grimpack.industry.fan.BLOW=Blow
 grimpack.industry.fan.SUCK=Suck
+grimpack.industry.combo=Combo: 
 
+container.warehouse_crate=Warehouse Crate
 container.grave=Grave
 container.crafting_iron=Iron Crafting (2x)
 container.crafting_diamond=Diamond Crafting (4x)

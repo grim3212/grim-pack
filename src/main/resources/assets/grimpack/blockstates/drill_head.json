@@ -1,0 +1,28 @@
+{
+	"forge_marker": 1,
+	"defaults": {
+		"transform": "forge:default-block",
+		"model": "grimpack:pipe",
+		"textures": {
+			"all": "blocks/iron_block",
+			"top": "blocks/iron_block",
+			"side": "blocks/iron_block",
+			"particle": "blocks/iron_block"
+		}
+	},
+	"variants": {
+		"shaft": {
+			"true": {
+				
+			},
+			"false": {
+				"model": "cube_all"
+			}
+		},
+		"inventory": [
+			{
+				
+			}
+		]
+	}
+}

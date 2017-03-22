@@ -29,6 +29,7 @@ import com.grim3212.mc.pack.industry.tile.TileEntityFan;
 import com.grim3212.mc.pack.industry.tile.TileEntityMFurnace;
 import com.grim3212.mc.pack.industry.tile.TileEntityMachine;
 import com.grim3212.mc.pack.industry.tile.TileEntitySpecificSensor;
+import com.grim3212.mc.pack.industry.tile.TileEntityStorage;
 import com.grim3212.mc.pack.tools.client.gui.GuiBackpack;
 import com.grim3212.mc.pack.tools.client.gui.GuiPelletBag;
 import com.grim3212.mc.pack.tools.client.gui.GuiPortable;
@@ -41,8 +42,10 @@ import com.grim3212.mc.pack.util.client.gui.GuiGrave;
 import com.grim3212.mc.pack.util.grave.ContainerGrave;
 import com.grim3212.mc.pack.util.grave.TileEntityGrave;
 
+import net.minecraft.client.gui.inventory.GuiChest;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.ContainerChest;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EntitySelectors;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -74,6 +77,7 @@ public class PackGuiHandler implements IGuiHandler {
 	public static final int PELLET_BAG_MAIN_GUI_ID = 19;
 	public static final int PELLET_BAG_OFF_GUI_ID = 20;
 	public static final int GRAVE_GUI_ID = 21;
+	public static final int WAREHOUSE_CRATE_GUI_ID = 22;
 
 	@Override
 	public Object getServerGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
@@ -116,6 +120,8 @@ public class PackGuiHandler implements IGuiHandler {
 			return new ContainerPelletBag(pelletBagInventory, player.inventory);
 		} else if (ID == GRAVE_GUI_ID) {
 			return new ContainerGrave((TileEntityGrave) tileentity, player.inventory);
+		} else if (ID == WAREHOUSE_CRATE_GUI_ID) {
+			return new ContainerChest(player.inventory, (TileEntityStorage) tileentity, player);
 		}
 
 		return null;
@@ -172,6 +178,8 @@ public class PackGuiHandler implements IGuiHandler {
 			return new GuiPelletBag(pelletBagInventory, player.inventory);
 		} else if (ID == GRAVE_GUI_ID) {
 			return new GuiGrave(player.inventory, (TileEntityGrave) tileentity);
+		} else if (ID == WAREHOUSE_CRATE_GUI_ID) {
+			return new GuiChest(player.inventory, (TileEntityStorage) tileentity);
 		}
 
 		return null;

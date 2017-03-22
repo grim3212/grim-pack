@@ -1,0 +1,29 @@
+{
+	"forge_marker": 1,
+	"defaults": {
+		"transform": "forge:default-block",
+		"model": "cube_bottom_top",
+		"textures": {
+			"top": "grimpack:blocks/drill_top",
+			"side": "grimpack:blocks/drill_side_on",
+			"bottom": "grimpack:blocks/drill_top"
+		}
+	},
+	"variants": {
+		"powered": {
+			"true": {
+				
+			},
+			"false": {
+				"textures": {
+					"side": "grimpack:blocks/drill_side_off"
+				}
+			}
+		},
+		"inventory": [
+			{
+				
+			}
+		]
+	}
+}

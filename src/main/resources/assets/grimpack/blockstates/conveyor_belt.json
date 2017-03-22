@@ -1,0 +1,33 @@
+{
+	"forge_marker": 1,
+	"defaults": {
+		"transform": "forge:default-block",
+		"model": "minecraft:half_slab",
+		"textures": {
+			"top": "grimpack:blocks/conveyor_belt_top",
+			"bottom": "grimpack:blocks/conveyor_belt_top",
+			"side": "grimpack:blocks/conveyor_belt_side"
+		}
+	},
+	"variants": {
+		"facing": {
+			"north": {
+				
+			},
+			"south": {
+				"y": 180
+			},
+			"east": {
+				"y": 90
+			},
+			"west": {
+				"y": 270
+			}
+		},
+		"inventory": [
+			{
+				
+			}
+		]
+	}
+}

@@ -81,9 +81,24 @@ public class IndustryBlocks implements IPartItems {
 	public static Block fan;
 	public static Block specific_sensor;
 	public static Block upgraded_specific_sensor;
+
+	// We(raft
 	public static Block arrow_sensor;
 	public static Block metal_mesh;
 	public static Block fire_sensor;
+	public static Block conveyor_belt;
+	public static Block drill;
+	public static Block drill_head;
+
+	// More storage
+	public static Block locksmith_workbench;
+	public static Block wood_cabinet;
+	public static Block glass_cabinet;
+	public static Block warehouse_crate;
+	public static Block obsidian_safe;
+	public static Block gold_safe;
+	public static Block locker;
+	public static Block item_tower;
 
 	@Override
 	public void initItems() {
@@ -146,7 +161,15 @@ public class IndustryBlocks implements IPartItems {
 		arrow_sensor = (new BlockSensorArrow()).setHardness(0.3F).setResistance(2.0F).setUnlocalizedName("arrow_sensor").setCreativeTab(GrimIndustry.INSTANCE.getCreativeTab());
 		metal_mesh = (new BlockMetalMesh()).setHardness(0.4F).setResistance(1.0F).setUnlocalizedName("metal_mesh").setCreativeTab(GrimIndustry.INSTANCE.getCreativeTab());
 		fire_sensor = (new BlockFireSensor()).setHardness(4.0F).setResistance(7.0F).setUnlocalizedName("fire_sensor").setCreativeTab(GrimIndustry.INSTANCE.getCreativeTab());
+		conveyor_belt = (new BlockConveyorBelt()).setHardness(0.5F).setResistance(3.0F).setUnlocalizedName("conveyor_belt").setCreativeTab(GrimIndustry.INSTANCE.getCreativeTab());
+		drill = (new BlockDrill()).setHardness(1.0F).setResistance(200.0F).setUnlocalizedName("drill").setCreativeTab(GrimIndustry.INSTANCE.getCreativeTab());
+		drill_head = (new BlockDrillHead()).setHardness(9.0F).setResistance(9.0F).setUnlocalizedName("drill_head");
+		warehouse_crate = (new BlockWarehouseCrate()).setHardness(3.0F).setResistance(5.0F).setUnlocalizedName("warehouse_crate");
 
+		Utils.registerBlock(warehouse_crate, "warehouse_crate");
+		Utils.registerBlock(drill, "drill");
+		Utils.registerBlock(drill_head, "drill_head");
+		Utils.registerBlock(conveyor_belt, "conveyor_belt");
 		Utils.registerBlock(fire_sensor, "fire_sensor");
 		Utils.registerBlock(metal_mesh, "metal_mesh");
 		Utils.registerBlock(arrow_sensor, "arrow_sensor");
@@ -206,8 +229,8 @@ public class IndustryBlocks implements IPartItems {
 		Utils.registerBlock(c4, "c4");
 		Utils.registerBlock(nuclear_bomb, "nuclear_bomb");
 		Utils.registerBlock(reactor, "reactor");
-		
-		//Register at the end of preinit
+
+		// Register at the end of preinit
 		OreDictionary.registerOre("oreUranium", uranium_ore);
 		OreDictionary.registerOre("blockGlass", tempered_glass);
 		OreDictionary.registerOre("blockSteel", steel_block);
@@ -321,6 +344,9 @@ public class IndustryBlocks implements IPartItems {
 
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(fire_sensor, 1), new Object[] { "SSS", "SNS", "X#X", 'X', "stickIron", '#', "dustRedstone", 'N', "netherrack", 'S', "stone" }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(fire_sensor, 1), new Object[] { "SSS", "SNS", "X#X", 'X', "stickIron", '#', "dustRedstone", 'N', Items.FLINT_AND_STEEL, 'S', "stone" }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(conveyor_belt, 6), new Object[] { "XXX", "S#S", "XXX", 'X', "stickIron", '#', "dustRedstone", 'S', "cobblestone" }));
+
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(drill, 1), new Object[] { "I I", "S#S", "XDX", 'I', "ingotIron", 'X', "plankWood", 'S', "dustRedstone", '#', "gemDiamond", 'D', IndustryItems.drill_head_item }));
 	}
 
 }
