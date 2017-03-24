@@ -1,8 +1,8 @@
 package com.grim3212.mc.pack.industry.client.tile;
 
 import com.grim3212.mc.pack.GrimPack;
-import com.grim3212.mc.pack.industry.client.model.ModelWarehouseCrate;
-import com.grim3212.mc.pack.industry.tile.TileEntityWarehouseCrate;
+import com.grim3212.mc.pack.industry.client.model.ModelWoodCabinet;
+import com.grim3212.mc.pack.industry.tile.TileEntityWoodCabinet;
 
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
@@ -11,17 +11,17 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class TileEntityWarehouseCrateRenderer extends TileEntitySpecialRenderer<TileEntityWarehouseCrate> {
+public class TileEntityWoodCabinetRenderer extends TileEntitySpecialRenderer<TileEntityWoodCabinet> {
 
-	private ModelWarehouseCrate model;
-	private static final ResourceLocation RESOURCE_LOCATION = new ResourceLocation(GrimPack.modID, "textures/models/warehouse_crate.png");
+	private ModelWoodCabinet model;
+	private static final ResourceLocation RESOURCE_LOCATION = new ResourceLocation(GrimPack.modID, "textures/models/cabinet.png");
 
-	public TileEntityWarehouseCrateRenderer() {
-		this.model = new ModelWarehouseCrate();
+	public TileEntityWoodCabinetRenderer() {
+		this.model = new ModelWoodCabinet();
 	}
 
 	@Override
-	public void renderTileEntityAt(TileEntityWarehouseCrate te, double x, double y, double z, float partialTicks, int destroyStage) {
+	public void renderTileEntityAt(TileEntityWoodCabinet te, double x, double y, double z, float partialTicks, int destroyStage) {
 		GlStateManager.pushMatrix();
 		GlStateManager.translate(x, y, z);
 

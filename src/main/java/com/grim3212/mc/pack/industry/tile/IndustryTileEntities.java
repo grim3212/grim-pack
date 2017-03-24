@@ -18,6 +18,8 @@ public class IndustryTileEntities implements IPartTileEntities {
 		GameRegistry.registerTileEntity(TileEntitySpecificSensor.class, "specific_sensor");
 		GameRegistry.registerTileEntity(TileEntityFireSensor.class, "fire_sensor");
 		GameRegistry.registerTileEntity(TileEntityWarehouseCrate.class, "grimpack_warehouse_crate");
+		GameRegistry.registerTileEntity(TileEntityGlassCabinet.class, "grimpack_glass_cabinet");
+		GameRegistry.registerTileEntity(TileEntityWoodCabinet.class, "grimpack_wood_cabinet");
 	}
 
 }

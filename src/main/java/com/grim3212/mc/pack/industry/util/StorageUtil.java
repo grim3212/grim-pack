@@ -16,7 +16,9 @@ public class StorageUtil {
 				ItemStack itemstack = entityplayer.inventory.getStackInSlot(slot);
 
 				if ((!itemstack.isEmpty()) && (itemstack.getItem() == IndustryItems.locksmith_key) && (itemstack.hasTagCompound()) && (itemstack.getTagCompound().hasKey("Lock"))) {
-					return itemstack.getTagCompound().getString("Lock").equals(tileentity.getLockCode());
+					if (itemstack.getTagCompound().getString("Lock").equals(tileentity.getLockCode().getLock())) {
+						return true;
+					}
 				}
 			}
 

@@ -95,6 +95,7 @@ public class IndustryBlocks implements IPartItems {
 	public static Block wood_cabinet;
 	public static Block glass_cabinet;
 	public static Block warehouse_crate;
+
 	public static Block obsidian_safe;
 	public static Block gold_safe;
 	public static Block locker;
@@ -165,7 +166,13 @@ public class IndustryBlocks implements IPartItems {
 		drill = (new BlockDrill()).setHardness(1.0F).setResistance(200.0F).setUnlocalizedName("drill").setCreativeTab(GrimIndustry.INSTANCE.getCreativeTab());
 		drill_head = (new BlockDrillHead()).setHardness(9.0F).setResistance(9.0F).setUnlocalizedName("drill_head");
 		warehouse_crate = (new BlockWarehouseCrate()).setHardness(3.0F).setResistance(5.0F).setUnlocalizedName("warehouse_crate");
+		wood_cabinet = (new BlockWoodCabinet()).setHardness(3.0F).setResistance(5.0F).setUnlocalizedName("wood_cabinet");
+		glass_cabinet = (new BlockGlassCabinet()).setHardness(3.0F).setResistance(5.0F).setUnlocalizedName("glass_cabinet");
+		locksmith_workbench = (new BlockLocksmithWorkbench()).setHardness(3.0F).setResistance(5.0F).setUnlocalizedName("locksmith_workbench").setCreativeTab(GrimIndustry.INSTANCE.getCreativeTab());
 
+		Utils.registerBlock(locksmith_workbench, "locksmith_workbench");
+		Utils.registerBlock(wood_cabinet, "wood_cabinet");
+		Utils.registerBlock(glass_cabinet, "glass_cabinet");
 		Utils.registerBlock(warehouse_crate, "warehouse_crate");
 		Utils.registerBlock(drill, "drill");
 		Utils.registerBlock(drill_head, "drill_head");

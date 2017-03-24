@@ -1,0 +1,17 @@
+{
+	"__comment": "Designed by Grim3212 with BDcraft Cubik PRO 0.96 Beta - http://bdcraft.net",
+	"elements": [
+		{
+			"from": [ 0, 14, 0 ],
+			"to": [ 16, 16, 16 ],
+			"faces": {
+				"down": { "uv": [ 16, 16, 0, 0 ], "texture": "#base" },
+				"up": { "uv": [ 0, 0, 16, 16 ], "texture": "#base", "cullface": "up" },
+				"north": { "uv": [ 0, 0, 16, 2 ], "texture": "#texture", "cullface": "north" },
+				"south": { "uv": [ 0, 0, 16, 2 ], "texture": "#texture", "cullface": "south" },
+				"west": { "uv": [ 0, 0, 16, 2 ], "texture": "#texture", "cullface": "west" },
+				"east": { "uv": [ 0, 0, 16, 2 ], "texture": "#texture", "cullface": "east" }
+			}
+		}
+	]
+}

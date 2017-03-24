@@ -1,5 +1,6 @@
 package com.grim3212.mc.pack.industry.client;
 
+import com.google.common.collect.ImmutableMap;
 import com.grim3212.mc.pack.core.client.RenderHelper;
 import com.grim3212.mc.pack.core.client.model.EmptyStateMap;
 import com.grim3212.mc.pack.industry.IndustryCommonProxy;
@@ -13,14 +14,18 @@ import com.grim3212.mc.pack.industry.client.entity.RenderExtruder.ExtruderFactor
 import com.grim3212.mc.pack.industry.client.event.TextureStitch;
 import com.grim3212.mc.pack.industry.client.model.CamoPlateModel.CamoPlateModelLoader;
 import com.grim3212.mc.pack.industry.client.particle.ParticleAir;
+import com.grim3212.mc.pack.industry.client.tile.TileEntityGlassCabinetRenderer;
 import com.grim3212.mc.pack.industry.client.tile.TileEntitySpecificSensorRenderer;
 import com.grim3212.mc.pack.industry.client.tile.TileEntityWarehouseCrateRenderer;
+import com.grim3212.mc.pack.industry.client.tile.TileEntityWoodCabinetRenderer;
 import com.grim3212.mc.pack.industry.entity.EntityExtruder;
 import com.grim3212.mc.pack.industry.item.IndustryItems;
 import com.grim3212.mc.pack.industry.tile.TileEntityCamo;
 import com.grim3212.mc.pack.industry.tile.TileEntityFan;
+import com.grim3212.mc.pack.industry.tile.TileEntityGlassCabinet;
 import com.grim3212.mc.pack.industry.tile.TileEntitySpecificSensor;
 import com.grim3212.mc.pack.industry.tile.TileEntityWarehouseCrate;
+import com.grim3212.mc.pack.industry.tile.TileEntityWoodCabinet;
 
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
@@ -28,6 +33,7 @@ import net.minecraft.client.renderer.block.statemap.StateMap;
 import net.minecraft.client.renderer.color.IBlockColor;
 import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
@@ -35,6 +41,8 @@ import net.minecraftforge.client.ForgeHooksClient;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.client.model.ModelLoaderRegistry;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.animation.ITimeValue;
+import net.minecraftforge.common.model.animation.IAnimationStateMachine;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 
@@ -46,6 +54,7 @@ public class IndustryClientProxy extends IndustryCommonProxy {
 	}
 
 	@Override
+	@SuppressWarnings("deprecation")
 	public void preInit() {
 		MinecraftForge.EVENT_BUS.register(new TextureStitch());
 
@@ -53,6 +62,8 @@ public class IndustryClientProxy extends IndustryCommonProxy {
 		ModelLoaderRegistry.registerLoader(CamoPlateModelLoader.instance);
 
 		ForgeHooksClient.registerTESRItemStack(Item.getItemFromBlock(IndustryBlocks.warehouse_crate), 0, TileEntityWarehouseCrate.class);
+		ForgeHooksClient.registerTESRItemStack(Item.getItemFromBlock(IndustryBlocks.glass_cabinet), 0, TileEntityGlassCabinet.class);
+		ForgeHooksClient.registerTESRItemStack(Item.getItemFromBlock(IndustryBlocks.wood_cabinet), 0, TileEntityWoodCabinet.class);
 
 		ModelLoader.setCustomStateMapper(IndustryBlocks.fire_sensor, new StateMap.Builder().ignore(BlockFireSensor.POWERED).build());
 		ModelLoader.setCustomStateMapper(IndustryBlocks.arrow_sensor, new StateMap.Builder().ignore(BlockSensorArrow.POWERED).build());
@@ -63,6 +74,8 @@ public class IndustryClientProxy extends IndustryCommonProxy {
 		ModelLoader.setCustomStateMapper(IndustryBlocks.horizontal_siding, new StateMap.Builder().ignore(BlockSiding.COLOR).build());
 		ModelLoader.setCustomStateMapper(IndustryBlocks.vertical_siding, new StateMap.Builder().ignore(BlockSiding.COLOR).build());
 		ModelLoader.setCustomStateMapper(IndustryBlocks.warehouse_crate, new EmptyStateMap());
+		ModelLoader.setCustomStateMapper(IndustryBlocks.glass_cabinet, new EmptyStateMap());
+		ModelLoader.setCustomStateMapper(IndustryBlocks.wood_cabinet, new EmptyStateMap());
 
 		// ITEMS
 		RenderHelper.renderItem(IndustryItems.locksmith_key);
@@ -123,7 +136,10 @@ public class IndustryClientProxy extends IndustryCommonProxy {
 		RenderHelper.renderItem(IndustryItems.steel_sword);
 
 		// BLOCKS
+		RenderHelper.renderBlock(IndustryBlocks.locksmith_workbench);
 		RenderHelper.renderBlock(IndustryBlocks.warehouse_crate);
+		RenderHelper.renderBlock(IndustryBlocks.glass_cabinet);
+		RenderHelper.renderBlock(IndustryBlocks.wood_cabinet);
 		RenderHelper.renderBlock(IndustryBlocks.drill);
 		RenderHelper.renderBlock(IndustryBlocks.drill_head);
 		RenderHelper.renderBlock(IndustryBlocks.conveyor_belt);
@@ -190,6 +206,31 @@ public class IndustryClientProxy extends IndustryCommonProxy {
 		// TileEntities
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntitySpecificSensor.class, new TileEntitySpecificSensorRenderer());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityWarehouseCrate.class, new TileEntityWarehouseCrateRenderer());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityGlassCabinet.class, new TileEntityGlassCabinetRenderer());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityWoodCabinet.class, new TileEntityWoodCabinetRenderer());
+
+		/*
+		 * ClientRegistry.bindTileEntitySpecialRenderer(TileEntityWarehouseCrate
+		 * .class, new AnimationTESR<TileEntityWarehouseCrate>() {
+		 * 
+		 * /** Event Handler for events triggered from animations. Normally we
+		 * just hand this off to the tileEntity for processing. This gets called
+		 * mid {@link AnimationTESR#renderTileEntityFast(TileEntity, double,
+		 * double, double, float, int, VertexBuffer)} before rendering occurs
+		 * for the frame.
+		 * 
+		 * @param tileEntity our tileEntity
+		 * 
+		 * @param time The global world time for the current tick + partial tick
+		 * progress, in seconds.
+		 * 
+		 * @param pastEvents List of events that were triggered since last tick.
+		 *
+		 * @Override public void handleEvents(TileEntityWarehouseCrate
+		 * tileEntity, float time, Iterable<Event> pastEvents) {
+		 * super.handleEvents(tileEntity, time, pastEvents);
+		 * tileEntity.handleEvents(time, pastEvents); } });
+		 */
 
 		// Entities
 		RenderingRegistry.registerEntityRenderingHandler(EntityExtruder.class, new ExtruderFactory());
@@ -218,5 +259,22 @@ public class IndustryClientProxy extends IndustryCommonProxy {
 				return 16777215;
 			}
 		}, IndustryBlocks.camo_plate);
+	}
+
+	/**
+	 * loads the animation state machine definition file. Only needed to be
+	 * loaded on the client side.
+	 * 
+	 * @param location
+	 *            The Resource location of the definition file. Usually located
+	 *            in "modid:asms/block/*.json"
+	 * @param parameters
+	 *            A mapping between animated variables in java and their names
+	 *            in the definition file.
+	 * @return The loaded state machine.
+	 */
+	@Override
+	public IAnimationStateMachine load(ResourceLocation location, ImmutableMap<String, ITimeValue> parameters) {
+		return ModelLoaderRegistry.loadASM(location, parameters);
 	}
 }

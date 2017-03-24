@@ -17,8 +17,8 @@ public class ItemCombination extends ItemManual {
 	}
 
 	public void addInformation(ItemStack itemstack, EntityPlayer entityplayer, List<String> list, boolean flag) {
-		if ((itemstack.hasTagCompound()) && (itemstack.getTagCompound().hasKey("combo")) && (itemstack.getTagCompound().getInteger("combo") > 0)) {
-			list.add(I18n.format("grimpack.industry.combo") + itemstack.getTagCompound().getInteger("combo"));
+		if ((itemstack.hasTagCompound()) && (itemstack.getTagCompound().hasKey("Lock")) && (!itemstack.getTagCompound().getString("Lock").isEmpty())) {
+			list.add(I18n.format("grimpack.industry.combo") + itemstack.getTagCompound().getString("Lock"));
 		}
 	}
 

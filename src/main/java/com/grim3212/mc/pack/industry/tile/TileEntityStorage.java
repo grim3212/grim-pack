@@ -1,6 +1,8 @@
 package com.grim3212.mc.pack.industry.tile;
 
-import net.minecraft.block.BlockChest;
+import com.grim3212.mc.pack.industry.block.BlockStorage;
+
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.init.SoundEvents;
@@ -23,20 +25,50 @@ import net.minecraft.world.LockCode;
 public abstract class TileEntityStorage extends TileEntityLockable implements ITickable, ISidedInventory {
 
 	private final int[] slots;
-	public boolean hasInitialData = false;
+	private String customName;
 	public int rotation = 0;
 	private boolean direction = false;
-	private String customName;
-	private int numUsingPlayers = 0;
-	private int hasInitialDataTimeout = 0;
+	// private boolean isOpen = false;
+	public int numPlayersUsing = 0;
+	// private int ticksSinceSync;
 	private final NonNullList<ItemStack> itemstacks;
+
+	/**
+	 * Our Animation state controller. We can use this to, for example, query
+	 * the current state, or transition to a different state.
+	 *
+	 * This is assigned through the proxy and is null server side.
+	 */
+	// protected final IAnimationStateMachine asm;
+
+	/**
+	 * Here we define our variables we wish to act as parameters in the state
+	 * machine. These get mapped to parameters that we can access in the asm
+	 * json files. Use these to trigger events or transition to a different
+	 * state. The values are set through code. See {@link #click()} for an
+	 * example.
+	 */
+	// private final VariableValue clickTime = new
+	// VariableValue(Float.NEGATIVE_INFINITY);
 
 	public TileEntityStorage() {
 		this.itemstacks = NonNullList.withSize(getSizeInventory(), ItemStack.EMPTY);
 		this.slots = new int[getSizeInventory()];
+		/**
+		 * This is loaded through the proxy. Server side returns null. Here we
+		 * also map {@link VariableValue} from above that we wish to access from
+		 * the asm json file. See
+		 * {@link assets.grimpack.asms.block#warehouse_crate.json}
+		 */
+		// asm = GrimIndustry.proxy.load(getStateMachine(),
+		// ImmutableMap.<String, ITimeValue>of("click_time", clickTime));
 	}
 
+	// protected abstract ResourceLocation getStateMachine();
+
 	protected abstract String getStorageName();
+
+	public abstract IBlockState getBreakTextureState();
 
 	@Override
 	public int getSizeInventory() {
@@ -65,7 +97,7 @@ public abstract class TileEntityStorage extends TileEntityLockable implements IT
 
 	@Override
 	public boolean canExtractItem(int index, ItemStack stack, EnumFacing direction) {
-		return true;
+		return !this.isLocked();
 	}
 
 	public void clearLock() {
@@ -86,24 +118,11 @@ public abstract class TileEntityStorage extends TileEntityLockable implements IT
 
 	@Override
 	public void update() {
-		if (!this.world.isRemote) {
-			if ((!this.hasInitialData) && (this.hasInitialDataTimeout <= 0)) {
-
-				// PacketDispatcher.sendToServer(new MessageMoreStorage(xCoord,
-				// yCoord, zCoord, 1));
-
-				this.hasInitialDataTimeout = 10;
-			}
-
-			if (this.hasInitialDataTimeout > 0)
-				this.hasInitialDataTimeout -= 1;
-		}
-
 		boolean prevdirection = this.direction;
-		this.direction = (this.numUsingPlayers > 0);
+		this.direction = (this.numPlayersUsing > 0);
 
 		if ((!prevdirection) && (this.direction))
-			this.world.playSound((EntityPlayer) null, this.pos.getX(), (double) this.pos.getY() + 0.5D, this.pos.getZ(), this.getOpenSound(), SoundCategory.BLOCKS, 0.5F, this.world.rand.nextFloat() * 0.1F + 0.9F);
+			this.world.playSound((EntityPlayer) null, pos.getX(), (double) pos.getY() + 0.5D, pos.getZ(), getOpenSound(), SoundCategory.BLOCKS, 0.5F, this.world.rand.nextFloat() * 0.1F + 0.9F);
 
 		int prevrotation = this.rotation;
 		int addspeed = (int) (Math.abs(90 - this.rotation) / 10.0F);
@@ -121,9 +140,32 @@ public abstract class TileEntityStorage extends TileEntityLockable implements IT
 		if (this.rotation > 90)
 			this.rotation = 90;
 
-		if ((prevrotation > this.rotation) && (this.rotation == 0)) {
-			this.world.playSound((EntityPlayer) null, this.pos.getX(), (double) this.pos.getY() + 0.5D, this.pos.getZ(), this.getCloseSound(), SoundCategory.BLOCKS, 0.5F, this.world.rand.nextFloat() * 0.1F + 0.9F);
-		}
+		if ((prevrotation > this.rotation) && (this.rotation == 0))
+			this.world.playSound((EntityPlayer) null, pos.getX(), (double) pos.getY() + 0.5D, pos.getZ(), getCloseSound(), SoundCategory.BLOCKS, 0.5F, this.world.rand.nextFloat() * 0.1F + 0.9F);
+
+		/**
+		 * if (this.numPlayersUsing > 0 && !this.isOpen) {
+		 * 
+		 * if (world.isRemote) { this.tryAnimate(true); }
+		 * 
+		 * this.isOpen = true; this.world.playSound((EntityPlayer) null,
+		 * pos.getX(), (double) pos.getY() + 0.5D, pos.getZ(), getOpenSound(),
+		 * SoundCategory.BLOCKS, 0.5F, this.world.rand.nextFloat() * 0.1F +
+		 * 0.9F); }
+		 * 
+		 * if (this.numPlayersUsing == 0 && this.isOpen) {
+		 * 
+		 * if (world.isRemote) { this.tryAnimate(false); }
+		 * 
+		 * this.isOpen = false; this.world.playSound((EntityPlayer) null,
+		 * pos.getX(), (double) pos.getY() + 0.5D, pos.getZ(), getCloseSound(),
+		 * SoundCategory.BLOCKS, 0.5F, this.world.rand.nextFloat() * 0.1F +
+		 * 0.9F); }
+		 * 
+		 * ++this.ticksSinceSync; if (world.isRemote && this.numPlayersUsing <=
+		 * 0 && this.ticksSinceSync % 100 == 0) { this.tryAnimate(false);
+		 * this.ticksSinceSync = 0; }
+		 **/
 	}
 
 	@Override
@@ -139,14 +181,14 @@ public abstract class TileEntityStorage extends TileEntityLockable implements IT
 
 	@Override
 	public ItemStack getStackInSlot(int index) {
-		if ((this.isLocked()) && (this.numUsingPlayers == 0))
+		if ((this.isLocked()) && (this.numPlayersUsing == 0))
 			return ItemStack.EMPTY;
 		return this.itemstacks.get(index);
 	}
 
 	@Override
 	public ItemStack decrStackSize(int index, int count) {
-		if ((this.isLocked()) && (this.numUsingPlayers == 0))
+		if ((this.isLocked()) && (this.numPlayersUsing == 0))
 			return ItemStack.EMPTY;
 
 		if (!this.itemstacks.get(index).isEmpty()) {
@@ -170,7 +212,7 @@ public abstract class TileEntityStorage extends TileEntityLockable implements IT
 
 	@Override
 	public ItemStack removeStackFromSlot(int index) {
-		if ((this.isLocked()) && (this.numUsingPlayers == 0))
+		if ((this.isLocked()) && (this.numPlayersUsing == 0))
 			return ItemStack.EMPTY;
 
 		if (!this.itemstacks.get(index).isEmpty()) {
@@ -200,19 +242,18 @@ public abstract class TileEntityStorage extends TileEntityLockable implements IT
 
 	@Override
 	public boolean isUsableByPlayer(EntityPlayer player) {
-		// TODO: Investigate the hasInitialData
-		return this.world.getTileEntity(this.pos) != this || (!this.hasInitialData) ? false : player.getDistanceSq((double) this.pos.getX() + 0.5D, (double) this.pos.getY() + 0.5D, (double) this.pos.getZ() + 0.5D) <= 64.0D;
+		return this.world.getTileEntity(this.pos) != this ? false : player.getDistanceSq((double) this.pos.getX() + 0.5D, (double) this.pos.getY() + 0.5D, (double) this.pos.getZ() + 0.5D) <= 64.0D;
 	}
 
 	@Override
 	public void openInventory(EntityPlayer player) {
 		if (!player.isSpectator()) {
-			if (this.numUsingPlayers < 0) {
-				this.numUsingPlayers = 0;
+			if (this.numPlayersUsing < 0) {
+				this.numPlayersUsing = 0;
 			}
 
-			++this.numUsingPlayers;
-			this.world.addBlockEvent(this.pos, this.getBlockType(), 1, this.numUsingPlayers);
+			++this.numPlayersUsing;
+			this.world.addBlockEvent(this.pos, this.getBlockType(), 1, this.numPlayersUsing);
 			this.world.notifyNeighborsOfStateChange(this.pos, this.getBlockType(), false);
 		}
 
@@ -220,9 +261,9 @@ public abstract class TileEntityStorage extends TileEntityLockable implements IT
 
 	@Override
 	public void closeInventory(EntityPlayer player) {
-		if (!player.isSpectator() && this.getBlockType() instanceof BlockChest) {
-			--this.numUsingPlayers;
-			this.world.addBlockEvent(this.pos, this.getBlockType(), 1, this.numUsingPlayers);
+		if (!player.isSpectator() && this.getBlockType() instanceof BlockStorage) {
+			--this.numPlayersUsing;
+			this.world.addBlockEvent(this.pos, this.getBlockType(), 1, this.numPlayersUsing);
 			this.world.notifyNeighborsOfStateChange(this.pos, this.getBlockType(), false);
 		}
 	}
@@ -295,7 +336,7 @@ public abstract class TileEntityStorage extends TileEntityLockable implements IT
 	@Override
 	public boolean receiveClientEvent(int id, int type) {
 		if (id == 1) {
-			this.numUsingPlayers = type;
+			this.numPlayersUsing = type;
 			return true;
 		}
 		if (id == 2) {
@@ -332,4 +373,47 @@ public abstract class TileEntityStorage extends TileEntityLockable implements IT
 	public NonNullList<ItemStack> getItems() {
 		return itemstacks;
 	}
+
+	/**
+	 * @Override public boolean hasCapability(Capability<?> capability,
+	 *           EnumFacing facing) { if (capability ==
+	 *           CapabilityAnimation.ANIMATION_CAPABILITY) { return true; }
+	 * 
+	 *           return super.hasCapability(capability, facing); }
+	 * 
+	 * @Override public <T> T getCapability(Capability<T> capability, EnumFacing
+	 *           facing) { if (capability ==
+	 *           CapabilityAnimation.ANIMATION_CAPABILITY) { return
+	 *           CapabilityAnimation.ANIMATION_CAPABILITY.cast(asm); } return
+	 *           super.getCapability(capability, facing); }
+	 **/
+
+	/**
+	 * Event handler to process events triggered from animations. It gets called
+	 * from your {@link AnimationTESR}. This is only called client side, so if
+	 * your events trigger something more than special effects, you'll have to
+	 * send a message back to the server. This could potentially be called each
+	 * frame tick, so anything computationally intensive should probably be
+	 * scheduled for a later update tick.
+	 * 
+	 * @param time
+	 *            The global world time for the current tick + partial tick
+	 *            progress, in seconds.
+	 * @param pastEvents
+	 *            List of events that were triggered since last tick.
+	 */
+	// public void handleEvents(float time, Iterable<Event> pastEvents) {}
+
+	/**
+	 * Example method showing how to change states from code.
+	 */
+	/**
+	 * public void tryAnimate(boolean open) { if (asm != null) { if
+	 * (asm.currentState().equals("open") && !open) { float time =
+	 * Animation.getWorldTime(getWorld(), Animation.getPartialTickTime());
+	 * clickTime.setValue(time); asm.transition("closing"); } else if
+	 * (asm.currentState().equals("closed") && open) { float time =
+	 * Animation.getWorldTime(getWorld(), Animation.getPartialTickTime());
+	 * clickTime.setValue(time); asm.transition("opening"); } } }
+	 **/
 }

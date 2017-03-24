@@ -1,0 +1,65 @@
+{
+	"parameters": {
+		"end_anim": [
+			"compose",
+			[
+				"+",
+				0.3
+			],
+			"#click_time"
+		],
+		"trigger_anim": [
+			"-",
+			"#end_anim"
+		],
+		"progress": [
+			"-",
+			"#click_time"
+		]
+	},
+	"clips": {
+		"closed": [ "apply", "#identity", 0 ],
+		"opening": [
+			"trigger_positive",
+			[
+				"slerp",
+				"#closed",
+				"#open",
+				"#identity",
+				"#progress"
+			],
+			"#trigger_anim",
+			"!transition:open"
+		],
+		"open": [
+			"apply",
+			"grimpack:block/warehouse_crate_top@open",
+			6
+		],
+		"closing": [
+			"trigger_positive",
+			[
+				"slerp",
+				"#open",
+				"#closed",
+				"#identity",
+				"#progress"
+			],
+			"#trigger_anim",
+			"!transition:closed"
+		]
+	},
+	"states": [
+		"closed",
+		"opening",
+		"open",
+		"closing"
+	],
+	"transitions": {
+		"closed": "opening",
+		"opening": "open",
+		"open": "closing",
+		"closing": "closed"
+	},
+	"start_state": "closed"
+}

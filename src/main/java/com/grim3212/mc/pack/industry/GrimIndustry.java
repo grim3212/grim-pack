@@ -19,6 +19,7 @@ import com.grim3212.mc.pack.industry.network.MessageSensorSetItem;
 import com.grim3212.mc.pack.industry.network.MessageSensorSetPlayer;
 import com.grim3212.mc.pack.industry.network.MessageSensorSetPos;
 import com.grim3212.mc.pack.industry.network.MessageSensorSetRender;
+import com.grim3212.mc.pack.industry.network.MessageSetLock;
 import com.grim3212.mc.pack.industry.tile.IndustryTileEntities;
 import com.grim3212.mc.pack.industry.world.IndustryGenerate;
 
@@ -56,6 +57,7 @@ public class GrimIndustry extends GrimPart {
 	public void preInit(FMLPreInitializationEvent event) {
 		super.preInit(event);
 
+		PacketDispatcher.registerMessage(MessageSetLock.class);
 		PacketDispatcher.registerMessage(MessageSensorChangeMode.class);
 		PacketDispatcher.registerMessage(MessageSensorSetEntity.class);
 		PacketDispatcher.registerMessage(MessageSensorSetItem.class);

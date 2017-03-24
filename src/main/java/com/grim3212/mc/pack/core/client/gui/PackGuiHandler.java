@@ -15,6 +15,7 @@ import com.grim3212.mc.pack.industry.client.gui.GuiDiamondPortable;
 import com.grim3212.mc.pack.industry.client.gui.GuiExtruder;
 import com.grim3212.mc.pack.industry.client.gui.GuiFan;
 import com.grim3212.mc.pack.industry.client.gui.GuiIronPortable;
+import com.grim3212.mc.pack.industry.client.gui.GuiLocksmithWorkbench;
 import com.grim3212.mc.pack.industry.client.gui.GuiMFurnace;
 import com.grim3212.mc.pack.industry.client.gui.GuiMachine;
 import com.grim3212.mc.pack.industry.client.gui.GuiSpecificSensor;
@@ -22,6 +23,7 @@ import com.grim3212.mc.pack.industry.entity.EntityExtruder;
 import com.grim3212.mc.pack.industry.inventory.ContainerDiamondWorkbench;
 import com.grim3212.mc.pack.industry.inventory.ContainerExtruder;
 import com.grim3212.mc.pack.industry.inventory.ContainerIronWorkbench;
+import com.grim3212.mc.pack.industry.inventory.ContainerLocksmithWorkbench;
 import com.grim3212.mc.pack.industry.inventory.ContainerMFurnace;
 import com.grim3212.mc.pack.industry.inventory.ContainerMachine;
 import com.grim3212.mc.pack.industry.inventory.ContainerSpecificSensor;
@@ -77,7 +79,8 @@ public class PackGuiHandler implements IGuiHandler {
 	public static final int PELLET_BAG_MAIN_GUI_ID = 19;
 	public static final int PELLET_BAG_OFF_GUI_ID = 20;
 	public static final int GRAVE_GUI_ID = 21;
-	public static final int WAREHOUSE_CRATE_GUI_ID = 22;
+	public static final int STORAGE_DEFAULT_GUI_ID = 22;
+	public static final int LOCKSMITH_WORKBENCH_GUI_ID = 23;
 
 	@Override
 	public Object getServerGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
@@ -120,8 +123,10 @@ public class PackGuiHandler implements IGuiHandler {
 			return new ContainerPelletBag(pelletBagInventory, player.inventory);
 		} else if (ID == GRAVE_GUI_ID) {
 			return new ContainerGrave((TileEntityGrave) tileentity, player.inventory);
-		} else if (ID == WAREHOUSE_CRATE_GUI_ID) {
+		} else if (ID == STORAGE_DEFAULT_GUI_ID) {
 			return new ContainerChest(player.inventory, (TileEntityStorage) tileentity, player);
+		} else if (ID == LOCKSMITH_WORKBENCH_GUI_ID) {
+			return new ContainerLocksmithWorkbench(player.inventory, world, pos);
 		}
 
 		return null;
@@ -178,8 +183,10 @@ public class PackGuiHandler implements IGuiHandler {
 			return new GuiPelletBag(pelletBagInventory, player.inventory);
 		} else if (ID == GRAVE_GUI_ID) {
 			return new GuiGrave(player.inventory, (TileEntityGrave) tileentity);
-		} else if (ID == WAREHOUSE_CRATE_GUI_ID) {
+		} else if (ID == STORAGE_DEFAULT_GUI_ID) {
 			return new GuiChest(player.inventory, (TileEntityStorage) tileentity);
+		} else if (ID == LOCKSMITH_WORKBENCH_GUI_ID) {
+			return new GuiLocksmithWorkbench(player.inventory, world, pos);
 		}
 
 		return null;

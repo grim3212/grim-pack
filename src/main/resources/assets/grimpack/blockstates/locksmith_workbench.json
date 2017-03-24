@@ -1,0 +1,20 @@
+{
+	"forge_marker": 1,
+    "defaults": {
+		"transform": "forge:default-block",
+        "model": "minecraft:cube",
+		"textures": {
+			"particle": "grimpack:blocks/locksmith_front",
+	        "down": "blocks/planks_oak",
+	        "up": "grimpack:blocks/locksmith_top",
+	        "north": "grimpack:blocks/locksmith_front",
+	        "east": "grimpack:blocks/locksmith_side",
+	        "south": "grimpack:blocks/locksmith_side",
+	        "west": "grimpack:blocks/locksmith_front"
+		}
+    },
+    "variants": {
+		"normal": [{}],
+		"inventory": [{}]
+    }
+}

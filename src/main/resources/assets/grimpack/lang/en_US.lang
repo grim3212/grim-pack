@@ -780,6 +780,11 @@ grimpack.industry.fan.SUCK=Suck
 grimpack.industry.combo=Combo: 
 
 container.warehouse_crate=Warehouse Crate
+container.glass_cabinet=Glass Cabinet
+container.wood_cabinet=Wood Cabinet
+container.obsidian_safe=Obsidian Safe
+container.gold_safe=Gold Safe
+container.lockerLocker
 container.grave=Grave
 container.crafting_iron=Iron Crafting (2x)
 container.crafting_diamond=Diamond Crafting (4x)

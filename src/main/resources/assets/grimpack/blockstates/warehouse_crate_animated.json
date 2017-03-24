@@ -1,0 +1,43 @@
+{
+	"forge_marker": 1,
+	"defaults": {
+		"transform": "forge:default-block",
+		"model": "grimpack:warehouse_crate_base",
+		"textures": {
+			"lock": "grimpack:blocks/lock",
+			"texture": "blocks/log_oak",
+			"base": "blocks/log_oak_top",
+			"inside": "blocks/planks_oak",
+			"particle": "blocks/planks_oak"
+		}
+	},
+	"variants": {
+		"facing=north,locked=true,static=true": [{ "model": "grimpack:warehouse_crate_top_locked" }],
+		"facing=north,locked=false,static=true": [{ "model": "grimpack:warehouse_crate_top" }],
+		"facing=north,locked=true,static=false": [{  }],
+		"facing=north,locked=false,static=false": [{  }],
+		
+		"facing=south,locked=true,static=true": [{ "y": 180, "model": "grimpack:warehouse_crate_top_locked" }],
+		"facing=south,locked=false,static=true": [{ "y": 180, "model": "grimpack:warehouse_crate_top" }],
+		"facing=south,locked=true,static=false": [{ "y": 180 }],
+		"facing=south,locked=false,static=false": [{ "y": 180 }],
+		
+		"facing=west,locked=true,static=true": [{ "y": 270, "model": "grimpack:warehouse_crate_top_locked" }],
+		"facing=west,locked=false,static=true": [{ "y": 270, "model": "grimpack:warehouse_crate_top" }],
+		"facing=west,locked=true,static=false": [{ "y": 270 }],
+		"facing=west,locked=false,static=false": [{ "y": 270 }],
+		
+		"facing=east,locked=true,static=true": [{ "y": 90, "model": "grimpack:warehouse_crate_top_locked" }],
+		"facing=east,locked=false,static=true": [{ "y": 90, "model": "grimpack:warehouse_crate_top" }],
+		"facing=east,locked=true,static=false": [{ "y": 90 }],
+		"facing=east,locked=false,static=false": [{ "y": 90 }],
+		
+		"inventory": [{
+			"submodel": {
+				"slide": {
+					"model": "grimpack:warehouse_crate_top"
+				}
+			}
+		}]
+	}
+}

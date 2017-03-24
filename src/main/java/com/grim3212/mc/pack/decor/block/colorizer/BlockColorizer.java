@@ -261,6 +261,7 @@ public class BlockColorizer extends BlockContainer implements IManualBlock, ICol
 					d0 = (double) i + axisalignedbb.maxX + (double) f;
 				}
 
+				//TODO: Use ParticleFactory
 				try {
 					Constructor<ParticleDigging> constructor = ParticleDigging.class.getDeclaredConstructor(World.class, double.class, double.class, double.class, double.class, double.class, double.class, IBlockState.class);
 					constructor.setAccessible(true);
