@@ -224,6 +224,8 @@ tile.fungus_killing.15.name=Glass Layer Building Fungus
 
 #================= ITEMS =================#
 item.instruction_manual.name=Instruction Manual
+item.locksmith_key.name=Locksmith Key
+item.locksmith_lock.name=Locksmith Lock
 item.drill_head_item.name=Drill Head
 item.decor_door_item.name=Decor Door
 item.position_finder.name=GPS
@@ -779,6 +781,8 @@ grimpack.industry.fan.BLOW=Blow
 grimpack.industry.fan.SUCK=Suck
 grimpack.industry.combo=Combo: 
 
+container.locksmith_workbench=Locksmith WorkBench
+container.locksmith_workbench.combo=Type Combo
 container.warehouse_crate=Warehouse Crate
 container.glass_cabinet=Glass Cabinet
 container.wood_cabinet=Wood Cabinet

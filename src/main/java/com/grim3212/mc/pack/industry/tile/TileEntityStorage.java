@@ -112,7 +112,7 @@ public abstract class TileEntityStorage extends TileEntityLockable implements IT
 		return SoundEvents.BLOCK_CHEST_CLOSE;
 	}
 
-	protected SoundEvent getLockedSound() {
+	public SoundEvent getLockedSound() {
 		return SoundEvents.BLOCK_CHEST_LOCKED;
 	}
 

@@ -43,8 +43,18 @@ public class ContainerLocksmithWorkbench extends Container {
 			}
 		};
 
-		addSlotToContainer(new SlotLocksmith(this.inputSlot, 0, 49, 35, true));
-		addSlotToContainer(new SlotLocksmith(this.outputSlot, 1, 112, 35, false) {
+		addSlotToContainer(new Slot(this.inputSlot, 0, 41, 35) {
+			@Override
+			public boolean isItemValid(ItemStack stack) {
+				return stack.getItem() instanceof ItemCombination;
+			}
+		});
+		addSlotToContainer(new Slot(this.outputSlot, 1, 120, 35) {
+			@Override
+			public boolean isItemValid(ItemStack stack) {
+				return false;
+			}
+
 			@Override
 			public ItemStack onTake(EntityPlayer thePlayer, ItemStack stack) {
 
@@ -87,6 +97,8 @@ public class ContainerLocksmithWorkbench extends Container {
 		} else {
 			this.outputSlot.setInventorySlotContents(0, ItemStack.EMPTY);
 		}
+
+		this.detectAndSendChanges();
 	}
 
 	@Override

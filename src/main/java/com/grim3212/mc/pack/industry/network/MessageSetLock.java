@@ -3,7 +3,7 @@ package com.grim3212.mc.pack.industry.network;
 import java.io.IOException;
 
 import com.grim3212.mc.pack.core.network.AbstractMessage.AbstractServerMessage;
-import com.grim3212.mc.pack.core.util.NBTHelper;
+import com.grim3212.mc.pack.industry.inventory.ContainerLocksmithWorkbench;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.network.PacketBuffer;
@@ -22,7 +22,7 @@ public class MessageSetLock extends AbstractServerMessage<MessageSetLock> {
 
 	@Override
 	protected void read(PacketBuffer buffer) throws IOException {
-		this.lock = buffer.readString(6);
+		this.lock = buffer.readString(11);
 	}
 
 	@Override
@@ -32,7 +32,13 @@ public class MessageSetLock extends AbstractServerMessage<MessageSetLock> {
 
 	@Override
 	public void process(EntityPlayer player, Side side) {
-		player.openContainer.getSlot(1).putStack(NBTHelper.setStringItemStack(player.openContainer.getSlot(0).getStack().copy(), "Lock", lock));
+
+		if (player.openContainer instanceof ContainerLocksmithWorkbench) {
+			((ContainerLocksmithWorkbench) player.openContainer).updateLock(lock);
+		}
+
+		// player.openContainer.getSlot(1).putStack(NBTHelper.setStringItemStack(player.openContainer.getSlot(0).getStack().copy(),
+		// "Lock", lock));
 	}
 
 }
