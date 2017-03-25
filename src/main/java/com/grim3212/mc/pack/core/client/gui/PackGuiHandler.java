@@ -14,6 +14,7 @@ import com.grim3212.mc.pack.industry.client.gui.GuiCraftingIron;
 import com.grim3212.mc.pack.industry.client.gui.GuiDiamondPortable;
 import com.grim3212.mc.pack.industry.client.gui.GuiExtruder;
 import com.grim3212.mc.pack.industry.client.gui.GuiFan;
+import com.grim3212.mc.pack.industry.client.gui.GuiGoldSafe;
 import com.grim3212.mc.pack.industry.client.gui.GuiIronPortable;
 import com.grim3212.mc.pack.industry.client.gui.GuiLocksmithWorkbench;
 import com.grim3212.mc.pack.industry.client.gui.GuiMFurnace;
@@ -22,6 +23,7 @@ import com.grim3212.mc.pack.industry.client.gui.GuiSpecificSensor;
 import com.grim3212.mc.pack.industry.entity.EntityExtruder;
 import com.grim3212.mc.pack.industry.inventory.ContainerDiamondWorkbench;
 import com.grim3212.mc.pack.industry.inventory.ContainerExtruder;
+import com.grim3212.mc.pack.industry.inventory.ContainerGoldSafe;
 import com.grim3212.mc.pack.industry.inventory.ContainerIronWorkbench;
 import com.grim3212.mc.pack.industry.inventory.ContainerLocksmithWorkbench;
 import com.grim3212.mc.pack.industry.inventory.ContainerMFurnace;
@@ -81,6 +83,7 @@ public class PackGuiHandler implements IGuiHandler {
 	public static final int GRAVE_GUI_ID = 21;
 	public static final int STORAGE_DEFAULT_GUI_ID = 22;
 	public static final int LOCKSMITH_WORKBENCH_GUI_ID = 23;
+	public static final int GOLD_SAFE_GUI_ID = 24;
 
 	@Override
 	public Object getServerGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
@@ -127,6 +130,8 @@ public class PackGuiHandler implements IGuiHandler {
 			return new ContainerChest(player.inventory, (TileEntityStorage) tileentity, player);
 		} else if (ID == LOCKSMITH_WORKBENCH_GUI_ID) {
 			return new ContainerLocksmithWorkbench(player.inventory, world, pos);
+		} else if (ID == GOLD_SAFE_GUI_ID) {
+			return new ContainerGoldSafe(player, (TileEntityStorage) tileentity);
 		}
 
 		return null;
@@ -187,6 +192,8 @@ public class PackGuiHandler implements IGuiHandler {
 			return new GuiChest(player.inventory, (TileEntityStorage) tileentity);
 		} else if (ID == LOCKSMITH_WORKBENCH_GUI_ID) {
 			return new GuiLocksmithWorkbench(player.inventory, world, pos);
+		} else if (ID == GOLD_SAFE_GUI_ID) {
+			return new GuiGoldSafe(player, (TileEntityStorage) tileentity);
 		}
 
 		return null;

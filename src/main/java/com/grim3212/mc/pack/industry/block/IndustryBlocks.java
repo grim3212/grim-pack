@@ -10,6 +10,7 @@ import com.grim3212.mc.pack.core.util.Utils;
 import com.grim3212.mc.pack.industry.GrimIndustry;
 import com.grim3212.mc.pack.industry.block.BlockElemental.ElementType;
 import com.grim3212.mc.pack.industry.item.IndustryItems;
+import com.grim3212.mc.pack.industry.item.ItemGoldSafe;
 import com.grim3212.mc.pack.industry.item.ItemSensor;
 
 import net.minecraft.block.Block;
@@ -95,9 +96,9 @@ public class IndustryBlocks implements IPartItems {
 	public static Block wood_cabinet;
 	public static Block glass_cabinet;
 	public static Block warehouse_crate;
-
 	public static Block obsidian_safe;
 	public static Block gold_safe;
+
 	public static Block locker;
 	public static Block item_tower;
 
@@ -168,8 +169,12 @@ public class IndustryBlocks implements IPartItems {
 		warehouse_crate = (new BlockWarehouseCrate()).setHardness(3.0F).setResistance(5.0F).setUnlocalizedName("warehouse_crate");
 		wood_cabinet = (new BlockWoodCabinet()).setHardness(3.0F).setResistance(5.0F).setUnlocalizedName("wood_cabinet");
 		glass_cabinet = (new BlockGlassCabinet()).setHardness(3.0F).setResistance(5.0F).setUnlocalizedName("glass_cabinet");
+		obsidian_safe = (new BlockObsidianSafe()).setHardness(3.0F).setResistance(5.0F).setUnlocalizedName("obsidian_safe");
+		gold_safe = (new BlockGoldSafe()).setHardness(3.0F).setResistance(5.0F).setUnlocalizedName("gold_safe");
 		locksmith_workbench = (new BlockLocksmithWorkbench()).setHardness(3.0F).setResistance(5.0F).setUnlocalizedName("locksmith_workbench").setCreativeTab(GrimIndustry.INSTANCE.getCreativeTab());
 
+		Utils.registerBlock(gold_safe, "gold_safe", new ItemGoldSafe(gold_safe));
+		Utils.registerBlock(obsidian_safe, "obsidian_safe");
 		Utils.registerBlock(locksmith_workbench, "locksmith_workbench");
 		Utils.registerBlock(wood_cabinet, "wood_cabinet");
 		Utils.registerBlock(glass_cabinet, "glass_cabinet");

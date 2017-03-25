@@ -7,7 +7,7 @@ import net.minecraft.util.math.BlockPos;
 public class NBTHelper {
 
 	public static boolean hasTag(ItemStack itemStack, String keyName) {
-		return itemStack != null && itemStack.getTagCompound() != null && itemStack.getTagCompound().hasKey(keyName);
+		return !itemStack.isEmpty() && itemStack.getTagCompound() != null && itemStack.getTagCompound().hasKey(keyName);
 	}
 
 	public static void removeTag(ItemStack itemStack, String keyName) {

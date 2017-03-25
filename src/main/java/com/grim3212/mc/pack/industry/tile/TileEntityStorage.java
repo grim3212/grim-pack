@@ -31,7 +31,7 @@ public abstract class TileEntityStorage extends TileEntityLockable implements IT
 	// private boolean isOpen = false;
 	public int numPlayersUsing = 0;
 	// private int ticksSinceSync;
-	private final NonNullList<ItemStack> itemstacks;
+	protected final NonNullList<ItemStack> itemstacks;
 
 	/**
 	 * Our Animation state controller. We can use this to, for example, query

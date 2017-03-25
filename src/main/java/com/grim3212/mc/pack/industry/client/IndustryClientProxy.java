@@ -15,6 +15,8 @@ import com.grim3212.mc.pack.industry.client.event.TextureStitch;
 import com.grim3212.mc.pack.industry.client.model.CamoPlateModel.CamoPlateModelLoader;
 import com.grim3212.mc.pack.industry.client.particle.ParticleAir;
 import com.grim3212.mc.pack.industry.client.tile.TileEntityGlassCabinetRenderer;
+import com.grim3212.mc.pack.industry.client.tile.TileEntityGoldSafeRenderer;
+import com.grim3212.mc.pack.industry.client.tile.TileEntityObsidianSafeRenderer;
 import com.grim3212.mc.pack.industry.client.tile.TileEntitySpecificSensorRenderer;
 import com.grim3212.mc.pack.industry.client.tile.TileEntityWarehouseCrateRenderer;
 import com.grim3212.mc.pack.industry.client.tile.TileEntityWoodCabinetRenderer;
@@ -23,6 +25,8 @@ import com.grim3212.mc.pack.industry.item.IndustryItems;
 import com.grim3212.mc.pack.industry.tile.TileEntityCamo;
 import com.grim3212.mc.pack.industry.tile.TileEntityFan;
 import com.grim3212.mc.pack.industry.tile.TileEntityGlassCabinet;
+import com.grim3212.mc.pack.industry.tile.TileEntityGoldSafe;
+import com.grim3212.mc.pack.industry.tile.TileEntityObsidianSafe;
 import com.grim3212.mc.pack.industry.tile.TileEntitySpecificSensor;
 import com.grim3212.mc.pack.industry.tile.TileEntityWarehouseCrate;
 import com.grim3212.mc.pack.industry.tile.TileEntityWoodCabinet;
@@ -64,6 +68,8 @@ public class IndustryClientProxy extends IndustryCommonProxy {
 		ForgeHooksClient.registerTESRItemStack(Item.getItemFromBlock(IndustryBlocks.warehouse_crate), 0, TileEntityWarehouseCrate.class);
 		ForgeHooksClient.registerTESRItemStack(Item.getItemFromBlock(IndustryBlocks.glass_cabinet), 0, TileEntityGlassCabinet.class);
 		ForgeHooksClient.registerTESRItemStack(Item.getItemFromBlock(IndustryBlocks.wood_cabinet), 0, TileEntityWoodCabinet.class);
+		ForgeHooksClient.registerTESRItemStack(Item.getItemFromBlock(IndustryBlocks.obsidian_safe), 0, TileEntityObsidianSafe.class);
+		ForgeHooksClient.registerTESRItemStack(Item.getItemFromBlock(IndustryBlocks.gold_safe), 0, TileEntityGoldSafe.class);
 
 		ModelLoader.setCustomStateMapper(IndustryBlocks.fire_sensor, new StateMap.Builder().ignore(BlockFireSensor.POWERED).build());
 		ModelLoader.setCustomStateMapper(IndustryBlocks.arrow_sensor, new StateMap.Builder().ignore(BlockSensorArrow.POWERED).build());
@@ -76,6 +82,8 @@ public class IndustryClientProxy extends IndustryCommonProxy {
 		ModelLoader.setCustomStateMapper(IndustryBlocks.warehouse_crate, new EmptyStateMap());
 		ModelLoader.setCustomStateMapper(IndustryBlocks.glass_cabinet, new EmptyStateMap());
 		ModelLoader.setCustomStateMapper(IndustryBlocks.wood_cabinet, new EmptyStateMap());
+		ModelLoader.setCustomStateMapper(IndustryBlocks.obsidian_safe, new EmptyStateMap());
+		ModelLoader.setCustomStateMapper(IndustryBlocks.gold_safe, new EmptyStateMap());
 
 		// ITEMS
 		RenderHelper.renderItem(IndustryItems.locksmith_key);
@@ -136,6 +144,8 @@ public class IndustryClientProxy extends IndustryCommonProxy {
 		RenderHelper.renderItem(IndustryItems.steel_sword);
 
 		// BLOCKS
+		RenderHelper.renderBlock(IndustryBlocks.gold_safe);
+		RenderHelper.renderBlock(IndustryBlocks.obsidian_safe);
 		RenderHelper.renderBlock(IndustryBlocks.locksmith_workbench);
 		RenderHelper.renderBlock(IndustryBlocks.warehouse_crate);
 		RenderHelper.renderBlock(IndustryBlocks.glass_cabinet);
@@ -208,6 +218,8 @@ public class IndustryClientProxy extends IndustryCommonProxy {
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityWarehouseCrate.class, new TileEntityWarehouseCrateRenderer());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityGlassCabinet.class, new TileEntityGlassCabinetRenderer());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityWoodCabinet.class, new TileEntityWoodCabinetRenderer());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityObsidianSafe.class, new TileEntityObsidianSafeRenderer());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityGoldSafe.class, new TileEntityGoldSafeRenderer());
 
 		/*
 		 * ClientRegistry.bindTileEntitySpecialRenderer(TileEntityWarehouseCrate

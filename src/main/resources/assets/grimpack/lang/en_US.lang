@@ -10,8 +10,8 @@ grimpack.creative.world=Grim World
 #================= BLOCKS =================#
 tile.grave.name=Gravestone
 tile.warehouse_crate.name=Warehouse Crate
-tile.obsidian_safe.name=\u00a75Obsidian Safe
-tile.gold_safe.name=\u00a76Gold Safe
+tile.obsidian_safe.name=§5Obsidian Safe
+tile.gold_safe.name=§6Gold Safe
 tile.locker.name=Locker
 tile.item_tower.name=Item Tower
 tile.glass_cabinet.name=Glass Cabinet
