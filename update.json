@@ -1,8 +1,8 @@
 {
 	"homepage": "https://grim3212.github.io/grim-pack/home",
 	"promos": {
-		"1.11.2-latest": "4.0.0.13",
-		"1.11.2-recommended": "4.0.0.13",
+		"1.11.2-latest": "4.0.1.14",
+		"1.11.2-recommended": "4.0.1.14",
 		"1.11-latest": "4.0.0.0-alpha.2",
 		"1.11-recommended": "4.0.0.0-alpha.2",
 		"1.10.2-latest": "3.4.17.52",
@@ -60,6 +60,7 @@
 		"4.0.0.0-alpha": "Port to 1.11. Many changes to decor, powerstaff, slingshots, fungus, and more. See full changelog at curseforge."
 	},
 	"1.11.2": {
+		"4.0.1.14": "Add in MoreStorage and finish adding drill and conveyor from We(raft.",
 		"4.0.0.13": "Fix conflicting achievements. This will remove achievement progress for GrimPack.",
 		"4.0.0.12": "Add in achievements through all of the parts. Fix positioning for Mining Wand.",
 		"4.0.0.10": "Big configuration list changes. Fix item models in hand, add in Bauble support for Graves, fix compatibility issues with multitools, fix manual links.",
