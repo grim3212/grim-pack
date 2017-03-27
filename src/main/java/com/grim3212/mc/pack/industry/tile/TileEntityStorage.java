@@ -71,6 +71,11 @@ public abstract class TileEntityStorage extends TileEntityLockable implements IT
 	public abstract IBlockState getBreakTextureState();
 
 	@Override
+	public boolean canRenderBreaking() {
+		return true;
+	}
+
+	@Override
 	public int getSizeInventory() {
 		return 27;
 	}
@@ -121,7 +126,7 @@ public abstract class TileEntityStorage extends TileEntityLockable implements IT
 		boolean prevdirection = this.direction;
 		this.direction = (this.numPlayersUsing > 0);
 
-		if ((!prevdirection) && (this.direction))
+		if ((!prevdirection) && (this.direction) && getOpenSound() != null)
 			this.world.playSound((EntityPlayer) null, pos.getX(), (double) pos.getY() + 0.5D, pos.getZ(), getOpenSound(), SoundCategory.BLOCKS, 0.5F, this.world.rand.nextFloat() * 0.1F + 0.9F);
 
 		int prevrotation = this.rotation;
@@ -140,7 +145,7 @@ public abstract class TileEntityStorage extends TileEntityLockable implements IT
 		if (this.rotation > 90)
 			this.rotation = 90;
 
-		if ((prevrotation > this.rotation) && (this.rotation == 0))
+		if ((prevrotation > this.rotation) && (this.rotation == 0) && getCloseSound() != null)
 			this.world.playSound((EntityPlayer) null, pos.getX(), (double) pos.getY() + 0.5D, pos.getZ(), getCloseSound(), SoundCategory.BLOCKS, 0.5F, this.world.rand.nextFloat() * 0.1F + 0.9F);
 
 		/**

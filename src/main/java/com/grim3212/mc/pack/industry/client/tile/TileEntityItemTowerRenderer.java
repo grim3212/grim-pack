@@ -1,8 +1,8 @@
 package com.grim3212.mc.pack.industry.client.tile;
 
 import com.grim3212.mc.pack.GrimPack;
-import com.grim3212.mc.pack.industry.client.model.ModelGenericSafe;
-import com.grim3212.mc.pack.industry.tile.TileEntityGoldSafe;
+import com.grim3212.mc.pack.industry.client.model.ModelItemTower;
+import com.grim3212.mc.pack.industry.tile.TileEntityItemTower;
 
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
@@ -11,17 +11,16 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class TileEntityGoldSafeRenderer extends TileEntitySpecialRenderer<TileEntityGoldSafe> {
+public class TileEntityItemTowerRenderer extends TileEntitySpecialRenderer<TileEntityItemTower> {
 
-	private ModelGenericSafe model;
-	private static final ResourceLocation RESOURCE_LOCATION = new ResourceLocation(GrimPack.modID, "textures/models/goldsafe.png");
+	public final ModelItemTower ITEM_MODEL = new ModelItemTower();
+	private static final ResourceLocation RESOURCE_LOCATION = new ResourceLocation(GrimPack.modID, "textures/models/tower.png");
 
-	public TileEntityGoldSafeRenderer() {
-		this.model = new ModelGenericSafe();
+	public TileEntityItemTowerRenderer() {
+
 	}
 
-	@Override
-	public void renderTileEntityAt(TileEntityGoldSafe te, double x, double y, double z, float partialTicks, int destroyStage) {
+	public void renderTileEntityAt(TileEntityItemTower te, double x, double y, double z, float partialTicks, int destroyStage) {
 		GlStateManager.pushMatrix();
 		GlStateManager.translate(x, y, z);
 
@@ -46,25 +45,30 @@ public class TileEntityGoldSafeRenderer extends TileEntitySpecialRenderer<TileEn
 			this.bindTexture(DESTROY_STAGES[destroyStage]);
 			GlStateManager.matrixMode(5890);
 			GlStateManager.pushMatrix();
-			GlStateManager.scale(4.0F, 8.0F, 1.0F);
+			GlStateManager.scale(8.0F, 8.0F, 1.0F);
 			GlStateManager.translate(0.0625F, 0.0625F, 0.0625F);
 			GlStateManager.matrixMode(5888);
 		} else {
 			this.bindTexture(RESOURCE_LOCATION);
 		}
 
-		GlStateManager.pushMatrix();
-		int rotation = 0;
-		if (te != null)
-			rotation = te.rotation;
+		if (te != null && te.getWorld() != null) {
+			GlStateManager.pushMatrix();
 
-		this.model.doorAngle = rotation;
-		if (te != null)
-			this.model.renderHandle = !te.isLocked();
-		else
-			this.model.renderHandle = true;
-		this.model.renderModel(0.0625F);
-		GlStateManager.popMatrix();
+			te.model.topBlock = (te.getWorld().getTileEntity(te.getPos().up()) instanceof TileEntityItemTower);
+			te.model.bottomBlock = (te.getWorld().getTileEntity(te.getPos().down()) instanceof TileEntityItemTower);
+			te.model.renderModel(0.0625F);
+
+			te.model.topBlock = false;
+			te.model.bottomBlock = false;
+
+			GlStateManager.popMatrix();
+		} else if (te == null) {
+			GlStateManager.rotate(90.0F, 0.0F, 1.0F, 0.0F);
+			GlStateManager.translate(-1.0F, 0.0F, 0.0F);
+			ITEM_MODEL.renderModel(0.0625F);
+		}
+
 		GlStateManager.popMatrix();
 
 		if (destroyStage >= 0) {

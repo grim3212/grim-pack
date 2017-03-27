@@ -59,6 +59,16 @@ public class PageCrafting extends Page {
 		this.outputRecipes.add(RecipeHelper.getQuickIRecipeForItemStack(output));
 	}
 
+	public PageCrafting(String pageName, int updateTime, ItemStack... outputs) {
+		super(pageName, false);
+
+		for (ItemStack stack : outputs)
+			this.outputRecipes.add(RecipeHelper.getQuickIRecipeForItemStack(stack));
+
+		this.updateTime = updateTime;
+		this.isArray = outputs.length > 1;
+	}
+
 	public boolean isArray() {
 		return isArray;
 	}

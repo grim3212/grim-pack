@@ -40,6 +40,8 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.common.ForgeHooks;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public abstract class BlockStorage extends BlockManual implements ITileEntityProvider {
 
@@ -58,6 +60,16 @@ public abstract class BlockStorage extends BlockManual implements ITileEntityPro
 
 	public boolean isDoorBlocked(World world, BlockPos pos, IBlockState state) {
 		return isInvalidBlock(world, pos.offset(state.getValue(FACING)));
+	}
+
+	public boolean canBeLocked() {
+		return true;
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public boolean hasCustomBreakingProgress(IBlockState state) {
+		return true;
 	}
 
 	@Override
@@ -111,7 +123,7 @@ public abstract class BlockStorage extends BlockManual implements ITileEntityPro
 		if (te != null && te instanceof TileEntityStorage) {
 			TileEntityStorage tileentity = (TileEntityStorage) te;
 
-			if (playerIn.getHeldItem(hand).getItem() == IndustryItems.locksmith_lock) {
+			if (this.canBeLocked() && playerIn.getHeldItem(hand).getItem() == IndustryItems.locksmith_lock) {
 				if (StorageUtil.tryPlaceLock(tileentity, playerIn, hand))
 					return true;
 			}
@@ -207,6 +219,7 @@ public abstract class BlockStorage extends BlockManual implements ITileEntityPro
 	}
 
 	@Override
+	@SideOnly(Side.CLIENT)
 	public boolean addDestroyEffects(World world, BlockPos pos, ParticleManager manager) {
 		TileEntity te = world.getTileEntity(pos);
 		if (te != null && te instanceof TileEntityStorage) {
@@ -223,6 +236,7 @@ public abstract class BlockStorage extends BlockManual implements ITileEntityPro
 	}
 
 	@Override
+	@SideOnly(Side.CLIENT)
 	public boolean addHitEffects(IBlockState state, World worldObj, RayTraceResult target, ParticleManager manager) {
 		TileEntity te = worldObj.getTileEntity(target.getBlockPos());
 

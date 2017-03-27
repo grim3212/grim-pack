@@ -94,9 +94,27 @@ public class ManualIndustry implements IManualPart {
 	public static Page arrowSensor_page;
 	public static Page fireSensor_page;
 	public static Page metalMesh_page;
+	public static Page conveyorBelt_page;
+	public static Page drill_page;
+	public static Page combination_page;
+	public static Page locksmithWorkbench_page;
+	public static Page warehouseCrate_page;
+	public static Page safes_page;
+	public static Page locker_page;
+	public static Page cabinets_page;
+	public static Page itemTower_page;
 
 	@Override
 	public void initPages() {
+		combination_page = new PageCrafting("combination", 25, new ItemStack(IndustryItems.locksmith_key), new ItemStack(IndustryItems.locksmith_lock));
+		locksmithWorkbench_page = new PageCrafting("locksmith_workbench", new ItemStack(IndustryBlocks.locksmith_workbench));
+		warehouseCrate_page = new PageCrafting("warehouse_crate", new ItemStack(IndustryBlocks.warehouse_crate));
+		cabinets_page = new PageCrafting("cabinets", 25, new ItemStack(IndustryBlocks.wood_cabinet), new ItemStack(IndustryBlocks.glass_cabinet));
+		safes_page = new PageCrafting("safes", 25, new ItemStack(IndustryBlocks.obsidian_safe), new ItemStack(IndustryBlocks.gold_safe));
+		locker_page = new PageCrafting("locker", new ItemStack(IndustryBlocks.locker));
+		itemTower_page = new PageCrafting("item_tower", new ItemStack(IndustryBlocks.item_tower));
+		drill_page = new PageCrafting("drill", 25, new ItemStack(IndustryBlocks.drill), new ItemStack(IndustryItems.drill_head_item));
+		conveyorBelt_page = new PageCrafting("conveyor_belt", new ItemStack(IndustryBlocks.conveyor_belt));
 		arrowSensor_page = new PageCrafting("arrow_sensor", new ItemStack(IndustryBlocks.arrow_sensor));
 		fireSensor_page = new PageCrafting("fire_sensor", new ItemStack(IndustryBlocks.fire_sensor));
 		metalMesh_page = new PageCrafting("metal_mesh", new ItemStack(IndustryBlocks.metal_mesh));
@@ -175,7 +193,7 @@ public class ManualIndustry implements IManualPart {
 	@Override
 	public void registerChapters(ManualPart part) {
 		ManualRegistry.addChapter("benches", part).addPages(workbench_page, portableUpgrade_page);
-		ManualRegistry.addChapter("ice", part).addPages(iceMaker_page);
+		ManualRegistry.addChapter("storage", part).addPages(warehouseCrate_page, cabinets_page, safes_page, locker_page, itemTower_page, combination_page, locksmithWorkbench_page);
 		ManualRegistry.addChapter("elemental", part).addPages(togglerack_page, fireBlock_page, waterBlock_page, lavaBlock_page);
 		ManualRegistry.addChapter("spikes", part).addPages(spike_page);
 		ManualRegistry.addChapter("fan", part).addPages(fan_page);
@@ -188,9 +206,10 @@ public class ManualIndustry implements IManualPart {
 		ManualRegistry.addChapter("gates", part).addPages(ironStick_page, gate_page, gateTrumpet_page, garage_page, garageRemote_page);
 		ManualRegistry.addChapter("hlights", part).addPages(hLight_page, hTorch_page);
 		ManualRegistry.addChapter("rways", part).addPages(sidewalk_page, tarball_page, asphalt_page, rways_page, paint_page);
-		ManualRegistry.addChapter("moderntech", part).addPages(doors_page, others_page, decoration_page, paintTech_page);
+		ManualRegistry.addChapter("moderntech", part).addPages(doors_page, others_page, decoration_page, paintTech_page, conveyorBelt_page);
 		ManualRegistry.addChapter("metalworks", part).addPages(alumIngot_page, alumStuff_page, buckLadd_page, coalIron_page, steelIngot_page, steelStuff_page, steelTools_page, fuel_page, metalMesh_page);
-		ManualRegistry.addChapter("machines", part).addPages(machineInfo_page, refinery_page, refineryRecipes_page, derrick_page, derrickRecipes_page, modernFurnace_page, modernFurnaceRecipes_page);
+		ManualRegistry.addChapter("machines", part).addPages(machineInfo_page, refinery_page, refineryRecipes_page, derrick_page, derrickRecipes_page, modernFurnace_page, modernFurnaceRecipes_page, drill_page);
+		ManualRegistry.addChapter("ice", part).addPages(iceMaker_page);
 	}
 
 }

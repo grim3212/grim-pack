@@ -5,6 +5,7 @@ import java.util.Random;
 import com.grim3212.mc.pack.core.client.gui.PackGuiHandler;
 import com.grim3212.mc.pack.core.manual.pages.Page;
 import com.grim3212.mc.pack.core.util.NBTHelper;
+import com.grim3212.mc.pack.industry.client.ManualIndustry;
 import com.grim3212.mc.pack.industry.tile.TileEntityGoldSafe;
 
 import net.minecraft.block.SoundType;
@@ -67,7 +68,7 @@ public class BlockGoldSafe extends BlockStorage {
 
 	@Override
 	public Page getPage(IBlockState state) {
-		return null;
+		return ManualIndustry.safes_page;
 	}
 
 }

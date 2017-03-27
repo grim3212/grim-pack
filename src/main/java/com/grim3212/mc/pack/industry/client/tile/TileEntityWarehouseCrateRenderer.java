@@ -42,7 +42,17 @@ public class TileEntityWarehouseCrateRenderer extends TileEntitySpecialRenderer<
 			GlStateManager.translate(0.0F, 0.0F, -1.0F);
 		}
 
-		this.bindTexture(RESOURCE_LOCATION);
+		if (destroyStage >= 0) {
+			this.bindTexture(DESTROY_STAGES[destroyStage]);
+			GlStateManager.matrixMode(5890);
+			GlStateManager.pushMatrix();
+			GlStateManager.scale(4.0F, 8.0F, 1.0F);
+			GlStateManager.translate(0.0625F, 0.0625F, 0.0625F);
+			GlStateManager.matrixMode(5888);
+		} else {
+			this.bindTexture(RESOURCE_LOCATION);
+		}
+
 		GlStateManager.pushMatrix();
 		int rotation = 0;
 		if (te != null)
@@ -56,5 +66,11 @@ public class TileEntityWarehouseCrateRenderer extends TileEntitySpecialRenderer<
 		this.model.renderModel(0.0625F);
 		GlStateManager.popMatrix();
 		GlStateManager.popMatrix();
+
+		if (destroyStage >= 0) {
+			GlStateManager.matrixMode(5890);
+			GlStateManager.popMatrix();
+			GlStateManager.matrixMode(5888);
+		}
 	}
 }

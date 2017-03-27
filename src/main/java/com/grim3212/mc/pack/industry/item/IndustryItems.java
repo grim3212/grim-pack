@@ -154,7 +154,7 @@ public class IndustryItems implements IPartItems {
 		portable_diamond_workbench = (new ItemUpgradedPortableWorkbench(PackGuiHandler.PORTABLE_DIAMOND_MAIN_GUI_ID, PackGuiHandler.PORTABLE_DIAMOND_OFF_GUI_ID)).setUnlocalizedName("portable_diamond_workbench").setCreativeTab(GrimIndustry.INSTANCE.getCreativeTab());
 		portable_iron_workbench = (new ItemUpgradedPortableWorkbench(PackGuiHandler.PORTABLE_IRON_MAIN_GUI_ID, PackGuiHandler.PORTABLE_IRON_OFF_GUI_ID)).setUnlocalizedName("portable_iron_workbench").setCreativeTab(GrimIndustry.INSTANCE.getCreativeTab());
 		position_finder = (new ItemPositionFinder().setUnlocalizedName("position_finder").setCreativeTab(GrimIndustry.INSTANCE.getCreativeTab()));
-		drill_head_item = new ItemManualPage("industry:gates.garage").setUnlocalizedName("drill_head_item").setCreativeTab(GrimIndustry.INSTANCE.getCreativeTab());
+		drill_head_item = new ItemManualPage("industry:machines.drill").setUnlocalizedName("drill_head_item").setCreativeTab(GrimIndustry.INSTANCE.getCreativeTab());
 
 		Utils.registerItem(locksmith_lock, "locksmith_lock");
 		Utils.registerItem(locksmith_key, "locksmith_key");

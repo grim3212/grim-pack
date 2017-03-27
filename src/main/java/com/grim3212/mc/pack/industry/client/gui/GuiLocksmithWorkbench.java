@@ -93,7 +93,7 @@ public class GuiLocksmithWorkbench extends GuiContainer implements IContainerLis
 		this.fontRendererObj.drawString(I18n.format("container.locksmith_workbench"), 38, 6, 4210752);
 		this.fontRendererObj.drawString(I18n.format("container.locksmith_workbench.combo"), 59, 17, 7368816);
 		this.fontRendererObj.drawString(I18n.format("container.inventory"), 8, this.ySize - 96 + 2, 4210752);
-		
+
 	}
 
 	@Override

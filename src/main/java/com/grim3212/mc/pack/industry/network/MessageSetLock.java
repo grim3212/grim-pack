@@ -36,9 +36,6 @@ public class MessageSetLock extends AbstractServerMessage<MessageSetLock> {
 		if (player.openContainer instanceof ContainerLocksmithWorkbench) {
 			((ContainerLocksmithWorkbench) player.openContainer).updateLock(lock);
 		}
-
-		// player.openContainer.getSlot(1).putStack(NBTHelper.setStringItemStack(player.openContainer.getSlot(0).getStack().copy(),
-		// "Lock", lock));
 	}
 
 }

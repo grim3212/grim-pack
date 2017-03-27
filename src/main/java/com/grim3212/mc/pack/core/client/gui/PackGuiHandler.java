@@ -2,6 +2,7 @@ package com.grim3212.mc.pack.core.client.gui;
 
 import java.util.List;
 
+import com.google.common.collect.Lists;
 import com.grim3212.mc.pack.core.manual.gui.GuiManualIndex;
 import com.grim3212.mc.pack.decor.client.gui.GuiCage;
 import com.grim3212.mc.pack.decor.client.gui.GuiGrill;
@@ -16,6 +17,8 @@ import com.grim3212.mc.pack.industry.client.gui.GuiExtruder;
 import com.grim3212.mc.pack.industry.client.gui.GuiFan;
 import com.grim3212.mc.pack.industry.client.gui.GuiGoldSafe;
 import com.grim3212.mc.pack.industry.client.gui.GuiIronPortable;
+import com.grim3212.mc.pack.industry.client.gui.GuiItemTower;
+import com.grim3212.mc.pack.industry.client.gui.GuiLocker;
 import com.grim3212.mc.pack.industry.client.gui.GuiLocksmithWorkbench;
 import com.grim3212.mc.pack.industry.client.gui.GuiMFurnace;
 import com.grim3212.mc.pack.industry.client.gui.GuiMachine;
@@ -25,11 +28,16 @@ import com.grim3212.mc.pack.industry.inventory.ContainerDiamondWorkbench;
 import com.grim3212.mc.pack.industry.inventory.ContainerExtruder;
 import com.grim3212.mc.pack.industry.inventory.ContainerGoldSafe;
 import com.grim3212.mc.pack.industry.inventory.ContainerIronWorkbench;
+import com.grim3212.mc.pack.industry.inventory.ContainerItemTower;
+import com.grim3212.mc.pack.industry.inventory.ContainerLocker;
 import com.grim3212.mc.pack.industry.inventory.ContainerLocksmithWorkbench;
 import com.grim3212.mc.pack.industry.inventory.ContainerMFurnace;
 import com.grim3212.mc.pack.industry.inventory.ContainerMachine;
 import com.grim3212.mc.pack.industry.inventory.ContainerSpecificSensor;
+import com.grim3212.mc.pack.industry.inventory.InventoryDualLocker;
+import com.grim3212.mc.pack.industry.inventory.InventoryItemTower;
 import com.grim3212.mc.pack.industry.tile.TileEntityFan;
+import com.grim3212.mc.pack.industry.tile.TileEntityItemTower;
 import com.grim3212.mc.pack.industry.tile.TileEntityMFurnace;
 import com.grim3212.mc.pack.industry.tile.TileEntityMachine;
 import com.grim3212.mc.pack.industry.tile.TileEntitySpecificSensor;
@@ -46,6 +54,7 @@ import com.grim3212.mc.pack.util.client.gui.GuiGrave;
 import com.grim3212.mc.pack.util.grave.ContainerGrave;
 import com.grim3212.mc.pack.util.grave.TileEntityGrave;
 
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.gui.inventory.GuiChest;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -84,6 +93,8 @@ public class PackGuiHandler implements IGuiHandler {
 	public static final int STORAGE_DEFAULT_GUI_ID = 22;
 	public static final int LOCKSMITH_WORKBENCH_GUI_ID = 23;
 	public static final int GOLD_SAFE_GUI_ID = 24;
+	public static final int LOCKER_GUI_ID = 25;
+	public static final int ITEM_TOWER_GUI_ID = 26;
 
 	@Override
 	public Object getServerGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
@@ -132,6 +143,10 @@ public class PackGuiHandler implements IGuiHandler {
 			return new ContainerLocksmithWorkbench(player.inventory, world, pos);
 		} else if (ID == GOLD_SAFE_GUI_ID) {
 			return new ContainerGoldSafe(player, (TileEntityStorage) tileentity);
+		} else if (ID == LOCKER_GUI_ID) {
+			return new ContainerLocker(player, new InventoryDualLocker((TileEntityStorage) tileentity, (TileEntityStorage) world.getTileEntity(pos.up())));
+		} else if (ID == ITEM_TOWER_GUI_ID) {
+			return this.getItemTowerContainer(player, world, x, y, z);
 		}
 
 		return null;
@@ -194,6 +209,10 @@ public class PackGuiHandler implements IGuiHandler {
 			return new GuiLocksmithWorkbench(player.inventory, world, pos);
 		} else if (ID == GOLD_SAFE_GUI_ID) {
 			return new GuiGoldSafe(player, (TileEntityStorage) tileentity);
+		} else if (ID == LOCKER_GUI_ID) {
+			return new GuiLocker(player, new InventoryDualLocker((TileEntityStorage) tileentity, (TileEntityStorage) world.getTileEntity(pos.up())));
+		} else if (ID == ITEM_TOWER_GUI_ID) {
+			return this.getItemTowerGui(player, world, x, y, z);
 		}
 
 		return null;
@@ -222,5 +241,46 @@ public class PackGuiHandler implements IGuiHandler {
 		}
 
 		return entity1;
+	}
+
+	private Object getItemTowerGui(EntityPlayer player, World world, int x, int y, int z) {
+		BlockPos pos = new BlockPos(x, y, z);
+		IBlockState state = world.getBlockState(pos);
+		List<TileEntityItemTower> itemTowers = Lists.newArrayList();
+		// itemTowers.add((TileEntityItemTower) tileentity);
+
+		int downBlocks = 1;
+		while (world.getBlockState(pos.down(downBlocks)) == state) {
+			downBlocks++;
+		}
+
+		int upBlocks = 1;
+		BlockPos bottomPos = pos.down(downBlocks);
+		while (world.getBlockState(bottomPos.up(upBlocks)) == state) {
+			itemTowers.add((TileEntityItemTower) world.getTileEntity(bottomPos.up(upBlocks)));
+			upBlocks++;
+		}
+
+		return new GuiItemTower(player, new InventoryItemTower(itemTowers));
+	}
+
+	private Object getItemTowerContainer(EntityPlayer player, World world, int x, int y, int z) {
+		BlockPos pos = new BlockPos(x, y, z);
+		IBlockState state = world.getBlockState(pos);
+		List<TileEntityItemTower> itemTowers = Lists.newArrayList();
+
+		int downBlocks = 1;
+		while (world.getBlockState(pos.down(downBlocks)) == state) {
+			downBlocks++;
+		}
+
+		int upBlocks = 1;
+		BlockPos bottomPos = pos.down(downBlocks);
+		while (world.getBlockState(bottomPos.up(upBlocks)) == state) {
+			itemTowers.add((TileEntityItemTower) world.getTileEntity(bottomPos.up(upBlocks)));
+			upBlocks++;
+		}
+
+		return new ContainerItemTower(player, new InventoryItemTower(itemTowers));
 	}
 }

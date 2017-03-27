@@ -14,5 +14,4 @@ public class TileEntityWoodCabinet extends TileEntityStorage {
 	public IBlockState getBreakTextureState() {
 		return Blocks.LOG.getDefaultState();
 	}
-
 }

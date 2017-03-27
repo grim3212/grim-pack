@@ -22,6 +22,8 @@ public class IndustryTileEntities implements IPartTileEntities {
 		GameRegistry.registerTileEntity(TileEntityWoodCabinet.class, "grimpack_wood_cabinet");
 		GameRegistry.registerTileEntity(TileEntityObsidianSafe.class, "grimpack_obsidian_safe");
 		GameRegistry.registerTileEntity(TileEntityGoldSafe.class, "grimpack_gold_safe");
+		GameRegistry.registerTileEntity(TileEntityLocker.class, "grimpack_locker");
+		GameRegistry.registerTileEntity(TileEntityItemTower.class, "grimpack_item_tower");
 	}
 
 }

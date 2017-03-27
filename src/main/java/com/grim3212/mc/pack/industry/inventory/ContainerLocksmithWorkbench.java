@@ -81,7 +81,9 @@ public class ContainerLocksmithWorkbench extends Container {
 
 		if (inventoryIn == this.inputSlot) {
 			this.updateLocksmithOutput();
-			PacketDispatcher.sendToServer(new MessageSetLock(lock));
+
+			if (world.isRemote)
+				PacketDispatcher.sendToServer(new MessageSetLock(lock));
 		}
 	}
 

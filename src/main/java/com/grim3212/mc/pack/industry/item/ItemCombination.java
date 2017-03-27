@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.grim3212.mc.pack.core.item.ItemManual;
 import com.grim3212.mc.pack.core.manual.pages.Page;
+import com.grim3212.mc.pack.industry.client.ManualIndustry;
 
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
@@ -24,6 +25,6 @@ public class ItemCombination extends ItemManual {
 
 	@Override
 	public Page getPage(ItemStack stack) {
-		return null;
+		return ManualIndustry.combination_page;
 	}
 }

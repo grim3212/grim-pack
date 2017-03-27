@@ -82,23 +82,18 @@ public class IndustryBlocks implements IPartItems {
 	public static Block fan;
 	public static Block specific_sensor;
 	public static Block upgraded_specific_sensor;
-
-	// We(raft
 	public static Block arrow_sensor;
 	public static Block metal_mesh;
 	public static Block fire_sensor;
 	public static Block conveyor_belt;
 	public static Block drill;
 	public static Block drill_head;
-
-	// More storage
 	public static Block locksmith_workbench;
 	public static Block wood_cabinet;
 	public static Block glass_cabinet;
 	public static Block warehouse_crate;
 	public static Block obsidian_safe;
 	public static Block gold_safe;
-
 	public static Block locker;
 	public static Block item_tower;
 
@@ -171,8 +166,12 @@ public class IndustryBlocks implements IPartItems {
 		glass_cabinet = (new BlockGlassCabinet()).setHardness(3.0F).setResistance(5.0F).setUnlocalizedName("glass_cabinet");
 		obsidian_safe = (new BlockObsidianSafe()).setHardness(3.0F).setResistance(5.0F).setUnlocalizedName("obsidian_safe");
 		gold_safe = (new BlockGoldSafe()).setHardness(3.0F).setResistance(5.0F).setUnlocalizedName("gold_safe");
+		locker = (new BlockLocker()).setHardness(3.0F).setResistance(5.0F).setUnlocalizedName("locker");
+		item_tower = (new BlockItemTower()).setHardness(3.0F).setResistance(5.0F).setUnlocalizedName("item_tower");
 		locksmith_workbench = (new BlockLocksmithWorkbench()).setHardness(3.0F).setResistance(5.0F).setUnlocalizedName("locksmith_workbench").setCreativeTab(GrimIndustry.INSTANCE.getCreativeTab());
 
+		Utils.registerBlock(item_tower, "item_tower");
+		Utils.registerBlock(locker, "locker");
 		Utils.registerBlock(gold_safe, "gold_safe", new ItemGoldSafe(gold_safe));
 		Utils.registerBlock(obsidian_safe, "obsidian_safe");
 		Utils.registerBlock(locksmith_workbench, "locksmith_workbench");
@@ -313,9 +312,9 @@ public class IndustryBlocks implements IPartItems {
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(garage, 1), new Object[] { "p", "p", "p", 'p', IndustryItems.garage_panel }));
 		IndustryItems.garages.add(RecipeHelper.getLatestIRecipe());
 
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(togglerack, 4), new Object[] { "QQQ", "QAQ", "QQQ", 'A', "dustRedstone", 'Q', Blocks.NETHERRACK }));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(iron_workbench), new Object[] { " X ", "X=X", " X ", 'X', "blockIron", '=', Blocks.CRAFTING_TABLE }));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(diamond_workbench), new Object[] { " X ", "X=X", " X ", 'X', "blockDiamond", '=', Blocks.CRAFTING_TABLE }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(togglerack, 4), new Object[] { "QQQ", "QAQ", "QQQ", 'A', "dustRedstone", 'Q', "netherrack" }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(iron_workbench), new Object[] { " X ", "X=X", " X ", 'X', "blockIron", '=', "workbench" }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(diamond_workbench), new Object[] { " X ", "X=X", " X ", 'X', "blockDiamond", '=', "workbench" }));
 		workbenches = RecipeHelper.getLatestIRecipes(2);
 
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ice_maker, 1), new Object[] { "X X", "I I", "XXX", 'X', "cobblestone", 'I', Blocks.SNOW }));
@@ -328,7 +327,7 @@ public class IndustryBlocks implements IPartItems {
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(wooden_sensor), new Object[] { "IGI", "XYX", "IXI", 'X', "plankWood", 'Y', "dustRedstone", 'G', "blockGlass", 'I', "ingotIron" }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(stone_sensor), new Object[] { "IGI", "XYX", "IXI", 'X', "stone", 'Y', "dustRedstone", 'G', "blockGlass", 'I', "ingotIron" }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(iron_sensor), new Object[] { "XGX", "XYX", "XXX", 'X', "ingotIron", 'Y', "dustRedstone", 'G', "blockGlass" }));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(netherrack_sensor), new Object[] { "IGI", "XYX", "IXI", 'X', Blocks.NETHERRACK, 'Y', "dustRedstone", 'G', "blockGlass", 'I', "ingotIron" }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(netherrack_sensor), new Object[] { "IGI", "XYX", "IXI", 'X', "netherrack", 'Y', "dustRedstone", 'G', "blockGlass", 'I', "ingotIron" }));
 		sensors = RecipeHelper.getLatestIRecipes(4);
 
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(attractor, 1), new Object[] { "SZS", "ZRZ", "SZS", 'S', "ingotIron", 'R', Items.COMPASS, 'Z', "dustRedstone" }));
@@ -348,7 +347,7 @@ public class IndustryBlocks implements IPartItems {
 
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(bomb_shell, 1), new Object[] { "A A", " A ", "A A", 'A', "ingotAluminum" }));
 
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(c4, 1), new Object[] { "GGG", "RRR", "GGG", 'G', Items.GUNPOWDER, 'R', "dustRedstone" }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(c4, 1), new Object[] { "GGG", "RRR", "GGG", 'G', "gunpowder", 'R', "dustRedstone" }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(nuclear_bomb, 1), new Object[] { "BCB", "CRC", "BCB", 'B', bomb_shell, 'C', c4, 'R', reactor }));
 
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(arrow_sensor, 1), new Object[] { "XXX", "S#S", "XXX", 'X', Blocks.WOOL, 'S', metal_mesh, '#', Items.ARROW }));
@@ -359,6 +358,16 @@ public class IndustryBlocks implements IPartItems {
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(conveyor_belt, 6), new Object[] { "XXX", "S#S", "XXX", 'X', "stickIron", '#', "dustRedstone", 'S', "cobblestone" }));
 
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(drill, 1), new Object[] { "I I", "S#S", "XDX", 'I', "ingotIron", 'X', "plankWood", 'S', "dustRedstone", '#', "gemDiamond", 'D', IndustryItems.drill_head_item }));
+
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(locksmith_workbench, 1), new Object[] { "L", "K", "W", 'L', IndustryItems.locksmith_lock, 'K', IndustryItems.locksmith_key, 'W', "workbench" }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(locksmith_workbench, 1), new Object[] { "K", "L", "W", 'L', IndustryItems.locksmith_lock, 'K', IndustryItems.locksmith_key, 'W', "workbench" }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(wood_cabinet, 1), new Object[] { " X ", "XCX", " X ", 'X', "plankWood", 'C', "chest" }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(glass_cabinet, 1), new Object[] { " X ", "GCG", " X ", 'X', "plankWood", 'C', "chest", 'G', "blockGlass" }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(warehouse_crate, 1), new Object[] { "LLL", "P P", "PPP", 'P', "plankWood", 'L', "logWood" }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(obsidian_safe, 1), new Object[] { " X ", "XCX", " X ", 'X', "obsidian", 'C', "chest" }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(gold_safe, 1), new Object[] { " G ", "GIG", " G ", 'I', obsidian_safe, 'G', "ingotGold" }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(locker, 1), new Object[] { " X ", "XCX", " X ", 'X', "ingotIron", 'C', "chest" }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(item_tower, 4), new Object[] { "I I", "ICI", "I I", 'I', "ingotIron", 'C', "chest" }));
 	}
 
 }
