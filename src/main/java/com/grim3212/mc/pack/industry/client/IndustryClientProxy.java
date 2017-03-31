@@ -11,7 +11,7 @@ import com.grim3212.mc.pack.industry.block.BlockSensorArrow;
 import com.grim3212.mc.pack.industry.block.BlockSiding;
 import com.grim3212.mc.pack.industry.block.IndustryBlocks;
 import com.grim3212.mc.pack.industry.client.entity.RenderExtruder.ExtruderFactory;
-import com.grim3212.mc.pack.industry.client.event.TextureStitch;
+import com.grim3212.mc.pack.industry.client.event.ClientEvents;
 import com.grim3212.mc.pack.industry.client.model.CamoPlateModel.CamoPlateModelLoader;
 import com.grim3212.mc.pack.industry.client.particle.ParticleAir;
 import com.grim3212.mc.pack.industry.client.tile.TileEntityGlassCabinetRenderer;
@@ -64,7 +64,7 @@ public class IndustryClientProxy extends IndustryCommonProxy {
 	@Override
 	@SuppressWarnings("deprecation")
 	public void preInit() {
-		MinecraftForge.EVENT_BUS.register(new TextureStitch());
+		MinecraftForge.EVENT_BUS.register(new ClientEvents());
 
 		// Register all custom models for camo plates
 		ModelLoaderRegistry.registerLoader(CamoPlateModelLoader.instance);
@@ -152,6 +152,7 @@ public class IndustryClientProxy extends IndustryCommonProxy {
 		RenderHelper.renderItem(IndustryItems.steel_sword);
 
 		// BLOCKS
+		RenderHelper.renderBlock(IndustryBlocks.tank);
 		RenderHelper.renderBlock(IndustryBlocks.item_tower);
 		RenderHelper.renderBlock(IndustryBlocks.locker);
 		RenderHelper.renderBlock(IndustryBlocks.gold_safe);

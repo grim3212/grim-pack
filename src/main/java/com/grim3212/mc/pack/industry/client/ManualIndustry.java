@@ -103,9 +103,11 @@ public class ManualIndustry implements IManualPart {
 	public static Page locker_page;
 	public static Page cabinets_page;
 	public static Page itemTower_page;
+	public static Page tank_page;
 
 	@Override
 	public void initPages() {
+		tank_page = new PageCrafting("tank", new ItemStack(IndustryBlocks.tank));
 		combination_page = new PageCrafting("combination", 25, new ItemStack(IndustryItems.locksmith_key), new ItemStack(IndustryItems.locksmith_lock));
 		locksmithWorkbench_page = new PageCrafting("locksmith_workbench", new ItemStack(IndustryBlocks.locksmith_workbench));
 		warehouseCrate_page = new PageCrafting("warehouse_crate", new ItemStack(IndustryBlocks.warehouse_crate));
@@ -193,7 +195,7 @@ public class ManualIndustry implements IManualPart {
 	@Override
 	public void registerChapters(ManualPart part) {
 		ManualRegistry.addChapter("benches", part).addPages(workbench_page, portableUpgrade_page);
-		ManualRegistry.addChapter("storage", part).addPages(warehouseCrate_page, cabinets_page, safes_page, locker_page, itemTower_page, combination_page, locksmithWorkbench_page);
+		ManualRegistry.addChapter("storage", part).addPages(warehouseCrate_page, cabinets_page, safes_page, locker_page, itemTower_page, combination_page, locksmithWorkbench_page, tank_page);
 		ManualRegistry.addChapter("elemental", part).addPages(togglerack_page, fireBlock_page, waterBlock_page, lavaBlock_page);
 		ManualRegistry.addChapter("spikes", part).addPages(spike_page);
 		ManualRegistry.addChapter("fan", part).addPages(fan_page);

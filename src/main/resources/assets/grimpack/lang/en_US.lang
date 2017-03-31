@@ -9,6 +9,7 @@ grimpack.creative.world=Grim World
 
 #================= BLOCKS =================#
 tile.grave.name=Gravestone
+tile.tank.name=Tank
 tile.warehouse_crate.name=Warehouse Crate
 tile.obsidian_safe.name=§5Obsidian Safe
 tile.gold_safe.name=§6Gold Safe
@@ -1321,6 +1322,8 @@ grimpack.manual.industry.subsection.storage.page.combination=Locks and keys can 
 grimpack.manual.industry.subsection.storage.page.combination.title=Lock and Key
 grimpack.manual.industry.subsection.storage.page.locksmith_workbench=A locksmith workbench can be used to set the lock for locks and keys. Put a lock or key in the right, type a lock in the middle and the output will contain your newly set lock or key.
 grimpack.manual.industry.subsection.storage.page.locksmith_workbench.title=Locksmith Workbench
+grimpack.manual.industry.subsection.storage.page.tank=Besides item storage there is also a very basic way to store any type of liquid, the tank. This block can store 8 buckets worth of a liquid but make sure to drain it before breaking!
+grimpack.manual.industry.subsection.storage.page.tank.title=Fluid Tanks
 
 grimpack.manual.tools.modinfo=Adds a bunch of weapons and useful tools.
 grimpack.manual.tools.subsection.masks=Masks

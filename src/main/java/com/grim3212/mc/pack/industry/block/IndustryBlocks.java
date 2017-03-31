@@ -96,6 +96,7 @@ public class IndustryBlocks implements IPartItems {
 	public static Block gold_safe;
 	public static Block locker;
 	public static Block item_tower;
+	public static Block tank;
 
 	@Override
 	public void initItems() {
@@ -168,8 +169,10 @@ public class IndustryBlocks implements IPartItems {
 		gold_safe = (new BlockGoldSafe()).setHardness(3.0F).setResistance(5.0F).setUnlocalizedName("gold_safe");
 		locker = (new BlockLocker()).setHardness(3.0F).setResistance(5.0F).setUnlocalizedName("locker");
 		item_tower = (new BlockItemTower()).setHardness(3.0F).setResistance(5.0F).setUnlocalizedName("item_tower");
+		tank = (new BlockTank()).setHardness(1.0F).setResistance(10.0F).setUnlocalizedName("tank").setCreativeTab(GrimIndustry.INSTANCE.getCreativeTab());
 		locksmith_workbench = (new BlockLocksmithWorkbench()).setHardness(3.0F).setResistance(5.0F).setUnlocalizedName("locksmith_workbench").setCreativeTab(GrimIndustry.INSTANCE.getCreativeTab());
 
+		Utils.registerBlock(tank, "tank");
 		Utils.registerBlock(item_tower, "item_tower");
 		Utils.registerBlock(locker, "locker");
 		Utils.registerBlock(gold_safe, "gold_safe", new ItemGoldSafe(gold_safe));
@@ -266,6 +269,7 @@ public class IndustryBlocks implements IPartItems {
 		GameRegistry.addSmelting(aluminum_ore, new ItemStack(IndustryItems.aluminum_ingot, 1), 0.45F);
 		GameRegistry.addSmelting(uranium_ore, new ItemStack(IndustryItems.uranium_ingot), 0.7F);
 
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(tank, 4), "XYX", "Y Y", "XYX", 'X', "ingotIron", 'Y', "blockGlass"));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(specific_sensor, 1), new Object[] { " Z ", "XYX", " Z ", 'X', Blocks.REDSTONE_LAMP, 'Y', IndustryItems.position_finder, 'Z', "blockRedstone" }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(upgraded_specific_sensor, 1), new Object[] { "XXX", "XYX", "XXX", 'X', "ingotGold", 'Y', specific_sensor }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(fan, 1), new Object[] { "X X", "XYX", "XXX", 'X', "plankWood", 'Y', "dustRedstone" }));

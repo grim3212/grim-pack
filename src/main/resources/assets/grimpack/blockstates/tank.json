@@ -1,0 +1,15 @@
+{
+	"forge_marker": 1,
+	"defaults": {
+		"transform": "forge:default-block",
+		"model": "grimpack:tank_base"
+	},
+	"variants": {
+		"normal": [{
+			
+		}],
+		"inventory": [{
+			
+		}]
+	}
+}
