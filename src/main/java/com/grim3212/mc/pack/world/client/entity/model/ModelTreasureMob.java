@@ -23,13 +23,14 @@ public class ModelTreasureMob extends ModelBase {
 	public void render(Entity entity, float par2, float par3, float par4, float par5, float par6, float par7) {
 		GlStateManager.pushMatrix();
 		GlStateManager.rotate(180f, 0.0f, 1.0F, 0.0F);
-		setRotationAngles(par2, par3, par4, par5, par6, par7);
+		setRotationAngles(par2, par3, par4, par5, par6, par7, entity);
 		box1.render(par7);
 		box0.render(par7);
 		GlStateManager.popMatrix();
 	}
 
-	public void setRotationAngles(float f, float f1, float f2, float f3, float f4, float f5) {
+	@Override
+	public void setRotationAngles(float f, float f1, float f2, float f3, float f4, float f5, Entity entity) {
 		box1.rotateAngleX = 0.5934119F;
 	}
 

@@ -2,7 +2,7 @@ package com.grim3212.mc.pack.world.entity;
 
 import com.grim3212.mc.pack.core.manual.pages.Page;
 import com.grim3212.mc.pack.world.client.ManualWorld;
-import com.grim3212.mc.pack.world.util.LootTables;
+import com.grim3212.mc.pack.world.util.WorldLootTables;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -42,7 +42,7 @@ public class EntityNotch extends EntityDayMob {
 
 	@Override
 	protected ResourceLocation getLootTable() {
-		return LootTables.ENTITIES_NOTCH;
+		return WorldLootTables.ENTITIES_NOTCH;
 	}
 
 	@Override

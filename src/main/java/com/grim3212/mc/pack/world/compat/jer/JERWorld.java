@@ -8,9 +8,10 @@ import com.grim3212.mc.pack.world.entity.EntityIcePixie;
 import com.grim3212.mc.pack.world.entity.EntityLumberJack;
 import com.grim3212.mc.pack.world.entity.EntityMiner;
 import com.grim3212.mc.pack.world.entity.EntityNotch;
+import com.grim3212.mc.pack.world.entity.EntityParaBuzzy;
 import com.grim3212.mc.pack.world.entity.EntityPsycho;
 import com.grim3212.mc.pack.world.entity.EntityTreasureMob;
-import com.grim3212.mc.pack.world.util.LootTables;
+import com.grim3212.mc.pack.world.util.WorldLootTables;
 
 import jeresources.api.IJERAPI;
 import jeresources.api.JERPlugin;
@@ -46,14 +47,15 @@ public class JERWorld {
 			i++;
 		}
 
-		jerAPI.getMobRegistry().register(new EntityIcePixie(world), LightLevel.any, snowyBiomes, LootTables.ENTITIES_ICE_PIXIE);
-		jerAPI.getMobRegistry().register(new EntityTreasureMob(world), LootTables.ENTITIES_TREASURE_MOB);
-		jerAPI.getMobRegistry().register(new EntityBomber(world), LootTables.ENTITIES_BOMBER);
-		jerAPI.getMobRegistry().register(new EntityFarmer(world), LootTables.ENTITIES_FARMER);
-		jerAPI.getMobRegistry().register(new EntityLumberJack(world), LootTables.ENTITIES_LUMBERJACK);
-		jerAPI.getMobRegistry().register(new EntityMiner(world), LootTables.ENTITIES_MINER);
-		jerAPI.getMobRegistry().register(new EntityNotch(world), LootTables.ENTITIES_NOTCH);
-		jerAPI.getMobRegistry().register(new EntityPsycho(world), LootTables.ENTITIES_PSYCHO);
+		jerAPI.getMobRegistry().register(new EntityIcePixie(world), LightLevel.any, snowyBiomes, WorldLootTables.ENTITIES_ICE_PIXIE);
+		jerAPI.getMobRegistry().register(new EntityTreasureMob(world), WorldLootTables.ENTITIES_TREASURE_MOB);
+		jerAPI.getMobRegistry().register(new EntityBomber(world), WorldLootTables.ENTITIES_BOMBER);
+		jerAPI.getMobRegistry().register(new EntityFarmer(world), WorldLootTables.ENTITIES_FARMER);
+		jerAPI.getMobRegistry().register(new EntityLumberJack(world), WorldLootTables.ENTITIES_LUMBERJACK);
+		jerAPI.getMobRegistry().register(new EntityMiner(world), WorldLootTables.ENTITIES_MINER);
+		jerAPI.getMobRegistry().register(new EntityNotch(world), WorldLootTables.ENTITIES_NOTCH);
+		jerAPI.getMobRegistry().register(new EntityPsycho(world), WorldLootTables.ENTITIES_PSYCHO);
+		jerAPI.getMobRegistry().register(new EntityParaBuzzy(world), WorldLootTables.ENTITIES_PARABUZZY);
 
 		DungeonRegistry.addCategoryMapping("chests/desert_level_10", "grimpack.jer.dungeon.desert_level10");
 		DungeonRegistry.addCategoryMapping("chests/desert_level_15", "grimpack.jer.dungeon.desert_level15");
@@ -64,10 +66,10 @@ public class JERWorld {
 
 	@SubscribeEvent
 	public void onJoinWorld(PlayerEvent.PlayerLoggedInEvent event) {
-		DungeonRegistry.getInstance().registerDungeonEntry(new DungeonEntry(LootTables.CHESTS_DESERT_LEVEL_10.getResourcePath(), LootTableHelper.getManager(event.player.world).getLootTableFromLocation(LootTables.CHESTS_DESERT_LEVEL_10)));
-		DungeonRegistry.getInstance().registerDungeonEntry(new DungeonEntry(LootTables.CHESTS_DESERT_LEVEL_15.getResourcePath(), LootTableHelper.getManager(event.player.world).getLootTableFromLocation(LootTables.CHESTS_DESERT_LEVEL_15)));
-		DungeonRegistry.getInstance().registerDungeonEntry(new DungeonEntry(LootTables.CHESTS_DESERT_LEVEL_20.getResourcePath(), LootTableHelper.getManager(event.player.world).getLootTableFromLocation(LootTables.CHESTS_DESERT_LEVEL_20)));
-		DungeonRegistry.getInstance().registerDungeonEntry(new DungeonEntry(LootTables.CHESTS_DESERT_LEVEL_25.getResourcePath(), LootTableHelper.getManager(event.player.world).getLootTableFromLocation(LootTables.CHESTS_DESERT_LEVEL_25)));
-		DungeonRegistry.getInstance().registerDungeonEntry(new DungeonEntry(LootTables.CHESTS_DESERT_LEVEL_30.getResourcePath(), LootTableHelper.getManager(event.player.world).getLootTableFromLocation(LootTables.CHESTS_DESERT_LEVEL_30)));
+		DungeonRegistry.getInstance().registerDungeonEntry(new DungeonEntry(WorldLootTables.CHESTS_DESERT_LEVEL_10.getResourcePath(), LootTableHelper.getManager(event.player.world).getLootTableFromLocation(WorldLootTables.CHESTS_DESERT_LEVEL_10)));
+		DungeonRegistry.getInstance().registerDungeonEntry(new DungeonEntry(WorldLootTables.CHESTS_DESERT_LEVEL_15.getResourcePath(), LootTableHelper.getManager(event.player.world).getLootTableFromLocation(WorldLootTables.CHESTS_DESERT_LEVEL_15)));
+		DungeonRegistry.getInstance().registerDungeonEntry(new DungeonEntry(WorldLootTables.CHESTS_DESERT_LEVEL_20.getResourcePath(), LootTableHelper.getManager(event.player.world).getLootTableFromLocation(WorldLootTables.CHESTS_DESERT_LEVEL_20)));
+		DungeonRegistry.getInstance().registerDungeonEntry(new DungeonEntry(WorldLootTables.CHESTS_DESERT_LEVEL_25.getResourcePath(), LootTableHelper.getManager(event.player.world).getLootTableFromLocation(WorldLootTables.CHESTS_DESERT_LEVEL_25)));
+		DungeonRegistry.getInstance().registerDungeonEntry(new DungeonEntry(WorldLootTables.CHESTS_DESERT_LEVEL_30.getResourcePath(), LootTableHelper.getManager(event.player.world).getLootTableFromLocation(WorldLootTables.CHESTS_DESERT_LEVEL_30)));
 	}
 }

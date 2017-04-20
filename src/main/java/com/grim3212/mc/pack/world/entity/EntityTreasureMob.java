@@ -4,7 +4,7 @@ import com.grim3212.mc.pack.core.manual.IManualEntry.IManualEntity;
 import com.grim3212.mc.pack.core.manual.pages.Page;
 import com.grim3212.mc.pack.world.client.ManualWorld;
 import com.grim3212.mc.pack.world.event.WorldAchievements;
-import com.grim3212.mc.pack.world.util.LootTables;
+import com.grim3212.mc.pack.world.util.WorldLootTables;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityAgeable;
@@ -56,7 +56,7 @@ public class EntityTreasureMob extends EntityTameable implements IManualEntity {
 
 	@Override
 	protected ResourceLocation getLootTable() {
-		return LootTables.ENTITIES_TREASURE_MOB;
+		return WorldLootTables.ENTITIES_TREASURE_MOB;
 	}
 
 	@Override

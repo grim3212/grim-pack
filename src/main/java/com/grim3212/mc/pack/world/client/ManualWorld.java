@@ -40,6 +40,8 @@ public class ManualWorld implements IManualPart {
 	public static Page eatingFungus_page;
 	public static Page verticalFungus_page;
 	public static Page fungicide_page;
+	public static Page parabuzzy_page;
+	public static Page bobomb_page;
 
 	@Override
 	public void initPages() {
@@ -67,6 +69,8 @@ public class ManualWorld implements IManualPart {
 		eatingFungus_page = new PageCrafting("blockEater", WorldBlocks.breakingFungus, 15);
 		verticalFungus_page = new PageCrafting("vert", WorldBlocks.vertFungus, 20);
 		fungicide_page = new PageCrafting("fungicide", new ItemStack(WorldItems.fungicide));
+		parabuzzy_page = new PageImageText("parabuzzy", "parabuzzy.png");
+		bobomb_page = new PageCrafting("bobomb", new ItemStack(WorldItems.bobomb));
 	}
 
 	@Override
@@ -89,6 +93,7 @@ public class ManualWorld implements IManualPart {
 		ManualRegistry.addChapter("glowseeds", part).addPages(glowSeeds_page);
 		ManualRegistry.addChapter("fungus", part).addPages(greenFungus_page, colorFungus_page, buildFungus_page, mazeFungus_page, killingFungus_page, eatingFungus_page, verticalFungus_page);
 		ManualRegistry.addChapter("fungicide", part).addPages(fungicide_page);
+		ManualRegistry.addChapter("8bit", part).addPages(parabuzzy_page, bobomb_page);
 	}
 
 }

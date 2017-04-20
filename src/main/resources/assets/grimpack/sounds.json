@@ -23,5 +23,25 @@
 		"category": "block",
 		"subtitle": "grimpack.subtitle.spikeClose",
 		"sounds": ["grimpack:spike_close"]
+	},
+	"bobomb_living": {
+		"category": "neutral",
+		"subtitle": "grimpack.subtitle.bobomb_living",
+		"sounds": ["grimpack:bobomb_living"]
+	},
+	"parabuzzy_living": {
+		"category": "neutral",
+		"subtitle": "grimpack.subtitle.parabuzzy_living",
+		"sounds": ["grimpack:parabuzzy_living"]
+	},
+	"parabuzzy_dead": {
+		"category": "neutral",
+		"subtitle": "grimpack.subtitle.parabuzzy_dead",
+		"sounds": ["grimpack:parabuzzy_dead"]
+	},
+	"parabuzzy_hurt": {
+		"category": "neutral",
+		"subtitle": "grimpack.subtitle.parabuzzy_hurt",
+		"sounds": ["grimpack:parabuzzy_hurt"]
 	}
 }

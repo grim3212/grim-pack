@@ -41,6 +41,7 @@ public class ModelIcePixie extends ModelBiped {
 		bipedLeftLeg.setRotationPoint(-1F, 6F + f1, 0.0F);
 	}
 
+	@Override
 	public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) {
 		GlStateManager.pushMatrix();
 		if (entity instanceof EntityLiving) {
@@ -52,7 +53,7 @@ public class ModelIcePixie extends ModelBiped {
 			GlStateManager.scale(d6, d6, d6);
 			GlStateManager.translate(-d, -d2, -d4);
 		}
-		setRotationAngles(f, f1, f2, f3, f4, f5);
+		setRotationAngles(f, f1, f2, f3, f4, f5, entity);
 		bipedBody.render(f5);
 		bipedRightArm.render(f5);
 		bipedLeftArm.render(f5);
@@ -150,15 +151,16 @@ public class ModelIcePixie extends ModelBiped {
 		GlStateManager.popMatrix();
 	}
 
-	public void setRotationAngles(float f, float f1, float f2, float f3, float f4, float f5) {
-		bipedRightArm.rotateAngleX = MathHelper.cos(f * 0.6662F + 3.141593F) * 0.6F * f1 * 0.5F;
-		bipedLeftArm.rotateAngleX = MathHelper.cos(f * 0.6662F) * 0.8F * f1 * 0.5F;
+	@Override
+	public void setRotationAngles(float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor, Entity entityIn) {
+		bipedRightArm.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F + 3.141593F) * 0.6F * limbSwingAmount * 0.5F;
+		bipedLeftArm.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F) * 0.8F * limbSwingAmount * 0.5F;
 		bipedRightArm.rotateAngleZ = 0.0F;
 		bipedLeftArm.rotateAngleZ = 0.0F;
-		bipedRightLeg.rotateAngleX = MathHelper.cos(f * 0.6662F) * 0.4F * f1;
-		bipedLeftLeg.rotateAngleX = MathHelper.cos(f * 0.6662F + 3.141593F) * 0.4F * f1;
-		bipedRightLeg.rotateAngleY = f3 / 57.29578F;
-		bipedLeftLeg.rotateAngleY = f3 / 57.29578F;
+		bipedRightLeg.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F) * 0.4F * limbSwingAmount;
+		bipedLeftLeg.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F + 3.141593F) * 0.4F * limbSwingAmount;
+		bipedRightLeg.rotateAngleY = netHeadYaw / 57.29578F;
+		bipedLeftLeg.rotateAngleY = netHeadYaw / 57.29578F;
 		if (isRiding) {
 			bipedRightArm.rotateAngleX += -0.6283185F;
 			bipedLeftArm.rotateAngleX += -0.6283185F;
@@ -175,7 +177,7 @@ public class ModelIcePixie extends ModelBiped {
 		bipedLeftArm.rotateAngleY = 0.0F;
 
 		if (swingProgress > -9990F) {
-			bipedBody.rotateAngleY = f3 / 57.29578F;
+			bipedBody.rotateAngleY = netHeadYaw / 57.29578F;
 			bipedRightArm.rotationPointZ = MathHelper.sin(bipedBody.rotateAngleY) * 5F;
 			bipedRightArm.rotationPointX = -MathHelper.cos(bipedBody.rotateAngleY) * 5F;
 			bipedLeftArm.rotationPointZ = -MathHelper.sin(bipedBody.rotateAngleY) * 5F;

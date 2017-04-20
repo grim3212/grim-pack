@@ -38,6 +38,9 @@ public class WorldEntities implements IPartEntities {
 		Utils.registerEntity(EntityLumberJack.class, "LumberJack", 80, 3, true, 16744319, 10836174);
 		Utils.registerEntity(EntityMiner.class, "Miner", 80, 3, true, 16744319, 16753920);
 		Utils.registerEntity(EntityBomber.class, "SuicideBomber", 80, 3, true, 16744319, 4210752);
+
+		Utils.registerEntity(EntityBobomb.class, "Bobomb", 80, 3, true, 0x212946, 0xE7E7F5);
+		Utils.registerEntity(EntityParaBuzzy.class, "ParaBuzzy", 80, 3, true, 0x2B335A, 0x5F2525);
 	}
 
 	public static void addSpawns() {
@@ -69,6 +72,10 @@ public class WorldEntities implements IPartEntities {
 			EntityRegistry.addSpawn(EntityLumberJack.class, 8, 1, 2, EnumCreatureType.CREATURE, biomes);
 			EntityRegistry.addSpawn(EntityMiner.class, 4, 1, 2, EnumCreatureType.CREATURE, biomes);
 			EntityRegistry.addSpawn(EntityBomber.class, 4, 1, 2, EnumCreatureType.CREATURE, biomes);
+		}
+
+		if (WorldConfig.spawnParabuzzys) {
+			EntityRegistry.addSpawn(EntityParaBuzzy.class, 6, 1, 4, EnumCreatureType.CREATURE, biomes);
 		}
 	}
 }

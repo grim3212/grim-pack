@@ -3,7 +3,7 @@ package com.grim3212.mc.pack.world.entity;
 import com.grim3212.mc.pack.core.manual.pages.Page;
 import com.grim3212.mc.pack.world.client.ManualWorld;
 import com.grim3212.mc.pack.world.event.WorldAchievements;
-import com.grim3212.mc.pack.world.util.LootTables;
+import com.grim3212.mc.pack.world.util.WorldLootTables;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
@@ -61,7 +61,7 @@ public class EntityIcePixie extends EntityDayMob implements IRangedAttackMob {
 
 	@Override
 	protected ResourceLocation getLootTable() {
-		return LootTables.ENTITIES_ICE_PIXIE;
+		return WorldLootTables.ENTITIES_ICE_PIXIE;
 	}
 
 	@Override

@@ -12,10 +12,13 @@ import com.grim3212.mc.pack.world.blocks.BlockFungusOre;
 import com.grim3212.mc.pack.world.blocks.BlockGlowstoneSeed;
 import com.grim3212.mc.pack.world.blocks.BlockGunpowderReed;
 import com.grim3212.mc.pack.world.blocks.WorldBlocks;
+import com.grim3212.mc.pack.world.client.entity.RenderBobomb.RenderBobombFactory;
 import com.grim3212.mc.pack.world.client.entity.RenderIceCube.RenderIceCubeFactory;
 import com.grim3212.mc.pack.world.client.entity.RenderIcePixie.RenderIcePixieFactory;
+import com.grim3212.mc.pack.world.client.entity.RenderParaBuzzy.RenderParaBuzzyFactory;
 import com.grim3212.mc.pack.world.client.entity.RenderPerson.RenderPersonFactory;
 import com.grim3212.mc.pack.world.client.entity.RenderTreasureMob.RenderTreasureMobFactory;
+import com.grim3212.mc.pack.world.entity.EntityBobomb;
 import com.grim3212.mc.pack.world.entity.EntityBomber;
 import com.grim3212.mc.pack.world.entity.EntityFarmer;
 import com.grim3212.mc.pack.world.entity.EntityIceCube;
@@ -23,6 +26,7 @@ import com.grim3212.mc.pack.world.entity.EntityIcePixie;
 import com.grim3212.mc.pack.world.entity.EntityLumberJack;
 import com.grim3212.mc.pack.world.entity.EntityMiner;
 import com.grim3212.mc.pack.world.entity.EntityNotch;
+import com.grim3212.mc.pack.world.entity.EntityParaBuzzy;
 import com.grim3212.mc.pack.world.entity.EntityPsycho;
 import com.grim3212.mc.pack.world.entity.EntityTreasureMob;
 import com.grim3212.mc.pack.world.items.WorldItems;
@@ -64,10 +68,14 @@ public class WorldClientProxy extends ClientProxy {
 
 		RenderHelper.renderItem(WorldItems.gunpowder_reed_item);
 		RenderHelper.renderItem(WorldItems.fungicide);
+		RenderHelper.renderItem(WorldItems.parabuzzy_shell);
+		RenderHelper.renderItem(WorldItems.bobomb);
 
 		// Entities
 		RenderingRegistry.registerEntityRenderingHandler(EntityIcePixie.class, new RenderIcePixieFactory());
 		RenderingRegistry.registerEntityRenderingHandler(EntityIceCube.class, new RenderIceCubeFactory());
+		RenderingRegistry.registerEntityRenderingHandler(EntityBobomb.class, new RenderBobombFactory());
+		RenderingRegistry.registerEntityRenderingHandler(EntityParaBuzzy.class, new RenderParaBuzzyFactory());
 		RenderingRegistry.registerEntityRenderingHandler(EntityTreasureMob.class, new RenderTreasureMobFactory());
 		RenderingRegistry.registerEntityRenderingHandler(EntityNotch.class, new RenderPersonFactory(new ResourceLocation(GrimPack.modID, "textures/entities/notch.png")));
 		RenderingRegistry.registerEntityRenderingHandler(EntityPsycho.class, new RenderPersonFactory(new ResourceLocation(GrimPack.modID, "textures/entities/psycho.png")));

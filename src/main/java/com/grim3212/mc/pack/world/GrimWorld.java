@@ -11,10 +11,11 @@ import com.grim3212.mc.pack.world.entity.WorldEntities;
 import com.grim3212.mc.pack.world.event.WorldAchievements;
 import com.grim3212.mc.pack.world.event.WorldPostInitEvent;
 import com.grim3212.mc.pack.world.gen.GrimWorldGenerator;
-import com.grim3212.mc.pack.world.gen.WorldEvents;
+import com.grim3212.mc.pack.world.gen.WorldTerrainEvents;
 import com.grim3212.mc.pack.world.items.WorldItems;
 import com.grim3212.mc.pack.world.types.WorldTypes;
-import com.grim3212.mc.pack.world.util.LootTables;
+import com.grim3212.mc.pack.world.util.WorldLootTables;
+import com.grim3212.mc.pack.world.util.WorldSounds;
 
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
@@ -50,9 +51,10 @@ public class GrimWorld extends GrimPart {
 		super.preInit(event);
 
 		GameRegistry.registerWorldGenerator(new GrimWorldGenerator(), 5);
-		MinecraftForge.TERRAIN_GEN_BUS.register(new WorldEvents());
-		LootTables.initLootTables();
+		MinecraftForge.TERRAIN_GEN_BUS.register(new WorldTerrainEvents());
+		WorldLootTables.initLootTables();
 		WorldAchievements.init();
+		WorldSounds.init();
 
 		proxy.preInit();
 	}

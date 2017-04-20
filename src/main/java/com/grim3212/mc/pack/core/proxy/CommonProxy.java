@@ -26,4 +26,8 @@ public class CommonProxy {
 
 	public void initColors() {
 	}
+	
+	public void displayDismountMessage(EntityPlayer player)
+	{
+	}
 }

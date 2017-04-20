@@ -3,7 +3,7 @@ package com.grim3212.mc.pack.world.gen;
 import java.util.Random;
 
 import com.google.common.base.Predicates;
-import com.grim3212.mc.pack.world.util.LootTables;
+import com.grim3212.mc.pack.world.util.WorldLootTables;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockSand;
@@ -126,19 +126,19 @@ public class WorldGenBetterDesertWells extends WorldGenerator {
 	private void setChestContents(TileEntityChest chest, Random random) {
 		switch (this.randomType) {
 		case 1:
-			chest.setLootTable(LootTables.CHESTS_DESERT_LEVEL_10, random.nextLong());
+			chest.setLootTable(WorldLootTables.CHESTS_DESERT_LEVEL_10, random.nextLong());
 			break;
 		case 2:
-			chest.setLootTable(LootTables.CHESTS_DESERT_LEVEL_15, random.nextLong());
+			chest.setLootTable(WorldLootTables.CHESTS_DESERT_LEVEL_15, random.nextLong());
 			break;
 		case 3:
-			chest.setLootTable(LootTables.CHESTS_DESERT_LEVEL_20, random.nextLong());
+			chest.setLootTable(WorldLootTables.CHESTS_DESERT_LEVEL_20, random.nextLong());
 			break;
 		case 4:
-			chest.setLootTable(LootTables.CHESTS_DESERT_LEVEL_25, random.nextLong());
+			chest.setLootTable(WorldLootTables.CHESTS_DESERT_LEVEL_25, random.nextLong());
 			break;
 		case 5:
-			chest.setLootTable(LootTables.CHESTS_DESERT_LEVEL_30, random.nextLong());
+			chest.setLootTable(WorldLootTables.CHESTS_DESERT_LEVEL_30, random.nextLong());
 			break;
 		}
 	}

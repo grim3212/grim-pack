@@ -224,6 +224,9 @@ tile.fungus_killing.14.name=Forest Killing Blob
 tile.fungus_killing.15.name=Glass Layer Building Fungus
 
 #================= ITEMS =================#
+item.parabuzzy_shell.name=Parabuzzy's Shell
+item.bobomb.name=Bob-omb
+item.bobomb_remote.name=Bob-omb Remote
 item.instruction_manual.name=Instruction Manual
 item.locksmith_key.name=Locksmith Key
 item.locksmith_lock.name=Locksmith Lock
@@ -755,6 +758,7 @@ Forest Eating Whitelist.tooltip=The blocks that forest eating fungus can eat
 Glowstone seed plant height.tooltip=This is the distance from 0 - this that glowstone seeds can be planted on in dimensions besides the Nether. If this is 15 then you can only plant these on levels 0 - 15.
 Spawn Treasure Mobs.tooltip=Should treasure mobs spawn in the world
 Spawn Ice Pixies.tooltip=Should ice pixies spawn in the world
+Spawn Parabuzzys.tooltip=Should parabuzzys spawn in the world
 ### END CONFIG TOOLTIPS ###
 
 tooltip.manual.number=Parts Loaded: 
@@ -859,6 +863,8 @@ entity.Farmer.name=Farmer
 entity.LumberJack.name=Lumber Jack
 entity.Miner.name=Miner
 entity.SuicideBomber.name=Suicide Bomber
+entity.Bobomb.name=Bob-omb
+entity.ParaBuzzy.name=Parabuzzy
 
 entity.grimpack.IcePixie.name=Ice Pixie
 entity.grimpack.Treasure.name=Treasure Mob
@@ -867,12 +873,20 @@ entity.grimpack.Psychopath.name=Psychopath
 entity.grimpack.Farmer.name=Farmer
 entity.grimpack.LumberJack.name=Lumber Jack
 entity.grimpack.Miner.name=Miner
+entity.grimpack.Bobomb.name=Bob-omb
+entity.grimpack.ParaBuzzy.name=Parabuzzy
 entity.grimpack.SuicideBomber.name=Suicide Bomber
+
+grimpack.world.bobomb_chat=\247fYou are the Bob-omb!
 
 grimpack.subtitle.raygun=Raygun fired
 grimpack.subtitle.fusrodah=FusRoDah used
 grimpack.subtitle.spikeDeploy=Spike Deploy
 grimpack.subtitle.spikeClose=Spike Close
+grimpack.subtitle.bobomb_living=Bob-omb
+grimpack.subtitle.parabuzzy_living=Parabuzzy
+grimpack.subtitle.parabuzzy_hurt=Parabuzzy hurt
+grimpack.subtitle.parabuzzy_dead=Parabuzzy died
 
 grimpack.jer.dungeon.desert_level10=Level 10 Desert Well
 grimpack.jer.dungeon.desert_level15=Level 15 Desert Well
@@ -1532,6 +1546,11 @@ grimpack.manual.world.subsection.fungicide.page.fungicide.title=Recipe
 grimpack.manual.world.subsection.floating=Floating Islands
 grimpack.manual.world.subsection.floating.page.info=This mod adds the ability to generate floating islands in your minecraft world. Their are config options for size variance and frequency and also one to turn off generation. 
 grimpack.manual.world.subsection.floating.page.info.title=Info
+grimpack.manual.world.subsection.8bit=8-Bit Mobs
+grimpack.manual.world.subsection.8bit.page.parabuzzy=This creature hovers above the ground and really likes fish. It can be tamed, be put on your head (where it can heal), as well as comes in a variety of types. Some say these guys can also help reduce fall damage.
+grimpack.manual.world.subsection.8bit.page.parabuzzy.title=Parabuzzy
+grimpack.manual.world.subsection.8bit.page.bobomb=Using this item you can create a Bob-omb these guys will give their lives to save you from harm. Just be careful that you aren't in the blast radius. These guys can also be placed on your head.
+grimpack.manual.world.subsection.8bit.page.bobomb.title=Bob-omb
 
 #Help Messages
 help.build.key1=FULL box

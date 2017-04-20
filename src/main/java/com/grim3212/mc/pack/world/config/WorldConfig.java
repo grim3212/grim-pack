@@ -48,6 +48,7 @@ public class WorldConfig extends GrimConfig {
 	public static boolean corruption;
 	public static boolean generateCorruption;
 	public static boolean spawnMorePeople;
+	public static boolean spawnParabuzzys;
 
 	public static String[] DIRT_EATING_BLOCKS_POSSIBLE;
 	public static String[] SMOOTHSTONE_EATING_BLOCKS_POSSIBLE;
@@ -67,6 +68,7 @@ public class WorldConfig extends GrimConfig {
 		spawnIcePixies = config.get(CONFIG_GENERAL_NAME, "Spawn Ice Pixies", true).getBoolean();
 		spawnTreasureMobs = config.get(CONFIG_GENERAL_NAME, "Spawn Treasure Mobs", true).getBoolean();
 		spawnMorePeople = config.get(CONFIG_GENERAL_NAME, "Spawn more people", false).getBoolean();
+		spawnParabuzzys = config.get(CONFIG_GENERAL_NAME, "Spawn Parabuzzys", true).getBoolean();
 
 		glowstoneSeedPlantHeight = config.get(CONFIG_GENERAL_NAME, "Glowstone seed plant height", 15).getInt();
 
