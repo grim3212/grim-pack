@@ -139,9 +139,9 @@ public class CuisineItems implements IPartItems {
 		OreDictionary.registerOre("bread", bread_slice);
 		OreDictionary.registerOre("foodCheese", cheese);
 		OreDictionary.registerOre("foodDough", dough);
+		OreDictionary.registerOre("foodButter", butter);
 		OreDictionary.registerOre("foodScrambledegg", eggs_cooked);
 		OreDictionary.registerOre("listAllbread", bread_slice);
-		OreDictionary.registerOre("listAllbutter", butter);
 		OreDictionary.registerOre("toolCuttingboard", new ItemStack(knife, 1, OreDictionary.WILDCARD_VALUE));
 		OreDictionary.registerOre("toolJuicer", new ItemStack(mixer, 1, OreDictionary.WILDCARD_VALUE));
 		OreDictionary.registerOre("bucketMilk", Items.MILK_BUCKET);
