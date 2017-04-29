@@ -15,4 +15,5 @@ public class EntityDeathEvent {
 			PlaceGrave.placeGrave((EntityPlayerMP) event.getEntityLiving());
 		}
 	}
+
 }

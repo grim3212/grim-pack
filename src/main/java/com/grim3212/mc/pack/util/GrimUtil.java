@@ -11,12 +11,17 @@ import com.grim3212.mc.pack.util.config.UtilConfig;
 import com.grim3212.mc.pack.util.event.BlockChangeEvents;
 import com.grim3212.mc.pack.util.event.EntityDeathEvent;
 import com.grim3212.mc.pack.util.event.UtilAchievements;
+import com.grim3212.mc.pack.util.frozen.FrozenCapability;
+import com.grim3212.mc.pack.util.frozen.FrozenCapability.IFrozenCapability;
+import com.grim3212.mc.pack.util.frozen.FrozenClientEvents;
 import com.grim3212.mc.pack.util.grave.TileEntityGrave;
 import com.grim3212.mc.pack.util.init.UtilBlocks;
 import com.grim3212.mc.pack.util.network.MessageFusRoDah;
 
 import net.minecraft.util.SoundEvent;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.capabilities.CapabilityInject;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -39,6 +44,9 @@ public class GrimUtil extends GrimPart {
 	public static SoundEvent fusrodahOldSound;
 	public static boolean baubles = false;
 
+	@CapabilityInject(IFrozenCapability.class)
+	public static final Capability<IFrozenCapability> FROZEN_CAP = null;
+
 	public GrimUtil() {
 		super(GrimUtil.partId, GrimUtil.partName, new UtilConfig(), false, false);
 		addItem(new UtilBlocks());
@@ -54,6 +62,10 @@ public class GrimUtil extends GrimPart {
 		fusrodahSound = Utils.registerSound("fusrodah");
 		fusrodahOldSound = Utils.registerSound("fusrodah-old");
 		UtilAchievements.init();
+
+		if (event.getSide() == Side.CLIENT)
+			MinecraftForge.EVENT_BUS.register(new FrozenClientEvents());
+		FrozenCapability.registerCapability();
 
 		baubles = Loader.isModLoaded("baubles");
 		if (baubles) {

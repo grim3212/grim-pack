@@ -16,5 +16,4 @@ public class DropEvent {
 				event.getDrops().add(new ItemStack(CuisineItems.dragon_fruit, event.getWorld().rand.nextInt(2) + 1));
 		}
 	}
-
 }
