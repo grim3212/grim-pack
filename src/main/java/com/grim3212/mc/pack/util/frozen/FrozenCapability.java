@@ -4,12 +4,15 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import com.grim3212.mc.pack.GrimPack;
+import com.grim3212.mc.pack.core.network.PacketDispatcher;
+import com.grim3212.mc.pack.core.util.GrimLog;
 import com.grim3212.mc.pack.util.GrimUtil;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.projectile.EntitySnowball;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
@@ -20,6 +23,7 @@ import net.minecraftforge.common.capabilities.Capability.IStorage;
 import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
+import net.minecraftforge.event.entity.ThrowableImpactEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent.EntityInteract;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -29,6 +33,7 @@ public class FrozenCapability {
 	public static void registerCapability() {
 		CapabilityManager.INSTANCE.register(IFrozenCapability.class, new FrozenStorage(), FrozenDefaultImpl.class);
 		MinecraftForge.EVENT_BUS.register(new FrozenEvents());
+		PacketDispatcher.registerMessage(MessageFrozen.class);
 	}
 
 	public static void frozen(EntityLivingBase entity, boolean freeze, int duration) {
@@ -37,11 +42,6 @@ public class FrozenCapability {
 			frozen.setFrozen(freeze);
 			frozen.setDuration(duration);
 			frozen.setTime(0);
-			if (entity instanceof EntityLiving) {
-				EntityLiving livingEntity = (EntityLiving) entity;
-				livingEntity.setNoAI(freeze);
-				livingEntity.setSilent(freeze);
-			}
 		}
 	}
 
@@ -86,9 +86,23 @@ public class FrozenCapability {
 		}
 
 		@SubscribeEvent
-		public void interact(EntityInteract event) {
-			if (event.getTarget() instanceof EntityLivingBase) {
-				freezeEntity((EntityLivingBase) event.getTarget(), 30);
+		public void entInter(EntityInteract event) {
+			final IFrozenCapability frozen = event.getTarget().getCapability(GrimUtil.FROZEN_CAP, null);
+
+			if (frozen != null) {
+				GrimLog.log("frozen: " + frozen.isFrozen());
+			}
+		}
+
+		@SubscribeEvent
+		public void interact(ThrowableImpactEvent event) {
+			if (event.getEntityThrowable() instanceof EntitySnowball) {
+				if (event.getRayTraceResult().entityHit != null && event.getRayTraceResult().entityHit instanceof EntityLivingBase) {
+					freezeEntity((EntityLivingBase) event.getRayTraceResult().entityHit, 0);
+
+					if (!event.getRayTraceResult().entityHit.world.isRemote)
+						PacketDispatcher.sendToServer(new MessageFrozen(event.getRayTraceResult().entityHit.getEntityId(), true, 0));
+				}
 			}
 		}
 
@@ -101,6 +115,14 @@ public class FrozenCapability {
 
 					if (frozen.getTime() >= frozen.getDuration()) {
 						unFreezeEntity(event.getEntityLiving());
+					}
+				}
+
+				if (event.getEntityLiving() instanceof EntityLiving) {
+					EntityLiving livingEntity = (EntityLiving) event.getEntityLiving();
+					if (!livingEntity.isSilent()) {
+						livingEntity.setNoAI(true);
+						livingEntity.setSilent(true);
 					}
 				}
 			}

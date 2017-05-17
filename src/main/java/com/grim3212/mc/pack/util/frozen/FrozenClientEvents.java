@@ -20,7 +20,7 @@ public class FrozenClientEvents {
 		if (frozen != null) {
 			if (frozen.isFrozen()) {
 				GlStateManager.pushMatrix();
-				GlStateManager.color(0.5f, 2.0f, 10.0f);
+				GlStateManager.color(0.43f, 0.952f, 0.952f, 1.0f);
 				GlStateManager.popMatrix();
 			}
 		}
