@@ -3,7 +3,6 @@ package com.grim3212.mc.pack.util.frozen;
 import java.io.IOException;
 
 import com.grim3212.mc.pack.core.network.AbstractMessage.AbstractClientMessage;
-import com.grim3212.mc.pack.core.util.GrimLog;
 
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -42,7 +41,6 @@ public class MessageFrozen extends AbstractClientMessage<MessageFrozen> {
 	@Override
 	public void process(EntityPlayer player, Side side) {
 		FrozenCapability.frozen((EntityLivingBase) player.world.getEntityByID(id), freeze, duration);
-		GrimLog.log("freeezing");
 	}
 
 }
