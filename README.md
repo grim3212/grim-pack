@@ -1,6 +1,6 @@
 [![](http://cf.way2muchnoise.eu/full_grim-pack_downloads.svg)](http://minecraft.curseforge.com/projects/grim-pack) [![](http://cf.way2muchnoise.eu/versions/Minecraft_grim-pack_all.svg)](http://minecraft.curseforge.com/projects/grim-pack)
 #[Grim Pack](http://minecraft.curseforge.com/projects/grim-pack)
-### Master is at Minecraft 1.11
+### Master is at Minecraft 1.12
 
 This is the combined mods previously known as Grims Mods.
 
@@ -34,7 +34,7 @@ Please include the following
 * Any other information that may be helpful like steps to reproduce or if it only happens occasionaly.
 
 ## Pull Requests
-All pull requests need to target master currently at 1.11
+All pull requests need to target master currently at 1.12
 
 Please include a description of what you changed.
 This can be a fixed bug or even new features.
