@@ -1,0 +1,15 @@
+{
+  "result": {
+    "item": "minecraft:bucket"
+  },
+  "pattern": [
+    "a a",
+    " a "
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "a": {
+      "item": "#INGOTALUMINUM"
+    }
+  }
+}

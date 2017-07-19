@@ -1,0 +1,24 @@
+{
+  "result": {
+    "item": "grimpack:fungus_maze",
+    "data": 0
+  },
+  "pattern": [
+    "XXX",
+    "ara",
+    "XXX"
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "a": {
+      "item": "minecraft:stonebrick",
+      "data": 0
+    },
+    "r": {
+      "item": "#DUSTREDSTONE"
+    },
+    "X": {
+      "item": "#SLIMEBALL"
+    }
+  }
+}

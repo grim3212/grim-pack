@@ -1,25 +1,27 @@
 package com.grim3212.mc.pack.util.init;
 
-import com.grim3212.mc.pack.core.part.IPartItems;
-import com.grim3212.mc.pack.core.util.Utils;
+import com.grim3212.mc.pack.core.item.ItemManualBlock;
 import com.grim3212.mc.pack.util.grave.BlockGrave;
 
 import net.minecraft.block.Block;
+import net.minecraft.item.Item;
+import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
-public class UtilBlocks implements IPartItems {
+@Mod.EventBusSubscriber
+public class UtilBlocks {
 
-	public static Block grave;
+	public static final Block grave = new BlockGrave();
 
-	@Override
-	public void initItems() {
-		grave = (new BlockGrave()).setHardness(1.0F).setResistance(99.9F).setUnlocalizedName("grave");
-
-		Utils.registerBlock(grave, "grave");
+	@SubscribeEvent
+	public static void initBlocks(RegistryEvent.Register<Block> evt) {
+		evt.getRegistry().register(grave);
 	}
 
-	@Override
-	public void addRecipes() {
-		// No-op
+	@SubscribeEvent
+	public static void initItems(RegistryEvent.Register<Item> evt) {
+		evt.getRegistry().register(new ItemManualBlock(grave).setRegistryName(grave.getRegistryName()));
 	}
 
 }

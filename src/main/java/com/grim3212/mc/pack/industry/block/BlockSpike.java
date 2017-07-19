@@ -2,8 +2,9 @@ package com.grim3212.mc.pack.industry.block;
 
 import com.grim3212.mc.pack.core.block.BlockManual;
 import com.grim3212.mc.pack.core.manual.pages.Page;
-import com.grim3212.mc.pack.industry.GrimIndustry;
+import com.grim3212.mc.pack.core.part.GrimCreativeTabs;
 import com.grim3212.mc.pack.industry.client.ManualIndustry;
+import com.grim3212.mc.pack.industry.init.IndustrySounds;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
@@ -39,8 +40,15 @@ public class BlockSpike extends BlockManual {
 	public static final PropertyEnum<EnumFacing> FACING = PropertyEnum.create("facing", EnumFacing.class);
 
 	protected BlockSpike() {
-		super(Material.IRON, SoundType.METAL);
-		this.setDefaultState(this.blockState.getBaseState().withProperty(ACTIVE, false).withProperty(FACING, EnumFacing.NORTH));
+		super("spike", Material.IRON, SoundType.METAL);
+		setHardness(1.5F);
+		setResistance(10F);
+		setCreativeTab(GrimCreativeTabs.GRIM_INDUSTRY);
+	}
+
+	@Override
+	protected IBlockState getState() {
+		return this.blockState.getBaseState().withProperty(ACTIVE, false).withProperty(FACING, EnumFacing.NORTH);
 	}
 
 	public static EnumFacing getFacing(int meta) {
@@ -154,10 +162,10 @@ public class BlockSpike extends BlockManual {
 		this.checkForDrop(worldIn, pos);
 
 		if (!state.getValue(ACTIVE) && worldIn.isBlockPowered(pos)) {
-			worldIn.playSound((EntityPlayer) null, pos, GrimIndustry.spikeDeploySound, SoundCategory.BLOCKS, 0.3F, 0.6F);
+			worldIn.playSound((EntityPlayer) null, pos, IndustrySounds.spikeDeploySound, SoundCategory.BLOCKS, 0.3F, 0.6F);
 			worldIn.setBlockState(pos, state.withProperty(ACTIVE, true));
 		} else if (state.getValue(ACTIVE) && !worldIn.isBlockPowered(pos)) {
-			worldIn.playSound((EntityPlayer) null, pos, GrimIndustry.spikeCloseSound, SoundCategory.BLOCKS, 0.3F, 0.6F);
+			worldIn.playSound((EntityPlayer) null, pos, IndustrySounds.spikeCloseSound, SoundCategory.BLOCKS, 0.3F, 0.6F);
 			worldIn.setBlockState(pos, state.withProperty(ACTIVE, false));
 		}
 	}

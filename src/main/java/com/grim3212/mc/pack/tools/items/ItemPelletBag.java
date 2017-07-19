@@ -5,12 +5,12 @@ import com.grim3212.mc.pack.core.client.gui.PackGuiHandler;
 import com.grim3212.mc.pack.core.inventory.InventoryCapability;
 import com.grim3212.mc.pack.core.item.ItemManual;
 import com.grim3212.mc.pack.core.manual.pages.Page;
+import com.grim3212.mc.pack.core.part.GrimCreativeTabs;
 import com.grim3212.mc.pack.tools.client.ManualTools;
 
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -21,8 +21,6 @@ import net.minecraft.util.NonNullList;
 import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.util.Constants;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
@@ -32,7 +30,9 @@ public class ItemPelletBag extends ItemManual {
 	public static final String[] colorNumbers = new String[] { "454554", "BE3030", "667F33", "704425", "3366CC", "B266E5", "4C99B2", "999999", "4C4C4C", "F2B2CC", "7FCC19", "E5E533", "99B2F2", "E57FD8", "F4B33F", "FFFFFF" };
 
 	public ItemPelletBag() {
+		super("pellet_bag");
 		this.maxStackSize = 1;
+		this.setCreativeTab(GrimCreativeTabs.GRIM_TOOLS);
 	}
 
 	@Override
@@ -54,17 +54,17 @@ public class ItemPelletBag extends ItemManual {
 	}
 
 	@Override
-	@SideOnly(Side.CLIENT)
-	public void getSubItems(Item par1, CreativeTabs par2CreativeTabs, NonNullList<ItemStack> list) {
-		for (int i = 0; i < 17; i++) {
-			NBTTagCompound nbt = new NBTTagCompound();
-			nbt.setInteger("color", i - 1);
+	public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> items) {
+		if (isInCreativeTab(tab))
+			for (int i = 0; i < 17; i++) {
+				NBTTagCompound nbt = new NBTTagCompound();
+				nbt.setInteger("color", i - 1);
 
-			ItemStack pelletbag = new ItemStack(ToolsItems.pellet_bag);
-			pelletbag.setTagCompound(nbt);
+				ItemStack pelletbag = new ItemStack(ToolsItems.pellet_bag);
+				pelletbag.setTagCompound(nbt);
 
-			list.add(pelletbag);
-		}
+				items.add(pelletbag);
+			}
 	}
 
 	@Override

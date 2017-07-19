@@ -2,6 +2,7 @@ package com.grim3212.mc.pack.industry.block;
 
 import com.grim3212.mc.pack.core.block.BlockManual;
 import com.grim3212.mc.pack.core.manual.pages.Page;
+import com.grim3212.mc.pack.core.part.GrimCreativeTabs;
 import com.grim3212.mc.pack.industry.client.ManualIndustry;
 
 import net.minecraft.block.Block;
@@ -15,14 +16,26 @@ import net.minecraft.world.World;
 public class BlockElemental extends BlockManual {
 
 	public static enum ElementType {
-		WATER, FIRE, LAVA
+		WATER("water_block"), FIRE("fire_block"), LAVA("lava_block");
+
+		private String name;
+
+		ElementType(String name) {
+			this.name = name;
+		}
+
+		public String getName() {
+			return name;
+		}
 	}
 
 	private ElementType type;
 
 	protected BlockElemental(ElementType type) {
-		super(Material.IRON, SoundType.METAL);
+		super(type.getName(), Material.IRON, SoundType.METAL);
 		this.type = type;
+		setHardness(2.0F);
+		setCreativeTab(GrimCreativeTabs.GRIM_INDUSTRY);
 	}
 
 	@Override

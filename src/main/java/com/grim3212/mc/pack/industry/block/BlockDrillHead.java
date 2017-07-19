@@ -30,8 +30,14 @@ public class BlockDrillHead extends BlockManual {
 	private static final AxisAlignedBB DRILL_SHAFT_AABB = new AxisAlignedBB(0.25F, 0.0F, 0.25F, 0.75F, 1.0F, 0.75F);
 
 	public BlockDrillHead() {
-		super(Material.IRON, SoundType.METAL);
-		this.setDefaultState(this.getBlockState().getBaseState().withProperty(IS_SHAFT, false));
+		super("drill_head", Material.IRON, SoundType.METAL);
+		setHardness(9.0F);
+		setResistance(9.0F);
+	}
+
+	@Override
+	protected IBlockState getState() {
+		return this.getBlockState().getBaseState().withProperty(IS_SHAFT, false);
 	}
 
 	@Override

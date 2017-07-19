@@ -36,7 +36,7 @@ public class RenderTickHandler {
 		timeWidth = game.displayWidth;
 		ScaledResolution scaledresolution = new ScaledResolution(game);
 		timeWidth = scaledresolution.getScaledWidth();
-		FontRenderer fontrenderer = game.fontRendererObj;
+		FontRenderer fontrenderer = game.fontRenderer;
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		game.renderEngine.bindTexture(resourceLocation);
 		ClientUtil.drawTexturedModalRect(timeWidth - 245, scrollHeight, 0, 0, 176 - 43, 200, zLevel);

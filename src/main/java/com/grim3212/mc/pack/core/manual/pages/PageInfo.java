@@ -34,7 +34,7 @@ public class PageInfo extends Page {
 		String pageText = I18n.format(pageInfo).replaceAll("<f>", "\u00a7");
 		String[] paragraphs = pageText.split("<br>");
 
-		FontRenderer renderer = Minecraft.getMinecraft().fontRendererObj;
+		FontRenderer renderer = Minecraft.getMinecraft().fontRenderer;
 		boolean unicode = renderer.getUnicodeFlag();
 		renderer.setUnicodeFlag(true);
 

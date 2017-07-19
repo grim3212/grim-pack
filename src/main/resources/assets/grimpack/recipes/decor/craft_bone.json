@@ -1,0 +1,16 @@
+{
+  "result": {
+    "item": "grimpack:craft_bone"
+  },
+  "pattern": [
+    " # ",
+    "###",
+    "###"
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "#": {
+      "item": "minecraft:bone"
+    }
+  }
+}

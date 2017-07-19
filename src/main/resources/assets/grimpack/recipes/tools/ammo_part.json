@@ -1,0 +1,19 @@
+{
+  "result": {
+    "item": "grimpack:ammo_part"
+  },
+  "pattern": [
+    "#  ",
+    " # ",
+    "  !"
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "!": {
+      "item": "#STICKIRON"
+    },
+    "#": {
+      "item": "#INGOTIRON"
+    }
+  }
+}

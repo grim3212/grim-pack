@@ -1,0 +1,22 @@
+{
+  "result": {
+    "item": "grimpack:backpack"
+  },
+  "pattern": [
+    "LLS",
+    "LIS",
+    "LLL"
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "S": {
+      "item": "#STRING"
+    },
+    "I": {
+      "item": "#INGOTIRON"
+    },
+    "L": {
+      "item": "#LEATHER"
+    }
+  }
+}

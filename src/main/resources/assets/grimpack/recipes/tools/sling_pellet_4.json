@@ -1,0 +1,17 @@
+{
+  "result": {
+    "item": "grimpack:sling_pellet",
+    "data": 4
+  },
+  "ingredients": [
+    {
+      "item": "grimpack:sling_pellet",
+      "data": 0
+    },
+    {
+      "item": "minecraft:coal",
+      "data": 0
+    }
+  ],
+  "type": "minecraft:crafting_shapeless"
+}

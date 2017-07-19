@@ -1,0 +1,19 @@
+{
+  "result": {
+    "item": "grimpack:explosive_spear"
+  },
+  "pattern": [
+    " # ",
+    "# #",
+    " X "
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "#": {
+      "item": "#GUNPOWDER"
+    },
+    "X": {
+      "item": "grimpack:spear"
+    }
+  }
+}

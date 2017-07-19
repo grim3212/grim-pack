@@ -1,0 +1,14 @@
+{
+  "result": {
+    "item": "grimpack:powered_sugar"
+  },
+  "ingredients": [
+    {
+      "item": "#DUSTREDSTONE"
+    },
+    {
+      "item": "minecraft:sugar"
+    }
+  ],
+  "type": "forge:ore_shapeless"
+}

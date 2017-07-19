@@ -1,0 +1,19 @@
+{
+  "result": {
+    "item": "grimpack:sling_shot"
+  },
+  "pattern": [
+    "#@#",
+    " # ",
+    " # "
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "@": {
+      "item": "minecraft:string"
+    },
+    "#": {
+      "item": "#STICKWOOD"
+    }
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "result": {
+    "item": "grimpack:pellet_bag"
+  },
+  "pattern": [
+    "SIL",
+    "LLL"
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "S": {
+      "item": "#STRING"
+    },
+    "I": {
+      "item": "#INGOTIRON"
+    },
+    "L": {
+      "item": "#LEATHER"
+    }
+  }
+}

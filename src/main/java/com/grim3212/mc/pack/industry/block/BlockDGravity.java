@@ -2,7 +2,7 @@ package com.grim3212.mc.pack.industry.block;
 
 import com.grim3212.mc.pack.core.block.BlockManual;
 import com.grim3212.mc.pack.core.manual.pages.Page;
-import com.grim3212.mc.pack.industry.GrimIndustry;
+import com.grim3212.mc.pack.core.part.GrimCreativeTabs;
 import com.grim3212.mc.pack.industry.client.ManualIndustry;
 import com.grim3212.mc.pack.industry.tile.TileEntityDGravity;
 
@@ -30,11 +30,16 @@ public class BlockDGravity extends BlockManual implements ITileEntityProvider {
 
 	private int type;
 
-	protected BlockDGravity(int type) {
-		super(Material.IRON, SoundType.METAL);
+	protected BlockDGravity(String name, int type) {
+		super(name, Material.IRON, SoundType.METAL);
 		this.type = type;
-		setCreativeTab(GrimIndustry.INSTANCE.getCreativeTab());
-		this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.EAST).withProperty(POWERED, false));
+		setHardness(0.3F);
+		setCreativeTab(GrimCreativeTabs.GRIM_INDUSTRY);
+	}
+
+	@Override
+	protected IBlockState getState() {
+		return this.blockState.getBaseState().withProperty(FACING, EnumFacing.EAST).withProperty(POWERED, false);
 	}
 
 	@Override

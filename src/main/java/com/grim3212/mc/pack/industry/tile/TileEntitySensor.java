@@ -129,7 +129,7 @@ public class TileEntitySensor extends TileEntity implements ITickable {
 				} while (true);
 			}
 
-			List<Entity> list = world.getEntitiesWithinAABB(triggerType, state.getCollisionBoundingBox(world, pos).offset(pos).addCoord(i1, j1, k1));
+			List<Entity> list = world.getEntitiesWithinAABB(triggerType, state.getCollisionBoundingBox(world, pos).offset(pos).expand(i1, j1, k1));
 
 			if (list.isEmpty()) {
 				world.setBlockState(pos, state.withProperty(BlockSensor.ACTIVE, false));

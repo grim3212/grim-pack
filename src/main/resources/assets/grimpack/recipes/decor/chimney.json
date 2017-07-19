@@ -1,0 +1,28 @@
+{
+  "result": {
+    "nbt": {
+      "meta": {
+        "data": 0
+      },
+      "registryName": {
+        "data": "minecraft:air"
+      }
+    },
+    "item": "grimpack:chimney",
+    "count": 6
+  },
+  "pattern": [
+    "# #",
+    "# #",
+    "#I#"
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "#": {
+      "item": "grimpack:colorizer"
+    },
+    "I": {
+      "item": "#INGOTIRON"
+    }
+  }
+}

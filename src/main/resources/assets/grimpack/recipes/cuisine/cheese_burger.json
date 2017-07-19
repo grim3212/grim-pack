@@ -1,0 +1,22 @@
+{
+  "result": {
+    "item": "grimpack:cheese_burger"
+  },
+  "pattern": [
+    " C ",
+    "AOA",
+    " C "
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "A": {
+      "item": "#FOODCHEESE"
+    },
+    "C": {
+      "item": "#BREAD"
+    },
+    "O": {
+      "item": "minecraft:cooked_beef"
+    }
+  }
+}

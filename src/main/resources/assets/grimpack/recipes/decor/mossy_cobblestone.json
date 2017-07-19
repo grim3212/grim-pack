@@ -1,0 +1,20 @@
+{
+  "result": {
+    "item": "minecraft:mossy_cobblestone",
+    "count": 8
+  },
+  "pattern": [
+    "###",
+    "#X#",
+    "###"
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "#": {
+      "item": "minecraft:cobblestone"
+    },
+    "X": {
+      "item": "minecraft:water_bucket"
+    }
+  }
+}

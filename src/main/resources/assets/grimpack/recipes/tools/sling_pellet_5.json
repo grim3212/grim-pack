@@ -1,0 +1,16 @@
+{
+  "result": {
+    "item": "grimpack:sling_pellet",
+    "data": 5
+  },
+  "ingredients": [
+    {
+      "item": "grimpack:sling_pellet",
+      "data": 2
+    },
+    {
+      "item": "#GUNPOWDER"
+    }
+  ],
+  "type": "forge:ore_shapeless"
+}

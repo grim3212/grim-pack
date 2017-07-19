@@ -1,0 +1,23 @@
+{
+  "result": {
+    "item": "grimpack:conveyor_belt",
+    "count": 6
+  },
+  "pattern": [
+    "XXX",
+    "S#S",
+    "XXX"
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "#": {
+      "item": "#DUSTREDSTONE"
+    },
+    "S": {
+      "item": "#COBBLESTONE"
+    },
+    "X": {
+      "item": "#STICKIRON"
+    }
+  }
+}

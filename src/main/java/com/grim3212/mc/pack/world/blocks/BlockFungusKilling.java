@@ -19,7 +19,7 @@ import net.minecraft.world.World;
 public class BlockFungusKilling extends BlockFungusBase implements IManualBlock {
 
 	protected BlockFungusKilling() {
-		super(true);
+		super("fungus_killing", true);
 	}
 
 	@Override

@@ -14,7 +14,9 @@ import net.minecraft.world.World;
 public class BlockWarehouseCrate extends BlockStorage {
 
 	public BlockWarehouseCrate() {
-		super(Material.WOOD, SoundType.WOOD);
+		super("warehouse_crate", Material.WOOD, SoundType.WOOD);
+		setHardness(3.0F);
+		setResistance(5.0F);
 	}
 
 	@Override

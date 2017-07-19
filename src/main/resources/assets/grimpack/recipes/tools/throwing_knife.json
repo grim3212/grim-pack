@@ -1,0 +1,19 @@
+{
+  "result": {
+    "item": "grimpack:throwing_knife",
+    "count": 4
+  },
+  "pattern": [
+    "Y",
+    "X"
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "X": {
+      "item": "grimpack:grip"
+    },
+    "Y": {
+      "item": "#INGOTIRON"
+    }
+  }
+}

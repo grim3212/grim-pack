@@ -1,0 +1,42 @@
+{
+  "result": {
+    "item": "grimpack:fungus_ore_building",
+    "data": 0
+  },
+  "pattern": [
+    "DRQ",
+    "EFG",
+    "ILC"
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "Q": {
+      "item": "minecraft:quartz_ore"
+    },
+    "R": {
+      "item": "minecraft:redstone_ore"
+    },
+    "C": {
+      "item": "minecraft:coal_ore"
+    },
+    "D": {
+      "item": "minecraft:diamond_ore"
+    },
+    "E": {
+      "item": "minecraft:emerald_ore"
+    },
+    "F": {
+      "item": "grimpack:fungus_building",
+      "data": 11
+    },
+    "G": {
+      "item": "minecraft:gold_ore"
+    },
+    "I": {
+      "item": "minecraft:iron_ore"
+    },
+    "L": {
+      "item": "minecraft:lapis_ore"
+    }
+  }
+}

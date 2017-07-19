@@ -1,0 +1,16 @@
+{
+  "result": {
+    "item": "grimpack:fuel_tank"
+  },
+  "pattern": [
+    "fff",
+    "fff",
+    "fff"
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "f": {
+      "item": "grimpack:fuel"
+    }
+  }
+}

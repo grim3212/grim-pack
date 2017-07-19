@@ -3,13 +3,9 @@ package com.grim3212.mc.pack.industry;
 import com.grim3212.mc.pack.core.manual.IManualPart;
 import com.grim3212.mc.pack.core.network.PacketDispatcher;
 import com.grim3212.mc.pack.core.part.GrimPart;
-import com.grim3212.mc.pack.core.util.Utils;
-import com.grim3212.mc.pack.industry.block.IndustryBlocks;
 import com.grim3212.mc.pack.industry.client.ManualIndustry;
 import com.grim3212.mc.pack.industry.config.IndustryConfig;
 import com.grim3212.mc.pack.industry.entity.IndustryEntities;
-import com.grim3212.mc.pack.industry.event.IndustryAchievements;
-import com.grim3212.mc.pack.industry.item.IndustryItems;
 import com.grim3212.mc.pack.industry.network.MessageExtruderDirection;
 import com.grim3212.mc.pack.industry.network.MessageSaveFan;
 import com.grim3212.mc.pack.industry.network.MessageSensorChangeMode;
@@ -20,11 +16,8 @@ import com.grim3212.mc.pack.industry.network.MessageSensorSetPlayer;
 import com.grim3212.mc.pack.industry.network.MessageSensorSetPos;
 import com.grim3212.mc.pack.industry.network.MessageSensorSetRender;
 import com.grim3212.mc.pack.industry.network.MessageSetLock;
-import com.grim3212.mc.pack.industry.tile.IndustryTileEntities;
 import com.grim3212.mc.pack.industry.world.IndustryGenerate;
 
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.SoundEvent;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
@@ -42,15 +35,8 @@ public class GrimIndustry extends GrimPart {
 	public static final String partId = "industry";
 	public static final String partName = "Grim Industry";
 
-	public static SoundEvent spikeDeploySound;
-	public static SoundEvent spikeCloseSound;
-
 	public GrimIndustry() {
 		super(GrimIndustry.partId, GrimIndustry.partName, new IndustryConfig());
-		addItem(new IndustryBlocks());
-		addItem(new IndustryItems());
-		addEntity(new IndustryEntities());
-		addTileEntity(new IndustryTileEntities());
 	}
 
 	@Override
@@ -68,11 +54,7 @@ public class GrimIndustry extends GrimPart {
 		PacketDispatcher.registerMessage(MessageSaveFan.class);
 		PacketDispatcher.registerMessage(MessageExtruderDirection.class);
 		GameRegistry.registerWorldGenerator(new IndustryGenerate(), 10);
-		IndustryAchievements.init();
-
-		spikeDeploySound = Utils.registerSound("spikeDeploy");
-		spikeCloseSound = Utils.registerSound("spikeClose");
-
+		IndustryEntities.initEntities();
 		proxy.preInit();
 	}
 
@@ -80,11 +62,6 @@ public class GrimIndustry extends GrimPart {
 	public void init(FMLInitializationEvent event) {
 		super.init(event);
 		proxy.initColors();
-	}
-
-	@Override
-	protected ItemStack getCreativeTabIcon() {
-		return new ItemStack(IndustryBlocks.togglerack);
 	}
 
 	@Override

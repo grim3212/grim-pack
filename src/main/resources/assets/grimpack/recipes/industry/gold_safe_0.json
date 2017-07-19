@@ -1,0 +1,20 @@
+{
+  "result": {
+    "item": "grimpack:gold_safe",
+    "data": 0
+  },
+  "pattern": [
+    " G ",
+    "GIG",
+    " G "
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "G": {
+      "item": "#INGOTGOLD"
+    },
+    "I": {
+      "item": "grimpack:obsidian_safe"
+    }
+  }
+}

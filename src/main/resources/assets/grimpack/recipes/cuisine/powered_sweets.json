@@ -1,0 +1,15 @@
+{
+  "result": {
+    "item": "grimpack:powered_sweets",
+    "count": 8
+  },
+  "ingredients": [
+    {
+      "item": "grimpack:powered_sugar"
+    },
+    {
+      "item": "#PAPER"
+    }
+  ],
+  "type": "forge:ore_shapeless"
+}

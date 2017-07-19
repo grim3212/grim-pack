@@ -1,0 +1,16 @@
+{
+  "result": {
+    "item": "grimpack:chain_fence",
+    "count": 32
+  },
+  "pattern": [
+    "sss",
+    "sss"
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "s": {
+      "item": "grimpack:aluminum_shaft"
+    }
+  }
+}

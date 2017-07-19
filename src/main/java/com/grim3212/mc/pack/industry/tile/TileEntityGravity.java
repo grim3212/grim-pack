@@ -106,9 +106,9 @@ public class TileEntityGravity extends TileEntity implements ITickable {
 							upForce += 0.084D * gravitorPower;
 						}
 
-						double x = vector.xCoord * var23 * var1;
-						double y = upForce + vector.yCoord * var23 * var3;
-						double z = vector.zCoord * var23 * var5;
+						double x = vector.x * var23 * var1;
+						double y = upForce + vector.y * var23 * var3;
+						double z = vector.z * var23 * var5;
 
 						double motionX = Math.max(Math.abs(0), Math.abs(entity.motionX));
 						double motionY = Math.max(Math.abs(0), Math.abs(entity.motionY));

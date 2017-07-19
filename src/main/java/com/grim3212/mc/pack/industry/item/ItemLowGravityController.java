@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.grim3212.mc.pack.core.item.ItemManual;
 import com.grim3212.mc.pack.core.manual.pages.Page;
+import com.grim3212.mc.pack.core.part.GrimCreativeTabs;
 import com.grim3212.mc.pack.industry.client.ManualIndustry;
 
 import net.minecraft.entity.Entity;
@@ -21,6 +22,9 @@ public class ItemLowGravityController extends ItemManual {
 	private int tickCount;
 
 	public ItemLowGravityController() {
+		super("low_gravity_controller");
+		setCreativeTab(GrimCreativeTabs.GRIM_INDUSTRY);
+		setMaxStackSize(1);
 	}
 
 	@Override

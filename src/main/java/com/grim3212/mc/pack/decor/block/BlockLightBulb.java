@@ -2,9 +2,10 @@ package com.grim3212.mc.pack.decor.block;
 
 import java.util.Random;
 
+import com.grim3212.mc.pack.GrimPack;
 import com.grim3212.mc.pack.core.manual.IManualEntry.IManualBlock;
 import com.grim3212.mc.pack.core.manual.pages.Page;
-import com.grim3212.mc.pack.decor.GrimDecor;
+import com.grim3212.mc.pack.core.part.GrimCreativeTabs;
 import com.grim3212.mc.pack.decor.client.ManualDecor;
 import com.grim3212.mc.pack.decor.item.DecorItems;
 
@@ -20,6 +21,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockRenderLayer;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
@@ -34,12 +36,15 @@ public class BlockLightBulb extends BlockBreakable implements IManualBlock {
 	protected BlockLightBulb() {
 		super(Material.GLASS, true);
 		setSoundType(SoundType.GLASS);
-		this.setDefaultState(this.getBlockState().getBaseState().withProperty(ACTIVE, false));
+		setHardness(0.1F);
+		setUnlocalizedName("light_bulb");
+		setDefaultState(this.blockState.getBaseState().withProperty(ACTIVE, false));
+		setRegistryName(new ResourceLocation(GrimPack.modID, "light_bulb"));
 	}
 
 	@Override
 	public CreativeTabs getCreativeTabToDisplayOn() {
-		return getDefaultState().getValue(ACTIVE) ? null : GrimDecor.INSTANCE.getCreativeTab();
+		return getDefaultState().getValue(ACTIVE) ? null : GrimCreativeTabs.GRIM_DECOR;
 	}
 
 	@Override

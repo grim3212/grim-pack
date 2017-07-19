@@ -20,14 +20,14 @@ public class GuiCraftingDiamond extends GuiContainer {
 	private IInventory playerInv;
 
 	public GuiCraftingDiamond(EntityPlayer inventoryplayer, World world, BlockPos pos) {
-		super(new ContainerDiamondWorkbench(inventoryplayer.inventory, world, pos, false));
+		super(new ContainerDiamondWorkbench(inventoryplayer, world, pos, false));
 		this.playerInv = inventoryplayer.inventory;
 	}
 
 	@Override
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
-		this.fontRendererObj.drawString(I18n.format("container.crafting_diamond"), 28, 6, 4210752);
-		this.fontRendererObj.drawString(this.playerInv.getDisplayName().getUnformattedText(), 8, this.ySize - 96 + 2, 4210752);
+		this.fontRenderer.drawString(I18n.format("container.crafting_diamond"), 28, 6, 4210752);
+		this.fontRenderer.drawString(this.playerInv.getDisplayName().getUnformattedText(), 8, this.ySize - 96 + 2, 4210752);
 	}
 
 	@Override

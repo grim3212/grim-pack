@@ -1,0 +1,18 @@
+{
+  "result": {
+    "item": "grimpack:diamond_spear"
+  },
+  "pattern": [
+    "#",
+    "X"
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "#": {
+      "item": "#GEMDIAMOND"
+    },
+    "X": {
+      "item": "grimpack:spear"
+    }
+  }
+}

@@ -1,9 +1,10 @@
 package com.grim3212.mc.pack.decor.item;
 
+import com.grim3212.mc.pack.GrimPack;
 import com.grim3212.mc.pack.core.manual.IManualEntry.IManualItem;
 import com.grim3212.mc.pack.core.manual.pages.Page;
+import com.grim3212.mc.pack.core.part.GrimCreativeTabs;
 import com.grim3212.mc.pack.core.util.NBTHelper;
-import com.grim3212.mc.pack.decor.GrimDecor;
 import com.grim3212.mc.pack.decor.block.DecorBlocks;
 import com.grim3212.mc.pack.decor.tile.TileEntityColorizer;
 
@@ -14,7 +15,6 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -27,14 +27,15 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SuppressWarnings("deprecation")
 public class ItemDecorDoor extends ItemBlock implements IManualItem {
 
 	public ItemDecorDoor() {
 		super(DecorBlocks.decor_door);
+		setCreativeTab(GrimCreativeTabs.GRIM_DECOR);
+		this.setUnlocalizedName("decor_door_item");
+		this.setRegistryName(new ResourceLocation(GrimPack.modID, "decor_door_item"));
 	}
 
 	@Override
@@ -102,11 +103,12 @@ public class ItemDecorDoor extends ItemBlock implements IManualItem {
 	}
 
 	@Override
-	public void getSubItems(Item itemIn, CreativeTabs tab, NonNullList<ItemStack> subItems) {
+	public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> items) {
 		ItemStack itemstack = new ItemStack(this);
 		NBTHelper.setString(itemstack, "registryName", Block.REGISTRY.getNameForObject(Blocks.AIR).toString());
 		NBTHelper.setInteger(itemstack, "meta", 0);
-		subItems.add(itemstack);
+		if (isInCreativeTab(tab))
+			items.add(itemstack);
 	}
 
 	@Override
@@ -131,8 +133,7 @@ public class ItemDecorDoor extends ItemBlock implements IManualItem {
 	}
 
 	@Override
-	@SideOnly(Side.CLIENT)
 	public CreativeTabs getCreativeTab() {
-		return GrimDecor.INSTANCE.getCreativeTab();
+		return super.getCreativeTab();
 	}
 }

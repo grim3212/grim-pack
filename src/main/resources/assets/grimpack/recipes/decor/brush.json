@@ -1,0 +1,19 @@
+{
+  "result": {
+    "item": "grimpack:brush"
+  },
+  "pattern": [
+    "  S",
+    " # ",
+    "#  "
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "#": {
+      "item": "#STICKWOOD"
+    },
+    "S": {
+      "item": "#STRING"
+    }
+  }
+}

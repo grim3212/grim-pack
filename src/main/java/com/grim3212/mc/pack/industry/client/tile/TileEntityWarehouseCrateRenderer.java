@@ -21,7 +21,7 @@ public class TileEntityWarehouseCrateRenderer extends TileEntitySpecialRenderer<
 	}
 
 	@Override
-	public void renderTileEntityAt(TileEntityWarehouseCrate te, double x, double y, double z, float partialTicks, int destroyStage) {
+	public void render(TileEntityWarehouseCrate te, double x, double y, double z, float partialTicks, int destroyStage, float alpha) {
 		GlStateManager.pushMatrix();
 		GlStateManager.translate(x, y, z);
 

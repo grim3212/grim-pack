@@ -30,7 +30,7 @@ public class ItemBreakingWand extends ItemWand {
 	private static final int BREAK_WEAK = 1;
 
 	public ItemBreakingWand(boolean reinforced) {
-		super(reinforced);
+		super(reinforced ? "reinforced_breaking_wand" : "breaking_wand", reinforced);
 		this.setMaxDamage(reinforced ? 120 : 15);
 	}
 

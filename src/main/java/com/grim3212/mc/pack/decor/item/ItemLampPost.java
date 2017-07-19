@@ -2,6 +2,7 @@ package com.grim3212.mc.pack.decor.item;
 
 import com.grim3212.mc.pack.core.item.ItemManual;
 import com.grim3212.mc.pack.core.manual.pages.Page;
+import com.grim3212.mc.pack.core.part.GrimCreativeTabs;
 import com.grim3212.mc.pack.core.util.NBTHelper;
 import com.grim3212.mc.pack.decor.block.DecorBlocks;
 import com.grim3212.mc.pack.decor.client.ManualDecor;
@@ -13,7 +14,6 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
@@ -27,8 +27,10 @@ import net.minecraft.world.World;
 public class ItemLampPost extends ItemManual {
 
 	public ItemLampPost() {
+		super("lamp_item");
 		this.setHasSubtypes(true);
 		this.setMaxDamage(0);
+		setCreativeTab(GrimCreativeTabs.GRIM_DECOR);
 	}
 
 	@Override
@@ -66,11 +68,12 @@ public class ItemLampPost extends ItemManual {
 	}
 
 	@Override
-	public void getSubItems(Item itemIn, CreativeTabs tab, NonNullList<ItemStack> subItems) {
+	public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> subItems) {
 		ItemStack itemstack = new ItemStack(this);
 		NBTHelper.setString(itemstack, "registryName", Block.REGISTRY.getNameForObject(Blocks.AIR).toString());
 		NBTHelper.setInteger(itemstack, "meta", 0);
-		subItems.add(itemstack);
+		if (isInCreativeTab(tab))
+			subItems.add(itemstack);
 	}
 
 	@Override

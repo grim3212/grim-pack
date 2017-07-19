@@ -1,0 +1,19 @@
+{
+  "result": {
+    "item": "grimpack:wall_clock"
+  },
+  "pattern": [
+    "XXX",
+    "XRX",
+    "XXX"
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "R": {
+      "item": "minecraft:clock"
+    },
+    "X": {
+      "item": "#PLANKWOOD"
+    }
+  }
+}

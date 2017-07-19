@@ -2,6 +2,7 @@ package com.grim3212.mc.pack.tools.items;
 
 import com.grim3212.mc.pack.core.item.ItemManual;
 import com.grim3212.mc.pack.core.manual.pages.Page;
+import com.grim3212.mc.pack.core.part.GrimCreativeTabs;
 import com.grim3212.mc.pack.tools.client.ManualTools;
 import com.grim3212.mc.pack.tools.entity.EntityKnife;
 
@@ -17,6 +18,8 @@ import net.minecraft.world.World;
 public class ItemKnife extends ItemManual {
 
 	public ItemKnife() {
+		super("throwing_knife");
+		setCreativeTab(GrimCreativeTabs.GRIM_TOOLS);
 		this.maxStackSize = 16;
 	}
 

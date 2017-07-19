@@ -1,0 +1,20 @@
+{
+  "result": {
+    "item": "grimpack:flat_item_frame",
+    "count": 4
+  },
+  "pattern": [
+    "###",
+    "#L#",
+    "###"
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "#": {
+      "item": "grimpack:hardened_wood"
+    },
+    "L": {
+      "item": "#LEATHER"
+    }
+  }
+}

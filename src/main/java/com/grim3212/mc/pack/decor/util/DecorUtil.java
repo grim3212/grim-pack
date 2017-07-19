@@ -3,12 +3,11 @@ package com.grim3212.mc.pack.decor.util;
 import java.util.List;
 
 import com.grim3212.mc.pack.core.util.NBTHelper;
+import com.grim3212.mc.pack.decor.block.DecorBlocks;
 import com.grim3212.mc.pack.decor.block.colorizer.BlockColorizerFacing;
 import com.grim3212.mc.pack.decor.block.colorizer.BlockColorizerHedge;
-import com.grim3212.mc.pack.decor.block.colorizer.BlockColorizerSloped;
 import com.grim3212.mc.pack.decor.block.colorizer.BlockColorizerSlopedRotate;
-import com.grim3212.mc.pack.decor.block.colorizer.BlockColorizerSloped.EnumHalf;
-import com.grim3212.mc.pack.decor.block.DecorBlocks;
+import com.grim3212.mc.pack.decor.block.colorizer.BlockColorizerSlopedRotate.EnumHalf;
 import com.grim3212.mc.pack.decor.config.DecorConfig;
 
 import net.minecraft.block.Block;
@@ -53,7 +52,7 @@ public class DecorUtil {
 				if (collision != Block.NULL_AABB) {
 					AxisAlignedBB axisalignedbb = collision.offset(pos);
 
-					if (entityBox.intersectsWith(axisalignedbb)) {
+					if (entityBox.intersects(axisalignedbb)) {
 						collidingBoxes.add(axisalignedbb);
 					}
 				}
@@ -91,7 +90,7 @@ public class DecorUtil {
 
 		if (state.getBlock() instanceof BlockColorizerSlopedRotate) {
 			if (state.getBlock() == DecorBlocks.slanted_corner) {
-				if (state.getValue(BlockColorizerSloped.HALF) == EnumHalf.BOTTOM) {
+				if (state.getValue(BlockColorizerSlopedRotate.HALF) == EnumHalf.BOTTOM) {
 					switch (state.getValue(BlockColorizerSlopedRotate.FACING)) {
 					case EAST:
 						return new AxisAlignedBB(zeroPieceOffset + zeroOffset * (1.0F - zeroPieceOffset), 0.0F, 0.0F, 1.0F, onePieceOffset, oneOffset * (1.0F - zeroPieceOffset));
@@ -121,7 +120,7 @@ public class DecorUtil {
 			}
 
 			if (state.getBlock() == DecorBlocks.sloped_angle) {
-				if (state.getValue(BlockColorizerSloped.HALF) == EnumHalf.BOTTOM) {
+				if (state.getValue(BlockColorizerSlopedRotate.HALF) == EnumHalf.BOTTOM) {
 					switch (state.getValue(BlockColorizerSlopedRotate.FACING)) {
 					case EAST:
 						return new AxisAlignedBB(zeroOffset, 0.0F, 0.0F, 1.0F, oneOffset, 1.0F - zeroOffset);
@@ -151,7 +150,7 @@ public class DecorUtil {
 			}
 
 			if (state.getBlock() == DecorBlocks.slope) {
-				if (state.getValue(BlockColorizerSloped.HALF) == EnumHalf.BOTTOM) {
+				if (state.getValue(BlockColorizerSlopedRotate.HALF) == EnumHalf.BOTTOM) {
 					switch (state.getValue(BlockColorizerSlopedRotate.FACING)) {
 					case EAST:
 						return new AxisAlignedBB(zeroOffset, 0.0F, 0.0F, 1.0F, oneOffset, 1.0F);
@@ -181,7 +180,7 @@ public class DecorUtil {
 			}
 
 			if (state.getBlock() == DecorBlocks.oblique_slope) {
-				if (state.getValue(BlockColorizerSloped.HALF) == EnumHalf.BOTTOM) {
+				if (state.getValue(BlockColorizerSlopedRotate.HALF) == EnumHalf.BOTTOM) {
 					switch (state.getValue(BlockColorizerSlopedRotate.FACING)) {
 					case EAST:
 						switch (piece) {
@@ -268,7 +267,7 @@ public class DecorUtil {
 			}
 
 			if (state.getBlock() == DecorBlocks.sloped_intersection) {
-				if (state.getValue(BlockColorizerSloped.HALF) == EnumHalf.BOTTOM) {
+				if (state.getValue(BlockColorizerSlopedRotate.HALF) == EnumHalf.BOTTOM) {
 					switch (state.getValue(BlockColorizerSlopedRotate.FACING)) {
 					case EAST:
 						switch (piece) {
@@ -401,16 +400,22 @@ public class DecorUtil {
 	}
 
 	public enum SlopeType {
-		SlantedCorner, Corner(2), Slope(2), SlopedAngle(2), ObliqueSlope(3), SlopedIntersection(2), Pyramid(2), FullPyramid(2), SlopedPost(1);
+		SlantedCorner("slanted_corner"), Corner("corner", 2), Slope("slope", 2), SlopedAngle("sloped_angle", 2), ObliqueSlope("oblique_slope", 3), SlopedIntersection("sloped_intersection", 2), Pyramid("pyramid", 2), FullPyramid("full_pyramid", 2), SlopedPost("sloped_post", 1);
 
 		private final int numPieces;
+		private final String name;
 
-		private SlopeType() {
-			this(-1);
+		private SlopeType(String name) {
+			this(name, -1);
 		}
 
-		private SlopeType(int numPieces) {
+		private SlopeType(String name, int numPieces) {
+			this.name = name;
 			this.numPieces = numPieces;
+		}
+
+		public String getName() {
+			return name;
 		}
 
 		public int getNumPieces() {

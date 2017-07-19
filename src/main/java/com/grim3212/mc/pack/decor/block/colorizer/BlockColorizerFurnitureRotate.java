@@ -14,9 +14,13 @@ public class BlockColorizerFurnitureRotate extends BlockColorizer {
 
 	public static final PropertyDirection FACING = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
 
-	public BlockColorizerFurnitureRotate() {
-		super();
-		this.setDefaultState(getDefaultState().withProperty(FACING, EnumFacing.NORTH));
+	public BlockColorizerFurnitureRotate(String name) {
+		super(name);
+	}
+
+	@Override
+	protected IBlockState getState() {
+		return super.getState().withProperty(FACING, EnumFacing.NORTH);
 	}
 
 	@Override

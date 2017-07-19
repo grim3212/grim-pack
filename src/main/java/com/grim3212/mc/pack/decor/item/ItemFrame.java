@@ -2,12 +2,12 @@ package com.grim3212.mc.pack.decor.item;
 
 import com.grim3212.mc.pack.core.item.ItemManual;
 import com.grim3212.mc.pack.core.manual.pages.Page;
+import com.grim3212.mc.pack.core.part.GrimCreativeTabs;
 import com.grim3212.mc.pack.decor.client.ManualDecor;
 import com.grim3212.mc.pack.decor.entity.EntityFrame;
 
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
@@ -19,8 +19,10 @@ import net.minecraft.world.World;
 public class ItemFrame extends ItemManual {
 
 	public ItemFrame() {
+		super("frame");
 		setMaxDamage(0);
 		setHasSubtypes(true);
+		setCreativeTab(GrimCreativeTabs.GRIM_DECOR);
 	}
 
 	@Override
@@ -29,9 +31,11 @@ public class ItemFrame extends ItemManual {
 	}
 
 	@Override
-	public void getSubItems(Item item, CreativeTabs tab, NonNullList<ItemStack> list) {
-		list.add(new ItemStack(item, 1, 0));
-		list.add(new ItemStack(item, 1, 1));
+	public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> list) {
+		if (isInCreativeTab(tab)) {
+			list.add(new ItemStack(this, 1, 0));
+			list.add(new ItemStack(this, 1, 1));
+		}
 	}
 
 	@Override

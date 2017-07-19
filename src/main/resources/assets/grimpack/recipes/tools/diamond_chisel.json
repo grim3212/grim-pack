@@ -1,0 +1,18 @@
+{
+  "result": {
+    "item": "grimpack:diamond_chisel"
+  },
+  "pattern": [
+    " B",
+    "I "
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "B": {
+      "item": "#GEMDIAMOND"
+    },
+    "I": {
+      "item": "#STICKIRON"
+    }
+  }
+}

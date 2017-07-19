@@ -1,0 +1,16 @@
+{
+  "result": {
+    "item": "grimpack:chocolate_block"
+  },
+  "pattern": [
+    "XXX",
+    "XXX",
+    "XXX"
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "X": {
+      "item": "grimpack:chocolate_bar"
+    }
+  }
+}

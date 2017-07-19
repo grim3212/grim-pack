@@ -1,0 +1,20 @@
+{
+  "result": {
+    "item": "grimpack:iron_stick",
+    "count": 4
+  },
+  "pattern": [
+    " i ",
+    "iSi",
+    " i "
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "S": {
+      "item": "#STICKWOOD"
+    },
+    "i": {
+      "item": "#INGOTIRON"
+    }
+  }
+}

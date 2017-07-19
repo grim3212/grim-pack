@@ -17,7 +17,7 @@ import net.minecraft.world.World;
 public class BlockFungusLayer extends BlockFungusBase implements IManualBlock {
 
 	protected BlockFungusLayer() {
-		super(true);
+		super("fungus_layer_building", true);
 	}
 
 	public static final Block[] buildId = { Blocks.MOSSY_COBBLESTONE, // 0

@@ -1,0 +1,16 @@
+{
+  "result": {
+    "item": "grimpack:aluminum_shaft",
+    "count": 4
+  },
+  "pattern": [
+    "a",
+    "a"
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "a": {
+      "item": "#INGOTALUMINUM"
+    }
+  }
+}

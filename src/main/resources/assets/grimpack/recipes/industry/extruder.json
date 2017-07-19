@@ -1,0 +1,17 @@
+{
+  "result": {
+    "item": "grimpack:extruder"
+  },
+  "pattern": [
+    "PD"
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "P": {
+      "item": "minecraft:piston"
+    },
+    "D": {
+      "item": "minecraft:dispenser"
+    }
+  }
+}

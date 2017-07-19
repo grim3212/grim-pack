@@ -96,14 +96,14 @@ public class GuiFan extends GuiScreen {
 	}
 
 	private void drawStrings() {
-		drawCenteredString(this.fontRendererObj, I18n.format("grimpack.industry.fan.mode"), width / 2, height / 4 - 10, 0xffffff);
-		drawCenteredString(this.fontRendererObj, I18n.format("grimpack.industry.fan.range"), width / 2, height / 4 + 45, 0xffffff);
+		drawCenteredString(this.fontRenderer, I18n.format("grimpack.industry.fan.mode"), width / 2, height / 4 - 10, 0xffffff);
+		drawCenteredString(this.fontRenderer, I18n.format("grimpack.industry.fan.range"), width / 2, height / 4 + 45, 0xffffff);
 
 		if (range > 32)
 			range = 32;
 		if (range < 1)
 			range = 1;
 
-		drawCenteredString(this.fontRendererObj, "" + range, width / 2, height / 4 + 70, 0xffffff);
+		drawCenteredString(this.fontRenderer, "" + range, width / 2, height / 4 + 70, 0xffffff);
 	}
 }

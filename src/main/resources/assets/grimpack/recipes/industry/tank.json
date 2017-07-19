@@ -1,0 +1,20 @@
+{
+  "result": {
+    "item": "grimpack:tank",
+    "count": 4
+  },
+  "pattern": [
+    "XYX",
+    "Y Y",
+    "XYX"
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "X": {
+      "item": "#INGOTIRON"
+    },
+    "Y": {
+      "item": "#BLOCKGLASS"
+    }
+  }
+}

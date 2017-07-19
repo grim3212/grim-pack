@@ -1,0 +1,15 @@
+{
+  "result": {
+    "item": "grimpack:cheese",
+    "count": 9
+  },
+  "pattern": [
+    "O"
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "O": {
+      "item": "grimpack:cheese_block"
+    }
+  }
+}

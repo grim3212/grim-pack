@@ -1,0 +1,35 @@
+{
+  "result": {
+    "item": "grimpack:steel_multi_tool"
+  },
+  "ingredients": [
+    {
+      "item": "grimpack:steel_sword"
+    },
+    {
+      "item": "grimpack:steel_pickaxe"
+    },
+    {
+      "item": "grimpack:steel_shovel"
+    },
+    {
+      "item": "grimpack:steel_hoe"
+    },
+    {
+      "item": "grimpack:steel_axe"
+    },
+    {
+      "item": "#INGOTSTEEL"
+    },
+    {
+      "item": "#INGOTSTEEL"
+    },
+    {
+      "item": "#INGOTSTEEL"
+    },
+    {
+      "item": "#INGOTSTEEL"
+    }
+  ],
+  "type": "forge:ore_shapeless"
+}

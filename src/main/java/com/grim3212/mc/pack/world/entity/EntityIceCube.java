@@ -130,10 +130,10 @@ public class EntityIceCube extends Entity {
 		vec3d = new Vec3d(posX, posY, posZ);
 		vec3d1 = new Vec3d(posX + motionX, posY + motionY, posZ + motionZ);
 		if (raytrace != null) {
-			vec3d1 = new Vec3d(raytrace.hitVec.xCoord, raytrace.hitVec.yCoord, raytrace.hitVec.zCoord);
+			vec3d1 = new Vec3d(raytrace.hitVec.x, raytrace.hitVec.y, raytrace.hitVec.z);
 		}
 		Entity entity = null;
-		List<Entity> list = world.getEntitiesWithinAABBExcludingEntity(this, this.getEntityBoundingBox().addCoord(motionX, motionY, motionZ).expand(1.0D, 1.0D, 1.0D));
+		List<Entity> list = world.getEntitiesWithinAABBExcludingEntity(this, this.getEntityBoundingBox().expand(motionX, motionY, motionZ).expand(1.0D, 1.0D, 1.0D));
 		double d = 0.0D;
 		for (int i = 0; i < list.size(); i++) {
 			Entity entity1 = (Entity) list.get(i);
@@ -172,9 +172,9 @@ public class EntityIceCube extends Entity {
 					ticksInAir = 0;
 				}
 			} else {
-				motionX = (float) (raytrace.hitVec.xCoord - posX);
-				motionY = (float) (raytrace.hitVec.yCoord - posY);
-				motionZ = (float) (raytrace.hitVec.zCoord - posZ);
+				motionX = (float) (raytrace.hitVec.x - posX);
+				motionY = (float) (raytrace.hitVec.y - posY);
+				motionZ = (float) (raytrace.hitVec.z - posZ);
 				float f2 = MathHelper.sqrt(motionX * motionX + motionY * motionY + motionZ * motionZ);
 				posX -= (motionX / (double) f2) * 0.05000000074505806D;
 				posY -= (motionY / (double) f2) * 0.05000000074505806D;

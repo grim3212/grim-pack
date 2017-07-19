@@ -1,0 +1,18 @@
+{
+  "result": {
+    "item": "grimpack:glowstone_seeds"
+  },
+  "pattern": [
+    "GSG",
+    " G "
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "S": {
+      "item": "minecraft:soul_sand"
+    },
+    "G": {
+      "item": "#DUSTGLOWSTONE"
+    }
+  }
+}

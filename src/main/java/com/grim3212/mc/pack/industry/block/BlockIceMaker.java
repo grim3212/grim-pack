@@ -4,6 +4,7 @@ import java.util.Random;
 
 import com.grim3212.mc.pack.core.block.BlockManual;
 import com.grim3212.mc.pack.core.manual.pages.Page;
+import com.grim3212.mc.pack.core.part.GrimCreativeTabs;
 import com.grim3212.mc.pack.core.util.Utils;
 import com.grim3212.mc.pack.industry.client.ManualIndustry;
 
@@ -32,9 +33,15 @@ public class BlockIceMaker extends BlockManual {
 	public static final PropertyInteger STAGE = PropertyInteger.create("stage", 0, 15);
 
 	protected BlockIceMaker() {
-		super(Material.ROCK, SoundType.STONE);
+		super("ice_maker", Material.ROCK, SoundType.STONE);
 		setTickRandomly(true);
-		setDefaultState(this.blockState.getBaseState().withProperty(STAGE, 0));
+		setHardness(1.0F);
+		setCreativeTab(GrimCreativeTabs.GRIM_INDUSTRY);
+	}
+
+	@Override
+	protected IBlockState getState() {
+		return this.blockState.getBaseState().withProperty(STAGE, 0);
 	}
 
 	@Override

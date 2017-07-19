@@ -1,0 +1,19 @@
+{
+  "result": {
+    "item": "grimpack:mask",
+    "data": 18
+  },
+  "ingredients": [
+    {
+      "item": "grimpack:mask",
+      "data": 0
+    },
+    {
+      "item": "#DYEGREEN"
+    },
+    {
+      "item": "#DYEBLACK"
+    }
+  ],
+  "type": "forge:ore_shapeless"
+}

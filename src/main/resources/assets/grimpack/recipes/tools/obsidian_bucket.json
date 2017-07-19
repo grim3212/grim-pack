@@ -1,0 +1,15 @@
+{
+  "result": {
+    "item": "grimpack:obsidian_bucket"
+  },
+  "pattern": [
+    "# #",
+    " # "
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "#": {
+      "item": "#OBSIDIAN"
+    }
+  }
+}

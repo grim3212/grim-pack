@@ -14,8 +14,9 @@ import net.minecraft.world.World;
 public class BlockColorizerStove extends BlockColorizerFireplaceBase {
 
 	public BlockColorizerStove() {
+		super("stove");
 	}
-	
+
 	@Override
 	public void randomDisplayTick(IBlockState stateIn, World worldIn, BlockPos pos, Random rand) {
 		if (worldIn.getBlockState(pos).getValue(ACTIVE) && worldIn.getBlockState(pos.up()).getBlock() == DecorBlocks.chimney) {

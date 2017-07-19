@@ -20,6 +20,10 @@ public class BlockColorizerTable extends BlockColorizer {
 	public static final PropertyBool SOUTH = PropertyBool.create("south");
 	public static final PropertyBool WEST = PropertyBool.create("west");
 
+	public BlockColorizerTable() {
+		super("table");
+	}
+
 	@Override
 	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
 		return FULL_BLOCK_AABB;

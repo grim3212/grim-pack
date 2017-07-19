@@ -24,8 +24,13 @@ public class BlockColorizerFacing extends BlockColorizer {
 	private static final AxisAlignedBB Y_AABB = new AxisAlignedBB(0.25F, 0.0F, 0.25F, 0.75F, 1.0F, 0.75F);
 	private static final AxisAlignedBB Z_AABB = new AxisAlignedBB(0.25F, 0.25F, 0.0F, 0.75F, 0.75F, 1.0F);
 
-	public BlockColorizerFacing() {
-		this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH);
+	public BlockColorizerFacing(String name) {
+		super(name);
+	}
+
+	@Override
+	protected IBlockState getState() {
+		return this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH);
 	}
 
 	@Override

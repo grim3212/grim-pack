@@ -1,0 +1,16 @@
+{
+  "result": {
+    "item": "grimpack:grip",
+    "count": 2
+  },
+  "pattern": [
+    "Y",
+    "Y"
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "Y": {
+      "item": "#LEATHER"
+    }
+  }
+}

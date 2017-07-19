@@ -1,0 +1,21 @@
+{
+  "result": {
+    "item": "grimpack:fungus_layer_building",
+    "data": 8,
+    "count": 3
+  },
+  "pattern": [
+    "XXX",
+    "aaa",
+    "XXX"
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "a": {
+      "item": "minecraft:gravel"
+    },
+    "X": {
+      "item": "#SLIMEBALL"
+    }
+  }
+}

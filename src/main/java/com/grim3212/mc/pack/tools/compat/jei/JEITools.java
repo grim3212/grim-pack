@@ -30,7 +30,7 @@ public class JEITools implements IModPlugin {
 		registry.getRecipeTransferRegistry().addRecipeTransferHandler(new PortableWorkbenchTransferInfo());
 
 		// add our portable workbench to the list with the vanilla crafting
-		registry.addRecipeCategoryCraftingItem(new ItemStack(ToolsItems.portable_workbench, 1), VanillaRecipeCategoryUid.CRAFTING);
+		registry.addRecipeCatalyst(new ItemStack(ToolsItems.portable_workbench, 1), VanillaRecipeCategoryUid.CRAFTING);
 	}
 
 	@Override

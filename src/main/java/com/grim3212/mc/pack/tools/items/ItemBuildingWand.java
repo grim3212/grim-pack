@@ -40,7 +40,7 @@ public class ItemBuildingWand extends ItemWand {
 	private static final int BUILD_LAVA = 111;
 
 	public ItemBuildingWand(boolean reinforced) {
-		super(reinforced);
+		super(reinforced ? "reinforced_building_wand" : "building_wand", reinforced);
 		this.setMaxDamage(reinforced ? 200 : 30);
 	}
 

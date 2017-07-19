@@ -1,0 +1,16 @@
+{
+  "result": {
+    "item": "grimpack:sidewalk",
+    "count": 8
+  },
+  "pattern": [
+    "SSS",
+    "SSS"
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "S": {
+      "item": "#STONE"
+    }
+  }
+}

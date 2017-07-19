@@ -1,0 +1,22 @@
+{
+  "result": {
+    "item": "grimpack:position_finder"
+  },
+  "pattern": [
+    "IWI",
+    " M "
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "W": {
+      "item": "minecraft:compass"
+    },
+    "I": {
+      "item": "#INGOTIRON"
+    },
+    "M": {
+      "item": "minecraft:filled_map",
+      "data": 0
+    }
+  }
+}

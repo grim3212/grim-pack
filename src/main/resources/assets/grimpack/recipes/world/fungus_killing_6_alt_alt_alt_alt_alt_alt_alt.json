@@ -1,0 +1,17 @@
+{
+  "result": {
+    "item": "grimpack:fungus_killing",
+    "data": 6,
+    "count": 2
+  },
+  "ingredients": [
+    {
+      "item": "grimpack:fungus_killing",
+      "data": 1
+    },
+    {
+      "item": "#SANDSTONE"
+    }
+  ],
+  "type": "forge:ore_shapeless"
+}

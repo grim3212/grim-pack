@@ -2,6 +2,7 @@ package com.grim3212.mc.pack.industry.block;
 
 import com.grim3212.mc.pack.core.block.BlockManual;
 import com.grim3212.mc.pack.core.manual.pages.Page;
+import com.grim3212.mc.pack.core.part.GrimCreativeTabs;
 import com.grim3212.mc.pack.core.property.UnlistedPropertyFluidStack;
 import com.grim3212.mc.pack.core.util.Utils;
 import com.grim3212.mc.pack.industry.client.ManualIndustry;
@@ -25,7 +26,6 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.property.ExtendedBlockState;
 import net.minecraftforge.common.property.IExtendedBlockState;
 import net.minecraftforge.common.property.IUnlistedProperty;
-import net.minecraftforge.fluids.FluidActionResult;
 import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fml.relauncher.Side;
@@ -36,7 +36,10 @@ public class BlockTank extends BlockManual implements ITileEntityProvider {
 	public static final UnlistedPropertyFluidStack FLUID_STACK = UnlistedPropertyFluidStack.create("fluid_stack");
 
 	public BlockTank() {
-		super(Material.GLASS, SoundType.GLASS);
+		super("tank", Material.GLASS, SoundType.GLASS);
+		setHardness(1.0F);
+		setResistance(10.0F);
+		setCreativeTab(GrimCreativeTabs.GRIM_INDUSTRY);
 	}
 
 	@Override
@@ -116,9 +119,9 @@ public class BlockTank extends BlockManual implements ITileEntityProvider {
 		TileEntity tile = world.getTileEntity(pos);
 		if (tile instanceof TileEntityTank) {
 			TileEntityTank tank = (TileEntityTank) tile;
-			FluidActionResult result = FluidUtil.interactWithFluidHandler(heldItem, tank.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, null), player);
-			if (result.success) {
-				player.setHeldItem(hand, result.result);
+			boolean result = FluidUtil.interactWithFluidHandler(player, hand, tank.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, null));
+			if (result) {
+				// player.setHeldItem(hand, result);
 				player.inventoryContainer.detectAndSendChanges();
 				world.markAndNotifyBlock(pos, null, state, state, 2);
 				return true;

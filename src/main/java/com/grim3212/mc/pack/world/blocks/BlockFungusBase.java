@@ -2,9 +2,9 @@ package com.grim3212.mc.pack.world.blocks;
 
 import java.util.Random;
 
-import com.grim3212.mc.pack.world.GrimWorld;
+import com.grim3212.mc.pack.core.block.BlockManual;
+import com.grim3212.mc.pack.core.part.GrimCreativeTabs;
 
-import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyInteger;
@@ -13,7 +13,6 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
 import net.minecraft.tileentity.TileEntity;
@@ -24,24 +23,26 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
-public abstract class BlockFungusBase extends Block {
+public abstract class BlockFungusBase extends BlockManual {
 
 	public static final PropertyInteger TYPE = PropertyInteger.create("type", 0, 15);
 
 	private boolean canGrowUp;
 
-	protected BlockFungusBase(boolean growUp, boolean useMeta) {
-		super(new MaterialFungus());
+	protected BlockFungusBase(String name, boolean growUp) {
+		super(name, new MaterialFungus(), SoundType.PLANT);
 		setTickRandomly(true);
-		setCreativeTab(GrimWorld.INSTANCE.getCreativeTab());
+		setCreativeTab(GrimCreativeTabs.GRIM_WORLD);
+		this.setHardness(0.0F);
+		this.setResistance(0.0F);
+		this.setLightLevel(0.8F);
+		this.setLightOpacity(10);
 		this.canGrowUp = growUp;
-		if (useMeta)
-			this.setDefaultState(this.blockState.getBaseState().withProperty(TYPE, 0));
-		setSoundType(SoundType.PLANT);
 	}
 
-	protected BlockFungusBase(boolean growUp) {
-		this(growUp, true);
+	@Override
+	protected IBlockState getState() {
+		return this.blockState.getBaseState().withProperty(TYPE, 0);
 	}
 
 	@Override
@@ -97,9 +98,9 @@ public abstract class BlockFungusBase extends Block {
 	}
 
 	@Override
-	public void getSubBlocks(Item itemIn, CreativeTabs tab, NonNullList<ItemStack> list) {
+	public void getSubBlocks(CreativeTabs itemIn, NonNullList<ItemStack> items) {
 		for (int i = 0; i < 16; i++)
-			list.add(new ItemStack(this, 1, i));
+			items.add(new ItemStack(this, 1, i));
 	}
 
 	public abstract boolean canReplace(IBlockState side, IBlockState state);

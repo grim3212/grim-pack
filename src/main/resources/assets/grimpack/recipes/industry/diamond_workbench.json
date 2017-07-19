@@ -1,0 +1,19 @@
+{
+  "result": {
+    "item": "grimpack:diamond_workbench"
+  },
+  "pattern": [
+    " X ",
+    "X\u003dX",
+    " X "
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "X": {
+      "item": "#BLOCKDIAMOND"
+    },
+    "\u003d": {
+      "item": "#WORKBENCH"
+    }
+  }
+}

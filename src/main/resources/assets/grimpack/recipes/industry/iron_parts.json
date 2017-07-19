@@ -1,0 +1,15 @@
+{
+  "result": {
+    "item": "grimpack:iron_parts"
+  },
+  "pattern": [
+    "III",
+    " I "
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "I": {
+      "item": "#INGOTIRON"
+    }
+  }
+}

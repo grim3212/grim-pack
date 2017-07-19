@@ -11,8 +11,8 @@ public class BlockManualPage extends BlockManual {
 
 	private String page;
 
-	public BlockManualPage(Material material, SoundType type, String page) {
-		super(material, type);
+	public BlockManualPage(String name, Material material, SoundType type, String page) {
+		super(name, material, type);
 		this.page = page;
 	}
 

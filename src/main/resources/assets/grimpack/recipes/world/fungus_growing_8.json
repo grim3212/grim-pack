@@ -1,0 +1,17 @@
+{
+  "result": {
+    "item": "grimpack:fungus_growing",
+    "data": 8
+  },
+  "pattern": [
+    "XXX",
+    "XXX",
+    "XXX"
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "X": {
+      "item": "#SLIMEBALL"
+    }
+  }
+}

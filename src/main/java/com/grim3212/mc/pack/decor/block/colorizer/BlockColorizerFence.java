@@ -34,6 +34,10 @@ public class BlockColorizerFence extends BlockColorizer {
 	public static final PropertyBool SOUTH = PropertyBool.create("south");
 	public static final PropertyBool WEST = PropertyBool.create("west");
 
+	public BlockColorizerFence() {
+		super("fence");
+	}
+
 	@Override
 	public boolean canPlaceTorchOnTop(IBlockState state, IBlockAccess world, BlockPos pos) {
 		return true;

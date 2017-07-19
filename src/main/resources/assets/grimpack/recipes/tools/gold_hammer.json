@@ -1,0 +1,19 @@
+{
+  "result": {
+    "item": "grimpack:gold_hammer"
+  },
+  "pattern": [
+    "MMM",
+    "MMM",
+    " G "
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "G": {
+      "item": "#STICKIRON"
+    },
+    "M": {
+      "item": "#INGOTGOLD"
+    }
+  }
+}

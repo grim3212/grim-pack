@@ -1,0 +1,28 @@
+{
+  "result": {
+    "item": "grimpack:drill"
+  },
+  "pattern": [
+    "I I",
+    "S#S",
+    "XDX"
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "S": {
+      "item": "#DUSTREDSTONE"
+    },
+    "#": {
+      "item": "#GEMDIAMOND"
+    },
+    "D": {
+      "item": "grimpack:drill_head_item"
+    },
+    "X": {
+      "item": "#PLANKWOOD"
+    },
+    "I": {
+      "item": "#INGOTIRON"
+    }
+  }
+}

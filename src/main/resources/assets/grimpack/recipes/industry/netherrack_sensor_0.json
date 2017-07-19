@@ -1,0 +1,26 @@
+{
+  "result": {
+    "item": "grimpack:netherrack_sensor",
+    "data": 0
+  },
+  "pattern": [
+    "IGI",
+    "XYX",
+    "IXI"
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "G": {
+      "item": "#BLOCKGLASS"
+    },
+    "X": {
+      "item": "#NETHERRACK"
+    },
+    "Y": {
+      "item": "#DUSTREDSTONE"
+    },
+    "I": {
+      "item": "#INGOTIRON"
+    }
+  }
+}

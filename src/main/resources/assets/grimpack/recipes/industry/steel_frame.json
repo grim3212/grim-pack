@@ -1,0 +1,17 @@
+{
+  "result": {
+    "item": "grimpack:steel_frame",
+    "count": 4
+  },
+  "pattern": [
+    "i i",
+    " i ",
+    "i i"
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "i": {
+      "item": "grimpack:steel_shaft"
+    }
+  }
+}

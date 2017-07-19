@@ -38,16 +38,15 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.client.model.IModel;
-import net.minecraftforge.client.model.IPerspectiveAwareModel;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.client.model.ModelLoaderRegistry;
-import net.minecraftforge.client.model.ModelProcessingHelper;
+import net.minecraftforge.client.model.PerspectiveMapWrapper;
 import net.minecraftforge.common.model.IModelState;
 import net.minecraftforge.common.model.TRSRTransformation;
 import net.minecraftforge.common.property.IExtendedBlockState;
 
 @SuppressWarnings("deprecation")
-public class BakedColorizerModel implements IPerspectiveAwareModel, IResourceManagerReloadListener {
+public class BakedColorizerModel implements IBakedModel, IResourceManagerReloadListener {
 
 	protected final IModelState modelState;
 	protected final ImmutableList<ResourceLocation> modelLocation;
@@ -128,7 +127,7 @@ public class BakedColorizerModel implements IPerspectiveAwareModel, IResourceMan
 	 */
 	protected IBakedModel generateModel(ImmutableMap<String, String> texture) {
 		ImmutableList.Builder<IBakedModel> builder = ImmutableList.builder();
-		builder.add(ModelProcessingHelper.retexture(this.baseModel, texture).bake(this.modelState, this.format, ModelLoader.defaultTextureGetter()));
+		builder.add(this.baseModel.retexture(texture).bake(this.modelState, this.format, ModelLoader.defaultTextureGetter()));
 		for (IModel model : this.modelParts)
 			builder.add(model.bake(this.modelState, this.format, ModelLoader.defaultTextureGetter()));
 
@@ -198,6 +197,6 @@ public class BakedColorizerModel implements IPerspectiveAwareModel, IResourceMan
 
 	@Override
 	public Pair<? extends IBakedModel, Matrix4f> handlePerspective(TransformType cameraTransformType) {
-		return IPerspectiveAwareModel.MapWrapper.handlePerspective(baseModel.bake(this.modelState, this.format, ModelLoader.defaultTextureGetter()), transforms, cameraTransformType);
+		return PerspectiveMapWrapper.handlePerspective(baseModel.bake(this.modelState, this.format, ModelLoader.defaultTextureGetter()), transforms, cameraTransformType);
 	}
 }

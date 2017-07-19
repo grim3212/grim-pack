@@ -176,7 +176,7 @@ public class TileEntitySpecificSensor extends TileEntityLockable implements ITic
 		if (compatibleEntities.size() > 0) {
 			if (this.specific.hasSpecific(mode)) {
 				for (int i = 0; i < compatibleEntities.size(); i++) {
-					ItemStack stack = compatibleEntities.get(i).getEntityItem();
+					ItemStack stack = compatibleEntities.get(i).getItem();
 					if (ItemStack.areItemStacksEqual(stack, this.specific.getStack())) {
 						return true;
 					}

@@ -56,16 +56,16 @@ public class PageCrafting extends Page {
 
 	public PageCrafting(String pageName, ItemStack output) {
 		super(pageName, false);
-		this.outputRecipes.add(RecipeHelper.getQuickIRecipeForItemStack(output));
+		// this.outputRecipes.add(RecipeHelper.getQuickIRecipeForItemStack(output));
 	}
 
 	public PageCrafting(String pageName, int updateTime, ItemStack... outputs) {
 		super(pageName, false);
 
 		for (ItemStack stack : outputs)
-			this.outputRecipes.add(RecipeHelper.getQuickIRecipeForItemStack(stack));
+			// this.outputRecipes.add(RecipeHelper.getQuickIRecipeForItemStack(stack));
 
-		this.updateTime = updateTime;
+			this.updateTime = updateTime;
 		this.isArray = outputs.length > 1;
 	}
 
@@ -122,7 +122,7 @@ public class PageCrafting extends Page {
 			NBTHelper.setString(outstack, "customTooltip", I18n.format("grimpack.manual.shapeless"));
 		this.renderItem(gui, outstack, gui.getX() + 143, gui.getY() + 154);
 
-		FontRenderer renderer = Minecraft.getMinecraft().fontRendererObj;
+		FontRenderer renderer = Minecraft.getMinecraft().fontRenderer;
 		renderer.drawString(outstack.getDisplayName(), (gui.getManualWidth() / 2 - renderer.getStringWidth(outstack.getDisplayName()) / 2) + gui.getX(), gui.getY() + 210, Color.BLACK.getRGB(), false);
 	}
 
@@ -162,7 +162,7 @@ public class PageCrafting extends Page {
 
 			for (int y = 0; y < shaped.recipeHeight; y++) {
 				for (int x = 0; x < shaped.recipeWidth; x++) {
-					drawOreDictionaryItem(gui, shaped.recipeItems[x + y * shaped.recipeWidth], gui.getX() + x * 29 + 30 - x * 2, gui.getY() + y * 27 + 128);
+					drawOreDictionaryItem(gui, shaped.recipeItems.get(x + y * shaped.recipeWidth), gui.getX() + x * 29 + 30 - x * 2, gui.getY() + y * 27 + 128);
 				}
 			}
 
@@ -189,7 +189,7 @@ public class PageCrafting extends Page {
 
 			for (int y = 0; y < height; y++) {
 				for (int x = 0; x < width; x++) {
-					Object item = shapedOre.getInput()[x + y * width];
+					Object item = shapedOre.getIngredients().get(x + y * width);
 					if (item != null) {
 						drawOreDictionaryItem(gui, item, gui.getX() + x * 29 + 30 - x * 2, gui.getY() + y * 27 + 128);
 					}
@@ -200,13 +200,13 @@ public class PageCrafting extends Page {
 		} else if (recipe instanceof ShapelessOreRecipe) {
 			ShapelessOreRecipe shapelessOre = (ShapelessOreRecipe) recipe;
 
-			for (int i = 0; i < shapelessOre.getInput().size(); i++) {
+			for (int i = 0; i < shapelessOre.getIngredients().size(); i++) {
 				if (i < 3)
-					drawOreDictionaryItem(gui, shapelessOre.getInput().get(i), gui.getX() + i * 29 + 30 - i * 2, gui.getY() + 128);
+					drawOreDictionaryItem(gui, shapelessOre.getIngredients().get(i), gui.getX() + i * 29 + 30 - i * 2, gui.getY() + 128);
 				else if (i < 6)
-					drawOreDictionaryItem(gui, shapelessOre.getInput().get(i), gui.getX() + (i - 3) * 29 + 30 - (i - 3) * 2, gui.getY() + 155);
+					drawOreDictionaryItem(gui, shapelessOre.getIngredients().get(i), gui.getX() + (i - 3) * 29 + 30 - (i - 3) * 2, gui.getY() + 155);
 				else
-					drawOreDictionaryItem(gui, shapelessOre.getInput().get(i), gui.getX() + (i - 6) * 29 + 30 - (i - 6) * 2, gui.getY() + 182);
+					drawOreDictionaryItem(gui, shapelessOre.getIngredients().get(i), gui.getX() + (i - 6) * 29 + 30 - (i - 6) * 2, gui.getY() + 182);
 			}
 
 			isShapeless = true;

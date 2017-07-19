@@ -2,6 +2,7 @@ package com.grim3212.mc.pack.decor.block;
 
 import com.grim3212.mc.pack.core.block.BlockManual;
 import com.grim3212.mc.pack.core.manual.pages.Page;
+import com.grim3212.mc.pack.core.part.GrimCreativeTabs;
 import com.grim3212.mc.pack.decor.client.ManualDecor;
 
 import net.minecraft.block.SoundType;
@@ -11,7 +12,6 @@ import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.IStringSerializable;
@@ -25,8 +25,15 @@ public class BlockLantern extends BlockManual {
 	public static final PropertyEnum<BlockLantern.EnumLanternType> VARIANT = PropertyEnum.create("variant", BlockLantern.EnumLanternType.class);
 
 	protected BlockLantern() {
-		super(Material.CIRCUITS, SoundType.STONE);
-		this.setDefaultState(this.blockState.getBaseState().withProperty(VARIANT, EnumLanternType.paper));
+		super("lantern", Material.CIRCUITS, SoundType.STONE);
+		setLightLevel(0.9375F);
+		setHardness(0.1F);
+		setCreativeTab(GrimCreativeTabs.GRIM_DECOR);
+	}
+
+	@Override
+	protected IBlockState getState() {
+		return super.getState().withProperty(VARIANT, EnumLanternType.paper);
 	}
 
 	@Override
@@ -35,9 +42,9 @@ public class BlockLantern extends BlockManual {
 	}
 
 	@Override
-	public void getSubBlocks(Item item, CreativeTabs tabs, NonNullList<ItemStack> list) {
+	public void getSubBlocks(CreativeTabs itemIn, NonNullList<ItemStack> items) {
 		for (int i = 0; i < EnumLanternType.values.length; i++) {
-			list.add(new ItemStack(item, 1, i));
+			items.add(new ItemStack(this, 1, i));
 		}
 	}
 

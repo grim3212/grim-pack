@@ -38,9 +38,9 @@ public class EntityAIAvoidBlock extends EntityAIBase {
 			if (vec3 == null) {
 				return false;
 			} else {
-				this.randPosX = vec3.xCoord;
-				this.randPosY = vec3.yCoord;
-				this.randPosZ = vec3.zCoord;
+				this.randPosX = vec3.x;
+				this.randPosY = vec3.y;
+				this.randPosZ = vec3.z;
 				return true;
 			}
 
@@ -53,7 +53,7 @@ public class EntityAIAvoidBlock extends EntityAIBase {
 	}
 
 	@Override
-	public boolean continueExecuting() {
+	public boolean shouldContinueExecuting() {
 		return !this.theEntityCreature.getNavigator().noPath();
 	}
 

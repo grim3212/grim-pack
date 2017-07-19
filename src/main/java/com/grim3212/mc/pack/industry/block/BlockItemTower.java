@@ -15,7 +15,7 @@ import net.minecraft.world.World;
 public class BlockItemTower extends BlockStorage {
 
 	public BlockItemTower() {
-		super(Material.IRON, SoundType.METAL);
+		super("item_tower", Material.IRON, SoundType.METAL);
 	}
 
 	@Override

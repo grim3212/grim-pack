@@ -1,0 +1,21 @@
+{
+  "result": {
+    "item": "grimpack:wallpaper",
+    "count": 6
+  },
+  "pattern": [
+    "#A",
+    "#A",
+    "#A"
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "A": {
+      "item": "minecraft:wool",
+      "data": 0
+    },
+    "#": {
+      "item": "minecraft:paper"
+    }
+  }
+}

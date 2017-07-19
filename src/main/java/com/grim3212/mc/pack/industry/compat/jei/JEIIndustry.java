@@ -24,10 +24,10 @@ public class JEIIndustry implements IModPlugin {
 
 		// add our crafting table to the list with the vanilla crafting
 		// table
-		registry.addRecipeCategoryCraftingItem(new ItemStack(IndustryBlocks.iron_workbench, 1), VanillaRecipeCategoryUid.CRAFTING);
-		registry.addRecipeCategoryCraftingItem(new ItemStack(IndustryBlocks.diamond_workbench, 1), VanillaRecipeCategoryUid.CRAFTING);
-		registry.addRecipeCategoryCraftingItem(new ItemStack(IndustryItems.portable_iron_workbench, 1), VanillaRecipeCategoryUid.CRAFTING);
-		registry.addRecipeCategoryCraftingItem(new ItemStack(IndustryItems.portable_diamond_workbench, 1), VanillaRecipeCategoryUid.CRAFTING);
+		registry.addRecipeCatalyst(new ItemStack(IndustryBlocks.iron_workbench, 1), VanillaRecipeCategoryUid.CRAFTING);
+		registry.addRecipeCatalyst(new ItemStack(IndustryBlocks.diamond_workbench, 1), VanillaRecipeCategoryUid.CRAFTING);
+		registry.addRecipeCatalyst(new ItemStack(IndustryItems.portable_iron_workbench, 1), VanillaRecipeCategoryUid.CRAFTING);
+		registry.addRecipeCatalyst(new ItemStack(IndustryItems.portable_diamond_workbench, 1), VanillaRecipeCategoryUid.CRAFTING);
 	}
 
 	@Override

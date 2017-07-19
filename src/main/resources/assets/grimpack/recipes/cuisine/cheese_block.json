@@ -1,0 +1,16 @@
+{
+  "result": {
+    "item": "grimpack:cheese_block"
+  },
+  "pattern": [
+    "CCC",
+    "CCC",
+    "CCC"
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "C": {
+      "item": "grimpack:cheese"
+    }
+  }
+}

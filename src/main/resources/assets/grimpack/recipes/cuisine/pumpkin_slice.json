@@ -1,0 +1,15 @@
+{
+  "result": {
+    "item": "grimpack:pumpkin_slice",
+    "count": 6
+  },
+  "ingredients": [
+    {
+      "item": "minecraft:pumpkin"
+    },
+    {
+      "item": "#TOOLCUTTINGBOARD"
+    }
+  ],
+  "type": "forge:ore_shapeless"
+}

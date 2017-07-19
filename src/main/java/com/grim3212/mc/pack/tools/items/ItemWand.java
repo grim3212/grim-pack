@@ -3,8 +3,8 @@ package com.grim3212.mc.pack.tools.items;
 import java.util.Random;
 
 import com.grim3212.mc.pack.core.item.ItemManual;
+import com.grim3212.mc.pack.core.part.GrimCreativeTabs;
 import com.grim3212.mc.pack.core.util.NBTHelper;
-import com.grim3212.mc.pack.tools.GrimTools;
 import com.grim3212.mc.pack.tools.config.ToolsConfig;
 import com.grim3212.mc.pack.tools.util.WandCoord3D;
 
@@ -37,10 +37,11 @@ public abstract class ItemWand extends ItemManual {
 	protected IBlockState stateOrig = Blocks.AIR.getDefaultState();
 	protected IBlockState stateClicked = Blocks.AIR.getDefaultState();
 
-	public ItemWand(boolean reinforced) {
+	public ItemWand(String name, boolean reinforced) {
+		super(name);
 		this.maxStackSize = 1;
 		this.reinforced = reinforced;
-		this.setCreativeTab(GrimTools.INSTANCE.getCreativeTab());
+		this.setCreativeTab(GrimCreativeTabs.GRIM_TOOLS);
 	}
 
 	protected abstract boolean canBreak(int keys, World worldIn, BlockPos pos);

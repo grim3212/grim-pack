@@ -1,0 +1,22 @@
+{
+  "result": {
+    "item": "grimpack:specific_sensor"
+  },
+  "pattern": [
+    " Z ",
+    "XYX",
+    " Z "
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "X": {
+      "item": "minecraft:redstone_lamp"
+    },
+    "Y": {
+      "item": "grimpack:position_finder"
+    },
+    "Z": {
+      "item": "#BLOCKREDSTONE"
+    }
+  }
+}

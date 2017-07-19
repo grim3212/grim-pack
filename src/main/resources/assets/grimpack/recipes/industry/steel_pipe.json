@@ -1,0 +1,17 @@
+{
+  "result": {
+    "item": "grimpack:steel_pipe",
+    "count": 8
+  },
+  "pattern": [
+    "s s",
+    "s s",
+    "s s"
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "s": {
+      "item": "#INGOTSTEEL"
+    }
+  }
+}

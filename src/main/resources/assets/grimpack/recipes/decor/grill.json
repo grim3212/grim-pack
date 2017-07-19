@@ -1,0 +1,32 @@
+{
+  "result": {
+    "nbt": {
+      "meta": {
+        "data": 0
+      },
+      "registryName": {
+        "data": "minecraft:air"
+      }
+    },
+    "item": "grimpack:grill",
+    "count": 2
+  },
+  "pattern": [
+    "#C#",
+    "#P#",
+    " # "
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "P": {
+      "item": "grimpack:burning_wood"
+    },
+    "#": {
+      "item": "grimpack:colorizer"
+    },
+    "C": {
+      "item": "minecraft:coal",
+      "data": 0
+    }
+  }
+}

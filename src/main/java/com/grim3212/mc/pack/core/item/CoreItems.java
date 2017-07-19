@@ -1,29 +1,27 @@
 package com.grim3212.mc.pack.core.item;
 
-import com.grim3212.mc.pack.core.GrimCore;
 import com.grim3212.mc.pack.core.manual.ItemInstructionManual;
-import com.grim3212.mc.pack.core.part.IPartItems;
-import com.grim3212.mc.pack.core.util.Utils;
+import com.grim3212.mc.pack.core.util.CreateRecipes;
 
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.fml.common.registry.GameRegistry;
-import net.minecraftforge.oredict.ShapelessOreRecipe;
+import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
-public class CoreItems implements IPartItems {
+@Mod.EventBusSubscriber
+public class CoreItems {
 
-	public static Item instruction_manual;
+	public static final Item instruction_manual = new ItemInstructionManual();
 
-	@Override
-	public void initItems() {
-		instruction_manual = (new ItemInstructionManual()).setUnlocalizedName("instruction_manual").setCreativeTab(GrimCore.INSTANCE.getCreativeTab());
-		Utils.registerItem(instruction_manual, "instruction_manual");
+	@SubscribeEvent
+	public static void initItems(RegistryEvent.Register<Item> evt) {
+		evt.getRegistry().register(instruction_manual);
 	}
 
-	@Override
-	public void addRecipes() {
-		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(instruction_manual), new Object[] { Items.BOOK, "dyeBlack", "dyeBrown" }));
+	public static void addRecipe() {
+		CreateRecipes.addShapelessRecipe(new ItemStack(instruction_manual), new Object[] { Items.BOOK, "dyeBlack", "dyeBrown" });
 	}
 
 }

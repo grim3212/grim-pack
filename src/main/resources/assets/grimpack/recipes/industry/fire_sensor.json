@@ -1,0 +1,25 @@
+{
+  "result": {
+    "item": "grimpack:fire_sensor"
+  },
+  "pattern": [
+    "SSS",
+    "SNS",
+    "X#X"
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "#": {
+      "item": "#DUSTREDSTONE"
+    },
+    "S": {
+      "item": "#STONE"
+    },
+    "X": {
+      "item": "#STICKIRON"
+    },
+    "N": {
+      "item": "#NETHERRACK"
+    }
+  }
+}

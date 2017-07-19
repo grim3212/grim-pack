@@ -4,6 +4,7 @@ import com.grim3212.mc.pack.GrimPack;
 import com.grim3212.mc.pack.core.block.BlockManual;
 import com.grim3212.mc.pack.core.client.gui.PackGuiHandler;
 import com.grim3212.mc.pack.core.manual.pages.Page;
+import com.grim3212.mc.pack.core.part.GrimCreativeTabs;
 import com.grim3212.mc.pack.industry.client.ManualIndustry;
 import com.grim3212.mc.pack.industry.item.IndustryItems;
 import com.grim3212.mc.pack.industry.item.ItemPositionFinder;
@@ -31,9 +32,21 @@ public class BlockSpecificSensor extends BlockManual implements ITileEntityProvi
 
 	public static final PropertyBool ACTIVE = PropertyBool.create("active");
 
-	public BlockSpecificSensor() {
-		super(Material.ROCK, SoundType.STONE);
-		this.setDefaultState(this.blockState.getBaseState().withProperty(ACTIVE, false));
+	public BlockSpecificSensor(boolean upgraded) {
+		super(upgraded ? "upgraded_specific_sensor" : "specific_sensor", Material.ROCK, SoundType.STONE);
+		if (upgraded) {
+			setHardness(3.0F);
+			setResistance(12F);
+		} else {
+			setHardness(1.5F);
+			setResistance(10F);
+		}
+		setCreativeTab(GrimCreativeTabs.GRIM_INDUSTRY);
+	}
+
+	@Override
+	protected IBlockState getState() {
+		return this.blockState.getBaseState().withProperty(ACTIVE, false);
 	}
 
 	@Override

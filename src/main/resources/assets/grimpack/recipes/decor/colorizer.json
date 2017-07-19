@@ -1,0 +1,20 @@
+{
+  "result": {
+    "item": "grimpack:colorizer",
+    "count": 2
+  },
+  "pattern": [
+    " # ",
+    "#W#",
+    " # "
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "#": {
+      "item": "#DYE"
+    },
+    "W": {
+      "item": "grimpack:hardened_wood"
+    }
+  }
+}

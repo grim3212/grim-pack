@@ -1,0 +1,19 @@
+{
+  "result": {
+    "item": "grimpack:butter_churn"
+  },
+  "pattern": [
+    "XIX",
+    "XIX",
+    "XXX"
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "X": {
+      "item": "#PLANKWOOD"
+    },
+    "I": {
+      "item": "#STICKWOOD"
+    }
+  }
+}

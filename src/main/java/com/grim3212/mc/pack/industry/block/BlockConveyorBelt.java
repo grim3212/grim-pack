@@ -2,6 +2,7 @@ package com.grim3212.mc.pack.industry.block;
 
 import com.grim3212.mc.pack.core.block.BlockManual;
 import com.grim3212.mc.pack.core.manual.pages.Page;
+import com.grim3212.mc.pack.core.part.GrimCreativeTabs;
 import com.grim3212.mc.pack.industry.client.ManualIndustry;
 
 import net.minecraft.block.SoundType;
@@ -29,8 +30,15 @@ public class BlockConveyorBelt extends BlockManual {
 	private static final AxisAlignedBB CONVEYER_COLLISION_AABB = new AxisAlignedBB(0.0F, 0.0F, 0.0F, 1.0F, 0.52F, 1.0F);
 
 	public BlockConveyorBelt() {
-		super(Material.IRON, SoundType.METAL);
-		this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH);
+		super("conveyor_belt", Material.IRON, SoundType.METAL);
+		setHardness(0.5F);
+		setResistance(3.0F);
+		setCreativeTab(GrimCreativeTabs.GRIM_INDUSTRY);
+	}
+
+	@Override
+	protected IBlockState getState() {
+		return this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH);
 	}
 
 	@Override

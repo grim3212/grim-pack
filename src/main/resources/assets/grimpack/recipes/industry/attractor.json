@@ -1,0 +1,22 @@
+{
+  "result": {
+    "item": "grimpack:attractor"
+  },
+  "pattern": [
+    "SZS",
+    "ZRZ",
+    "SZS"
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "R": {
+      "item": "minecraft:compass"
+    },
+    "S": {
+      "item": "#INGOTIRON"
+    },
+    "Z": {
+      "item": "#DUSTREDSTONE"
+    }
+  }
+}

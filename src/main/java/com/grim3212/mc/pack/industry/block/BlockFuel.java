@@ -2,6 +2,7 @@ package com.grim3212.mc.pack.industry.block;
 
 import com.grim3212.mc.pack.core.block.BlockManual;
 import com.grim3212.mc.pack.core.manual.pages.Page;
+import com.grim3212.mc.pack.core.part.GrimCreativeTabs;
 import com.grim3212.mc.pack.industry.client.ManualIndustry;
 
 import net.minecraft.block.SoundType;
@@ -15,7 +16,10 @@ import net.minecraft.world.World;
 public class BlockFuel extends BlockManual {
 
 	protected BlockFuel() {
-		super(Material.IRON, SoundType.METAL);
+		super("fuel_tank", Material.IRON, SoundType.METAL);
+		setHardness(1.0F);
+		setResistance(5.0F);
+		setCreativeTab(GrimCreativeTabs.GRIM_INDUSTRY);
 	}
 
 	@Override

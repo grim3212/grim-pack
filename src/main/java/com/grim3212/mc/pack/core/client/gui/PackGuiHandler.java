@@ -104,9 +104,9 @@ public class PackGuiHandler implements IGuiHandler {
 		if ((ID == GRILL_GUI_ID) && ((tileentity instanceof TileEntityGrill))) {
 			return new ContainerGrill(player.inventory, (TileEntityGrill) tileentity);
 		} else if (ID == IRON_GUI_ID) {
-			return new ContainerIronWorkbench(player.inventory, world, pos, false);
+			return new ContainerIronWorkbench(player, world, pos, false);
 		} else if (ID == DIAMOND_GUI_ID) {
-			return new ContainerDiamondWorkbench(player.inventory, world, pos, false);
+			return new ContainerDiamondWorkbench(player, world, pos, false);
 		} else if (ID == MODERN_FURNACE_GUI_ID) {
 			return new ContainerMFurnace(player.inventory, (TileEntityMFurnace) tileentity);
 		} else if (ID == DERRICK_GUI_ID || ID == REFINERY_GUI_ID) {
@@ -120,9 +120,9 @@ public class PackGuiHandler implements IGuiHandler {
 		} else if (ID == PORTABLE_MAIN_GUI_ID || ID == PORTABLE_OFF_GUI_ID) {
 			return new ContainerCustomWorkbench(player.inventory, world, pos);
 		} else if (ID == PORTABLE_DIAMOND_MAIN_GUI_ID || ID == PORTABLE_DIAMOND_OFF_GUI_ID) {
-			return new ContainerDiamondWorkbench(player.inventory, world, pos, true);
+			return new ContainerDiamondWorkbench(player, world, pos, true);
 		} else if (ID == PORTABLE_IRON_MAIN_GUI_ID || ID == PORTABLE_IRON_OFF_GUI_ID) {
-			return new ContainerIronWorkbench(player.inventory, world, pos, true);
+			return new ContainerIronWorkbench(player, world, pos, true);
 		} else if (ID == EXTRUDER_GUI_ID) {
 			return new ContainerExtruder(player.inventory, this.getEntityAt(world, x, y, z, EntityExtruder.class).getExtruderInv());
 		} else if (ID == CAGE_GUI_ID) {
@@ -186,13 +186,13 @@ public class PackGuiHandler implements IGuiHandler {
 		} else if (ID == CAGE_GUI_ID) {
 			return new GuiCage(player.inventory, (TileEntityCage) tileentity);
 		} else if (ID == PORTABLE_DIAMOND_MAIN_GUI_ID) {
-			return new GuiDiamondPortable(player.inventory, world, pos, player.getHeldItemMainhand());
+			return new GuiDiamondPortable(player, world, pos, player.getHeldItemMainhand());
 		} else if (ID == PORTABLE_DIAMOND_OFF_GUI_ID) {
-			return new GuiDiamondPortable(player.inventory, world, pos, player.getHeldItemOffhand());
+			return new GuiDiamondPortable(player, world, pos, player.getHeldItemOffhand());
 		} else if (ID == PORTABLE_IRON_MAIN_GUI_ID) {
-			return new GuiIronPortable(player.inventory, world, pos, player.getHeldItemMainhand());
+			return new GuiIronPortable(player, world, pos, player.getHeldItemMainhand());
 		} else if (ID == PORTABLE_IRON_OFF_GUI_ID) {
-			return new GuiIronPortable(player.inventory, world, pos, player.getHeldItemOffhand());
+			return new GuiIronPortable(player, world, pos, player.getHeldItemOffhand());
 		} else if (ID == SPECIFIC_SENSOR_GUI_ID) {
 			return new GuiSpecificSensor(player.inventory, (TileEntitySpecificSensor) tileentity, pos);
 		} else if (ID == PELLET_BAG_MAIN_GUI_ID) {

@@ -3,7 +3,6 @@ package com.grim3212.mc.pack.world.entity;
 import com.grim3212.mc.pack.core.manual.IManualEntry.IManualEntity;
 import com.grim3212.mc.pack.core.manual.pages.Page;
 import com.grim3212.mc.pack.world.client.ManualWorld;
-import com.grim3212.mc.pack.world.event.WorldAchievements;
 import com.grim3212.mc.pack.world.util.WorldLootTables;
 
 import net.minecraft.entity.Entity;
@@ -99,7 +98,7 @@ public class EntityTreasureMob extends EntityTameable implements IManualEntity {
 				if (!this.world.isRemote) {
 					// if (this.rand.nextInt(3) == 0)
 					// {
-					player.addStat(WorldAchievements.TREASURE);
+					// player.addStat(WorldAchievements.TREASURE);
 					this.setTamed(true);
 					this.navigator.clearPathEntity();
 					this.aiSit.setSitting(true);

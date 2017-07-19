@@ -1,0 +1,22 @@
+{
+  "result": {
+    "item": "grimpack:mob_repulsor"
+  },
+  "pattern": [
+    "EGE",
+    "GDG",
+    "EGE"
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "D": {
+      "item": "grimpack:low_gravity_controller"
+    },
+    "E": {
+      "item": "grimpack:gravity_boots"
+    },
+    "G": {
+      "item": "grimpack:gravity_controller"
+    }
+  }
+}

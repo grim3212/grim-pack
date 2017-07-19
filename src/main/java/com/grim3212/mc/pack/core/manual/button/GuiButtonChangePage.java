@@ -17,9 +17,9 @@ public class GuiButtonChangePage extends GuiButton {
 	}
 
 	@Override
-	public void drawButton(Minecraft mc, int x, int y) {
+	public void drawButton(Minecraft mc, int mouseX, int mouseY, float partialTicks) {
 		if (this.visible) {
-			boolean flag = x >= this.xPosition && y >= this.yPosition && x < this.xPosition + this.width && y < this.yPosition + this.height;
+			boolean flag = mouseX >= this.x && mouseY >= this.y && mouseX < this.x + this.width && mouseY < this.y + this.height;
 			GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 			mc.renderEngine.bindTexture(GuiManualIndex.texture);
 			int k = 211;
@@ -33,7 +33,7 @@ public class GuiButtonChangePage extends GuiButton {
 				k += 18;
 			}
 
-			this.drawTexturedModalRect(this.xPosition, this.yPosition, k, l, 18, 10);
+			this.drawTexturedModalRect(this.x, this.y, k, l, 18, 10);
 		}
 	}
 }

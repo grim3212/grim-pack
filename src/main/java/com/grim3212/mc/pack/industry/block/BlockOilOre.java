@@ -4,6 +4,7 @@ import java.util.Random;
 
 import com.grim3212.mc.pack.core.block.BlockManual;
 import com.grim3212.mc.pack.core.manual.pages.Page;
+import com.grim3212.mc.pack.core.part.GrimCreativeTabs;
 import com.grim3212.mc.pack.industry.client.ManualIndustry;
 import com.grim3212.mc.pack.industry.item.IndustryItems;
 
@@ -15,7 +16,10 @@ import net.minecraft.item.Item;
 public class BlockOilOre extends BlockManual {
 
 	protected BlockOilOre() {
-		super(Material.ROCK, SoundType.STONE);
+		super("oil_ore", Material.ROCK, SoundType.STONE);
+		setHardness(1.0F);
+		setResistance(5.0F);
+		setCreativeTab(GrimCreativeTabs.GRIM_INDUSTRY);
 	}
 
 	@Override

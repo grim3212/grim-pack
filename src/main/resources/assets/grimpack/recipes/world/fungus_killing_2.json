@@ -1,0 +1,16 @@
+{
+  "result": {
+    "item": "grimpack:fungus_killing",
+    "data": 2
+  },
+  "ingredients": [
+    {
+      "item": "grimpack:fungus_killing",
+      "data": 0
+    },
+    {
+      "item": "#DIRT"
+    }
+  ],
+  "type": "forge:ore_shapeless"
+}

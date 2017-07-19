@@ -4,7 +4,7 @@ import java.util.Random;
 
 import com.grim3212.mc.pack.core.block.BlockManual;
 import com.grim3212.mc.pack.core.manual.pages.Page;
-import com.grim3212.mc.pack.world.GrimWorld;
+import com.grim3212.mc.pack.core.part.GrimCreativeTabs;
 import com.grim3212.mc.pack.world.client.ManualWorld;
 import com.grim3212.mc.pack.world.config.WorldConfig;
 
@@ -29,9 +29,10 @@ public class BlockCorruption extends BlockManual {
 	public Block newBlock;
 
 	protected BlockCorruption() {
-		super(Material.WOOD, SoundType.CLOTH);
+		super("corruption_block", Material.WOOD, SoundType.CLOTH);
 		this.setTickRandomly(true);
-		this.setCreativeTab(GrimWorld.INSTANCE.getCreativeTab());
+		this.setHardness(1.0F);
+		this.setCreativeTab(GrimCreativeTabs.GRIM_WORLD);
 	}
 
 	@Override

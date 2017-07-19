@@ -1,0 +1,15 @@
+{
+  "result": {
+    "item": "grimpack:refined_uranium"
+  },
+  "pattern": [
+    " U ",
+    "U U"
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "U": {
+      "item": "#INGOTURANIUM"
+    }
+  }
+}

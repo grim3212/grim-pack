@@ -2,6 +2,7 @@ package com.grim3212.mc.pack.industry.block;
 
 import com.grim3212.mc.pack.core.block.BlockManual;
 import com.grim3212.mc.pack.core.manual.pages.Page;
+import com.grim3212.mc.pack.core.part.GrimCreativeTabs;
 import com.grim3212.mc.pack.industry.client.ManualIndustry;
 import com.grim3212.mc.pack.industry.config.IndustryConfig;
 import com.grim3212.mc.pack.industry.item.IndustryItems;
@@ -19,7 +20,10 @@ import net.minecraft.world.World;
 public class BlockUraniumOre extends BlockManual {
 
 	public BlockUraniumOre() {
-		super(Material.IRON, SoundType.STONE);
+		super("uranium_ore", Material.IRON, SoundType.STONE);
+		setHardness(1.0F);
+		setLightLevel(0.55F);
+		setCreativeTab(GrimCreativeTabs.GRIM_INDUSTRY);
 	}
 
 	@Override

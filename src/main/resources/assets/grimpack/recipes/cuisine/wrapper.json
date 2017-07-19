@@ -1,0 +1,14 @@
+{
+  "result": {
+    "item": "grimpack:wrapper"
+  },
+  "ingredients": [
+    {
+      "item": "#PAPER"
+    },
+    {
+      "item": "#DYEBLUE"
+    }
+  ],
+  "type": "forge:ore_shapeless"
+}

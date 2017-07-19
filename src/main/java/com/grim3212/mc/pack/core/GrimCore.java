@@ -4,18 +4,14 @@ import com.grim3212.mc.pack.core.client.ManualCore;
 import com.grim3212.mc.pack.core.config.CoreConfig;
 import com.grim3212.mc.pack.core.config.MessageSyncConfig;
 import com.grim3212.mc.pack.core.config.SyncConfigEvent;
-import com.grim3212.mc.pack.core.item.CoreItems;
 import com.grim3212.mc.pack.core.manual.IManualPart;
 import com.grim3212.mc.pack.core.manual.event.GiveManualEvent;
 import com.grim3212.mc.pack.core.network.MessageBetterExplosion;
-import com.grim3212.mc.pack.core.network.MessageManualAchievement;
 import com.grim3212.mc.pack.core.network.PacketDispatcher;
 import com.grim3212.mc.pack.core.part.GrimPart;
 import com.grim3212.mc.pack.core.proxy.CommonProxy;
-import com.grim3212.mc.pack.core.util.Utils;
+import com.grim3212.mc.pack.core.util.CreateRecipes;
 
-import net.minecraft.item.ItemStack;
-import net.minecraft.stats.Achievement;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
@@ -33,11 +29,8 @@ public class GrimCore extends GrimPart {
 	public static final String partId = "core";
 	public static final String partName = "Grim Core";
 
-	public static Achievement OPEN_MANUAL;
-
 	public GrimCore() {
-		super(GrimCore.partId, GrimCore.partName, new CoreConfig(), true, true);
-		addItem(new CoreItems());
+		super(GrimCore.partId, GrimCore.partName, new CoreConfig(), true);
 	}
 
 	@Override
@@ -47,12 +40,9 @@ public class GrimCore extends GrimPart {
 		// Register config syncing
 		PacketDispatcher.registerMessage(MessageSyncConfig.class);
 		PacketDispatcher.registerMessage(MessageBetterExplosion.class);
-		PacketDispatcher.registerMessage(MessageManualAchievement.class);
 
 		// Register LoginEvent for receiving the Instruction Manual
 		MinecraftForge.EVENT_BUS.register(new GiveManualEvent());
-
-		OPEN_MANUAL = Utils.addAchievement("achievement.core.open_manual", "core.open_manual", 0, 0, new ItemStack(CoreItems.instruction_manual), OPEN_MANUAL);
 
 		proxy.preInit();
 	}
@@ -61,13 +51,10 @@ public class GrimCore extends GrimPart {
 	public void postInit(FMLPostInitializationEvent event) {
 		super.postInit(event);
 
+		CreateRecipes.createRecipes();
+
 		// Register Syncing config
 		MinecraftForge.EVENT_BUS.register(new SyncConfigEvent());
-	}
-
-	@Override
-	protected ItemStack getCreativeTabIcon() {
-		return new ItemStack(CoreItems.instruction_manual);
 	}
 
 	@Override

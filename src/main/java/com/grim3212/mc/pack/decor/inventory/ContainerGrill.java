@@ -52,26 +52,26 @@ public class ContainerGrill extends Container {
 		super.detectAndSendChanges();
 
 		for (int var1 = 0; var1 < this.listeners.size(); var1++) {
-			IContainerListener var2 = (IContainerListener) this.listeners.get(var1);
+			IContainerListener listener = (IContainerListener) this.listeners.get(var1);
 
 			if (this.lastCoalTime != this.grill.grillCoal) {
-				var2.sendProgressBarUpdate(this, 0, this.grill.grillCoal);
+				listener.sendWindowProperty(this, 0, this.grill.grillCoal);
 			}
 
 			if (this.lastCookTimes0 != this.grill.cookTimes[0]) {
-				var2.sendProgressBarUpdate(this, 1, this.grill.cookTimes[0]);
+				listener.sendWindowProperty(this, 1, this.grill.cookTimes[0]);
 			}
 
 			if (this.lastCookTimes1 != this.grill.cookTimes[1]) {
-				var2.sendProgressBarUpdate(this, 2, this.grill.cookTimes[1]);
+				listener.sendWindowProperty(this, 2, this.grill.cookTimes[1]);
 			}
 
 			if (this.lastCookTimes2 != this.grill.cookTimes[2]) {
-				var2.sendProgressBarUpdate(this, 3, this.grill.cookTimes[2]);
+				listener.sendWindowProperty(this, 3, this.grill.cookTimes[2]);
 			}
 
 			if (this.lastCookTimes3 != this.grill.cookTimes[3]) {
-				var2.sendProgressBarUpdate(this, 4, this.grill.cookTimes[3]);
+				listener.sendWindowProperty(this, 4, this.grill.cookTimes[3]);
 			}
 		}
 

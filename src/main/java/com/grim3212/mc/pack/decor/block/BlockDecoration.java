@@ -4,6 +4,7 @@ import com.grim3212.mc.pack.GrimPack;
 import com.grim3212.mc.pack.core.client.gui.PackGuiHandler;
 import com.grim3212.mc.pack.core.manual.IManualEntry.IManualBlock;
 import com.grim3212.mc.pack.core.manual.pages.Page;
+import com.grim3212.mc.pack.core.part.GrimCreativeTabs;
 import com.grim3212.mc.pack.decor.client.ManualDecor;
 import com.grim3212.mc.pack.decor.tile.TileEntityCage;
 
@@ -20,6 +21,7 @@ import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
@@ -33,6 +35,15 @@ public class BlockDecoration extends BlockContainer implements IManualBlock, ITi
 		super(mat);
 		this.setSoundType(SoundType.METAL);
 		this.useCollision = useCollision;
+		String name = "chain";
+		if (useCollision) {
+			name = "cage";
+			setHardness(0.8F);
+			setResistance(5F);
+		}
+		setUnlocalizedName(name);
+		setRegistryName(new ResourceLocation(GrimPack.modID, name));
+		setCreativeTab(GrimCreativeTabs.GRIM_DECOR);
 	}
 
 	@Override

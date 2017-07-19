@@ -33,7 +33,7 @@ public class GuiLocker extends GuiContainer {
 	}
 
 	protected void drawGuiContainerForegroundLayer(int par1, int par2) {
-		this.fontRendererObj.drawString(I18n.format(this.lockerInventory.getName()), 8, 6, 4210752);
+		this.fontRenderer.drawString(I18n.format(this.lockerInventory.getName()), 8, 6, 4210752);
 	}
 
 	protected void drawGuiContainerBackgroundLayer(float par1, int par2, int par3) {

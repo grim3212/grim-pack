@@ -1,0 +1,19 @@
+{
+  "result": {
+    "item": "grimpack:drill_head_item"
+  },
+  "pattern": [
+    " X ",
+    "###",
+    " # "
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "#": {
+      "item": "#INGOTIRON"
+    },
+    "X": {
+      "item": "#STICKIRON"
+    }
+  }
+}

@@ -53,9 +53,13 @@ public class BlockColorizerDoor extends BlockColorizer {
 	protected static final AxisAlignedBB EAST_AABB = new AxisAlignedBB(0.0D, 0.0D, 0.0D, 0.1875D, 1.0D, 1.0D);
 
 	public BlockColorizerDoor() {
-		super();
-		this.setDefaultState(this.blockState.getBaseState().withProperty(BlockDoor.FACING, EnumFacing.NORTH).withProperty(BlockDoor.OPEN, false).withProperty(BlockDoor.HINGE, BlockDoor.EnumHingePosition.LEFT).withProperty(BlockDoor.POWERED, false).withProperty(BlockDoor.HALF, BlockDoor.EnumDoorHalf.LOWER));
+		super("decor_door");
 		this.setCreativeTab(null);
+	}
+
+	@Override
+	protected IBlockState getState() {
+		return this.blockState.getBaseState().withProperty(BlockDoor.FACING, EnumFacing.NORTH).withProperty(BlockDoor.OPEN, false).withProperty(BlockDoor.HINGE, BlockDoor.EnumHingePosition.LEFT).withProperty(BlockDoor.POWERED, false).withProperty(BlockDoor.HALF, BlockDoor.EnumDoorHalf.LOWER);
 	}
 
 	@Override

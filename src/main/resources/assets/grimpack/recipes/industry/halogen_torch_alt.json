@@ -1,0 +1,19 @@
+{
+  "result": {
+    "item": "grimpack:halogen_torch",
+    "count": 4
+  },
+  "pattern": [
+    "H",
+    "S"
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "S": {
+      "item": "#STICKWOOD"
+    },
+    "H": {
+      "item": "grimpack:halogen_light"
+    }
+  }
+}

@@ -10,8 +10,8 @@ import com.grim3212.mc.pack.core.manual.IManualEntry.IManualEntity;
 import com.grim3212.mc.pack.core.manual.pages.Page;
 import com.grim3212.mc.pack.world.GrimWorld;
 import com.grim3212.mc.pack.world.client.ManualWorld;
+import com.grim3212.mc.pack.world.init.WorldSounds;
 import com.grim3212.mc.pack.world.items.WorldItems;
-import com.grim3212.mc.pack.world.util.WorldSounds;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
@@ -94,8 +94,8 @@ public class EntityBobomb extends EntityMob implements IManualEntity {
 	}
 
 	@Override
-	protected SoundEvent getHurtSound() {
-		return null;
+	protected SoundEvent getHurtSound(DamageSource p_184601_1_) {
+		return super.getHurtSound(p_184601_1_);
 	}
 
 	@Override
@@ -151,7 +151,7 @@ public class EntityBobomb extends EntityMob implements IManualEntity {
 
 	@Override
 	public boolean attackEntityFrom(DamageSource damagesource, float i) {
-		Entity entity = damagesource.getEntity();
+		Entity entity = damagesource.getTrueSource();
 
 		if ((entity instanceof EntityBobomb) || (entity instanceof EntityParaBuzzy)) {
 			return false;

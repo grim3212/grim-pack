@@ -57,9 +57,14 @@ public class BlockColorizerStairs extends BlockColorizerFurnitureRotate {
 	protected static final AxisAlignedBB AABB_OCT_BOT_SE = new AxisAlignedBB(0.5D, 0.0D, 0.5D, 1.0D, 0.5D, 1.0D);
 
 	public BlockColorizerStairs() {
-		this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH).withProperty(HALF, BlockStairs.EnumHalf.BOTTOM).withProperty(SHAPE, BlockStairs.EnumShape.STRAIGHT));
+		super("decor_stairs");
 		this.setLightOpacity(255);
 		this.useNeighborBrightness = true;
+	}
+
+	@Override
+	protected IBlockState getState() {
+		return this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH).withProperty(HALF, BlockStairs.EnumHalf.BOTTOM).withProperty(SHAPE, BlockStairs.EnumShape.STRAIGHT);
 	}
 
 	@Override
@@ -167,12 +172,8 @@ public class BlockColorizerStairs extends BlockColorizerFurnitureRotate {
 		return false;
 	}
 
-	/**
-	 * Checks if an IBlockState represents a block that is opaque and a full
-	 * cube.
-	 */
 	@Override
-	public boolean isFullyOpaque(IBlockState state) {
+	public boolean isTopSolid(IBlockState state) {
 		return state.getValue(HALF) == BlockStairs.EnumHalf.TOP;
 	}
 

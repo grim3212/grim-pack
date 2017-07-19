@@ -2,6 +2,7 @@ package com.grim3212.mc.pack.cuisine.item;
 
 import com.grim3212.mc.pack.core.item.ItemManual;
 import com.grim3212.mc.pack.core.manual.pages.Page;
+import com.grim3212.mc.pack.core.part.GrimCreativeTabs;
 import com.grim3212.mc.pack.cuisine.client.ManualCuisine;
 
 import net.minecraft.entity.EntityLivingBase;
@@ -16,9 +17,10 @@ import net.minecraft.world.World;
 
 public class ItemBowlChocolate extends ItemManual {
 
-	public ItemBowlChocolate(int stacksize) {
-		super();
+	public ItemBowlChocolate(String name, int stacksize) {
+		super(name);
 		maxStackSize = stacksize;
+		setCreativeTab(GrimCreativeTabs.GRIM_CUISINE);
 	}
 
 	@Override

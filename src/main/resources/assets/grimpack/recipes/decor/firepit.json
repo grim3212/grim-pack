@@ -1,0 +1,31 @@
+{
+  "result": {
+    "nbt": {
+      "meta": {
+        "data": 0
+      },
+      "registryName": {
+        "data": "minecraft:air"
+      }
+    },
+    "item": "grimpack:firepit",
+    "count": 2
+  },
+  "pattern": [
+    " I ",
+    "#P#",
+    "###"
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "P": {
+      "item": "grimpack:burning_wood"
+    },
+    "#": {
+      "item": "grimpack:colorizer"
+    },
+    "I": {
+      "item": "#INGOTIRON"
+    }
+  }
+}

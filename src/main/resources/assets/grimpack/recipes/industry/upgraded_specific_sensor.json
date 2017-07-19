@@ -1,0 +1,19 @@
+{
+  "result": {
+    "item": "grimpack:upgraded_specific_sensor"
+  },
+  "pattern": [
+    "XXX",
+    "XYX",
+    "XXX"
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "X": {
+      "item": "#INGOTGOLD"
+    },
+    "Y": {
+      "item": "grimpack:specific_sensor"
+    }
+  }
+}

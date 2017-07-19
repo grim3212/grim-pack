@@ -1,0 +1,18 @@
+{
+  "result": {
+    "item": "grimpack:mask",
+    "data": 0
+  },
+  "pattern": [
+    "YXY"
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "X": {
+      "item": "#PAPER"
+    },
+    "Y": {
+      "item": "#STRING"
+    }
+  }
+}

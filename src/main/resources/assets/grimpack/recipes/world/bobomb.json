@@ -1,0 +1,22 @@
+{
+  "result": {
+    "item": "grimpack:bobomb"
+  },
+  "pattern": [
+    "X",
+    "#",
+    "@"
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "@": {
+      "item": "grimpack:parabuzzy_shell"
+    },
+    "#": {
+      "item": "#GUNPOWDER"
+    },
+    "X": {
+      "item": "#DUSTREDSTONE"
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "result": {
+    "item": "grimpack:button_part"
+  },
+  "pattern": [
+    " # ",
+    "#!#",
+    " # "
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "!": {
+      "item": "minecraft:stone_button"
+    },
+    "#": {
+      "item": "#DUSTREDSTONE"
+    }
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "result": {
+    "item": "grimpack:instruction_manual"
+  },
+  "ingredients": [
+    {
+      "item": "minecraft:book"
+    },
+    {
+      "item": "#DYEBLACK"
+    },
+    {
+      "item": "#DYEBROWN"
+    }
+  ],
+  "type": "forge:ore_shapeless"
+}

@@ -1,0 +1,14 @@
+{
+  "result": {
+    "item": "grimpack:eggs_mixed"
+  },
+  "ingredients": [
+    {
+      "item": "grimpack:eggs_unmixed"
+    },
+    {
+      "item": "#TOOLJUICER"
+    }
+  ],
+  "type": "forge:ore_shapeless"
+}

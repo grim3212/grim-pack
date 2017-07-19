@@ -47,7 +47,7 @@ public class EntityBomber extends EntityDayMob {
 	@Override
 	public boolean attackEntityFrom(DamageSource damagesource, float i) {
 		if (super.attackEntityFrom(damagesource, i)) {
-			Entity entity = damagesource.getEntity();
+			Entity entity = damagesource.getTrueSource();
 			if (entity instanceof EntityLivingBase) {
 				world.createExplosion(this, posX, posY, posZ, 3F, true);
 				setDead();

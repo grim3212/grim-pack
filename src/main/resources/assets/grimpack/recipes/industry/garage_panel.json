@@ -1,0 +1,20 @@
+{
+  "result": {
+    "item": "grimpack:garage_panel",
+    "count": 4
+  },
+  "pattern": [
+    "i",
+    "G",
+    "i"
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "G": {
+      "item": "#BLOCKGLASS"
+    },
+    "i": {
+      "item": "#INGOTIRON"
+    }
+  }
+}

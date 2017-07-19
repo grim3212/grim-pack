@@ -4,6 +4,7 @@ import com.grim3212.mc.pack.GrimPack;
 import com.grim3212.mc.pack.core.block.BlockManual;
 import com.grim3212.mc.pack.core.client.gui.PackGuiHandler;
 import com.grim3212.mc.pack.core.manual.pages.Page;
+import com.grim3212.mc.pack.core.part.GrimCreativeTabs;
 import com.grim3212.mc.pack.industry.client.ManualIndustry;
 import com.grim3212.mc.pack.industry.tile.TileEntityFan;
 import com.grim3212.mc.pack.industry.tile.TileEntityFan.FanMode;
@@ -36,8 +37,15 @@ public class BlockFan extends BlockManual implements ITileEntityProvider {
 	public static final PropertyEnum<FanMode> MODE = PropertyEnum.create("mode", FanMode.class);
 
 	public BlockFan() {
-		super(Material.ROCK, SoundType.STONE);
-		this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH));
+		super("fan", Material.ROCK, SoundType.STONE);
+		setHardness(1.5F);
+		setResistance(10F);
+		setCreativeTab(GrimCreativeTabs.GRIM_INDUSTRY);
+	}
+
+	@Override
+	protected IBlockState getState() {
+		return this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH);
 	}
 
 	@Override

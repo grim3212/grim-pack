@@ -1,0 +1,18 @@
+{
+  "result": {
+    "item": "grimpack:rway_light_off"
+  },
+  "pattern": [
+    "L",
+    "R"
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "R": {
+      "item": "grimpack:rway"
+    },
+    "L": {
+      "item": "grimpack:halogen_light"
+    }
+  }
+}

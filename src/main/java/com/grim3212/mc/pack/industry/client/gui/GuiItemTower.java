@@ -33,7 +33,7 @@ public class GuiItemTower extends GuiContainer {
 
 	@Override
 	protected void drawGuiContainerForegroundLayer(int par1, int par2) {
-		this.fontRendererObj.drawString(I18n.format(this.itemTowers.getName()) + I18n.format("container.item_tower.row", (this.rowID + 1)) + this.itemTowers.getSizeInventory() / 9, 8, 6, 4210752);
+		this.fontRenderer.drawString(I18n.format(this.itemTowers.getName()) + I18n.format("container.item_tower.row", (this.rowID + 1)) + this.itemTowers.getSizeInventory() / 9, 8, 6, 4210752);
 	}
 
 	@Override

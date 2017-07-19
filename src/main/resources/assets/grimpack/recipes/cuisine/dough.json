@@ -1,0 +1,21 @@
+{
+  "result": {
+    "item": "grimpack:dough",
+    "count": 2
+  },
+  "ingredients": [
+    {
+      "item": "#BUCKETMILK"
+    },
+    {
+      "item": "#CROPWHEAT"
+    },
+    {
+      "item": "#CROPWHEAT"
+    },
+    {
+      "item": "#EGG"
+    }
+  ],
+  "type": "forge:ore_shapeless"
+}

@@ -1,0 +1,15 @@
+{
+  "result": {
+    "item": "grimpack:sweets",
+    "count": 8
+  },
+  "ingredients": [
+    {
+      "item": "minecraft:sugar"
+    },
+    {
+      "item": "#PAPER"
+    }
+  ],
+  "type": "forge:ore_shapeless"
+}

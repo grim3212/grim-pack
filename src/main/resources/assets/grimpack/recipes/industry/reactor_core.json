@@ -1,0 +1,19 @@
+{
+  "result": {
+    "item": "grimpack:reactor_core"
+  },
+  "pattern": [
+    "UUU",
+    "UPU",
+    "UUU"
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "P": {
+      "item": "#INGOTREFINEDPLUTONIUM"
+    },
+    "U": {
+      "item": "#INGOTREFINEDURANIUM"
+    }
+  }
+}

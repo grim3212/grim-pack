@@ -1,0 +1,22 @@
+{
+  "result": {
+    "item": "grimpack:repulsor"
+  },
+  "pattern": [
+    "ZSZ",
+    "SRS",
+    "ZSZ"
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "R": {
+      "item": "minecraft:compass"
+    },
+    "S": {
+      "item": "#INGOTIRON"
+    },
+    "Z": {
+      "item": "#DUSTREDSTONE"
+    }
+  }
+}

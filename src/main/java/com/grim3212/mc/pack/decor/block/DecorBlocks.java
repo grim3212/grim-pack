@@ -3,11 +3,9 @@ package com.grim3212.mc.pack.decor.block;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.grim3212.mc.pack.core.part.IPartItems;
+import com.grim3212.mc.pack.core.item.ItemManualBlock;
+import com.grim3212.mc.pack.core.util.CreateRecipes;
 import com.grim3212.mc.pack.core.util.NBTHelper;
-import com.grim3212.mc.pack.core.util.RecipeHelper;
-import com.grim3212.mc.pack.core.util.Utils;
-import com.grim3212.mc.pack.decor.GrimDecor;
 import com.grim3212.mc.pack.decor.block.colorizer.BlockColorizer;
 import com.grim3212.mc.pack.decor.block.colorizer.BlockColorizerChair;
 import com.grim3212.mc.pack.decor.block.colorizer.BlockColorizerChimney;
@@ -36,6 +34,11 @@ import com.grim3212.mc.pack.decor.item.ItemDecorStairs;
 import com.grim3212.mc.pack.decor.item.ItemGrill;
 import com.grim3212.mc.pack.decor.item.ItemLantern;
 import com.grim3212.mc.pack.decor.item.ItemSloped;
+import com.grim3212.mc.pack.decor.tile.TileEntityCage;
+import com.grim3212.mc.pack.decor.tile.TileEntityCalendar;
+import com.grim3212.mc.pack.decor.tile.TileEntityColorizer;
+import com.grim3212.mc.pack.decor.tile.TileEntityGrill;
+import com.grim3212.mc.pack.decor.tile.TileEntityWallClock;
 import com.grim3212.mc.pack.decor.util.DecorUtil.SlopeType;
 
 import net.minecraft.block.Block;
@@ -45,149 +48,174 @@ import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
+import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
-import net.minecraftforge.oredict.ShapedOreRecipe;
-import net.minecraftforge.oredict.ShapelessOreRecipe;
+import net.minecraftforge.registries.IForgeRegistry;
 
-public class DecorBlocks implements IPartItems {
+@Mod.EventBusSubscriber
+public class DecorBlocks {
 
-	public static Block calendar;
-	public static Block wall_clock;
-	public static Block light_bulb;
-	public static Block pot;
-	public static Block cage;
-	public static Block chain;
-	public static Block road;
-	public static Block lantern;
-	public static Block fancy_stone;
-	public static Block craft_clay;
-	public static Block craft_bone;
-	public static Block counter;
-	public static Block stool;
-	public static Block chair;
-	public static Block wall;
-	public static Block table;
-	public static Block fence;
-	public static Block fence_gate;
-	public static Block lamp_post_bottom;
-	public static Block lamp_post_middle;
-	public static Block lamp_post_top;
-	public static Block fireplace;
-	public static Block firering;
-	public static Block firepit;
-	public static Block chimney;
-	public static Block stove;
-	public static Block grill;
-	public static Block hardened_wood;
-	public static Block colorizer;
-	public static Block colorizer_light;
-	public static Block burning_wood;
+	public static final Block calendar = new BlockCalendar();
+	public static final Block wall_clock = new BlockWallClock();
+	public static final Block light_bulb = new BlockLightBulb();
+	public static final Block pot = new BlockPot();
+	public static final Block cage = new BlockDecoration(Material.IRON, true);
+	public static final Block chain = new BlockDecoration(Material.CIRCUITS, false);
+	public static final Block road = new BlockRoad();
+	public static final Block lantern = new BlockLantern();
+	public static final Block fancy_stone = new BlockFancyStone();
+	public static final Block craft_clay = new BlockCraftClay();
+	public static final Block craft_bone = new BlockCraftBone();
+	public static final Block counter = new BlockColorizerCounter();
+	public static final Block stool = new BlockColorizerStool();
+	public static final Block chair = new BlockColorizerChair();
+	public static final Block wall = new BlockColorizerWall();
+	public static final Block table = new BlockColorizerTable();
+	public static final Block fence = new BlockColorizerFence();
+	public static final Block fence_gate = new BlockColorizerFenceGate();
+	public static final Block lamp_post_bottom = new BlockColorizerLampPost("lamp_post_bottom", false);
+	public static final Block lamp_post_middle = new BlockColorizerLampPost("lamp_post_middle", false);
+	public static final Block lamp_post_top = new BlockColorizerLampPost("lamp_post_top", true);
+	public static final Block fireplace = new BlockColorizerFireplace();
+	public static final Block firering = new BlockColorizerFirering();
+	public static final Block firepit = new BlockColorizerFirepit();
+	public static final Block chimney = new BlockColorizerChimney();
+	public static final Block stove = new BlockColorizerStove();
+	public static final Block grill = new BlockColorizerGrill();
+	public static final Block hardened_wood = new BlockHardenedWood();
+	public static final Block colorizer = new BlockColorizer("colorizer");
+	public static final Block colorizer_light = new BlockColorizerLight();
+	public static final Block burning_wood = new BlockBurningWood();
 	// Super slope shapes
-	public static Block corner;
-	public static Block slope;
-	public static Block sloped_angle;
-	public static Block slanted_corner;
-	public static Block oblique_slope;
-	public static Block sloped_intersection;
-	public static Block pyramid;
-	public static Block full_pyramid;
-	public static Block sloped_post;
-	public static Block decor_stairs;
-	public static Block decor_door;
-	public static Block pillar;
-	public static Block decor_trap_door;
+	public static final Block corner = new BlockColorizerSlopedRotate(SlopeType.Corner);
+	public static final Block slope = new BlockColorizerSlopedRotate(SlopeType.Slope);
+	public static final Block sloped_angle = new BlockColorizerSlopedRotate(SlopeType.SlopedAngle);
+	public static final Block slanted_corner = new BlockColorizerSlopedRotate(SlopeType.SlantedCorner);
+	public static final Block oblique_slope = new BlockColorizerSlopedRotate(SlopeType.ObliqueSlope);
+	public static final Block sloped_intersection = new BlockColorizerSlopedRotate(SlopeType.SlopedIntersection);
+	public static final Block pyramid = new BlockColorizerHedge(SlopeType.Pyramid);
+	public static final Block full_pyramid = new BlockColorizerHedge(SlopeType.FullPyramid);
+	public static final Block sloped_post = new BlockColorizerHedge(SlopeType.SlopedPost);
+	public static final Block decor_stairs = new BlockColorizerStairs();
+	public static final Block decor_door = new BlockColorizerDoor();
+	public static final Block pillar = new BlockColorizerFacing("pillar");
+	public static final Block decor_trap_door = new BlockColorizerTrapDoor();
 
-	@Override
-	public void initItems() {
-		calendar = (new BlockCalendar()).setHardness(1.0F).setUnlocalizedName("calendar").setCreativeTab(GrimDecor.INSTANCE.getCreativeTab());
-		wall_clock = new BlockWallClock().setHardness(0.75F).setUnlocalizedName("wall_clock").setCreativeTab(GrimDecor.INSTANCE.getCreativeTab());
-		light_bulb = (new BlockLightBulb()).setHardness(0.1F).setUnlocalizedName("light_bulb");
-		lantern = (new BlockLantern().setHardness(0.1F).setLightLevel(0.9375F).setUnlocalizedName("lantern")).setCreativeTab(GrimDecor.INSTANCE.getCreativeTab());
-		road = (new BlockRoad()).setHardness(0.5F).setResistance(10F).setUnlocalizedName("road").setCreativeTab(GrimDecor.INSTANCE.getCreativeTab());
-		fancy_stone = (new BlockFancyStone()).setHardness(0.5F).setResistance(10F).setUnlocalizedName("fancy_stone").setCreativeTab(GrimDecor.INSTANCE.getCreativeTab());
-		chain = (new BlockDecoration(Material.CIRCUITS, false)).setUnlocalizedName("chain").setCreativeTab(GrimDecor.INSTANCE.getCreativeTab());
-		cage = (new BlockDecoration(Material.IRON, true)).setHardness(0.8F).setResistance(5F).setUnlocalizedName("cage").setCreativeTab(GrimDecor.INSTANCE.getCreativeTab());
-		pot = (new BlockPot()).setHardness(0.5F).setResistance(10F).setUnlocalizedName("pot").setCreativeTab(GrimDecor.INSTANCE.getCreativeTab());
-		craft_clay = (new BlockCraftClay()).setUnlocalizedName("craft_clay").setCreativeTab(GrimDecor.INSTANCE.getCreativeTab());
-		craft_bone = (new BlockCraftBone()).setUnlocalizedName("craft_bone").setCreativeTab(GrimDecor.INSTANCE.getCreativeTab());
-		counter = (new BlockColorizerCounter()).setUnlocalizedName("counter");
-		stool = (new BlockColorizerStool()).setUnlocalizedName("stool");
-		chair = (new BlockColorizerChair()).setUnlocalizedName("chair");
-		wall = (new BlockColorizerWall()).setUnlocalizedName("wall");
-		fence = (new BlockColorizerFence()).setUnlocalizedName("fence");
-		fence_gate = (new BlockColorizerFenceGate()).setUnlocalizedName("fence_gate");
-		table = (new BlockColorizerTable()).setUnlocalizedName("table");
-		lamp_post_bottom = (new BlockColorizerLampPost(false)).setUnlocalizedName("lamp_post_bottom");
-		lamp_post_middle = (new BlockColorizerLampPost(false)).setUnlocalizedName("lamp_post_middle");
-		lamp_post_top = new BlockColorizerLampPost(true).setUnlocalizedName("lamp_post_top");
-		fireplace = new BlockColorizerFireplace().setUnlocalizedName("fireplace");
-		firering = new BlockColorizerFirering().setUnlocalizedName("firering");
-		firepit = new BlockColorizerFirepit().setUnlocalizedName("firepit");
-		chimney = new BlockColorizerChimney().setUnlocalizedName("chimney");
-		stove = new BlockColorizerStove().setUnlocalizedName("stove");
-		grill = new BlockColorizerGrill().setUnlocalizedName("grill");
-		hardened_wood = (new BlockHardenedWood()).setHardness(1.5F).setResistance(12F).setUnlocalizedName("hardened_wood").setCreativeTab(GrimDecor.INSTANCE.getCreativeTab());
-		colorizer = (new BlockColorizer()).setUnlocalizedName("colorizer");
-		colorizer_light = (new BlockColorizerLight()).setUnlocalizedName("colorizer_light");
-		burning_wood = (new BlockBurningWood()).setHardness(0.8F).setResistance(5F).setUnlocalizedName("burning_wood").setCreativeTab(GrimDecor.INSTANCE.getCreativeTab());
-		corner = (new BlockColorizerSlopedRotate(SlopeType.Corner)).setUnlocalizedName("corner");
-		pyramid = (new BlockColorizerHedge(SlopeType.Pyramid)).setUnlocalizedName("pyramid");
-		full_pyramid = (new BlockColorizerHedge(SlopeType.FullPyramid)).setUnlocalizedName("full_pyramid");
-		slope = (new BlockColorizerSlopedRotate(SlopeType.Slope)).setUnlocalizedName("slope");
-		sloped_angle = (new BlockColorizerSlopedRotate(SlopeType.SlopedAngle)).setUnlocalizedName("sloped_angle");
-		slanted_corner = (new BlockColorizerSlopedRotate(SlopeType.SlantedCorner)).setUnlocalizedName("slanted_corner");
-		oblique_slope = (new BlockColorizerSlopedRotate(SlopeType.ObliqueSlope)).setUnlocalizedName("oblique_slope");
-		sloped_intersection = (new BlockColorizerSlopedRotate(SlopeType.SlopedIntersection)).setUnlocalizedName("sloped_intersection");
-		sloped_post = (new BlockColorizerHedge(SlopeType.SlopedPost)).setUnlocalizedName("sloped_post");
-		decor_stairs = (new BlockColorizerStairs()).setUnlocalizedName("decor_stairs");
-		decor_door = (new BlockColorizerDoor()).setUnlocalizedName("decor_door");
-		pillar = (new BlockColorizerFacing()).setUnlocalizedName("pillar");
-		decor_trap_door = (new BlockColorizerTrapDoor()).setUnlocalizedName("decor_trap_door");
+	@SubscribeEvent
+	public static void initBlocks(RegistryEvent.Register<Block> evt) {
+		IForgeRegistry<Block> r = evt.getRegistry();
 
-		Utils.registerBlock(calendar, "calendar");
-		Utils.registerBlock(wall_clock, "wall_clock");
-		Utils.registerBlock(light_bulb, "light_bulb");
-		Utils.registerBlock(lamp_post_bottom, "lamp_post_bottom");
-		Utils.registerBlock(lamp_post_middle, "lamp_post_middle");
-		Utils.registerBlock(lamp_post_top, "lamp_post_top");
-		Utils.registerBlock(road, "road");
-		Utils.registerBlock(fancy_stone, "fancy_stone");
-		Utils.registerBlock(chain, "chain");
-		Utils.registerBlock(cage, "cage");
-		Utils.registerBlock(pot, "pot");
-		Utils.registerBlock(craft_clay, "craft_clay");
-		Utils.registerBlock(craft_bone, "craft_bone");
-		Utils.registerBlock(hardened_wood, "hardened_wood");
-		Utils.registerBlock(burning_wood, "burning_wood");
-		Utils.registerBlock(lantern, "lantern", new ItemLantern(lantern));
-		Utils.registerBlock(colorizer, "colorizer", new ItemColorizer(colorizer));
-		Utils.registerBlock(colorizer_light, "colorizer_light", new ItemColorizer(colorizer_light));
-		Utils.registerBlock(grill, "grill", new ItemGrill(grill));
-		Utils.registerBlock(fireplace, "fireplace", new ItemColorizer(fireplace));
-		Utils.registerBlock(firering, "firering", new ItemColorizer(firering));
-		Utils.registerBlock(firepit, "firepit", new ItemColorizer(firepit));
-		Utils.registerBlock(chimney, "chimney", new ItemColorizer(chimney));
-		Utils.registerBlock(stove, "stove", new ItemColorizer(stove));
-		Utils.registerBlock(table, "table", new ItemColorizer(table));
-		Utils.registerBlock(counter, "counter", new ItemColorizer(counter));
-		Utils.registerBlock(stool, "stool", new ItemColorizer(stool));
-		Utils.registerBlock(chair, "chair", new ItemColorizer(chair));
-		Utils.registerBlock(wall, "wall", new ItemColorizer(wall));
-		Utils.registerBlock(fence, "fence", new ItemColorizer(fence));
-		Utils.registerBlock(fence_gate, "fence_gate", new ItemColorizer(fence_gate));
-		Utils.registerBlock(corner, "corner", new ItemSloped(corner));
-		Utils.registerBlock(slope, "slope", new ItemSloped(slope, true));
-		Utils.registerBlock(sloped_angle, "sloped_angle", new ItemSloped(sloped_angle));
-		Utils.registerBlock(slanted_corner, "slanted_corner", new ItemSloped(slanted_corner));
-		Utils.registerBlock(oblique_slope, "oblique_slope", new ItemSloped(oblique_slope));
-		Utils.registerBlock(sloped_intersection, "sloped_intersection", new ItemSloped(sloped_intersection));
-		Utils.registerBlock(pyramid, "pyramid", new ItemSloped(pyramid));
-		Utils.registerBlock(full_pyramid, "full_pyramid", new ItemSloped(full_pyramid));
-		Utils.registerBlock(sloped_post, "sloped_post", new ItemSloped(sloped_post));
-		Utils.registerBlock(pillar, "pillar", new ItemSloped(pillar));
-		Utils.registerBlock(decor_stairs, "decor_stairs", new ItemDecorStairs(decor_stairs));
-		Utils.registerBlock(decor_door, "decor_door");
-		Utils.registerBlock(decor_trap_door, "decor_trap_door", new ItemColorizer(decor_trap_door));
+		r.register(hardened_wood);
+		r.register(burning_wood);
+		r.register(calendar);
+		r.register(wall_clock);
+		r.register(light_bulb);
+		r.register(lantern);
+		r.register(road);
+		r.register(fancy_stone);
+		r.register(chain);
+		r.register(cage);
+		r.register(pot);
+		r.register(craft_clay);
+		r.register(craft_bone);
+		r.register(counter);
+		r.register(stool);
+		r.register(chair);
+		r.register(colorizer);
+		r.register(colorizer_light);
+		r.register(wall);
+		r.register(fence);
+		r.register(fence_gate);
+		r.register(table);
+		r.register(lamp_post_bottom);
+		r.register(lamp_post_middle);
+		r.register(lamp_post_top);
+		r.register(fireplace);
+		r.register(firering);
+		r.register(firepit);
+		r.register(chimney);
+		r.register(stove);
+		r.register(grill);
+		r.register(corner);
+		r.register(pyramid);
+		r.register(full_pyramid);
+		r.register(slope);
+		r.register(sloped_angle);
+		r.register(slanted_corner);
+		r.register(oblique_slope);
+		r.register(sloped_intersection);
+		r.register(sloped_post);
+		r.register(pillar);
+		r.register(decor_stairs);
+		r.register(decor_door);
+		r.register(decor_trap_door);
+
+		initTileEntities();
+	}
+
+	@SubscribeEvent
+	public static void initItems(RegistryEvent.Register<Item> evt) {
+		IForgeRegistry<Item> r = evt.getRegistry();
+
+		r.register(new ItemManualBlock(calendar).setRegistryName(calendar.getRegistryName()));
+		r.register(new ItemManualBlock(wall_clock).setRegistryName(wall_clock.getRegistryName()));
+		r.register(new ItemManualBlock(light_bulb).setRegistryName(light_bulb.getRegistryName()));
+		r.register(new ItemManualBlock(lamp_post_bottom).setRegistryName(lamp_post_bottom.getRegistryName()));
+		r.register(new ItemManualBlock(lamp_post_middle).setRegistryName(lamp_post_middle.getRegistryName()));
+		r.register(new ItemManualBlock(lamp_post_top).setRegistryName(lamp_post_top.getRegistryName()));
+		r.register(new ItemManualBlock(road).setRegistryName(road.getRegistryName()));
+		r.register(new ItemManualBlock(fancy_stone).setRegistryName(fancy_stone.getRegistryName()));
+		r.register(new ItemManualBlock(chain).setRegistryName(chain.getRegistryName()));
+		r.register(new ItemManualBlock(cage).setRegistryName(cage.getRegistryName()));
+		r.register(new ItemManualBlock(pot).setRegistryName(pot.getRegistryName()));
+		r.register(new ItemManualBlock(craft_clay).setRegistryName(craft_clay.getRegistryName()));
+		r.register(new ItemManualBlock(craft_bone).setRegistryName(craft_bone.getRegistryName()));
+		r.register(new ItemManualBlock(hardened_wood).setRegistryName(hardened_wood.getRegistryName()));
+		r.register(new ItemManualBlock(burning_wood).setRegistryName(burning_wood.getRegistryName()));
+		r.register(new ItemManualBlock(decor_door).setRegistryName(decor_door.getRegistryName()));
+		r.register(new ItemLantern(lantern).setRegistryName(lantern.getRegistryName()));
+		r.register(new ItemColorizer(colorizer).setRegistryName(colorizer.getRegistryName()));
+		r.register(new ItemColorizer(colorizer_light).setRegistryName(colorizer_light.getRegistryName()));
+		r.register(new ItemColorizer(fireplace).setRegistryName(fireplace.getRegistryName()));
+		r.register(new ItemColorizer(firering).setRegistryName(firering.getRegistryName()));
+		r.register(new ItemColorizer(firepit).setRegistryName(firepit.getRegistryName()));
+		r.register(new ItemColorizer(chimney).setRegistryName(chimney.getRegistryName()));
+		r.register(new ItemColorizer(stove).setRegistryName(stove.getRegistryName()));
+		r.register(new ItemColorizer(table).setRegistryName(table.getRegistryName()));
+		r.register(new ItemColorizer(counter).setRegistryName(counter.getRegistryName()));
+		r.register(new ItemColorizer(stool).setRegistryName(stool.getRegistryName()));
+		r.register(new ItemColorizer(chair).setRegistryName(chair.getRegistryName()));
+		r.register(new ItemColorizer(wall).setRegistryName(wall.getRegistryName()));
+		r.register(new ItemColorizer(fence).setRegistryName(fence.getRegistryName()));
+		r.register(new ItemColorizer(fence_gate).setRegistryName(fence_gate.getRegistryName()));
+		r.register(new ItemColorizer(decor_trap_door).setRegistryName(decor_trap_door.getRegistryName()));
+		r.register(new ItemGrill(grill).setRegistryName(grill.getRegistryName()));
+		r.register(new ItemSloped(corner).setRegistryName(corner.getRegistryName()));
+		r.register(new ItemSloped(slope, true).setRegistryName(slope.getRegistryName()));
+		r.register(new ItemSloped(sloped_angle).setRegistryName(sloped_angle.getRegistryName()));
+		r.register(new ItemSloped(slanted_corner).setRegistryName(slanted_corner.getRegistryName()));
+		r.register(new ItemSloped(oblique_slope).setRegistryName(oblique_slope.getRegistryName()));
+		r.register(new ItemSloped(sloped_intersection).setRegistryName(sloped_intersection.getRegistryName()));
+		r.register(new ItemSloped(pyramid).setRegistryName(pyramid.getRegistryName()));
+		r.register(new ItemSloped(full_pyramid).setRegistryName(full_pyramid.getRegistryName()));
+		r.register(new ItemSloped(sloped_post).setRegistryName(sloped_post.getRegistryName()));
+		r.register(new ItemSloped(pillar).setRegistryName(pillar.getRegistryName()));
+		r.register(new ItemDecorStairs(decor_stairs).setRegistryName(decor_stairs.getRegistryName()));
+	}
+
+	private static void initTileEntities() {
+		GameRegistry.registerTileEntity(TileEntityCalendar.class, "calendar");
+		GameRegistry.registerTileEntity(TileEntityWallClock.class, "wall_clock");
+		GameRegistry.registerTileEntity(TileEntityGrill.class, "grill");
+		GameRegistry.registerTileEntity(TileEntityColorizer.class, "colorizer");
+		GameRegistry.registerTileEntity(TileEntityCage.class, "cage");
+	}
+
+	@SubscribeEvent
+	public static void registerRecipes(RegistryEvent.Register<IRecipe> evt) {
+		GameRegistry.addSmelting(Blocks.GRAVEL, new ItemStack(road, 1), 0.15F);
 	}
 
 	public static IRecipe mossy;
@@ -198,61 +226,58 @@ public class DecorBlocks implements IPartItems {
 	public static List<IRecipe> colorizers;
 	public static List<IRecipe> lights = new ArrayList<IRecipe>();
 
-	@Override
-	public void addRecipes() {
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(calendar, 1), new Object[] { "##", "##", "##", '#', Items.PAPER }));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(wall_clock, 1), new Object[] { "XIX", "IRI", "XIX", 'X', "plankWood", 'I', "ingotGold", 'R', "dustRedstone" }));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(wall_clock, 1), new Object[] { "XXX", "XRX", "XXX", 'X', "plankWood", 'R', Items.CLOCK }));
-		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(Items.CLOCK, 1), new Object[] { wall_clock }));
-		clocks = RecipeHelper.getLatestIRecipes(3);
+	public static void addRecipes() {
+		CreateRecipes.addShapedRecipe(new ItemStack(calendar, 1), new Object[] { "##", "##", "##", '#', Items.PAPER });
+		CreateRecipes.addShapedRecipe(new ItemStack(wall_clock, 1), new Object[] { "XIX", "IRI", "XIX", 'X', "plankWood", 'I', "ingotGold", 'R', "dustRedstone" });
+		CreateRecipes.addShapedRecipe(new ItemStack(wall_clock, 1), new Object[] { "XXX", "XRX", "XXX", 'X', "plankWood", 'R', Items.CLOCK });
+		CreateRecipes.addShapelessRecipe(new ItemStack(Items.CLOCK, 1), new Object[] { wall_clock });
+		// clocks = RecipeHelper.getLatestIRecipes(3);
 
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(light_bulb, 1, 0), new Object[] { "###", "#$#", " ! ", '#', "blockGlass", '$', Blocks.REDSTONE_TORCH, '!', "ingotIron" }));
-		lights.add(RecipeHelper.getLatestIRecipe());
+		CreateRecipes.addShapedRecipe(new ItemStack(light_bulb, 1, 0), new Object[] { "###", "#$#", " ! ", '#', "blockGlass", '$', Blocks.REDSTONE_TORCH, '!', "ingotIron" });
+		// lights.add(RecipeHelper.getLatestIRecipe());
 
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(craft_bone, 1), new Object[] { " # ", "###", "###", '#', Items.BONE }));
-		crafts.add(RecipeHelper.getLatestIRecipe());
+		CreateRecipes.addShapedRecipe(new ItemStack(craft_bone, 1), new Object[] { " # ", "###", "###", '#', Items.BONE });
+		// crafts.add(RecipeHelper.getLatestIRecipe());
 
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(lantern, 1, 0), new Object[] { " # ", "#X#", '#', Items.PAPER, 'X', "dustGlowstone" }));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(lantern, 1, 1), new Object[] { " # ", "#X#", '#', Items.BONE, 'X', "dustGlowstone" }));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(lantern, 1, 2), new Object[] { " # ", "#X#", '#', "ingotIron", 'X', "dustGlowstone" }));
+		CreateRecipes.addShapedRecipe(new ItemStack(lantern, 1, 0), new Object[] { " # ", "#X#", '#', Items.PAPER, 'X', "dustGlowstone" });
+		CreateRecipes.addShapedRecipe(new ItemStack(lantern, 1, 1), new Object[] { " # ", "#X#", '#', Items.BONE, 'X', "dustGlowstone" });
+		CreateRecipes.addShapedRecipe(new ItemStack(lantern, 1, 2), new Object[] { " # ", "#X#", '#', "ingotIron", 'X', "dustGlowstone" });
 
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Blocks.MOSSY_COBBLESTONE, 8), new Object[] { "###", "#X#", "###", '#', Blocks.COBBLESTONE, 'X', Items.WATER_BUCKET }));
-		mossy = RecipeHelper.getLatestIRecipe();
+		CreateRecipes.addShapedRecipe(new ItemStack(Blocks.MOSSY_COBBLESTONE, 8), new Object[] { "###", "#X#", "###", '#', Blocks.COBBLESTONE, 'X', Items.WATER_BUCKET });
+		// mossy = RecipeHelper.getLatestIRecipe();
 
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(fancy_stone, 1), new Object[] { "###", "# #", "###", '#', "stone" }));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Blocks.STONE, 8), new Object[] { "#", '#', fancy_stone }));
-		stone = RecipeHelper.getLatestIRecipes(2);
+		CreateRecipes.addShapedRecipe(new ItemStack(fancy_stone, 1), new Object[] { "###", "# #", "###", '#', "stone" });
+		CreateRecipes.addShapedRecipe(new ItemStack(Blocks.STONE, 8), new Object[] { "#", '#', fancy_stone });
+		// stone = RecipeHelper.getLatestIRecipes(2);
 
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(cage, 2), new Object[] { "###", "# #", "###", '#', "stickIron" }));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(chain, 2), new Object[] { "#", "#", '#', "stickIron" }));
-		chains = RecipeHelper.getLatestIRecipes(2);
+		CreateRecipes.addShapedRecipe(new ItemStack(cage, 2), new Object[] { "###", "# #", "###", '#', "stickIron" });
+		CreateRecipes.addShapedRecipe(new ItemStack(chain, 2), new Object[] { "#", "#", '#', "stickIron" });
+		// chains = RecipeHelper.getLatestIRecipes(2);
 
-		GameRegistry.addSmelting(Blocks.GRAVEL, new ItemStack(road, 1), 0.15F);
+		CreateRecipes.addShapedRecipe(new ItemStack(hardened_wood, 9), new Object[] { "###", "#W#", "###", '#', "stone", 'W', "plankWood" });
+		CreateRecipes.addShapedRecipe(new ItemStack(colorizer, 2), new Object[] { " # ", "#W#", " # ", '#', "dye", 'W', hardened_wood });
+		CreateRecipes.addShapedRecipe(new ItemStack(colorizer_light, 4), new Object[] { " # ", "#W#", " # ", '#', colorizer, 'W', Items.GLOWSTONE_DUST });
+		// colorizers = RecipeHelper.getLatestIRecipes(3);
 
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(hardened_wood, 9), new Object[] { "###", "#W#", "###", '#', "stone", 'W', "plankWood" }));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(colorizer, 2), new Object[] { " # ", "#W#", " # ", '#', "dye", 'W', hardened_wood }));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(colorizer_light, 4), new Object[] { " # ", "#W#", " # ", '#', colorizer, 'W', Items.GLOWSTONE_DUST }));
-		colorizers = RecipeHelper.getLatestIRecipes(3);
-
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(burning_wood, 5), new Object[] { " # ", "#W#", " # ", '#', "netherrack", 'W', "plankWood" }));
+		CreateRecipes.addShapedRecipe(new ItemStack(burning_wood, 5), new Object[] { " # ", "#W#", " # ", '#', "netherrack", 'W', "plankWood" });
 
 		addColorizerRecipe(corner, 4, "###", "## ", "#  ");
 		addColorizerRecipe(slope, 4, "#  ", "## ", "###");
-		addColorizerRecipe(sloped_angle, 5, " ##", "###");
+		addColorizerRecipe(sloped_angle, 5, " ##", "###", "");
 		addColorizerRecipe(slanted_corner, 5, "  #", "  #", "###");
-		addColorizerRecipe(oblique_slope, 4, "  #", "###");
+		addColorizerRecipe(oblique_slope, 4, "  #", "###", "");
 		addColorizerRecipe(sloped_post, 6, "# ", "##", "##");
-		addColorizerRecipe(sloped_intersection, 4, "## ", "# #");
-		addColorizerRecipe(pyramid, 4, " # ", "###");
+		addColorizerRecipe(sloped_intersection, 4, "## ", "# #", "");
+		addColorizerRecipe(pyramid, 4, " # ", "###", "");
 		addColorizerRecipe(full_pyramid, 4, " # ", " # ", "###");
 		addColorizerRecipe(decor_stairs, 4, "  #", " ##", "###");
-		addColorizerRecipe(stool, 4, "###", "S S");
-		addColorizerRecipe(counter, 4, "###", " S ");
+		addColorizerRecipe(stool, 4, "###", "S S", "");
+		addColorizerRecipe(counter, 4, "###", " S ", "");
 		addColorizerRecipe(table, 4, "###", "S S", "S S");
 		addColorizerRecipe(chair, 4, "#  ", "###", "S S");
 		addColorizerRecipe(wall, 4, "#", "#", "#");
-		addColorizerRecipe(fence, 4, "###", "#S#");
-		addColorizerRecipe(fence_gate, 4, "S#S", "SSS");
+		addColorizerRecipe(fence, 4, "###", "#S#", "");
+		addColorizerRecipe(fence_gate, 4, "S#S", "SSS", "");
 		addColorizerRecipe(DecorItems.lamp_item, 2, "#G#", "###", " # ");
 		addColorizerRecipe(fireplace, 2, "###", "#P#", "###");
 		addColorizerRecipe(chimney, 6, "# #", "# #", "#I#");
@@ -263,18 +288,18 @@ public class DecorBlocks implements IPartItems {
 		addColorizerRecipe(grill, 2, "#H#", "#P#", " # ");
 		addColorizerRecipe(pillar, 2, "#", "S", "#");
 		addColorizerRecipe(DecorItems.decor_door_item, 3, "##", "##", "##");
-		addColorizerRecipe(decor_trap_door, 2, "###", "###");
+		addColorizerRecipe(decor_trap_door, 2, "###", "###", "");
 	}
 
-	private void addColorizerRecipe(Block furnType, int amount, String... pattern) {
-		addColorizerRecipe(Item.getItemFromBlock(furnType), amount, pattern);
+	private static void addColorizerRecipe(Block furnType, int amount, String s1, String s2, String s3) {
+		addColorizerRecipe(Item.getItemFromBlock(furnType), amount, s1, s2, s3);
 	}
 
-	private void addColorizerRecipe(Item furnType, int amount, String... pattern) {
+	private static void addColorizerRecipe(Item furnType, int amount, String s1, String s2, String s3) {
 		ItemStack itemstack = new ItemStack(furnType, amount);
 		NBTHelper.setString(itemstack, "registryName", Block.REGISTRY.getNameForObject(Blocks.AIR).toString());
 		NBTHelper.setInteger(itemstack, "meta", 0);
 
-		GameRegistry.addRecipe(new ShapedOreRecipe(itemstack, new Object[] { pattern, '#', colorizer, 'S', "stickWood", 'G', "glowstone", 'P', burning_wood, 'I', "ingotIron", 'C', Items.COAL, 'H', new ItemStack(Items.COAL, 1, 1), 'B', Blocks.IRON_BARS }));
+		CreateRecipes.addShapedRecipe(itemstack, s1, s2, s3, '#', colorizer, 'S', "stickWood", 'G', "glowstone", 'P', burning_wood, 'I', "ingotIron", 'C', Items.COAL, 'H', new ItemStack(Items.COAL, 1, 1), 'B', Blocks.IRON_BARS);
 	}
 }

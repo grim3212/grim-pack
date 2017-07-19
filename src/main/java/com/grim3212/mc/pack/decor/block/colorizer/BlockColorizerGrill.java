@@ -15,7 +15,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
@@ -26,7 +25,7 @@ import net.minecraft.world.World;
 public class BlockColorizerGrill extends BlockColorizerFireplaceBase implements IManualBlock {
 
 	public BlockColorizerGrill() {
-		super();
+		super("grill");
 	}
 
 	@Override
@@ -83,8 +82,8 @@ public class BlockColorizerGrill extends BlockColorizerFireplaceBase implements 
 					if (!stack.isEmpty()) {
 						float var10 = worldIn.rand.nextFloat() * 0.8F + 0.1F;
 						float var11 = worldIn.rand.nextFloat() * 0.8F + 0.1F;
-						EntityItem var14;
-						for (float var12 = worldIn.rand.nextFloat() * 0.8F + 0.1F; stack.getCount() > 0; worldIn.spawnEntity(var14)) {
+						EntityItem item;
+						for (float var12 = worldIn.rand.nextFloat() * 0.8F + 0.1F; stack.getCount() > 0; worldIn.spawnEntity(item)) {
 							int var13 = worldIn.rand.nextInt(21) + 10;
 
 							if (var13 > stack.getCount()) {
@@ -92,14 +91,14 @@ public class BlockColorizerGrill extends BlockColorizerFireplaceBase implements 
 							}
 
 							stack.shrink(var13);
-							var14 = new EntityItem(worldIn, pos.getX() + var10, pos.getY() + var11, pos.getZ() + var12, new ItemStack(stack.getItem(), var13, stack.getItemDamage()));
+							item = new EntityItem(worldIn, pos.getX() + var10, pos.getY() + var11, pos.getZ() + var12, new ItemStack(stack.getItem(), var13, stack.getItemDamage()));
 							float var15 = 0.05F;
-							var14.motionX = ((float) worldIn.rand.nextGaussian() * var15);
-							var14.motionY = ((float) worldIn.rand.nextGaussian() * var15 + 0.2F);
-							var14.motionZ = ((float) worldIn.rand.nextGaussian() * var15);
+							item.motionX = ((float) worldIn.rand.nextGaussian() * var15);
+							item.motionY = ((float) worldIn.rand.nextGaussian() * var15 + 0.2F);
+							item.motionZ = ((float) worldIn.rand.nextGaussian() * var15);
 
 							if (stack.hasTagCompound()) {
-								var14.getEntityItem().setTagCompound((NBTTagCompound) stack.getTagCompound().copy());
+								item.getItem().setTagCompound(stack.getTagCompound().copy());
 							}
 						}
 					}

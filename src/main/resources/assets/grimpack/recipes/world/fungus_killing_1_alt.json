@@ -1,0 +1,20 @@
+{
+  "result": {
+    "item": "grimpack:fungus_killing",
+    "data": 1
+  },
+  "pattern": [
+    "XXX",
+    "XaX",
+    "XXX"
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "a": {
+      "item": "#DYEBLACK"
+    },
+    "X": {
+      "item": "#SLIMEBALL"
+    }
+  }
+}

@@ -7,7 +7,6 @@ package com.grim3212.mc.pack.core.network;
 
 import java.io.IOException;
 
-import com.google.common.base.Throwables;
 import com.grim3212.mc.pack.core.GrimCore;
 
 import io.netty.buffer.ByteBuf;
@@ -64,7 +63,7 @@ public abstract class AbstractMessage<T extends AbstractMessage<T>> implements I
 		try {
 			read(new PacketBuffer(buffer));
 		} catch (IOException e) {
-			throw Throwables.propagate(e);
+			throw new RuntimeException(e);
 		}
 	}
 
@@ -73,7 +72,7 @@ public abstract class AbstractMessage<T extends AbstractMessage<T>> implements I
 		try {
 			write(new PacketBuffer(buffer));
 		} catch (IOException e) {
-			throw Throwables.propagate(e);
+			throw new RuntimeException(e);
 		}
 	}
 

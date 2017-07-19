@@ -1,0 +1,18 @@
+{
+  "result": {
+    "item": "grimpack:raw_empty_pie"
+  },
+  "pattern": [
+    "X",
+    "M"
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "X": {
+      "item": "#FOODDOUGH"
+    },
+    "M": {
+      "item": "grimpack:pan"
+    }
+  }
+}

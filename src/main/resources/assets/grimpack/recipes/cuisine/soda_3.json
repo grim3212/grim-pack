@@ -1,0 +1,21 @@
+{
+  "result": {
+    "item": "grimpack:soda",
+    "data": 3,
+    "count": 4
+  },
+  "pattern": [
+    " X ",
+    "X0X",
+    " X "
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "0": {
+      "item": "minecraft:flint"
+    },
+    "X": {
+      "item": "#INGOTIRON"
+    }
+  }
+}

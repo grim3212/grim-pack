@@ -1,0 +1,22 @@
+{
+  "result": {
+    "item": "grimpack:garage_remote"
+  },
+  "pattern": [
+    "b",
+    "r",
+    "i"
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "b": {
+      "item": "minecraft:stone_button"
+    },
+    "r": {
+      "item": "#DUSTREDSTONE"
+    },
+    "i": {
+      "item": "#INGOTIRON"
+    }
+  }
+}

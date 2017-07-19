@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.grim3212.mc.pack.core.item.ItemManual;
 import com.grim3212.mc.pack.core.manual.pages.Page;
+import com.grim3212.mc.pack.core.part.GrimCreativeTabs;
 import com.grim3212.mc.pack.industry.client.ManualIndustry;
 
 import net.minecraft.client.resources.I18n;
@@ -12,9 +13,10 @@ import net.minecraft.item.ItemStack;
 
 public class ItemCombination extends ItemManual {
 
-	public ItemCombination() {
-		super();
+	public ItemCombination(String name) {
+		super(name);
 		this.maxStackSize = 16;
+		setCreativeTab(GrimCreativeTabs.GRIM_INDUSTRY);
 	}
 
 	public void addInformation(ItemStack itemstack, EntityPlayer entityplayer, List<String> list, boolean flag) {

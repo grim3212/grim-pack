@@ -1,0 +1,16 @@
+{
+  "result": {
+    "item": "minecraft:stone",
+    "data": 0,
+    "count": 8
+  },
+  "pattern": [
+    "#"
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "#": {
+      "item": "grimpack:fancy_stone"
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "result": {
+    "item": "grimpack:tomahawk"
+  },
+  "pattern": [
+    "XX ",
+    "XY ",
+    " Y "
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "X": {
+      "item": "#INGOTIRON"
+    },
+    "Y": {
+      "item": "grimpack:grip"
+    }
+  }
+}

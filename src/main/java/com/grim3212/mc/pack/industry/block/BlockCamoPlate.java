@@ -4,8 +4,10 @@ import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.grim3212.mc.pack.GrimPack;
 import com.grim3212.mc.pack.core.manual.IManualEntry.IManualBlock;
 import com.grim3212.mc.pack.core.manual.pages.Page;
+import com.grim3212.mc.pack.core.part.GrimCreativeTabs;
 import com.grim3212.mc.pack.core.property.UnlistedPropertyBlockState;
 import com.grim3212.mc.pack.core.util.NBTHelper;
 import com.grim3212.mc.pack.industry.client.ManualIndustry;
@@ -28,7 +30,6 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.stats.StatList;
 import net.minecraft.tileentity.TileEntity;
@@ -36,6 +37,7 @@ import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.NonNullList;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
@@ -55,6 +57,11 @@ public class BlockCamoPlate extends BlockPressurePlate implements ITileEntityPro
 	protected BlockCamoPlate() {
 		super(Material.IRON, Sensitivity.EVERYTHING);
 		this.setSoundType(SoundType.METAL);
+		setHardness(0.5F);
+		setResistance(5.0F);
+		setUnlocalizedName("camo_plate");
+		setRegistryName(new ResourceLocation(GrimPack.modID, "camo_plate"));
+		setCreativeTab(GrimCreativeTabs.GRIM_INDUSTRY);
 	}
 
 	@Override
@@ -135,11 +142,11 @@ public class BlockCamoPlate extends BlockPressurePlate implements ITileEntityPro
 	}
 
 	@Override
-	public void getSubBlocks(Item itemIn, CreativeTabs tab, NonNullList<ItemStack> list) {
+	public void getSubBlocks(CreativeTabs itemIn, NonNullList<ItemStack> items) {
 		ItemStack itemstack = new ItemStack(this);
 		NBTHelper.setString(itemstack, "registryName", Block.REGISTRY.getNameForObject(Blocks.AIR).toString());
 		NBTHelper.setInteger(itemstack, "meta", 0);
-		list.add(itemstack);
+		items.add(itemstack);
 	}
 
 	@Override

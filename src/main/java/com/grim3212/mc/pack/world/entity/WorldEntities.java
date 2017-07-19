@@ -5,7 +5,6 @@ import java.util.Iterator;
 import java.util.List;
 
 import com.google.common.collect.Iterables;
-import com.grim3212.mc.pack.core.part.IPartEntities;
 import com.grim3212.mc.pack.core.util.GrimLog;
 import com.grim3212.mc.pack.core.util.Utils;
 import com.grim3212.mc.pack.world.GrimWorld;
@@ -20,10 +19,9 @@ import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.common.BiomeDictionary.Type;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
 
-public class WorldEntities implements IPartEntities {
+public class WorldEntities {
 
-	@Override
-	public void initEntities() {
+	public static void initEntities() {
 		// Ice Pixie
 		Utils.registerEntity(EntityIcePixie.class, "IcePixie", 80, 3, true, 13887466, 7121318);
 		Utils.registerEntity(EntityIceCube.class, "IceCube", 80, 3, true);

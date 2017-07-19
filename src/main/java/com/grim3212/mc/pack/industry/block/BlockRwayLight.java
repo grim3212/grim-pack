@@ -4,6 +4,7 @@ import java.util.Random;
 
 import com.grim3212.mc.pack.core.block.BlockManual;
 import com.grim3212.mc.pack.core.manual.pages.Page;
+import com.grim3212.mc.pack.core.part.GrimCreativeTabs;
 import com.grim3212.mc.pack.industry.client.ManualIndustry;
 
 import net.minecraft.block.Block;
@@ -16,8 +17,16 @@ import net.minecraft.world.World;
 
 public class BlockRwayLight extends BlockManual {
 
-	public BlockRwayLight() {
-		super(Material.ROCK, SoundType.STONE);
+	public BlockRwayLight(boolean light) {
+		super(light ? "rway_light_on" : "rway_light_off", Material.ROCK, SoundType.STONE);
+
+		if (light)
+			setLightLevel(1.0f);
+		else
+			setCreativeTab(GrimCreativeTabs.GRIM_INDUSTRY);
+
+		setHardness(1.0F);
+		setResistance(15.0F);
 	}
 
 	@Override

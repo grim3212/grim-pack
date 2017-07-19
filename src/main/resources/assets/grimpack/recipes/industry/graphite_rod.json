@@ -1,0 +1,16 @@
+{
+  "result": {
+    "item": "grimpack:graphite_rod"
+  },
+  "pattern": [
+    "GGG",
+    "GGG",
+    "GGG"
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "G": {
+      "item": "grimpack:graphite"
+    }
+  }
+}

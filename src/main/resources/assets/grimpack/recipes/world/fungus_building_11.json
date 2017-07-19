@@ -1,0 +1,20 @@
+{
+  "result": {
+    "item": "grimpack:fungus_building",
+    "data": 11
+  },
+  "pattern": [
+    "XXX",
+    "XaX",
+    "XXX"
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "a": {
+      "item": "grimpack:randomite"
+    },
+    "X": {
+      "item": "#SLIMEBALL"
+    }
+  }
+}

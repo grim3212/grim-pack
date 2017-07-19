@@ -1,0 +1,14 @@
+{
+  "result": {
+    "item": "minecraft:gunpowder"
+  },
+  "pattern": [
+    "X"
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "X": {
+      "item": "grimpack:gunpowder_reed_item"
+    }
+  }
+}

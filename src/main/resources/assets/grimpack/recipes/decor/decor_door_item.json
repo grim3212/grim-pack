@@ -1,0 +1,25 @@
+{
+  "result": {
+    "nbt": {
+      "meta": {
+        "data": 0
+      },
+      "registryName": {
+        "data": "minecraft:air"
+      }
+    },
+    "item": "grimpack:decor_door_item",
+    "count": 3
+  },
+  "pattern": [
+    "##",
+    "##",
+    "##"
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "#": {
+      "item": "grimpack:colorizer"
+    }
+  }
+}

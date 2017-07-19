@@ -1,0 +1,22 @@
+{
+  "result": {
+    "item": "grimpack:low_gravity_controller"
+  },
+  "pattern": [
+    "EGE",
+    "GDG",
+    "EGE"
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "D": {
+      "item": "#GEMDIAMOND"
+    },
+    "E": {
+      "item": "#ENDERPEARL"
+    },
+    "G": {
+      "item": "#INGOTGOLD"
+    }
+  }
+}

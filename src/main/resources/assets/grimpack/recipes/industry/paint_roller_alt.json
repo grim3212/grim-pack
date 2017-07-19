@@ -1,0 +1,14 @@
+{
+  "result": {
+    "item": "grimpack:paint_roller"
+  },
+  "ingredients": [
+    {
+      "item": "grimpack:paint_roller_red"
+    },
+    {
+      "item": "minecraft:water_bucket"
+    }
+  ],
+  "type": "minecraft:crafting_shapeless"
+}

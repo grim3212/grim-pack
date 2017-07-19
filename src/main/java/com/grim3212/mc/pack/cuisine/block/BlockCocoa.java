@@ -27,7 +27,8 @@ public class BlockCocoa extends BlockManual {
 	protected static final AxisAlignedBB COCOA_AABB = new AxisAlignedBB(0.28F, 0.25F, 0.28F, 0.72F, 1F, 0.72F);
 
 	protected BlockCocoa() {
-		super(Material.CIRCUITS, SoundType.CLOTH);
+		super("cocoa_block", Material.CIRCUITS, SoundType.CLOTH);
+		setHardness(1.0f);
 	}
 
 	@Override

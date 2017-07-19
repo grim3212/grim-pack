@@ -107,51 +107,51 @@ public class GuiSpecificSensor extends GuiContainer {
 		this.reset.visible = false;
 		this.reset.enabled = false;
 
-		entityName = new GuiTextField(0, fontRendererObj, x + 57, y + 73, 100, 15);
+		entityName = new GuiTextField(0, fontRenderer, x + 57, y + 73, 100, 15);
 		entityName.setFocused(false);
 		entityName.setMaxStringLength(64);
 		entityName.setText(te.getSpecific().getEntityName());
 
-		playerName = new GuiTextField(1, fontRendererObj, x + 57, y + 93, 100, 15);
+		playerName = new GuiTextField(1, fontRenderer, x + 57, y + 93, 100, 15);
 		playerName.setFocused(false);
 		playerName.setText(te.getSpecific().getPlayerName());
 
-		minX = new GuiTextField(5, fontRendererObj, x + 9 + 14, y + 75, 34, 15);
+		minX = new GuiTextField(5, fontRenderer, x + 9 + 14, y + 75, 34, 15);
 		minX.setFocused(false);
 		minX.setMaxStringLength(10);
 		minX.setText(String.valueOf(te.getSenseBox().minX));
 		minX.setVisible(false);
 		minX.setEnabled(false);
 
-		minY = new GuiTextField(5, fontRendererObj, x + 59 + 14, y + 75, 34, 15);
+		minY = new GuiTextField(5, fontRenderer, x + 59 + 14, y + 75, 34, 15);
 		minY.setFocused(false);
 		minY.setMaxStringLength(10);
 		minY.setText(String.valueOf(te.getSenseBox().minY));
 		minY.setVisible(false);
 		minY.setEnabled(false);
 
-		minZ = new GuiTextField(5, fontRendererObj, x + 109 + 14, y + 75, 34, 15);
+		minZ = new GuiTextField(5, fontRenderer, x + 109 + 14, y + 75, 34, 15);
 		minZ.setFocused(false);
 		minZ.setMaxStringLength(10);
 		minZ.setText(String.valueOf(te.getSenseBox().minZ));
 		minZ.setVisible(false);
 		minZ.setEnabled(false);
 
-		maxX = new GuiTextField(5, fontRendererObj, x + 9 + 14, y + 113, 34, 15);
+		maxX = new GuiTextField(5, fontRenderer, x + 9 + 14, y + 113, 34, 15);
 		maxX.setFocused(false);
 		maxX.setMaxStringLength(10);
 		maxX.setText(String.valueOf(te.getSenseBox().maxX));
 		maxX.setVisible(false);
 		maxX.setEnabled(false);
 
-		maxY = new GuiTextField(5, fontRendererObj, x + 59 + 14, y + 113, 34, 15);
+		maxY = new GuiTextField(5, fontRenderer, x + 59 + 14, y + 113, 34, 15);
 		maxY.setFocused(false);
 		maxY.setMaxStringLength(10);
 		maxY.setText(String.valueOf(te.getSenseBox().maxY));
 		maxY.setVisible(false);
 		maxY.setEnabled(false);
 
-		maxZ = new GuiTextField(5, fontRendererObj, x + 109 + 14, y + 113, 34, 15);
+		maxZ = new GuiTextField(5, fontRenderer, x + 109 + 14, y + 113, 34, 15);
 		maxZ.setFocused(false);
 		maxZ.setMaxStringLength(10);
 		maxZ.setText(String.valueOf(te.getSenseBox().maxZ));
@@ -514,41 +514,41 @@ public class GuiSpecificSensor extends GuiContainer {
 	@Override
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
 		String s = this.te.getDisplayName().getUnformattedText();
-		drawCenteredString(fontRendererObj, s, xSize / 2, 8, 0xffffff);
+		drawCenteredString(fontRenderer, s, xSize / 2, 8, 0xffffff);
 
 		if (this.onMainPage) {
 			GlStateManager.pushMatrix();
 			GlStateManager.scale(0.70f, 0.70f, 0.75f);
-			this.fontRendererObj.drawString(I18n.format("grimpack.industry.sensor.entityName"), 19, 110, 0xffffff);
-			this.fontRendererObj.drawString(I18n.format("grimpack.industry.sensor.playerName"), 14, 138, 0xffffff);
+			this.fontRenderer.drawString(I18n.format("grimpack.industry.sensor.entityName"), 19, 110, 0xffffff);
+			this.fontRenderer.drawString(I18n.format("grimpack.industry.sensor.playerName"), 14, 138, 0xffffff);
 			GlStateManager.popMatrix();
 
 			if (te.isGoodPosition()) {
-				this.fontRendererObj.drawString(I18n.format("grimpack.industry.sensor.goodPos"), 11, 36, 0x00ff00);
+				this.fontRenderer.drawString(I18n.format("grimpack.industry.sensor.goodPos"), 11, 36, 0x00ff00);
 			} else {
 
 				if (!(te.getSensorPos().distanceSq(te.getPos()) > 80)) {
-					this.fontRendererObj.drawString(I18n.format("grimpack.industry.sensor.badPos"), 11, 36, 0xff0000);
+					this.fontRenderer.drawString(I18n.format("grimpack.industry.sensor.badPos"), 11, 36, 0xff0000);
 				} else {
-					this.fontRendererObj.drawString(I18n.format("grimpack.industry.sensor.outOfRange"), 11, 36, 0xff0000);
+					this.fontRenderer.drawString(I18n.format("grimpack.industry.sensor.outOfRange"), 11, 36, 0xff0000);
 				}
 			}
 
-			this.fontRendererObj.drawString(I18n.format("grimpack.industry.sensor.mode"), 140, 36, 0xffffff);
+			this.fontRenderer.drawString(I18n.format("grimpack.industry.sensor.mode"), 140, 36, 0xffffff);
 
 			if (this.settingPos) {
-				this.fontRendererObj.drawString(I18n.format("grimpack.industry.sensor.settingPos"), 11, 117, 0xffffff);
+				this.fontRenderer.drawString(I18n.format("grimpack.industry.sensor.settingPos"), 11, 117, 0xffffff);
 			} else {
-				this.fontRendererObj.drawString(I18n.format("grimpack.industry.sensor.coords"), 11, 117, 0xffffff);
-				this.fontRendererObj.drawString(I18n.format("grimpack.industry.sensor.x"), 55, 117, 0xffffff);
-				this.fontRendererObj.drawString(String.valueOf(te.getSensorPos().getX()), 65, 117, 0xffffff);
-				this.fontRendererObj.drawString(I18n.format("grimpack.industry.sensor.y"), 95, 117, 0xffffff);
-				this.fontRendererObj.drawString(String.valueOf(te.getSensorPos().getY()), 105, 117, 0xffffff);
-				this.fontRendererObj.drawString(I18n.format("grimpack.industry.sensor.z"), 130, 117, 0xffffff);
-				this.fontRendererObj.drawString(String.valueOf(te.getSensorPos().getZ()), 140, 117, 0xffffff);
+				this.fontRenderer.drawString(I18n.format("grimpack.industry.sensor.coords"), 11, 117, 0xffffff);
+				this.fontRenderer.drawString(I18n.format("grimpack.industry.sensor.x"), 55, 117, 0xffffff);
+				this.fontRenderer.drawString(String.valueOf(te.getSensorPos().getX()), 65, 117, 0xffffff);
+				this.fontRenderer.drawString(I18n.format("grimpack.industry.sensor.y"), 95, 117, 0xffffff);
+				this.fontRenderer.drawString(String.valueOf(te.getSensorPos().getY()), 105, 117, 0xffffff);
+				this.fontRenderer.drawString(I18n.format("grimpack.industry.sensor.z"), 130, 117, 0xffffff);
+				this.fontRenderer.drawString(String.valueOf(te.getSensorPos().getZ()), 140, 117, 0xffffff);
 			}
 
-			this.fontRendererObj.drawString(this.selectingItem ? I18n.format("grimpack.industry.sensor.selecting") : this.te.getSpecific().getStack() == null ? I18n.format("grimpack.industry.sensor.noitem") : I18n.format("grimpack.industry.sensor.selected"), 11, 56, 0xffffff);
+			this.fontRenderer.drawString(this.selectingItem ? I18n.format("grimpack.industry.sensor.selecting") : this.te.getSpecific().getStack() == null ? I18n.format("grimpack.industry.sensor.noitem") : I18n.format("grimpack.industry.sensor.selected"), 11, 56, 0xffffff);
 			GlStateManager.pushMatrix();
 			RenderHelper.enableGUIStandardItemLighting();
 			if (this.te.getSpecific().getStack() != null) {
@@ -565,14 +565,14 @@ public class GuiSpecificSensor extends GuiContainer {
 			}
 
 		} else {
-			this.drawCenteredString(fontRendererObj, I18n.format("grimpack.industry.sensor.min"), 90, 61, 0xffffff);
-			this.fontRendererObj.drawString(I18n.format("grimpack.industry.sensor.x"), 11, 79, 0xffffff);
-			this.fontRendererObj.drawString(I18n.format("grimpack.industry.sensor.y"), 61, 79, 0xffffff);
-			this.fontRendererObj.drawString(I18n.format("grimpack.industry.sensor.z"), 111, 79, 0xffffff);
-			this.drawCenteredString(fontRendererObj, I18n.format("grimpack.industry.sensor.max"), 90, 100, 0xffffff);
-			this.fontRendererObj.drawString(I18n.format("grimpack.industry.sensor.x"), 11, 117, 0xffffff);
-			this.fontRendererObj.drawString(I18n.format("grimpack.industry.sensor.y"), 61, 117, 0xffffff);
-			this.fontRendererObj.drawString(I18n.format("grimpack.industry.sensor.z"), 111, 117, 0xffffff);
+			this.drawCenteredString(fontRenderer, I18n.format("grimpack.industry.sensor.min"), 90, 61, 0xffffff);
+			this.fontRenderer.drawString(I18n.format("grimpack.industry.sensor.x"), 11, 79, 0xffffff);
+			this.fontRenderer.drawString(I18n.format("grimpack.industry.sensor.y"), 61, 79, 0xffffff);
+			this.fontRenderer.drawString(I18n.format("grimpack.industry.sensor.z"), 111, 79, 0xffffff);
+			this.drawCenteredString(fontRenderer, I18n.format("grimpack.industry.sensor.max"), 90, 100, 0xffffff);
+			this.fontRenderer.drawString(I18n.format("grimpack.industry.sensor.x"), 11, 117, 0xffffff);
+			this.fontRenderer.drawString(I18n.format("grimpack.industry.sensor.y"), 61, 117, 0xffffff);
+			this.fontRenderer.drawString(I18n.format("grimpack.industry.sensor.z"), 111, 117, 0xffffff);
 		}
 
 		// Renders all tooltips if available

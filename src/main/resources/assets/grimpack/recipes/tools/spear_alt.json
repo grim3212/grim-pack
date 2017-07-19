@@ -1,0 +1,17 @@
+{
+  "result": {
+    "item": "grimpack:spear"
+  },
+  "pattern": [
+    "XX#"
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "#": {
+      "item": "minecraft:flint"
+    },
+    "X": {
+      "item": "#STICKWOOD"
+    }
+  }
+}

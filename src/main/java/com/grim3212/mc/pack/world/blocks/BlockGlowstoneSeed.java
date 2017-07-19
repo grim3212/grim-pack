@@ -4,7 +4,7 @@ import java.util.Random;
 
 import com.grim3212.mc.pack.core.block.BlockManual;
 import com.grim3212.mc.pack.core.manual.pages.Page;
-import com.grim3212.mc.pack.world.GrimWorld;
+import com.grim3212.mc.pack.core.part.GrimCreativeTabs;
 import com.grim3212.mc.pack.world.client.ManualWorld;
 import com.grim3212.mc.pack.world.config.WorldConfig;
 
@@ -32,11 +32,18 @@ public class BlockGlowstoneSeed extends BlockManual {
 	public static final PropertyInteger STEP = PropertyInteger.create("step", 0, 8);
 
 	protected BlockGlowstoneSeed() {
-		super(Material.PLANTS, SoundType.GLASS);
+		super("glowstone_seeds", Material.PLANTS, SoundType.GLASS);
 		disableStats();
 		setTickRandomly(true);
-		setCreativeTab(GrimWorld.INSTANCE.getCreativeTab());
-		this.setDefaultState(this.blockState.getBaseState().withProperty(STEP, 0));
+		setCreativeTab(GrimCreativeTabs.GRIM_WORLD);
+		this.setHardness(0.0F);
+		this.setResistance(0.0F);
+		this.setLightLevel(0.8F);
+	}
+
+	@Override
+	protected IBlockState getState() {
+		return this.blockState.getBaseState().withProperty(STEP, 0);
 	}
 
 	@Override

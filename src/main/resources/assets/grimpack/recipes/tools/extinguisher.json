@@ -1,0 +1,22 @@
+{
+  "result": {
+    "item": "grimpack:extinguisher"
+  },
+  "pattern": [
+    "FX ",
+    " X ",
+    " T "
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "T": {
+      "item": "#INGOTIRON"
+    },
+    "F": {
+      "item": "#DUSTREDSTONE"
+    },
+    "X": {
+      "item": "minecraft:water_bucket"
+    }
+  }
+}

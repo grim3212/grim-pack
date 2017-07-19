@@ -39,7 +39,12 @@ public class BlockColorizerFenceGate extends BlockColorizerFurnitureRotate {
 	protected static final AxisAlignedBB AABB_CLOSED_SELECTED_XAXIS = new AxisAlignedBB(0.375D, 0.0D, 0.0D, 0.625D, 1.5D, 1.0D);
 
 	public BlockColorizerFenceGate() {
-		this.setDefaultState(this.getDefaultState().withProperty(BlockFenceGate.OPEN, false).withProperty(BlockFenceGate.POWERED, false).withProperty(BlockFenceGate.IN_WALL, false));
+		super("fence_gate");
+	}
+
+	@Override
+	protected IBlockState getState() {
+		return this.getDefaultState().withProperty(BlockFenceGate.OPEN, false).withProperty(BlockFenceGate.POWERED, false).withProperty(BlockFenceGate.IN_WALL, false);
 	}
 
 	@Override

@@ -1,0 +1,19 @@
+{
+  "result": {
+    "item": "grimpack:fire_block"
+  },
+  "pattern": [
+    "###",
+    "#!#",
+    "###"
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "!": {
+      "item": "minecraft:flint_and_steel"
+    },
+    "#": {
+      "item": "#BLOCKIRON"
+    }
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "result": {
+    "item": "grimpack:chocolate_bowl"
+  },
+  "pattern": [
+    " X ",
+    "XAX",
+    " B "
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "A": {
+      "item": "minecraft:sugar"
+    },
+    "B": {
+      "item": "#BUCKETMILK"
+    },
+    "X": {
+      "item": "grimpack:cocoa_dust"
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "result": {
+    "item": "grimpack:halogen_torch",
+    "count": 4
+  },
+  "pattern": [
+    "G",
+    "R",
+    "S"
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "R": {
+      "item": "#DUSTREDSTONE"
+    },
+    "S": {
+      "item": "#STICKWOOD"
+    },
+    "G": {
+      "item": "#BLOCKGLASS"
+    }
+  }
+}

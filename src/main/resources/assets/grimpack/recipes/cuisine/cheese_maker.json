@@ -1,0 +1,19 @@
+{
+  "result": {
+    "item": "grimpack:cheese_maker"
+  },
+  "pattern": [
+    "X X",
+    "XIX",
+    "XXX"
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "X": {
+      "item": "#COBBLESTONE"
+    },
+    "I": {
+      "item": "minecraft:bucket"
+    }
+  }
+}

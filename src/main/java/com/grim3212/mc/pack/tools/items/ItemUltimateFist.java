@@ -3,8 +3,9 @@ package com.grim3212.mc.pack.tools.items;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Sets;
-import com.grim3212.mc.pack.core.manual.IManualEntry.IManualItem;
+import com.grim3212.mc.pack.core.item.ItemManualTool;
 import com.grim3212.mc.pack.core.manual.pages.Page;
+import com.grim3212.mc.pack.core.part.GrimCreativeTabs;
 import com.grim3212.mc.pack.tools.client.ManualTools;
 import com.grim3212.mc.pack.tools.config.ToolsConfig;
 
@@ -15,13 +16,13 @@ import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemTool;
 
-public class ItemUltimateFist extends ItemTool implements IManualItem {
+public class ItemUltimateFist extends ItemManualTool {
 
 	public ItemUltimateFist() {
-		super(ToolMaterial.DIAMOND, Sets.<Block> newHashSet());
+		super("ultimate_fist", ToolMaterial.DIAMOND, Sets.<Block>newHashSet());
 		this.setMaxDamage(ToolsConfig.fistHasDurability ? ToolsConfig.fistDurabilityAmount : 0);
+		setCreativeTab(GrimCreativeTabs.GRIM_TOOLS);
 	}
 
 	@Override
@@ -46,7 +47,7 @@ public class ItemUltimateFist extends ItemTool implements IManualItem {
 
 	@Override
 	public Multimap<String, AttributeModifier> getAttributeModifiers(EntityEquipmentSlot slot, ItemStack stack) {
-		Multimap<String, AttributeModifier> multimap = HashMultimap.<String, AttributeModifier> create();
+		Multimap<String, AttributeModifier> multimap = HashMultimap.<String, AttributeModifier>create();
 		if (slot == EntityEquipmentSlot.MAINHAND) {
 			multimap.put(SharedMonsterAttributes.ATTACK_DAMAGE.getName(), new AttributeModifier(ATTACK_DAMAGE_MODIFIER, "Tool modifier", ToolsConfig.fistEntityDamage, 0));
 			multimap.put(SharedMonsterAttributes.ATTACK_SPEED.getName(), new AttributeModifier(ATTACK_SPEED_MODIFIER, "Tool modifier", ToolsConfig.fistAttackSpeed, 0));

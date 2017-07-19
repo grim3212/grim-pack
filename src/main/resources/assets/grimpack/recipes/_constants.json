@@ -1,0 +1,660 @@
+[
+  {
+    "ingredient": {
+      "type": "forge:ore_dict",
+      "ore": "blockBlackDiamond"
+    },
+    "name": "BLOCKBLACKDIAMOND"
+  },
+  {
+    "ingredient": {
+      "type": "forge:ore_dict",
+      "ore": "blockDiamond"
+    },
+    "name": "BLOCKDIAMOND"
+  },
+  {
+    "ingredient": {
+      "type": "forge:ore_dict",
+      "ore": "blockFungus"
+    },
+    "name": "BLOCKFUNGUS"
+  },
+  {
+    "ingredient": {
+      "type": "forge:ore_dict",
+      "ore": "blockGlass"
+    },
+    "name": "BLOCKGLASS"
+  },
+  {
+    "ingredient": {
+      "type": "forge:ore_dict",
+      "ore": "blockGlassColorless"
+    },
+    "name": "BLOCKGLASSCOLORLESS"
+  },
+  {
+    "ingredient": {
+      "type": "forge:ore_dict",
+      "ore": "blockGold"
+    },
+    "name": "BLOCKGOLD"
+  },
+  {
+    "ingredient": {
+      "type": "forge:ore_dict",
+      "ore": "blockIron"
+    },
+    "name": "BLOCKIRON"
+  },
+  {
+    "ingredient": {
+      "type": "forge:ore_dict",
+      "ore": "blockRedstone"
+    },
+    "name": "BLOCKREDSTONE"
+  },
+  {
+    "ingredient": {
+      "type": "forge:ore_dict",
+      "ore": "blockSteel"
+    },
+    "name": "BLOCKSTEEL"
+  },
+  {
+    "ingredient": {
+      "type": "forge:ore_dict",
+      "ore": "bread"
+    },
+    "name": "BREAD"
+  },
+  {
+    "ingredient": {
+      "type": "forge:ore_dict",
+      "ore": "bucketMilk"
+    },
+    "name": "BUCKETMILK"
+  },
+  {
+    "ingredient": {
+      "type": "forge:ore_dict",
+      "ore": "can"
+    },
+    "name": "CAN"
+  },
+  {
+    "ingredient": {
+      "type": "forge:ore_dict",
+      "ore": "canAdvancedEnergy"
+    },
+    "name": "CANADVANCEDENERGY"
+  },
+  {
+    "ingredient": {
+      "type": "forge:ore_dict",
+      "ore": "canCrudeOil"
+    },
+    "name": "CANCRUDEOIL"
+  },
+  {
+    "ingredient": {
+      "type": "forge:ore_dict",
+      "ore": "canEnergy"
+    },
+    "name": "CANENERGY"
+  },
+  {
+    "ingredient": {
+      "type": "forge:ore_dict",
+      "ore": "canFuel"
+    },
+    "name": "CANFUEL"
+  },
+  {
+    "ingredient": {
+      "type": "forge:ore_dict",
+      "ore": "canOil"
+    },
+    "name": "CANOIL"
+  },
+  {
+    "ingredient": {
+      "type": "forge:ore_dict",
+      "ore": "chest"
+    },
+    "name": "CHEST"
+  },
+  {
+    "ingredient": {
+      "type": "forge:ore_dict",
+      "ore": "cobblestone"
+    },
+    "name": "COBBLESTONE"
+  },
+  {
+    "ingredient": {
+      "type": "forge:ore_dict",
+      "ore": "cropWheat"
+    },
+    "name": "CROPWHEAT"
+  },
+  {
+    "ingredient": {
+      "type": "forge:ore_dict",
+      "ore": "dirt"
+    },
+    "name": "DIRT"
+  },
+  {
+    "ingredient": {
+      "type": "forge:ore_dict",
+      "ore": "dustCoal"
+    },
+    "name": "DUSTCOAL"
+  },
+  {
+    "ingredient": {
+      "type": "forge:ore_dict",
+      "ore": "dustGlowstone"
+    },
+    "name": "DUSTGLOWSTONE"
+  },
+  {
+    "ingredient": {
+      "type": "forge:ore_dict",
+      "ore": "dustRedstone"
+    },
+    "name": "DUSTREDSTONE"
+  },
+  {
+    "ingredient": {
+      "type": "forge:ore_dict",
+      "ore": "dye"
+    },
+    "name": "DYE"
+  },
+  {
+    "ingredient": {
+      "type": "forge:ore_dict",
+      "ore": "dyeBlack"
+    },
+    "name": "DYEBLACK"
+  },
+  {
+    "ingredient": {
+      "type": "forge:ore_dict",
+      "ore": "dyeBlue"
+    },
+    "name": "DYEBLUE"
+  },
+  {
+    "ingredient": {
+      "type": "forge:ore_dict",
+      "ore": "dyeLightBlue"
+    },
+    "name": "DYELIGHTBLUE"
+  },
+  {
+    "ingredient": {
+      "type": "forge:ore_dict",
+      "ore": "dyeBrown"
+    },
+    "name": "DYEBROWN"
+  },
+  {
+    "ingredient": {
+      "type": "forge:ore_dict",
+      "ore": "dyeCyan"
+    },
+    "name": "DYECYAN"
+  },
+  {
+    "ingredient": {
+      "type": "forge:ore_dict",
+      "ore": "dyeGray"
+    },
+    "name": "DYEGRAY"
+  },
+  {
+    "ingredient": {
+      "type": "forge:ore_dict",
+      "ore": "dyeGreen"
+    },
+    "name": "DYEGREEN"
+  },
+  {
+    "ingredient": {
+      "type": "forge:ore_dict",
+      "ore": "dyeLightGray"
+    },
+    "name": "DYELIGHTGRAY"
+  },
+  {
+    "ingredient": {
+      "type": "forge:ore_dict",
+      "ore": "dyeLime"
+    },
+    "name": "DYELIME"
+  },
+  {
+    "ingredient": {
+      "type": "forge:ore_dict",
+      "ore": "dyeMagenta"
+    },
+    "name": "DYEMAGENTA"
+  },
+  {
+    "ingredient": {
+      "type": "forge:ore_dict",
+      "ore": "dyeOrange"
+    },
+    "name": "DYEORANGE"
+  },
+  {
+    "ingredient": {
+      "type": "forge:ore_dict",
+      "ore": "dyePink"
+    },
+    "name": "DYEPINK"
+  },
+  {
+    "ingredient": {
+      "type": "forge:ore_dict",
+      "ore": "dyePurple"
+    },
+    "name": "DYEPURPLE"
+  },
+  {
+    "ingredient": {
+      "type": "forge:ore_dict",
+      "ore": "dyeRed"
+    },
+    "name": "DYERED"
+  },
+  {
+    "ingredient": {
+      "type": "forge:ore_dict",
+      "ore": "dyeWhite"
+    },
+    "name": "DYEWHITE"
+  },
+  {
+    "ingredient": {
+      "type": "forge:ore_dict",
+      "ore": "dyeYellow"
+    },
+    "name": "DYEYELLOW"
+  },
+  {
+    "ingredient": {
+      "type": "forge:ore_dict",
+      "ore": "egg"
+    },
+    "name": "EGG"
+  },
+  {
+    "ingredient": {
+      "type": "forge:ore_dict",
+      "ore": "element115"
+    },
+    "name": "ELEMENT115"
+  },
+  {
+    "ingredient": {
+      "type": "forge:ore_dict",
+      "ore": "enderpearl"
+    },
+    "name": "ENDERPEARL"
+  },
+  {
+    "ingredient": {
+      "type": "forge:ore_dict",
+      "ore": "foodButter"
+    },
+    "name": "FOODBUTTER"
+  },
+  {
+    "ingredient": {
+      "type": "forge:ore_dict",
+      "ore": "foodCheese"
+    },
+    "name": "FOODCHEESE"
+  },
+  {
+    "ingredient": {
+      "type": "forge:ore_dict",
+      "ore": "foodDough"
+    },
+    "name": "FOODDOUGH"
+  },
+  {
+    "ingredient": {
+      "type": "forge:ore_dict",
+      "ore": "foodScrambledegg"
+    },
+    "name": "FOODSCRAMBLEDEGG"
+  },
+  {
+    "ingredient": {
+      "type": "forge:ore_dict",
+      "ore": "gemBlackDiamond"
+    },
+    "name": "GEMBLACKDIAMOND"
+  },
+  {
+    "ingredient": {
+      "type": "forge:ore_dict",
+      "ore": "gemDiamond"
+    },
+    "name": "GEMDIAMOND"
+  },
+  {
+    "ingredient": {
+      "type": "forge:ore_dict",
+      "ore": "glowstone"
+    },
+    "name": "GLOWSTONE"
+  },
+  {
+    "ingredient": {
+      "type": "forge:ore_dict",
+      "ore": "gravel"
+    },
+    "name": "GRAVEL"
+  },
+  {
+    "ingredient": {
+      "type": "forge:ore_dict",
+      "ore": "gunpowder"
+    },
+    "name": "GUNPOWDER"
+  },
+  {
+    "ingredient": {
+      "type": "forge:ore_dict",
+      "ore": "ingotAluminum"
+    },
+    "name": "INGOTALUMINUM"
+  },
+  {
+    "ingredient": {
+      "type": "forge:ore_dict",
+      "ore": "ingotDarkIron"
+    },
+    "name": "INGOTDARKIRON"
+  },
+  {
+    "ingredient": {
+      "type": "forge:ore_dict",
+      "ore": "ingotGold"
+    },
+    "name": "INGOTGOLD"
+  },
+  {
+    "ingredient": {
+      "type": "forge:ore_dict",
+      "ore": "ingotIron"
+    },
+    "name": "INGOTIRON"
+  },
+  {
+    "ingredient": {
+      "type": "forge:ore_dict",
+      "ore": "ingotPlutonium"
+    },
+    "name": "INGOTPLUTONIUM"
+  },
+  {
+    "ingredient": {
+      "type": "forge:ore_dict",
+      "ore": "ingotRefinedPlutonium"
+    },
+    "name": "INGOTREFINEDPLUTONIUM"
+  },
+  {
+    "ingredient": {
+      "type": "forge:ore_dict",
+      "ore": "ingotRefinedUranium"
+    },
+    "name": "INGOTREFINEDURANIUM"
+  },
+  {
+    "ingredient": {
+      "type": "forge:ore_dict",
+      "ore": "ingotSteel"
+    },
+    "name": "INGOTSTEEL"
+  },
+  {
+    "ingredient": {
+      "type": "forge:ore_dict",
+      "ore": "ingotUranium"
+    },
+    "name": "INGOTURANIUM"
+  },
+  {
+    "ingredient": {
+      "type": "forge:ore_dict",
+      "ore": "leather"
+    },
+    "name": "LEATHER"
+  },
+  {
+    "ingredient": {
+      "type": "forge:ore_dict",
+      "ore": "listAllbread"
+    },
+    "name": "LISTALLBREAD"
+  },
+  {
+    "ingredient": {
+      "type": "forge:ore_dict",
+      "ore": "logWood"
+    },
+    "name": "LOGWOOD"
+  },
+  {
+    "ingredient": {
+      "type": "forge:ore_dict",
+      "ore": "netherrack"
+    },
+    "name": "NETHERRACK"
+  },
+  {
+    "ingredient": {
+      "type": "forge:ore_dict",
+      "ore": "obsidian"
+    },
+    "name": "OBSIDIAN"
+  },
+  {
+    "ingredient": {
+      "type": "forge:ore_dict",
+      "ore": "oreAluminum"
+    },
+    "name": "OREALUMINUM"
+  },
+  {
+    "ingredient": {
+      "type": "forge:ore_dict",
+      "ore": "oreBlackDiamond"
+    },
+    "name": "OREBLACKDIAMOND"
+  },
+  {
+    "ingredient": {
+      "type": "forge:ore_dict",
+      "ore": "oreElement115"
+    },
+    "name": "OREELEMENT115"
+  },
+  {
+    "ingredient": {
+      "type": "forge:ore_dict",
+      "ore": "oreGold"
+    },
+    "name": "OREGOLD"
+  },
+  {
+    "ingredient": {
+      "type": "forge:ore_dict",
+      "ore": "oreIron"
+    },
+    "name": "OREIRON"
+  },
+  {
+    "ingredient": {
+      "type": "forge:ore_dict",
+      "ore": "oreOil"
+    },
+    "name": "OREOIL"
+  },
+  {
+    "ingredient": {
+      "type": "forge:ore_dict",
+      "ore": "oreRandomite"
+    },
+    "name": "ORERANDOMITE"
+  },
+  {
+    "ingredient": {
+      "type": "forge:ore_dict",
+      "ore": "oreUranium"
+    },
+    "name": "OREURANIUM"
+  },
+  {
+    "ingredient": {
+      "type": "forge:ore_dict",
+      "ore": "paneGlass"
+    },
+    "name": "PANEGLASS"
+  },
+  {
+    "ingredient": {
+      "type": "forge:ore_dict",
+      "ore": "paper"
+    },
+    "name": "PAPER"
+  },
+  {
+    "ingredient": {
+      "type": "forge:ore_dict",
+      "ore": "plankWood"
+    },
+    "name": "PLANKWOOD"
+  },
+  {
+    "ingredient": {
+      "type": "forge:ore_dict",
+      "ore": "rubber"
+    },
+    "name": "RUBBER"
+  },
+  {
+    "ingredient": {
+      "type": "forge:ore_dict",
+      "ore": "sand"
+    },
+    "name": "SAND"
+  },
+  {
+    "ingredient": {
+      "type": "forge:ore_dict",
+      "ore": "sandstone"
+    },
+    "name": "SANDSTONE"
+  },
+  {
+    "ingredient": {
+      "type": "forge:ore_dict",
+      "ore": "slabWood"
+    },
+    "name": "SLABWOOD"
+  },
+  {
+    "ingredient": {
+      "type": "forge:ore_dict",
+      "ore": "slimeball"
+    },
+    "name": "SLIMEBALL"
+  },
+  {
+    "ingredient": {
+      "type": "forge:ore_dict",
+      "ore": "stickIron"
+    },
+    "name": "STICKIRON"
+  },
+  {
+    "ingredient": {
+      "type": "forge:ore_dict",
+      "ore": "stickWood"
+    },
+    "name": "STICKWOOD"
+  },
+  {
+    "ingredient": {
+      "type": "forge:ore_dict",
+      "ore": "stone"
+    },
+    "name": "STONE"
+  },
+  {
+    "ingredient": {
+      "type": "forge:ore_dict",
+      "ore": "string"
+    },
+    "name": "STRING"
+  },
+  {
+    "ingredient": {
+      "type": "forge:ore_dict",
+      "ore": "tar"
+    },
+    "name": "TAR"
+  },
+  {
+    "ingredient": {
+      "type": "forge:ore_dict",
+      "ore": "toolCuttingboard"
+    },
+    "name": "TOOLCUTTINGBOARD"
+  },
+  {
+    "ingredient": {
+      "type": "forge:ore_dict",
+      "ore": "toolJuicer"
+    },
+    "name": "TOOLJUICER"
+  },
+  {
+    "ingredient": {
+      "type": "forge:ore_dict",
+      "ore": "torch"
+    },
+    "name": "TORCH"
+  },
+  {
+    "ingredient": {
+      "type": "forge:ore_dict",
+      "ore": "treeLeaves"
+    },
+    "name": "TREELEAVES"
+  },
+  {
+    "ingredient": {
+      "type": "forge:ore_dict",
+      "ore": "treeSapling"
+    },
+    "name": "TREESAPLING"
+  },
+  {
+    "ingredient": {
+      "type": "forge:ore_dict",
+      "ore": "workbench"
+    },
+    "name": "WORKBENCH"
+  }
+]

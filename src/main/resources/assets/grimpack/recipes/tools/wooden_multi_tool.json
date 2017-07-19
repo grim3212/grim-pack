@@ -1,0 +1,35 @@
+{
+  "result": {
+    "item": "grimpack:wooden_multi_tool"
+  },
+  "ingredients": [
+    {
+      "item": "minecraft:wooden_sword"
+    },
+    {
+      "item": "minecraft:wooden_pickaxe"
+    },
+    {
+      "item": "minecraft:wooden_shovel"
+    },
+    {
+      "item": "minecraft:wooden_hoe"
+    },
+    {
+      "item": "minecraft:wooden_axe"
+    },
+    {
+      "item": "#LOGWOOD"
+    },
+    {
+      "item": "#LOGWOOD"
+    },
+    {
+      "item": "#LOGWOOD"
+    },
+    {
+      "item": "#LOGWOOD"
+    }
+  ],
+  "type": "forge:ore_shapeless"
+}

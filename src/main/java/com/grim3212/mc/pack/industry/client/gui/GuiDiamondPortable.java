@@ -6,7 +6,7 @@ import com.grim3212.mc.pack.industry.item.IndustryItems;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.resources.I18n;
-import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
@@ -19,9 +19,9 @@ public class GuiDiamondPortable extends GuiContainer {
 	private IInventory playerInv;
 	private ItemStack portableStack;
 
-	public GuiDiamondPortable(InventoryPlayer inventoryplayer, World world, BlockPos pos, ItemStack stack) {
-		super(new ContainerDiamondWorkbench(inventoryplayer, world, pos, true));
-		this.playerInv = inventoryplayer;
+	public GuiDiamondPortable(EntityPlayer player, World world, BlockPos pos, ItemStack stack) {
+		super(new ContainerDiamondWorkbench(player, world, pos, true));
+		this.playerInv = player.inventory;
 
 		if (stack.getItem() == IndustryItems.portable_diamond_workbench) {
 			this.portableStack = stack;
@@ -31,10 +31,10 @@ public class GuiDiamondPortable extends GuiContainer {
 	@Override
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
 		if (this.portableStack.hasDisplayName())
-			fontRendererObj.drawString(this.portableStack.getDisplayName(), 8, 6, 4210752);
+			fontRenderer.drawString(this.portableStack.getDisplayName(), 8, 6, 4210752);
 		else
-			fontRendererObj.drawString(I18n.format("container.portable_diamond_workbench"), 8, 6, 4210752);
-		fontRendererObj.drawString(this.playerInv.getDisplayName().getUnformattedText(), 8, this.ySize - 96 + 2, 4210752);
+			fontRenderer.drawString(I18n.format("container.portable_diamond_workbench"), 8, 6, 4210752);
+		fontRenderer.drawString(this.playerInv.getDisplayName().getUnformattedText(), 8, this.ySize - 96 + 2, 4210752);
 	}
 
 	@Override

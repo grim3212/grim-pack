@@ -1,0 +1,35 @@
+{
+  "result": {
+    "item": "grimpack:golden_multi_tool"
+  },
+  "ingredients": [
+    {
+      "item": "minecraft:golden_sword"
+    },
+    {
+      "item": "minecraft:golden_pickaxe"
+    },
+    {
+      "item": "minecraft:golden_shovel"
+    },
+    {
+      "item": "minecraft:golden_hoe"
+    },
+    {
+      "item": "minecraft:golden_axe"
+    },
+    {
+      "item": "#INGOTGOLD"
+    },
+    {
+      "item": "#INGOTGOLD"
+    },
+    {
+      "item": "#INGOTGOLD"
+    },
+    {
+      "item": "#INGOTGOLD"
+    }
+  ],
+  "type": "forge:ore_shapeless"
+}

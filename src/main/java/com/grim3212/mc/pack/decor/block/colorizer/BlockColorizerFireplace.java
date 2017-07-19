@@ -26,7 +26,12 @@ public class BlockColorizerFireplace extends BlockColorizerFireplaceBase impleme
 	public static final PropertyBool WEST = PropertyBool.create("west");
 
 	public BlockColorizerFireplace() {
-		this.setDefaultState(blockState.getBaseState().withProperty(EAST, false).withProperty(WEST, false).withProperty(SOUTH, false).withProperty(NORTH, false).withProperty(ACTIVE, false));
+		super("fireplace");
+	}
+
+	@Override
+	protected IBlockState getState() {
+		return this.blockState.getBaseState().withProperty(EAST, false).withProperty(WEST, false).withProperty(SOUTH, false).withProperty(NORTH, false).withProperty(ACTIVE, false);
 	}
 
 	@Override

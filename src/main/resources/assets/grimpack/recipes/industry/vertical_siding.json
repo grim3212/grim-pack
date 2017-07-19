@@ -1,0 +1,23 @@
+{
+  "result": {
+    "item": "grimpack:vertical_siding",
+    "count": 4
+  },
+  "pattern": [
+    "C",
+    "t",
+    "a"
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "a": {
+      "item": "#INGOTALUMINUM"
+    },
+    "C": {
+      "item": "#COBBLESTONE"
+    },
+    "t": {
+      "item": "grimpack:tarball"
+    }
+  }
+}

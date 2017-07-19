@@ -4,7 +4,7 @@ import java.util.Random;
 
 import com.grim3212.mc.pack.core.item.ItemManual;
 import com.grim3212.mc.pack.core.manual.pages.Page;
-import com.grim3212.mc.pack.world.GrimWorld;
+import com.grim3212.mc.pack.core.part.GrimCreativeTabs;
 import com.grim3212.mc.pack.world.blocks.BlockFungusBase;
 import com.grim3212.mc.pack.world.client.ManualWorld;
 
@@ -25,8 +25,9 @@ import net.minecraft.world.World;
 public class ItemFungicide extends ItemManual {
 
 	public ItemFungicide() {
+		super("fungicide");
 		setMaxDamage(0);
-		setCreativeTab(GrimWorld.INSTANCE.getCreativeTab());
+		setCreativeTab(GrimCreativeTabs.GRIM_WORLD);
 		setMaxStackSize(1);
 	}
 

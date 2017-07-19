@@ -1,0 +1,19 @@
+{
+  "result": {
+    "item": "grimpack:black_diamond_sword"
+  },
+  "pattern": [
+    "#",
+    "#",
+    "X"
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "#": {
+      "item": "grimpack:black_diamond"
+    },
+    "X": {
+      "item": "#STICKWOOD"
+    }
+  }
+}

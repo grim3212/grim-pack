@@ -17,7 +17,7 @@ import net.minecraft.world.World;
 public class BlockFungusBuilding extends BlockFungusBase implements IManualBlock {
 
 	protected BlockFungusBuilding() {
-		super(true);
+		super("fungus_building", true);
 	}
 
 	public static final Block[] buildId = { Blocks.FLOWING_WATER, // 0

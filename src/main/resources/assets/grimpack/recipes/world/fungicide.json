@@ -1,0 +1,18 @@
+{
+  "result": {
+    "item": "grimpack:fungicide"
+  },
+  "pattern": [
+    "xkx",
+    " x "
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "x": {
+      "item": "#INGOTIRON"
+    },
+    "k": {
+      "item": "#DYEBLACK"
+    }
+  }
+}

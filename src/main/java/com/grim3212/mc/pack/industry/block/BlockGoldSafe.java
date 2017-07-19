@@ -22,7 +22,7 @@ import net.minecraft.world.World;
 public class BlockGoldSafe extends BlockStorage {
 
 	public BlockGoldSafe() {
-		super(Material.IRON, SoundType.METAL);
+		super("gold_safe", Material.IRON, SoundType.METAL);
 	}
 
 	@Override

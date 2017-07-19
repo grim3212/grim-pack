@@ -7,22 +7,25 @@ import com.grim3212.mc.pack.industry.block.IndustryBlocks;
 import com.grim3212.mc.pack.industry.config.IndustryConfig;
 
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.inventory.ContainerWorkbench;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.CraftingManager;
+import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public class ContainerDiamondWorkbench extends ContainerWorkbench {
 
+	private EntityPlayer player;
 	private World worldObj;
 	private BlockPos pos;
 	private boolean isPortable;
 
-	public ContainerDiamondWorkbench(InventoryPlayer invPlayer, World world, BlockPos pos, boolean isPortable) {
-		super(invPlayer, world, pos);
+	public ContainerDiamondWorkbench(EntityPlayer player, World world, BlockPos pos, boolean isPortable) {
+		super(player.inventory, world, pos);
+		this.player = player;
 		this.worldObj = world;
 		this.pos = pos;
 		this.isPortable = isPortable;
@@ -30,7 +33,15 @@ public class ContainerDiamondWorkbench extends ContainerWorkbench {
 
 	@Override
 	public void onCraftMatrixChanged(IInventory iinventory) {
-		ItemStack found = CraftingManager.getInstance().findMatchingRecipe(this.craftMatrix, this.worldObj);
+		ItemStack recipeStack = ItemStack.EMPTY;
+		EntityPlayerMP entityplayermp = (EntityPlayerMP) player;
+		IRecipe found = CraftingManager.findMatchingRecipe(this.craftMatrix, this.worldObj);
+
+		if (found != null && (found.isHidden() || !this.worldObj.getGameRules().getBoolean("doLimitedCrafting") || entityplayermp.getRecipeBook().containsRecipe(found))) {
+			this.craftResult.setRecipeUsed(found);
+			recipeStack = found.getCraftingResult(this.craftMatrix);
+		}
+
 		// Reset slot contents so that weird issues stop occuring
 		this.craftResult.setInventorySlotContents(0, ItemStack.EMPTY);
 
@@ -40,8 +51,8 @@ public class ContainerDiamondWorkbench extends ContainerWorkbench {
 			while (itr.hasNext()) {
 				ItemStack stack = itr.next();
 
-				if (RecipeHelper.compareItemStacks(found, stack)) {
-					this.craftResult.setInventorySlotContents(0, found);
+				if (RecipeHelper.compareItemStacks(recipeStack, stack)) {
+					this.craftResult.setInventorySlotContents(0, recipeStack);
 					break;
 				}
 			}
@@ -53,14 +64,14 @@ public class ContainerDiamondWorkbench extends ContainerWorkbench {
 			while (itr.hasNext()) {
 				ItemStack stack = itr.next();
 
-				if (RecipeHelper.compareItemStacks(found, stack)) {
+				if (RecipeHelper.compareItemStacks(recipeStack, stack)) {
 					blacklisted = true;
 					break;
 				}
 			}
 
 			if (!blacklisted) {
-				this.craftResult.setInventorySlotContents(0, found);
+				this.craftResult.setInventorySlotContents(0, recipeStack);
 			}
 		}
 
@@ -76,7 +87,7 @@ public class ContainerDiamondWorkbench extends ContainerWorkbench {
 			// whitelisted or didn't have an item so just try and to craft
 			// with the default recipe
 			if (IndustryConfig.returnDefaultIfListed)
-				this.craftResult.setInventorySlotContents(0, CraftingManager.getInstance().findMatchingRecipe(this.craftMatrix, this.worldObj));
+				this.slotChangedCraftingGrid(this.worldObj, this.player, this.craftMatrix, this.craftResult);
 		}
 	}
 

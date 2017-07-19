@@ -65,10 +65,10 @@ public class ClientUtil {
 				}
 
 				Vec3d vec3d1 = entity.getLook(partialTicks);
-				Vec3d vec3d2 = vec3d.addVector(vec3d1.xCoord * d0, vec3d1.yCoord * d0, vec3d1.zCoord * d0);
+				Vec3d vec3d2 = vec3d.addVector(vec3d1.x * d0, vec3d1.y * d0, vec3d1.z * d0);
 				pointedEntity = null;
 				Vec3d vec3d3 = null;
-				List<Entity> list = Minecraft.getMinecraft().world.getEntitiesInAABBexcluding(entity, entity.getEntityBoundingBox().addCoord(vec3d1.xCoord * d0, vec3d1.yCoord * d0, vec3d1.zCoord * d0).expand(1.0D, 1.0D, 1.0D), Predicates.and(EntitySelectors.NOT_SPECTATING, new Predicate<Entity>() {
+				List<Entity> list = Minecraft.getMinecraft().world.getEntitiesInAABBexcluding(entity, entity.getEntityBoundingBox().expand(vec3d1.x * d0, vec3d1.y * d0, vec3d1.z * d0).expand(1.0D, 1.0D, 1.0D), Predicates.and(EntitySelectors.NOT_SPECTATING, new Predicate<Entity>() {
 					public boolean apply(@Nullable Entity entity) {
 						return entity != null;
 					}
@@ -82,10 +82,10 @@ public class ClientUtil {
 					if (entity1 instanceof EntityItem)
 						collision = 0.2D;
 
-					AxisAlignedBB axisalignedbb = entity1.getEntityBoundingBox().expandXyz(collision);
+					AxisAlignedBB axisalignedbb = entity1.getEntityBoundingBox().grow(collision);
 					RayTraceResult raytraceresult = axisalignedbb.calculateIntercept(vec3d, vec3d2);
 
-					if (axisalignedbb.isVecInside(vec3d)) {
+					if (axisalignedbb.contains(vec3d)) {
 						if (d2 >= 0.0D) {
 							pointedEntity = entity1;
 							vec3d3 = raytraceresult == null ? vec3d : raytraceresult.hitVec;

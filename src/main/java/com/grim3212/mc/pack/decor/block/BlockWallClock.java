@@ -2,6 +2,7 @@ package com.grim3212.mc.pack.decor.block;
 
 import com.grim3212.mc.pack.core.block.BlockManual;
 import com.grim3212.mc.pack.core.manual.pages.Page;
+import com.grim3212.mc.pack.core.part.GrimCreativeTabs;
 import com.grim3212.mc.pack.decor.client.ManualDecor;
 import com.grim3212.mc.pack.decor.tile.TileEntityWallClock;
 
@@ -33,8 +34,14 @@ public class BlockWallClock extends BlockManual implements ITileEntityProvider {
 	public static final PropertyInteger TIME = PropertyInteger.create("time", 0, 63);
 
 	protected BlockWallClock() {
-		super(Material.CIRCUITS, SoundType.WOOD);
-		this.setDefaultState(blockState.getBaseState().withProperty(FACING, EnumFacing.SOUTH));
+		super("wall_clock", Material.CIRCUITS, SoundType.WOOD);
+		setHardness(0.75F);
+		setCreativeTab(GrimCreativeTabs.GRIM_DECOR);
+	}
+
+	@Override
+	protected IBlockState getState() {
+		return super.getState().withProperty(FACING, EnumFacing.SOUTH);
 	}
 
 	@Override

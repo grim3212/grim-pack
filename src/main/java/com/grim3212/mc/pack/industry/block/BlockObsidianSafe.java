@@ -13,7 +13,7 @@ import net.minecraft.world.World;
 public class BlockObsidianSafe extends BlockStorage {
 
 	public BlockObsidianSafe() {
-		super(Material.ROCK, SoundType.STONE);
+		super("obsidian_safe", Material.ROCK, SoundType.STONE);
 	}
 
 	@Override

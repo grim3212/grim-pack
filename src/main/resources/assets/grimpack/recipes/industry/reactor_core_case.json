@@ -1,0 +1,16 @@
+{
+  "result": {
+    "item": "grimpack:reactor_core_case"
+  },
+  "pattern": [
+    " G ",
+    " G ",
+    " G "
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "G": {
+      "item": "grimpack:graphite_rod"
+    }
+  }
+}

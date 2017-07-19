@@ -1,0 +1,16 @@
+{
+  "result": {
+    "item": "grimpack:steel_shaft",
+    "count": 4
+  },
+  "pattern": [
+    "i",
+    "i"
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "i": {
+      "item": "#INGOTSTEEL"
+    }
+  }
+}

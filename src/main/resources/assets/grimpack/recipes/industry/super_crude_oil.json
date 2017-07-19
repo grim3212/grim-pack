@@ -1,0 +1,18 @@
+{
+  "result": {
+    "item": "grimpack:super_crude_oil"
+  },
+  "pattern": [
+    "o",
+    "a"
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "a": {
+      "item": "grimpack:aluminum_can"
+    },
+    "o": {
+      "item": "grimpack:oily_chunk"
+    }
+  }
+}

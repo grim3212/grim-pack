@@ -1,0 +1,19 @@
+{
+  "result": {
+    "item": "grimpack:bandage",
+    "count": 2
+  },
+  "pattern": [
+    "P#P"
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "P": {
+      "item": "#PAPER"
+    },
+    "#": {
+      "item": "minecraft:wool",
+      "data": 0
+    }
+  }
+}

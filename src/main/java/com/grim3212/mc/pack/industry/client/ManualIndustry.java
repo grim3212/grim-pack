@@ -7,7 +7,6 @@ import com.grim3212.mc.pack.core.manual.pages.Page;
 import com.grim3212.mc.pack.core.manual.pages.PageCrafting;
 import com.grim3212.mc.pack.core.manual.pages.PageFurnace;
 import com.grim3212.mc.pack.core.manual.pages.PageInfo;
-import com.grim3212.mc.pack.core.util.RecipeHelper;
 import com.grim3212.mc.pack.industry.block.IndustryBlocks;
 import com.grim3212.mc.pack.industry.client.pages.PageMachine;
 import com.grim3212.mc.pack.industry.item.IndustryItems;
@@ -135,7 +134,9 @@ public class ManualIndustry implements IManualPart {
 		fireBlock_page = new PageCrafting("fire", new ItemStack(IndustryBlocks.fire_block));
 		waterBlock_page = new PageCrafting("water", new ItemStack(IndustryBlocks.water_block));
 		lavaBlock_page = new PageCrafting("lava", new ItemStack(IndustryBlocks.lava_block));
-		spike_page = new PageCrafting("recipe", RecipeHelper.getAllIRecipesForItem(new ItemStack(IndustryBlocks.spike)), 30);
+		// spike_page = new PageCrafting("recipe",
+		// RecipeHelper.getAllIRecipesForItem(new
+		// ItemStack(IndustryBlocks.spike)), 30);
 		sensor_page = new PageCrafting("recipes", IndustryBlocks.sensors, 20);
 		gravityBoots_page = new PageCrafting("boots", new ItemStack(IndustryItems.gravity_boots));
 		controller_page = new PageCrafting("control", IndustryItems.control, 25);

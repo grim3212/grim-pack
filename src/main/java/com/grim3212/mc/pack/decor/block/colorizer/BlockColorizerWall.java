@@ -38,14 +38,19 @@ public class BlockColorizerWall extends BlockColorizer {
 			AABB_BY_INDEX[15].setMaxY(1.5D) };
 
 	public BlockColorizerWall() {
-		this.setDefaultState(this.blockState.getBaseState().withProperty(UP, false).withProperty(NORTH, false).withProperty(EAST, false).withProperty(SOUTH, false).withProperty(WEST, false));
+		super("wall");
 	}
-	
+
+	@Override
+	protected IBlockState getState() {
+		return this.blockState.getBaseState().withProperty(UP, false).withProperty(NORTH, false).withProperty(EAST, false).withProperty(SOUTH, false).withProperty(WEST, false);
+	}
+
 	@Override
 	public int getMetaFromState(IBlockState state) {
 		return 0;
 	}
-	
+
 	@Override
 	public IBlockState getStateFromMeta(int meta) {
 		return this.getDefaultState();

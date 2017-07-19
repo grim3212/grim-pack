@@ -1,0 +1,22 @@
+{
+  "result": {
+    "item": "grimpack:refinery"
+  },
+  "pattern": [
+    "sss",
+    "ara",
+    "sss"
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "a": {
+      "item": "grimpack:aluminum_can"
+    },
+    "r": {
+      "item": "#DUSTREDSTONE"
+    },
+    "s": {
+      "item": "#INGOTSTEEL"
+    }
+  }
+}

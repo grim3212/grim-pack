@@ -7,24 +7,18 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import com.grim3212.mc.pack.GrimPack;
-import com.grim3212.mc.pack.core.item.ItemManualBlock;
 import com.grim3212.mc.pack.core.network.MessageBetterExplosion;
 import com.grim3212.mc.pack.core.network.PacketDispatcher;
-import com.grim3212.mc.pack.core.part.GrimPart;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockLiquid;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
-import net.minecraft.stats.Achievement;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
@@ -42,7 +36,6 @@ import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.wrappers.BlockWrapper;
 import net.minecraftforge.fluids.capability.wrappers.FluidBlockWrapper;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.IItemHandlerModifiable;
@@ -62,30 +55,9 @@ public class Utils {
 		EntityRegistry.registerModEntity(new ResourceLocation(GrimPack.modID, entityName), entityClass, entityName, entityID++, GrimPack.INSTANCE, trackingRange, updateFrequency, sendsVelocityUpdates, eggPrimary, eggSecondary);
 	}
 
-	public static void registerBlock(Block block, String name) {
-		GameRegistry.register(block, new ResourceLocation(GrimPack.modID, name));
-		GameRegistry.register(new ItemManualBlock(block), block.getRegistryName());
-	}
-
-	public static void registerBlock(Block block, String name, ItemBlock item) {
-		GameRegistry.register(block, new ResourceLocation(GrimPack.modID, name));
-		GameRegistry.register(item, block.getRegistryName());
-	}
-
-	public static void registerItem(Item item, String name) {
-		GameRegistry.register(item, new ResourceLocation(GrimPack.modID, name));
-	}
-
-	// added by scotto
-	public static void registerEnchantment(Enchantment ench, String name) {
-		GameRegistry.register(ench, new ResourceLocation(GrimPack.modID, name));
-	}
-
-	public static SoundEvent registerSound(String name) {
+	public static SoundEvent createSound(String name) {
 		ResourceLocation location = new ResourceLocation(GrimPack.modID, name);
-		SoundEvent sound = new SoundEvent(location);
-		GameRegistry.register(sound, location);
-		return sound;
+		return new SoundEvent(location).setRegistryName(location);
 	}
 
 	/**
@@ -320,14 +292,6 @@ public class Utils {
 				return false;
 		}
 		return true;
-	}
-
-	public static Achievement addAchievement(String id, String unlocalizedName, int column, int row, ItemStack iconStack, Achievement parent) {
-		// Achievements params are switched
-		Achievement achievement = new Achievement(id, unlocalizedName, column, row, iconStack, parent);
-		achievement.registerStat();
-		GrimPart.packAchievementPage.getAchievements().add(achievement);
-		return achievement;
 	}
 
 	/**

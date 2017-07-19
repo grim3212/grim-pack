@@ -1,0 +1,19 @@
+{
+  "result": {
+    "item": "grimpack:steel_shovel"
+  },
+  "pattern": [
+    "i",
+    "s",
+    "s"
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "s": {
+      "item": "grimpack:steel_shaft"
+    },
+    "i": {
+      "item": "#INGOTSTEEL"
+    }
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "result": {
+    "item": "grimpack:light_spear"
+  },
+  "pattern": [
+    "#",
+    "X"
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "#": {
+      "item": "#TORCH"
+    },
+    "X": {
+      "item": "grimpack:spear"
+    }
+  }
+}

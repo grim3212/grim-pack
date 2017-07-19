@@ -4,6 +4,7 @@ import javax.annotation.Nullable;
 
 import com.grim3212.mc.pack.core.item.ItemManual;
 import com.grim3212.mc.pack.core.manual.pages.Page;
+import com.grim3212.mc.pack.core.part.GrimCreativeTabs;
 import com.grim3212.mc.pack.decor.client.ManualDecor;
 import com.grim3212.mc.pack.decor.entity.EntityFlatItemFrame;
 
@@ -19,6 +20,8 @@ import net.minecraft.world.World;
 public class ItemFlatItemFrame extends ItemManual {
 
 	public ItemFlatItemFrame() {
+		super("flat_item_frame");
+		setCreativeTab(GrimCreativeTabs.GRIM_DECOR);
 	}
 
 	@Override

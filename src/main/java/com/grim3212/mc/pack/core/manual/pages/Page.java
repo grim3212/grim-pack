@@ -87,7 +87,7 @@ public class Page {
 	}
 
 	public void drawTitle(GuiManualPage gui) {
-		FontRenderer renderer = Minecraft.getMinecraft().fontRendererObj;
+		FontRenderer renderer = Minecraft.getMinecraft().fontRenderer;
 		boolean unicode = renderer.getUnicodeFlag();
 		renderer.setUnicodeFlag(false);
 		String title = gui.getChapter().getName() + " - " + this.getTitle();
@@ -96,7 +96,7 @@ public class Page {
 	}
 
 	public void drawFooter(GuiManualPage gui) {
-		FontRenderer renderer = Minecraft.getMinecraft().fontRendererObj;
+		FontRenderer renderer = Minecraft.getMinecraft().fontRenderer;
 		boolean unicode = renderer.getUnicodeFlag();
 		renderer.setUnicodeFlag(true);
 		if (gui.getChapter().getPages().size() != 1)
@@ -117,7 +117,7 @@ public class Page {
 		GlStateManager.enableDepth();
 
 		render.renderItemAndEffectIntoGUI(item, x, y);
-		render.renderItemOverlayIntoGUI(Minecraft.getMinecraft().fontRendererObj, item, x, y, (String) null);
+		render.renderItemOverlayIntoGUI(Minecraft.getMinecraft().fontRenderer, item, x, y, (String) null);
 		RenderHelper.disableStandardItemLighting();
 		GlStateManager.popMatrix();
 

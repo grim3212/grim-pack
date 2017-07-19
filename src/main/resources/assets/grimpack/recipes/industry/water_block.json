@@ -1,0 +1,19 @@
+{
+  "result": {
+    "item": "grimpack:water_block"
+  },
+  "pattern": [
+    "###",
+    "#!#",
+    "###"
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "!": {
+      "item": "minecraft:water_bucket"
+    },
+    "#": {
+      "item": "#BLOCKIRON"
+    }
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "result": {
+    "item": "grimpack:uranium_ore"
+  },
+  "pattern": [
+    "RDR",
+    "DGD",
+    "RDR"
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "R": {
+      "item": "#DUSTREDSTONE"
+    },
+    "D": {
+      "item": "#GEMDIAMOND"
+    },
+    "G": {
+      "item": "#GLOWSTONE"
+    }
+  }
+}

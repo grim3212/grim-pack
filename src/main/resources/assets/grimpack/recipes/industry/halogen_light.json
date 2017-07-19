@@ -1,0 +1,18 @@
+{
+  "result": {
+    "item": "grimpack:halogen_light"
+  },
+  "pattern": [
+    "G",
+    "R"
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "R": {
+      "item": "#DUSTREDSTONE"
+    },
+    "G": {
+      "item": "#BLOCKGLASS"
+    }
+  }
+}

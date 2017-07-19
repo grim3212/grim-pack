@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.grim3212.mc.pack.core.item.ItemManual;
 import com.grim3212.mc.pack.core.manual.pages.Page;
+import com.grim3212.mc.pack.core.part.GrimCreativeTabs;
 import com.grim3212.mc.pack.core.util.NBTHelper;
 import com.grim3212.mc.pack.core.util.Utils;
 import com.grim3212.mc.pack.tools.client.ManualTools;
@@ -14,10 +15,10 @@ import com.grim3212.mc.pack.tools.util.EnumPelletType;
 import com.grim3212.mc.pack.tools.util.EnumSlingshotModes;
 
 import net.minecraft.client.resources.I18n;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
@@ -29,7 +30,9 @@ import net.minecraft.world.World;
 public class ItemSlingshot extends ItemManual {
 
 	public ItemSlingshot() {
+		super("sling_shot");
 		this.maxStackSize = 1;
+		setCreativeTab(GrimCreativeTabs.GRIM_TOOLS);
 	}
 
 	@Override
@@ -38,7 +41,7 @@ public class ItemSlingshot extends ItemManual {
 	}
 
 	@Override
-	public void addInformation(ItemStack stack, EntityPlayer playerIn, List<String> tooltip, boolean advanced) {
+	public void addInformation(ItemStack stack, World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
 		String mode = NBTHelper.getString(stack, "Mode");
 		tooltip.add(I18n.format("tooltip.slingshot.currentMode") + I18n.format("grimtools.slingshot." + mode));
 	}
@@ -49,9 +52,10 @@ public class ItemSlingshot extends ItemManual {
 	}
 
 	@Override
-	public void getSubItems(Item itemIn, CreativeTabs tab, NonNullList<ItemStack> subItems) {
-		ItemStack self = new ItemStack(itemIn, 1, 0);
-		subItems.add(NBTHelper.setStringItemStack(self, "Mode", EnumSlingshotModes.RANDOM.getUnlocalized()));
+	public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> items) {
+		ItemStack self = new ItemStack(this, 1, 0);
+		if (isInCreativeTab(tab))
+			items.add(NBTHelper.setStringItemStack(self, "Mode", EnumSlingshotModes.RANDOM.getUnlocalized()));
 	}
 
 	@Override

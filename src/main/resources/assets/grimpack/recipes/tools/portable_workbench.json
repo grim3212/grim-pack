@@ -1,0 +1,19 @@
+{
+  "result": {
+    "item": "grimpack:portable_workbench"
+  },
+  "pattern": [
+    "III",
+    "IWI",
+    "III"
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "W": {
+      "item": "#WORKBENCH"
+    },
+    "I": {
+      "item": "#INGOTIRON"
+    }
+  }
+}

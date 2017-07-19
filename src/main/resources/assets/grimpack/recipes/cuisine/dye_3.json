@@ -1,0 +1,16 @@
+{
+  "result": {
+    "item": "minecraft:dye",
+    "data": 3,
+    "count": 3
+  },
+  "ingredients": [
+    {
+      "item": "grimpack:cocoa_dust"
+    },
+    {
+      "item": "grimpack:cocoa_dust"
+    }
+  ],
+  "type": "minecraft:crafting_shapeless"
+}

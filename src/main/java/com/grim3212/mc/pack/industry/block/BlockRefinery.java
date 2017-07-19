@@ -6,6 +6,7 @@ import com.grim3212.mc.pack.GrimPack;
 import com.grim3212.mc.pack.core.block.BlockManual;
 import com.grim3212.mc.pack.core.client.gui.PackGuiHandler;
 import com.grim3212.mc.pack.core.manual.pages.Page;
+import com.grim3212.mc.pack.core.part.GrimCreativeTabs;
 import com.grim3212.mc.pack.industry.client.ManualIndustry;
 import com.grim3212.mc.pack.industry.tile.TileEntityMachine;
 import com.grim3212.mc.pack.industry.util.MachineRecipes.MachineType;
@@ -39,8 +40,16 @@ public class BlockRefinery extends BlockManual implements ITileEntityProvider {
 	public static final PropertyBool ACTIVE = PropertyBool.create("active");
 
 	protected BlockRefinery() {
-		super(Material.IRON, SoundType.METAL);
-		this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH).withProperty(ACTIVE, false));
+		super("refinery", Material.IRON, SoundType.METAL);
+		setHardness(1.0F);
+		setResistance(10.0F);
+		setLightLevel(0.0F);
+		setCreativeTab(GrimCreativeTabs.GRIM_INDUSTRY);
+	}
+
+	@Override
+	protected IBlockState getState() {
+		return this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH).withProperty(ACTIVE, false);
 	}
 
 	@Override

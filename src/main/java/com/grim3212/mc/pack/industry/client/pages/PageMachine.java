@@ -81,7 +81,7 @@ public class PageMachine extends Page {
 		ItemStack output = MachineRecipes.INSTANCE.getResult(inputs.get(recipeShown), this.type);
 		this.renderItem(gui, output, gui.getX() + 122, gui.getY() + 143);
 
-		FontRenderer renderer = Minecraft.getMinecraft().fontRendererObj;
+		FontRenderer renderer = Minecraft.getMinecraft().fontRenderer;
 		renderer.drawString(output.getDisplayName(), (gui.getManualWidth() / 2 - renderer.getStringWidth(output.getDisplayName()) / 2) + gui.getX(), gui.getY() + 210, Color.BLACK.getRGB(), false);
 
 		if (!tooltipItem.isEmpty()) {

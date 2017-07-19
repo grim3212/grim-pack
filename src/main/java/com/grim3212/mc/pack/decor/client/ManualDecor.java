@@ -8,7 +8,6 @@ import com.grim3212.mc.pack.core.manual.pages.PageCrafting;
 import com.grim3212.mc.pack.core.manual.pages.PageFurnace;
 import com.grim3212.mc.pack.core.manual.pages.PageImageText;
 import com.grim3212.mc.pack.core.manual.pages.PageInfo;
-import com.grim3212.mc.pack.core.util.RecipeHelper;
 import com.grim3212.mc.pack.decor.block.DecorBlocks;
 import com.grim3212.mc.pack.decor.item.DecorItems;
 
@@ -82,7 +81,9 @@ public class ManualDecor implements IManualPart {
 		framesInfo_page = new PageImageText("frameinfo", "frames_info_page.png", 0.85F);
 		frames_page = new PageCrafting("frames", DecorItems.frames, 25);
 		cage_page = new PageCrafting("cage", DecorBlocks.chains, 20);
-		lantern_page = new PageCrafting("lantern", RecipeHelper.getAllIRecipesForItem(new ItemStack(DecorBlocks.lantern)), 20);
+		// lantern_page = new PageCrafting("lantern",
+		// RecipeHelper.getAllIRecipesForItem(new
+		// ItemStack(DecorBlocks.lantern)), 20);
 		crafts_page = new PageCrafting("crafts", DecorBlocks.crafts, 25);
 		firing_page = new PageFurnace("firing", new ItemStack[] { new ItemStack(DecorItems.unfired_craft), new ItemStack(DecorItems.unfired_pot) }, 20);
 		lights_page = new PageCrafting("lights", DecorBlocks.lights, 25);

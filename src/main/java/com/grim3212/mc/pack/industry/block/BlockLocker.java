@@ -24,7 +24,7 @@ import net.minecraft.world.World;
 public class BlockLocker extends BlockStorage {
 
 	public BlockLocker() {
-		super(Material.IRON, SoundType.METAL);
+		super("locker", Material.IRON, SoundType.METAL);
 	}
 
 	@Override

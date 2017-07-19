@@ -8,12 +8,10 @@ import com.grim3212.mc.pack.core.manual.pages.PageCrafting;
 import com.grim3212.mc.pack.core.manual.pages.PageFurnace;
 import com.grim3212.mc.pack.core.manual.pages.PageImageText;
 import com.grim3212.mc.pack.core.manual.pages.PageInfo;
-import com.grim3212.mc.pack.core.util.RecipeHelper;
 import com.grim3212.mc.pack.industry.item.IndustryItems;
 import com.grim3212.mc.pack.tools.blocks.ToolsBlocks;
 import com.grim3212.mc.pack.tools.items.ToolsItems;
 
-import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 
 public class ManualTools implements IManualPart {
@@ -89,11 +87,12 @@ public class ManualTools implements IManualPart {
 		goldBucket_page = new PageCrafting("golden", new ItemStack(ToolsItems.golden_bucket));
 		diamondBucket_page = new PageCrafting("diamond", new ItemStack(ToolsItems.diamond_bucket));
 		obsidianBucket_page = new PageCrafting("obsidian", new ItemStack(ToolsItems.obsidian_bucket));
-		milkBucket_page = new PageCrafting("milk", RecipeHelper.getQuickIRecipeForItemStack(new ItemStack(Items.CAKE)));
+		// milkBucket_page = new PageCrafting("milk",
+		// RecipeHelper.getQuickIRecipeForItemStack(new ItemStack(Items.CAKE)));
 		grip_page = new PageCrafting("grip", new ItemStack(ToolsItems.grip));
 		spring_page = new PageCrafting("part2", new ItemStack(ToolsItems.spring_part));
 		button_page = new PageCrafting("part3", new ItemStack(ToolsItems.button_part));
-		rod_page = new PageCrafting("part4", new ItemStack(IndustryItems.iron_stick ));
+		rod_page = new PageCrafting("part4", new ItemStack(IndustryItems.iron_stick));
 		ballistic_page = new PageCrafting("ballistic", new ItemStack(ToolsItems.unloaded_knife));
 		ballisticKnife_page = new PageCrafting("knives", new ItemStack(ToolsItems.ammo_part));
 		throwingKnife_page = new PageCrafting("knife", new ItemStack(ToolsItems.throwing_knife));

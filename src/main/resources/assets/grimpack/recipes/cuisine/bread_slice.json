@@ -1,0 +1,15 @@
+{
+  "result": {
+    "item": "grimpack:bread_slice",
+    "count": 2
+  },
+  "ingredients": [
+    {
+      "item": "minecraft:bread"
+    },
+    {
+      "item": "#TOOLCUTTINGBOARD"
+    }
+  ],
+  "type": "forge:ore_shapeless"
+}

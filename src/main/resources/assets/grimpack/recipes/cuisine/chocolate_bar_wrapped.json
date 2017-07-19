@@ -1,0 +1,14 @@
+{
+  "result": {
+    "item": "grimpack:chocolate_bar_wrapped"
+  },
+  "ingredients": [
+    {
+      "item": "grimpack:chocolate_bar"
+    },
+    {
+      "item": "grimpack:wrapper"
+    }
+  ],
+  "type": "minecraft:crafting_shapeless"
+}

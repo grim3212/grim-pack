@@ -21,7 +21,7 @@ public class TileEntityGoldSafeRenderer extends TileEntitySpecialRenderer<TileEn
 	}
 
 	@Override
-	public void renderTileEntityAt(TileEntityGoldSafe te, double x, double y, double z, float partialTicks, int destroyStage) {
+	public void render(TileEntityGoldSafe te, double x, double y, double z, float partialTicks, int destroyStage, float alpha) {
 		GlStateManager.pushMatrix();
 		GlStateManager.translate(x, y, z);
 

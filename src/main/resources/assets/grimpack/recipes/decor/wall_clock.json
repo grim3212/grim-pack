@@ -1,0 +1,22 @@
+{
+  "result": {
+    "item": "grimpack:wall_clock"
+  },
+  "pattern": [
+    "XIX",
+    "IRI",
+    "XIX"
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "R": {
+      "item": "#DUSTREDSTONE"
+    },
+    "X": {
+      "item": "#PLANKWOOD"
+    },
+    "I": {
+      "item": "#INGOTGOLD"
+    }
+  }
+}

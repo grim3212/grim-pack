@@ -2,6 +2,7 @@ package com.grim3212.mc.pack.tools.items;
 
 import com.grim3212.mc.pack.core.item.ItemManual;
 import com.grim3212.mc.pack.core.manual.pages.Page;
+import com.grim3212.mc.pack.core.part.GrimCreativeTabs;
 import com.grim3212.mc.pack.tools.client.ManualTools;
 import com.grim3212.mc.pack.tools.entity.EntityBoomerang;
 
@@ -14,8 +15,10 @@ import net.minecraft.world.World;
 
 public class ItemBoomerang extends ItemManual {
 
-	public ItemBoomerang() {
+	public ItemBoomerang(String name) {
+		super(name);
 		this.setMaxStackSize(1);
+		setCreativeTab(GrimCreativeTabs.GRIM_TOOLS);
 	}
 
 	@Override

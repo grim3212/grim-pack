@@ -1,0 +1,21 @@
+{
+  "result": {
+    "item": "grimpack:fungus_building",
+    "data": 6
+  },
+  "pattern": [
+    "XXX",
+    "XaX",
+    "XXX"
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "a": {
+      "item": "minecraft:stonebrick",
+      "data": 0
+    },
+    "X": {
+      "item": "#SLIMEBALL"
+    }
+  }
+}

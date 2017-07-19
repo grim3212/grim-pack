@@ -1,0 +1,16 @@
+{
+  "result": {
+    "item": "grimpack:coal_dust",
+    "count": 2
+  },
+  "pattern": [
+    "c"
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "c": {
+      "item": "minecraft:coal",
+      "data": 0
+    }
+  }
+}

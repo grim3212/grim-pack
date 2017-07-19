@@ -1,0 +1,19 @@
+{
+  "result": {
+    "item": "grimpack:lantern",
+    "data": 0
+  },
+  "pattern": [
+    " # ",
+    "#X#"
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "#": {
+      "item": "minecraft:paper"
+    },
+    "X": {
+      "item": "#DUSTGLOWSTONE"
+    }
+  }
+}

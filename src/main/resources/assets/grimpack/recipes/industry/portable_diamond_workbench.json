@@ -1,0 +1,22 @@
+{
+  "result": {
+    "item": "grimpack:portable_diamond_workbench"
+  },
+  "pattern": [
+    "IDI",
+    "DWD",
+    "IDI"
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "D": {
+      "item": "#GEMDIAMOND"
+    },
+    "W": {
+      "item": "grimpack:diamond_workbench"
+    },
+    "I": {
+      "item": "#INGOTIRON"
+    }
+  }
+}

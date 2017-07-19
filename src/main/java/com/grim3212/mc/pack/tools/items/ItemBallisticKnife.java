@@ -3,6 +3,7 @@ package com.grim3212.mc.pack.tools.items;
 import com.google.common.collect.Multimap;
 import com.grim3212.mc.pack.core.item.ItemManual;
 import com.grim3212.mc.pack.core.manual.pages.Page;
+import com.grim3212.mc.pack.core.part.GrimCreativeTabs;
 import com.grim3212.mc.pack.core.util.Utils;
 import com.grim3212.mc.pack.tools.client.ManualTools;
 import com.grim3212.mc.pack.tools.entity.EntityBallisticKnife;
@@ -25,9 +26,14 @@ public class ItemBallisticKnife extends ItemManual {
 	private boolean isKnife;
 
 	public ItemBallisticKnife(boolean isLoaded, boolean isKnife) {
-		maxStackSize = 1;
+		super(isLoaded ? "loaded_knife" : (!isLoaded && !isKnife ? "unloaded_knife" : "ammo_part"));
 		this.isLoaded = isLoaded;
 		this.isKnife = isKnife;
+		setCreativeTab(GrimCreativeTabs.GRIM_TOOLS);
+		if (isKnife)
+			setMaxStackSize(64);
+		else
+			setMaxStackSize(1);
 	}
 
 	@Override

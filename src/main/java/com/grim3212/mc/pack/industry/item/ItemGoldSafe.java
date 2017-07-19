@@ -9,6 +9,7 @@ import com.grim3212.mc.pack.industry.tile.TileEntityGoldSafe;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ItemStackHelper;
 import net.minecraft.item.ItemBlock;
@@ -30,8 +31,8 @@ public class ItemGoldSafe extends ItemBlock {
 	}
 
 	@Override
-	public void addInformation(ItemStack stack, EntityPlayer playerIn, List<String> tooltip, boolean advanced) {
-		super.addInformation(stack, playerIn, tooltip, advanced);
+	public void addInformation(ItemStack stack, World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
+		super.addInformation(stack, worldIn, tooltip, flagIn);
 
 		if (NBTHelper.hasTag(stack, "GoldSafe")) {
 			NBTTagCompound compound = NBTHelper.getTagCompound(stack, "GoldSafe");

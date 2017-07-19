@@ -1,0 +1,18 @@
+{
+  "result": {
+    "item": "grimpack:extinguisher"
+  },
+  "ingredients": [
+    {
+      "item": "minecraft:water_bucket"
+    },
+    {
+      "item": "minecraft:water_bucket"
+    },
+    {
+      "item": "grimpack:extinguisher",
+      "data": 1
+    }
+  ],
+  "type": "minecraft:crafting_shapeless"
+}

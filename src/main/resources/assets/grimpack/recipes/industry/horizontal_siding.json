@@ -1,0 +1,23 @@
+{
+  "result": {
+    "item": "grimpack:horizontal_siding",
+    "count": 4
+  },
+  "pattern": [
+    "L",
+    "t",
+    "a"
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "a": {
+      "item": "#INGOTALUMINUM"
+    },
+    "t": {
+      "item": "grimpack:tarball"
+    },
+    "L": {
+      "item": "#LOGWOOD"
+    }
+  }
+}

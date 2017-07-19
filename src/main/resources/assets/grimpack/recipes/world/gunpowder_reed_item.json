@@ -1,0 +1,19 @@
+{
+  "result": {
+    "item": "grimpack:gunpowder_reed_item"
+  },
+  "pattern": [
+    "XXX",
+    "XWX",
+    "XXX"
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "W": {
+      "item": "minecraft:reeds"
+    },
+    "X": {
+      "item": "#GUNPOWDER"
+    }
+  }
+}

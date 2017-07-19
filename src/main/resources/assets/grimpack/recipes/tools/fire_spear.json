@@ -1,0 +1,19 @@
+{
+  "result": {
+    "item": "grimpack:fire_spear"
+  },
+  "pattern": [
+    "#",
+    "X"
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "#": {
+      "item": "minecraft:coal",
+      "data": 0
+    },
+    "X": {
+      "item": "grimpack:spear"
+    }
+  }
+}

@@ -57,16 +57,16 @@ public class GuiExtruder extends GuiContainer {
 	@Override
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
 		String s = this.extruderInv.getDisplayName().getUnformattedText();
-		this.fontRendererObj.drawString(s, 68, 6, 4210752);
-		this.fontRendererObj.drawString(I18n.format("container.extruder.mined"), 8, (ySize - 173) + 2, 4210752);
-		this.fontRendererObj.drawString(this.playerInv.getDisplayName().getUnformattedText(), 8, this.ySize - 96 + 2, 4210752);
+		this.fontRenderer.drawString(s, 68, 6, 4210752);
+		this.fontRenderer.drawString(I18n.format("container.extruder.mined"), 8, (ySize - 173) + 2, 4210752);
+		this.fontRenderer.drawString(this.playerInv.getDisplayName().getUnformattedText(), 8, this.ySize - 96 + 2, 4210752);
 
 		if (extruderInv.getExtruder() != null) {
-			this.fontRendererObj.drawString(I18n.format("container.extruder.fuel", extruderInv.getExtruder().getFuelAmount()), 10, 24, 0x404040);
+			this.fontRenderer.drawString(I18n.format("container.extruder.fuel", extruderInv.getExtruder().getFuelAmount()), 10, 24, 0x404040);
 			if (extruderInv.getStackInSlot(0) != null) {
 				int stackSize = extruderInv.getExtruderSlotStackSize(0);
-				this.fontRendererObj.drawString(I18n.format("container.extruder.exblocks", (extruderInv.getExtruder().getFuelAmount() * (stackSize + 1)) / IndustryConfig.fuelPerExtrudedBlock), 102, 18, 0x404040);
-				this.fontRendererObj.drawString(I18n.format("container.extruder.mineblocks", (extruderInv.getExtruder().getFuelAmount() * (stackSize + 1)) / IndustryConfig.fuelPerMinedBlock), 102, 32, 0x404040);
+				this.fontRenderer.drawString(I18n.format("container.extruder.exblocks", (extruderInv.getExtruder().getFuelAmount() * (stackSize + 1)) / IndustryConfig.fuelPerExtrudedBlock), 102, 18, 0x404040);
+				this.fontRenderer.drawString(I18n.format("container.extruder.mineblocks", (extruderInv.getExtruder().getFuelAmount() * (stackSize + 1)) / IndustryConfig.fuelPerMinedBlock), 102, 32, 0x404040);
 			}
 		}
 	}

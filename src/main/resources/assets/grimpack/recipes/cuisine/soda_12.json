@@ -1,0 +1,20 @@
+{
+  "result": {
+    "item": "grimpack:soda",
+    "data": 12
+  },
+  "pattern": [
+    "X",
+    "Y"
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "X": {
+      "item": "minecraft:red_mushroom"
+    },
+    "Y": {
+      "item": "grimpack:soda",
+      "data": 11
+    }
+  }
+}

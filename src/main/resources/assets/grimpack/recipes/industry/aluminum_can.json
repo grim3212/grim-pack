@@ -1,0 +1,17 @@
+{
+  "result": {
+    "item": "grimpack:aluminum_can",
+    "count": 16
+  },
+  "pattern": [
+    "a a",
+    "a a",
+    "a a"
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "a": {
+      "item": "#INGOTALUMINUM"
+    }
+  }
+}

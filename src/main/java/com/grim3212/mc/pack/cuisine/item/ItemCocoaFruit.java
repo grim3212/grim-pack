@@ -2,6 +2,7 @@ package com.grim3212.mc.pack.cuisine.item;
 
 import com.grim3212.mc.pack.core.item.ItemManual;
 import com.grim3212.mc.pack.core.manual.pages.Page;
+import com.grim3212.mc.pack.core.part.GrimCreativeTabs;
 import com.grim3212.mc.pack.cuisine.block.CuisineBlocks;
 import com.grim3212.mc.pack.cuisine.client.ManualCuisine;
 
@@ -20,7 +21,9 @@ import net.minecraft.world.World;
 public class ItemCocoaFruit extends ItemManual {
 
 	public ItemCocoaFruit() {
+		super("cocoa_fruit");
 		maxStackSize = 16;
+		setCreativeTab(GrimCreativeTabs.GRIM_CUISINE);
 	}
 
 	@Override

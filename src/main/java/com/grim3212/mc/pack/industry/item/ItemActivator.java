@@ -2,6 +2,7 @@ package com.grim3212.mc.pack.industry.item;
 
 import com.grim3212.mc.pack.core.item.ItemManual;
 import com.grim3212.mc.pack.core.manual.pages.Page;
+import com.grim3212.mc.pack.core.part.GrimCreativeTabs;
 import com.grim3212.mc.pack.industry.block.BlockGate;
 import com.grim3212.mc.pack.industry.block.IndustryBlocks;
 import com.grim3212.mc.pack.industry.client.ManualIndustry;
@@ -22,8 +23,10 @@ public class ItemActivator extends ItemManual {
 	private static final int maxRange = 32;
 	private static final int vertRange = 3;
 
-	public ItemActivator() {
+	public ItemActivator(String name) {
+		super(name);
 		this.maxStackSize = 1;
+		setCreativeTab(GrimCreativeTabs.GRIM_INDUSTRY);
 	}
 
 	@Override

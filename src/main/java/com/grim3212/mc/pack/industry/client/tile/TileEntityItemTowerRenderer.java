@@ -13,14 +13,15 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class TileEntityItemTowerRenderer extends TileEntitySpecialRenderer<TileEntityItemTower> {
 
-	public final ModelItemTower ITEM_MODEL = new ModelItemTower();
+	public ModelItemTower ITEM_MODEL;
 	private static final ResourceLocation RESOURCE_LOCATION = new ResourceLocation(GrimPack.modID, "textures/models/tower.png");
 
 	public TileEntityItemTowerRenderer() {
-
+		ITEM_MODEL = new ModelItemTower();
 	}
 
-	public void renderTileEntityAt(TileEntityItemTower te, double x, double y, double z, float partialTicks, int destroyStage) {
+	@Override
+	public void render(TileEntityItemTower te, double x, double y, double z, float partialTicks, int destroyStage, float alpha) {
 		GlStateManager.pushMatrix();
 		GlStateManager.translate(x, y, z);
 

@@ -13,7 +13,7 @@ import net.minecraft.world.World;
 public class BlockWoodCabinet extends BlockStorage {
 
 	public BlockWoodCabinet() {
-		super(Material.WOOD, SoundType.WOOD);
+		super("wood_cabinet", Material.WOOD, SoundType.WOOD);
 	}
 
 	@Override

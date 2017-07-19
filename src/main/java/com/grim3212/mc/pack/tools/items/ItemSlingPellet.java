@@ -2,11 +2,11 @@ package com.grim3212.mc.pack.tools.items;
 
 import com.grim3212.mc.pack.core.item.ItemManual;
 import com.grim3212.mc.pack.core.manual.pages.Page;
+import com.grim3212.mc.pack.core.part.GrimCreativeTabs;
 import com.grim3212.mc.pack.tools.client.ManualTools;
 import com.grim3212.mc.pack.tools.util.EnumPelletType;
 
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.MathHelper;
@@ -14,8 +14,10 @@ import net.minecraft.util.math.MathHelper;
 public class ItemSlingPellet extends ItemManual {
 
 	public ItemSlingPellet() {
+		super("sling_pellet");
 		this.setHasSubtypes(true);
 		this.setMaxDamage(0);
+		setCreativeTab(GrimCreativeTabs.GRIM_TOOLS);
 	}
 
 	@Override
@@ -30,10 +32,11 @@ public class ItemSlingPellet extends ItemManual {
 	}
 
 	@Override
-	public void getSubItems(Item item, CreativeTabs tab, NonNullList<ItemStack> list) {
-		for (int j = 0; j < EnumPelletType.values.length; ++j) {
-			list.add(new ItemStack(item, 1, j));
-		}
+	public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> items) {
+		if (isInCreativeTab(tab))
+			for (int j = 0; j < EnumPelletType.values.length; ++j) {
+				items.add(new ItemStack(this, 1, j));
+			}
 	}
 
 	public static EnumPelletType getPelletType(ItemStack stack) {

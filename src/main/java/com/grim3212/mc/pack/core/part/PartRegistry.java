@@ -19,8 +19,6 @@ public class PartRegistry {
 	public static void registerPart(GrimPart part) {
 		partsToLoad.add(part);
 		ManualRegistry.registerMod(part.setModSection(new ManualPart(part.getPartName(), part.getPartId())));
-		if (part.shouldUseCreativeTab())
-			part.setCreativeTab(new GrimPartCreativeTab(part));
 		GrimLog.info(GrimPack.modName, "Registered Grim Part: { " + part.getPartName() + " }");
 	}
 

@@ -1,0 +1,19 @@
+{
+  "result": {
+    "item": "grimpack:fan"
+  },
+  "pattern": [
+    "X X",
+    "XYX",
+    "XXX"
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "X": {
+      "item": "#PLANKWOOD"
+    },
+    "Y": {
+      "item": "#DUSTREDSTONE"
+    }
+  }
+}

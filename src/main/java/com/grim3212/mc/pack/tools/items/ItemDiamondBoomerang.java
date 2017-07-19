@@ -13,6 +13,10 @@ import net.minecraft.world.World;
 
 public class ItemDiamondBoomerang extends ItemBoomerang {
 
+	public ItemDiamondBoomerang() {
+		super("diamond_boomerang");
+	}
+
 	@Override
 	public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand hand) {
 		if (playerIn.getHeldItem(hand).getItemDamage() == 0) {

@@ -1,0 +1,20 @@
+{
+  "result": {
+    "item": "grimpack:burning_wood",
+    "count": 5
+  },
+  "pattern": [
+    " # ",
+    "#W#",
+    " # "
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "#": {
+      "item": "#NETHERRACK"
+    },
+    "W": {
+      "item": "#PLANKWOOD"
+    }
+  }
+}

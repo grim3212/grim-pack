@@ -33,7 +33,7 @@ public class TileEntityLocker extends TileEntityStorage {
 
 	@Override
 	public AxisAlignedBB getRenderBoundingBox() {
-		return hasUpperLocker() ? super.getRenderBoundingBox().addCoord(0, 1, 0) : super.getRenderBoundingBox();
+		return hasUpperLocker() ? super.getRenderBoundingBox().expand(0, 1, 0) : super.getRenderBoundingBox();
 	}
 
 	public boolean isUpperLocker() {

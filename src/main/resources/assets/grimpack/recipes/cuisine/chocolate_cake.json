@@ -1,0 +1,28 @@
+{
+  "result": {
+    "item": "grimpack:chocolate_cake"
+  },
+  "pattern": [
+    "BXB",
+    "SES",
+    "WWW"
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "B": {
+      "item": "grimpack:chocolate_ball"
+    },
+    "S": {
+      "item": "minecraft:sugar"
+    },
+    "E": {
+      "item": "#EGG"
+    },
+    "W": {
+      "item": "#CROPWHEAT"
+    },
+    "X": {
+      "item": "#BUCKETMILK"
+    }
+  }
+}

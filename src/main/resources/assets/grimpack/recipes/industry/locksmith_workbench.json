@@ -1,0 +1,22 @@
+{
+  "result": {
+    "item": "grimpack:locksmith_workbench"
+  },
+  "pattern": [
+    "L",
+    "K",
+    "W"
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "W": {
+      "item": "#WORKBENCH"
+    },
+    "K": {
+      "item": "grimpack:locksmith_key"
+    },
+    "L": {
+      "item": "grimpack:locksmith_lock"
+    }
+  }
+}

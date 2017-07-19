@@ -2,7 +2,6 @@ package com.grim3212.mc.pack.world.entity;
 
 import com.grim3212.mc.pack.core.manual.pages.Page;
 import com.grim3212.mc.pack.world.client.ManualWorld;
-import com.grim3212.mc.pack.world.event.WorldAchievements;
 import com.grim3212.mc.pack.world.util.WorldLootTables;
 
 import net.minecraft.block.Block;
@@ -70,7 +69,7 @@ public class EntityIcePixie extends EntityDayMob implements IRangedAttackMob {
 	}
 
 	@Override
-	protected SoundEvent getHurtSound() {
+	protected SoundEvent getHurtSound(DamageSource p_184601_1_) {
 		return SoundEvents.BLOCK_WOOD_BUTTON_CLICK_ON;
 	}
 
@@ -114,7 +113,7 @@ public class EntityIcePixie extends EntityDayMob implements IRangedAttackMob {
 
 	@Override
 	public boolean attackEntityFrom(DamageSource damagesource, float i) {
-		Entity entity = damagesource.getEntity();
+		Entity entity = damagesource.getTrueSource();
 		if (entity instanceof EntityPlayer) {
 			EntityPlayer entityplayer = (EntityPlayer) entity;
 			ItemStack itemstack = entityplayer.getHeldItemMainhand();
@@ -144,8 +143,13 @@ public class EntityIcePixie extends EntityDayMob implements IRangedAttackMob {
 	@Override
 	public void onDeath(DamageSource cause) {
 		super.onDeath(cause);
-		if (cause.getEntity() instanceof EntityPlayer) {
-			((EntityPlayer) cause.getEntity()).addStat(WorldAchievements.ICE_PIXIE);
-		}
+		// if (cause.getTrueSource() instanceof EntityPlayer) {
+		// ((EntityPlayer)
+		// cause.getTrueSource()).addStat(WorldAchievements.ICE_PIXIE);
+		// }
+	}
+
+	@Override
+	public void setSwingingArms(boolean swingingArms) {
 	}
 }

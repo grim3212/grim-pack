@@ -23,7 +23,7 @@ public class DoubleTrapDoor {
 
 		if (isValidNeighbor(world, pos, neighborPos)) {
 			activateDoubleTrap(world, neighborPos, state, false, entityPlayer, enumHand, facing, vec3d);
-			neighborState.getBlock().onBlockActivated(world, neighborPos, neighborState, entityPlayer, enumHand, facing, (float) vec3d.xCoord, (float) vec3d.yCoord, (float) vec3d.zCoord);
+			neighborState.getBlock().onBlockActivated(world, neighborPos, neighborState, entityPlayer, enumHand, facing, (float) vec3d.x, (float) vec3d.y, (float) vec3d.z);
 		}
 
 		if (include_left_right) {
@@ -48,13 +48,13 @@ public class DoubleTrapDoor {
 			IBlockState leftState = world.getBlockState(leftPos);
 			if (isValidNeighbor(world, pos, leftPos)) {
 				activateDoubleTrap(world, leftPos, state, false, entityPlayer, enumHand, facing, vec3d);
-				leftState.getBlock().onBlockActivated(world, leftPos, leftState, entityPlayer, enumHand, facing, (float) vec3d.xCoord, (float) vec3d.yCoord, (float) vec3d.zCoord);
+				leftState.getBlock().onBlockActivated(world, leftPos, leftState, entityPlayer, enumHand, facing, (float) vec3d.x, (float) vec3d.y, (float) vec3d.z);
 			}
 
 			IBlockState rightState = world.getBlockState(rightPos);
 			if (isValidNeighbor(world, pos, rightPos)) {
 				activateDoubleTrap(world, rightPos, state, false, entityPlayer, enumHand, facing, vec3d);
-				rightState.getBlock().onBlockActivated(world, rightPos, rightState, entityPlayer, enumHand, facing, (float) vec3d.xCoord, (float) vec3d.yCoord, (float) vec3d.zCoord);
+				rightState.getBlock().onBlockActivated(world, rightPos, rightState, entityPlayer, enumHand, facing, (float) vec3d.x, (float) vec3d.y, (float) vec3d.z);
 			}
 		}
 	}

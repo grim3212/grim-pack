@@ -1,0 +1,19 @@
+{
+  "result": {
+    "item": "grimpack:pruners"
+  },
+  "pattern": [
+    "  #",
+    " ##",
+    "SS "
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "#": {
+      "item": "#INGOTIRON"
+    },
+    "S": {
+      "item": "#STICKWOOD"
+    }
+  }
+}

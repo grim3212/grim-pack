@@ -1,0 +1,16 @@
+{
+  "result": {
+    "item": "grimpack:mixer"
+  },
+  "pattern": [
+    "X  ",
+    " XX",
+    " X "
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "X": {
+      "item": "#INGOTIRON"
+    }
+  }
+}

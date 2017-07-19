@@ -1,0 +1,18 @@
+{
+  "result": {
+    "item": "grimpack:iron_chisel"
+  },
+  "pattern": [
+    " B",
+    "I "
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "B": {
+      "item": "#INGOTIRON"
+    },
+    "I": {
+      "item": "#STICKIRON"
+    }
+  }
+}

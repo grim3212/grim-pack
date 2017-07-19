@@ -1,0 +1,22 @@
+{
+  "result": {
+    "item": "grimpack:glass_cabinet"
+  },
+  "pattern": [
+    " X ",
+    "GCG",
+    " X "
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "C": {
+      "item": "#CHEST"
+    },
+    "G": {
+      "item": "#BLOCKGLASS"
+    },
+    "X": {
+      "item": "#PLANKWOOD"
+    }
+  }
+}

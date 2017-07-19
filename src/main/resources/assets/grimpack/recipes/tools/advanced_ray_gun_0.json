@@ -1,0 +1,24 @@
+{
+  "result": {
+    "item": "grimpack:advanced_ray_gun",
+    "data": 0
+  },
+  "pattern": [
+    "XZ ",
+    " XY",
+    " XX"
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "X": {
+      "item": "#INGOTDARKIRON"
+    },
+    "Y": {
+      "item": "grimpack:ray_gun",
+      "data": 0
+    },
+    "Z": {
+      "item": "#DUSTREDSTONE"
+    }
+  }
+}

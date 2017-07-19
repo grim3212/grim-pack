@@ -113,11 +113,11 @@ public abstract class GuiGrimContainer extends GuiScreen {
 		for (int i1 = 0; i1 < this.inventorySlots.inventorySlots.size(); ++i1) {
 			Slot slot = (Slot) this.inventorySlots.inventorySlots.get(i1);
 
-			if (slot.canBeHovered()) {
+			if (slot.isEnabled()) {
 				this.drawSlot(slot);
 			}
 
-			if (this.isMouseOverSlot(slot, mouseX, mouseY) && slot.canBeHovered()) {
+			if (this.isMouseOverSlot(slot, mouseX, mouseY) && slot.isEnabled()) {
 				this.theSlot = slot;
 				GlStateManager.disableLighting();
 				GlStateManager.disableDepth();
@@ -201,7 +201,7 @@ public abstract class GuiGrimContainer extends GuiScreen {
 		this.itemRender.zLevel = 200.0F;
 		net.minecraft.client.gui.FontRenderer font = stack.getItem().getFontRenderer(stack);
 		if (font == null)
-			font = fontRendererObj;
+			font = fontRenderer;
 		this.itemRender.renderItemAndEffectIntoGUI(stack, x, y);
 		this.itemRender.renderItemOverlayIntoGUI(font, stack, x, y - (this.draggedStack.isEmpty() ? 0 : 8), altText);
 		this.zLevel = 0.0F;
@@ -260,7 +260,7 @@ public abstract class GuiGrimContainer extends GuiScreen {
 		this.zLevel = 100.0F;
 		this.itemRender.zLevel = 100.0F;
 
-		if (itemstack.isEmpty() && slotIn.canBeHovered()) {
+		if (itemstack.isEmpty() && slotIn.isEnabled()) {
 			TextureAtlasSprite textureatlassprite = slotIn.getBackgroundSprite();
 
 			if (textureatlassprite != null) {
@@ -297,10 +297,10 @@ public abstract class GuiGrimContainer extends GuiScreen {
 				int y = j + ((slot.ySize - 16) / 2);
 
 				this.itemRender.renderItemAndEffectIntoGUI(this.mc.player, itemstack, x, y);
-				this.itemRender.renderItemOverlayIntoGUI(this.fontRendererObj, itemstack, x, y, s);
+				this.itemRender.renderItemOverlayIntoGUI(this.fontRenderer, itemstack, x, y, s);
 			} else {
 				this.itemRender.renderItemAndEffectIntoGUI(this.mc.player, itemstack, i, j);
-				this.itemRender.renderItemOverlayIntoGUI(this.fontRendererObj, itemstack, i, j, s);
+				this.itemRender.renderItemOverlayIntoGUI(this.fontRenderer, itemstack, i, j, s);
 			}
 		}
 
@@ -341,7 +341,7 @@ public abstract class GuiGrimContainer extends GuiScreen {
 		for (int i = 0; i < this.inventorySlots.inventorySlots.size(); ++i) {
 			Slot slot = (Slot) this.inventorySlots.inventorySlots.get(i);
 
-			if (this.isMouseOverSlot(slot, x, y) && slot.canBeHovered()) {
+			if (this.isMouseOverSlot(slot, x, y) && slot.isEnabled()) {
 				return slot;
 			}
 		}

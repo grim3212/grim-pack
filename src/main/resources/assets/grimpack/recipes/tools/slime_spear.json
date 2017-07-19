@@ -1,0 +1,18 @@
+{
+  "result": {
+    "item": "grimpack:slime_spear"
+  },
+  "pattern": [
+    "#",
+    "X"
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "#": {
+      "item": "#SLIMEBALL"
+    },
+    "X": {
+      "item": "grimpack:spear"
+    }
+  }
+}

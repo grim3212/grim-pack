@@ -1,0 +1,25 @@
+{
+  "result": {
+    "item": "grimpack:soda",
+    "data": 11
+  },
+  "pattern": [
+    "X",
+    "Y",
+    "Z"
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "X": {
+      "item": "grimpack:soda",
+      "data": 3
+    },
+    "Y": {
+      "item": "minecraft:water_bucket"
+    },
+    "Z": {
+      "item": "grimpack:soda",
+      "data": 1
+    }
+  }
+}

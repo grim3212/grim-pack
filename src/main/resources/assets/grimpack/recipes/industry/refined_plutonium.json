@@ -1,0 +1,16 @@
+{
+  "result": {
+    "item": "grimpack:refined_plutonium"
+  },
+  "pattern": [
+    "P P",
+    " P ",
+    "P P"
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "P": {
+      "item": "#INGOTPLUTONIUM"
+    }
+  }
+}

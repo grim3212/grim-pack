@@ -34,8 +34,8 @@ public class GuiGoldSafe extends GuiContainer {
 
 	@Override
 	protected void drawGuiContainerForegroundLayer(int par1, int par2) {
-		this.fontRendererObj.drawString(I18n.format(this.safeInventory.getName()), 8, 6, 4210752);
-		this.fontRendererObj.drawString(I18n.format(this.playerInventory.getName()), 8, this.ySize - 96 + 2, 4210752);
+		this.fontRenderer.drawString(I18n.format(this.safeInventory.getName()), 8, 6, 4210752);
+		this.fontRenderer.drawString(I18n.format(this.playerInventory.getName()), 8, this.ySize - 96 + 2, 4210752);
 	}
 
 	@Override

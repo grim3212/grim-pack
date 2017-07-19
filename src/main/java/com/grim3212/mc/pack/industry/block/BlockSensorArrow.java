@@ -6,6 +6,7 @@ import java.util.Random;
 
 import com.grim3212.mc.pack.core.block.BlockManual;
 import com.grim3212.mc.pack.core.manual.pages.Page;
+import com.grim3212.mc.pack.core.part.GrimCreativeTabs;
 import com.grim3212.mc.pack.industry.client.ManualIndustry;
 
 import net.minecraft.block.SoundType;
@@ -30,9 +31,16 @@ public class BlockSensorArrow extends BlockManual {
 	public static final PropertyBool POWERED = PropertyBool.create("powered");
 
 	public BlockSensorArrow() {
-		super(Material.CLOTH, SoundType.CLOTH);
+		super("arrow_sensor", Material.CLOTH, SoundType.CLOTH);
 		this.setTickRandomly(true);
-		this.setDefaultState(this.getBlockState().getBaseState().withProperty(POWERED, false));
+		setHardness(0.3F);
+		setResistance(2.0F);
+		setCreativeTab(GrimCreativeTabs.GRIM_INDUSTRY);
+	}
+
+	@Override
+	protected IBlockState getState() {
+		return this.getBlockState().getBaseState().withProperty(POWERED, false);
 	}
 
 	@Override
@@ -41,7 +49,6 @@ public class BlockSensorArrow extends BlockManual {
 	}
 
 	@Override
-	@SuppressWarnings("deprecation")
 	public void onEntityCollidedWithBlock(World worldIn, BlockPos pos, IBlockState state, Entity entityIn) {
 		if (!worldIn.isRemote && entityIn != null && entityIn instanceof EntityArrow) {
 			EntityArrow arrow = (EntityArrow) entityIn;
@@ -55,7 +62,7 @@ public class BlockSensorArrow extends BlockManual {
 
 			try {
 				// Get the ArrowStack using Reflection
-				Method getArrowStack = ReflectionHelper.findMethod(EntityArrow.class, arrow, new String[] { "getArrowStack" }, (Class<?>[]) null);
+				Method getArrowStack = ReflectionHelper.findMethod(EntityArrow.class, "getArrowStack", null, (Class<?>[]) null);
 				getArrowStack.setAccessible(true);
 				Object o = getArrowStack.invoke(arrow, (Object[]) null);
 				// Kill the arrow entity

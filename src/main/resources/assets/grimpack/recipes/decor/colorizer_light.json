@@ -1,0 +1,20 @@
+{
+  "result": {
+    "item": "grimpack:colorizer_light",
+    "count": 4
+  },
+  "pattern": [
+    " # ",
+    "#W#",
+    " # "
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "#": {
+      "item": "grimpack:colorizer"
+    },
+    "W": {
+      "item": "minecraft:glowstone_dust"
+    }
+  }
+}

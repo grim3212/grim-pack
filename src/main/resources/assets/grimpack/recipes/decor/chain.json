@@ -1,0 +1,16 @@
+{
+  "result": {
+    "item": "grimpack:chain",
+    "count": 2
+  },
+  "pattern": [
+    "#",
+    "#"
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "#": {
+      "item": "#STICKIRON"
+    }
+  }
+}

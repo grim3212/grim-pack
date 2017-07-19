@@ -32,7 +32,7 @@ public class OreDictionaryHelper {
 	 * @param exclusions
 	 *            Recipe outputs that should be excluded
 	 */
-	public static void replaceRecipes(ItemStack stack, String name, ItemStack[] exclusions) {
+	/**public static void replaceRecipes(ItemStack stack, String name, ItemStack[] exclusions) {
 		Map<ItemStack, String> replacements = Maps.newHashMap();
 		replacements.put(stack, name);
 
@@ -381,5 +381,5 @@ public class OreDictionaryHelper {
 
 		Object[] newInputs = inputs.toArray();
 		return new ShapelessOreRecipe(output, newInputs);
-	}
+	}**/
 }

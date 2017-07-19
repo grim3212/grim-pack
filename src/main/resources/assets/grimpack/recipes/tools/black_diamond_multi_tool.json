@@ -1,0 +1,35 @@
+{
+  "result": {
+    "item": "grimpack:black_diamond_multi_tool"
+  },
+  "ingredients": [
+    {
+      "item": "grimpack:black_diamond_sword"
+    },
+    {
+      "item": "grimpack:black_diamond_pickaxe"
+    },
+    {
+      "item": "grimpack:black_diamond_shovel"
+    },
+    {
+      "item": "grimpack:black_diamond_hoe"
+    },
+    {
+      "item": "grimpack:black_diamond_axe"
+    },
+    {
+      "item": "grimpack:black_diamond"
+    },
+    {
+      "item": "grimpack:black_diamond"
+    },
+    {
+      "item": "grimpack:black_diamond"
+    },
+    {
+      "item": "grimpack:black_diamond"
+    }
+  ],
+  "type": "minecraft:crafting_shapeless"
+}

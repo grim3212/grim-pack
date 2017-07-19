@@ -1,0 +1,16 @@
+{
+  "result": {
+    "item": "grimpack:steel_block"
+  },
+  "pattern": [
+    "iii",
+    "iii",
+    "iii"
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "i": {
+      "item": "#INGOTSTEEL"
+    }
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "result": {
+    "item": "grimpack:nuclear_bomb"
+  },
+  "pattern": [
+    "BCB",
+    "CRC",
+    "BCB"
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "B": {
+      "item": "grimpack:bomb_shell"
+    },
+    "R": {
+      "item": "grimpack:reactor"
+    },
+    "C": {
+      "item": "grimpack:c4"
+    }
+  }
+}

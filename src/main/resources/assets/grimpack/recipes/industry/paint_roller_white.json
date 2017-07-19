@@ -1,0 +1,14 @@
+{
+  "result": {
+    "item": "grimpack:paint_roller_white"
+  },
+  "ingredients": [
+    {
+      "item": "grimpack:paint_roller"
+    },
+    {
+      "item": "#DYEWHITE"
+    }
+  ],
+  "type": "forge:ore_shapeless"
+}

@@ -1,0 +1,14 @@
+{
+  "result": {
+    "item": "grimpack:paint_roller_red"
+  },
+  "ingredients": [
+    {
+      "item": "grimpack:paint_roller"
+    },
+    {
+      "item": "#DYERED"
+    }
+  ],
+  "type": "forge:ore_shapeless"
+}

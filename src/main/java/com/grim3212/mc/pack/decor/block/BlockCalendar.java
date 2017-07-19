@@ -4,6 +4,7 @@ import java.util.Iterator;
 
 import com.grim3212.mc.pack.core.block.BlockManual;
 import com.grim3212.mc.pack.core.manual.pages.Page;
+import com.grim3212.mc.pack.core.part.GrimCreativeTabs;
 import com.grim3212.mc.pack.decor.client.ManualDecor;
 import com.grim3212.mc.pack.decor.tile.TileEntityCalendar;
 
@@ -34,8 +35,14 @@ public class BlockCalendar extends BlockManual implements ITileEntityProvider {
 	public static final PropertyDirection FACING = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
 
 	protected BlockCalendar() {
-		super(Material.WOOD, SoundType.WOOD);
-		this.setDefaultState(getDefaultState().withProperty(FACING, EnumFacing.NORTH));
+		super("calendar", Material.WOOD, SoundType.WOOD);
+		setHardness(1.0F);
+		setCreativeTab(GrimCreativeTabs.GRIM_DECOR);
+	}
+
+	@Override
+	protected IBlockState getState() {
+		return super.getState().withProperty(FACING, EnumFacing.NORTH);
 	}
 
 	@Override

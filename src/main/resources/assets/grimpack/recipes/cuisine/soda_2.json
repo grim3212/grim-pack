@@ -1,0 +1,20 @@
+{
+  "result": {
+    "item": "grimpack:soda",
+    "data": 2
+  },
+  "pattern": [
+    "X",
+    "Y"
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "X": {
+      "item": "#SLIMEBALL"
+    },
+    "Y": {
+      "item": "grimpack:soda",
+      "data": 11
+    }
+  }
+}

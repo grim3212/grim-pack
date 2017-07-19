@@ -1,0 +1,23 @@
+{
+  "result": {
+    "item": "grimpack:iron_sensor",
+    "data": 0
+  },
+  "pattern": [
+    "XGX",
+    "XYX",
+    "XXX"
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "G": {
+      "item": "#BLOCKGLASS"
+    },
+    "X": {
+      "item": "#INGOTIRON"
+    },
+    "Y": {
+      "item": "#DUSTREDSTONE"
+    }
+  }
+}

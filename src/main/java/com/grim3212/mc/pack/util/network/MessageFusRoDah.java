@@ -5,9 +5,8 @@ import java.util.Iterator;
 import java.util.List;
 
 import com.grim3212.mc.pack.core.network.AbstractMessage.AbstractServerMessage;
-import com.grim3212.mc.pack.util.GrimUtil;
 import com.grim3212.mc.pack.util.config.UtilConfig;
-import com.grim3212.mc.pack.util.event.UtilAchievements;
+import com.grim3212.mc.pack.util.init.UtilSounds;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -52,13 +51,13 @@ public class MessageFusRoDah extends AbstractServerMessage<MessageFusRoDah> {
 		}
 
 		// Trigger Fus Ro Dah achivement
-		player.addStat(UtilAchievements.FUS_RO_DAH);
+		// player.addStat(UtilAchievements.FUS_RO_DAH);
 
 		if (UtilConfig.soundEnabled) {
 			if (UtilConfig.useOldSound)
-				player.world.playSound((EntityPlayer) null, player.getPosition(), GrimUtil.fusrodahOldSound, SoundCategory.PLAYERS, 1.0F, 1.0F);
+				player.world.playSound((EntityPlayer) null, player.getPosition(), UtilSounds.fusrodahOldSound, SoundCategory.PLAYERS, 1.0F, 1.0F);
 			else
-				player.world.playSound((EntityPlayer) null, player.getPosition(), GrimUtil.fusrodahSound, SoundCategory.PLAYERS, 1.0F, 1.0F);
+				player.world.playSound((EntityPlayer) null, player.getPosition(), UtilSounds.fusrodahSound, SoundCategory.PLAYERS, 1.0F, 1.0F);
 		}
 	}
 

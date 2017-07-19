@@ -1,82 +1,96 @@
 package com.grim3212.mc.pack.cuisine.block;
 
-import com.grim3212.mc.pack.core.part.IPartItems;
-import com.grim3212.mc.pack.core.util.RecipeHelper;
-import com.grim3212.mc.pack.core.util.Utils;
-import com.grim3212.mc.pack.cuisine.GrimCuisine;
+import com.grim3212.mc.pack.core.item.ItemManualBlock;
+import com.grim3212.mc.pack.core.util.CreateRecipes;
 import com.grim3212.mc.pack.cuisine.item.CuisineItems;
 
 import net.minecraft.block.Block;
 import net.minecraft.init.Items;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.IRecipe;
+import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
-import net.minecraftforge.oredict.ShapedOreRecipe;
+import net.minecraftforge.registries.IForgeRegistry;
 
-public class CuisineBlocks implements IPartItems {
+@Mod.EventBusSubscriber
+public class CuisineBlocks {
 
-	public static Block butter_churn;
-	public static Block cheese_block;
-	public static Block cheese_maker;
-	public static Block cocoa_block;
-	public static Block cocoa_tree_sapling;
-	public static Block chocolate_bar_mould;
-	public static Block chocolate_cake;
-	public static Block chocolate_block;
-	public static Block apple_pie;
-	public static Block melon_pie;
-	public static Block pumpkin_pie;
-	public static Block chocolate_pie;
-	public static Block pork_pie;
+	public static final Block butter_churn = new BlockButterchurn();
+	public static final Block cheese_block = new BlockCheese();
+	public static final Block cheese_maker = new BlockCheeseMaker();
+	public static final Block cocoa_block = new BlockCocoa();
+	public static final Block cocoa_tree_sapling = new BlockCocoaSapling();
+	public static final Block chocolate_bar_mould = new BlockCBarMould();
+	public static final Block chocolate_cake = new BlockChocolateCake();
+	public static final Block chocolate_block = new BlockChocolateBlock();
+	public static final Block apple_pie = new BlockPie("apple_pie");
+	public static final Block melon_pie = new BlockPie("melon_pie");
+	public static final Block pumpkin_pie = new BlockPie("pumpkin_pie");
+	public static final Block chocolate_pie = new BlockPie("chocolate_pie");
+	public static final Block pork_pie = new BlockPie("pork_pie");
 
-	@Override
-	public void initItems() {
-		cheese_block = (new BlockCheese()).setHardness(0.5F).setUnlocalizedName("cheese_block").setCreativeTab(GrimCuisine.INSTANCE.getCreativeTab());
-		cheese_maker = (new BlockCheeseMaker()).setHardness(2.0F).setUnlocalizedName("cheese_maker").setCreativeTab(GrimCuisine.INSTANCE.getCreativeTab());
-		butter_churn = (new BlockButterchurn()).setHardness(2.0F).setUnlocalizedName("butter_churn").setCreativeTab(GrimCuisine.INSTANCE.getCreativeTab());
-		cocoa_block = (new BlockCocoa()).setHardness(1.0F).setUnlocalizedName("cocoa_block");
-		cocoa_tree_sapling = (new BlockCocoaSapling()).setHardness(0.0F).setUnlocalizedName("cocoa_tree_sapling");
-		chocolate_bar_mould = (new BlockCBarMould()).setHardness(1.0F).setUnlocalizedName("chocolate_bar_mould").setCreativeTab(GrimCuisine.INSTANCE.getCreativeTab());
-		chocolate_cake = (new BlockChocolateCake()).setHardness(0.5F).setUnlocalizedName("chocolate_cake").setCreativeTab(GrimCuisine.INSTANCE.getCreativeTab());
-		chocolate_block = (new BlockChocolateBlock()).setHardness(0.5F).setUnlocalizedName("chocolate_block").setCreativeTab(GrimCuisine.INSTANCE.getCreativeTab());
-		apple_pie = (new BlockPie()).setHardness(0.5f).setUnlocalizedName("apple_pie").setCreativeTab(GrimCuisine.INSTANCE.getCreativeTab());
-		melon_pie = (new BlockPie()).setHardness(0.5f).setUnlocalizedName("melon_pie").setCreativeTab(GrimCuisine.INSTANCE.getCreativeTab());
-		pumpkin_pie = (new BlockPie()).setHardness(0.5f).setUnlocalizedName("pumpkin_pie").setCreativeTab(GrimCuisine.INSTANCE.getCreativeTab());
-		chocolate_pie = (new BlockPie()).setHardness(0.5f).setUnlocalizedName("chocolate_pie").setCreativeTab(GrimCuisine.INSTANCE.getCreativeTab());
-		pork_pie = (new BlockPie()).setHardness(0.5f).setUnlocalizedName("pork_pie").setCreativeTab(GrimCuisine.INSTANCE.getCreativeTab());
+	@SubscribeEvent
+	public static void initBlocks(RegistryEvent.Register<Block> evt) {
+		IForgeRegistry<Block> r = evt.getRegistry();
 
-		Utils.registerBlock(butter_churn, "butter_churn");
-		Utils.registerBlock(cheese_block, "cheese_block");
-		Utils.registerBlock(cheese_maker, "cheese_maker");
-		Utils.registerBlock(cocoa_block, "cocoa_block");
-		Utils.registerBlock(chocolate_bar_mould, "chocolate_bar_mould");
-		Utils.registerBlock(cocoa_tree_sapling, "cocoa_tree_sapling");
-		Utils.registerBlock(chocolate_cake, "chocolate_cake");
-		Utils.registerBlock(chocolate_block, "chocolate_block");
-		Utils.registerBlock(apple_pie, "apple_pie");
-		Utils.registerBlock(melon_pie, "melon_pie");
-		Utils.registerBlock(pumpkin_pie, "pumpkin_pie");
-		Utils.registerBlock(chocolate_pie, "chocolate_pie");
-		Utils.registerBlock(pork_pie, "pork_pie");
+		r.register(cheese_block);
+		r.register(cheese_maker);
+		r.register(butter_churn);
+		r.register(cocoa_block);
+		r.register(cocoa_tree_sapling);
+		r.register(chocolate_bar_mould);
+		r.register(chocolate_cake);
+		r.register(chocolate_block);
+		r.register(apple_pie);
+		r.register(melon_pie);
+		r.register(pumpkin_pie);
+		r.register(chocolate_pie);
+		r.register(pork_pie);
 	}
 
-	@Override
-	public void addRecipes() {
+	@SubscribeEvent
+	public static void initItems(RegistryEvent.Register<Item> evt) {
+		IForgeRegistry<Item> r = evt.getRegistry();
+
+		r.register(new ItemManualBlock(cheese_block).setRegistryName(cheese_block.getRegistryName()));
+		r.register(new ItemManualBlock(cheese_maker).setRegistryName(cheese_maker.getRegistryName()));
+		r.register(new ItemManualBlock(butter_churn).setRegistryName(butter_churn.getRegistryName()));
+		r.register(new ItemManualBlock(cocoa_block).setRegistryName(cocoa_block.getRegistryName()));
+		r.register(new ItemManualBlock(cocoa_tree_sapling).setRegistryName(cocoa_tree_sapling.getRegistryName()));
+		r.register(new ItemManualBlock(chocolate_bar_mould).setRegistryName(chocolate_bar_mould.getRegistryName()));
+		r.register(new ItemManualBlock(chocolate_cake).setRegistryName(chocolate_cake.getRegistryName()));
+		r.register(new ItemManualBlock(chocolate_block).setRegistryName(chocolate_block.getRegistryName()));
+		r.register(new ItemManualBlock(apple_pie).setRegistryName(apple_pie.getRegistryName()));
+		r.register(new ItemManualBlock(melon_pie).setRegistryName(melon_pie.getRegistryName()));
+		r.register(new ItemManualBlock(pumpkin_pie).setRegistryName(pumpkin_pie.getRegistryName()));
+		r.register(new ItemManualBlock(chocolate_pie).setRegistryName(chocolate_pie.getRegistryName()));
+		r.register(new ItemManualBlock(pork_pie).setRegistryName(pork_pie.getRegistryName()));
+	}
+
+	@SubscribeEvent
+	public static void registerRecipes(RegistryEvent.Register<IRecipe> evt) {
 		GameRegistry.addSmelting(CuisineItems.raw_apple_pie, new ItemStack(apple_pie), 0.35f);
 		GameRegistry.addSmelting(CuisineItems.raw_pork_pie, new ItemStack(pork_pie), 0.35f);
 		GameRegistry.addSmelting(CuisineItems.raw_chocolate_pie, new ItemStack(chocolate_pie), 0.35f);
 		GameRegistry.addSmelting(CuisineItems.raw_pumpkin_pie, new ItemStack(pumpkin_pie), 0.35f);
 		GameRegistry.addSmelting(CuisineItems.raw_melon_pie, new ItemStack(melon_pie), 0.35f);
+	}
 
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(cheese_maker, 1), new Object[] { "X X", "XIX", "XXX", 'X', "cobblestone", 'I', Items.BUCKET }));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(butter_churn, 1), new Object[] { "XIX", "XIX", "XXX", 'X', "plankWood", 'I', "stickWood" }));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(cheese_block, 1), new Object[] { "CCC", "CCC", "CCC", 'C', CuisineItems.cheese }));
-		CuisineItems.cheeseRecipe.add(RecipeHelper.getLatestIRecipe());
+	public static void addRecipes() {
 
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(chocolate_cake, 1), new Object[] { "BXB", "SES", "WWW", 'B', CuisineItems.chocolate_ball, 'X', "bucketMilk", 'S', Items.SUGAR, 'E', "egg", 'W', "cropWheat" }));
+		CreateRecipes.addShapedRecipe(new ItemStack(cheese_maker, 1), new Object[] { "X X", "XIX", "XXX", 'X', "cobblestone", 'I', Items.BUCKET });
+		CreateRecipes.addShapedRecipe(new ItemStack(butter_churn, 1), new Object[] { "XIX", "XIX", "XXX", 'X', "plankWood", 'I', "stickWood" });
+		CreateRecipes.addShapedRecipe(new ItemStack(cheese_block, 1), new Object[] { "CCC", "CCC", "CCC", 'C', CuisineItems.cheese });
+		// CuisineItems.cheeseRecipe.add(RecipeHelper.getLatestIRecipe());
 
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(chocolate_block, 1), new Object[] { "XXX", "XXX", "XXX", 'X', CuisineItems.chocolate_bar }));
-		CuisineItems.choc.add(RecipeHelper.getLatestIRecipe());
+		CreateRecipes.addShapedRecipe(new ItemStack(chocolate_cake, 1), new Object[] { "BXB", "SES", "WWW", 'B', CuisineItems.chocolate_ball, 'X', "bucketMilk", 'S', Items.SUGAR, 'E', "egg", 'W', "cropWheat" });
 
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(chocolate_bar_mould, 1), new Object[] { " I ", " I ", "XXX", 'X', "cobblestone", 'I', "stone" }));
+		CreateRecipes.addShapedRecipe(new ItemStack(chocolate_block, 1), new Object[] { "XXX", "XXX", "XXX", 'X', CuisineItems.chocolate_bar });
+		// CuisineItems.choc.add(RecipeHelper.getLatestIRecipe());
+
+		CreateRecipes.addShapedRecipe(new ItemStack(chocolate_bar_mould, 1), new Object[] { " I ", " I ", "XXX", 'X', "cobblestone", 'I', "stone" });
 	}
 }

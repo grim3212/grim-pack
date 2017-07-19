@@ -1,0 +1,15 @@
+{
+  "result": {
+    "item": "grimpack:pan"
+  },
+  "pattern": [
+    "X X",
+    " X "
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "X": {
+      "item": "#STONE"
+    }
+  }
+}

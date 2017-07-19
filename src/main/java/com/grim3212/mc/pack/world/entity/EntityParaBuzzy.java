@@ -8,8 +8,8 @@ import com.grim3212.mc.pack.core.manual.IManualEntry.IManualEntity;
 import com.grim3212.mc.pack.core.manual.pages.Page;
 import com.grim3212.mc.pack.world.GrimWorld;
 import com.grim3212.mc.pack.world.client.ManualWorld;
+import com.grim3212.mc.pack.world.init.WorldSounds;
 import com.grim3212.mc.pack.world.util.WorldLootTables;
-import com.grim3212.mc.pack.world.util.WorldSounds;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityAgeable;
@@ -186,7 +186,7 @@ public class EntityParaBuzzy extends EntityTameable implements IManualEntity {
 	}
 
 	@Override
-	protected SoundEvent getHurtSound() {
+	protected SoundEvent getHurtSound(DamageSource p_184601_1_) {
 		return WorldSounds.parabuzzy_hurt;
 	}
 
@@ -246,7 +246,7 @@ public class EntityParaBuzzy extends EntityTameable implements IManualEntity {
 		if (this.isEntityInvulnerable(source)) {
 			return false;
 		} else {
-			Entity entity = source.getEntity();
+			Entity entity = source.getTrueSource();
 
 			if (this.aiSit != null) {
 				this.aiSit.setSitting(false);

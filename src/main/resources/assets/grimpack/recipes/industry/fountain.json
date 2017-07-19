@@ -1,0 +1,22 @@
+{
+  "result": {
+    "item": "grimpack:fountain"
+  },
+  "pattern": [
+    "CPC",
+    "CaC",
+    "C C"
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "P": {
+      "item": "grimpack:steel_pipe"
+    },
+    "a": {
+      "item": "#INGOTALUMINUM"
+    },
+    "C": {
+      "item": "#COBBLESTONE"
+    }
+  }
+}

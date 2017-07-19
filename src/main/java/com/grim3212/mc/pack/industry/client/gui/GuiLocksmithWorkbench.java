@@ -46,7 +46,7 @@ public class GuiLocksmithWorkbench extends GuiContainer implements IContainerLis
 		int i = (this.width - this.xSize) / 2;
 		int j = (this.height - this.ySize) / 2;
 		Keyboard.enableRepeatEvents(true);
-		this.lockField = new GuiTextField(0, this.fontRendererObj, i + 67, j + 39, 42, 12);
+		this.lockField = new GuiTextField(0, this.fontRenderer, i + 67, j + 39, 42, 12);
 		this.lockField.setTextColor(-1);
 		this.lockField.setDisabledTextColour(-1);
 		this.lockField.setEnableBackgroundDrawing(false);
@@ -90,9 +90,9 @@ public class GuiLocksmithWorkbench extends GuiContainer implements IContainerLis
 
 	@Override
 	public void drawGuiContainerForegroundLayer(int par1, int par2) {
-		this.fontRendererObj.drawString(I18n.format("container.locksmith_workbench"), 38, 6, 4210752);
-		this.fontRendererObj.drawString(I18n.format("container.locksmith_workbench.combo"), 59, 17, 7368816);
-		this.fontRendererObj.drawString(I18n.format("container.inventory"), 8, this.ySize - 96 + 2, 4210752);
+		this.fontRenderer.drawString(I18n.format("container.locksmith_workbench"), 38, 6, 4210752);
+		this.fontRenderer.drawString(I18n.format("container.locksmith_workbench.combo"), 59, 17, 7368816);
+		this.fontRenderer.drawString(I18n.format("container.inventory"), 8, this.ySize - 96 + 2, 4210752);
 
 	}
 
@@ -106,11 +106,6 @@ public class GuiLocksmithWorkbench extends GuiContainer implements IContainerLis
 		GlStateManager.disableLighting();
 		GlStateManager.disableBlend();
 		this.lockField.drawTextBox();
-	}
-
-	@Override
-	public void updateCraftingInventory(Container containerToSend, NonNullList<ItemStack> itemsList) {
-		this.sendSlotContents(containerToSend, 0, containerToSend.getSlot(0).getStack());
 	}
 
 	@Override
@@ -133,10 +128,15 @@ public class GuiLocksmithWorkbench extends GuiContainer implements IContainerLis
 	}
 
 	@Override
-	public void sendProgressBarUpdate(Container containerIn, int varToUpdate, int newValue) {
+	public void sendAllWindowProperties(Container containerIn, IInventory inventory) {
 	}
 
 	@Override
-	public void sendAllWindowProperties(Container containerIn, IInventory inventory) {
+	public void sendAllContents(Container containerToSend, NonNullList<ItemStack> itemsList) {
+		this.sendSlotContents(containerToSend, 0, containerToSend.getSlot(0).getStack());
+	}
+
+	@Override
+	public void sendWindowProperty(Container containerIn, int varToUpdate, int newValue) {
 	}
 }

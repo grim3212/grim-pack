@@ -5,9 +5,10 @@ import java.util.List;
 import com.grim3212.mc.pack.industry.block.IndustryBlocks;
 
 import net.minecraft.block.Block;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
+import net.minecraft.world.World;
 
 public class ItemSensor extends ItemBlock {
 
@@ -18,7 +19,9 @@ public class ItemSensor extends ItemBlock {
 	}
 
 	@Override
-	public void addInformation(ItemStack stack, EntityPlayer playerIn, List<String> tooltip, boolean advanced) {
+	public void addInformation(ItemStack stack, World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
+		// TODO: Localize this
+
 		if (this.block == IndustryBlocks.wooden_sensor) {
 			tooltip.add("Detects all entities");
 		} else if (this.block == IndustryBlocks.stone_sensor) {

@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.grim3212.mc.pack.core.item.ItemManual;
 import com.grim3212.mc.pack.core.manual.pages.Page;
+import com.grim3212.mc.pack.core.part.GrimCreativeTabs;
 import com.grim3212.mc.pack.core.util.NBTHelper;
 import com.grim3212.mc.pack.core.util.Utils;
 import com.grim3212.mc.pack.tools.client.ManualTools;
@@ -13,11 +14,11 @@ import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.resources.I18n;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.SoundEvents;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.stats.StatList;
@@ -37,8 +38,6 @@ import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.fluids.capability.templates.FluidHandlerItemStack;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ItemBetterBucket extends ItemManual {
 
@@ -52,7 +51,17 @@ public class ItemBetterBucket extends ItemManual {
 	public final BucketType bucketType;
 
 	public enum BucketType {
-		wood, stone, gold, diamond, obsidian
+		wood("wooden"), stone("stone"), gold("golden"), diamond("diamond"), obsidian("obsidian");
+
+		private String registryName;
+
+		private BucketType(String registryName) {
+			this.registryName = registryName;
+		}
+
+		public String getRegistryName() {
+			return registryName;
+		}
 	}
 
 	public static List<String> extraPickups = new ArrayList<String>();
@@ -79,6 +88,8 @@ public class ItemBetterBucket extends ItemManual {
 	}
 
 	public ItemBetterBucket(int maxCapacity, int milkingLevel, float maxPickupTemp, boolean pickupFire, BucketType bucketType, ItemStack brokenStack) {
+		super(bucketType.getRegistryName() + "_bucket");
+
 		this.maxCapacity = Fluid.BUCKET_VOLUME * maxCapacity;
 
 		ItemStack stack = new ItemStack(this);
@@ -86,6 +97,7 @@ public class ItemBetterBucket extends ItemManual {
 		setAmount(stack, 0);
 		this.empty = stack;
 
+		setCreativeTab(GrimCreativeTabs.GRIM_TOOLS);
 		this.setMaxStackSize(1);
 		this.maxPickupTemp = maxPickupTemp;
 		this.pickupFire = pickupFire;
@@ -120,8 +132,7 @@ public class ItemBetterBucket extends ItemManual {
 	}
 
 	@Override
-	@SideOnly(Side.CLIENT)
-	public void addInformation(ItemStack stack, EntityPlayer playerIn, List<String> tooltip, boolean advanced) {
+	public void addInformation(ItemStack stack, World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
 		if (getAmount(stack) <= 0) {
 			tooltip.add(I18n.format("tooltip.buckets.empty"));
 		} else {
@@ -138,46 +149,48 @@ public class ItemBetterBucket extends ItemManual {
 	}
 
 	@Override
-	@SideOnly(Side.CLIENT)
-	public void getSubItems(Item itemIn, CreativeTabs tab, NonNullList<ItemStack> subItems) {
-		// Add empty
-		ItemStack emptyStack = new ItemStack(itemIn);
-		setFluid(emptyStack, "empty");
-		setAmount(emptyStack, 0);
-		subItems.add(emptyStack);
+	public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> subItems) {
+		if (isInCreativeTab(tab)) {
 
-		// Fluids
-		for (Fluid fluid : FluidRegistry.getRegisteredFluids().values()) {
-			if (fluid.getUnlocalizedName().equals("fluid.milk"))
-				continue;
+			// Add empty
+			ItemStack emptyStack = new ItemStack(this);
+			setFluid(emptyStack, "empty");
+			setAmount(emptyStack, 0);
+			subItems.add(emptyStack);
 
-			// add all fluids that the bucket can be filled with
-			FluidStack fs = new FluidStack(fluid, maxCapacity);
-			if (fs.getFluid().getTemperature() < maxPickupTemp) {
-				ItemStack stack = new ItemStack(itemIn);
+			// Fluids
+			for (Fluid fluid : FluidRegistry.getRegisteredFluids().values()) {
+				if (fluid.getUnlocalizedName().equals("fluid.milk"))
+					continue;
 
-				if (Utils.getFluidHandler(stack).fill(fs, true) == fs.amount) {
-					subItems.add(stack);
-				}
-			}
-		}
+				// add all fluids that the bucket can be filled with
+				FluidStack fs = new FluidStack(fluid, maxCapacity);
+				if (fs.getFluid().getTemperature() < maxPickupTemp) {
+					ItemStack stack = new ItemStack(this);
 
-		// Non-Fluid pickups
-		for (String other : extraPickups) {
-			if (!other.equals("milk"))
-				if (!other.equals("fire")) {
-					ItemStack stack = new ItemStack(itemIn);
-					setFluid(stack, other);
-					setAmount(stack, maxCapacity);
-					subItems.add(stack);
-				} else {
-					if (this.pickupFire) {
-						ItemStack stack = new ItemStack(itemIn);
-						setFluid(stack, other);
-						setAmount(stack, maxCapacity);
+					if (Utils.getFluidHandler(stack).fill(fs, true) == fs.amount) {
 						subItems.add(stack);
 					}
 				}
+			}
+
+			// Non-Fluid pickups
+			for (String other : extraPickups) {
+				if (!other.equals("milk"))
+					if (!other.equals("fire")) {
+						ItemStack stack = new ItemStack(this);
+						setFluid(stack, other);
+						setAmount(stack, maxCapacity);
+						subItems.add(stack);
+					} else {
+						if (this.pickupFire) {
+							ItemStack stack = new ItemStack(this);
+							setFluid(stack, other);
+							setAmount(stack, maxCapacity);
+							subItems.add(stack);
+						}
+					}
+			}
 		}
 	}
 

@@ -5,12 +5,12 @@ import com.grim3212.mc.pack.core.client.gui.PackGuiHandler;
 import com.grim3212.mc.pack.core.inventory.InventoryCapability;
 import com.grim3212.mc.pack.core.item.ItemManual;
 import com.grim3212.mc.pack.core.manual.pages.Page;
+import com.grim3212.mc.pack.core.part.GrimCreativeTabs;
 import com.grim3212.mc.pack.tools.client.ManualTools;
 
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -21,8 +21,6 @@ import net.minecraft.util.NonNullList;
 import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.util.Constants;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
@@ -33,6 +31,8 @@ public class ItemBackpack extends ItemManual {
 	public static final int[] colorMeta = new int[] { -1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 };
 
 	public ItemBackpack() {
+		super("backpack");
+		this.setCreativeTab(GrimCreativeTabs.GRIM_TOOLS);
 		this.maxStackSize = 1;
 	}
 
@@ -55,17 +55,17 @@ public class ItemBackpack extends ItemManual {
 	}
 
 	@Override
-	@SideOnly(Side.CLIENT)
-	public void getSubItems(Item par1, CreativeTabs par2CreativeTabs, NonNullList<ItemStack> list) {
-		for (int color : colorMeta) {
-			NBTTagCompound nbt = new NBTTagCompound();
-			nbt.setInteger("color", color);
+	public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> items) {
+		if (isInCreativeTab(tab))
+			for (int color : colorMeta) {
+				NBTTagCompound nbt = new NBTTagCompound();
+				nbt.setInteger("color", color);
 
-			ItemStack backpack = new ItemStack(ToolsItems.backpack);
-			backpack.setTagCompound(nbt);
+				ItemStack backpack = new ItemStack(ToolsItems.backpack);
+				backpack.setTagCompound(nbt);
 
-			list.add(backpack);
-		}
+				items.add(backpack);
+			}
 	}
 
 	@Override
@@ -137,7 +137,7 @@ public class ItemBackpack extends ItemManual {
 			itemStack.setTagCompound(nbtTagCompound);
 		}
 		nbtTagCompound.setInteger("color", color);
-		
+
 		return itemStack;
 	}
 }

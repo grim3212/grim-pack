@@ -2,7 +2,7 @@ package com.grim3212.mc.pack.industry.item;
 
 import com.grim3212.mc.pack.core.item.ItemManual;
 import com.grim3212.mc.pack.core.manual.pages.Page;
-import com.grim3212.mc.pack.industry.GrimIndustry;
+import com.grim3212.mc.pack.core.part.GrimCreativeTabs;
 import com.grim3212.mc.pack.industry.block.BlockRway;
 import com.grim3212.mc.pack.industry.block.BlockSiding;
 import com.grim3212.mc.pack.industry.block.BlockSiding.EnumSidingColor;
@@ -23,10 +23,11 @@ public class ItemPaintRollerColor extends ItemManual {
 	public EnumSidingColor paintcolor;
 
 	public ItemPaintRollerColor(EnumSidingColor color) {
+		super("paint_roller_" + color.getName());
 		this.paintcolor = color;
 		this.maxStackSize = 1;
 		this.setMaxDamage(64);
-		this.setCreativeTab(GrimIndustry.INSTANCE.getCreativeTab());
+		this.setCreativeTab(GrimCreativeTabs.GRIM_INDUSTRY);
 	}
 
 	@Override

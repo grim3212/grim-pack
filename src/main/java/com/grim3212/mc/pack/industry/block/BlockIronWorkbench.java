@@ -4,6 +4,7 @@ import com.grim3212.mc.pack.GrimPack;
 import com.grim3212.mc.pack.core.block.BlockManual;
 import com.grim3212.mc.pack.core.client.gui.PackGuiHandler;
 import com.grim3212.mc.pack.core.manual.pages.Page;
+import com.grim3212.mc.pack.core.part.GrimCreativeTabs;
 import com.grim3212.mc.pack.industry.client.ManualIndustry;
 
 import net.minecraft.block.SoundType;
@@ -18,7 +19,10 @@ import net.minecraft.world.World;
 public class BlockIronWorkbench extends BlockManual {
 
 	protected BlockIronWorkbench() {
-		super(Material.IRON, SoundType.METAL);
+		super("iron_workbench", Material.IRON, SoundType.METAL);
+		setHardness(3F);
+		setResistance(5F);
+		setCreativeTab(GrimCreativeTabs.GRIM_INDUSTRY);
 	}
 
 	@Override

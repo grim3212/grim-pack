@@ -1,0 +1,15 @@
+{
+  "result": {
+    "item": "grimpack:cocoa_dust",
+    "count": 2
+  },
+  "pattern": [
+    "X"
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "X": {
+      "item": "grimpack:cocoa_fruit"
+    }
+  }
+}

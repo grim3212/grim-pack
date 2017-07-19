@@ -1,0 +1,19 @@
+{
+  "result": {
+    "item": "grimpack:chocolate_bar_mould"
+  },
+  "pattern": [
+    " I ",
+    " I ",
+    "XXX"
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "X": {
+      "item": "#COBBLESTONE"
+    },
+    "I": {
+      "item": "#STONE"
+    }
+  }
+}

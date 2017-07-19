@@ -1,0 +1,19 @@
+{
+  "result": {
+    "item": "grimpack:mining_wand"
+  },
+  "pattern": [
+    "PXP",
+    "PXP",
+    "PXP"
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "P": {
+      "item": "#PLANKWOOD"
+    },
+    "X": {
+      "item": "#GEMDIAMOND"
+    }
+  }
+}

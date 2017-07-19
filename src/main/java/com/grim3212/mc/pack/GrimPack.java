@@ -4,6 +4,7 @@ import com.grim3212.mc.pack.core.GrimCore;
 import com.grim3212.mc.pack.core.client.gui.PackGuiHandler;
 import com.grim3212.mc.pack.core.config.CoreConfig;
 import com.grim3212.mc.pack.core.part.PartRegistry;
+import com.grim3212.mc.pack.core.util.GrimLog;
 import com.grim3212.mc.pack.cuisine.GrimCuisine;
 import com.grim3212.mc.pack.decor.GrimDecor;
 import com.grim3212.mc.pack.industry.GrimIndustry;
@@ -28,7 +29,11 @@ public class GrimPack {
 	public static final String modID = "grimpack";
 	public static final String modName = "Grim Pack";
 
-	static {
+	@EventHandler
+	public void preInit(FMLPreInitializationEvent event) {
+		// Setup log
+		GrimLog.log = event.getModLog();
+
 		PartRegistry.registerPart(GrimCore.INSTANCE);
 		if (CoreConfig.useCuisine)
 			PartRegistry.registerPart(GrimCuisine.INSTANCE);
@@ -42,10 +47,7 @@ public class GrimPack {
 			PartRegistry.registerPart(GrimUtil.INSTANCE);
 		if (CoreConfig.useWorld)
 			PartRegistry.registerPart(GrimWorld.INSTANCE);
-	}
 
-	@EventHandler
-	public void preInit(FMLPreInitializationEvent event) {
 		// Register GUI handler for the Instruction Manual
 		NetworkRegistry.INSTANCE.registerGuiHandler(GrimPack.INSTANCE, new PackGuiHandler());
 

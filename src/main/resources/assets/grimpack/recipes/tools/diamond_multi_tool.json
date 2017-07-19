@@ -1,0 +1,35 @@
+{
+  "result": {
+    "item": "grimpack:diamond_multi_tool"
+  },
+  "ingredients": [
+    {
+      "item": "minecraft:diamond_sword"
+    },
+    {
+      "item": "minecraft:diamond_pickaxe"
+    },
+    {
+      "item": "minecraft:diamond_shovel"
+    },
+    {
+      "item": "minecraft:diamond_hoe"
+    },
+    {
+      "item": "minecraft:diamond_axe"
+    },
+    {
+      "item": "#GEMDIAMOND"
+    },
+    {
+      "item": "#GEMDIAMOND"
+    },
+    {
+      "item": "#GEMDIAMOND"
+    },
+    {
+      "item": "#GEMDIAMOND"
+    }
+  ],
+  "type": "forge:ore_shapeless"
+}

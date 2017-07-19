@@ -1,0 +1,19 @@
+{
+  "result": {
+    "item": "grimpack:reinforced_building_wand"
+  },
+  "pattern": [
+    "OXO",
+    "OXO",
+    "OXO"
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "X": {
+      "item": "#BLOCKGOLD"
+    },
+    "O": {
+      "item": "minecraft:obsidian"
+    }
+  }
+}

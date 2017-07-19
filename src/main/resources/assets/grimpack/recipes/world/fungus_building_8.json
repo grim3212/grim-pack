@@ -1,0 +1,20 @@
+{
+  "result": {
+    "item": "grimpack:fungus_building",
+    "data": 8
+  },
+  "pattern": [
+    "XXX",
+    "XaX",
+    "XXX"
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "a": {
+      "item": "minecraft:lava_bucket"
+    },
+    "X": {
+      "item": "#SLIMEBALL"
+    }
+  }
+}

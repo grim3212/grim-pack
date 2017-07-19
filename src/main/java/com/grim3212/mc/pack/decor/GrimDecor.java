@@ -3,16 +3,11 @@ package com.grim3212.mc.pack.decor;
 import com.grim3212.mc.pack.core.manual.IManualPart;
 import com.grim3212.mc.pack.core.network.PacketDispatcher;
 import com.grim3212.mc.pack.core.part.GrimPart;
-import com.grim3212.mc.pack.decor.block.DecorBlocks;
 import com.grim3212.mc.pack.decor.client.ManualDecor;
 import com.grim3212.mc.pack.decor.config.DecorConfig;
 import com.grim3212.mc.pack.decor.entity.DecorEntities;
-import com.grim3212.mc.pack.decor.event.DecorAchievements;
-import com.grim3212.mc.pack.decor.item.DecorItems;
 import com.grim3212.mc.pack.decor.network.MessageParticles;
-import com.grim3212.mc.pack.decor.tile.DecorTileEntities;
 
-import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
@@ -31,10 +26,6 @@ public class GrimDecor extends GrimPart {
 
 	public GrimDecor() {
 		super(GrimDecor.partId, GrimDecor.partName, new DecorConfig());
-		addItem(new DecorBlocks());
-		addItem(new DecorItems());
-		addEntity(new DecorEntities());
-		addTileEntity(new DecorTileEntities());
 	}
 
 	@Override
@@ -42,8 +33,7 @@ public class GrimDecor extends GrimPart {
 		super.preInit(event);
 
 		PacketDispatcher.registerMessage(MessageParticles.class);
-		DecorAchievements.init();
-
+		DecorEntities.initEntities();
 		proxy.preInit();
 	}
 
@@ -51,11 +41,6 @@ public class GrimDecor extends GrimPart {
 	public void init(FMLInitializationEvent event) {
 		super.init(event);
 		proxy.initColors();
-	}
-
-	@Override
-	protected ItemStack getCreativeTabIcon() {
-		return new ItemStack(DecorBlocks.calendar);
 	}
 
 	@Override

@@ -1,0 +1,31 @@
+{
+  "result": {
+    "nbt": {
+      "meta": {
+        "data": 0
+      },
+      "registryName": {
+        "data": "minecraft:air"
+      }
+    },
+    "item": "grimpack:stove",
+    "count": 2
+  },
+  "pattern": [
+    "###",
+    "BPB",
+    "###"
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "P": {
+      "item": "grimpack:burning_wood"
+    },
+    "B": {
+      "item": "minecraft:iron_bars"
+    },
+    "#": {
+      "item": "grimpack:colorizer"
+    }
+  }
+}

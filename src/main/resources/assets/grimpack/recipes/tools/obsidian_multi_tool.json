@@ -1,0 +1,35 @@
+{
+  "result": {
+    "item": "grimpack:obsidian_multi_tool"
+  },
+  "ingredients": [
+    {
+      "item": "grimpack:diamond_multi_tool"
+    },
+    {
+      "item": "grimpack:golden_multi_tool"
+    },
+    {
+      "item": "grimpack:wooden_multi_tool"
+    },
+    {
+      "item": "grimpack:stone_multi_tool"
+    },
+    {
+      "item": "grimpack:iron_multi_tool"
+    },
+    {
+      "item": "#OBSIDIAN"
+    },
+    {
+      "item": "#OBSIDIAN"
+    },
+    {
+      "item": "#OBSIDIAN"
+    },
+    {
+      "item": "#OBSIDIAN"
+    }
+  ],
+  "type": "forge:ore_shapeless"
+}

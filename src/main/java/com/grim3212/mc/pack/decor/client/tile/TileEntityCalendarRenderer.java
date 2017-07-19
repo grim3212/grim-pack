@@ -15,7 +15,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class TileEntityCalendarRenderer extends TileEntitySpecialRenderer<TileEntityCalendar> {
 
 	@Override
-	public void renderTileEntityAt(TileEntityCalendar te, double x, double y, double z, float partialTicks, int destroyStage) {
+	public void render(TileEntityCalendar te, double x, double y, double z, float partialTicks, int destroyStage, float alpha) {
 		GlStateManager.pushMatrix();
 
 		float f1 = 0.6666667F;

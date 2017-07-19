@@ -1,0 +1,28 @@
+{
+  "result": {
+    "nbt": {
+      "meta": {
+        "data": 0
+      },
+      "registryName": {
+        "data": "minecraft:air"
+      }
+    },
+    "item": "grimpack:firering",
+    "count": 2
+  },
+  "pattern": [
+    " # ",
+    "#P#",
+    " # "
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "P": {
+      "item": "grimpack:burning_wood"
+    },
+    "#": {
+      "item": "grimpack:colorizer"
+    }
+  }
+}

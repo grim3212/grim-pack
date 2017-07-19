@@ -1,0 +1,16 @@
+{
+  "result": {
+    "item": "grimpack:fungus_growing",
+    "data": 14
+  },
+  "ingredients": [
+    {
+      "item": "grimpack:fungus_growing",
+      "data": 8
+    },
+    {
+      "item": "#DYEPINK"
+    }
+  ],
+  "type": "forge:ore_shapeless"
+}

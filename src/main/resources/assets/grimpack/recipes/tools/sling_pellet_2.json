@@ -1,0 +1,17 @@
+{
+  "result": {
+    "item": "grimpack:sling_pellet",
+    "data": 2,
+    "count": 2
+  },
+  "ingredients": [
+    {
+      "item": "grimpack:sling_pellet",
+      "data": 0
+    },
+    {
+      "item": "#NETHERRACK"
+    }
+  ],
+  "type": "forge:ore_shapeless"
+}

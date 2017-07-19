@@ -25,7 +25,7 @@ public class TileEntityLockerRenderer extends TileEntitySpecialRenderer<TileEnti
 	}
 
 	@Override
-	public void renderTileEntityAt(TileEntityLocker te, double x, double y, double z, float partialTicks, int destroyStage) {
+	public void render(TileEntityLocker te, double x, double y, double z, float partialTicks, int destroyStage, float alpha) {
 		if ((te != null) && (te.isUpperLocker()))
 			return;
 

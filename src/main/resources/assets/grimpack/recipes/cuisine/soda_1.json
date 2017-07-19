@@ -1,0 +1,17 @@
+{
+  "result": {
+    "item": "grimpack:soda",
+    "data": 1
+  },
+  "pattern": [
+    " X ",
+    "X X",
+    "XXX"
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "X": {
+      "item": "#PANEGLASS"
+    }
+  }
+}

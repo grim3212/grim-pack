@@ -1,0 +1,19 @@
+{
+  "result": {
+    "item": "grimpack:machete_slime"
+  },
+  "pattern": [
+    " XX",
+    "XX ",
+    "#  "
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "#": {
+      "item": "#STICKWOOD"
+    },
+    "X": {
+      "item": "#SLIMEBALL"
+    }
+  }
+}

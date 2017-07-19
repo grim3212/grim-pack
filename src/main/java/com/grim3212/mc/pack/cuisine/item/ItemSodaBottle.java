@@ -4,13 +4,13 @@ import java.util.List;
 
 import com.grim3212.mc.pack.core.item.ItemManual;
 import com.grim3212.mc.pack.core.manual.pages.Page;
-import com.grim3212.mc.pack.cuisine.GrimCuisine;
+import com.grim3212.mc.pack.core.part.GrimCreativeTabs;
 import com.grim3212.mc.pack.cuisine.client.ManualCuisine;
 
 import net.minecraft.client.resources.I18n;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.DamageSource;
@@ -25,14 +25,15 @@ public class ItemSodaBottle extends ItemManual {
 	public static final String[] sodaTypes = new String[] { "apple", "bottle", "slurm", "co2", "golden_apple", "spiked_orange", "root_beer", "cream_orange", "diamond", "orange", "cocoa", "carbonated_water", "mushroom" };
 
 	public ItemSodaBottle() {
+		super("soda");
 		maxStackSize = 16;
 		setHasSubtypes(true);
 		setMaxDamage(0);
-		this.setCreativeTab(GrimCuisine.INSTANCE.getCreativeTab());
+		this.setCreativeTab(GrimCreativeTabs.GRIM_CUISINE);
 	}
 
 	@Override
-	public void addInformation(ItemStack stack, EntityPlayer playerIn, List<String> tooltip, boolean advanced) {
+	public void addInformation(ItemStack stack, World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
 		tooltip.add(I18n.format("grimpack.cuisine.soda.tooltip." + sodaTypes[stack.getItemDamage()]));
 	}
 
@@ -90,10 +91,11 @@ public class ItemSodaBottle extends ItemManual {
 	}
 
 	@Override
-	public void getSubItems(Item itemIn, CreativeTabs tab, NonNullList<ItemStack> subItems) {
-		for (int j = 0; j < 13; ++j) {
-			subItems.add(new ItemStack(itemIn, 1, j));
-		}
+	public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> items) {
+		if (isInCreativeTab(tab))
+			for (int j = 0; j < 13; ++j) {
+				items.add(new ItemStack(this, 1, j));
+			}
 	}
 
 	@Override

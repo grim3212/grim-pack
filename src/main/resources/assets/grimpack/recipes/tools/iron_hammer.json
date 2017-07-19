@@ -1,0 +1,19 @@
+{
+  "result": {
+    "item": "grimpack:iron_hammer"
+  },
+  "pattern": [
+    "MMM",
+    "MMM",
+    " G "
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "G": {
+      "item": "#STICKIRON"
+    },
+    "M": {
+      "item": "#INGOTIRON"
+    }
+  }
+}

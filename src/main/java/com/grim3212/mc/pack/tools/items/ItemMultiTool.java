@@ -6,9 +6,9 @@ import java.util.Set;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Sets;
-import com.grim3212.mc.pack.core.manual.IManualEntry.IManualItem;
+import com.grim3212.mc.pack.core.item.ItemManualTool;
 import com.grim3212.mc.pack.core.manual.pages.Page;
-import com.grim3212.mc.pack.tools.GrimTools;
+import com.grim3212.mc.pack.core.part.GrimCreativeTabs;
 import com.grim3212.mc.pack.tools.client.ManualTools;
 import com.grim3212.mc.pack.tools.config.ToolsConfig;
 
@@ -26,7 +26,6 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemTool;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
@@ -35,16 +34,16 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.oredict.OreDictionary;
 
-public class ItemMultiTool extends ItemTool implements IManualItem {
+public class ItemMultiTool extends ItemManualTool {
 
 	private float attackDamage;
 
 	private static HashSet<Block> blocksEffectiveAgainst = Sets.newHashSet(new Block[] { Blocks.ACTIVATOR_RAIL, Blocks.COAL_ORE, Blocks.COBBLESTONE, Blocks.DETECTOR_RAIL, Blocks.DIAMOND_BLOCK, Blocks.DIAMOND_ORE, Blocks.DOUBLE_STONE_SLAB, Blocks.GOLDEN_RAIL, Blocks.GOLD_BLOCK, Blocks.GOLD_ORE, Blocks.ICE, Blocks.IRON_BLOCK, Blocks.IRON_ORE, Blocks.LAPIS_BLOCK, Blocks.LAPIS_ORE, Blocks.LIT_REDSTONE_ORE, Blocks.MOSSY_COBBLESTONE, Blocks.NETHERRACK, Blocks.PACKED_ICE, Blocks.RAIL, Blocks.REDSTONE_ORE, Blocks.SANDSTONE, Blocks.RED_SANDSTONE, Blocks.STONE, Blocks.STONE_SLAB, Blocks.STONE_BUTTON,
 			Blocks.STONE_PRESSURE_PLATE, Blocks.CLAY, Blocks.DIRT, Blocks.FARMLAND, Blocks.GRASS, Blocks.GRAVEL, Blocks.MYCELIUM, Blocks.SAND, Blocks.SNOW, Blocks.SNOW_LAYER, Blocks.SOUL_SAND, Blocks.GRASS_PATH, Blocks.PLANKS, Blocks.BOOKSHELF, Blocks.LOG, Blocks.LOG2, Blocks.CHEST, Blocks.PUMPKIN, Blocks.LIT_PUMPKIN, Blocks.MELON_BLOCK, Blocks.LADDER, Blocks.WOODEN_BUTTON, Blocks.WOODEN_PRESSURE_PLATE, });
 
-	protected ItemMultiTool(ToolMaterial toolMaterial) {
-		super(4.0f + toolMaterial.getDamageVsEntity(), -2.8f, toolMaterial, blocksEffectiveAgainst);
-		this.setCreativeTab(GrimTools.INSTANCE.getCreativeTab());
+	protected ItemMultiTool(String name, ToolMaterial toolMaterial) {
+		super(name, 4.0f + toolMaterial.getDamageVsEntity(), -2.8f, toolMaterial, blocksEffectiveAgainst);
+		this.setCreativeTab(GrimCreativeTabs.GRIM_TOOLS);
 		this.setMaxDamage((int) (toolMaterial.getMaxUses() * ToolsConfig.multiToolDurabilityMultiplier));
 	}
 

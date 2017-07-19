@@ -1,0 +1,19 @@
+{
+  "result": {
+    "item": "grimpack:ultimate_fist"
+  },
+  "pattern": [
+    "XXX",
+    "X##",
+    "XXX"
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "#": {
+      "item": "#LEATHER"
+    },
+    "X": {
+      "item": "#BLOCKDIAMOND"
+    }
+  }
+}

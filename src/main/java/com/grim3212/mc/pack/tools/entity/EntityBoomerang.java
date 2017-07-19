@@ -112,7 +112,7 @@ public class EntityBoomerang extends Entity implements IManualEntity {
 					}
 					if (activatedPos == null || !activatedPos.equals(pos)) {
 						activatedPos = pos;
-						state.getBlock().onBlockActivated(world, pos, state, player, EnumHand.MAIN_HAND, raytraceresult.sideHit, (float) raytraceresult.hitVec.xCoord, (float) raytraceresult.hitVec.yCoord, (float) raytraceresult.hitVec.zCoord);
+						state.getBlock().onBlockActivated(world, pos, state, player, EnumHand.MAIN_HAND, raytraceresult.sideHit, (float) raytraceresult.hitVec.x, (float) raytraceresult.hitVec.y, (float) raytraceresult.hitVec.z);
 					}
 				}
 			}

@@ -1,0 +1,19 @@
+{
+  "result": {
+    "item": "grimpack:camo_plate",
+    "count": 2
+  },
+  "pattern": [
+    "rr",
+    "ii"
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "r": {
+      "item": "#DUSTREDSTONE"
+    },
+    "i": {
+      "item": "#INGOTGOLD"
+    }
+  }
+}

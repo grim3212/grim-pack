@@ -10,7 +10,6 @@ import javax.vecmath.Matrix4f;
 
 import org.apache.commons.lang3.tuple.Pair;
 
-import com.google.common.base.Function;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
@@ -44,19 +43,16 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.client.model.ICustomModelLoader;
 import net.minecraftforge.client.model.IModel;
-import net.minecraftforge.client.model.IModelCustomData;
-import net.minecraftforge.client.model.IPerspectiveAwareModel;
-import net.minecraftforge.client.model.IRetexturableModel;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.client.model.ModelLoaderRegistry;
-import net.minecraftforge.client.model.ModelProcessingHelper;
+import net.minecraftforge.client.model.PerspectiveMapWrapper;
 import net.minecraftforge.common.model.IModelState;
 import net.minecraftforge.common.model.TRSRTransformation;
 import net.minecraftforge.common.property.IExtendedBlockState;
 
-public class CamoPlateModel implements IRetexturableModel, IModelCustomData {
+public class CamoPlateModel implements IModel {
 
-	public static final CamoPlateModel MODEL = new CamoPlateModel(ImmutableList.<ResourceLocation> of(), new ResourceLocation("grimpack:blocks/colorizer"));
+	public static final CamoPlateModel MODEL = new CamoPlateModel(ImmutableList.<ResourceLocation>of(), new ResourceLocation("grimpack:blocks/colorizer"));
 
 	private final ImmutableList<ResourceLocation> modelLocation;
 	private final ResourceLocation textureLocation;
@@ -81,8 +77,8 @@ public class CamoPlateModel implements IRetexturableModel, IModelCustomData {
 	}
 
 	@Override
-	public IBakedModel bake(IModelState state, VertexFormat format, Function<ResourceLocation, TextureAtlasSprite> bakedTextureGetter) {
-		return new BakedCamoPlateModel(state, modelLocation, textureLocation, format, IPerspectiveAwareModel.MapWrapper.getTransforms(state));
+	public IBakedModel bake(IModelState state, VertexFormat format, java.util.function.Function<ResourceLocation, TextureAtlasSprite> bakedTextureGetter) {
+		return new BakedCamoPlateModel(state, modelLocation, textureLocation, format, PerspectiveMapWrapper.getTransforms(state));
 	}
 
 	@Override
@@ -117,7 +113,7 @@ public class CamoPlateModel implements IRetexturableModel, IModelCustomData {
 	}
 
 	@SuppressWarnings("deprecation")
-	public class BakedCamoPlateModel implements IPerspectiveAwareModel, IResourceManagerReloadListener {
+	public class BakedCamoPlateModel implements IBakedModel, IResourceManagerReloadListener {
 
 		protected final IModelState modelState;
 		protected final ImmutableList<ResourceLocation> modelLocation;
@@ -198,7 +194,7 @@ public class CamoPlateModel implements IRetexturableModel, IModelCustomData {
 		 */
 		protected IBakedModel generateModel(ImmutableMap<String, String> texture) {
 			ImmutableList.Builder<IBakedModel> builder = ImmutableList.builder();
-			builder.add(ModelProcessingHelper.retexture(this.baseModel, texture).bake(this.modelState, this.format, ModelLoader.defaultTextureGetter()));
+			builder.add(this.baseModel.retexture(texture).bake(this.modelState, this.format, ModelLoader.defaultTextureGetter()));
 			for (IModel model : this.modelParts)
 				builder.add(model.bake(this.modelState, this.format, ModelLoader.defaultTextureGetter()));
 
@@ -253,7 +249,7 @@ public class CamoPlateModel implements IRetexturableModel, IModelCustomData {
 			return itemHandler;
 		}
 
-		private final ItemOverrideList itemHandler = new ItemOverrideList(Lists.<ItemOverride> newArrayList()) {
+		private final ItemOverrideList itemHandler = new ItemOverrideList(Lists.<ItemOverride>newArrayList()) {
 			@Override
 			public IBakedModel handleItemState(IBakedModel model, ItemStack stack, World world, EntityLivingBase entity) {
 				if (stack.hasTagCompound() && stack.getTagCompound().hasKey("registryName") && stack.getTagCompound().hasKey("meta")) {
@@ -268,7 +264,7 @@ public class CamoPlateModel implements IRetexturableModel, IModelCustomData {
 
 		@Override
 		public Pair<? extends IBakedModel, Matrix4f> handlePerspective(TransformType cameraTransformType) {
-			return IPerspectiveAwareModel.MapWrapper.handlePerspective(baseModel.bake(this.modelState, this.format, ModelLoader.defaultTextureGetter()), transforms, cameraTransformType);
+			return PerspectiveMapWrapper.handlePerspective(baseModel.bake(this.modelState, this.format, ModelLoader.defaultTextureGetter()), transforms, cameraTransformType);
 		}
 	}
 
@@ -283,7 +279,7 @@ public class CamoPlateModel implements IRetexturableModel, IModelCustomData {
 		@Override
 		public IModel loadModel(ResourceLocation modelLocation) throws IOException {
 			if (modelLocation.getResourcePath().equals("models/block/dynamic_camo_plate")) {
-				return new CamoPlateModel(ImmutableList.<ResourceLocation> of(), new ResourceLocation("grimpack:blocks/colorizer"));
+				return new CamoPlateModel(ImmutableList.<ResourceLocation>of(), new ResourceLocation("grimpack:blocks/colorizer"));
 			}
 
 			return CamoPlateModel.MODEL;

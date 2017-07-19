@@ -1,0 +1,25 @@
+{
+  "result": {
+    "item": "grimpack:reactor"
+  },
+  "pattern": [
+    "GMG",
+    "CRC",
+    "GMG"
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "R": {
+      "item": "grimpack:reactor_core"
+    },
+    "C": {
+      "item": "grimpack:reactor_core_case"
+    },
+    "G": {
+      "item": "grimpack:graphite"
+    },
+    "M": {
+      "item": "grimpack:iron_parts"
+    }
+  }
+}

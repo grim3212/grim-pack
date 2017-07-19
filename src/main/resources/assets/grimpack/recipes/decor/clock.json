@@ -1,0 +1,11 @@
+{
+  "result": {
+    "item": "minecraft:clock"
+  },
+  "ingredients": [
+    {
+      "item": "grimpack:wall_clock"
+    }
+  ],
+  "type": "minecraft:crafting_shapeless"
+}

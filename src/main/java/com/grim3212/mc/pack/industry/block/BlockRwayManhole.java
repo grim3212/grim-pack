@@ -2,6 +2,7 @@ package com.grim3212.mc.pack.industry.block;
 
 import com.grim3212.mc.pack.core.block.BlockManual;
 import com.grim3212.mc.pack.core.manual.pages.Page;
+import com.grim3212.mc.pack.core.part.GrimCreativeTabs;
 import com.grim3212.mc.pack.industry.client.ManualIndustry;
 
 import net.minecraft.block.SoundType;
@@ -26,8 +27,15 @@ public class BlockRwayManhole extends BlockManual {
 	public static final PropertyBool ACTIVE = PropertyBool.create("active");
 
 	public BlockRwayManhole() {
-		super(Material.ROCK, SoundType.STONE);
-		this.setDefaultState(this.blockState.getBaseState().withProperty(ACTIVE, false));
+		super("rway_manhole", Material.ROCK, SoundType.STONE);
+		setHardness(1.0F);
+		setResistance(10.0F);
+		setCreativeTab(GrimCreativeTabs.GRIM_INDUSTRY);
+	}
+
+	@Override
+	protected IBlockState getState() {
+		return this.blockState.getBaseState().withProperty(ACTIVE, false);
 	}
 
 	@Override

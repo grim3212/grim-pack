@@ -1,7 +1,7 @@
 package com.grim3212.mc.pack.decor.block.colorizer;
 
 import com.grim3212.mc.pack.core.network.PacketDispatcher;
-import com.grim3212.mc.pack.decor.GrimDecor;
+import com.grim3212.mc.pack.core.part.GrimCreativeTabs;
 import com.grim3212.mc.pack.decor.block.DecorBlocks;
 import com.grim3212.mc.pack.decor.network.MessageParticles;
 import com.grim3212.mc.pack.decor.tile.TileEntityColorizer;
@@ -28,9 +28,14 @@ public class BlockColorizerFireplaceBase extends BlockColorizer {
 
 	public static final PropertyBool ACTIVE = PropertyBool.create("active");
 
-	protected BlockColorizerFireplaceBase() {
-		setCreativeTab(GrimDecor.INSTANCE.getCreativeTab());
-		this.setDefaultState(this.blockState.getBaseState().withProperty(ACTIVE, false));
+	protected BlockColorizerFireplaceBase(String name) {
+		super(name);
+		setCreativeTab(GrimCreativeTabs.GRIM_DECOR);
+	}
+
+	@Override
+	protected IBlockState getState() {
+		return super.getState().withProperty(ACTIVE, false);
 	}
 
 	@Override

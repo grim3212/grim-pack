@@ -1,0 +1,16 @@
+{
+  "result": {
+    "item": "grimpack:black_diamond_leggings"
+  },
+  "pattern": [
+    "###",
+    "# #",
+    "# #"
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "#": {
+      "item": "grimpack:black_diamond"
+    }
+  }
+}

@@ -3,6 +3,7 @@ package com.grim3212.mc.pack.tools.items;
 import com.google.common.collect.Multimap;
 import com.grim3212.mc.pack.core.item.ItemManual;
 import com.grim3212.mc.pack.core.manual.pages.Page;
+import com.grim3212.mc.pack.core.part.GrimCreativeTabs;
 import com.grim3212.mc.pack.tools.client.ManualTools;
 import com.grim3212.mc.pack.tools.entity.EntitySlimeSpear;
 import com.grim3212.mc.pack.tools.entity.EntitySpear;
@@ -25,8 +26,10 @@ public class ItemSpear extends ItemManual {
 	private EnumSpearType type;
 
 	public ItemSpear(EnumSpearType type) {
+		super(type.getRegistryName());
 		setMaxStackSize(16);
 		this.type = type;
+		setCreativeTab(GrimCreativeTabs.GRIM_TOOLS);
 	}
 
 	public EnumSpearType getType() {

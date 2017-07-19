@@ -4,16 +4,17 @@ import java.util.List;
 
 import com.grim3212.mc.pack.core.item.ItemManual;
 import com.grim3212.mc.pack.core.manual.pages.Page;
+import com.grim3212.mc.pack.core.part.GrimCreativeTabs;
 import com.grim3212.mc.pack.tools.client.ManualTools;
 import com.grim3212.mc.pack.tools.items.ItemBetterBucket.BucketFluidHandler;
 
 import net.minecraft.client.resources.I18n;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.EnumAction;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.stats.StatList;
@@ -24,8 +25,6 @@ import net.minecraft.util.NonNullList;
 import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.fluids.Fluid;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ItemBetterMilkBucket extends ItemManual {
 
@@ -33,8 +32,10 @@ public class ItemBetterMilkBucket extends ItemManual {
 	private boolean milkPause = false;
 
 	public ItemBetterMilkBucket(ItemBetterBucket parent) {
+		super(parent.bucketType.getRegistryName() + "_milk_bucket");
 		this.parent = parent;
 		this.setMaxStackSize(1);
+		setCreativeTab(GrimCreativeTabs.GRIM_TOOLS);
 	}
 
 	@Override
@@ -51,16 +52,16 @@ public class ItemBetterMilkBucket extends ItemManual {
 	}
 
 	@Override
-	public void getSubItems(Item itemIn, CreativeTabs tab, NonNullList<ItemStack> subItems) {
+	public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> items) {
 		ItemStack stack = new ItemStack(this);
 		ItemBetterBucket.setFluid(stack, "milk");
 		ItemBetterBucket.setAmount(stack, parent.maxCapacity);
-		subItems.add(stack);
+		if (isInCreativeTab(tab))
+			items.add(stack);
 	}
 
 	@Override
-	@SideOnly(Side.CLIENT)
-	public void addInformation(ItemStack stack, EntityPlayer playerIn, List<String> tooltip, boolean advanced) {
+	public void addInformation(ItemStack stack, World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
 		tooltip.add(I18n.format("tooltip.buckets.contains") + ": " + ItemBetterBucket.getAmount(stack) + "/" + parent.maxCapacity);
 	}
 

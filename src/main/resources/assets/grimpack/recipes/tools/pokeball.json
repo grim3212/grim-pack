@@ -1,0 +1,26 @@
+{
+  "result": {
+    "item": "grimpack:pokeball"
+  },
+  "pattern": [
+    "RRR",
+    "CBC",
+    "III"
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "R": {
+      "item": "#DUSTREDSTONE"
+    },
+    "B": {
+      "item": "minecraft:stone_button"
+    },
+    "C": {
+      "item": "minecraft:coal",
+      "data": 0
+    },
+    "I": {
+      "item": "#INGOTIRON"
+    }
+  }
+}

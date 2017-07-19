@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.grim3212.mc.pack.core.item.ItemManual;
 import com.grim3212.mc.pack.core.manual.pages.Page;
+import com.grim3212.mc.pack.core.part.GrimCreativeTabs;
 import com.grim3212.mc.pack.industry.client.ManualIndustry;
 
 import net.minecraft.entity.Entity;
@@ -28,6 +29,9 @@ public class ItemMobRepulsor extends ItemManual {
 	private double upInc = 0.2D;
 
 	public ItemMobRepulsor() {
+		super("mob_repulsor");
+		setCreativeTab(GrimCreativeTabs.GRIM_INDUSTRY);
+		setMaxStackSize(1);
 	}
 
 	@Override
@@ -87,7 +91,7 @@ public class ItemMobRepulsor extends ItemManual {
 						}
 					}
 				} else if ((entity instanceof EntityItem)) {
-					Item id = ((EntityItem) entity).getEntityItem().getItem();
+					Item id = ((EntityItem) entity).getItem().getItem();
 					if (id instanceof ItemArrow || id instanceof ItemFireball) {
 						entity.motionX -= this.upInc / 2;
 						entity.motionY += this.upInc / 1000;

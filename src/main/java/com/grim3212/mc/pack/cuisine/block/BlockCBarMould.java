@@ -4,6 +4,7 @@ import java.util.Random;
 
 import com.grim3212.mc.pack.core.block.BlockManual;
 import com.grim3212.mc.pack.core.manual.pages.Page;
+import com.grim3212.mc.pack.core.part.GrimCreativeTabs;
 import com.grim3212.mc.pack.cuisine.client.ManualCuisine;
 import com.grim3212.mc.pack.cuisine.item.CuisineItems;
 
@@ -32,9 +33,15 @@ public class BlockCBarMould extends BlockManual {
 	public static final PropertyInteger STAGE = PropertyInteger.create("stage", 0, 15);
 
 	protected BlockCBarMould() {
-		super(Material.WOOD, SoundType.STONE);
+		super("chocolate_bar_mould", Material.WOOD, SoundType.STONE);
 		setTickRandomly(true);
-		this.setDefaultState(this.blockState.getBaseState().withProperty(STAGE, 0));
+		setHardness(1.0F);
+		setCreativeTab(GrimCreativeTabs.GRIM_CUISINE);
+	}
+
+	@Override
+	protected IBlockState getState() {
+		return this.blockState.getBaseState().withProperty(STAGE, 0);
 	}
 
 	@Override

@@ -14,7 +14,6 @@ import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Blocks;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
@@ -27,12 +26,17 @@ import net.minecraft.world.World;
 public class BlockFungusMaze extends BlockFungusBase implements IManualBlock {
 
 	protected BlockFungusMaze() {
-		super(true, false);
+		super("fungus_maze", true);
 	}
 
 	@Override
-	public void getSubBlocks(Item itemIn, CreativeTabs tab, NonNullList<ItemStack> list) {
-		list.add(new ItemStack(this));
+	protected IBlockState getState() {
+		return this.blockState.getBaseState();
+	}
+
+	@Override
+	public void getSubBlocks(CreativeTabs itemIn, NonNullList<ItemStack> items) {
+		items.add(new ItemStack(this));
 	}
 
 	@Override

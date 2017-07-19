@@ -1,0 +1,17 @@
+{
+  "result": {
+    "item": "grimpack:dark_iron_ingot"
+  },
+  "pattern": [
+    "XYX"
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "X": {
+      "item": "grimpack:element_115"
+    },
+    "Y": {
+      "item": "#INGOTIRON"
+    }
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "result": {
+    "item": "grimpack:spike",
+    "count": 8
+  },
+  "pattern": [
+    "X X",
+    " X ",
+    "XXX"
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "X": {
+      "item": "#STICKIRON"
+    }
+  }
+}

@@ -21,6 +21,10 @@ public class BlockColorizerStool extends BlockColorizer {
 	private static final AxisAlignedBB WALKING_STOOL_AABB = new AxisAlignedBB(0.18F, 0.0F, 0.18F, 0.82F, 0.60F, 0.82F);
 	private static final AxisAlignedBB POT_STOOL_AABB = new AxisAlignedBB(0.18F, 0.0F, 0.18F, 0.82F, 1F, 0.82F);
 
+	public BlockColorizerStool() {
+		super("stool");
+	}
+
 	@Override
 	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
 		return state.getActualState(source, pos).getValue(UP) ? POT_STOOL_AABB : STOOL_AABB;

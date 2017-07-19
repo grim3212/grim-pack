@@ -32,7 +32,8 @@ import net.minecraftforge.common.util.FakePlayer;
 
 public class BlockColorizerLampPost extends BlockColorizer {
 
-	public BlockColorizerLampPost(boolean isGlowing) {
+	public BlockColorizerLampPost(String name, boolean isGlowing) {
+		super(name);
 		this.setHardness(1.0F);
 		this.setCreativeTab(null);
 

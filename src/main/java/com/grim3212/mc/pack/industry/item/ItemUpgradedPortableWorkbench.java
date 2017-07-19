@@ -1,7 +1,9 @@
 package com.grim3212.mc.pack.industry.item;
 
 import com.grim3212.mc.pack.GrimPack;
+import com.grim3212.mc.pack.core.client.gui.PackGuiHandler;
 import com.grim3212.mc.pack.core.manual.pages.Page;
+import com.grim3212.mc.pack.core.part.GrimCreativeTabs;
 import com.grim3212.mc.pack.industry.client.ManualIndustry;
 import com.grim3212.mc.pack.tools.items.ItemPortableWorkbench;
 
@@ -18,8 +20,10 @@ public class ItemUpgradedPortableWorkbench extends ItemPortableWorkbench {
 	private final int OFF_GUI_ID;
 
 	public ItemUpgradedPortableWorkbench(int mainGui, int offGui) {
+		super(mainGui == PackGuiHandler.PORTABLE_IRON_MAIN_GUI_ID ? "portable_iron_workbench" : "portable_diamond_workbench");
 		this.MAIN_GUI_ID = mainGui;
 		this.OFF_GUI_ID = offGui;
+		setCreativeTab(GrimCreativeTabs.GRIM_INDUSTRY);
 	}
 
 	@Override

@@ -2,7 +2,6 @@ package com.grim3212.mc.pack.decor.block.colorizer;
 
 import java.util.Random;
 
-import com.grim3212.mc.pack.core.manual.IManualEntry.IManualBlock;
 import com.grim3212.mc.pack.core.manual.pages.Page;
 import com.grim3212.mc.pack.decor.GrimDecor;
 import com.grim3212.mc.pack.decor.block.DecorBlocks;
@@ -13,7 +12,11 @@ import net.minecraft.init.Blocks;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class BlockColorizerChimney extends BlockColorizerFireplaceBase implements IManualBlock {
+public class BlockColorizerChimney extends BlockColorizerFireplaceBase {
+
+	public BlockColorizerChimney() {
+		super("chimney");
+	}
 
 	@Override
 	public void randomDisplayTick(IBlockState stateIn, World worldIn, BlockPos pos, Random rand) {

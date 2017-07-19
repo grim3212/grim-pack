@@ -1,0 +1,25 @@
+{
+  "result": {
+    "nbt": {
+      "meta": {
+        "data": 0
+      },
+      "registryName": {
+        "data": "minecraft:air"
+      }
+    },
+    "item": "grimpack:slanted_corner",
+    "count": 5
+  },
+  "pattern": [
+    "  #",
+    "  #",
+    "###"
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "#": {
+      "item": "grimpack:colorizer"
+    }
+  }
+}

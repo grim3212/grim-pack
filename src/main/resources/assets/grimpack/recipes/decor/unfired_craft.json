@@ -1,0 +1,16 @@
+{
+  "result": {
+    "item": "grimpack:unfired_craft"
+  },
+  "pattern": [
+    " # ",
+    "###",
+    "###"
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "#": {
+      "item": "minecraft:clay_ball"
+    }
+  }
+}

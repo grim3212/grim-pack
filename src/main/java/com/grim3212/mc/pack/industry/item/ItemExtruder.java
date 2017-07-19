@@ -18,6 +18,7 @@ import net.minecraft.world.World;
 public class ItemExtruder extends ItemManual {
 
 	public ItemExtruder() {
+		super("extruder");
 	}
 
 	@Override

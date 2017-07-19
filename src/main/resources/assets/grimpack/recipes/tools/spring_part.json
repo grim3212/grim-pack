@@ -1,0 +1,19 @@
+{
+  "result": {
+    "item": "grimpack:spring_part"
+  },
+  "pattern": [
+    "#  ",
+    " ! ",
+    "  #"
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "!": {
+      "item": "#STRING"
+    },
+    "#": {
+      "item": "#INGOTIRON"
+    }
+  }
+}

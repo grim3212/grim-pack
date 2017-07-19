@@ -29,21 +29,21 @@ public class GuiButtonIcon extends GuiButton {
 	}
 
 	@Override
-	public void drawButton(Minecraft mc, int x, int y) {
-		super.drawButton(mc, x, y);
+	public void drawButton(Minecraft mc, int mouseX, int mouseY, float partialTicks) {
+		super.drawButton(mc, mouseX, mouseY, partialTicks);
 
 		if (this.visible) {
 			GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 			mc.renderEngine.bindTexture(texture);
 
-			this.drawTexturedModalRect(this.xPosition + 2, this.yPosition + 2, iconX, iconY, 16, 16);
+			this.drawTexturedModalRect(this.x + 2, this.y + 2, iconX, iconY, 16, 16);
 		}
 	}
 
 	@Override
 	public void drawButtonForegroundLayer(int mouseX, int mouseY) {
 		if (!tooltip.isEmpty())
-			TooltipHelper.drawHoveringText(tooltip, mouseX, mouseY, 120, Minecraft.getMinecraft().fontRendererObj);
+			TooltipHelper.drawHoveringText(tooltip, mouseX, mouseY, 120, Minecraft.getMinecraft().fontRenderer);
 	}
 
 }

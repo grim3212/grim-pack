@@ -24,14 +24,14 @@ public class DoubleFenceGate {
 		// Get all fence gates above the block
 		int upBlocks = 1;
 		while (isFenceGate(world, pos.up(upBlocks), state)) {
-			state.getBlock().onBlockActivated(world, pos.up(upBlocks), state, entityPlayer, enumHand, facing, (float) vec3d.xCoord, (float) vec3d.yCoord, (float) vec3d.zCoord);
+			state.getBlock().onBlockActivated(world, pos.up(upBlocks), state, entityPlayer, enumHand, facing, (float) vec3d.x, (float) vec3d.y, (float) vec3d.z);
 			upBlocks++;
 		}
 
 		// Get all fence gates below the block
 		int downBlocks = 1;
 		while (isFenceGate(world, pos.down(downBlocks), state)) {
-			state.getBlock().onBlockActivated(world, pos.down(downBlocks), state, entityPlayer, enumHand, facing, (float) vec3d.xCoord, (float) vec3d.yCoord, (float) vec3d.zCoord);
+			state.getBlock().onBlockActivated(world, pos.down(downBlocks), state, entityPlayer, enumHand, facing, (float) vec3d.x, (float) vec3d.y, (float) vec3d.z);
 			downBlocks++;
 		}
 	}
@@ -41,7 +41,7 @@ public class DoubleFenceGate {
 		int upBlocks = 1;
 		while (isFenceGate(world, pos.up(upBlocks), state)) {
 			IBlockState neighborState = world.getBlockState(pos.up(upBlocks));
-			
+
 			world.setBlockState(pos.up(upBlocks), neighborState.withProperty(BlockFenceGate.OPEN, state.getValue(BlockFenceGate.OPEN)));
 			upBlocks++;
 		}
@@ -50,7 +50,7 @@ public class DoubleFenceGate {
 		int downBlocks = 1;
 		while (isFenceGate(world, pos.down(downBlocks), state)) {
 			IBlockState neighborState = world.getBlockState(pos.down(downBlocks));
-			
+
 			world.setBlockState(pos.down(downBlocks), neighborState.withProperty(BlockFenceGate.OPEN, state.getValue(BlockFenceGate.OPEN)));
 			downBlocks++;
 		}

@@ -6,6 +6,7 @@ import com.grim3212.mc.pack.GrimPack;
 import com.grim3212.mc.pack.core.block.BlockManual;
 import com.grim3212.mc.pack.core.client.gui.PackGuiHandler;
 import com.grim3212.mc.pack.core.manual.pages.Page;
+import com.grim3212.mc.pack.core.part.GrimCreativeTabs;
 import com.grim3212.mc.pack.industry.client.ManualIndustry;
 import com.grim3212.mc.pack.industry.tile.TileEntityMFurnace;
 
@@ -38,8 +39,15 @@ public class BlockModernFurnace extends BlockManual implements ITileEntityProvid
 	public static final PropertyBool ACTIVE = PropertyBool.create("active");
 
 	protected BlockModernFurnace() {
-		super(Material.IRON, SoundType.METAL);
-		this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH).withProperty(ACTIVE, false));
+		super("modern_furnace", Material.IRON, SoundType.METAL);
+		setHardness(10.0F);
+		setResistance(2.0F);
+		setCreativeTab(GrimCreativeTabs.GRIM_INDUSTRY);
+	}
+
+	@Override
+	protected IBlockState getState() {
+		return this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH).withProperty(ACTIVE, false);
 	}
 
 	@Override

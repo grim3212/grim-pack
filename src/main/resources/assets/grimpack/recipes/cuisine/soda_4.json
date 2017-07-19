@@ -1,0 +1,21 @@
+{
+  "result": {
+    "item": "grimpack:soda",
+    "data": 4
+  },
+  "pattern": [
+    "X",
+    "Y"
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "X": {
+      "item": "minecraft:golden_apple",
+      "data": 0
+    },
+    "Y": {
+      "item": "grimpack:soda",
+      "data": 11
+    }
+  }
+}

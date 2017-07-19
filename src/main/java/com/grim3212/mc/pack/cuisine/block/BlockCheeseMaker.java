@@ -4,6 +4,7 @@ import java.util.Random;
 
 import com.grim3212.mc.pack.core.block.BlockManual;
 import com.grim3212.mc.pack.core.manual.pages.Page;
+import com.grim3212.mc.pack.core.part.GrimCreativeTabs;
 import com.grim3212.mc.pack.core.util.Utils;
 import com.grim3212.mc.pack.cuisine.client.ManualCuisine;
 
@@ -30,9 +31,15 @@ public class BlockCheeseMaker extends BlockManual {
 	public static final PropertyInteger STAGE = PropertyInteger.create("stage", 0, 15);
 
 	protected BlockCheeseMaker() {
-		super(Material.GROUND, SoundType.STONE);
+		super("cheese_maker", Material.GROUND, SoundType.STONE);
 		setTickRandomly(true);
-		this.setDefaultState(this.blockState.getBaseState().withProperty(STAGE, 0));
+		setHardness(2.0F);
+		setCreativeTab(GrimCreativeTabs.GRIM_CUISINE);
+	}
+
+	@Override
+	protected IBlockState getState() {
+		return this.blockState.getBaseState().withProperty(STAGE, 0);
 	}
 
 	@Override

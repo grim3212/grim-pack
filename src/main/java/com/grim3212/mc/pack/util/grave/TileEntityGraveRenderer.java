@@ -15,7 +15,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class TileEntityGraveRenderer extends TileEntitySpecialRenderer<TileEntityGrave> {
 
 	@Override
-	public void renderTileEntityAt(TileEntityGrave te, double x, double y, double z, float partialTicks, int destroyStage) {
+	public void render(TileEntityGrave te, double x, double y, double z, float partialTicks, int destroyStage, float alpha) {
 		GlStateManager.pushMatrix();
 
 		float f1 = 0.6666667F;

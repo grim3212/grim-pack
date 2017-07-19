@@ -52,7 +52,7 @@ public class RenderManualEntryEvent {
 									flag = true;
 								} else if (pos.entityHit instanceof EntityItem) {
 									EntityItem item = (EntityItem) pos.entityHit;
-									if (item.getEntityItem().getItem() instanceof IManualItem) {
+									if (item.getItem().getItem() instanceof IManualItem) {
 										flag = true;
 									}
 								}

@@ -3,8 +3,8 @@ package com.grim3212.mc.pack.industry.block;
 import com.grim3212.mc.pack.GrimPack;
 import com.grim3212.mc.pack.core.block.BlockManual;
 import com.grim3212.mc.pack.core.client.gui.PackGuiHandler;
+import com.grim3212.mc.pack.core.part.GrimCreativeTabs;
 import com.grim3212.mc.pack.core.util.NBTHelper;
-import com.grim3212.mc.pack.industry.GrimIndustry;
 import com.grim3212.mc.pack.industry.item.IndustryItems;
 import com.grim3212.mc.pack.industry.tile.TileEntityStorage;
 import com.grim3212.mc.pack.industry.util.StorageUtil;
@@ -48,10 +48,16 @@ public abstract class BlockStorage extends BlockManual implements ITileEntityPro
 	public static final PropertyDirection FACING = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
 	// public static final PropertyBool LOCKED = PropertyBool.create("locked");
 
-	public BlockStorage(Material material, SoundType type) {
-		super(material, type);
-		this.setCreativeTab(GrimIndustry.INSTANCE.getCreativeTab());
-		this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH);
+	public BlockStorage(String name, Material material, SoundType type) {
+		super(name, material, type);
+		setHardness(3.0F);
+		setResistance(5.0F);
+		this.setCreativeTab(GrimCreativeTabs.GRIM_INDUSTRY);
+	}
+
+	@Override
+	protected IBlockState getState() {
+		return this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH);
 	}
 
 	protected boolean isInvalidBlock(World world, BlockPos pos) {

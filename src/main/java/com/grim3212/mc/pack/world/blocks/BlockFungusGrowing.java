@@ -2,7 +2,6 @@ package com.grim3212.mc.pack.world.blocks;
 
 import java.util.Random;
 
-import com.grim3212.mc.pack.core.manual.IManualEntry.IManualBlock;
 import com.grim3212.mc.pack.core.manual.pages.Page;
 import com.grim3212.mc.pack.world.client.ManualWorld;
 
@@ -18,10 +17,10 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class BlockFungusGrowing extends BlockFungusBase implements IManualBlock {
+public class BlockFungusGrowing extends BlockFungusBase {
 
 	protected BlockFungusGrowing() {
-		super(false);
+		super("fungus_growing", false);
 	}
 
 	@Override

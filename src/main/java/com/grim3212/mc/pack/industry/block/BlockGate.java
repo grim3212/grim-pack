@@ -2,6 +2,7 @@ package com.grim3212.mc.pack.industry.block;
 
 import com.grim3212.mc.pack.core.block.BlockManual;
 import com.grim3212.mc.pack.core.manual.pages.Page;
+import com.grim3212.mc.pack.core.part.GrimCreativeTabs;
 import com.grim3212.mc.pack.core.util.Utils;
 import com.grim3212.mc.pack.industry.client.ManualIndustry;
 import com.grim3212.mc.pack.industry.item.IndustryItems;
@@ -43,9 +44,16 @@ public class BlockGate extends BlockManual {
 	public static final PropertyBool ACTIVE = PropertyBool.create("active");
 	public static final PropertyBool TOP = PropertyBool.create("top");
 
-	protected BlockGate() {
-		super(Material.IRON, SoundType.METAL);
-		this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.SOUTH).withProperty(ACTIVE, false).withProperty(TOP, false));
+	protected BlockGate(String name) {
+		super(name, Material.IRON, SoundType.METAL);
+		setHardness(1.0F);
+		setResistance(10.0F);
+		setCreativeTab(GrimCreativeTabs.GRIM_INDUSTRY);
+	}
+
+	@Override
+	protected IBlockState getState() {
+		return this.blockState.getBaseState().withProperty(FACING, EnumFacing.SOUTH).withProperty(ACTIVE, false).withProperty(TOP, false);
 	}
 
 	@Override

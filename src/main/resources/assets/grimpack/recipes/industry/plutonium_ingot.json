@@ -1,0 +1,19 @@
+{
+  "result": {
+    "item": "grimpack:plutonium_ingot"
+  },
+  "pattern": [
+    "U  ",
+    " G ",
+    "  U"
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "U": {
+      "item": "#INGOTREFINEDURANIUM"
+    },
+    "G": {
+      "item": "#GLOWSTONE"
+    }
+  }
+}

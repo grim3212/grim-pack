@@ -5,19 +5,19 @@ import java.util.List;
 import javax.annotation.Nullable;
 
 import com.grim3212.mc.pack.GrimPack;
-import com.grim3212.mc.pack.core.GrimCore;
 import com.grim3212.mc.pack.core.client.ClientUtil;
 import com.grim3212.mc.pack.core.client.ManualCore;
 import com.grim3212.mc.pack.core.client.gui.PackGuiHandler;
-import com.grim3212.mc.pack.core.manual.IManualEntry.IManualItem;
+import com.grim3212.mc.pack.core.item.ItemManual;
 import com.grim3212.mc.pack.core.manual.gui.GuiManualIndex;
 import com.grim3212.mc.pack.core.manual.pages.Page;
+import com.grim3212.mc.pack.core.part.GrimCreativeTabs;
 
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.resources.I18n;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
@@ -30,10 +30,12 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class ItemInstructionManual extends Item implements IManualItem {
+public class ItemInstructionManual extends ItemManual {
 
 	public ItemInstructionManual() {
+		super("instruction_manual");
 		this.setMaxStackSize(1);
+		this.setCreativeTab(GrimCreativeTabs.GRIM_CORE);
 	}
 
 	@Override
@@ -46,16 +48,14 @@ public class ItemInstructionManual extends Item implements IManualItem {
 						updatePage(((IManualEntity) raytrace.entityHit).getPage(raytrace.entityHit));
 					} else if (raytrace.entityHit instanceof EntityItem) {
 						EntityItem item = (EntityItem) raytrace.entityHit;
-						if (item.getEntityItem().getItem() instanceof IManualItem) {
-							updatePage(((IManualItem) item.getEntityItem().getItem()).getPage(item.getEntityItem()));
+						if (item.getItem().getItem() instanceof IManualItem) {
+							updatePage(((IManualItem) item.getItem().getItem()).getPage(item.getItem()));
 						}
 					}
 				}
 			}
 		}
 
-		// Try and give achievement
-		playerIn.addStat(GrimCore.OPEN_MANUAL);
 		playerIn.openGui(GrimPack.INSTANCE, PackGuiHandler.MANUAL_GUI_ID, worldIn, 0, 0, 0);
 		return ActionResult.newResult(EnumActionResult.SUCCESS, playerIn.getHeldItem(hand));
 	}
@@ -67,8 +67,6 @@ public class ItemInstructionManual extends Item implements IManualItem {
 			if (world.isRemote)
 				updatePage(((IManualBlock) state.getBlock()).getPage(state));
 
-			// Try and give achievement
-			player.addStat(GrimCore.OPEN_MANUAL);
 			player.openGui(GrimPack.INSTANCE, PackGuiHandler.MANUAL_GUI_ID, world, 0, 0, 0);
 			return EnumActionResult.SUCCESS;
 		}
@@ -83,8 +81,8 @@ public class ItemInstructionManual extends Item implements IManualItem {
 	}
 
 	@Override
-	public void addInformation(ItemStack stack, EntityPlayer player, List<String> list, boolean flag) {
-		list.add(I18n.format("tooltip.manual.number") + ManualRegistry.getLoadedMods().size());
+	public void addInformation(ItemStack stack, World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
+		tooltip.add(I18n.format("tooltip.manual.number") + ManualRegistry.getLoadedMods().size());
 	}
 
 	@Override

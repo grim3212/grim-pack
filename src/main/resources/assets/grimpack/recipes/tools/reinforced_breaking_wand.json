@@ -1,0 +1,19 @@
+{
+  "result": {
+    "item": "grimpack:reinforced_breaking_wand"
+  },
+  "pattern": [
+    "OXO",
+    "OXO",
+    "OXO"
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "X": {
+      "item": "#BLOCKIRON"
+    },
+    "O": {
+      "item": "minecraft:obsidian"
+    }
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "result": {
+    "item": "grimpack:sling_pellet",
+    "data": 3
+  },
+  "ingredients": [
+    {
+      "item": "grimpack:sling_pellet",
+      "data": 0
+    },
+    {
+      "item": "minecraft:torch"
+    }
+  ],
+  "type": "minecraft:crafting_shapeless"
+}

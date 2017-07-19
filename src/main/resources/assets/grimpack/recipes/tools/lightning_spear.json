@@ -1,0 +1,22 @@
+{
+  "result": {
+    "item": "grimpack:lightning_spear"
+  },
+  "pattern": [
+    "U",
+    "#",
+    "X"
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "#": {
+      "item": "#DUSTREDSTONE"
+    },
+    "U": {
+      "item": "minecraft:water_bucket"
+    },
+    "X": {
+      "item": "grimpack:iron_spear"
+    }
+  }
+}

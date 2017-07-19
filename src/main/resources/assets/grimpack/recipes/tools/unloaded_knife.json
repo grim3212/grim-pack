@@ -1,0 +1,22 @@
+{
+  "result": {
+    "item": "grimpack:unloaded_knife"
+  },
+  "pattern": [
+    " #",
+    "! ",
+    " @"
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "@": {
+      "item": "grimpack:grip"
+    },
+    "!": {
+      "item": "grimpack:spring_part"
+    },
+    "#": {
+      "item": "grimpack:button_part"
+    }
+  }
+}

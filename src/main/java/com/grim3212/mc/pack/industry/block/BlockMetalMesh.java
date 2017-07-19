@@ -6,6 +6,7 @@ import javax.annotation.Nullable;
 
 import com.grim3212.mc.pack.core.block.BlockManual;
 import com.grim3212.mc.pack.core.manual.pages.Page;
+import com.grim3212.mc.pack.core.part.GrimCreativeTabs;
 import com.grim3212.mc.pack.industry.client.ManualIndustry;
 import com.grim3212.mc.pack.industry.item.IndustryItems;
 
@@ -28,7 +29,10 @@ public class BlockMetalMesh extends BlockManual {
 	protected static final AxisAlignedBB COLLISION = new AxisAlignedBB(0.0F, 0.0F, 0.0F, 1.0F, 0.99F, 1.0F);
 
 	public BlockMetalMesh() {
-		super(Material.IRON, SoundType.METAL);
+		super("metal_mesh", Material.IRON, SoundType.METAL);
+		setHardness(0.4F);
+		setResistance(1.0F);
+		setCreativeTab(GrimCreativeTabs.GRIM_INDUSTRY);
 	}
 
 	@Override

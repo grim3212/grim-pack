@@ -1,0 +1,14 @@
+{
+  "result": {
+    "item": "grimpack:coal_iron_ingot"
+  },
+  "ingredients": [
+    {
+      "item": "#DUSTCOAL"
+    },
+    {
+      "item": "#INGOTIRON"
+    }
+  ],
+  "type": "forge:ore_shapeless"
+}

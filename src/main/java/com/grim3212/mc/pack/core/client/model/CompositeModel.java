@@ -16,10 +16,9 @@ import net.minecraft.client.renderer.block.model.ItemCameraTransforms.TransformT
 import net.minecraft.client.renderer.block.model.ItemOverrideList;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.util.EnumFacing;
-import net.minecraftforge.client.model.IPerspectiveAwareModel;
 import net.minecraftforge.common.model.TRSRTransformation;
 
-public class CompositeModel implements IPerspectiveAwareModel {
+public class CompositeModel implements IBakedModel {
 
 	private final ImmutableList<IBakedModel> models;
 
@@ -71,11 +70,9 @@ public class CompositeModel implements IPerspectiveAwareModel {
 
 	@Override
 	public Pair<? extends IBakedModel, Matrix4f> handlePerspective(TransformType cameraTransformType) {
-		if (models.get(0) instanceof IPerspectiveAwareModel) {
-			Pair<? extends IBakedModel, Matrix4f> pair = ((IPerspectiveAwareModel) models.get(0)).handlePerspective(cameraTransformType);
-			if (pair != null && pair.getRight() != null)
-				return Pair.of(this, pair.getRight());
-		}
+		Pair<? extends IBakedModel, Matrix4f> pair = models.get(0).handlePerspective(cameraTransformType);
+		if (pair != null && pair.getRight() != null)
+			return Pair.of(this, pair.getRight());
 		return Pair.of(this, TRSRTransformation.identity().getMatrix());
 	}
 

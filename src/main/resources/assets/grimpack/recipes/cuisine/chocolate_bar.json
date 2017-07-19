@@ -1,0 +1,15 @@
+{
+  "result": {
+    "item": "grimpack:chocolate_bar",
+    "count": 9
+  },
+  "pattern": [
+    "X"
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "X": {
+      "item": "grimpack:chocolate_block"
+    }
+  }
+}

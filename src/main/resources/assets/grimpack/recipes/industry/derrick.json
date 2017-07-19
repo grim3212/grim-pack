@@ -1,0 +1,22 @@
+{
+  "result": {
+    "item": "grimpack:derrick"
+  },
+  "pattern": [
+    "s s",
+    "sRs",
+    "sPs"
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "P": {
+      "item": "grimpack:steel_pipe"
+    },
+    "R": {
+      "item": "grimpack:refinery"
+    },
+    "s": {
+      "item": "#INGOTSTEEL"
+    }
+  }
+}

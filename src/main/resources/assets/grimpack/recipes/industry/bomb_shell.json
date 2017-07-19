@@ -1,0 +1,16 @@
+{
+  "result": {
+    "item": "grimpack:bomb_shell"
+  },
+  "pattern": [
+    "A A",
+    " A ",
+    "A A"
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "A": {
+      "item": "#INGOTALUMINUM"
+    }
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "result": {
+    "item": "grimpack:boomerang"
+  },
+  "pattern": [
+    "XX ",
+    "X  ",
+    "XX "
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "X": {
+      "item": "#PLANKWOOD"
+    }
+  }
+}

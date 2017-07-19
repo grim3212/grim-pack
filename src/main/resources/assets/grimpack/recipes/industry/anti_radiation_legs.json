@@ -1,0 +1,20 @@
+{
+  "result": {
+    "item": "grimpack:anti_radiation_legs"
+  },
+  "pattern": [
+    "WWW",
+    "W W",
+    "I I"
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "W": {
+      "item": "minecraft:wool",
+      "data": 0
+    },
+    "I": {
+      "item": "#INGOTIRON"
+    }
+  }
+}

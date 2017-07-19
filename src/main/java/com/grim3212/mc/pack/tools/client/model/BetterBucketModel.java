@@ -5,14 +5,14 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
+import java.util.function.Function;
 
 import javax.vecmath.Matrix4f;
 import javax.vecmath.Quat4f;
 
 import org.apache.commons.lang3.tuple.Pair;
 
-import com.google.common.base.Function;
-import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
@@ -40,14 +40,11 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.client.model.ICustomModelLoader;
 import net.minecraftforge.client.model.IModel;
-import net.minecraftforge.client.model.IModelCustomData;
-import net.minecraftforge.client.model.IPerspectiveAwareModel;
-import net.minecraftforge.client.model.IRetexturableModel;
 import net.minecraftforge.client.model.ItemLayerModel;
 import net.minecraftforge.client.model.ItemTextureQuadConverter;
 import net.minecraftforge.client.model.ModelStateComposition;
+import net.minecraftforge.client.model.PerspectiveMapWrapper;
 import net.minecraftforge.client.model.SimpleModelState;
-import net.minecraftforge.common.model.IModelPart;
 import net.minecraftforge.common.model.IModelState;
 import net.minecraftforge.common.model.TRSRTransformation;
 import net.minecraftforge.fluids.Fluid;
@@ -55,7 +52,7 @@ import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidUtil;
 
-public class BetterBucketModel implements IModel, IModelCustomData, IRetexturableModel {
+public class BetterBucketModel implements IModel {
 
 	// minimal Z offset to prevent depth-fighting
 	private static final float NORTH_Z_BASE = 7.496f / 16f;
@@ -112,7 +109,7 @@ public class BetterBucketModel implements IModel, IModelCustomData, IRetexturabl
 
 	@Override
 	public IBakedModel bake(IModelState state, VertexFormat format, Function<ResourceLocation, TextureAtlasSprite> bakedTextureGetter) {
-		ImmutableMap<TransformType, TRSRTransformation> transformMap = IPerspectiveAwareModel.MapWrapper.getTransforms(state);
+		ImmutableMap<TransformType, TRSRTransformation> transformMap = PerspectiveMapWrapper.getTransforms(state);
 
 		// if the fluid is a gas wi manipulate the initial state to be rotated
 		// 180? to turn it upside down
@@ -120,7 +117,8 @@ public class BetterBucketModel implements IModel, IModelCustomData, IRetexturabl
 			state = new ModelStateComposition(state, TRSRTransformation.blockCenterToCorner(new TRSRTransformation(null, new Quat4f(0, 0, 1, 0), null, null)));
 		}
 
-		TRSRTransformation transform = state.apply(Optional.<IModelPart> absent()).or(TRSRTransformation.identity());
+		TRSRTransformation transform = state.apply(Optional.empty()).orElse(TRSRTransformation.identity());
+		;
 		TextureAtlasSprite fluidSprite = null;
 		ImmutableList.Builder<BakedQuad> builder = ImmutableList.builder();
 
@@ -162,7 +160,7 @@ public class BetterBucketModel implements IModel, IModelCustomData, IRetexturabl
 			}
 		}
 
-		return new BakedBetterBucket(this, builder.build(), fluidSprite, format, Maps.immutableEnumMap(transformMap), Maps.<String, IBakedModel> newHashMap());
+		return new BakedBetterBucket(this, builder.build(), fluidSprite, format, Maps.immutableEnumMap(transformMap), Maps.<String, IBakedModel>newHashMap());
 	}
 
 	@Override
@@ -252,7 +250,7 @@ public class BetterBucketModel implements IModel, IModelCustomData, IRetexturabl
 		public static final BakedBetterBucketOverrideHandler INSTANCE = new BakedBetterBucketOverrideHandler();
 
 		private BakedBetterBucketOverrideHandler() {
-			super(ImmutableList.<ItemOverride> of());
+			super(ImmutableList.<ItemOverride>of());
 		}
 
 		@Override
@@ -314,7 +312,7 @@ public class BetterBucketModel implements IModel, IModelCustomData, IRetexturabl
 	}
 
 	// the dynamic bucket is based on the empty bucket
-	protected static class BakedBetterBucket implements IPerspectiveAwareModel {
+	protected static class BakedBetterBucket implements IBakedModel {
 
 		private final BetterBucketModel parent;
 		private final Map<String, IBakedModel> cache;
@@ -339,7 +337,7 @@ public class BetterBucketModel implements IModel, IModelCustomData, IRetexturabl
 
 		@Override
 		public Pair<? extends IBakedModel, Matrix4f> handlePerspective(TransformType cameraTransformType) {
-			return IPerspectiveAwareModel.MapWrapper.handlePerspective(this, transforms, cameraTransformType);
+			return PerspectiveMapWrapper.handlePerspective(this, transforms, cameraTransformType);
 		}
 
 		@Override

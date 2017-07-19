@@ -1,0 +1,19 @@
+{
+  "result": {
+    "item": "grimpack:c4"
+  },
+  "pattern": [
+    "GGG",
+    "RRR",
+    "GGG"
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "R": {
+      "item": "#DUSTREDSTONE"
+    },
+    "G": {
+      "item": "#GUNPOWDER"
+    }
+  }
+}

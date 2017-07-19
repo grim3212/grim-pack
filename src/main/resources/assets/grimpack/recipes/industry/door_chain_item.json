@@ -1,0 +1,16 @@
+{
+  "result": {
+    "item": "grimpack:door_chain_item"
+  },
+  "pattern": [
+    "ss",
+    "ss",
+    "ss"
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "s": {
+      "item": "grimpack:aluminum_shaft"
+    }
+  }
+}

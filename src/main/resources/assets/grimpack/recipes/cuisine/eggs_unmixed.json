@@ -1,0 +1,21 @@
+{
+  "result": {
+    "item": "grimpack:eggs_unmixed"
+  },
+  "pattern": [
+    "XIX",
+    " M "
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "X": {
+      "item": "#EGG"
+    },
+    "I": {
+      "item": "#FOODBUTTER"
+    },
+    "M": {
+      "item": "minecraft:bowl"
+    }
+  }
+}

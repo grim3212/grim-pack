@@ -1,0 +1,23 @@
+{
+  "result": {
+    "item": "grimpack:powerstaff",
+    "data": 0
+  },
+  "pattern": [
+    "IDI",
+    "IRI",
+    " I "
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "R": {
+      "item": "#DUSTREDSTONE"
+    },
+    "D": {
+      "item": "#GEMDIAMOND"
+    },
+    "I": {
+      "item": "#INGOTIRON"
+    }
+  }
+}

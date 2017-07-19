@@ -13,9 +13,9 @@ import net.minecraft.client.renderer.block.model.ItemCameraTransforms;
 import net.minecraft.client.renderer.block.model.ModelManager;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.renderer.entity.Render;
+import net.minecraft.client.renderer.entity.RenderItemFrame;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.texture.TextureMap;
-import net.minecraft.client.renderer.tileentity.RenderItemFrame;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.item.EntityItemFrame;
 import net.minecraft.init.Items;
@@ -98,8 +98,8 @@ public class RenderFlatItemFrame extends RenderItemFrame {
 
 		if (!itemstack.isEmpty()) {
 			EntityItem entityitem = new EntityItem(itemFrame.world, 0.0D, 0.0D, 0.0D, itemstack);
-			Item item = entityitem.getEntityItem().getItem();
-			entityitem.getEntityItem().setCount(1);
+			Item item = entityitem.getItem().getItem();
+			entityitem.getItem().setCount(1);
 			entityitem.hoverStart = 0.0F;
 			GlStateManager.pushMatrix();
 			GlStateManager.disableLighting();
@@ -118,7 +118,7 @@ public class RenderFlatItemFrame extends RenderItemFrame {
 					GlStateManager.rotate(180.0F, 0.0F, 0.0F, 1.0F);
 					GlStateManager.scale(0.0078125F, 0.0078125F, 0.0078125F);
 					GlStateManager.translate(-64.0F, -64.0F, 0.0F);
-					MapData mapdata = Items.FILLED_MAP.getMapData(entityitem.getEntityItem(), itemFrame.world);
+					MapData mapdata = Items.FILLED_MAP.getMapData(entityitem.getItem(), itemFrame.world);
 					GlStateManager.translate(0.0F, 0.0F, -1.0F);
 
 					if (mapdata != null) {
@@ -127,12 +127,12 @@ public class RenderFlatItemFrame extends RenderItemFrame {
 				} else {
 					GlStateManager.scale(0.5F, 0.5F, 0.5F);
 
-					if (!this.itemRenderer.shouldRenderItemIn3D(entityitem.getEntityItem()) || item instanceof ItemSkull) {
+					if (!this.itemRenderer.shouldRenderItemIn3D(entityitem.getItem()) || item instanceof ItemSkull) {
 						GlStateManager.rotate(180.0F, 0.0F, 1.0F, 0.0F);
 					}
 
 					if (itemFrame.getHorizontalFacing().getAxis() == EnumFacing.Axis.Y) {
-						if (DecorConfig.flipBlocks && this.itemRenderer.shouldRenderItemIn3D(entityitem.getEntityItem()) || item instanceof ItemSkull) {
+						if (DecorConfig.flipBlocks && this.itemRenderer.shouldRenderItemIn3D(entityitem.getItem()) || item instanceof ItemSkull) {
 							GlStateManager.rotate(-90.0F, 1.0F, 0.0F, 0.0F);
 
 							if (item instanceof ItemSkull) {
@@ -146,7 +146,7 @@ public class RenderFlatItemFrame extends RenderItemFrame {
 
 					GlStateManager.pushAttrib();
 					RenderHelper.enableStandardItemLighting();
-					this.itemRenderer.renderItem(entityitem.getEntityItem(), ItemCameraTransforms.TransformType.FIXED);
+					this.itemRenderer.renderItem(entityitem.getItem(), ItemCameraTransforms.TransformType.FIXED);
 					RenderHelper.disableStandardItemLighting();
 					GlStateManager.popAttrib();
 				}

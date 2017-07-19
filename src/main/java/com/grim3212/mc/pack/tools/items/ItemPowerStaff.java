@@ -7,6 +7,7 @@ import com.google.common.collect.Maps;
 import com.grim3212.mc.pack.core.config.ConfigUtils;
 import com.grim3212.mc.pack.core.item.ItemManual;
 import com.grim3212.mc.pack.core.manual.pages.Page;
+import com.grim3212.mc.pack.core.part.GrimCreativeTabs;
 import com.grim3212.mc.pack.core.util.NBTHelper;
 import com.grim3212.mc.pack.tools.client.ManualTools;
 import com.grim3212.mc.pack.tools.config.ToolsConfig;
@@ -18,10 +19,10 @@ import net.minecraft.block.BlockDoublePlant;
 import net.minecraft.block.BlockFalling;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.resources.I18n;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
@@ -37,9 +38,11 @@ public class ItemPowerStaff extends ItemManual {
 	public static Map<IBlockState, Boolean> allowedBlocks = Maps.newHashMap();
 
 	protected ItemPowerStaff() {
+		super("powerstaff");
 		setMaxStackSize(1);
 		setMaxDamage(0);
 		setHasSubtypes(true);
+		setCreativeTab(GrimCreativeTabs.GRIM_TOOLS);
 	}
 
 	@Override
@@ -54,7 +57,7 @@ public class ItemPowerStaff extends ItemManual {
 	}
 
 	@Override
-	public void addInformation(ItemStack stack, EntityPlayer playerIn, List<String> tooltip, boolean advanced) {
+	public void addInformation(ItemStack stack, World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
 		String mode = NBTHelper.getString(stack, "Mode");
 		tooltip.add(I18n.format("tooltip.powerstaff.currentMode") + I18n.format("grimtools.powerstaff." + mode));
 	}
@@ -186,10 +189,9 @@ public class ItemPowerStaff extends ItemManual {
 	}
 
 	@Override
-	public void getSubItems(Item itemIn, CreativeTabs tab, NonNullList<ItemStack> subItems) {
-		ItemStack self = new ItemStack(itemIn, 1, 0);
-		subItems.add(NBTHelper.setStringItemStack(self, "Mode", EnumPowerStaffModes.FLOAT_PUSH.getUnlocalized()));
-		// subItems.add(new ItemStack(itemIn, 1, 0));
-		// subItems.add(new ItemStack(itemIn, 1, 1));
+	public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> items) {
+		ItemStack self = new ItemStack(this, 1, 0);
+		if (isInCreativeTab(tab))
+			items.add(NBTHelper.setStringItemStack(self, "Mode", EnumPowerStaffModes.FLOAT_PUSH.getUnlocalized()));
 	}
 }

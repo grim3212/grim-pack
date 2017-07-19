@@ -2,6 +2,7 @@ package com.grim3212.mc.pack.industry.block;
 
 import com.grim3212.mc.pack.core.block.BlockManual;
 import com.grim3212.mc.pack.core.manual.pages.Page;
+import com.grim3212.mc.pack.core.part.GrimCreativeTabs;
 import com.grim3212.mc.pack.industry.client.ManualIndustry;
 import com.grim3212.mc.pack.industry.item.ItemPaintRollerColor;
 
@@ -20,8 +21,15 @@ public class BlockRway extends BlockManual {
 	public static final PropertyInteger TYPE = PropertyInteger.create("type", 0, 14);
 
 	public BlockRway() {
-		super(Material.ROCK, SoundType.STONE);
-		this.setDefaultState(this.blockState.getBaseState().withProperty(TYPE, 0));
+		super("rway", Material.ROCK, SoundType.STONE);
+		setHardness(1.0F);
+		setResistance(15.0F);
+		setCreativeTab(GrimCreativeTabs.GRIM_INDUSTRY);
+	}
+
+	@Override
+	protected IBlockState getState() {
+		return this.blockState.getBaseState().withProperty(TYPE, 0);
 	}
 
 	@Override

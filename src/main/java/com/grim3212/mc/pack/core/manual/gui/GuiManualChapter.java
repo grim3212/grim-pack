@@ -63,7 +63,7 @@ public class GuiManualChapter extends GuiManualIndex {
 				}
 			}
 
-			FontRenderer renderer = Minecraft.getMinecraft().fontRendererObj;
+			FontRenderer renderer = Minecraft.getMinecraft().fontRenderer;
 			boolean unicode = renderer.getUnicodeFlag();
 			renderer.setUnicodeFlag(true);
 			if (numPages != 1)
@@ -74,20 +74,20 @@ public class GuiManualChapter extends GuiManualIndex {
 
 	@Override
 	protected void drawTitle() {
-		boolean unicode = fontRendererObj.getUnicodeFlag();
-		fontRendererObj.setUnicodeFlag(false);
+		boolean unicode = fontRenderer.getUnicodeFlag();
+		fontRenderer.setUnicodeFlag(false);
 		String title = part.getPartName();
-		fontRendererObj.drawString(title, width / 2 - fontRendererObj.getStringWidth(title) / 2, this.y + 14, 0x0026FF, false);
-		fontRendererObj.setUnicodeFlag(unicode);
+		fontRenderer.drawString(title, width / 2 - fontRenderer.getStringWidth(title) / 2, this.y + 14, 0x0026FF, false);
+		fontRenderer.setUnicodeFlag(unicode);
 	}
 
 	@Override
 	protected void drawInfo() {
 		if (page == 0) {
-			boolean unicode = fontRendererObj.getUnicodeFlag();
-			fontRendererObj.setUnicodeFlag(true);
-			fontRendererObj.drawSplitString(this.part.getPartInfo(), x + 15, y + 28, 162, 0);
-			fontRendererObj.setUnicodeFlag(unicode);
+			boolean unicode = fontRenderer.getUnicodeFlag();
+			fontRenderer.setUnicodeFlag(true);
+			fontRenderer.drawSplitString(this.part.getPartInfo(), x + 15, y + 28, 162, 0);
+			fontRenderer.setUnicodeFlag(unicode);
 		}
 	}
 

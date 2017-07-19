@@ -1,0 +1,19 @@
+{
+  "result": {
+    "item": "grimpack:machete_diamond"
+  },
+  "pattern": [
+    " XX",
+    "XX ",
+    "#  "
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "#": {
+      "item": "#STICKIRON"
+    },
+    "X": {
+      "item": "#GEMDIAMOND"
+    }
+  }
+}

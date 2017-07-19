@@ -4,6 +4,7 @@ import java.util.Random;
 
 import com.grim3212.mc.pack.core.block.BlockManual;
 import com.grim3212.mc.pack.core.manual.pages.Page;
+import com.grim3212.mc.pack.core.part.GrimCreativeTabs;
 import com.grim3212.mc.pack.tools.client.ManualTools;
 import com.grim3212.mc.pack.tools.items.ToolsItems;
 
@@ -15,7 +16,11 @@ import net.minecraft.item.Item;
 public class BlockElement extends BlockManual {
 
 	protected BlockElement() {
-		super(Material.ROCK, SoundType.STONE);
+		super("element_115_ore", Material.ROCK, SoundType.STONE);
+		setHardness(2.5F);
+		setResistance(30.0F);
+		setLightLevel(0.4F);
+		setCreativeTab(GrimCreativeTabs.GRIM_TOOLS);
 	}
 
 	@Override

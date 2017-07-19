@@ -7,11 +7,9 @@ import com.grim3212.mc.pack.industry.util.MachineRecipes.MachineType;
 
 import net.minecraft.entity.item.EntityXPOrb;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Items;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
-import net.minecraft.stats.AchievementList;
 import net.minecraft.util.math.MathHelper;
 
 public class SlotMachineOutput extends Slot {
@@ -84,14 +82,6 @@ public class SlotMachineOutput extends Slot {
 
 		if (this.type == MachineType.MODERN_FURNACE) {
 			net.minecraftforge.fml.common.FMLCommonHandler.instance().firePlayerSmeltedEvent(thePlayer, stack);
-
-			if (stack.getItem() == Items.IRON_INGOT) {
-				this.thePlayer.addStat(AchievementList.ACQUIRE_IRON);
-			}
-
-			if (stack.getItem() == Items.COOKED_FISH) {
-				this.thePlayer.addStat(AchievementList.COOK_FISH);
-			}
 		}
 	}
 }

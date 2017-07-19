@@ -2,7 +2,7 @@ package com.grim3212.mc.pack.tools.items;
 
 import com.grim3212.mc.pack.core.item.ItemManual;
 import com.grim3212.mc.pack.core.manual.pages.Page;
-import com.grim3212.mc.pack.tools.GrimTools;
+import com.grim3212.mc.pack.core.part.GrimCreativeTabs;
 import com.grim3212.mc.pack.tools.client.ManualTools;
 
 import net.minecraft.block.Block;
@@ -18,8 +18,9 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class ItemHammer extends ItemManual {
 
 	public ItemHammer(ToolMaterial toolMaterial) {
+		super(toolMaterial.name().toLowerCase() + "_hammer");
 		setMaxStackSize(1);
-		setCreativeTab(GrimTools.INSTANCE.getCreativeTab());
+		setCreativeTab(GrimCreativeTabs.GRIM_TOOLS);
 		this.setMaxDamage(toolMaterial.getMaxUses());
 	}
 

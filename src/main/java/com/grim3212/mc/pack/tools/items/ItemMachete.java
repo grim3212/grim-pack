@@ -3,9 +3,9 @@ package com.grim3212.mc.pack.tools.items;
 import java.util.HashSet;
 
 import com.google.common.collect.Sets;
-import com.grim3212.mc.pack.core.manual.IManualEntry.IManualItem;
+import com.grim3212.mc.pack.core.item.ItemManualTool;
 import com.grim3212.mc.pack.core.manual.pages.Page;
-import com.grim3212.mc.pack.tools.GrimTools;
+import com.grim3212.mc.pack.core.part.GrimCreativeTabs;
 import com.grim3212.mc.pack.tools.client.ManualTools;
 
 import net.minecraft.block.Block;
@@ -14,17 +14,16 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemTool;
 
-public class ItemMachete extends ItemTool implements IManualItem {
+public class ItemMachete extends ItemManualTool {
 
 	public static final HashSet<Block> blocksEffectiveAgainst = Sets.newHashSet(new Block[] {});
 	public static Material[] material = new Material[] { Material.LEAVES, Material.CLOTH, Material.CACTUS, Material.VINE, Material.WEB };
 
-	protected ItemMachete(ToolMaterial material) {
-		super(3.2f, -2.15f, material, blocksEffectiveAgainst);
+	protected ItemMachete(String name, ToolMaterial material) {
+		super(name, 3.2f, -2.15f, material, blocksEffectiveAgainst);
 		setMaxStackSize(1);
-		setCreativeTab(GrimTools.INSTANCE.getCreativeTab());
+		setCreativeTab(GrimCreativeTabs.GRIM_TOOLS);
 	}
 
 	@Override

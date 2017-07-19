@@ -1,0 +1,17 @@
+{
+  "result": {
+    "item": "grimpack:locksmith_key",
+    "count": 3
+  },
+  "pattern": [
+    "II",
+    "II",
+    "I "
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "I": {
+      "item": "#INGOTGOLD"
+    }
+  }
+}

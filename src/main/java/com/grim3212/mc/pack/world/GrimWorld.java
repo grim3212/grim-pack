@@ -3,21 +3,16 @@ package com.grim3212.mc.pack.world;
 import com.grim3212.mc.pack.core.manual.IManualPart;
 import com.grim3212.mc.pack.core.part.GrimPart;
 import com.grim3212.mc.pack.core.proxy.CommonProxy;
-import com.grim3212.mc.pack.world.blocks.WorldBlocks;
 import com.grim3212.mc.pack.world.client.ManualWorld;
 import com.grim3212.mc.pack.world.compat.jer.JERWorld;
 import com.grim3212.mc.pack.world.config.WorldConfig;
 import com.grim3212.mc.pack.world.entity.WorldEntities;
-import com.grim3212.mc.pack.world.event.WorldAchievements;
 import com.grim3212.mc.pack.world.event.WorldPostInitEvent;
 import com.grim3212.mc.pack.world.gen.GrimWorldGenerator;
 import com.grim3212.mc.pack.world.gen.WorldTerrainEvents;
-import com.grim3212.mc.pack.world.items.WorldItems;
 import com.grim3212.mc.pack.world.types.WorldTypes;
 import com.grim3212.mc.pack.world.util.WorldLootTables;
-import com.grim3212.mc.pack.world.util.WorldSounds;
 
-import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Optional;
 import net.minecraftforge.fml.common.SidedProxy;
@@ -41,9 +36,6 @@ public class GrimWorld extends GrimPart {
 
 	public GrimWorld() {
 		super(GrimWorld.partId, GrimWorld.partName, new WorldConfig());
-		addItem(new WorldBlocks());
-		addItem(new WorldItems());
-		addEntity(new WorldEntities());
 	}
 
 	@Override
@@ -53,8 +45,7 @@ public class GrimWorld extends GrimPart {
 		GameRegistry.registerWorldGenerator(new GrimWorldGenerator(), 5);
 		MinecraftForge.TERRAIN_GEN_BUS.register(new WorldTerrainEvents());
 		WorldLootTables.initLootTables();
-		WorldAchievements.init();
-		WorldSounds.init();
+		WorldEntities.initEntities();
 
 		proxy.preInit();
 	}
@@ -71,11 +62,6 @@ public class GrimWorld extends GrimPart {
 	public void postInit(FMLPostInitializationEvent event) {
 		MinecraftForge.EVENT_BUS.post(new WorldPostInitEvent());
 		WorldTypes.registerTypes();
-	}
-
-	@Override
-	protected ItemStack getCreativeTabIcon() {
-		return new ItemStack(WorldItems.gunpowder_reed_item);
 	}
 
 	@Override

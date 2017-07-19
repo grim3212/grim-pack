@@ -1,0 +1,19 @@
+{
+  "result": {
+    "item": "grimpack:knife"
+  },
+  "pattern": [
+    "X  ",
+    " W ",
+    "  W"
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "W": {
+      "item": "#INGOTIRON"
+    },
+    "X": {
+      "item": "#PLANKWOOD"
+    }
+  }
+}

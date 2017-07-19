@@ -1,0 +1,15 @@
+{
+  "result": {
+    "item": "grimpack:chocolate_ball",
+    "count": 2
+  },
+  "pattern": [
+    "X"
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "X": {
+      "item": "grimpack:chocolate_bowl_hot"
+    }
+  }
+}

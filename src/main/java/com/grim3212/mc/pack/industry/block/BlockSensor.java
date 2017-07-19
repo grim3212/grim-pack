@@ -2,6 +2,7 @@ package com.grim3212.mc.pack.industry.block;
 
 import com.grim3212.mc.pack.core.block.BlockManual;
 import com.grim3212.mc.pack.core.manual.pages.Page;
+import com.grim3212.mc.pack.core.part.GrimCreativeTabs;
 import com.grim3212.mc.pack.industry.client.ManualIndustry;
 import com.grim3212.mc.pack.industry.tile.TileEntitySensor;
 
@@ -30,9 +31,10 @@ public class BlockSensor extends BlockManual implements ITileEntityProvider {
 	public static final PropertyEnum<EnumFacing> FACING = PropertyEnum.create("facing", EnumFacing.class);
 	private int triggerType;
 
-	public BlockSensor(int triggerType) {
-		super(Material.ROCK, null);
+	public BlockSensor(String name, int triggerType) {
+		super(name, Material.ROCK, null);
 		this.triggerType = triggerType;
+
 		if (triggerType == 0)
 			this.setSoundType(SoundType.WOOD);
 		else if (triggerType == 1)
@@ -41,7 +43,15 @@ public class BlockSensor extends BlockManual implements ITileEntityProvider {
 			this.setSoundType(SoundType.METAL);
 		else if (triggerType == 3)
 			this.setSoundType(SoundType.STONE);
-		this.setDefaultState(this.blockState.getBaseState().withProperty(ACTIVE, false).withProperty(FACING, EnumFacing.NORTH));
+
+		setHardness(0.5F);
+		setResistance(10F);
+		setCreativeTab(GrimCreativeTabs.GRIM_INDUSTRY);
+	}
+
+	@Override
+	protected IBlockState getState() {
+		return this.blockState.getBaseState().withProperty(ACTIVE, false).withProperty(FACING, EnumFacing.NORTH);
 	}
 
 	public static EnumFacing getFacing(int meta) {

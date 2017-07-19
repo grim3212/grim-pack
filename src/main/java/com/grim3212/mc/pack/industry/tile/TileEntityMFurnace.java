@@ -34,6 +34,7 @@ import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
+import net.minecraftforge.event.ForgeEventFactory;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -372,12 +373,12 @@ public class TileEntityMFurnace extends TileEntityLockable implements ITickable,
 				return 2400;
 			if (item == IndustryItems.fuel)
 				return 3200;
-			return net.minecraftforge.fml.common.registry.GameRegistry.getFuelValue(stack);
+			return ForgeEventFactory.getItemBurnTime(stack);
 		}
 	}
 
 	public static boolean isItemFuel(ItemStack stack) {
-        return getItemBurnTime(stack) > 0;
+		return getItemBurnTime(stack) > 0;
 	}
 
 	/**

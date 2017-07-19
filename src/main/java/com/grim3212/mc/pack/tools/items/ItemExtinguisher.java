@@ -4,6 +4,7 @@ import java.util.Random;
 
 import com.grim3212.mc.pack.core.item.ItemManual;
 import com.grim3212.mc.pack.core.manual.pages.Page;
+import com.grim3212.mc.pack.core.part.GrimCreativeTabs;
 import com.grim3212.mc.pack.tools.client.ManualTools;
 
 import net.minecraft.block.material.Material;
@@ -23,8 +24,10 @@ import net.minecraft.world.World;
 public class ItemExtinguisher extends ItemManual {
 
 	public ItemExtinguisher() {
+		super("extinguisher");
 		setMaxDamage(1);
 		setMaxStackSize(1);
+		setCreativeTab(GrimCreativeTabs.GRIM_TOOLS);
 	}
 
 	@Override

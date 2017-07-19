@@ -35,7 +35,7 @@ public class ItemMiningWand extends ItemWand {
 	private static final int MINE_ORES = 110;
 
 	public ItemMiningWand(boolean reinforced) {
-		super(reinforced);
+		super(reinforced ? "reinforced_mining_wand" : "mining_wand", reinforced);
 		this.setMaxDamage(reinforced ? 120 : 15);
 	}
 

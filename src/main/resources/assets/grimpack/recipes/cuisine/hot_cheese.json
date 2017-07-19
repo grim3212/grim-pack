@@ -1,0 +1,19 @@
+{
+  "result": {
+    "item": "grimpack:hot_cheese"
+  },
+  "pattern": [
+    " C ",
+    "AAA",
+    " C "
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "A": {
+      "item": "#FOODCHEESE"
+    },
+    "C": {
+      "item": "#BREAD"
+    }
+  }
+}

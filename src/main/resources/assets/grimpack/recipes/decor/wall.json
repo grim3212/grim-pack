@@ -1,0 +1,25 @@
+{
+  "result": {
+    "nbt": {
+      "meta": {
+        "data": 0
+      },
+      "registryName": {
+        "data": "minecraft:air"
+      }
+    },
+    "item": "grimpack:wall",
+    "count": 4
+  },
+  "pattern": [
+    "#",
+    "#",
+    "#"
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "#": {
+      "item": "grimpack:colorizer"
+    }
+  }
+}

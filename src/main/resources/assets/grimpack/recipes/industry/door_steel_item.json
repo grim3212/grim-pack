@@ -1,0 +1,16 @@
+{
+  "result": {
+    "item": "grimpack:door_steel_item"
+  },
+  "pattern": [
+    "ss",
+    "ss",
+    "ss"
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "s": {
+      "item": "#INGOTSTEEL"
+    }
+  }
+}

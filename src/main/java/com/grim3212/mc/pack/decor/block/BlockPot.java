@@ -4,6 +4,7 @@ import java.util.Random;
 
 import com.grim3212.mc.pack.core.block.BlockManual;
 import com.grim3212.mc.pack.core.manual.pages.Page;
+import com.grim3212.mc.pack.core.part.GrimCreativeTabs;
 import com.grim3212.mc.pack.decor.client.ManualDecor;
 
 import net.minecraft.block.Block;
@@ -33,9 +34,16 @@ public class BlockPot extends BlockManual {
 	public static final PropertyBool DOWN = PropertyBool.create("down");
 
 	protected BlockPot() {
-		super(Material.CLAY, SoundType.GROUND);
+		super("pot", Material.CLAY, SoundType.GROUND);
 		this.setTickRandomly(true);
-		this.setDefaultState(blockState.getBaseState().withProperty(TOP, 0));
+		setHardness(0.5F);
+		setResistance(10F);
+		setCreativeTab(GrimCreativeTabs.GRIM_DECOR);
+	}
+
+	@Override
+	protected IBlockState getState() {
+		return super.getState().withProperty(TOP, 0);
 	}
 
 	@Override

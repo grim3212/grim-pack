@@ -1,0 +1,15 @@
+{
+  "result": {
+    "item": "minecraft:glass"
+  },
+  "pattern": [
+    "##",
+    "##"
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "#": {
+      "item": "grimpack:glass_shard"
+    }
+  }
+}

@@ -86,14 +86,14 @@ public class GuiManualPage extends GuiManualIndex {
 		pauseButton.enabled = false;
 
 		if (chapter.getPages().get(this.page) instanceof PageCrafting) {
-			pauseButton.xPosition = this.getX() + 112;
-			pauseButton.yPosition = this.getY() + 165;
+			pauseButton.x = this.getX() + 112;
+			pauseButton.y = this.getY() + 165;
 			PageCrafting page = (PageCrafting) chapter.getPages().get(this.page);
 			pauseButton.visible = page.isArray();
 			pauseButton.enabled = page.isArray();
 		} else if (chapter.getPages().get(this.page) instanceof PageFurnace) {
-			pauseButton.xPosition = this.getX() + 85;
-			pauseButton.yPosition = this.getY() + 154;
+			pauseButton.x = this.getX() + 85;
+			pauseButton.y = this.getY() + 154;
 			PageFurnace page = (PageFurnace) chapter.getPages().get(this.page);
 			pauseButton.visible = page.isArray();
 			pauseButton.enabled = page.isArray();

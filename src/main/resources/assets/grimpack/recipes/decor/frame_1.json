@@ -1,0 +1,18 @@
+{
+  "result": {
+    "item": "grimpack:frame",
+    "data": 1,
+    "count": 2
+  },
+  "pattern": [
+    "  #",
+    " # ",
+    "#  "
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "#": {
+      "item": "#INGOTIRON"
+    }
+  }
+}

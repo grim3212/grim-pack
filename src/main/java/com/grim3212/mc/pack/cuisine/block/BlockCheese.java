@@ -1,7 +1,9 @@
 package com.grim3212.mc.pack.cuisine.block;
 
+import com.grim3212.mc.pack.core.block.BlockManual;
 import com.grim3212.mc.pack.core.manual.IManualEntry.IManualBlock;
 import com.grim3212.mc.pack.core.manual.pages.Page;
+import com.grim3212.mc.pack.core.part.GrimCreativeTabs;
 import com.grim3212.mc.pack.cuisine.client.ManualCuisine;
 
 import net.minecraft.block.Block;
@@ -13,13 +15,14 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
-public class BlockCheese extends Block implements IManualBlock {
+public class BlockCheese extends BlockManual implements IManualBlock {
 
 	protected static final AxisAlignedBB CHEESE_AABB = new AxisAlignedBB(0.0625D, 0.0D, 0.0625D, 0.9375D, 0.5D, 0.9375D);
 
 	protected BlockCheese() {
-		super(Material.CAKE);
-		setSoundType(SoundType.CLOTH);
+		super("cheese_block", Material.CAKE, SoundType.CLOTH);
+		setHardness(0.5f);
+		setCreativeTab(GrimCreativeTabs.GRIM_CUISINE);
 	}
 
 	@Override

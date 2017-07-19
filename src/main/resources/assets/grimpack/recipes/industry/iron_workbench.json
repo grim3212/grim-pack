@@ -1,0 +1,19 @@
+{
+  "result": {
+    "item": "grimpack:iron_workbench"
+  },
+  "pattern": [
+    " X ",
+    "X\u003dX",
+    " X "
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "X": {
+      "item": "#BLOCKIRON"
+    },
+    "\u003d": {
+      "item": "#WORKBENCH"
+    }
+  }
+}

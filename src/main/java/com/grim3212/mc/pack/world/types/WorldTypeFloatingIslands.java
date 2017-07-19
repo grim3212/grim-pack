@@ -2,8 +2,8 @@ package com.grim3212.mc.pack.world.types;
 
 import net.minecraft.world.World;
 import net.minecraft.world.WorldType;
-import net.minecraft.world.chunk.IChunkGenerator;
-import net.minecraft.world.gen.ChunkProviderOverworld;
+import net.minecraft.world.gen.ChunkGeneratorOverworld;
+import net.minecraft.world.gen.IChunkGenerator;
 
 public class WorldTypeFloatingIslands extends WorldType {
 
@@ -15,7 +15,7 @@ public class WorldTypeFloatingIslands extends WorldType {
 	}
 
 	@Override
-	public boolean showWorldInfoNotice() {
+	public boolean hasInfoNotice() {
 		return true;
 	}
 
@@ -26,7 +26,7 @@ public class WorldTypeFloatingIslands extends WorldType {
 
 	@Override
 	public IChunkGenerator getChunkGenerator(World world, String generatorOptions) {
-		return new ChunkProviderOverworld(world, world.getSeed(), world.getWorldInfo().isMapFeaturesEnabled(), JSON);
+		return new ChunkGeneratorOverworld(world, world.getSeed(), world.getWorldInfo().isMapFeaturesEnabled(), JSON);
 	}
 
 }

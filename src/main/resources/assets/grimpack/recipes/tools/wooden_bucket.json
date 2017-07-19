@@ -1,0 +1,15 @@
+{
+  "result": {
+    "item": "grimpack:wooden_bucket"
+  },
+  "pattern": [
+    "# #",
+    " # "
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "#": {
+      "item": "#SLABWOOD"
+    }
+  }
+}

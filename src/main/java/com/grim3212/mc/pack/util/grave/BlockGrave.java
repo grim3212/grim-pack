@@ -43,8 +43,14 @@ public class BlockGrave extends BlockManual implements ITileEntityProvider {
 	protected static final AxisAlignedBB GRAVE_EAST_AABB = new AxisAlignedBB(0.0D, 0.0D, 0.06D, 0.125D, 0.935D, 0.94D);
 
 	public BlockGrave() {
-		super(Material.ROCK, SoundType.STONE);
-		this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH));
+		super("grave", Material.ROCK, SoundType.STONE);
+		this.setHardness(1.0F);
+		this.setResistance(99.9F);
+	}
+
+	@Override
+	protected IBlockState getState() {
+		return this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH);
 	}
 
 	@Override

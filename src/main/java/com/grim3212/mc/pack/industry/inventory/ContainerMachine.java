@@ -48,11 +48,11 @@ public class ContainerMachine extends Container {
 		for (int i = 0; i < this.listeners.size(); ++i) {
 			IContainerListener crafting = (IContainerListener) this.listeners.get(i);
 			if (this.runTime != this.machine.getField(0)) {
-				crafting.sendProgressBarUpdate(this, 0, this.machine.getField(0));
+				crafting.sendWindowProperty(this, 0, this.machine.getField(0));
 			}
 
 			if (this.totalRunTime != this.machine.getField(1)) {
-				crafting.sendProgressBarUpdate(this, 1, this.machine.getField(1));
+				crafting.sendWindowProperty(this, 1, this.machine.getField(1));
 			}
 		}
 

@@ -1,0 +1,18 @@
+{
+  "result": {
+    "item": "grimpack:gravity_boots"
+  },
+  "pattern": [
+    "S S",
+    "M M"
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "S": {
+      "item": "#INGOTIRON"
+    },
+    "M": {
+      "item": "grimpack:attractor"
+    }
+  }
+}

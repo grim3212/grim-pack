@@ -1,0 +1,16 @@
+{
+  "result": {
+    "item": "grimpack:garage"
+  },
+  "pattern": [
+    "p",
+    "p",
+    "p"
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "p": {
+      "item": "grimpack:garage_panel"
+    }
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "result": {
+    "item": "grimpack:castle_gate"
+  },
+  "pattern": [
+    "G",
+    "G",
+    "G"
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "G": {
+      "item": "grimpack:gate_grating"
+    }
+  }
+}

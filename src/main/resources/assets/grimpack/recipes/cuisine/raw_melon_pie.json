@@ -1,0 +1,22 @@
+{
+  "result": {
+    "item": "grimpack:raw_melon_pie"
+  },
+  "pattern": [
+    " X ",
+    "MMM",
+    " Y "
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "X": {
+      "item": "#FOODDOUGH"
+    },
+    "Y": {
+      "item": "grimpack:raw_empty_pie"
+    },
+    "M": {
+      "item": "minecraft:melon"
+    }
+  }
+}

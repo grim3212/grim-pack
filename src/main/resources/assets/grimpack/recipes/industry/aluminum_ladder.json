@@ -1,0 +1,17 @@
+{
+  "result": {
+    "item": "grimpack:aluminum_ladder",
+    "count": 4
+  },
+  "pattern": [
+    "s s",
+    "sss",
+    "s s"
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "s": {
+      "item": "grimpack:aluminum_shaft"
+    }
+  }
+}

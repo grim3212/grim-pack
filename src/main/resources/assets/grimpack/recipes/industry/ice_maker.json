@@ -1,0 +1,19 @@
+{
+  "result": {
+    "item": "grimpack:ice_maker"
+  },
+  "pattern": [
+    "X X",
+    "I I",
+    "XXX"
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "X": {
+      "item": "#COBBLESTONE"
+    },
+    "I": {
+      "item": "minecraft:snow"
+    }
+  }
+}

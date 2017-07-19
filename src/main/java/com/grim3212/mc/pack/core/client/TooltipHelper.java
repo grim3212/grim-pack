@@ -14,6 +14,7 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.TextFormatting;
 
@@ -22,7 +23,7 @@ public class TooltipHelper {
 	public static void renderToolTip(ItemStack itemstack, int x, int y) {
 		Minecraft mc = Minecraft.getMinecraft();
 
-		List<String> list = itemstack.getTooltip(mc.player, mc.gameSettings.advancedItemTooltips);
+		List<String> list = itemstack.getTooltip(mc.player, mc.gameSettings.advancedItemTooltips ? ITooltipFlag.TooltipFlags.ADVANCED : ITooltipFlag.TooltipFlags.NORMAL);
 
 		if (NBTHelper.hasTag(itemstack, "customTooltip")) {
 			list.add("");
@@ -38,7 +39,7 @@ public class TooltipHelper {
 		}
 
 		FontRenderer font = itemstack.getItem().getFontRenderer(itemstack);
-		drawHoveringText(list, x, y, (font == null ? mc.fontRendererObj : font));
+		drawHoveringText(list, x, y, (font == null ? mc.fontRenderer : font));
 	}
 
 	public static void drawHoveringText(String string, int x, int y, int width, FontRenderer font) {

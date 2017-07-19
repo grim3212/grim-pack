@@ -1,12 +1,10 @@
 package com.grim3212.mc.pack.tools.entity;
 
-import com.grim3212.mc.pack.core.part.IPartEntities;
 import com.grim3212.mc.pack.core.util.Utils;
 
-public class ToolsEntities implements IPartEntities {
+public class ToolsEntities {
 
-	@Override
-	public void initEntities() {
+	public static void initEntities() {
 		Utils.registerEntity(EntityBallisticKnife.class, "BallisticKnife", 32, 5, true);
 		Utils.registerEntity(EntityKnife.class, "Knife", 32, 5, true);
 		Utils.registerEntity(EntityTomahawk.class, "Tomahawk", 32, 5, true);

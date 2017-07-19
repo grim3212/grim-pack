@@ -1,0 +1,20 @@
+{
+  "result": {
+    "item": "grimpack:hardened_wood",
+    "count": 9
+  },
+  "pattern": [
+    "###",
+    "#W#",
+    "###"
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "#": {
+      "item": "#STONE"
+    },
+    "W": {
+      "item": "#PLANKWOOD"
+    }
+  }
+}

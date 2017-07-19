@@ -4,11 +4,12 @@ import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.grim3212.mc.pack.GrimPack;
 import com.grim3212.mc.pack.core.manual.IManualEntry.IManualBlock;
 import com.grim3212.mc.pack.core.manual.pages.Page;
+import com.grim3212.mc.pack.core.part.GrimCreativeTabs;
 import com.grim3212.mc.pack.core.property.UnlistedPropertyBlockState;
 import com.grim3212.mc.pack.core.util.NBTHelper;
-import com.grim3212.mc.pack.decor.GrimDecor;
 import com.grim3212.mc.pack.decor.block.IColorizer;
 import com.grim3212.mc.pack.decor.client.ManualDecor;
 import com.grim3212.mc.pack.decor.config.DecorConfig;
@@ -30,7 +31,6 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.stats.StatList;
 import net.minecraft.tileentity.TileEntity;
@@ -40,6 +40,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.NonNullList;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
@@ -59,12 +60,19 @@ public class BlockColorizer extends BlockContainer implements IManualBlock, ICol
 
 	public static final UnlistedPropertyBlockState BLOCK_STATE = UnlistedPropertyBlockState.create("blockstate");
 
-	public BlockColorizer() {
+	public BlockColorizer(String name) {
 		super(Material.ROCK);
 		this.setHardness(1.5F);
 		this.setResistance(12F);
 		this.setSoundType(SoundType.STONE);
-		this.setCreativeTab(GrimDecor.INSTANCE.getCreativeTab());
+		setUnlocalizedName(name);
+		setDefaultState(getState());
+		setRegistryName(new ResourceLocation(GrimPack.modID, name));
+		this.setCreativeTab(GrimCreativeTabs.GRIM_DECOR);
+	}
+
+	protected IBlockState getState() {
+		return blockState.getBaseState();
 	}
 
 	@Override
@@ -136,11 +144,11 @@ public class BlockColorizer extends BlockContainer implements IManualBlock, ICol
 	}
 
 	@Override
-	public void getSubBlocks(Item itemIn, CreativeTabs tab, NonNullList<ItemStack> list) {
+	public void getSubBlocks(CreativeTabs itemIn, NonNullList<ItemStack> items) {
 		ItemStack itemstack = new ItemStack(this);
 		NBTHelper.setString(itemstack, "registryName", Block.REGISTRY.getNameForObject(Blocks.AIR).toString());
 		NBTHelper.setInteger(itemstack, "meta", 0);
-		list.add(itemstack);
+		items.add(itemstack);
 	}
 
 	@Override
@@ -261,7 +269,7 @@ public class BlockColorizer extends BlockContainer implements IManualBlock, ICol
 					d0 = (double) i + axisalignedbb.maxX + (double) f;
 				}
 
-				//TODO: Use ParticleFactory
+				// TODO: Use ParticleFactory
 				try {
 					Constructor<ParticleDigging> constructor = ParticleDigging.class.getDeclaredConstructor(World.class, double.class, double.class, double.class, double.class, double.class, double.class, IBlockState.class);
 					constructor.setAccessible(true);

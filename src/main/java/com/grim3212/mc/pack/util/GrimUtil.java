@@ -5,20 +5,16 @@ import com.grim3212.mc.pack.core.network.PacketDispatcher;
 import com.grim3212.mc.pack.core.part.GrimPart;
 import com.grim3212.mc.pack.core.proxy.CommonProxy;
 import com.grim3212.mc.pack.core.util.GrimLog;
-import com.grim3212.mc.pack.core.util.Utils;
 import com.grim3212.mc.pack.util.client.ManualUtil;
 import com.grim3212.mc.pack.util.config.UtilConfig;
 import com.grim3212.mc.pack.util.event.BlockChangeEvents;
 import com.grim3212.mc.pack.util.event.EntityDeathEvent;
-import com.grim3212.mc.pack.util.event.UtilAchievements;
 import com.grim3212.mc.pack.util.frozen.FrozenCapability;
 import com.grim3212.mc.pack.util.frozen.FrozenCapability.IFrozenCapability;
 import com.grim3212.mc.pack.util.frozen.FrozenClientEvents;
 import com.grim3212.mc.pack.util.grave.TileEntityGrave;
-import com.grim3212.mc.pack.util.init.UtilBlocks;
 import com.grim3212.mc.pack.util.network.MessageFusRoDah;
 
-import net.minecraft.util.SoundEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
@@ -40,16 +36,13 @@ public class GrimUtil extends GrimPart {
 	public static final String partId = "util";
 	public static final String partName = "Grim Util";
 
-	public static SoundEvent fusrodahSound;
-	public static SoundEvent fusrodahOldSound;
 	public static boolean baubles = false;
 
 	@CapabilityInject(IFrozenCapability.class)
 	public static final Capability<IFrozenCapability> FROZEN_CAP = null;
 
 	public GrimUtil() {
-		super(GrimUtil.partId, GrimUtil.partName, new UtilConfig(), false, false);
-		addItem(new UtilBlocks());
+		super(GrimUtil.partId, GrimUtil.partName, new UtilConfig(), false);
 	}
 
 	@Override
@@ -59,9 +52,6 @@ public class GrimUtil extends GrimPart {
 		PacketDispatcher.registerMessage(MessageFusRoDah.class);
 		MinecraftForge.EVENT_BUS.register(new EntityDeathEvent());
 		MinecraftForge.EVENT_BUS.register(new BlockChangeEvents());
-		fusrodahSound = Utils.registerSound("fusrodah");
-		fusrodahOldSound = Utils.registerSound("fusrodah-old");
-		UtilAchievements.init();
 
 		if (event.getSide() == Side.CLIENT)
 			MinecraftForge.EVENT_BUS.register(new FrozenClientEvents());

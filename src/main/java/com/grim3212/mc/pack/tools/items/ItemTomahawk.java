@@ -2,6 +2,7 @@ package com.grim3212.mc.pack.tools.items;
 
 import com.grim3212.mc.pack.core.item.ItemManual;
 import com.grim3212.mc.pack.core.manual.pages.Page;
+import com.grim3212.mc.pack.core.part.GrimCreativeTabs;
 import com.grim3212.mc.pack.tools.client.ManualTools;
 import com.grim3212.mc.pack.tools.entity.EntityTomahawk;
 
@@ -17,8 +18,9 @@ import net.minecraft.world.World;
 public class ItemTomahawk extends ItemManual {
 
 	public ItemTomahawk() {
-		super();
+		super("tomahawk");
 		this.maxStackSize = 16;
+		setCreativeTab(GrimCreativeTabs.GRIM_TOOLS);
 	}
 
 	@Override

@@ -34,7 +34,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.event.ForgeEventFactory;
 import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
 
 public class EntityExtruder extends Entity implements IEntityAdditionalSpawnData {
@@ -158,7 +158,7 @@ public class EntityExtruder extends Entity implements IEntityAdditionalSpawnData
 
 				int prevX = this.getPosition().getX();
 				// Gets Y without 0.5 tacked on
-				int prevY = MathHelper.floor(this.getPositionVector().yCoord);
+				int prevY = MathHelper.floor(this.getPositionVector().y);
 				int prevZ = this.getPosition().getZ();
 
 				if (!world.isRemote) {
@@ -237,7 +237,7 @@ public class EntityExtruder extends Entity implements IEntityAdditionalSpawnData
 		} else if (itemstack.getItem() == Items.MAGMA_CREAM) {
 			return IndustryConfig.fuelPerMagmaCream;
 		} else {
-			return GameRegistry.getFuelValue(itemstack);
+			return ForgeEventFactory.getItemBurnTime(itemstack);
 		}
 	}
 
@@ -280,7 +280,7 @@ public class EntityExtruder extends Entity implements IEntityAdditionalSpawnData
 		this.setTimeSinceHit(10);
 		this.setDamageTaken(this.getDamageTaken() + amount * 11.0F);
 		this.setBeenAttacked();
-		boolean flag = source.getEntity() instanceof EntityPlayer && ((EntityPlayer) source.getEntity()).capabilities.isCreativeMode;
+		boolean flag = source.getTrueSource() instanceof EntityPlayer && ((EntityPlayer) source.getTrueSource()).capabilities.isCreativeMode;
 
 		if (flag || this.getDamageTaken() > 40.0F) {
 			if (!flag && this.world.getGameRules().getBoolean("doEntityDrops")) {

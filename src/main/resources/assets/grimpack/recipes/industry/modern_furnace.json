@@ -1,0 +1,22 @@
+{
+  "result": {
+    "item": "grimpack:modern_furnace"
+  },
+  "pattern": [
+    "sss",
+    "rFr",
+    "sss"
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "r": {
+      "item": "#DUSTREDSTONE"
+    },
+    "s": {
+      "item": "#INGOTSTEEL"
+    },
+    "F": {
+      "item": "minecraft:furnace"
+    }
+  }
+}

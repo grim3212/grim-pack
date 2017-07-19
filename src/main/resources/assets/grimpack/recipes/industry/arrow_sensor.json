@@ -1,0 +1,23 @@
+{
+  "result": {
+    "item": "grimpack:arrow_sensor"
+  },
+  "pattern": [
+    "XXX",
+    "S#S",
+    "XXX"
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "S": {
+      "item": "grimpack:metal_mesh"
+    },
+    "#": {
+      "item": "minecraft:arrow"
+    },
+    "X": {
+      "item": "minecraft:wool",
+      "data": 0
+    }
+  }
+}

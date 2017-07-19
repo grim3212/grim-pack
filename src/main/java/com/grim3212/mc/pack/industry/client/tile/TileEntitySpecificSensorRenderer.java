@@ -14,7 +14,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class TileEntitySpecificSensorRenderer extends TileEntitySpecialRenderer<TileEntitySpecificSensor> {
 
 	@Override
-	public void renderTileEntityAt(TileEntitySpecificSensor te, double x, double y, double z, float partialTicks, int destroyStage) {
+	public void render(TileEntitySpecificSensor te, double x, double y, double z, float partialTicks, int destroyStage, float alpha) {
 		if (te.renderSensorPos() && te.isGoodPosition()) {
 			GlStateManager.pushMatrix();
 			GlStateManager.pushAttrib();
@@ -33,7 +33,7 @@ public class TileEntitySpecificSensorRenderer extends TileEntitySpecialRenderer<
 				double d1 = player.lastTickPosY + (player.posY - player.lastTickPosY) * (double) partialTicks;
 				double d2 = player.lastTickPosZ + (player.posZ - player.lastTickPosZ) * (double) partialTicks;
 
-				RenderBoundingBoxEvent.drawSelectionBoundingBox(te.getSenseBox().offset(te.getSensorPos()).offset(-d0, -d1, -d2).expandXyz(0.0020000000949949026D), 1.0f, 1.0f, 1.0f, 1.0f);
+				RenderBoundingBoxEvent.drawSelectionBoundingBox(te.getSenseBox().offset(te.getSensorPos()).offset(-d0, -d1, -d2).grow(0.0020000000949949026D), 1.0f, 1.0f, 1.0f, 1.0f);
 
 			}
 			GlStateManager.depthMask(true);
@@ -44,5 +44,4 @@ public class TileEntitySpecificSensorRenderer extends TileEntitySpecialRenderer<
 			GlStateManager.popMatrix();
 		}
 	}
-
 }

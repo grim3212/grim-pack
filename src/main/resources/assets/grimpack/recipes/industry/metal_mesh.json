@@ -1,0 +1,15 @@
+{
+  "result": {
+    "item": "grimpack:metal_mesh"
+  },
+  "pattern": [
+    "XX",
+    "XX"
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "X": {
+      "item": "#STICKIRON"
+    }
+  }
+}

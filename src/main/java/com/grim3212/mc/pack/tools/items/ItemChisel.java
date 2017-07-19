@@ -2,7 +2,7 @@ package com.grim3212.mc.pack.tools.items;
 
 import com.grim3212.mc.pack.core.item.ItemManual;
 import com.grim3212.mc.pack.core.manual.pages.Page;
-import com.grim3212.mc.pack.tools.GrimTools;
+import com.grim3212.mc.pack.core.part.GrimCreativeTabs;
 import com.grim3212.mc.pack.tools.client.ManualTools;
 import com.grim3212.mc.pack.tools.util.ChiselRegistry;
 
@@ -24,9 +24,10 @@ public class ItemChisel extends ItemManual {
 	private int type;
 
 	public ItemChisel(int multiplier) {
+		super(multiplier == 1 ? "iron_chisel" : "diamond_chisel");
 		maxStackSize = 1;
 		setMaxDamage(32 * multiplier);
-		setCreativeTab(GrimTools.INSTANCE.getCreativeTab());
+		setCreativeTab(GrimCreativeTabs.GRIM_TOOLS);
 	}
 
 	@Override

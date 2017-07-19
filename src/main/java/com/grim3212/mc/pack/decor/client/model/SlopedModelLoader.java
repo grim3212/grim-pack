@@ -5,7 +5,6 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import com.google.common.base.Function;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
@@ -21,9 +20,7 @@ import net.minecraft.client.resources.IResourceManager;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.ICustomModelLoader;
 import net.minecraftforge.client.model.IModel;
-import net.minecraftforge.client.model.IModelCustomData;
-import net.minecraftforge.client.model.IPerspectiveAwareModel;
-import net.minecraftforge.client.model.IRetexturableModel;
+import net.minecraftforge.client.model.PerspectiveMapWrapper;
 import net.minecraftforge.common.model.IModelState;
 import net.minecraftforge.common.model.TRSRTransformation;
 
@@ -38,7 +35,7 @@ public enum SlopedModelLoader implements ICustomModelLoader {
 	@Override
 	public IModel loadModel(ResourceLocation modelLocation) throws IOException {
 		if (modelLocation.getResourcePath().equals("models/block/decor_slope")) {
-			return new SlopedModel(ImmutableList.<ModelData> of(), new ResourceLocation("grimpack:blocks/colorizer"));
+			return new SlopedModel(ImmutableList.<ModelData>of(), new ResourceLocation("grimpack:blocks/colorizer"));
 		}
 
 		return SlopedModel.MODEL;
@@ -48,9 +45,9 @@ public enum SlopedModelLoader implements ICustomModelLoader {
 	public void onResourceManagerReload(IResourceManager resourceManager) {
 	}
 
-	public static class SlopedModel implements IRetexturableModel, IModelCustomData {
+	public static class SlopedModel implements IModel {
 
-		public static final SlopedModel MODEL = new SlopedModel(ImmutableList.<ModelData> of(), new ResourceLocation("grimpack:blocks/colorizer"));
+		public static final SlopedModel MODEL = new SlopedModel(ImmutableList.<ModelData>of(), new ResourceLocation("grimpack:blocks/colorizer"));
 
 		private final ImmutableList<ModelData> modelData;
 		private final ResourceLocation textureLocation;
@@ -72,11 +69,6 @@ public enum SlopedModelLoader implements ICustomModelLoader {
 				builder.add(textureLocation);
 
 			return builder.build();
-		}
-
-		@Override
-		public IBakedModel bake(IModelState state, VertexFormat format, Function<ResourceLocation, TextureAtlasSprite> bakedTextureGetter) {
-			return new BakedColorizerOBJModel(state, modelData, textureLocation, format, IPerspectiveAwareModel.MapWrapper.getTransforms(state));
 		}
 
 		@Override
@@ -120,12 +112,17 @@ public enum SlopedModelLoader implements ICustomModelLoader {
 
 						models.add(new ModelData(entry.getKey(), new ResourceLocation(obj.get("model").getAsString()), modelCustomData.build()));
 					} else {
-						models.add(new ModelData(entry.getKey(), new ResourceLocation(obj.get("model").getAsString()), ImmutableMap.<String, String> of()));
+						models.add(new ModelData(entry.getKey(), new ResourceLocation(obj.get("model").getAsString()), ImmutableMap.<String, String>of()));
 					}
 				}
 			}
 
 			return new SlopedModel(models.build(), this.textureLocation);
+		}
+
+		@Override
+		public IBakedModel bake(IModelState state, VertexFormat format, java.util.function.Function<ResourceLocation, TextureAtlasSprite> bakedTextureGetter) {
+			return new BakedColorizerOBJModel(state, modelData, textureLocation, format, PerspectiveMapWrapper.getTransforms(state));
 		}
 	}
 }

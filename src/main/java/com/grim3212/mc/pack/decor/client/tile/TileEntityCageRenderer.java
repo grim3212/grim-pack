@@ -14,7 +14,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class TileEntityCageRenderer extends TileEntitySpecialRenderer<TileEntityCage> {
 
 	@Override
-	public void renderTileEntityAt(TileEntityCage te, double x, double y, double z, float partialTicks, int destroyStage) {
+	public void render(TileEntityCage te, double x, double y, double z, float partialTicks, int destroyStage, float alpha) {
 		GlStateManager.pushMatrix();
 		GlStateManager.translate((float) x + 0.5F, (float) y, (float) z + 0.5F);
 		renderMob(te.getSpawnerLogic(), x, y, z, partialTicks);

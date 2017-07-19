@@ -6,6 +6,7 @@ import com.grim3212.mc.pack.GrimPack;
 import com.grim3212.mc.pack.core.block.BlockManual;
 import com.grim3212.mc.pack.core.client.gui.PackGuiHandler;
 import com.grim3212.mc.pack.core.manual.pages.Page;
+import com.grim3212.mc.pack.core.part.GrimCreativeTabs;
 import com.grim3212.mc.pack.industry.client.ManualIndustry;
 import com.grim3212.mc.pack.industry.tile.TileEntityMachine;
 import com.grim3212.mc.pack.industry.util.MachineRecipes.MachineType;
@@ -30,7 +31,11 @@ import net.minecraft.world.World;
 public class BlockDerrick extends BlockManual implements ITileEntityProvider {
 
 	protected BlockDerrick() {
-		super(Material.IRON, SoundType.METAL);
+		super("derrick", Material.IRON, SoundType.METAL);
+		setHardness(1.0F);
+		setResistance(10.0F);
+		setLightLevel(0.5F);
+		setCreativeTab(GrimCreativeTabs.GRIM_INDUSTRY);
 	}
 
 	@Override

@@ -57,7 +57,7 @@ public class DoubleDoor {
 		}
 
 		// Open the neighbor state
-		neighborState.getBlock().onBlockActivated(world, neighborPos, neighborState, entityPlayer, enumHand, facing, (float) vec3d.xCoord, (float) vec3d.yCoord, (float) vec3d.zCoord);
+		neighborState.getBlock().onBlockActivated(world, neighborPos, neighborState, entityPlayer, enumHand, facing, (float) vec3d.x, (float) vec3d.y, (float) vec3d.z);
 	}
 
 	public static boolean isHingeLeft(int combinedMeta) {

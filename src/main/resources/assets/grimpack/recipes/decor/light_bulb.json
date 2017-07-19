@@ -1,0 +1,22 @@
+{
+  "result": {
+    "item": "grimpack:light_bulb"
+  },
+  "pattern": [
+    "###",
+    "#$#",
+    " ! "
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "!": {
+      "item": "#INGOTIRON"
+    },
+    "#": {
+      "item": "#BLOCKGLASS"
+    },
+    "$": {
+      "item": "minecraft:redstone_torch"
+    }
+  }
+}

@@ -204,8 +204,8 @@ public class EntityWallpaper extends EntityHanging implements IEntityAdditionalS
 				setBeenAttacked();
 				EntityPlayer player = null;
 
-				if ((damage.getEntity() instanceof EntityPlayer)) {
-					player = (EntityPlayer) damage.getEntity();
+				if ((damage.getTrueSource() instanceof EntityPlayer)) {
+					player = (EntityPlayer) damage.getTrueSource();
 					playPlaceSound();
 				}
 

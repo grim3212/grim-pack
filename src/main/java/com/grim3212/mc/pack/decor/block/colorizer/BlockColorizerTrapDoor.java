@@ -47,8 +47,12 @@ public class BlockColorizerTrapDoor extends BlockColorizer {
 	protected static final AxisAlignedBB TOP_AABB = new AxisAlignedBB(0.0D, 0.8125D, 0.0D, 1.0D, 1.0D, 1.0D);
 
 	public BlockColorizerTrapDoor() {
-		super();
-		this.setDefaultState(this.blockState.getBaseState().withProperty(BlockTrapDoor.FACING, EnumFacing.NORTH).withProperty(BlockTrapDoor.OPEN, false).withProperty(BlockTrapDoor.HALF, BlockTrapDoor.DoorHalf.BOTTOM));
+		super("decor_trap_door");
+	}
+
+	@Override
+	protected IBlockState getState() {
+		return this.blockState.getBaseState().withProperty(BlockTrapDoor.FACING, EnumFacing.NORTH).withProperty(BlockTrapDoor.OPEN, false).withProperty(BlockTrapDoor.HALF, BlockTrapDoor.DoorHalf.BOTTOM);
 	}
 
 	@Override

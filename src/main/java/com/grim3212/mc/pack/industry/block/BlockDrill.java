@@ -1,10 +1,10 @@
 package com.grim3212.mc.pack.industry.block;
 
-import java.util.List;
 import java.util.Random;
 
 import com.grim3212.mc.pack.core.block.BlockManual;
 import com.grim3212.mc.pack.core.manual.pages.Page;
+import com.grim3212.mc.pack.core.part.GrimCreativeTabs;
 import com.grim3212.mc.pack.industry.client.ManualIndustry;
 
 import net.minecraft.block.SoundType;
@@ -20,6 +20,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -32,9 +33,16 @@ public class BlockDrill extends BlockManual {
 	public static final PropertyBool POWERED = PropertyBool.create("powered");
 
 	public BlockDrill() {
-		super(Material.IRON, SoundType.METAL);
+		super("drill", Material.IRON, SoundType.METAL);
 		this.setTickRandomly(true);
-		this.setDefaultState(this.getBlockState().getBaseState().withProperty(POWERED, false));
+		setHardness(1.0F);
+		setResistance(200.0F);
+		setCreativeTab(GrimCreativeTabs.GRIM_INDUSTRY);
+	}
+
+	@Override
+	protected IBlockState getState() {
+		return this.getBlockState().getBaseState().withProperty(POWERED, false);
 	}
 
 	@Override
@@ -130,13 +138,14 @@ public class BlockDrill extends BlockManual {
 	 *            Position of the drill
 	 */
 	private void drillBlock(World worldIn, BlockPos pos, BlockPos drillPos) {
-		List<ItemStack> drops = worldIn.getBlockState(pos).getBlock().getDrops(worldIn, pos, worldIn.getBlockState(pos), 0);
+		NonNullList<ItemStack> ret = NonNullList.create();
+		worldIn.getBlockState(pos).getBlock().getDrops(ret, worldIn, pos, worldIn.getBlockState(pos), 0);
 
 		TileEntity te = worldIn.getTileEntity(drillPos.up());
 		if (te != null && te.hasCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, EnumFacing.DOWN)) {
 			IItemHandler itemHandler = te.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, EnumFacing.DOWN);
 
-			for (ItemStack foundStack : drops) {
+			for (ItemStack foundStack : ret) {
 				ItemStack simulation = ItemHandlerHelper.insertItem(itemHandler, foundStack.copy(), true);
 
 				if ((simulation.isEmpty() || foundStack.getCount() != simulation.getCount())) {
@@ -150,7 +159,7 @@ public class BlockDrill extends BlockManual {
 				}
 			}
 		} else {
-			for (ItemStack foundStack : drops) {
+			for (ItemStack foundStack : ret) {
 				worldIn.spawnEntity(new EntityItem(worldIn, (double) drillPos.getX(), (double) drillPos.up().getY(), (double) drillPos.getZ(), foundStack));
 			}
 		}

@@ -1,0 +1,28 @@
+{
+  "result": {
+    "nbt": {
+      "meta": {
+        "data": 0
+      },
+      "registryName": {
+        "data": "minecraft:air"
+      }
+    },
+    "item": "grimpack:table",
+    "count": 4
+  },
+  "pattern": [
+    "###",
+    "S S",
+    "S S"
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "#": {
+      "item": "grimpack:colorizer"
+    },
+    "S": {
+      "item": "#STICKWOOD"
+    }
+  }
+}

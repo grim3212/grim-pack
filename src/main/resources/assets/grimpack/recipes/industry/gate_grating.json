@@ -1,0 +1,17 @@
+{
+  "result": {
+    "item": "grimpack:gate_grating",
+    "count": 4
+  },
+  "pattern": [
+    " i ",
+    "iii",
+    " i "
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "i": {
+      "item": "#STICKIRON"
+    }
+  }
+}

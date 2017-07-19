@@ -21,7 +21,7 @@ public class TileEntityWoodCabinetRenderer extends TileEntitySpecialRenderer<Til
 	}
 
 	@Override
-	public void renderTileEntityAt(TileEntityWoodCabinet te, double x, double y, double z, float partialTicks, int destroyStage) {
+	public void render(TileEntityWoodCabinet te, double x, double y, double z, float partialTicks, int destroyStage, float alpha) {
 		GlStateManager.pushMatrix();
 		GlStateManager.translate(x, y, z);
 

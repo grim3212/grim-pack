@@ -1,0 +1,19 @@
+{
+  "result": {
+    "item": "grimpack:lava_block"
+  },
+  "pattern": [
+    "###",
+    "#!#",
+    "###"
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "!": {
+      "item": "minecraft:lava_bucket"
+    },
+    "#": {
+      "item": "#BLOCKIRON"
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "result": {
+    "item": "grimpack:wood_cabinet"
+  },
+  "pattern": [
+    " X ",
+    "XCX",
+    " X "
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "C": {
+      "item": "#CHEST"
+    },
+    "X": {
+      "item": "#PLANKWOOD"
+    }
+  }
+}

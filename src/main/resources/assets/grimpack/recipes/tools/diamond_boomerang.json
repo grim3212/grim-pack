@@ -1,0 +1,19 @@
+{
+  "result": {
+    "item": "grimpack:diamond_boomerang"
+  },
+  "pattern": [
+    "XX ",
+    "XY ",
+    "XX "
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "X": {
+      "item": "#GEMDIAMOND"
+    },
+    "Y": {
+      "item": "grimpack:boomerang"
+    }
+  }
+}

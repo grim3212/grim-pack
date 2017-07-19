@@ -32,7 +32,7 @@ public class BlockColorizerHedge extends BlockColorizerFacing {
 	private final SlopeType type;
 
 	public BlockColorizerHedge(SlopeType type) {
-		super();
+		super(type.getName());
 		this.type = type;
 	}
 

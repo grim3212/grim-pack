@@ -367,8 +367,8 @@ public class EntityFrame extends EntityHanging implements IEntityAdditionalSpawn
 				break;
 			}
 
-			if ((damagesource.getEntity() instanceof EntityPlayer)) {
-				EntityPlayer entityplayer = (EntityPlayer) damagesource.getEntity();
+			if ((damagesource.getTrueSource() instanceof EntityPlayer)) {
+				EntityPlayer entityplayer = (EntityPlayer) damagesource.getTrueSource();
 				ItemStack itemstack = entityplayer.inventory.getCurrentItem();
 				if (!entityplayer.canPlayerEdit(hangingPosition, this.facingDirection, itemstack)) {
 					return false;

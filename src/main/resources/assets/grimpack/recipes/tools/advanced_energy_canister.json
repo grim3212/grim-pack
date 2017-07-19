@@ -1,0 +1,18 @@
+{
+  "result": {
+    "item": "grimpack:advanced_energy_canister"
+  },
+  "pattern": [
+    "XY",
+    "YY"
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "X": {
+      "item": "grimpack:advanced_empty_energy_canister"
+    },
+    "Y": {
+      "item": "grimpack:element_115"
+    }
+  }
+}

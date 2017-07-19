@@ -21,6 +21,11 @@ public class EntityDataSerializers {
 		public DataParameter<EnumPelletType> createKey(int id) {
 			return new DataParameter<EnumPelletType>(id, this);
 		}
+
+		@Override
+		public EnumPelletType copyValue(EnumPelletType value) {
+			return value;
+		}
 	};
 
 	// Register serializers

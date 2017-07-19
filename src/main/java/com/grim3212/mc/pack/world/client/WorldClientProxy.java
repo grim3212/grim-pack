@@ -1,7 +1,6 @@
 package com.grim3212.mc.pack.world.client;
 
 import com.grim3212.mc.pack.GrimPack;
-import com.grim3212.mc.pack.core.client.RenderHelper;
 import com.grim3212.mc.pack.core.proxy.ClientProxy;
 import com.grim3212.mc.pack.world.blocks.BlockFungusBuilding;
 import com.grim3212.mc.pack.world.blocks.BlockFungusGrowing;
@@ -9,8 +8,6 @@ import com.grim3212.mc.pack.world.blocks.BlockFungusKilling;
 import com.grim3212.mc.pack.world.blocks.BlockFungusLayer;
 import com.grim3212.mc.pack.world.blocks.BlockFungusMaze;
 import com.grim3212.mc.pack.world.blocks.BlockFungusOre;
-import com.grim3212.mc.pack.world.blocks.BlockGlowstoneSeed;
-import com.grim3212.mc.pack.world.blocks.BlockGunpowderReed;
 import com.grim3212.mc.pack.world.blocks.WorldBlocks;
 import com.grim3212.mc.pack.world.client.entity.RenderBobomb.RenderBobombFactory;
 import com.grim3212.mc.pack.world.client.entity.RenderIceCube.RenderIceCubeFactory;
@@ -29,11 +26,9 @@ import com.grim3212.mc.pack.world.entity.EntityNotch;
 import com.grim3212.mc.pack.world.entity.EntityParaBuzzy;
 import com.grim3212.mc.pack.world.entity.EntityPsycho;
 import com.grim3212.mc.pack.world.entity.EntityTreasureMob;
-import com.grim3212.mc.pack.world.items.WorldItems;
 
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.block.statemap.StateMap;
 import net.minecraft.client.renderer.color.IBlockColor;
 import net.minecraft.client.renderer.color.IItemColor;
 import net.minecraft.item.Item;
@@ -41,36 +36,12 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
-import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 
 public class WorldClientProxy extends ClientProxy {
 
 	@Override
 	public void preInit() {
-		ModelLoader.setCustomStateMapper(WorldBlocks.gunpowder_reed_block, new StateMap.Builder().ignore(BlockGunpowderReed.AGE).build());
-		ModelLoader.setCustomStateMapper(WorldBlocks.glowstone_seeds, new StateMap.Builder().ignore(BlockGlowstoneSeed.STEP).build());
-		ModelLoader.setCustomStateMapper(WorldBlocks.fungus_building, new StateMap.Builder().ignore(BlockFungusBuilding.TYPE).build());
-		ModelLoader.setCustomStateMapper(WorldBlocks.fungus_layer_building, new StateMap.Builder().ignore(BlockFungusLayer.TYPE).build());
-		ModelLoader.setCustomStateMapper(WorldBlocks.fungus_growing, new StateMap.Builder().ignore(BlockFungusGrowing.TYPE).build());
-		ModelLoader.setCustomStateMapper(WorldBlocks.fungus_killing, new StateMap.Builder().ignore(BlockFungusKilling.TYPE).build());
-
-		RenderHelper.renderBlock(WorldBlocks.randomite);
-		RenderHelper.renderBlock(WorldBlocks.gunpowder_reed_block);
-		RenderHelper.renderBlock(WorldBlocks.glowstone_seeds);
-		RenderHelper.renderBlock(WorldBlocks.corruption_block);
-		RenderHelper.renderBlock(WorldBlocks.fungus_maze);
-		RenderHelper.renderBlock(WorldBlocks.fungus_ore_building);
-		RenderHelper.renderBlockWithMetaInInventory(WorldBlocks.fungus_building, 16);
-		RenderHelper.renderBlockWithMetaInInventory(WorldBlocks.fungus_layer_building, 16);
-		RenderHelper.renderBlockWithMetaInInventory(WorldBlocks.fungus_growing, 16);
-		RenderHelper.renderBlockWithMetaInInventory(WorldBlocks.fungus_killing, 16);
-
-		RenderHelper.renderItem(WorldItems.gunpowder_reed_item);
-		RenderHelper.renderItem(WorldItems.fungicide);
-		RenderHelper.renderItem(WorldItems.parabuzzy_shell);
-		RenderHelper.renderItem(WorldItems.bobomb);
-
 		// Entities
 		RenderingRegistry.registerEntityRenderingHandler(EntityIcePixie.class, new RenderIcePixieFactory());
 		RenderingRegistry.registerEntityRenderingHandler(EntityIceCube.class, new RenderIceCubeFactory());
