@@ -11,8 +11,9 @@ import net.minecraft.util.NonNullList;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.oredict.OreDictionary;
+import net.minecraftforge.registries.IForgeRegistryEntry;
 
-public class BackpackRecipe implements IRecipe {
+public class BackpackRecipe extends IForgeRegistryEntry.Impl<IRecipe> implements IRecipe {
 
 	@Override
 	public boolean matches(InventoryCrafting inv, World world) {
@@ -84,10 +85,10 @@ public class BackpackRecipe implements IRecipe {
 			return backpack;
 		}
 	}
-
+	
 	@Override
-	public int getRecipeSize() {
-		return 2;
+	public boolean isHidden() {
+		return true;
 	}
 
 	@Override
@@ -105,5 +106,10 @@ public class BackpackRecipe implements IRecipe {
 		}
 
 		return nonnulllist;
+	}
+
+	@Override
+	public boolean canFit(int width, int height) {
+		return width * height >= 2;
 	}
 }

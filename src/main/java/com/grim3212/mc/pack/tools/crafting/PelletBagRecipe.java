@@ -11,8 +11,9 @@ import net.minecraft.util.NonNullList;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.oredict.OreDictionary;
+import net.minecraftforge.registries.IForgeRegistryEntry;
 
-public class PelletBagRecipe implements IRecipe {
+public class PelletBagRecipe extends IForgeRegistryEntry.Impl<IRecipe> implements IRecipe {
 
 	@Override
 	public boolean matches(InventoryCrafting inv, World world) {
@@ -51,6 +52,11 @@ public class PelletBagRecipe implements IRecipe {
 	}
 
 	@Override
+	public boolean isHidden() {
+		return true;
+	}
+
+	@Override
 	public ItemStack getCraftingResult(InventoryCrafting inv) {
 		ItemStack dye = ItemStack.EMPTY;
 		ItemStack bag = ItemStack.EMPTY;
@@ -86,11 +92,6 @@ public class PelletBagRecipe implements IRecipe {
 	}
 
 	@Override
-	public int getRecipeSize() {
-		return 2;
-	}
-
-	@Override
 	public ItemStack getRecipeOutput() {
 		return ItemStack.EMPTY;
 	}
@@ -105,6 +106,11 @@ public class PelletBagRecipe implements IRecipe {
 		}
 
 		return nonnulllist;
+	}
+
+	@Override
+	public boolean canFit(int width, int height) {
+		return width * height >= 2;
 	}
 
 }

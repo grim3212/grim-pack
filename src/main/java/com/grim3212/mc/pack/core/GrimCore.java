@@ -10,7 +10,6 @@ import com.grim3212.mc.pack.core.network.MessageBetterExplosion;
 import com.grim3212.mc.pack.core.network.PacketDispatcher;
 import com.grim3212.mc.pack.core.part.GrimPart;
 import com.grim3212.mc.pack.core.proxy.CommonProxy;
-import com.grim3212.mc.pack.core.util.CreateRecipes;
 
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.SidedProxy;
@@ -50,8 +49,6 @@ public class GrimCore extends GrimPart {
 	@Override
 	public void postInit(FMLPostInitializationEvent event) {
 		super.postInit(event);
-
-		CreateRecipes.createRecipes();
 
 		// Register Syncing config
 		MinecraftForge.EVENT_BUS.register(new SyncConfigEvent());
