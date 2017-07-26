@@ -55,8 +55,6 @@ public class PageCrafting extends Page {
 		this.isArray = outputRecipes.size() > 1;
 	}
 
-	// TODO: Most likely not everything is gonna work with this
-	// Every page has to be checked
 	public PageCrafting(String pageName, ItemStack output) {
 		super(pageName, false);
 		this.outputRecipes = ImmutableList.of(output.getItem().getRegistryName());

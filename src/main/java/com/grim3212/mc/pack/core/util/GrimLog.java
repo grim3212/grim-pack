@@ -5,26 +5,25 @@ import org.apache.logging.log4j.Logger;
 
 public class GrimLog {
 
-	// TODO: Work on logger
 	public static Logger log;
 
 	public static void error(String modName, String data) {
-		log.log(Level.ERROR, modName + ": " + data);
+		log.error("{" + modName + "}" + ": " + data);
 	}
 
 	public static void fatal(String modName, String data) {
-		log.log(Level.FATAL, modName + ": " + data);
+		log.fatal("{" + modName + "}" + ": " + data);
 	}
 
 	public static void info(String modName, String data) {
-		log.log(Level.INFO, modName + ": " + data);
+		log.info("{" + modName + "}" + ": " + data);
 	}
 
 	public static void warn(String modName, String data) {
-		log.log(Level.WARN, modName + ": " + data);
+		log.warn("{" + modName + "}" + ": " + data);
 	}
 
-	public static void log(String modName, String data) {
-		log.log(Level.WARN, modName + ": " + data);
+	public static void log(Level level, String modName, String data) {
+		log.log(level, "{" + modName + "}" + ": " + data);
 	}
 }

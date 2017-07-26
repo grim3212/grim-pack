@@ -131,8 +131,7 @@ public class ToolsItems {
 	@SubscribeEvent
 	public static void initItems(RegistryEvent.Register<Item> evt) {
 		IForgeRegistry<Item> r = evt.getRegistry();
-		// TODO: Possibly look into dynamic bucket creation and use that
-		// for bucketWater and bucketLava, and so on for recipes
+
 		r.register(boomerang);
 		r.register(diamond_boomerang);
 		r.register(backpack);

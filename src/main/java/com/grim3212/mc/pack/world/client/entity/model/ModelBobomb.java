@@ -79,7 +79,6 @@ public class ModelBobomb extends ModelBase {
 		LegR.rotateAngleX = MathHelper.cos(limbSwing * 1.9662F) * 1.0F * limbSwingAmount;
 		FootL.rotateAngleX = LegL.rotateAngleX;
 		FootR.rotateAngleX = LegR.rotateAngleX;
-		// TODO: Fix key spinning
 
 		if (entityIn instanceof EntityBobomb) {
 			Key[0].rotateAngleZ = ((EntityBobomb) entityIn).rotation;

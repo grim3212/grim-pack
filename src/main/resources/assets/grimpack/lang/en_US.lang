@@ -910,6 +910,10 @@ grimtools.powerstaff.FloatingPull=Floating Pull
 grimtools.powerstaff.DroppingPull=Dropping Pull
 grimtools.powerstaff.modeSwitched=Power Staff mode changed to 
 
+tooltip.industry.wooden_sensor=Detects all entities
+tooltip.industry.stone_sensor=Detects only living entities
+tooltip.industry.iron_sensor=Detects the player
+tooltip.industry.netherrack_sensor=Detects only hostile entities
 tooltip.slingshot.currentMode=Current Mode: 
 tooltip.powerstaff.currentMode=Current Mode: 
 tooltip.buckets.empty=Empty

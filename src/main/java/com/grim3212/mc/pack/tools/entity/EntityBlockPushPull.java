@@ -47,7 +47,7 @@ public class EntityBlockPushPull extends EntityFallingBlock {
 				}
 
 				this.motionY -= 0.03999999910593033D;
-				// TODO: Needs tested
+
 				this.move(MoverType.SELF, this.motionX, this.motionY, this.motionZ);
 				this.motionX *= 0.9800000190734863D;
 				this.motionY *= 0.9800000190734863D;

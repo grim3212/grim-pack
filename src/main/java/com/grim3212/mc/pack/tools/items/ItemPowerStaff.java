@@ -173,19 +173,23 @@ public class ItemPowerStaff extends ItemManual {
 	}
 
 	private void onPower(EnumPowerStaffModes mode, IBlockState state, World worldIn, BlockPos pos, int xMov, int zMov, int yMov) {
-		if (mode == EnumPowerStaffModes.FLOAT_PUSH || mode == EnumPowerStaffModes.FLOAT_PULL) {
-			worldIn.setBlockToAir(pos);
-			worldIn.setBlockState(pos.east(xMov).south(zMov).up(yMov), state);
-		} else if (mode == EnumPowerStaffModes.GRAVITY_PUSH || mode == EnumPowerStaffModes.GRAVITY_PULL)
-			if (state.getBlock() instanceof BlockFalling) {
+		// Make sure we aren't trying to overwrite blocks
+		if (worldIn.isAirBlock(pos.east(xMov).south(zMov).up(yMov))) {
+			if (mode == EnumPowerStaffModes.FLOAT_PUSH || mode == EnumPowerStaffModes.FLOAT_PULL) {
 				worldIn.setBlockToAir(pos);
 				worldIn.setBlockState(pos.east(xMov).south(zMov).up(yMov), state);
-			} else {
-				EntityBlockPushPull blockpushpull = new EntityBlockPushPull(worldIn, (double) pos.getX() + 0.5D, (double) pos.getY(), (double) pos.getZ() + 0.5D, worldIn.getBlockState(pos));
-				blockpushpull.motionX = 0.29999999999999999D * (double) xMov;
-				blockpushpull.motionZ = 0.29999999999999999D * (double) zMov;
-				worldIn.spawnEntity(blockpushpull);
+			} else if (mode == EnumPowerStaffModes.GRAVITY_PUSH || mode == EnumPowerStaffModes.GRAVITY_PULL) {
+				if (state.getBlock() instanceof BlockFalling) {
+					worldIn.setBlockToAir(pos);
+					worldIn.setBlockState(pos.east(xMov).south(zMov).up(yMov), state);
+				} else {
+					EntityBlockPushPull blockpushpull = new EntityBlockPushPull(worldIn, (double) pos.getX() + 0.5D, (double) pos.getY(), (double) pos.getZ() + 0.5D, worldIn.getBlockState(pos));
+					blockpushpull.motionX = 0.29999999999999999D * (double) xMov;
+					blockpushpull.motionZ = 0.29999999999999999D * (double) zMov;
+					worldIn.spawnEntity(blockpushpull);
+				}
 			}
+		}
 	}
 
 	@Override
