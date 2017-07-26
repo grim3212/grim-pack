@@ -8,9 +8,14 @@ import com.grim3212.mc.pack.GrimPack;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
+import net.minecraft.item.crafting.Ingredient;
+import net.minecraft.item.crafting.ShapedRecipes;
+import net.minecraft.item.crafting.ShapelessRecipes;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.oredict.OreDictionary;
+import net.minecraftforge.oredict.OreIngredient;
 
 public class RecipeHelper {
 
@@ -45,7 +50,7 @@ public class RecipeHelper {
 
 		return "No Ore Dict Found!";
 	}
-	
+
 	public static ResourceLocation getRecipePath(String fullPath) {
 		return new ResourceLocation(fullPath);
 	}
@@ -96,5 +101,56 @@ public class RecipeHelper {
 		}
 
 		return recipePaths;
+	}
+
+	/**
+	 * Should be called in PostInit to not cause broken recipes
+	 * 
+	 * @param stackToFind
+	 * @param oreName
+	 * @param recipeExclusions
+	 */
+	public static void replaceRecipes(ItemStack stackToFind, String oreName, NonNullList<ItemStack> recipeExclusions) {
+		int replaced = 0;
+		if (oreName == null || oreName.isEmpty()) {
+			GrimLog.error(GrimPack.modName, "Ore Name cannot be null!");
+		} else {
+			// Search vanilla recipes for recipes to replace
+			for (IRecipe obj : ForgeRegistries.RECIPES) {
+				if (obj.getClass() == ShapedRecipes.class || obj.getClass() == ShapelessRecipes.class) {
+					ItemStack output = obj.getRecipeOutput();
+					if (!output.isEmpty() && OreDictionary.containsMatch(false, recipeExclusions, output)) {
+						continue;
+					}
+
+					NonNullList<Ingredient> lst = obj.getIngredients();
+					for (int x = 0; x < lst.size(); x++) {
+						Ingredient ing = lst.get(x);
+						ItemStack[] ingredients = ing.getMatchingStacks();
+						boolean skip = false;
+
+						for (ItemStack stack : ingredients) {
+							boolean matches = false;
+
+							if (OreDictionary.itemMatches(stackToFind, stack, true)) {
+								matches = true;
+							}
+
+							if (!matches) {
+								skip = true;
+							}
+							if (skip)
+								break;
+						}
+						if (!skip) {
+							// Replace!
+							lst.set(x, new OreIngredient(oreName));
+							replaced++;
+						}
+					}
+				}
+			}
+		}
+		GrimLog.info(GrimPack.modName, "Replaced " + replaced + " ingredients with oredict " + oreName);
 	}
 }
