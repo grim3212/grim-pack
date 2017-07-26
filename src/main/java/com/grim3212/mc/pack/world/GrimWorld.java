@@ -10,6 +10,7 @@ import com.grim3212.mc.pack.world.entity.WorldEntities;
 import com.grim3212.mc.pack.world.event.WorldPostInitEvent;
 import com.grim3212.mc.pack.world.gen.GrimWorldGenerator;
 import com.grim3212.mc.pack.world.gen.WorldTerrainEvents;
+import com.grim3212.mc.pack.world.init.WorldRecipes;
 import com.grim3212.mc.pack.world.types.WorldTypes;
 import com.grim3212.mc.pack.world.util.WorldLootTables;
 
@@ -55,6 +56,7 @@ public class GrimWorld extends GrimPart {
 		super.init(event);
 		proxy.initColors();
 
+		WorldRecipes.initRecipes();
 		WorldEntities.addSpawns();
 	}
 

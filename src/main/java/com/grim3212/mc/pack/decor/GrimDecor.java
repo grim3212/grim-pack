@@ -6,6 +6,7 @@ import com.grim3212.mc.pack.core.part.GrimPart;
 import com.grim3212.mc.pack.decor.client.ManualDecor;
 import com.grim3212.mc.pack.decor.config.DecorConfig;
 import com.grim3212.mc.pack.decor.entity.DecorEntities;
+import com.grim3212.mc.pack.decor.init.DecorRecipes;
 import com.grim3212.mc.pack.decor.network.MessageParticles;
 
 import net.minecraftforge.fml.common.SidedProxy;
@@ -41,6 +42,8 @@ public class GrimDecor extends GrimPart {
 	public void init(FMLInitializationEvent event) {
 		super.init(event);
 		proxy.initColors();
+
+		DecorRecipes.initRecipes();
 	}
 
 	@Override

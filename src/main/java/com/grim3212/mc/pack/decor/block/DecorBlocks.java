@@ -1,11 +1,6 @@
 package com.grim3212.mc.pack.decor.block;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.grim3212.mc.pack.core.item.ItemManualBlock;
-import com.grim3212.mc.pack.core.util.CreateRecipes;
-import com.grim3212.mc.pack.core.util.NBTHelper;
 import com.grim3212.mc.pack.decor.block.colorizer.BlockColorizer;
 import com.grim3212.mc.pack.decor.block.colorizer.BlockColorizerChair;
 import com.grim3212.mc.pack.decor.block.colorizer.BlockColorizerChimney;
@@ -28,7 +23,6 @@ import com.grim3212.mc.pack.decor.block.colorizer.BlockColorizerStove;
 import com.grim3212.mc.pack.decor.block.colorizer.BlockColorizerTable;
 import com.grim3212.mc.pack.decor.block.colorizer.BlockColorizerTrapDoor;
 import com.grim3212.mc.pack.decor.block.colorizer.BlockColorizerWall;
-import com.grim3212.mc.pack.decor.item.DecorItems;
 import com.grim3212.mc.pack.decor.item.ItemColorizer;
 import com.grim3212.mc.pack.decor.item.ItemDecorStairs;
 import com.grim3212.mc.pack.decor.item.ItemGrill;
@@ -44,7 +38,6 @@ import com.grim3212.mc.pack.decor.util.DecorUtil.SlopeType;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
@@ -216,90 +209,5 @@ public class DecorBlocks {
 	@SubscribeEvent
 	public static void registerRecipes(RegistryEvent.Register<IRecipe> evt) {
 		GameRegistry.addSmelting(Blocks.GRAVEL, new ItemStack(road, 1), 0.15F);
-	}
-
-	public static IRecipe mossy;
-	public static List<IRecipe> stone;
-	public static List<IRecipe> chains;
-	public static List<IRecipe> crafts = new ArrayList<IRecipe>();
-	public static List<IRecipe> clocks;
-	public static List<IRecipe> colorizers;
-	public static List<IRecipe> lights = new ArrayList<IRecipe>();
-
-	public static void addRecipes() {
-		CreateRecipes.addShapedRecipe(new ItemStack(calendar, 1), new Object[] { "##", "##", "##", '#', Items.PAPER });
-		CreateRecipes.addShapedRecipe(new ItemStack(wall_clock, 1), new Object[] { "XIX", "IRI", "XIX", 'X', "plankWood", 'I', "ingotGold", 'R', "dustRedstone" });
-		CreateRecipes.addShapedRecipe(new ItemStack(wall_clock, 1), new Object[] { "XXX", "XRX", "XXX", 'X', "plankWood", 'R', Items.CLOCK });
-		CreateRecipes.addShapelessRecipe(new ItemStack(Items.CLOCK, 1), new Object[] { wall_clock });
-		// clocks = RecipeHelper.getLatestIRecipes(3);
-
-		CreateRecipes.addShapedRecipe(new ItemStack(light_bulb, 1, 0), new Object[] { "###", "#$#", " ! ", '#', "blockGlass", '$', Blocks.REDSTONE_TORCH, '!', "ingotIron" });
-		// lights.add(RecipeHelper.getLatestIRecipe());
-
-		CreateRecipes.addShapedRecipe(new ItemStack(craft_bone, 1), new Object[] { " # ", "###", "###", '#', Items.BONE });
-		// crafts.add(RecipeHelper.getLatestIRecipe());
-
-		CreateRecipes.addShapedRecipe(new ItemStack(lantern, 1, 0), new Object[] { " # ", "#X#", '#', Items.PAPER, 'X', "dustGlowstone" });
-		CreateRecipes.addShapedRecipe(new ItemStack(lantern, 1, 1), new Object[] { " # ", "#X#", '#', Items.BONE, 'X', "dustGlowstone" });
-		CreateRecipes.addShapedRecipe(new ItemStack(lantern, 1, 2), new Object[] { " # ", "#X#", '#', "ingotIron", 'X', "dustGlowstone" });
-
-		CreateRecipes.addShapedRecipe(new ItemStack(Blocks.MOSSY_COBBLESTONE, 8), new Object[] { "###", "#X#", "###", '#', Blocks.COBBLESTONE, 'X', Items.WATER_BUCKET });
-		// mossy = RecipeHelper.getLatestIRecipe();
-
-		CreateRecipes.addShapedRecipe(new ItemStack(fancy_stone, 1), new Object[] { "###", "# #", "###", '#', "stone" });
-		CreateRecipes.addShapedRecipe(new ItemStack(Blocks.STONE, 8), new Object[] { "#", '#', fancy_stone });
-		// stone = RecipeHelper.getLatestIRecipes(2);
-
-		CreateRecipes.addShapedRecipe(new ItemStack(cage, 2), new Object[] { "###", "# #", "###", '#', "stickIron" });
-		CreateRecipes.addShapedRecipe(new ItemStack(chain, 2), new Object[] { "#", "#", '#', "stickIron" });
-		// chains = RecipeHelper.getLatestIRecipes(2);
-
-		CreateRecipes.addShapedRecipe(new ItemStack(hardened_wood, 9), new Object[] { "###", "#W#", "###", '#', "stone", 'W', "plankWood" });
-		CreateRecipes.addShapedRecipe(new ItemStack(colorizer, 2), new Object[] { " # ", "#W#", " # ", '#', "dye", 'W', hardened_wood });
-		CreateRecipes.addShapedRecipe(new ItemStack(colorizer_light, 4), new Object[] { " # ", "#W#", " # ", '#', colorizer, 'W', Items.GLOWSTONE_DUST });
-		// colorizers = RecipeHelper.getLatestIRecipes(3);
-
-		CreateRecipes.addShapedRecipe(new ItemStack(burning_wood, 5), new Object[] { " # ", "#W#", " # ", '#', "netherrack", 'W', "plankWood" });
-
-		addColorizerRecipe(corner, 4, "###", "## ", "#  ");
-		addColorizerRecipe(slope, 4, "#  ", "## ", "###");
-		addColorizerRecipe(sloped_angle, 5, " ##", "###", "");
-		addColorizerRecipe(slanted_corner, 5, "  #", "  #", "###");
-		addColorizerRecipe(oblique_slope, 4, "  #", "###", "");
-		addColorizerRecipe(sloped_post, 6, "# ", "##", "##");
-		addColorizerRecipe(sloped_intersection, 4, "## ", "# #", "");
-		addColorizerRecipe(pyramid, 4, " # ", "###", "");
-		addColorizerRecipe(full_pyramid, 4, " # ", " # ", "###");
-		addColorizerRecipe(decor_stairs, 4, "  #", " ##", "###");
-		addColorizerRecipe(stool, 4, "###", "S S", "");
-		addColorizerRecipe(counter, 4, "###", " S ", "");
-		addColorizerRecipe(table, 4, "###", "S S", "S S");
-		addColorizerRecipe(chair, 4, "#  ", "###", "S S");
-		addColorizerRecipe(wall, 4, "#", "#", "#");
-		addColorizerRecipe(fence, 4, "###", "#S#", "");
-		addColorizerRecipe(fence_gate, 4, "S#S", "SSS", "");
-		addColorizerRecipe(DecorItems.lamp_item, 2, "#G#", "###", " # ");
-		addColorizerRecipe(fireplace, 2, "###", "#P#", "###");
-		addColorizerRecipe(chimney, 6, "# #", "# #", "#I#");
-		addColorizerRecipe(firepit, 2, " I ", "#P#", "###");
-		addColorizerRecipe(firering, 2, " # ", "#P#", " # ");
-		addColorizerRecipe(stove, 2, "###", "BPB", "###");
-		addColorizerRecipe(grill, 2, "#C#", "#P#", " # ");
-		addColorizerRecipe(grill, 2, "#H#", "#P#", " # ");
-		addColorizerRecipe(pillar, 2, "#", "S", "#");
-		addColorizerRecipe(DecorItems.decor_door_item, 3, "##", "##", "##");
-		addColorizerRecipe(decor_trap_door, 2, "###", "###", "");
-	}
-
-	private static void addColorizerRecipe(Block furnType, int amount, String s1, String s2, String s3) {
-		addColorizerRecipe(Item.getItemFromBlock(furnType), amount, s1, s2, s3);
-	}
-
-	private static void addColorizerRecipe(Item furnType, int amount, String s1, String s2, String s3) {
-		ItemStack itemstack = new ItemStack(furnType, amount);
-		NBTHelper.setString(itemstack, "registryName", Block.REGISTRY.getNameForObject(Blocks.AIR).toString());
-		NBTHelper.setInteger(itemstack, "meta", 0);
-
-		CreateRecipes.addShapedRecipe(itemstack, s1, s2, s3, '#', colorizer, 'S', "stickWood", 'G', "glowstone", 'P', burning_wood, 'I', "ingotIron", 'C', Items.COAL, 'H', new ItemStack(Items.COAL, 1, 1), 'B', Blocks.IRON_BARS);
 	}
 }

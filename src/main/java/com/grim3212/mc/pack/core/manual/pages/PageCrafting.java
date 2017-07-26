@@ -25,6 +25,7 @@ import net.minecraft.item.crafting.ShapedRecipes;
 import net.minecraft.item.crafting.ShapelessRecipes;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
 
@@ -35,16 +36,16 @@ public class PageCrafting extends Page {
 	private int recipeShown = 0;
 	private int update = 0;
 	private int updateTime = 1;
-	private List<IRecipe> outputRecipes = new ArrayList<IRecipe>();
+	private List<ResourceLocation> outputRecipes = new ArrayList<ResourceLocation>();
 	private boolean isArray = false;
 	private boolean isShapeless = false;
 
-	public PageCrafting(String pageName, IRecipe output) {
+	public PageCrafting(String pageName, ResourceLocation output) {
 		super(pageName, false);
 		this.outputRecipes.add(output);
 	}
 
-	public PageCrafting(String pageName, List<IRecipe> outputs, int updateTime) {
+	public PageCrafting(String pageName, List<ResourceLocation> outputs, int updateTime) {
 		super(pageName, false);
 		for (int i = 0; i < outputs.size(); i++) {
 			if (outputs.get(i) != null)
@@ -54,18 +55,20 @@ public class PageCrafting extends Page {
 		this.isArray = outputs.size() > 1;
 	}
 
+	// TODO: Most likely not everything is gonna work with this
+	// Every page has to be checked
 	public PageCrafting(String pageName, ItemStack output) {
 		super(pageName, false);
-		// this.outputRecipes.add(RecipeHelper.getQuickIRecipeForItemStack(output));
+		this.outputRecipes.add(output.getItem().getRegistryName());
 	}
 
 	public PageCrafting(String pageName, int updateTime, ItemStack... outputs) {
 		super(pageName, false);
 
 		for (ItemStack stack : outputs)
-			// this.outputRecipes.add(RecipeHelper.getQuickIRecipeForItemStack(stack));
+			this.outputRecipes.add(stack.getItem().getRegistryName());
 
-			this.updateTime = updateTime;
+		this.updateTime = updateTime;
 		this.isArray = outputs.length > 1;
 	}
 
@@ -103,8 +106,10 @@ public class PageCrafting extends Page {
 		}
 	}
 
-	public void renderRecipe(GuiManualPage gui, List<IRecipe> output) {
-		this.drawIngredientList(gui, output.get(recipeShown));
+	public void renderRecipe(GuiManualPage gui, List<ResourceLocation> output) {
+		IRecipe recipe = ForgeRegistries.RECIPES.getValue(output.get(recipeShown));
+
+		this.drawIngredientList(gui, recipe);
 
 		if (isShapeless) {
 			GlStateManager.pushMatrix();
@@ -117,7 +122,7 @@ public class PageCrafting extends Page {
 			GlStateManager.popMatrix();
 		}
 
-		ItemStack outstack = output.get(recipeShown).getRecipeOutput();
+		ItemStack outstack = recipe.getRecipeOutput();
 		if (isShapeless)
 			NBTHelper.setString(outstack, "customTooltip", I18n.format("grimpack.manual.shapeless"));
 		this.renderItem(gui, outstack, gui.getX() + 143, gui.getY() + 154);

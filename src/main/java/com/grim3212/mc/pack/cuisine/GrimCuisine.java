@@ -6,9 +6,11 @@ import com.grim3212.mc.pack.cuisine.client.ManualCuisine;
 import com.grim3212.mc.pack.cuisine.config.CuisineConfig;
 import com.grim3212.mc.pack.cuisine.event.DropEvent;
 import com.grim3212.mc.pack.cuisine.event.OnBonemealEvent;
+import com.grim3212.mc.pack.cuisine.init.CuisineRecipes;
 import com.grim3212.mc.pack.cuisine.world.CuisineGenerate;
 
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
@@ -32,6 +34,13 @@ public class GrimCuisine extends GrimPart {
 		MinecraftForge.EVENT_BUS.register(new DropEvent());
 		MinecraftForge.EVENT_BUS.register(new OnBonemealEvent());
 		GameRegistry.registerWorldGenerator(new CuisineGenerate(), 25);
+	}
+
+	@Override
+	public void init(FMLInitializationEvent event) {
+		super.init(event);
+
+		CuisineRecipes.initRecipes();
 	}
 
 	@Override

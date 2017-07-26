@@ -1,13 +1,14 @@
 package com.grim3212.mc.pack.cuisine.client;
 
 import com.grim3212.mc.pack.core.manual.IManualPart;
-import com.grim3212.mc.pack.core.manual.ManualRegistry;
 import com.grim3212.mc.pack.core.manual.ManualPart;
+import com.grim3212.mc.pack.core.manual.ManualRegistry;
 import com.grim3212.mc.pack.core.manual.pages.Page;
 import com.grim3212.mc.pack.core.manual.pages.PageCrafting;
 import com.grim3212.mc.pack.core.manual.pages.PageFurnace;
 import com.grim3212.mc.pack.core.manual.pages.PageImageText;
 import com.grim3212.mc.pack.cuisine.block.CuisineBlocks;
+import com.grim3212.mc.pack.cuisine.init.CuisineRecipes;
 import com.grim3212.mc.pack.cuisine.item.CuisineItems;
 
 import net.minecraft.item.ItemStack;
@@ -44,31 +45,31 @@ public class ManualCuisine implements IManualPart {
 
 	@Override
 	public void initPages() {
-		soda_page = new PageCrafting("types", CuisineItems.sodas, 15);
-		carbon_page = new PageCrafting("carbon", CuisineItems.carbon, 25);
+		soda_page = new PageCrafting("types", CuisineRecipes.sodas, 15);
+		carbon_page = new PageCrafting("carbon", CuisineRecipes.carbon, 25);
 		dragonFruit_page = new PageImageText("dragonfruit", "dragon_fruit_page.png");
-		sweets_page = new PageCrafting("sweets", CuisineItems.food, 25);
-		health_page = new PageCrafting("recipes", CuisineItems.health, 25);
+		sweets_page = new PageCrafting("sweets", CuisineRecipes.food, 25);
+		health_page = new PageCrafting("recipes", CuisineRecipes.health, 25);
 		cheeseMaker_page = new PageCrafting("cheese", new ItemStack(CuisineBlocks.cheese_maker));
 		butterChurn_page = new PageCrafting("butter", new ItemStack(CuisineBlocks.butter_churn));
-		cheeseBlock_page = new PageCrafting("cheeseblock", CuisineItems.cheeseRecipe, 25);
-		utensils_page = new PageCrafting("utensils", CuisineItems.utensils, 25);
-		extras_page = new PageCrafting("extras", CuisineItems.extra, 25);
-		sandwiches_page = new PageCrafting("sandwiches", CuisineItems.sandwiches, 25);
-		eggs_page = new PageCrafting("eggs", CuisineItems.eggs, 25);
+		cheeseBlock_page = new PageCrafting("cheeseblock", CuisineRecipes.cheeseRecipe, 25);
+		utensils_page = new PageCrafting("utensils", CuisineRecipes.utensils, 25);
+		extras_page = new PageCrafting("extras", CuisineRecipes.extra, 25);
+		sandwiches_page = new PageCrafting("sandwiches", CuisineRecipes.sandwiches, 25);
+		eggs_page = new PageCrafting("eggs", CuisineRecipes.eggs, 25);
 		cookedEggs_page = new PageFurnace("cooked", new ItemStack(CuisineItems.eggs_mixed));
-		rawPie_page = new PageCrafting("craft", CuisineItems.pie, 25);
+		rawPie_page = new PageCrafting("craft", CuisineRecipes.pie, 25);
 		bakedPie_page = new PageFurnace("bake", new ItemStack[] { new ItemStack(CuisineItems.raw_apple_pie), new ItemStack(CuisineItems.raw_melon_pie), new ItemStack(CuisineItems.raw_melon_pie), new ItemStack(CuisineItems.raw_pork_pie), new ItemStack(CuisineItems.raw_pumpkin_pie) }, 25);
 		cocoaTree_page = new PageImageText("tree", "cocoa_tree_page.png");
 		cocoaFruit_page = new PageCrafting("fruit", new ItemStack(CuisineItems.cocoa_dust));
-		cocoaDye_page = new PageCrafting("dye", CuisineItems.cocoaRecipe);
+		cocoaDye_page = new PageCrafting("dye", CuisineRecipes.cocoaRecipe);
 		chocolateBowl_page = new PageCrafting("bowlChoc", new ItemStack(CuisineItems.chocolate_bowl));
 		hotChocolate_page = new PageFurnace("bowlChocHot", new ItemStack(CuisineItems.chocolate_bowl));
 		chocolateBall_page = new PageCrafting("chocBall", new ItemStack(CuisineItems.chocolate_ball));
 		chocolateCake_page = new PageCrafting("cake", new ItemStack(CuisineBlocks.chocolate_cake));
 		chocolateMould_page = new PageCrafting("mould", new ItemStack(CuisineBlocks.chocolate_bar_mould));
-		chocolateBars_page = new PageCrafting("bars", CuisineItems.choc, 25);
-		chocolateCandy_page = new PageCrafting("candy", CuisineItems.candy, 25);
+		chocolateBars_page = new PageCrafting("bars", CuisineRecipes.choc, 25);
+		chocolateCandy_page = new PageCrafting("candy", CuisineRecipes.candy, 25);
 	}
 
 	@Override

@@ -1,11 +1,9 @@
 package com.grim3212.mc.pack.cuisine.block;
 
 import com.grim3212.mc.pack.core.item.ItemManualBlock;
-import com.grim3212.mc.pack.core.util.CreateRecipes;
 import com.grim3212.mc.pack.cuisine.item.CuisineItems;
 
 import net.minecraft.block.Block;
-import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
@@ -77,20 +75,5 @@ public class CuisineBlocks {
 		GameRegistry.addSmelting(CuisineItems.raw_chocolate_pie, new ItemStack(chocolate_pie), 0.35f);
 		GameRegistry.addSmelting(CuisineItems.raw_pumpkin_pie, new ItemStack(pumpkin_pie), 0.35f);
 		GameRegistry.addSmelting(CuisineItems.raw_melon_pie, new ItemStack(melon_pie), 0.35f);
-	}
-
-	public static void addRecipes() {
-
-		CreateRecipes.addShapedRecipe(new ItemStack(cheese_maker, 1), new Object[] { "X X", "XIX", "XXX", 'X', "cobblestone", 'I', Items.BUCKET });
-		CreateRecipes.addShapedRecipe(new ItemStack(butter_churn, 1), new Object[] { "XIX", "XIX", "XXX", 'X', "plankWood", 'I', "stickWood" });
-		CreateRecipes.addShapedRecipe(new ItemStack(cheese_block, 1), new Object[] { "CCC", "CCC", "CCC", 'C', CuisineItems.cheese });
-		// CuisineItems.cheeseRecipe.add(RecipeHelper.getLatestIRecipe());
-
-		CreateRecipes.addShapedRecipe(new ItemStack(chocolate_cake, 1), new Object[] { "BXB", "SES", "WWW", 'B', CuisineItems.chocolate_ball, 'X', "bucketMilk", 'S', Items.SUGAR, 'E', "egg", 'W', "cropWheat" });
-
-		CreateRecipes.addShapedRecipe(new ItemStack(chocolate_block, 1), new Object[] { "XXX", "XXX", "XXX", 'X', CuisineItems.chocolate_bar });
-		// CuisineItems.choc.add(RecipeHelper.getLatestIRecipe());
-
-		CreateRecipes.addShapedRecipe(new ItemStack(chocolate_bar_mould, 1), new Object[] { " I ", " I ", "XXX", 'X', "cobblestone", 'I', "stone" });
 	}
 }
