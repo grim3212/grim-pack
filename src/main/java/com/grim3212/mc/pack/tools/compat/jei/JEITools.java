@@ -1,8 +1,6 @@
 package com.grim3212.mc.pack.tools.compat.jei;
 
-import com.grim3212.mc.pack.tools.compat.jei.recipes.BackpackRecipeHandler;
 import com.grim3212.mc.pack.tools.compat.jei.recipes.BackpackRecipeMaker;
-import com.grim3212.mc.pack.tools.compat.jei.recipes.PelletBagRecipeHandler;
 import com.grim3212.mc.pack.tools.compat.jei.recipes.PelletBagRecipeMaker;
 import com.grim3212.mc.pack.tools.items.ToolsItems;
 
@@ -20,11 +18,9 @@ public class JEITools implements IModPlugin {
 	@Override
 	public void register(IModRegistry registry) {
 		// Backpack recipe
-		registry.addRecipeHandlers(new BackpackRecipeHandler());
-		registry.addRecipes(BackpackRecipeMaker.getBackpackRecipes());
+		registry.addRecipes(BackpackRecipeMaker.getBackpackRecipes(), VanillaRecipeCategoryUid.CRAFTING);
 		// Pellet Bag recipe
-		registry.addRecipeHandlers(new PelletBagRecipeHandler());
-		registry.addRecipes(PelletBagRecipeMaker.getPelletBagRecipes());
+		registry.addRecipes(PelletBagRecipeMaker.getPelletBagRecipes(), VanillaRecipeCategoryUid.CRAFTING);
 
 		// portable workbench shiftclicking
 		registry.getRecipeTransferRegistry().addRecipeTransferHandler(new PortableWorkbenchTransferInfo());

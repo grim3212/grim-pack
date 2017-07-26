@@ -8,12 +8,12 @@ import com.grim3212.mc.pack.tools.items.ItemPelletBag;
 import com.grim3212.mc.pack.tools.items.ToolsItems;
 
 import mezz.jei.api.ingredients.IIngredients;
-import mezz.jei.api.recipe.BlankRecipeWrapper;
+import mezz.jei.api.recipe.IRecipeWrapper;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
 
-public class PelletBagRecipeWrapper extends BlankRecipeWrapper {
+public class PelletBagRecipeWrapper implements IRecipeWrapper {
 
 	private final List<List<ItemStack>> inputs;
 	private final ItemStack output;

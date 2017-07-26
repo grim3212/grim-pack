@@ -8,12 +8,12 @@ import com.grim3212.mc.pack.tools.items.ItemBackpack;
 import com.grim3212.mc.pack.tools.items.ToolsItems;
 
 import mezz.jei.api.ingredients.IIngredients;
-import mezz.jei.api.recipe.BlankRecipeWrapper;
+import mezz.jei.api.recipe.IRecipeWrapper;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
 
-public class BackpackRecipeWrapper extends BlankRecipeWrapper {
+public class BackpackRecipeWrapper implements IRecipeWrapper {
 
 	private final List<List<ItemStack>> inputs;
 	private final ItemStack output;
