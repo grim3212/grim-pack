@@ -1,6 +1,5 @@
 package com.grim3212.mc.pack.decor.block.colorizer;
 
-import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,6 +24,7 @@ import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.particle.ParticleDigging;
+import net.minecraft.client.particle.ParticleDigging.Factory;
 import net.minecraft.client.particle.ParticleManager;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
@@ -269,17 +269,11 @@ public class BlockColorizer extends BlockContainer implements IManualBlock, ICol
 					d0 = (double) i + axisalignedbb.maxX + (double) f;
 				}
 
-				// TODO: Use ParticleFactory
-				try {
-					Constructor<ParticleDigging> constructor = ParticleDigging.class.getDeclaredConstructor(World.class, double.class, double.class, double.class, double.class, double.class, double.class, IBlockState.class);
-					constructor.setAccessible(true);
-					ParticleDigging digging = constructor.newInstance(worldObj, d0, d1, d2, 0.0D, 0.0D, 0.0D, tileentity.getBlockState());
-					digging.setBlockPos(target.getBlockPos()).multiplyVelocity(0.2f).multipleParticleScaleBy(0.6f);
-					manager.addEffect(digging);
-					return true;
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
+				Factory particleFactory = new ParticleDigging.Factory();
+				ParticleDigging digging = (ParticleDigging) particleFactory.createParticle(0, worldObj, d0, d1, d2, 0.0D, 0.0D, 0.0D, Block.getStateId(tileentity.getBlockState()));
+				digging.setBlockPos(target.getBlockPos()).multiplyVelocity(0.2f).multipleParticleScaleBy(0.6f);
+				manager.addEffect(digging);
+				return true;
 			}
 		}
 
