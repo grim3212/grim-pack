@@ -103,9 +103,6 @@ public abstract class GrimPart {
 		// loaded
 		if (!syncConfigInstantly)
 			this.getGrimConfig().syncConfig();
-
-		// if (event.getSide() == Side.CLIENT)
-		// getManual().initPages();
 	}
 
 	/**
@@ -113,6 +110,8 @@ public abstract class GrimPart {
 	 *            event
 	 */
 	public void postInit(FMLPostInitializationEvent event) {
+		if (event.getSide() == Side.CLIENT)
+			getManual().initPages();
 	}
 
 	public String getPartId() {

@@ -83,7 +83,7 @@ public class ManualDecor implements IManualPart {
 		framesInfo_page = new PageImageText("frameinfo", "frames_info_page.png", 0.85F);
 		frames_page = new PageCrafting("frames", DecorRecipes.frames, 25);
 		cage_page = new PageCrafting("cage", DecorRecipes.chains, 20);
-		lantern_page = new PageCrafting("lantern", RecipeHelper.getAllPaths("decor/lantern"), 20);
+		lantern_page = new PageCrafting("lantern", RecipeHelper.getAllPaths("lantern"), 20);
 		crafts_page = new PageCrafting("crafts", DecorRecipes.crafts, 25);
 		firing_page = new PageFurnace("firing", new ItemStack[] { new ItemStack(DecorItems.unfired_craft), new ItemStack(DecorItems.unfired_pot) }, 20);
 		lights_page = new PageCrafting("lights", DecorRecipes.lights, 25);

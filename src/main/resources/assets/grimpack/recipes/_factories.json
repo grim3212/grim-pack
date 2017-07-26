@@ -1,0 +1,5 @@
+{
+  "conditions": {
+    "part_enabled": "com.grim3212.mc.pack.core.crafting.PartConditionFactory"
+  }
+}

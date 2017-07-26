@@ -1,4 +1,10 @@
 {
+	"conditions": [
+    {
+      "type": "grimpack:part_enabled",
+      "part": "industry"
+    }
+  ],
   "result": {
     "item": "grimpack:steel_multi_tool"
   },

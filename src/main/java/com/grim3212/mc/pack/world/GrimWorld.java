@@ -35,6 +35,7 @@ public class GrimWorld extends GrimPart {
 	public static final String partId = "world";
 	public static final String partName = "Grim World";
 
+	// TODO: Look into cascading world gen problems
 	public GrimWorld() {
 		super(GrimWorld.partId, GrimWorld.partName, new WorldConfig());
 	}
@@ -62,6 +63,8 @@ public class GrimWorld extends GrimPart {
 
 	@Override
 	public void postInit(FMLPostInitializationEvent event) {
+		super.postInit(event);
+
 		MinecraftForge.EVENT_BUS.post(new WorldPostInitEvent());
 		WorldTypes.registerTypes();
 	}

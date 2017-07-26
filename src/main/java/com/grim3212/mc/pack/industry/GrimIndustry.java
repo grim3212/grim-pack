@@ -6,6 +6,7 @@ import com.grim3212.mc.pack.core.part.GrimPart;
 import com.grim3212.mc.pack.industry.client.ManualIndustry;
 import com.grim3212.mc.pack.industry.config.IndustryConfig;
 import com.grim3212.mc.pack.industry.entity.IndustryEntities;
+import com.grim3212.mc.pack.industry.init.IndustryRecipes;
 import com.grim3212.mc.pack.industry.network.MessageExtruderDirection;
 import com.grim3212.mc.pack.industry.network.MessageSaveFan;
 import com.grim3212.mc.pack.industry.network.MessageSensorChangeMode;
@@ -62,6 +63,8 @@ public class GrimIndustry extends GrimPart {
 	public void init(FMLInitializationEvent event) {
 		super.init(event);
 		proxy.initColors();
+
+		IndustryRecipes.initRecipes();
 	}
 
 	@Override

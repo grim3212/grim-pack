@@ -1,8 +1,5 @@
 package com.grim3212.mc.pack.industry.item;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.grim3212.mc.pack.GrimPack;
 import com.grim3212.mc.pack.core.client.gui.PackGuiHandler;
 import com.grim3212.mc.pack.core.item.ItemManualArmor;
@@ -13,7 +10,6 @@ import com.grim3212.mc.pack.core.item.ItemManualPickaxe;
 import com.grim3212.mc.pack.core.item.ItemManualSpade;
 import com.grim3212.mc.pack.core.item.ItemManualSword;
 import com.grim3212.mc.pack.core.part.GrimCreativeTabs;
-import com.grim3212.mc.pack.core.util.CreateRecipes;
 import com.grim3212.mc.pack.industry.block.BlockSiding.EnumSidingColor;
 import com.grim3212.mc.pack.industry.block.IndustryBlocks;
 
@@ -189,108 +185,4 @@ public class IndustryItems {
 		GameRegistry.addSmelting(Items.FLINT, new ItemStack(graphite), 0.35F);
 		GameRegistry.addSmelting(coal_iron_ingot, new ItemStack(steel_ingot, 1), 0.5F);
 	}
-
-	public static List<IRecipe> armor;
-	public static List<IRecipe> control;
-	public static List<IRecipe> gates = new ArrayList<IRecipe>();
-	public static List<IRecipe> garages = new ArrayList<IRecipe>();
-	public static List<IRecipe> paint;
-	public static List<IRecipe> doors;
-	public static List<IRecipe> coaliron;
-	public static List<IRecipe> steeltools;
-	public static List<IRecipe> alumstuff;
-	public static List<IRecipe> portableUpgrades;
-	public static List<IRecipe> fuelstuff = new ArrayList<IRecipe>();
-
-	public static void addRecipes() {
-
-		CreateRecipes.addShapedRecipe(new ItemStack(position_finder, 1), new Object[] { "IWI", " M ", 'W', Items.COMPASS, 'I', "ingotIron", 'M', Items.MAP });
-		CreateRecipes.addShapedRecipe(new ItemStack(position_finder, 1), new Object[] { "IWI", " M ", 'W', Items.COMPASS, 'I', "ingotIron", 'M', Items.FILLED_MAP });
-
-		CreateRecipes.addShapedRecipe(new ItemStack(portable_diamond_workbench, 1), new Object[] { "IDI", "DWD", "IDI", 'W', IndustryBlocks.diamond_workbench, 'I', "ingotIron", 'D', "gemDiamond" });
-		CreateRecipes.addShapedRecipe(new ItemStack(portable_iron_workbench, 1), new Object[] { "III", "IWI", "III", 'W', IndustryBlocks.iron_workbench, 'I', "ingotIron" });
-		// portableUpgrades = RecipeHelper.getLatestIRecipes(2);
-
-		CreateRecipes.addShapedRecipe(new ItemStack(extruder, 1), new Object[] { "PD", 'D', Blocks.DISPENSER, 'P', Blocks.PISTON });
-
-		CreateRecipes.addShapedRecipe(new ItemStack(aluminum_can, 16), new Object[] { "a a", "a a", "a a", 'a', "ingotAluminum" });
-		CreateRecipes.addShapedRecipe(new ItemStack(aluminum_shaft, 4), new Object[] { "a", "a", 'a', "ingotAluminum" });
-		// alumstuff = RecipeHelper.getLatestIRecipes(2);
-
-		CreateRecipes.addShapedRecipe(new ItemStack(super_crude_oil, 1), new Object[] { "o", "a", 'o', oily_chunk, 'a', aluminum_can });
-		CreateRecipes.addShapedRecipe(new ItemStack(fuel, 9), new Object[] { "F", 'F', IndustryBlocks.fuel_tank });
-		// fuelstuff.addAll(RecipeHelper.getLatestIRecipes(2));
-
-		CreateRecipes.addShapedRecipe(new ItemStack(IndustryItems.steel_shaft, 4), new Object[] { "i", "i", 'i', "ingotSteel" });
-		CreateRecipes.addShapedRecipe(new ItemStack(IndustryItems.steel_ingot, 9), new Object[] { "B", 'B', "blockSteel" });
-		// IndustryBlocks.steelstuff.addAll(RecipeHelper.getLatestIRecipes(2));
-
-		CreateRecipes.addShapedRecipe(new ItemStack(steel_sword, 1), new Object[] { "i", "i", "s", 'i', "ingotSteel", 's', steel_shaft });
-		CreateRecipes.addShapedRecipe(new ItemStack(steel_pickaxe, 1), new Object[] { "iii", " s ", " s ", 'i', "ingotSteel", 's', steel_shaft });
-		CreateRecipes.addShapedRecipe(new ItemStack(steel_shovel, 1), new Object[] { "i", "s", "s", 'i', "ingotSteel", 's', steel_shaft });
-		CreateRecipes.addShapedRecipe(new ItemStack(steel_axe, 1), new Object[] { "ii", "is", " s", 'i', "ingotSteel", 's', steel_shaft });
-		CreateRecipes.addShapedRecipe(new ItemStack(steel_hoe, 1), new Object[] { "ii", " s", " s", 'i', "ingotSteel", 's', steel_shaft });
-		// steeltools = RecipeHelper.getLatestIRecipes(5);
-
-		CreateRecipes.addShapedRecipe(new ItemStack(coal_dust, 2), new Object[] { "c", 'c', Items.COAL });
-		CreateRecipes.addShapelessRecipe(new ItemStack(coal_iron_ingot, 1), new Object[] { "dustCoal", "ingotIron" });
-		// coaliron = RecipeHelper.getLatestIRecipes(2);
-
-		CreateRecipes.addShapedRecipe(new ItemStack(door_chain_item, 1), new Object[] { "ss", "ss", "ss", 's', aluminum_shaft });
-		CreateRecipes.addShapedRecipe(new ItemStack(door_glass_item, 1), new Object[] { "ss", "ss", "ss", 's', "blockGlass" });
-		CreateRecipes.addShapedRecipe(new ItemStack(door_steel_item, 1), new Object[] { "ss", "ss", "ss", 's', "ingotSteel" });
-		// doors = RecipeHelper.getLatestIRecipes(3);
-
-		CreateRecipes.addShapelessRecipe(new ItemStack(paint_roller, 1), new Object[] { paint_roller_white, Items.WATER_BUCKET });
-		CreateRecipes.addShapelessRecipe(new ItemStack(paint_roller, 1), new Object[] { paint_roller_red, Items.WATER_BUCKET });
-		CreateRecipes.addShapelessRecipe(new ItemStack(paint_roller, 1), new Object[] { paint_roller_green, Items.WATER_BUCKET });
-		CreateRecipes.addShapelessRecipe(new ItemStack(paint_roller, 1), new Object[] { paint_roller_blue, Items.WATER_BUCKET });
-
-		CreateRecipes.addShapelessRecipe(new ItemStack(paint_roller_white, 1), new Object[] { paint_roller, "dyeWhite" });
-		CreateRecipes.addShapelessRecipe(new ItemStack(paint_roller_red, 1), new Object[] { paint_roller, "dyeRed" });
-		CreateRecipes.addShapelessRecipe(new ItemStack(paint_roller_green, 1), new Object[] { paint_roller, "dyeGreen" });
-		CreateRecipes.addShapelessRecipe(new ItemStack(paint_roller_blue, 1), new Object[] { paint_roller, "dyeBlue" });
-		// paint = RecipeHelper.getLatestIRecipes(4);
-
-		CreateRecipes.addShapedRecipe(new ItemStack(tarball, 16), new Object[] { "C", "G", "W", 'C', Items.COAL, 'G', Blocks.GRAVEL, 'W', Items.WATER_BUCKET });
-		CreateRecipes.addShapedRecipe(new ItemStack(paint_roller, 1), new Object[] { "WWW", " S ", " S ", 'W', Blocks.WOOL, 'S', "stickWood" });
-
-		CreateRecipes.addShapedRecipe(new ItemStack(iron_stick, 4), new Object[] { " i ", "iSi", " i ", 'i', "ingotIron", 'S', "stickWood" });
-
-		CreateRecipes.addShapedRecipe(new ItemStack(gate_grating, 4), new Object[] { " i ", "iii", " i ", 'i', "stickIron" });
-		// gates.add(RecipeHelper.getLatestIRecipe());
-		CreateRecipes.addShapedRecipe(new ItemStack(gate_trumpet, 1), new Object[] { "g  ", "wg ", " wi", 'w', Blocks.WOOL, 'g', "ingotGold", 'i', "ingotIron" });
-
-		CreateRecipes.addShapedRecipe(new ItemStack(garage_panel, 4), new Object[] { "i", "G", "i", 'i', "ingotIron", 'G', "blockGlass" });
-		// gates.add(RecipeHelper.getLatestIRecipe());
-		CreateRecipes.addShapedRecipe(new ItemStack(garage_remote, 1), new Object[] { "b", "r", "i", 'b', Blocks.STONE_BUTTON, 'r', "dustRedstone", 'i', "ingotIron" });
-
-		CreateRecipes.addShapedRecipe(new ItemStack(gravity_boots, 1), new Object[] { "S S", "M M", 'M', IndustryBlocks.attractor, 'S', "ingotIron" });
-
-		CreateRecipes.addShapedRecipe(new ItemStack(anti_radiation_helmet, 1), new Object[] { "WWW", "WGW", "I I", 'W', Blocks.WOOL, 'G', "blockGlassColorless", 'I', "ingotIron" });
-		CreateRecipes.addShapedRecipe(new ItemStack(anti_radiation_chest, 1), new Object[] { "W W", "WWW", "III", 'W', Blocks.WOOL, 'I', "ingotIron" });
-		CreateRecipes.addShapedRecipe(new ItemStack(anti_radiation_legs, 1), new Object[] { "WWW", "W W", "I I", 'W', Blocks.WOOL, 'I', "ingotIron" });
-		CreateRecipes.addShapedRecipe(new ItemStack(anti_radiation_boots, 1), new Object[] { "W W", "I I", 'W', Blocks.WOOL, 'I', "ingotIron" });
-		// armor = RecipeHelper.getLatestIRecipes(4);
-
-		CreateRecipes.addShapedRecipe(new ItemStack(refined_uranium, 1), new Object[] { " U ", "U U", 'U', "ingotUranium" });
-		CreateRecipes.addShapedRecipe(new ItemStack(plutonium_ingot, 1), new Object[] { "U  ", " G ", "  U", 'U', "ingotRefinedUranium", 'G', "glowstone" });
-		CreateRecipes.addShapedRecipe(new ItemStack(refined_plutonium, 1), new Object[] { "P P", " P ", "P P", 'P', "ingotPlutonium" });
-		CreateRecipes.addShapedRecipe(new ItemStack(graphite_rod, 1), new Object[] { "GGG", "GGG", "GGG", 'G', graphite });
-		CreateRecipes.addShapedRecipe(new ItemStack(reactor_core, 1), new Object[] { "UUU", "UPU", "UUU", 'U', "ingotRefinedUranium", 'P', "ingotRefinedPlutonium" });
-		CreateRecipes.addShapedRecipe(new ItemStack(reactor_core_case, 1), new Object[] { " G ", " G ", " G ", 'G', graphite_rod });
-		CreateRecipes.addShapedRecipe(new ItemStack(iron_parts, 1), new Object[] { "III", " I ", 'I', "ingotIron" });
-
-		CreateRecipes.addShapedRecipe(new ItemStack(gravity_controller, 1), new Object[] { "EGE", "GDG", "EGE", 'G', "ingotGold", 'E', Items.ENDER_EYE, 'D', "gemDiamond" });
-		CreateRecipes.addShapedRecipe(new ItemStack(low_gravity_controller, 1), new Object[] { "EGE", "GDG", "EGE", 'G', "ingotGold", 'E', "enderpearl", 'D', "gemDiamond" });
-		CreateRecipes.addShapedRecipe(new ItemStack(mob_repulsor, 1), new Object[] { "EGE", "GDG", "EGE", 'G', IndustryItems.gravity_controller, 'E', IndustryItems.gravity_boots, 'D', IndustryItems.low_gravity_controller });
-		// control = RecipeHelper.getLatestIRecipes(2);
-
-		CreateRecipes.addShapedRecipe(new ItemStack(drill_head_item, 1), new Object[] { " X ", "###", " # ", 'X', "stickIron", '#', "ingotIron" });
-
-		CreateRecipes.addShapedRecipe(new ItemStack(locksmith_lock, 3), new Object[] { " I ", "I I", "III", 'I', "ingotIron" });
-		CreateRecipes.addShapedRecipe(new ItemStack(locksmith_key, 3), new Object[] { "II", "II", "I ", 'I', "ingotGold" });
-
-	}
-
 }

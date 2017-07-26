@@ -1,17 +1,11 @@
 package com.grim3212.mc.pack.tools.blocks;
 
-import java.util.List;
-
 import com.grim3212.mc.pack.core.item.ItemManualBlock;
-import com.grim3212.mc.pack.core.util.CreateRecipes;
-import com.grim3212.mc.pack.tools.items.ToolsItems;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.IRecipe;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -50,13 +44,4 @@ public class ToolsBlocks {
 		OreDictionary.registerOre("blockBlackDiamond", black_diamond_block);
 		OreDictionary.registerOre("oreElement115", element_115_ore);
 	}
-
-	public static List<IRecipe> black;
-
-	public static void addRecipes() {
-		CreateRecipes.addShapedRecipe(new ItemStack(black_diamond_block, 1), new Object[] { "###", "###", "###", '#', ToolsItems.black_diamond });
-		CreateRecipes.addShapedRecipe(new ItemStack(ToolsItems.black_diamond, 9), new Object[] { "#", '#', black_diamond_block });
-		// black = RecipeHelper.getLatestIRecipes(2);
-	}
-
 }

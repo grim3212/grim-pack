@@ -1,14 +1,16 @@
 package com.grim3212.mc.pack.core.manual.pages;
 
 import java.awt.Color;
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.lwjgl.opengl.GL11;
 
+import com.google.common.collect.ImmutableList;
 import com.grim3212.mc.pack.GrimPack;
 import com.grim3212.mc.pack.core.client.TooltipHelper;
 import com.grim3212.mc.pack.core.manual.gui.GuiManualPage;
+import com.grim3212.mc.pack.core.util.GrimLog;
 import com.grim3212.mc.pack.core.util.NBTHelper;
 import com.grim3212.mc.pack.core.util.RecipeHelper;
 
@@ -21,11 +23,12 @@ import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
+import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.item.crafting.ShapedRecipes;
 import net.minecraft.item.crafting.ShapelessRecipes;
-import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
+import net.minecraftforge.oredict.OreIngredient;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
 
@@ -36,37 +39,35 @@ public class PageCrafting extends Page {
 	private int recipeShown = 0;
 	private int update = 0;
 	private int updateTime = 1;
-	private List<ResourceLocation> outputRecipes = new ArrayList<ResourceLocation>();
+	private final List<ResourceLocation> outputRecipes;
 	private boolean isArray = false;
 	private boolean isShapeless = false;
 
 	public PageCrafting(String pageName, ResourceLocation output) {
 		super(pageName, false);
-		this.outputRecipes.add(output);
+		this.outputRecipes = ImmutableList.of(output);
 	}
 
 	public PageCrafting(String pageName, List<ResourceLocation> outputs, int updateTime) {
 		super(pageName, false);
-		for (int i = 0; i < outputs.size(); i++) {
-			if (outputs.get(i) != null)
-				this.outputRecipes.add(outputs.get(i));
-		}
+		this.outputRecipes = outputs;
 		this.updateTime = updateTime;
-		this.isArray = outputs.size() > 1;
+		this.isArray = outputRecipes.size() > 1;
 	}
 
 	// TODO: Most likely not everything is gonna work with this
 	// Every page has to be checked
 	public PageCrafting(String pageName, ItemStack output) {
 		super(pageName, false);
-		this.outputRecipes.add(output.getItem().getRegistryName());
+		this.outputRecipes = ImmutableList.of(output.getItem().getRegistryName());
 	}
 
 	public PageCrafting(String pageName, int updateTime, ItemStack... outputs) {
 		super(pageName, false);
-
+		ImmutableList.Builder<ResourceLocation> b = ImmutableList.builder();
 		for (ItemStack stack : outputs)
-			this.outputRecipes.add(stack.getItem().getRegistryName());
+			b.add(stack.getItem().getRegistryName());
+		this.outputRecipes = b.build();
 
 		this.updateTime = updateTime;
 		this.isArray = outputs.length > 1;
@@ -131,11 +132,8 @@ public class PageCrafting extends Page {
 		renderer.drawString(outstack.getDisplayName(), (gui.getManualWidth() / 2 - renderer.getStringWidth(outstack.getDisplayName()) / 2) + gui.getX(), gui.getY() + 210, Color.BLACK.getRGB(), false);
 	}
 
-	@SuppressWarnings("unchecked")
-	public void drawOreDictionaryItem(GuiManualPage gui, Object item, int x, int y) {
-		if (item instanceof ItemStack) {
-			this.renderItemCutWild(gui, (ItemStack) item, x - 1, y - 1);
-		} else if (item instanceof NonNullList<?>) {
+	public void drawOreDictionaryItem(GuiManualPage gui, Ingredient item, int x, int y) {
+		if (item instanceof OreIngredient) {
 			GlStateManager.pushMatrix();
 			GlStateManager.enableBlend();
 			TextureManager render = Minecraft.getMinecraft().renderEngine;
@@ -145,7 +143,13 @@ public class PageCrafting extends Page {
 			GlStateManager.disableBlend();
 			GlStateManager.popMatrix();
 
-			this.renderItemCutWild(gui, NBTHelper.setStringItemStack(((NonNullList<ItemStack>) item).get(0), "customTooltip", I18n.format("grimpack.manual.oredictionary") + " : " + RecipeHelper.getOreDict((NonNullList<ItemStack>) item)), x - 1, y - 1);
+			this.renderItemCutWild(gui, NBTHelper.setStringItemStack(item.getMatchingStacks()[0], "customTooltip", I18n.format("grimpack.manual.oredictionary") + " : " + RecipeHelper.getOreDict(Arrays.asList(item.getMatchingStacks()))), x - 1, y - 1);
+		} else {
+			ItemStack[] stacks = item.getMatchingStacks();
+			if (stacks.length > 0)
+				this.renderItemCutWild(gui, stacks[0], x - 1, y - 1);
+			else
+				GrimLog.error(GrimPack.modName, "Failed rendering ingredient " + item + " at x:" + (x - 1) + ", y:" + (y - 1));
 		}
 	}
 
@@ -167,7 +171,10 @@ public class PageCrafting extends Page {
 
 			for (int y = 0; y < shaped.recipeHeight; y++) {
 				for (int x = 0; x < shaped.recipeWidth; x++) {
-					drawOreDictionaryItem(gui, shaped.recipeItems.get(x + y * shaped.recipeWidth), gui.getX() + x * 29 + 30 - x * 2, gui.getY() + y * 27 + 128);
+					Ingredient item = shaped.recipeItems.get(x + y * shaped.recipeWidth);
+					if (item != Ingredient.EMPTY) {
+						drawOreDictionaryItem(gui, item, gui.getX() + x * 29 + 30 - x * 2, gui.getY() + y * 27 + 128);
+					}
 				}
 			}
 
@@ -194,8 +201,8 @@ public class PageCrafting extends Page {
 
 			for (int y = 0; y < height; y++) {
 				for (int x = 0; x < width; x++) {
-					Object item = shapedOre.getIngredients().get(x + y * width);
-					if (item != null) {
+					Ingredient item = shapedOre.getIngredients().get(x + y * width);
+					if (item != Ingredient.EMPTY) {
 						drawOreDictionaryItem(gui, item, gui.getX() + x * 29 + 30 - x * 2, gui.getY() + y * 27 + 128);
 					}
 				}

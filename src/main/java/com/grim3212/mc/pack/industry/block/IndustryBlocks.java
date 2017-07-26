@@ -1,12 +1,8 @@
 package com.grim3212.mc.pack.industry.block;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.grim3212.mc.pack.core.block.BlockManualPage;
 import com.grim3212.mc.pack.core.item.ItemManualBlock;
 import com.grim3212.mc.pack.core.part.GrimCreativeTabs;
-import com.grim3212.mc.pack.core.util.CreateRecipes;
 import com.grim3212.mc.pack.industry.block.BlockElemental.ElementType;
 import com.grim3212.mc.pack.industry.item.IndustryItems;
 import com.grim3212.mc.pack.industry.item.ItemGoldSafe;
@@ -32,8 +28,6 @@ import com.grim3212.mc.pack.industry.tile.TileEntityWoodCabinet;
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
-import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
@@ -310,124 +304,4 @@ public class IndustryBlocks {
 		GameRegistry.addSmelting(aluminum_ore, new ItemStack(IndustryItems.aluminum_ingot, 1), 0.45F);
 		GameRegistry.addSmelting(uranium_ore, new ItemStack(IndustryItems.uranium_ingot), 0.7F);
 	}
-
-	public static List<IRecipe> sensors;
-	public static List<IRecipe> workbenches;
-	public static List<IRecipe> attracting;
-	public static List<IRecipe> repulsing;
-	public static List<IRecipe> gravitoring;
-	public static List<IRecipe> htorches;
-	public static List<IRecipe> rways;
-	public static List<IRecipe> decoration;
-	public static List<IRecipe> others;
-	public static List<IRecipe> buckladd;
-	public static List<IRecipe> steelstuff = new ArrayList<IRecipe>();
-
-	public static void addRecipes() {
-
-		CreateRecipes.addShapedRecipe(new ItemStack(tank, 4), "XYX", "Y Y", "XYX", 'X', "ingotIron", 'Y', "blockGlass");
-		CreateRecipes.addShapedRecipe(new ItemStack(specific_sensor, 1), new Object[] { " Z ", "XYX", " Z ", 'X', Blocks.REDSTONE_LAMP, 'Y', IndustryItems.position_finder, 'Z', "blockRedstone" });
-		CreateRecipes.addShapedRecipe(new ItemStack(upgraded_specific_sensor, 1), new Object[] { "XXX", "XYX", "XXX", 'X', "ingotGold", 'Y', specific_sensor });
-		CreateRecipes.addShapedRecipe(new ItemStack(fan, 1), new Object[] { "X X", "XYX", "XXX", 'X', "plankWood", 'Y', "dustRedstone" });
-
-		CreateRecipes.addShapedRecipe(new ItemStack(refinery, 1), new Object[] { "sss", "ara", "sss", 's', "ingotSteel", 'r', "dustRedstone", 'a', IndustryItems.aluminum_can });
-		CreateRecipes.addShapedRecipe(new ItemStack(derrick, 1), new Object[] { "s s", "sRs", "sPs", 's', "ingotSteel", 'R', refinery, 'P', steel_pipe });
-		CreateRecipes.addShapedRecipe(new ItemStack(modern_furnace, 1), new Object[] { "sss", "rFr", "sss", 's', "ingotSteel", 'r', "dustRedstone", 'F', Blocks.FURNACE });
-
-		CreateRecipes.addShapedRecipe(new ItemStack(fuel_tank, 1), new Object[] { "fff", "fff", "fff", 'f', IndustryItems.fuel });
-		// IndustryItems.fuelstuff.add(RecipeHelper.getLatestIRecipe());
-
-		CreateRecipes.addShapedRecipe(new ItemStack(aluminum_ladder, 4), new Object[] { "s s", "sss", "s s", 's', IndustryItems.aluminum_shaft });
-		CreateRecipes.addShapedRecipe(new ItemStack(Items.BUCKET, 1), new Object[] { "a a", " a ", 'a', "ingotAluminum" });
-		// buckladd = RecipeHelper.getLatestIRecipes(2);
-
-		CreateRecipes.addShapedRecipe(new ItemStack(steel_pipe, 8), new Object[] { "s s", "s s", "s s", 's', "ingotSteel" });
-		CreateRecipes.addShapedRecipe(new ItemStack(steel_block, 1), new Object[] { "iii", "iii", "iii", 'i', "ingotSteel" });
-		CreateRecipes.addShapedRecipe(new ItemStack(steel_frame, 4), new Object[] { "i i", " i ", "i i", 'i', IndustryItems.steel_shaft });
-		// steelstuff.addAll(RecipeHelper.getLatestIRecipes(3));
-
-		CreateRecipes.addShapedRecipe(new ItemStack(chain_fence, 32), new Object[] { "sss", "sss", 's', IndustryItems.aluminum_shaft });
-		CreateRecipes.addShapedRecipe(new ItemStack(fountain, 1), new Object[] { "CPC", "CaC", "C C", 'C', "cobblestone", 'P', steel_pipe, 'a', "ingotAluminum" });
-		CreateRecipes.addShapedRecipe(new ItemStack(camo_plate, 2), new Object[] { "rr", "ii", 'r', "dustRedstone", 'i', "ingotGold" });
-		// others = RecipeHelper.getLatestIRecipes(3);
-
-		CreateRecipes.addShapedRecipe(new ItemStack(concrete, 8), new Object[] { "SSS", "SsS", "SSS", 'S', "stone", 's', IndustryItems.steel_shaft });
-		CreateRecipes.addShapedRecipe(new ItemStack(horizontal_siding, 4), new Object[] { "L", "t", "a", 'L', "logWood", 't', IndustryItems.tarball, 'a', "ingotAluminum" });
-		CreateRecipes.addShapedRecipe(new ItemStack(vertical_siding, 4), new Object[] { "C", "t", "a", 'C', "cobblestone", 't', IndustryItems.tarball, 'a', "ingotAluminum" });
-		// decoration = RecipeHelper.getLatestIRecipes(3);
-
-		CreateRecipes.addShapedRecipe(new ItemStack(sidewalk, 8), new Object[] { "SSS", "SSS", 'S', "stone" });
-		CreateRecipes.addShapedRecipe(new ItemStack(rway, 1), new Object[] { "A", "S", 'A', IndustryItems.asphalt, 'S', "stone" });
-		CreateRecipes.addShapedRecipe(new ItemStack(rway_light_off, 1), new Object[] { "L", "R", 'L', halogen_light, 'R', rway });
-		CreateRecipes.addShapedRecipe(new ItemStack(rway_manhole, 1), new Object[] { "i", "R", 'i', "ingotIron", 'R', rway });
-		// rways = RecipeHelper.getLatestIRecipes(3);
-
-		CreateRecipes.addShapedRecipe(new ItemStack(halogen_light, 1), new Object[] { "G", "R", 'G', "blockGlass", 'R', "dustRedstone" });
-		CreateRecipes.addShapedRecipe(new ItemStack(halogen_torch, 4), new Object[] { "G", "R", "S", 'G', "blockGlass", 'R', "dustRedstone", 'S', "stickWood" });
-		CreateRecipes.addShapedRecipe(new ItemStack(halogen_torch, 4), new Object[] { "H", "S", 'H', halogen_light, 'S', "stickWood" });
-		// htorches = RecipeHelper.getLatestIRecipes(2);
-
-		CreateRecipes.addShapedRecipe(new ItemStack(castle_gate, 1), new Object[] { "G", "G", "G", 'G', IndustryItems.gate_grating });
-		// IndustryItems.gates.add(RecipeHelper.getLatestIRecipe());
-		CreateRecipes.addShapedRecipe(new ItemStack(garage, 1), new Object[] { "p", "p", "p", 'p', IndustryItems.garage_panel });
-		// IndustryItems.garages.add(RecipeHelper.getLatestIRecipe());
-
-		CreateRecipes.addShapedRecipe(new ItemStack(togglerack, 4), new Object[] { "QQQ", "QAQ", "QQQ", 'A', "dustRedstone", 'Q', "netherrack" });
-		CreateRecipes.addShapedRecipe(new ItemStack(iron_workbench), new Object[] { " X ", "X=X", " X ", 'X', "blockIron", '=', "workbench" });
-		CreateRecipes.addShapedRecipe(new ItemStack(diamond_workbench), new Object[] { " X ", "X=X", " X ", 'X', "blockDiamond", '=', "workbench" });
-		// workbenches = RecipeHelper.getLatestIRecipes(2);
-
-		CreateRecipes.addShapedRecipe(new ItemStack(ice_maker, 1), new Object[] { "X X", "I I", "XXX", 'X', "cobblestone", 'I', Blocks.SNOW });
-
-		CreateRecipes.addShapedRecipe(new ItemStack(fire_block, 1), new Object[] { "###", "#!#", "###", '#', "blockIron", '!', Items.FLINT_AND_STEEL });
-		CreateRecipes.addShapedRecipe(new ItemStack(water_block, 1), new Object[] { "###", "#!#", "###", '#', "blockIron", '!', Items.WATER_BUCKET });
-		CreateRecipes.addShapedRecipe(new ItemStack(lava_block, 1), new Object[] { "###", "#!#", "###", '#', "blockIron", '!', Items.LAVA_BUCKET });
-		CreateRecipes.addShapedRecipe(new ItemStack(spike, 8), new Object[] { "X X", " X ", "XXX", 'X', "stickIron" });
-
-		CreateRecipes.addShapedRecipe(new ItemStack(wooden_sensor), new Object[] { "IGI", "XYX", "IXI", 'X', "plankWood", 'Y', "dustRedstone", 'G', "blockGlass", 'I', "ingotIron" });
-		CreateRecipes.addShapedRecipe(new ItemStack(stone_sensor), new Object[] { "IGI", "XYX", "IXI", 'X', "stone", 'Y', "dustRedstone", 'G', "blockGlass", 'I', "ingotIron" });
-		CreateRecipes.addShapedRecipe(new ItemStack(iron_sensor), new Object[] { "XGX", "XYX", "XXX", 'X', "ingotIron", 'Y', "dustRedstone", 'G', "blockGlass" });
-		CreateRecipes.addShapedRecipe(new ItemStack(netherrack_sensor), new Object[] { "IGI", "XYX", "IXI", 'X', "netherrack", 'Y', "dustRedstone", 'G', "blockGlass", 'I', "ingotIron" });
-		// sensors = RecipeHelper.getLatestIRecipes(4);
-
-		CreateRecipes.addShapedRecipe(new ItemStack(attractor, 1), new Object[] { "SZS", "ZRZ", "SZS", 'S', "ingotIron", 'R', Items.COMPASS, 'Z', "dustRedstone" });
-		CreateRecipes.addShapedRecipe(new ItemStack(direction_attractor, 1), new Object[] { "SZS", "ZRZ", 'S', "ingotIron", 'R', Items.COMPASS, 'Z', "dustRedstone" });
-		// attracting = RecipeHelper.getLatestIRecipes(2);
-
-		CreateRecipes.addShapedRecipe(new ItemStack(repulsor, 1), new Object[] { "ZSZ", "SRS", "ZSZ", 'Z', "dustRedstone", 'S', "ingotIron", 'R', Items.COMPASS });
-		CreateRecipes.addShapedRecipe(new ItemStack(direction_repulsor, 1), new Object[] { "ZSZ", "SRS", 'Z', "dustRedstone", 'S', "ingotIron", 'R', Items.COMPASS });
-		// repulsing = RecipeHelper.getLatestIRecipes(2);
-
-		CreateRecipes.addShapedRecipe(new ItemStack(gravitor, 1), new Object[] { "S S", " R ", "SZS", 'S', "ingotIron", 'R', Items.COMPASS, 'Z', "dustRedstone" });
-		CreateRecipes.addShapedRecipe(new ItemStack(direction_gravitor, 1), new Object[] { " R ", "SZS", 'S', "ingotIron", 'R', Items.COMPASS, 'Z', "dustRedstone" });
-		// gravitoring = RecipeHelper.getLatestIRecipes(2);
-
-		CreateRecipes.addShapedRecipe(new ItemStack(uranium_ore, 1), new Object[] { "RDR", "DGD", "RDR", 'R', "dustRedstone", 'G', "glowstone", 'D', "gemDiamond" });
-		CreateRecipes.addShapedRecipe(new ItemStack(reactor, 1), new Object[] { "GMG", "CRC", "GMG", 'G', IndustryItems.graphite, 'M', IndustryItems.iron_parts, 'C', IndustryItems.reactor_core_case, 'R', IndustryItems.reactor_core });
-
-		CreateRecipes.addShapedRecipe(new ItemStack(bomb_shell, 1), new Object[] { "A A", " A ", "A A", 'A', "ingotAluminum" });
-
-		CreateRecipes.addShapedRecipe(new ItemStack(c4, 1), new Object[] { "GGG", "RRR", "GGG", 'G', "gunpowder", 'R', "dustRedstone" });
-		CreateRecipes.addShapedRecipe(new ItemStack(nuclear_bomb, 1), new Object[] { "BCB", "CRC", "BCB", 'B', bomb_shell, 'C', c4, 'R', reactor });
-
-		CreateRecipes.addShapedRecipe(new ItemStack(arrow_sensor, 1), new Object[] { "XXX", "S#S", "XXX", 'X', Blocks.WOOL, 'S', metal_mesh, '#', Items.ARROW });
-		CreateRecipes.addShapedRecipe(new ItemStack(metal_mesh, 1), new Object[] { "XX", "XX", 'X', "stickIron" });
-
-		CreateRecipes.addShapedRecipe(new ItemStack(fire_sensor, 1), new Object[] { "SSS", "SNS", "X#X", 'X', "stickIron", '#', "dustRedstone", 'N', "netherrack", 'S', "stone" });
-		CreateRecipes.addShapedRecipe(new ItemStack(fire_sensor, 1), new Object[] { "SSS", "SNS", "X#X", 'X', "stickIron", '#', "dustRedstone", 'N', Items.FLINT_AND_STEEL, 'S', "stone" });
-		CreateRecipes.addShapedRecipe(new ItemStack(conveyor_belt, 6), new Object[] { "XXX", "S#S", "XXX", 'X', "stickIron", '#', "dustRedstone", 'S', "cobblestone" });
-
-		CreateRecipes.addShapedRecipe(new ItemStack(drill, 1), new Object[] { "I I", "S#S", "XDX", 'I', "ingotIron", 'X', "plankWood", 'S', "dustRedstone", '#', "gemDiamond", 'D', IndustryItems.drill_head_item });
-
-		CreateRecipes.addShapedRecipe(new ItemStack(locksmith_workbench, 1), new Object[] { "L", "K", "W", 'L', IndustryItems.locksmith_lock, 'K', IndustryItems.locksmith_key, 'W', "workbench" });
-		CreateRecipes.addShapedRecipe(new ItemStack(locksmith_workbench, 1), new Object[] { "K", "L", "W", 'L', IndustryItems.locksmith_lock, 'K', IndustryItems.locksmith_key, 'W', "workbench" });
-		CreateRecipes.addShapedRecipe(new ItemStack(wood_cabinet, 1), new Object[] { " X ", "XCX", " X ", 'X', "plankWood", 'C', "chest" });
-		CreateRecipes.addShapedRecipe(new ItemStack(glass_cabinet, 1), new Object[] { " X ", "GCG", " X ", 'X', "plankWood", 'C', "chest", 'G', "blockGlass" });
-		CreateRecipes.addShapedRecipe(new ItemStack(warehouse_crate, 1), new Object[] { "LLL", "P P", "PPP", 'P', "plankWood", 'L', "logWood" });
-		CreateRecipes.addShapedRecipe(new ItemStack(obsidian_safe, 1), new Object[] { " X ", "XCX", " X ", 'X', "obsidian", 'C', "chest" });
-		CreateRecipes.addShapedRecipe(new ItemStack(gold_safe, 1), new Object[] { " G ", "GIG", " G ", 'I', obsidian_safe, 'G', "ingotGold" });
-		CreateRecipes.addShapedRecipe(new ItemStack(locker, 1), new Object[] { " X ", "XCX", " X ", 'X', "ingotIron", 'C', "chest" });
-		CreateRecipes.addShapedRecipe(new ItemStack(item_tower, 4), new Object[] { "I I", "ICI", "I I", 'I', "ingotIron", 'C', "chest" });
-	}
-
 }

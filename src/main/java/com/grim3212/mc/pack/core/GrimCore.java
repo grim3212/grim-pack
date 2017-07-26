@@ -28,6 +28,8 @@ public class GrimCore extends GrimPart {
 	public static final String partId = "core";
 	public static final String partName = "Grim Core";
 
+	//TODO: Remake all achievements into advancements
+	
 	public GrimCore() {
 		super(GrimCore.partId, GrimCore.partName, new CoreConfig(), true);
 	}

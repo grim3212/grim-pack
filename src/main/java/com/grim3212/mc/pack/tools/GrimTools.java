@@ -6,6 +6,7 @@ import com.grim3212.mc.pack.core.part.GrimPart;
 import com.grim3212.mc.pack.core.proxy.CommonProxy;
 import com.grim3212.mc.pack.tools.client.ManualTools;
 import com.grim3212.mc.pack.tools.config.ToolsConfig;
+import com.grim3212.mc.pack.tools.crafting.ToolsRecipes;
 import com.grim3212.mc.pack.tools.entity.ToolsEntities;
 import com.grim3212.mc.pack.tools.event.MilkingEvent;
 import com.grim3212.mc.pack.tools.network.MessagePowerStaffSwitchModes;
@@ -54,12 +55,14 @@ public class GrimTools extends GrimPart {
 	public void init(FMLInitializationEvent event) {
 		super.init(event);
 		proxy.initColors();
+
+		ToolsRecipes.initRecipes();
 	}
 
 	@Override
 	public void postInit(FMLPostInitializationEvent event) {
 		super.postInit(event);
-		// Replace milk buckets
+		// TODO: Replace milk buckets
 		// OreDictionaryHelper.replaceRecipes(new ItemStack(Items.MILK_BUCKET),
 		// "bucketMilk", null);
 	}

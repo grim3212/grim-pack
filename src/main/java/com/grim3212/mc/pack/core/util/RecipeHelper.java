@@ -45,6 +45,10 @@ public class RecipeHelper {
 
 		return "No Ore Dict Found!";
 	}
+	
+	public static ResourceLocation getRecipePath(String fullPath) {
+		return new ResourceLocation(fullPath);
+	}
 
 	public static ResourceLocation createPath(String path) {
 		return new ResourceLocation(GrimPack.modID, path);
@@ -65,6 +69,28 @@ public class RecipeHelper {
 			IRecipe recipe = recipes.next();
 
 			if (recipe.getRegistryName().getResourcePath().startsWith(path)) {
+				recipePaths.add(recipe.getRegistryName());
+			}
+		}
+
+		return recipePaths;
+	}
+
+	/**
+	 * Get what the path should end with and it will find all others
+	 * 
+	 * @param path
+	 * @return
+	 */
+	public static List<ResourceLocation> getAllPathsEnd(String path) {
+		List<ResourceLocation> recipePaths = Lists.newArrayList();
+
+		Iterator<IRecipe> recipes = ForgeRegistries.RECIPES.iterator();
+
+		while (recipes.hasNext()) {
+			IRecipe recipe = recipes.next();
+
+			if (recipe.getRegistryName().getResourcePath().endsWith(path)) {
 				recipePaths.add(recipe.getRegistryName());
 			}
 		}
