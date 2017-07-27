@@ -39,7 +39,6 @@ public class BlockSensorArrow extends BlockManual {
 		if (entityIn != null && entityIn instanceof EntityArrow) {
 			EntityArrow arrow = (EntityArrow) entityIn;
 
-			// TODO: Test this
 			try {
 				Method getArrowStack = ReflectionHelper.findMethod(EntityArrow.class, arrow, new String[] { "getArrowStack", "" }, (Class<?>[]) null);
 				getArrowStack.setAccessible(true);

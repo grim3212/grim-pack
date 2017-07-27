@@ -117,9 +117,6 @@ public class BakedColorizerModel implements IPerspectiveAwareModel, IResourceMan
 
 		return this.cache.get(blockState);
 	}
-
-	
-	//TODO: Add support for IModelCustomData
 	
 	/**
 	 * Generate the model defined in json that is a combination of all models
