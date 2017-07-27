@@ -21,8 +21,12 @@ public class ItemUltimateFist extends ItemManualTool {
 
 	public ItemUltimateFist() {
 		super("ultimate_fist", ToolMaterial.DIAMOND, Sets.<Block>newHashSet());
-		this.setMaxDamage(ToolsConfig.fistHasDurability ? ToolsConfig.fistDurabilityAmount : 0);
 		setCreativeTab(GrimCreativeTabs.GRIM_TOOLS);
+	}
+
+	@Override
+	public int getMaxDamage(ItemStack stack) {
+		return ToolsConfig.fistHasDurability ? ToolsConfig.fistDurabilityAmount : 0;
 	}
 
 	@Override
