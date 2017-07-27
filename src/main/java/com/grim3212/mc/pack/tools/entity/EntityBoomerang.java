@@ -50,6 +50,7 @@ public class EntityBoomerang extends Entity implements IManualEntity {
 	protected int timeBeforeTurnAround;
 	List<EntityItem> itemsPickedUp;
 	private ItemStack selfStack;
+	private boolean offhand;
 	private static final DataParameter<Float> ROTATION = EntityDataManager.<Float>createKey(EntityBoomerang.class, DataSerializers.FLOAT);
 	private static final DataParameter<Optional<UUID>> RETURN_UNIQUE_ID = EntityDataManager.<Optional<UUID>>createKey(EntityBoomerang.class, DataSerializers.OPTIONAL_UNIQUE_ID);
 
@@ -60,9 +61,10 @@ public class EntityBoomerang extends Entity implements IManualEntity {
 		this.turningAround = true;
 		this.timeBeforeTurnAround = 0;
 		this.itemsPickedUp = new ArrayList<EntityItem>();
+		this.offhand = false;
 	}
 
-	public EntityBoomerang(World worldIn, EntityPlayer entity, ItemStack itemstack) {
+	public EntityBoomerang(World worldIn, EntityPlayer entity, ItemStack itemstack, boolean offhand) {
 		this(worldIn);
 		this.selfStack = itemstack;
 		this.setRotation(entity.rotationYaw, entity.rotationPitch);
@@ -78,6 +80,7 @@ public class EntityBoomerang extends Entity implements IManualEntity {
 		this.isBouncing = false;
 		this.timeBeforeTurnAround = ToolsConfig.woodBoomerangRange <= 0 ? 30 : ToolsConfig.woodBoomerangRange;
 		this.turningAround = false;
+		this.offhand = offhand;
 		this.setReturnToId(entity.getPersistentID());
 	}
 
@@ -218,7 +221,15 @@ public class EntityBoomerang extends Entity implements IManualEntity {
 	public void setEntityDead() {
 		if (this.getReturnTo() != null) {
 			if (selfStack != null) {
-				this.getReturnTo().inventory.addItemStackToInventory(selfStack);
+				if (offhand) {
+					if (this.getReturnTo().getHeldItemOffhand().isEmpty()) {
+						this.getReturnTo().setHeldItem(EnumHand.OFF_HAND, selfStack);
+					} else {
+						this.getReturnTo().inventory.addItemStackToInventory(selfStack);
+					}
+				} else {
+					this.getReturnTo().inventory.addItemStackToInventory(selfStack);
+				}
 			}
 		}
 		super.setDead();
@@ -296,6 +307,8 @@ public class EntityBoomerang extends Entity implements IManualEntity {
 			item.readFromNBT(tag);
 			this.itemsPickedUp.add(item);
 		}
+
+		this.offhand = compound.getBoolean("offhand");
 	}
 
 	@Override
@@ -332,6 +345,7 @@ public class EntityBoomerang extends Entity implements IManualEntity {
 		}
 
 		compound.setTag("ItemsPickedUp", itemsGathered);
+		compound.setBoolean("offhand", offhand);
 	}
 
 	@Override

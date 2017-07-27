@@ -20,8 +20,12 @@ import net.minecraft.item.ItemTool;
 public class ItemUltimateFist extends ItemTool implements IManualItem {
 
 	public ItemUltimateFist() {
-		super(ToolMaterial.DIAMOND, Sets.<Block> newHashSet());
-		this.setMaxDamage(ToolsConfig.fistHasDurability ? ToolsConfig.fistDurabilityAmount : 0);
+		super(ToolMaterial.DIAMOND, Sets.<Block>newHashSet());
+	}
+
+	@Override
+	public int getMaxDamage(ItemStack stack) {
+		return ToolsConfig.fistHasDurability ? ToolsConfig.fistDurabilityAmount : 0;
 	}
 
 	@Override
@@ -46,7 +50,7 @@ public class ItemUltimateFist extends ItemTool implements IManualItem {
 
 	@Override
 	public Multimap<String, AttributeModifier> getAttributeModifiers(EntityEquipmentSlot slot, ItemStack stack) {
-		Multimap<String, AttributeModifier> multimap = HashMultimap.<String, AttributeModifier> create();
+		Multimap<String, AttributeModifier> multimap = HashMultimap.<String, AttributeModifier>create();
 		if (slot == EntityEquipmentSlot.MAINHAND) {
 			multimap.put(SharedMonsterAttributes.ATTACK_DAMAGE.getName(), new AttributeModifier(ATTACK_DAMAGE_MODIFIER, "Tool modifier", ToolsConfig.fistEntityDamage, 0));
 			multimap.put(SharedMonsterAttributes.ATTACK_SPEED.getName(), new AttributeModifier(ATTACK_SPEED_MODIFIER, "Tool modifier", ToolsConfig.fistAttackSpeed, 0));
