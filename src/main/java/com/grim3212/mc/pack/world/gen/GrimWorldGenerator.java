@@ -41,8 +41,6 @@ public class GrimWorldGenerator extends GrimWorldGen {
 			}
 		}
 
-		//TODO: Check if trailing chunks are occurring with the following generation
-		//Not sure if this is going to work needs testing
 		FloatingIslandsBlacklist.generateFloatingIslands(world, random, posX + 8, posZ + 8);
 
 		generateExtras(world, random, posX + 8, posZ + 8);
@@ -86,42 +84,36 @@ public class GrimWorldGenerator extends GrimWorldGen {
 					new WorldGenFarmland(random.nextInt(8) + 4, random.nextInt(6) + 2).generate(world, random, new BlockPos(blockX + random.nextInt(16), j, blockZ + random.nextInt(16)));
 				}
 			}
-
 			if (random.nextInt(WorldConfig.frequencySaplings) == 0 && !BiomeDictionary.hasType(biome, Type.SANDY)) {
 				for (int i = 0; i < 5; i++) {
 					int j = random.nextInt(30) + 60;
 					new WorldGenSaplingsAndStumps(random.nextInt(16) + 1, true).generate(world, random, new BlockPos(blockX + random.nextInt(16), j, blockZ + random.nextInt(16)));
 				}
 			}
-
 			if (random.nextInt(WorldConfig.frequencyTreeStumps) == 0 && !BiomeDictionary.hasType(biome, Type.SANDY)) {
 				for (int i = 0; i < 5; i++) {
 					int j = random.nextInt(30) + 60;
 					new WorldGenSaplingsAndStumps(random.nextInt(12) + 3, false).generate(world, random, new BlockPos(blockX + random.nextInt(16), j, blockZ + random.nextInt(16)));
 				}
 			}
-
 			if (random.nextInt(WorldConfig.frequencySandstonePillars) == 0 && biome == Biomes.DESERT) {
 				for (int i = 0; i < 5; i++) {
 					int j = random.nextInt(25) + 60;
 					new WorldGenSandExpanded(random.nextInt(18) + 4, 0).generate(world, random, new BlockPos(blockX + random.nextInt(16), j, blockZ + random.nextInt(16)));
 				}
 			}
-
 			if (random.nextInt(WorldConfig.frequencyCactusFields) == 0 && biome == Biomes.DESERT) {
 				for (int i = 0; i < 5; i++) {
 					int j = random.nextInt(55) + 60;
 					new WorldGenSandExpanded(random.nextInt(24) + 3, 1).generate(world, random, new BlockPos(blockX + random.nextInt(16), j, blockZ + random.nextInt(16)));
 				}
 			}
-
 			if (random.nextInt(WorldConfig.frequencySandPits) == 0 && biome == Biomes.DESERT) {
 				for (int i = 0; i < 5; i++) {
 					int j = random.nextInt(25) + 60;
 					new WorldGenSandExpanded(random.nextInt(19) + 4, 2).generate(world, random, new BlockPos(blockX + random.nextInt(16), j, blockZ + random.nextInt(16)));
 				}
 			}
-
 			if (random.nextInt(WorldConfig.frequencyMelons) == 0 && (biome == Biomes.RIVER || biome == Biomes.OCEAN || biome == Biomes.PLAINS)) {
 				for (int i = 0; i < 5; i++) {
 					int j = random.nextInt(10) + 60;

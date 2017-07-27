@@ -35,7 +35,6 @@ public class GrimWorld extends GrimPart {
 	public static final String partId = "world";
 	public static final String partName = "Grim World";
 
-	// TODO: Look into cascading world gen problems
 	public GrimWorld() {
 		super(GrimWorld.partId, GrimWorld.partName, new WorldConfig());
 	}

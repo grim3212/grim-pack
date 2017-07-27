@@ -21,7 +21,7 @@ public class WorldGenSandExpanded extends WorldGenerator {
 	private boolean validCactusBlock(World world, BlockPos pos) {
 		Block bid = world.getBlockState(pos.up()).getBlock();
 		return world.getBlockState(pos).getBlock() == Blocks.SAND && (bid == Blocks.AIR || bid == Blocks.CACTUS || bid == Blocks.DEADBUSH);
-		
+
 	}
 
 	private void recBlockGenerateX(World world, Random random, BlockPos pos, int count) {
@@ -86,21 +86,11 @@ public class WorldGenSandExpanded extends WorldGenerator {
 	 * Pillar 1: Cactus Field 2: Sand Pit
 	 */
 	public boolean generate(World worldIn, Random random, BlockPos pos) {
-		int maxAttempts;
-		switch (type) {
-		case 0:
-		case 1:
-		case 2:
-			maxAttempts = 2;
-			break;
-		default:
-			maxAttempts = 2;
-			break;
-		}
+		int maxAttempts = 2;
 		for (int l = 0; l < maxAttempts; l++) {
-			int i1 = (pos.getX() + random.nextInt(16)) - random.nextInt(16);
-			int j1 = (pos.getY() + random.nextInt(8)) - random.nextInt(8);
-			int k1 = (pos.getZ() + random.nextInt(16)) - random.nextInt(16);
+			int i1 = (pos.getX() + random.nextInt(8)) - random.nextInt(8);
+			int j1 = (pos.getY() + random.nextInt(4)) - random.nextInt(4);
+			int k1 = (pos.getZ() + random.nextInt(8)) - random.nextInt(8);
 
 			BlockPos newPos = new BlockPos(i1, j1, k1);
 

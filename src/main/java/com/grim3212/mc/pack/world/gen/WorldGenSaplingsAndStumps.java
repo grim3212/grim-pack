@@ -23,9 +23,9 @@ public class WorldGenSaplingsAndStumps extends WorldGenerator {
 	public boolean generate(World worldIn, Random random, BlockPos pos) {
 		int numMade = 0; // # of Saplings/Stumps already placed
 		for (int l = 0; l < 40; l++) {
-			int i1 = (pos.getX() + random.nextInt(16)) - random.nextInt(16);
-			int j1 = (pos.getY() + random.nextInt(8)) - random.nextInt(8);
-			int k1 = (pos.getZ() + random.nextInt(16)) - random.nextInt(16);
+			int i1 = (pos.getX() + random.nextInt(8)) - random.nextInt(8);
+			int j1 = (pos.getY() + random.nextInt(4)) - random.nextInt(4);
+			int k1 = (pos.getZ() + random.nextInt(8)) - random.nextInt(8);
 
 			BlockPos newPos = new BlockPos(i1, j1, k1);
 
