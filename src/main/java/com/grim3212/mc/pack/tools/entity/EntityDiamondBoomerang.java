@@ -18,8 +18,8 @@ public class EntityDiamondBoomerang extends EntityBoomerang {
 		super(worldIn);
 	}
 
-	public EntityDiamondBoomerang(World worldIn, EntityPlayer entity, ItemStack itemstack) {
-		super(worldIn, entity, itemstack);
+	public EntityDiamondBoomerang(World worldIn, EntityPlayer entity, ItemStack itemstack, boolean offhand) {
+		super(worldIn, entity, itemstack, offhand);
 		this.timeBeforeTurnAround = ToolsConfig.diamondBoomerangRange <= 0 ? 30 : ToolsConfig.diamondBoomerangRange;
 	}
 

@@ -20,9 +20,9 @@ public class ItemDiamondBoomerang extends ItemBoomerang {
 	@Override
 	public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand hand) {
 		if (playerIn.getHeldItem(hand).getItemDamage() == 0) {
-			EntityDiamondBoomerang boom = new EntityDiamondBoomerang(worldIn, playerIn, playerIn.getHeldItem(hand));
+			EntityDiamondBoomerang boom = new EntityDiamondBoomerang(worldIn, playerIn, playerIn.getHeldItem(hand), hand == EnumHand.OFF_HAND);
 			worldIn.spawnEntity(boom);
-			playerIn.inventory.removeStackFromSlot(playerIn.inventory.currentItem);
+			playerIn.setHeldItem(hand, ItemStack.EMPTY);
 		}
 		return ActionResult.newResult(EnumActionResult.SUCCESS, playerIn.getHeldItem(hand));
 	}
