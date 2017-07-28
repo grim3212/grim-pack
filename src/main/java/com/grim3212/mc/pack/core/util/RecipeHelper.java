@@ -126,26 +126,17 @@ public class RecipeHelper {
 					NonNullList<Ingredient> lst = obj.getIngredients();
 					for (int x = 0; x < lst.size(); x++) {
 						Ingredient ing = lst.get(x);
-						ItemStack[] ingredients = ing.getMatchingStacks();
-						boolean skip = false;
 
-						for (ItemStack stack : ingredients) {
-							boolean matches = false;
+						if (ing != Ingredient.EMPTY) {
+							ItemStack[] ingredients = ing.getMatchingStacks();
 
-							if (OreDictionary.itemMatches(stackToFind, stack, true)) {
-								matches = true;
+							for (ItemStack stack : ingredients) {
+								if (OreDictionary.itemMatches(stackToFind, stack, true)) {
+									// Replace!
+									lst.set(x, new OreIngredient(oreName));
+									replaced++;
+								}
 							}
-
-							if (!matches) {
-								skip = true;
-							}
-							if (skip)
-								break;
-						}
-						if (!skip) {
-							// Replace!
-							lst.set(x, new OreIngredient(oreName));
-							replaced++;
 						}
 					}
 				}
