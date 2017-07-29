@@ -195,7 +195,8 @@ public class ItemSlingshot extends ItemManual {
 			// Add set to list and get random value
 			List<EnumPelletType> pelletTypes = new ArrayList<EnumPelletType>();
 			pelletTypes.addAll(types);
-			return pelletTypes.get(worldIn.rand.nextInt(pelletTypes.size()));
+			if (!pelletTypes.isEmpty())
+				return pelletTypes.get(worldIn.rand.nextInt(pelletTypes.size()));
 		case STONE:
 			return EnumPelletType.STONE;
 		}
