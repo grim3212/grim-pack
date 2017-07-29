@@ -1,10 +1,10 @@
 {
 	"homepage": "https://grim3212.github.io/grim-pack/home",
 	"promos": {
-		"1.12-latest": "5.0.0.1",
-		"1.12-recommended": "5.0.0.1",
-		"1.11.2-latest": "4.0.1.19",
-		"1.11.2-recommended": "4.0.1.19",
+		"1.12-latest": "5.0.0.2",
+		"1.12-recommended": "5.0.0.2",
+		"1.11.2-latest": "4.0.1.20",
+		"1.11.2-recommended": "4.0.1.20",
 		"1.11-latest": "4.0.0.0-alpha.2",
 		"1.11-recommended": "4.0.0.0-alpha.2",
 		"1.10.2-latest": "3.4.17.52",
@@ -62,6 +62,7 @@
 		"4.0.0.0-alpha": "Port to 1.11. Many changes to decor, powerstaff, slingshots, fungus, and more. See full changelog at curseforge."
 	},
 	"1.11.2": {
+		"4.0.1.19": "Fix slingshots crashing on random.",
 		"4.0.1.19": "Fix boomerangs not returning to slots and overwriting items. Fix Ultimate Fist not allowing for configurable durability.",
 		"4.0.1.17": "Add in Parabuzzy's and Bob-omb's. Add in a basic fluid tank. Add in more MultiTools enchantment options.",
 		"4.0.1.14": "Add in MoreStorage and finish adding drill and conveyor from We(raft.",
@@ -74,6 +75,7 @@
 		"4.0.0.0-beta": "Update to 1.11.2. More changes to slingshots. Add in more OreDictionary entries and allow Modern Furnaces to accept vanilla fuel."
 	},
 	"1.12": {
+		"5.0.0.2": "Fix slingshot crashing on random.",
 		"5.0.0.1": "Fix for OreDictionary replacing.",
 		"5.0.0.0": "First update to 1.12. Small fix everywhere. All recipes should be configurable except for Backpacks and Pellet Bags."
 	}
