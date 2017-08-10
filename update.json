@@ -1,8 +1,8 @@
 {
 	"homepage": "https://grim3212.github.io/grim-pack/home",
 	"promos": {
-		"1.12-latest": "5.0.0.2",
-		"1.12-recommended": "5.0.0.2",
+		"1.12-latest": "5.0.0.3",
+		"1.12-recommended": "5.0.0.3",
 		"1.11.2-latest": "4.0.1.20",
 		"1.11.2-recommended": "4.0.1.20",
 		"1.11-latest": "4.0.0.0-alpha.2",
@@ -75,6 +75,7 @@
 		"4.0.0.0-beta": "Update to 1.11.2. More changes to slingshots. Add in more OreDictionary entries and allow Modern Furnaces to accept vanilla fuel."
 	},
 	"1.12": {
+		"5.0.0.3": "Fix portable workbench crashing.",
 		"5.0.0.2": "Fix slingshot crashing on random.",
 		"5.0.0.1": "Fix for OreDictionary replacing.",
 		"5.0.0.0": "First update to 1.12. Small fix everywhere. All recipes should be configurable except for Backpacks and Pellet Bags."
