@@ -30,6 +30,12 @@ public class GuiItemTower extends GuiContainer {
 		this.ySize = 132;
 		this.xSize += 17;
 	}
+	
+	@Override
+	public void drawScreen(int mouseX, int mouseY, float partialTicks) {
+		this.drawDefaultBackground();
+		super.drawScreen(mouseX, mouseY, partialTicks);
+	}
 
 	@Override
 	protected void drawGuiContainerForegroundLayer(int par1, int par2) {

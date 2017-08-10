@@ -29,6 +29,12 @@ public class GuiIronPortable extends GuiContainer {
 	}
 
 	@Override
+	public void drawScreen(int mouseX, int mouseY, float partialTicks) {
+		this.drawDefaultBackground();
+		super.drawScreen(mouseX, mouseY, partialTicks);
+	}
+
+	@Override
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
 		if (this.portableStack.hasDisplayName())
 			fontRenderer.drawString(this.portableStack.getDisplayName(), 8, 6, 4210752);

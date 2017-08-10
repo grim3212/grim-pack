@@ -23,11 +23,17 @@ public class GuiMFurnace extends GuiContainer {
 		this.playerInventory = playerInv;
 		this.tileFurnace = furnaceInv;
 	}
+	
+	@Override
+	public void drawScreen(int mouseX, int mouseY, float partialTicks) {
+		this.drawDefaultBackground();
+		super.drawScreen(mouseX, mouseY, partialTicks);
+	}
 
 	/**
 	 * Draw the foreground layer for the GuiContainer (everything in front of
 	 * the items). Args : mouseX, mouseY
-	 */
+	 */@Override
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
 		String s = this.tileFurnace.getDisplayName().getUnformattedText();
 		this.fontRenderer.drawString(s, this.xSize / 2 - this.fontRenderer.getStringWidth(s) / 2, 6, 4210752);
@@ -36,7 +42,7 @@ public class GuiMFurnace extends GuiContainer {
 
 	/**
 	 * Args : renderPartialTicks, mouseX, mouseY
-	 */
+	 */@Override
 	protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
 		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 		this.mc.getTextureManager().bindTexture(gui);

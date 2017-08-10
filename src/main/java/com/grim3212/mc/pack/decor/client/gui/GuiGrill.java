@@ -38,6 +38,12 @@ public class GuiGrill extends GuiContainer {
 	}
 
 	@Override
+	public void drawScreen(int mouseX, int mouseY, float partialTicks) {
+		this.drawDefaultBackground();
+		super.drawScreen(mouseX, mouseY, partialTicks);
+	}
+
+	@Override
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
 		this.fontRenderer.drawString(this.grillInventory.getName(), this.xSize / 2 - this.fontRenderer.getStringWidth(grillInventory.getName()) / 2, 6, 4210752);
 		this.fontRenderer.drawString(I18n.format("container.grill.tier") + " " + grillInventory.getTier(), 73, 14, 4210752);

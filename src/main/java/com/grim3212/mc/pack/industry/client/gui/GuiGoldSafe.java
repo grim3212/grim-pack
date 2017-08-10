@@ -31,6 +31,12 @@ public class GuiGoldSafe extends GuiContainer {
 		this.inventoryRows = (safeInventory.getSizeInventory() / 9);
 		this.ySize = (i + this.inventoryRows * 18);
 	}
+	
+	@Override
+	public void drawScreen(int mouseX, int mouseY, float partialTicks) {
+		this.drawDefaultBackground();
+		super.drawScreen(mouseX, mouseY, partialTicks);
+	}
 
 	@Override
 	protected void drawGuiContainerForegroundLayer(int par1, int par2) {

@@ -31,6 +31,12 @@ public class GuiLocker extends GuiContainer {
 		this.ySize = 204;
 		this.xSize += 17;
 	}
+	
+	@Override
+	public void drawScreen(int mouseX, int mouseY, float partialTicks) {
+		this.drawDefaultBackground();
+		super.drawScreen(mouseX, mouseY, partialTicks);
+	}
 
 	protected void drawGuiContainerForegroundLayer(int par1, int par2) {
 		this.fontRenderer.drawString(I18n.format(this.lockerInventory.getName()), 8, 6, 4210752);

@@ -512,6 +512,12 @@ public class GuiSpecificSensor extends GuiContainer {
 	}
 
 	@Override
+	public void drawScreen(int mouseX, int mouseY, float partialTicks) {
+		this.drawDefaultBackground();
+		super.drawScreen(mouseX, mouseY, partialTicks);
+	}
+
+	@Override
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
 		String s = this.te.getDisplayName().getUnformattedText();
 		drawCenteredString(fontRenderer, s, xSize / 2, 8, 0xffffff);

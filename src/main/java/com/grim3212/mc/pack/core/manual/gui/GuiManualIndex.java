@@ -62,6 +62,7 @@ public class GuiManualIndex extends GuiScreen {
 
 	@Override
 	public void drawScreen(int i, int j, float f) {
+		this.drawDefaultBackground();
 		GlStateManager.color(1F, 1F, 1F, 1F);
 		mc.renderEngine.bindTexture(texture);
 		drawTexturedModalRect(x, y, 0, 0, manualWidth, manualHeight);
