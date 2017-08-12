@@ -14,6 +14,7 @@ public class UtilClientProxy extends ClientProxy {
 
 	@Override
 	public void preInit() {
+		MinecraftForge.EVENT_BUS.register(new UtilModelHandler());
 		MinecraftForge.EVENT_BUS.register(new AutoItemTickHandler());
 		MinecraftForge.EVENT_BUS.register(new RenderTickHandler());
 		MinecraftForge.EVENT_BUS.register(new KeyBindHelper());

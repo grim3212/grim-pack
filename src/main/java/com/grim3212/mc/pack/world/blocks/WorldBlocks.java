@@ -6,12 +6,10 @@ import com.grim3212.mc.pack.world.items.ItemFungus;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraftforge.event.RegistryEvent;
-import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.registries.IForgeRegistry;
 
-@Mod.EventBusSubscriber
 public class WorldBlocks {
 
 	public static final Block randomite = new BlockRandomite();
@@ -26,7 +24,7 @@ public class WorldBlocks {
 	public static final Block fungus_maze = new BlockFungusMaze();
 
 	@SubscribeEvent
-	public static void initBlocks(RegistryEvent.Register<Block> evt) {
+	public void initBlocks(RegistryEvent.Register<Block> evt) {
 		IForgeRegistry<Block> r = evt.getRegistry();
 
 		r.register(randomite);
@@ -42,7 +40,7 @@ public class WorldBlocks {
 	}
 
 	@SubscribeEvent
-	public static void initItems(RegistryEvent.Register<Item> evt) {
+	public void initItems(RegistryEvent.Register<Item> evt) {
 		IForgeRegistry<Item> r = evt.getRegistry();
 
 		r.register(new ItemManualBlock(corruption_block).setRegistryName(corruption_block.getRegistryName()));
@@ -59,7 +57,7 @@ public class WorldBlocks {
 		initOreDict();
 	}
 
-	private static void initOreDict() {
+	private void initOreDict() {
 		OreDictionary.registerOre("blockFungus", fungus_ore_building);
 		OreDictionary.registerOre("blockFungus", fungus_building);
 		OreDictionary.registerOre("blockFungus", fungus_growing);

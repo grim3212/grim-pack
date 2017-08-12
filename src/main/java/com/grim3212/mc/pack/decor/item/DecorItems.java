@@ -8,12 +8,10 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraftforge.event.RegistryEvent;
-import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.registries.IForgeRegistry;
 
-@Mod.EventBusSubscriber
 public class DecorItems {
 
 	public static final Item glass_shard = (new ItemManualPage("glass_shard", "decor:deco.lights")).setCreativeTab(GrimCreativeTabs.GRIM_DECOR);
@@ -28,7 +26,7 @@ public class DecorItems {
 	public static final Item decor_door_item = new ItemDecorDoor();
 
 	@SubscribeEvent
-	public static void initItems(RegistryEvent.Register<Item> evt) {
+	public void initItems(RegistryEvent.Register<Item> evt) {
 		IForgeRegistry<Item> r = evt.getRegistry();
 
 		r.register(glass_shard);
@@ -44,7 +42,7 @@ public class DecorItems {
 	}
 
 	@SubscribeEvent
-	public static void registerRecipes(RegistryEvent.Register<IRecipe> evt) {
+	public void registerRecipes(RegistryEvent.Register<IRecipe> evt) {
 		GameRegistry.addSmelting(unfired_craft, new ItemStack(DecorBlocks.craft_clay, 1), 0.35F);
 		GameRegistry.addSmelting(unfired_pot, new ItemStack(DecorBlocks.pot, 1), 0.35F);
 	}

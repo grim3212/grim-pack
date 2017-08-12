@@ -3,6 +3,7 @@ package com.grim3212.mc.pack.world;
 import com.grim3212.mc.pack.core.manual.IManualPart;
 import com.grim3212.mc.pack.core.part.GrimPart;
 import com.grim3212.mc.pack.core.proxy.CommonProxy;
+import com.grim3212.mc.pack.world.blocks.WorldBlocks;
 import com.grim3212.mc.pack.world.client.ManualWorld;
 import com.grim3212.mc.pack.world.compat.jer.JERWorld;
 import com.grim3212.mc.pack.world.config.WorldConfig;
@@ -11,6 +12,8 @@ import com.grim3212.mc.pack.world.event.WorldPostInitEvent;
 import com.grim3212.mc.pack.world.gen.GrimWorldGenerator;
 import com.grim3212.mc.pack.world.gen.WorldTerrainEvents;
 import com.grim3212.mc.pack.world.init.WorldRecipes;
+import com.grim3212.mc.pack.world.init.WorldSounds;
+import com.grim3212.mc.pack.world.items.WorldItems;
 import com.grim3212.mc.pack.world.types.WorldTypes;
 import com.grim3212.mc.pack.world.util.WorldLootTables;
 
@@ -43,6 +46,9 @@ public class GrimWorld extends GrimPart {
 	public void preInit(FMLPreInitializationEvent event) {
 		super.preInit(event);
 
+		MinecraftForge.EVENT_BUS.register(new WorldBlocks());
+		MinecraftForge.EVENT_BUS.register(new WorldItems());
+		MinecraftForge.EVENT_BUS.register(new WorldSounds());
 		GameRegistry.registerWorldGenerator(new GrimWorldGenerator(), 5);
 		MinecraftForge.TERRAIN_GEN_BUS.register(new WorldTerrainEvents());
 		WorldLootTables.initLootTables();

@@ -18,14 +18,12 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.client.model.ModelLoaderRegistry;
-import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
-@Mod.EventBusSubscriber
 public class ToolsModelHandler {
 
 	@SubscribeEvent
-	public static void registerModels(ModelRegistryEvent evt) {
+	public void registerModels(ModelRegistryEvent evt) {
 		// Register custom model
 		ModelLoaderRegistry.registerLoader(BetterBucketModel.LoaderDynBucket.instance);
 
@@ -126,7 +124,7 @@ public class ToolsModelHandler {
 		}
 	}
 
-	private static void setBucketModelDefinition(Item item) {
+	private void setBucketModelDefinition(Item item) {
 		final ModelResourceLocation LOCATION = new ModelResourceLocation(new ResourceLocation(GrimPack.modID, item.getUnlocalizedName().substring(5)), "inventory");
 
 		ModelLoader.setCustomMeshDefinition(item, new ItemMeshDefinition() {

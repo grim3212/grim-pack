@@ -6,14 +6,12 @@ import com.grim3212.mc.pack.cuisine.item.CuisineItems;
 import com.grim3212.mc.pack.cuisine.item.ItemSodaBottle;
 
 import net.minecraftforge.client.event.ModelRegistryEvent;
-import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
-@Mod.EventBusSubscriber
 public class CuisineModelHandler {
 
 	@SubscribeEvent
-	public static void registerModels(ModelRegistryEvent evt) {
+	public void registerModels(ModelRegistryEvent evt) {
 		// ITEMS
 		RenderHelper.renderItem(CuisineItems.powered_sweets);
 		RenderHelper.renderItem(CuisineItems.powered_sugar);

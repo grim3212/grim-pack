@@ -1,5 +1,6 @@
 package com.grim3212.mc.pack.tools.compat.jei;
 
+import com.grim3212.mc.pack.core.config.CoreConfig;
 import com.grim3212.mc.pack.tools.compat.jei.recipes.BackpackRecipeMaker;
 import com.grim3212.mc.pack.tools.compat.jei.recipes.PelletBagRecipeMaker;
 import com.grim3212.mc.pack.tools.items.ToolsItems;
@@ -17,16 +18,18 @@ public class JEITools implements IModPlugin {
 
 	@Override
 	public void register(IModRegistry registry) {
-		// Backpack recipe
-		registry.addRecipes(BackpackRecipeMaker.getBackpackRecipes(), VanillaRecipeCategoryUid.CRAFTING);
-		// Pellet Bag recipe
-		registry.addRecipes(PelletBagRecipeMaker.getPelletBagRecipes(), VanillaRecipeCategoryUid.CRAFTING);
+		if (CoreConfig.useTools) {
+			// Backpack recipe
+			registry.addRecipes(BackpackRecipeMaker.getBackpackRecipes(), VanillaRecipeCategoryUid.CRAFTING);
+			// Pellet Bag recipe
+			registry.addRecipes(PelletBagRecipeMaker.getPelletBagRecipes(), VanillaRecipeCategoryUid.CRAFTING);
 
-		// portable workbench shiftclicking
-		registry.getRecipeTransferRegistry().addRecipeTransferHandler(new PortableWorkbenchTransferInfo());
+			// portable workbench shiftclicking
+			registry.getRecipeTransferRegistry().addRecipeTransferHandler(new PortableWorkbenchTransferInfo());
 
-		// add our portable workbench to the list with the vanilla crafting
-		registry.addRecipeCatalyst(new ItemStack(ToolsItems.portable_workbench, 1), VanillaRecipeCategoryUid.CRAFTING);
+			// add our portable workbench to the list with the vanilla crafting
+			registry.addRecipeCatalyst(new ItemStack(ToolsItems.portable_workbench, 1), VanillaRecipeCategoryUid.CRAFTING);
+		}
 	}
 
 	@Override
@@ -35,7 +38,8 @@ public class JEITools implements IModPlugin {
 
 	@Override
 	public void registerItemSubtypes(ISubtypeRegistry subtypeRegistry) {
-		subtypeRegistry.useNbtForSubtypes(ToolsItems.backpack, ToolsItems.pellet_bag);
+		if (CoreConfig.useTools)
+			subtypeRegistry.useNbtForSubtypes(ToolsItems.backpack, ToolsItems.pellet_bag);
 	}
 
 	@Override

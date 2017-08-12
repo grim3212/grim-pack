@@ -8,12 +8,10 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraftforge.event.RegistryEvent;
-import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.registries.IForgeRegistry;
 
-@Mod.EventBusSubscriber
 public class CuisineBlocks {
 
 	public static final Block butter_churn = new BlockButterchurn();
@@ -31,7 +29,7 @@ public class CuisineBlocks {
 	public static final Block pork_pie = new BlockPie("pork_pie");
 
 	@SubscribeEvent
-	public static void initBlocks(RegistryEvent.Register<Block> evt) {
+	public void initBlocks(RegistryEvent.Register<Block> evt) {
 		IForgeRegistry<Block> r = evt.getRegistry();
 
 		r.register(cheese_block);
@@ -50,7 +48,7 @@ public class CuisineBlocks {
 	}
 
 	@SubscribeEvent
-	public static void initItems(RegistryEvent.Register<Item> evt) {
+	public void initItems(RegistryEvent.Register<Item> evt) {
 		IForgeRegistry<Item> r = evt.getRegistry();
 
 		r.register(new ItemManualBlock(cheese_block).setRegistryName(cheese_block.getRegistryName()));
@@ -69,7 +67,7 @@ public class CuisineBlocks {
 	}
 
 	@SubscribeEvent
-	public static void registerRecipes(RegistryEvent.Register<IRecipe> evt) {
+	public void registerRecipes(RegistryEvent.Register<IRecipe> evt) {
 		GameRegistry.addSmelting(CuisineItems.raw_apple_pie, new ItemStack(apple_pie), 0.35f);
 		GameRegistry.addSmelting(CuisineItems.raw_pork_pie, new ItemStack(pork_pie), 0.35f);
 		GameRegistry.addSmelting(CuisineItems.raw_chocolate_pie, new ItemStack(chocolate_pie), 0.35f);

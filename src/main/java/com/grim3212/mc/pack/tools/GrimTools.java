@@ -5,11 +5,14 @@ import com.grim3212.mc.pack.core.network.PacketDispatcher;
 import com.grim3212.mc.pack.core.part.GrimPart;
 import com.grim3212.mc.pack.core.proxy.CommonProxy;
 import com.grim3212.mc.pack.core.util.RecipeHelper;
+import com.grim3212.mc.pack.tools.blocks.ToolsBlocks;
 import com.grim3212.mc.pack.tools.client.ManualTools;
 import com.grim3212.mc.pack.tools.config.ToolsConfig;
 import com.grim3212.mc.pack.tools.crafting.ToolsRecipes;
 import com.grim3212.mc.pack.tools.entity.ToolsEntities;
 import com.grim3212.mc.pack.tools.event.MilkingEvent;
+import com.grim3212.mc.pack.tools.init.ToolsSounds;
+import com.grim3212.mc.pack.tools.items.ToolsItems;
 import com.grim3212.mc.pack.tools.network.MessagePowerStaffSwitchModes;
 import com.grim3212.mc.pack.tools.network.MessageSlingshotSwitchModes;
 import com.grim3212.mc.pack.tools.network.MessageWandKeys;
@@ -45,6 +48,10 @@ public class GrimTools extends GrimPart {
 	public void preInit(FMLPreInitializationEvent event) {
 		super.preInit(event);
 
+		MinecraftForge.EVENT_BUS.register(new ToolsBlocks());
+		MinecraftForge.EVENT_BUS.register(new ToolsItems());
+		MinecraftForge.EVENT_BUS.register(new ToolsRecipes());
+		MinecraftForge.EVENT_BUS.register(new ToolsSounds());
 		MinecraftForge.EVENT_BUS.register(new MilkingEvent());
 		PacketDispatcher.registerMessage(MessageWandKeys.class);
 		PacketDispatcher.registerMessage(MessagePowerStaffSwitchModes.class);

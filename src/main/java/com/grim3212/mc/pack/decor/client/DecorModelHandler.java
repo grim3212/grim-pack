@@ -17,14 +17,12 @@ import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.client.model.ModelLoaderRegistry;
 import net.minecraftforge.client.model.obj.OBJLoader;
-import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
-@Mod.EventBusSubscriber
 public class DecorModelHandler {
 
 	@SubscribeEvent
-	public static void registerModels(ModelRegistryEvent evt) {
+	public void registerModels(ModelRegistryEvent evt) {
 		// Needed to be able to get the OBJ models and modify with a different
 		// model loader
 		OBJLoader.INSTANCE.addDomain(GrimPack.modID);

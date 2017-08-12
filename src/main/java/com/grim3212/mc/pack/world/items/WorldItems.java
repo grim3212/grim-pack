@@ -7,11 +7,9 @@ import com.grim3212.mc.pack.world.blocks.WorldBlocks;
 
 import net.minecraft.item.Item;
 import net.minecraftforge.event.RegistryEvent;
-import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.registries.IForgeRegistry;
 
-@Mod.EventBusSubscriber
 public class WorldItems {
 
 	public static final Item gunpowder_reed_item = (new ItemManualBlockSpecial("gunpowder_reed_item", WorldBlocks.gunpowder_reed_block)).setCreativeTab(GrimCreativeTabs.GRIM_WORLD);
@@ -20,7 +18,7 @@ public class WorldItems {
 	public static final Item bobomb = new ItemBobomb();
 
 	@SubscribeEvent
-	public static void initItems(RegistryEvent.Register<Item> evt) {
+	public void initItems(RegistryEvent.Register<Item> evt) {
 		IForgeRegistry<Item> r = evt.getRegistry();
 
 		r.register(gunpowder_reed_item);

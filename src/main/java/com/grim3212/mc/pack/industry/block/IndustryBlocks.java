@@ -32,13 +32,11 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraftforge.event.RegistryEvent;
-import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.registries.IForgeRegistry;
 
-@Mod.EventBusSubscriber
 public class IndustryBlocks {
 
 	public static final Block togglerack = new BlockToggleRack();
@@ -114,7 +112,7 @@ public class IndustryBlocks {
 	public static final Block tank = new BlockTank();
 
 	@SubscribeEvent
-	public static void initBlocks(RegistryEvent.Register<Block> evt) {
+	public void initBlocks(RegistryEvent.Register<Block> evt) {
 		IForgeRegistry<Block> r = evt.getRegistry();
 
 		r.register(modern_tile);
@@ -193,7 +191,7 @@ public class IndustryBlocks {
 	}
 
 	@SubscribeEvent
-	public static void initItems(RegistryEvent.Register<Item> evt) {
+	public void initItems(RegistryEvent.Register<Item> evt) {
 		IForgeRegistry<Item> r = evt.getRegistry();
 
 		r.register(new ItemGoldSafe(gold_safe).setRegistryName(gold_safe.getRegistryName()));
@@ -271,7 +269,7 @@ public class IndustryBlocks {
 		initOreDict();
 	}
 
-	private static void initTileEntities() {
+	private void initTileEntities() {
 		GameRegistry.registerTileEntity(TileEntitySensor.class, "sensors");
 		GameRegistry.registerTileEntity(TileEntityGravity.class, "gravity");
 		GameRegistry.registerTileEntity(TileEntityCamo.class, "camo_plate");
@@ -291,7 +289,7 @@ public class IndustryBlocks {
 		GameRegistry.registerTileEntity(TileEntityTank.class, "grimpack_tank");
 	}
 
-	private static void initOreDict() {
+	private void initOreDict() {
 		OreDictionary.registerOre("oreUranium", uranium_ore);
 		OreDictionary.registerOre("blockGlass", tempered_glass);
 		OreDictionary.registerOre("blockSteel", steel_block);
@@ -300,7 +298,7 @@ public class IndustryBlocks {
 	}
 
 	@SubscribeEvent
-	public static void registerRecipes(RegistryEvent.Register<IRecipe> evt) {
+	public void registerRecipes(RegistryEvent.Register<IRecipe> evt) {
 		GameRegistry.addSmelting(aluminum_ore, new ItemStack(IndustryItems.aluminum_ingot, 1), 0.45F);
 		GameRegistry.addSmelting(uranium_ore, new ItemStack(IndustryItems.uranium_ingot), 0.7F);
 	}

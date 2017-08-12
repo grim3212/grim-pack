@@ -24,15 +24,13 @@ import net.minecraftforge.client.ForgeHooksClient;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.client.model.ModelLoaderRegistry;
-import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
-@Mod.EventBusSubscriber
 public class IndustryModelHandler {
 
 	@SuppressWarnings("deprecation")
 	@SubscribeEvent
-	public static void registerModels(ModelRegistryEvent evt) {
+	public void registerModels(ModelRegistryEvent evt) {
 		// Register all custom models for camo plates
 		ModelLoaderRegistry.registerLoader(CamoPlateModelLoader.instance);
 

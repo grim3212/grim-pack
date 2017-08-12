@@ -20,7 +20,7 @@ import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 
-@Mod(modid = GrimPack.modID, name = GrimPack.modName, version = "@MOD_VERSION@", dependencies = "required-after:forge@[13.19.1.2189,)", guiFactory = "com.grim3212.mc.pack.core.config.ConfigGuiFactory", updateJSON = "https://raw.githubusercontent.com/grim3212/grim-pack/master/update.json")
+@Mod(modid = GrimPack.modID, name = GrimPack.modName, version = "@MOD_VERSION@", acceptedMinecraftVersions = "[1.12,1.13)", guiFactory = "com.grim3212.mc.pack.core.config.ConfigGuiFactory", updateJSON = "https://raw.githubusercontent.com/grim3212/grim-pack/master/update.json")
 public class GrimPack {
 
 	@Instance(GrimPack.modID)

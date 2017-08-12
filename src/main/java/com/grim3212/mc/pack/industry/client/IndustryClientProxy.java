@@ -51,6 +51,7 @@ public class IndustryClientProxy extends IndustryCommonProxy {
 
 	@Override
 	public void preInit() {
+		MinecraftForge.EVENT_BUS.register(new IndustryModelHandler());
 		MinecraftForge.EVENT_BUS.register(new ClientEvents());
 
 		// TileEntities

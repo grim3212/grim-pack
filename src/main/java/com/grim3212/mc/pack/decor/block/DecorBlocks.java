@@ -42,12 +42,10 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraftforge.event.RegistryEvent;
-import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.registries.IForgeRegistry;
 
-@Mod.EventBusSubscriber
 public class DecorBlocks {
 
 	public static final Block calendar = new BlockCalendar();
@@ -97,7 +95,7 @@ public class DecorBlocks {
 	public static final Block decor_trap_door = new BlockColorizerTrapDoor();
 
 	@SubscribeEvent
-	public static void initBlocks(RegistryEvent.Register<Block> evt) {
+	public void initBlocks(RegistryEvent.Register<Block> evt) {
 		IForgeRegistry<Block> r = evt.getRegistry();
 
 		r.register(hardened_wood);
@@ -149,7 +147,7 @@ public class DecorBlocks {
 	}
 
 	@SubscribeEvent
-	public static void initItems(RegistryEvent.Register<Item> evt) {
+	public void initItems(RegistryEvent.Register<Item> evt) {
 		IForgeRegistry<Item> r = evt.getRegistry();
 
 		r.register(new ItemManualBlock(calendar).setRegistryName(calendar.getRegistryName()));
@@ -207,7 +205,7 @@ public class DecorBlocks {
 	}
 
 	@SubscribeEvent
-	public static void registerRecipes(RegistryEvent.Register<IRecipe> evt) {
+	public void registerRecipes(RegistryEvent.Register<IRecipe> evt) {
 		GameRegistry.addSmelting(Blocks.GRAVEL, new ItemStack(road, 1), 0.15F);
 	}
 }

@@ -7,12 +7,10 @@ import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.item.Item;
 import net.minecraftforge.event.RegistryEvent;
-import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.registries.IForgeRegistry;
 
-@Mod.EventBusSubscriber
 public class ToolsBlocks {
 
 	public static final Block black_diamond_block = new BlockBlackDiamond(Material.IRON, SoundType.METAL);
@@ -20,7 +18,7 @@ public class ToolsBlocks {
 	public static final Block element_115_ore = new BlockElement();
 
 	@SubscribeEvent
-	public static void initBlocks(RegistryEvent.Register<Block> evt) {
+	public void initBlocks(RegistryEvent.Register<Block> evt) {
 		IForgeRegistry<Block> r = evt.getRegistry();
 
 		r.register(black_diamond_block);
@@ -29,7 +27,7 @@ public class ToolsBlocks {
 	}
 
 	@SubscribeEvent
-	public static void initItems(RegistryEvent.Register<Item> evt) {
+	public void initItems(RegistryEvent.Register<Item> evt) {
 		IForgeRegistry<Item> r = evt.getRegistry();
 
 		r.register(new ItemManualBlock(black_diamond_ore).setRegistryName(black_diamond_ore.getRegistryName()));
@@ -39,7 +37,7 @@ public class ToolsBlocks {
 		initOreDict();
 	}
 
-	private static void initOreDict() {
+	private void initOreDict() {
 		OreDictionary.registerOre("oreBlackDiamond", black_diamond_ore);
 		OreDictionary.registerOre("blockBlackDiamond", black_diamond_block);
 		OreDictionary.registerOre("oreElement115", element_115_ore);

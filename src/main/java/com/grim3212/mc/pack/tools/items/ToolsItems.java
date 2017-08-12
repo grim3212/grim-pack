@@ -28,13 +28,11 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraftforge.common.util.EnumHelper;
 import net.minecraftforge.event.RegistryEvent;
-import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.registries.IForgeRegistry;
 
-@Mod.EventBusSubscriber
 public class ToolsItems {
 
 	public static final ToolMaterial blackdiamond = EnumHelper.addToolMaterial("black_diamond", 4, 5122, 15F, 5F, 20);
@@ -129,7 +127,7 @@ public class ToolsItems {
 	public static final Item diamond_boomerang = new ItemDiamondBoomerang();
 
 	@SubscribeEvent
-	public static void initItems(RegistryEvent.Register<Item> evt) {
+	public void initItems(RegistryEvent.Register<Item> evt) {
 		IForgeRegistry<Item> r = evt.getRegistry();
 
 		r.register(boomerang);
@@ -232,7 +230,7 @@ public class ToolsItems {
 		initOreDict();
 	}
 
-	private static void initOreDict() {
+	private void initOreDict() {
 		OreDictionary.registerOre("ingotDarkIron", dark_iron_ingot);
 		OreDictionary.registerOre("bucketMilk", Items.MILK_BUCKET);
 		OreDictionary.registerOre("bucketMilk", wooden_milk_bucket);
@@ -249,7 +247,7 @@ public class ToolsItems {
 	}
 
 	@SubscribeEvent
-	public static void registerRecipes(RegistryEvent.Register<IRecipe> evt) {
+	public void registerRecipes(RegistryEvent.Register<IRecipe> evt) {
 		// Register chiseleable blocks
 		ChiselRegistry.registerBlock(Blocks.DIAMOND_ORE, Blocks.STONE, Items.DIAMOND, 1, 0);
 		ChiselRegistry.registerBlock(Blocks.EMERALD_ORE, Blocks.STONE, Items.EMERALD, 1, 0);

@@ -35,6 +35,8 @@ public class ToolsClientProxy extends ClientProxy {
 
 	@Override
 	public void preInit() {
+		MinecraftForge.EVENT_BUS.register(new ToolsModelHandler());
+
 		// ENTITYS
 		RenderingRegistry.registerEntityRenderingHandler(EntityBlockPushPull.class, new RenderBlockPushPullFactory());
 		RenderingRegistry.registerEntityRenderingHandler(EntityPokeball.class, new RenderThrowableFactory(new ItemStack(ToolsItems.pokeball)));
