@@ -44,7 +44,7 @@ public class GrimUtil extends GrimPart {
 	public static final Capability<IFrozenCapability> FROZEN_CAP = null;
 
 	public GrimUtil() {
-		super(GrimUtil.partId, GrimUtil.partName, new UtilConfig(), false);
+		super(GrimUtil.partId, GrimUtil.partName, new UtilConfig());
 	}
 
 	@Override

@@ -28,6 +28,6 @@ public class ItemDamage extends ItemManual {
 
 	@Override
 	public Page getPage(ItemStack stack) {
-		return ManualCuisine.utensils_page;
+		return ManualCuisine.extras_page;
 	}
 }

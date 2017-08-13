@@ -1,4 +1,10 @@
 {
+  "conditions": [
+    {
+      "type": "grimpack:part_enabled",
+      "part": "tools"
+    }
+  ],
   "result": {
     "item": "grimpack:advanced_empty_energy_canister",
     "count": 2

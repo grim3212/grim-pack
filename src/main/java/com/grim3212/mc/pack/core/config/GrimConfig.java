@@ -9,18 +9,28 @@ import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fml.client.config.IConfigElement;
 import net.minecraftforge.fml.common.Loader;
 
-public class GrimConfig {
+public abstract class GrimConfig {
 
 	public Configuration config;
 
 	public GrimConfig() {
-		config = new Configuration(new File(Loader.instance().getConfigDir(), Loader.instance().activeModContainer().getModId() + ".cfg"));
+		config = new Configuration(new File(Loader.instance().getConfigDir(), Loader.instance().activeModContainer().getModId() + "/" + name() + ".cfg"));
+	}
+
+	/**
+	 * Used to load config options early that item construction may depend on
+	 */
+	public void syncSubparts() {
 	}
 
 	/**
 	 * Used to load config options early that item construction may depend on
 	 */
 	public void syncFirst() {
+	}
+
+	public String name() {
+		return "grimpack";
 	}
 
 	/**

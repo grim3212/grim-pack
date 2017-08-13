@@ -40,9 +40,12 @@ public class GrimCuisine extends GrimPart {
 
 		MinecraftForge.EVENT_BUS.register(new CuisineBlocks());
 		MinecraftForge.EVENT_BUS.register(new CuisineItems());
-		MinecraftForge.EVENT_BUS.register(new DropEvent());
-		MinecraftForge.EVENT_BUS.register(new OnBonemealEvent());
-		GameRegistry.registerWorldGenerator(new CuisineGenerate(), 25);
+		if (CuisineConfig.subpartDragonFruit)
+			MinecraftForge.EVENT_BUS.register(new DropEvent());
+		if (CuisineConfig.subpartChocolate) {
+			MinecraftForge.EVENT_BUS.register(new OnBonemealEvent());
+			GameRegistry.registerWorldGenerator(new CuisineGenerate(), 25);
+		}
 
 		proxy.preInit();
 	}

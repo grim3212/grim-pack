@@ -47,6 +47,11 @@ public class DecorConfig extends GrimConfig {
 	public static final String CONFIG_GRILL_RECIPES_NAME = "decor.customgrillrecipes";
 
 	@Override
+	public String name() {
+		return CONFIG_NAME;
+	}
+
+	@Override
 	public void syncConfig() {
 		dyeFrames = config.get(CONFIG_GENERAL_NAME, "DyeFrames", true).getBoolean();
 		burnFrames = config.get(CONFIG_GENERAL_NAME, "BurnFrames", true).getBoolean();

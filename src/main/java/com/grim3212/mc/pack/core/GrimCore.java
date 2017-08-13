@@ -22,16 +22,16 @@ public class GrimCore extends GrimPart {
 
 	public static GrimCore INSTANCE = new GrimCore();
 
-	@SidedProxy(clientSide = "com.grim3212.mc.pack.core.client.CoreClientProxy", serverSide = "com.grim3212.mc.pack.core.proxy.CommonProxy")
+	@SidedProxy(clientSide = "com.grim3212.mc.pack.core.client.CoreClientProxy", serverSide = COMMON_PROXY)
 	public static CommonProxy proxy;
 
 	public static final String partId = "core";
 	public static final String partName = "Grim Core";
 
-	//TODO: Remake all achievements into advancements
-	
+	// TODO: Remake all achievements into advancements
+
 	public GrimCore() {
-		super(GrimCore.partId, GrimCore.partName, new CoreConfig(), true);
+		super(GrimCore.partId, GrimCore.partName, new CoreConfig());
 	}
 
 	@Override

@@ -1,6 +1,7 @@
 package com.grim3212.mc.pack.cuisine.block;
 
 import com.grim3212.mc.pack.core.item.ItemManualBlock;
+import com.grim3212.mc.pack.cuisine.config.CuisineConfig;
 import com.grim3212.mc.pack.cuisine.item.CuisineItems;
 
 import net.minecraft.block.Block;
@@ -32,46 +33,64 @@ public class CuisineBlocks {
 	public void initBlocks(RegistryEvent.Register<Block> evt) {
 		IForgeRegistry<Block> r = evt.getRegistry();
 
-		r.register(cheese_block);
-		r.register(cheese_maker);
-		r.register(butter_churn);
-		r.register(cocoa_block);
-		r.register(cocoa_tree_sapling);
-		r.register(chocolate_bar_mould);
-		r.register(chocolate_cake);
-		r.register(chocolate_block);
-		r.register(apple_pie);
-		r.register(melon_pie);
-		r.register(pumpkin_pie);
-		r.register(chocolate_pie);
-		r.register(pork_pie);
+		if (CuisineConfig.subpartDairy) {
+			r.register(cheese_block);
+			r.register(cheese_maker);
+			r.register(butter_churn);
+		}
+
+		if (CuisineConfig.subpartChocolate) {
+			r.register(cocoa_block);
+			r.register(cocoa_tree_sapling);
+			r.register(chocolate_bar_mould);
+			r.register(chocolate_cake);
+			r.register(chocolate_block);
+		}
+
+		if (CuisineConfig.subpartPie) {
+			r.register(apple_pie);
+			r.register(melon_pie);
+			r.register(pumpkin_pie);
+			r.register(chocolate_pie);
+			r.register(pork_pie);
+		}
 	}
 
 	@SubscribeEvent
 	public void initItems(RegistryEvent.Register<Item> evt) {
 		IForgeRegistry<Item> r = evt.getRegistry();
 
-		r.register(new ItemManualBlock(cheese_block).setRegistryName(cheese_block.getRegistryName()));
-		r.register(new ItemManualBlock(cheese_maker).setRegistryName(cheese_maker.getRegistryName()));
-		r.register(new ItemManualBlock(butter_churn).setRegistryName(butter_churn.getRegistryName()));
-		r.register(new ItemManualBlock(cocoa_block).setRegistryName(cocoa_block.getRegistryName()));
-		r.register(new ItemManualBlock(cocoa_tree_sapling).setRegistryName(cocoa_tree_sapling.getRegistryName()));
-		r.register(new ItemManualBlock(chocolate_bar_mould).setRegistryName(chocolate_bar_mould.getRegistryName()));
-		r.register(new ItemManualBlock(chocolate_cake).setRegistryName(chocolate_cake.getRegistryName()));
-		r.register(new ItemManualBlock(chocolate_block).setRegistryName(chocolate_block.getRegistryName()));
-		r.register(new ItemManualBlock(apple_pie).setRegistryName(apple_pie.getRegistryName()));
-		r.register(new ItemManualBlock(melon_pie).setRegistryName(melon_pie.getRegistryName()));
-		r.register(new ItemManualBlock(pumpkin_pie).setRegistryName(pumpkin_pie.getRegistryName()));
-		r.register(new ItemManualBlock(chocolate_pie).setRegistryName(chocolate_pie.getRegistryName()));
-		r.register(new ItemManualBlock(pork_pie).setRegistryName(pork_pie.getRegistryName()));
+		if (CuisineConfig.subpartDairy) {
+			r.register(new ItemManualBlock(cheese_block).setRegistryName(cheese_block.getRegistryName()));
+			r.register(new ItemManualBlock(cheese_maker).setRegistryName(cheese_maker.getRegistryName()));
+			r.register(new ItemManualBlock(butter_churn).setRegistryName(butter_churn.getRegistryName()));
+		}
+
+		if (CuisineConfig.subpartChocolate) {
+			r.register(new ItemManualBlock(cocoa_block).setRegistryName(cocoa_block.getRegistryName()));
+			r.register(new ItemManualBlock(cocoa_tree_sapling).setRegistryName(cocoa_tree_sapling.getRegistryName()));
+			r.register(new ItemManualBlock(chocolate_bar_mould).setRegistryName(chocolate_bar_mould.getRegistryName()));
+			r.register(new ItemManualBlock(chocolate_cake).setRegistryName(chocolate_cake.getRegistryName()));
+			r.register(new ItemManualBlock(chocolate_block).setRegistryName(chocolate_block.getRegistryName()));
+		}
+
+		if (CuisineConfig.subpartPie) {
+			r.register(new ItemManualBlock(apple_pie).setRegistryName(apple_pie.getRegistryName()));
+			r.register(new ItemManualBlock(melon_pie).setRegistryName(melon_pie.getRegistryName()));
+			r.register(new ItemManualBlock(pumpkin_pie).setRegistryName(pumpkin_pie.getRegistryName()));
+			r.register(new ItemManualBlock(chocolate_pie).setRegistryName(chocolate_pie.getRegistryName()));
+			r.register(new ItemManualBlock(pork_pie).setRegistryName(pork_pie.getRegistryName()));
+		}
 	}
 
 	@SubscribeEvent
 	public void registerRecipes(RegistryEvent.Register<IRecipe> evt) {
-		GameRegistry.addSmelting(CuisineItems.raw_apple_pie, new ItemStack(apple_pie), 0.35f);
-		GameRegistry.addSmelting(CuisineItems.raw_pork_pie, new ItemStack(pork_pie), 0.35f);
-		GameRegistry.addSmelting(CuisineItems.raw_chocolate_pie, new ItemStack(chocolate_pie), 0.35f);
-		GameRegistry.addSmelting(CuisineItems.raw_pumpkin_pie, new ItemStack(pumpkin_pie), 0.35f);
-		GameRegistry.addSmelting(CuisineItems.raw_melon_pie, new ItemStack(melon_pie), 0.35f);
+		if (CuisineConfig.subpartPie) {
+			GameRegistry.addSmelting(CuisineItems.raw_apple_pie, new ItemStack(apple_pie), 0.35f);
+			GameRegistry.addSmelting(CuisineItems.raw_pork_pie, new ItemStack(pork_pie), 0.35f);
+			GameRegistry.addSmelting(CuisineItems.raw_chocolate_pie, new ItemStack(chocolate_pie), 0.35f);
+			GameRegistry.addSmelting(CuisineItems.raw_pumpkin_pie, new ItemStack(pumpkin_pie), 0.35f);
+			GameRegistry.addSmelting(CuisineItems.raw_melon_pie, new ItemStack(melon_pie), 0.35f);
+		}
 	}
 }

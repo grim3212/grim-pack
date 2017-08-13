@@ -56,6 +56,11 @@ public class IndustryConfig extends GrimConfig {
 	public static boolean showFanParticles;
 
 	@Override
+	public String name() {
+		return CONFIG_NAME;
+	}
+
+	@Override
 	public void syncConfig() {
 		generateUranium = config.get(CONFIG_GENERAL_NAME, "Generate Uranium", true).getBoolean();
 		generateAluminum = config.get(CONFIG_GENERAL_NAME, "Generate Aluminum", true).getBoolean();

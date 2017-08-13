@@ -3,6 +3,7 @@ package com.grim3212.mc.pack.cuisine.item;
 import com.grim3212.mc.pack.core.item.ItemManualFood;
 import com.grim3212.mc.pack.core.item.ItemManualPage;
 import com.grim3212.mc.pack.core.part.GrimCreativeTabs;
+import com.grim3212.mc.pack.cuisine.config.CuisineConfig;
 
 import net.minecraft.init.Items;
 import net.minecraft.init.MobEffects;
@@ -59,60 +60,87 @@ public class CuisineItems {
 	public void initItems(RegistryEvent.Register<Item> evt) {
 		IForgeRegistry<Item> r = evt.getRegistry();
 
-		r.register(soda);
-		r.register(dragon_fruit);
-		r.register(powered_sugar);
-		r.register(powered_sweets);
-		r.register(bandage);
-		r.register(healthpack);
-		r.register(sweets);
-		r.register(healthpack_super);
-		r.register(butter);
-		r.register(cheese);
-		r.register(cocoa_fruit);
-		r.register(cocoa_dust);
-		r.register(chocolate_ball);
-		r.register(wrapper);
-		r.register(chocolate_bowl);
-		r.register(chocolate_bar);
-		r.register(chocolate_bar_wrapped);
-		r.register(chocolate_bowl_hot);
-		r.register(bread_slice);
-		r.register(cheese_burger);
-		r.register(hot_cheese);
-		r.register(eggs_mixed);
-		r.register(eggs_unmixed);
-		r.register(eggs_cooked);
-		r.register(dough);
-		r.register(pan);
-		r.register(mixer);
-		r.register(knife);
-		r.register(pumpkin_slice);
-		r.register(raw_empty_pie);
-		r.register(raw_chocolate_pie);
-		r.register(raw_apple_pie);
-		r.register(raw_melon_pie);
-		r.register(raw_pork_pie);
-		r.register(raw_pumpkin_pie);
+		if (CuisineConfig.subpartDairy || CuisineConfig.subpartPie)
+			r.register(knife);
+
+		if (CuisineConfig.subpartSoda)
+			r.register(soda);
+
+		if (CuisineConfig.subpartDragonFruit)
+			r.register(dragon_fruit);
+
+		if (CuisineConfig.subpartHealth) {
+			r.register(powered_sugar);
+			r.register(powered_sweets);
+			r.register(bandage);
+			r.register(healthpack);
+			r.register(sweets);
+			r.register(healthpack_super);
+		}
+
+		if (CuisineConfig.subpartDairy) {
+			r.register(mixer);
+			r.register(butter);
+			r.register(cheese);
+			r.register(bread_slice);
+			r.register(cheese_burger);
+			r.register(hot_cheese);
+			r.register(eggs_mixed);
+			r.register(eggs_unmixed);
+			r.register(eggs_cooked);
+		}
+
+		if (CuisineConfig.subpartChocolate) {
+			r.register(cocoa_fruit);
+			r.register(cocoa_dust);
+			r.register(chocolate_ball);
+			r.register(wrapper);
+			r.register(chocolate_bowl);
+			r.register(chocolate_bar);
+			r.register(chocolate_bar_wrapped);
+			r.register(chocolate_bowl_hot);
+		}
+
+		if (CuisineConfig.subpartPie) {
+			r.register(dough);
+			r.register(pan);
+			r.register(pumpkin_slice);
+			r.register(raw_empty_pie);
+			r.register(raw_chocolate_pie);
+			r.register(raw_apple_pie);
+			r.register(raw_melon_pie);
+			r.register(raw_pork_pie);
+			r.register(raw_pumpkin_pie);
+		}
 
 		initOreDict();
 	}
 
 	private void initOreDict() {
-		OreDictionary.registerOre("bread", bread_slice);
-		OreDictionary.registerOre("foodCheese", cheese);
-		OreDictionary.registerOre("foodDough", dough);
-		OreDictionary.registerOre("foodButter", butter);
-		OreDictionary.registerOre("foodScrambledegg", eggs_cooked);
-		OreDictionary.registerOre("listAllbread", bread_slice);
-		OreDictionary.registerOre("toolCuttingboard", new ItemStack(knife, 1, OreDictionary.WILDCARD_VALUE));
-		OreDictionary.registerOre("toolJuicer", new ItemStack(mixer, 1, OreDictionary.WILDCARD_VALUE));
+		if (CuisineConfig.subpartDairy) {
+			OreDictionary.registerOre("bread", bread_slice);
+			OreDictionary.registerOre("listAllbread", bread_slice);
+			OreDictionary.registerOre("foodCheese", cheese);
+			OreDictionary.registerOre("foodButter", butter);
+			OreDictionary.registerOre("foodScrambledegg", eggs_cooked);
+			OreDictionary.registerOre("toolJuicer", new ItemStack(mixer, 1, OreDictionary.WILDCARD_VALUE));
+		}
+
+		if (CuisineConfig.subpartPie)
+			OreDictionary.registerOre("foodDough", dough);
+
+		if (CuisineConfig.subpartDairy || CuisineConfig.subpartPie) {
+			OreDictionary.registerOre("toolCuttingboard", new ItemStack(knife, 1, OreDictionary.WILDCARD_VALUE));
+		}
+
 		OreDictionary.registerOre("bucketMilk", Items.MILK_BUCKET);
 	}
 
 	@SubscribeEvent
 	public static void registerRecipes(RegistryEvent.Register<IRecipe> evt) {
-		GameRegistry.addSmelting(chocolate_bowl, new ItemStack(chocolate_bowl_hot), 0.3F);
-		GameRegistry.addSmelting(eggs_mixed, new ItemStack(eggs_cooked), 0.35F);
+		if (CuisineConfig.subpartChocolate)
+			GameRegistry.addSmelting(chocolate_bowl, new ItemStack(chocolate_bowl_hot), 0.3F);
+		if (CuisineConfig.subpartDairy)
+			GameRegistry.addSmelting(eggs_mixed, new ItemStack(eggs_cooked), 0.35F);
 	}
 }

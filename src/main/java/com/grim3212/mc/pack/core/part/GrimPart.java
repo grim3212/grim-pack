@@ -23,11 +23,6 @@ public abstract class GrimPart {
 	private String partName;
 	private GrimConfig config;
 	private ManualPart manualPart;
-	private boolean syncConfigInstantly;
-
-	public GrimPart(String partId, String partName, GrimConfig config) {
-		this(partId, partName, config, false);
-	}
 
 	/**
 	 * Constructor for a GrimPart
@@ -42,34 +37,16 @@ public abstract class GrimPart {
 	 *            If the config should be synced during creation. The only thing
 	 *            that uses this is GrimCore for determining which parts to load
 	 */
-	public GrimPart(String partId, String partName, GrimConfig config, boolean syncConfigInstantly) {
+	public GrimPart(String partId, String partName, GrimConfig config) {
 		this.partId = partId;
 		this.partName = partName;
 		this.config = config;
-		this.syncConfigInstantly = syncConfigInstantly;
 
-		if (syncConfigInstantly) {
-			this.config.syncConfig();
-		}
-	}
-
-	@SubscribeEvent
-	public void onConfigChanged(OnConfigChangedEvent event) {
-		if (event.getModID().equals(GrimPack.modID)) {
-			this.getGrimConfig().syncConfig();
-		}
-	}
-
-	public GrimConfig getGrimConfig() {
-		return this.config;
+		this.config.syncSubparts();
 	}
 
 	@SideOnly(Side.CLIENT)
 	public abstract IManualPart getManual();
-
-	public Configuration getConfig() {
-		return this.getGrimConfig().config;
-	}
 
 	public ManualPart setModSection(ManualPart manualPart) {
 		return this.manualPart = manualPart;
@@ -88,8 +65,7 @@ public abstract class GrimPart {
 	public void preInit(FMLPreInitializationEvent event) {
 		MinecraftForge.EVENT_BUS.register(this);
 
-		if (!syncConfigInstantly)
-			this.getGrimConfig().syncFirst();
+		this.getGrimConfig().syncFirst();
 	}
 
 	/**
@@ -101,8 +77,7 @@ public abstract class GrimPart {
 	public void init(FMLInitializationEvent event) {
 		// Sync config after preinit so we make sure all blocks and items are
 		// loaded
-		if (!syncConfigInstantly)
-			this.getGrimConfig().syncConfig();
+		this.getGrimConfig().syncConfig();
 	}
 
 	/**
@@ -120,5 +95,20 @@ public abstract class GrimPart {
 
 	public String getPartName() {
 		return partName;
+	}
+
+	@SubscribeEvent
+	public void onConfigChanged(OnConfigChangedEvent event) {
+		if (event.getModID().equals(GrimPack.modID)) {
+			this.getGrimConfig().syncConfig();
+		}
+	}
+
+	public GrimConfig getGrimConfig() {
+		return this.config;
+	}
+
+	public Configuration getConfig() {
+		return this.getGrimConfig().config;
 	}
 }

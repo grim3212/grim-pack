@@ -1,4 +1,23 @@
 {
+"conditions": [
+    {
+      "type": "grimpack:part_enabled",
+      "part": "cuisine"
+    },
+    {
+      "type": "forge:or",
+      "values": [
+      	{
+      		"type": "grimpack:cuisine_subpart_enabled",
+      		"subpart": "dairy"
+      	},
+      	{
+      		"type": "grimpack:cuisine_subpart_enabled",
+      		"subpart": "pie"
+      	}
+      ]
+    }
+  ],
   "result": {
     "item": "grimpack:knife"
   },

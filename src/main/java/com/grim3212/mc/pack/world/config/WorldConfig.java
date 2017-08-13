@@ -59,6 +59,11 @@ public class WorldConfig extends GrimConfig {
 	public static String[] FOREST_EATING_BLOCKS_POSSIBLE;
 
 	@Override
+	public String name() {
+		return CONFIG_NAME;
+	}
+
+	@Override
 	public void syncConfig() {
 		fire = config.get(CONFIG_GENERAL_NAME, "Enable Fire", true).getBoolean();
 		corruption = config.get(CONFIG_GENERAL_NAME, "Enable Corruption", false).getBoolean();

@@ -35,6 +35,11 @@ public class UtilConfig extends GrimConfig {
 	public static boolean showCollisionBoxes;
 
 	@Override
+	public String name() {
+		return CONFIG_NAME;
+	}
+
+	@Override
 	public void syncConfig() {
 		frd_power = config.get(CONFIG_GENERAL_NAME, "Horizontal Pushing Force", 2.0D).getDouble();
 		frd_lift = config.get(CONFIG_GENERAL_NAME, "Upward Pushing Force", 0.8D).getDouble();

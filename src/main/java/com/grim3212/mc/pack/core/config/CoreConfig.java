@@ -26,6 +26,21 @@ public class CoreConfig extends GrimConfig {
 	public static boolean useWorld;
 
 	@Override
+	public String name() {
+		return CONFIG_NAME;
+	}
+
+	@Override
+	public void syncSubparts() {
+		useCuisine = config.get(CONFIG_PARTS_NAME, "Enable cuisine part", true).setRequiresMcRestart(true).getBoolean();
+		useDecor = config.get(CONFIG_PARTS_NAME, "Enable decor part", true).setRequiresMcRestart(true).getBoolean();
+		useIndustry = config.get(CONFIG_PARTS_NAME, "Enable industry part", true).setRequiresMcRestart(true).getBoolean();
+		useTools = config.get(CONFIG_PARTS_NAME, "Enable tools part", true).setRequiresMcRestart(true).getBoolean();
+		useUtil = config.get(CONFIG_PARTS_NAME, "Enable util part", true).setRequiresMcRestart(true).getBoolean();
+		useWorld = config.get(CONFIG_PARTS_NAME, "Enable world part", true).setRequiresMcRestart(true).getBoolean();
+	}
+
+	@Override
 	public void syncConfig() {
 		giveManualOnJoin = config.get(CONFIG_GENERAL_NAME, "Give Instruction Manual on World Join", true, "grimpack.core.cfg.giveManual").getBoolean();
 		showCheckmark = config.get(CONFIG_GENERAL_NAME, "Show checkmark if available manual page", true, "grimpack.core.cfg.showCheckMark").getBoolean();

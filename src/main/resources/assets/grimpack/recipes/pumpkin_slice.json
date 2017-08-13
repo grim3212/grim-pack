@@ -1,4 +1,14 @@
 {
+"conditions": [
+    {
+      "type": "grimpack:part_enabled",
+      "part": "cuisine"
+    },
+    {
+      "type": "grimpack:cuisine_subpart_enabled",
+      "subpart": "pie"
+    }
+  ],
   "result": {
     "item": "grimpack:pumpkin_slice",
     "count": 6

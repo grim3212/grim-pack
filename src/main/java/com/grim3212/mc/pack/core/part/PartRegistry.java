@@ -15,6 +15,10 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 public class PartRegistry {
 
 	public static List<GrimPart> partsToLoad = new ArrayList<GrimPart>();
+	// public static List<GrimPart> allParts =
+	// Lists.newArrayList(GrimCore.INSTANCE, GrimCuisine.INSTANCE,
+	// GrimDecor.INSTANCE, GrimIndustry.INSTANCE, GrimTools.INSTANCE,
+	// GrimUtil.INSTANCE, GrimWorld.INSTANCE);
 
 	public static void registerPart(GrimPart part) {
 		partsToLoad.add(part);

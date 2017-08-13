@@ -1,5 +1,6 @@
 {
   "conditions": {
-    "part_enabled": "com.grim3212.mc.pack.core.crafting.PartConditionFactory"
+    "part_enabled": "com.grim3212.mc.pack.core.crafting.PartConditionFactory",
+    "cuisine_subpart_enabled": "com.grim3212.mc.pack.cuisine.crafting.CuisineConditionFactory"
   }
 }
