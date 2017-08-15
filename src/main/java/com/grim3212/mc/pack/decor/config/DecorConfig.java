@@ -71,6 +71,8 @@ public class DecorConfig extends GrimConfig {
 
 	@Override
 	public void syncSubparts() {
+		config.addCustomCategoryComment(CONFIG_PARTS_NAME, "Subparts fireplaces, furniture, lamp posts, and slopes require Colorizer to also be active. If colorizer is disabled so are they.");
+
 		subpartCages = config.get(CONFIG_PARTS_NAME, "Enable SubPart cages", true).setRequiresMcRestart(true).getBoolean();
 		subpartCalendar = config.get(CONFIG_PARTS_NAME, "Enable SubPart calendar", true).setRequiresMcRestart(true).getBoolean();
 		subpartColorizer = config.get(CONFIG_PARTS_NAME, "Enable SubPart colorizer", true).setRequiresMcRestart(true).getBoolean();
@@ -89,22 +91,7 @@ public class DecorConfig extends GrimConfig {
 
 	@Override
 	public void syncConfig() {
-		config.addCustomCategoryComment(CONFIG_PARTS_NAME, "Subparts fireplaces, furniture, lamp posts, and slopes require Colorizer to also be active. If colorizer is disabled so are they.");
-		
-		subpartCages = config.get(CONFIG_PARTS_NAME, "Enable SubPart cages", true).setRequiresMcRestart(true).getBoolean();
-		subpartCalendar = config.get(CONFIG_PARTS_NAME, "Enable SubPart calendar", true).setRequiresMcRestart(true).getBoolean();
-		subpartColorizer = config.get(CONFIG_PARTS_NAME, "Enable SubPart colorizer", true).setRequiresMcRestart(true).getBoolean();
-		subpartDecorations = config.get(CONFIG_PARTS_NAME, "Enable SubPart decorations", true).setRequiresMcRestart(true).getBoolean();
-		subpartFireplaces = config.get(CONFIG_PARTS_NAME, "Enable SubPart fireplaces", true).setRequiresMcRestart(true).getBoolean();
-		subpartFlatItemFrame = config.get(CONFIG_PARTS_NAME, "Enable SubPart flat item frame", true).setRequiresMcRestart(true).getBoolean();
-		subpartFrames = config.get(CONFIG_PARTS_NAME, "Enable SubPart frames", true).setRequiresMcRestart(true).getBoolean();
-		subpartFurniture = config.get(CONFIG_PARTS_NAME, "Enable SubPart furniture", true).setRequiresMcRestart(true).getBoolean();
-		subpartLampPosts = config.get(CONFIG_PARTS_NAME, "Enable SubPart lamp posts", true).setRequiresMcRestart(true).getBoolean();
-		subpartLanterns = config.get(CONFIG_PARTS_NAME, "Enable SubPart lanterns", true).setRequiresMcRestart(true).getBoolean();
-		subpartLightBulbs = config.get(CONFIG_PARTS_NAME, "Enable SubPart lightbulbs", true).setRequiresMcRestart(true).getBoolean();
-		subpartSlopes = config.get(CONFIG_PARTS_NAME, "Enable SubPart slopes", true).setRequiresMcRestart(true).getBoolean();
-		subpartWallClock = config.get(CONFIG_PARTS_NAME, "Enable SubPart wall clock", true).setRequiresMcRestart(true).getBoolean();
-		subpartWallpaper = config.get(CONFIG_PARTS_NAME, "Enable SubPart wallpaper", true).setRequiresMcRestart(true).getBoolean();
+		syncSubparts();
 
 		if (subpartFrames) {
 			dyeFrames = config.get(CONFIG_GENERAL_NAME, "DyeFrames", true).getBoolean();
@@ -227,6 +214,7 @@ public class DecorConfig extends GrimConfig {
 	public void loadGrillRecipes(String[] config) {
 		DecorConfig.grillRecipes.clear();
 
+		ConfigUtils.setCurrentPart(GrimDecor.partName);
 		List<Recipe> recipes = ConfigUtils.loadConfigurableRecipes(config, false);
 
 		for (Recipe recipe : recipes) {

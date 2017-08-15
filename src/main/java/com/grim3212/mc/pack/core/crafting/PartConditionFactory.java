@@ -29,7 +29,7 @@ public class PartConditionFactory implements IConditionFactory {
 		case "world":
 			return () -> CoreConfig.useWorld == true;
 		default:
-			return () -> true;
+			return () -> false;
 		}
 	}
 

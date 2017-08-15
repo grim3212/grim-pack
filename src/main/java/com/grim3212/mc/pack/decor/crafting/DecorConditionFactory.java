@@ -45,7 +45,7 @@ public class DecorConditionFactory implements IConditionFactory {
 		case "wallpaper":
 			return () -> DecorConfig.subpartWallpaper;
 		default:
-			return () -> true;
+			return () -> false;
 		}
 	}
 

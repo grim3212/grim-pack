@@ -42,12 +42,7 @@ public class CuisineConfig extends GrimConfig {
 
 	@Override
 	public void syncConfig() {
-		subpartChocolate = config.get(CONFIG_PARTS_NAME, "Enable SubPart chocolate", true).setRequiresMcRestart(true).getBoolean();
-		subpartDairy = config.get(CONFIG_PARTS_NAME, "Enable SubPart dairy", true).setRequiresMcRestart(true).getBoolean();
-		subpartDragonFruit = config.get(CONFIG_PARTS_NAME, "Enable SubPart dragon fruit", true).setRequiresMcRestart(true).getBoolean();
-		subpartHealth = config.get(CONFIG_PARTS_NAME, "Enable SubPart health", true).setRequiresMcRestart(true).getBoolean();
-		subpartPie = config.get(CONFIG_PARTS_NAME, "Enable SubPart pie", true).setRequiresMcRestart(true).getBoolean();
-		subpartSoda = config.get(CONFIG_PARTS_NAME, "Enable SubPart soda", true).setRequiresMcRestart(true).getBoolean();
+		syncSubparts();
 
 		if (subpartChocolate)
 			generateCocoaTrees = config.get(CONFIG_GENERAL_NAME, "Generate Cocoa Trees", true).getBoolean();

@@ -29,7 +29,7 @@ public class CuisineConditionFactory implements IConditionFactory {
 		case "soda":
 			return () -> CuisineConfig.subpartSoda;
 		default:
-			return () -> true;
+			return () -> false;
 		}
 	}
 

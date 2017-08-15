@@ -110,6 +110,7 @@ public class ToolsConfig extends GrimConfig {
 		diamondBoomerangDamage = config.get(CONFIG_BOOMERANG_NAME, "Diamond Boomerang Damage", 5).getInt();
 		diamondBoomerangFollows = config.get(CONFIG_BOOMERANG_NAME, "Diamond Boomerang Follows", false).getBoolean();
 
+		ConfigUtils.setCurrentPart(GrimTools.partName);
 		ConfigUtils.loadBlocksOntoMap(powerstaff_pull_push_blocks, ItemPowerStaff.allowedBlocks);
 		ConfigUtils.loadBlocksOntoMap(BLOCKS_Destructive_wand_spared_ores, ItemBreakingWand.ores);
 		ConfigUtils.loadBlocksOntoMap(BLOCKS_Mining_wand_ores_for_surface_mining, ItemMiningWand.m_ores);

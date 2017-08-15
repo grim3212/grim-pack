@@ -5,7 +5,7 @@ import java.util.Map;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import com.grim3212.mc.pack.GrimPack;
+import com.grim3212.mc.pack.core.GrimCore;
 import com.grim3212.mc.pack.core.util.GrimLog;
 import com.grim3212.mc.pack.core.util.Utils;
 
@@ -21,6 +21,11 @@ import net.minecraftforge.oredict.OreDictionary;
 public class ConfigUtils {
 
 	private static final String ORE_DICT = "oredict";
+	private static String currentPart = GrimCore.partName;
+
+	public static void setCurrentPart(String currentPart) {
+		ConfigUtils.currentPart = currentPart;
+	}
 
 	/**
 	 * A list of recipes. Each sublist contains a valid recipe. If xp is true
@@ -56,7 +61,7 @@ public class ConfigUtils {
 							recipe.experience = getExperience(rawids[2], fromConfig[i]);
 						}
 					} else if (rawids.length == 3) {
-						GrimLog.error(GrimPack.modName, "Ignoring XP in recipe without experience: '" + recipe + "'!");
+						GrimLog.error(currentPart, "Ignoring XP in recipe without experience: '" + recipe + "'!");
 					}
 
 					// Change recipe depending on input
@@ -97,10 +102,10 @@ public class ConfigUtils {
 										recipes.add(oreRecipe);
 									}
 								} else {
-									GrimLog.error(GrimPack.modName, "Something unknown happened with input: '" + recipe + "'!");
+									GrimLog.error(currentPart, "Something unknown happened with input: '" + recipe + "'!");
 								}
 							} else {
-								GrimLog.error(GrimPack.modName, "Ore name: '" + split[0] + "' does not exist!");
+								GrimLog.error(currentPart, "Ore name: '" + split[0] + "' does not exist!");
 							}
 						} else {
 							if (OreDictionary.doesOreNameExist(oreDict)) {
@@ -116,11 +121,11 @@ public class ConfigUtils {
 									recipes.add(oreRecipe);
 								}
 							} else {
-								GrimLog.error(GrimPack.modName, "Ore name: '" + oreDict + "' does not exist!");
+								GrimLog.error(currentPart, "Ore name: '" + oreDict + "' does not exist!");
 							}
 						}
 					} else {
-						GrimLog.error(GrimPack.modName, "Something unknown happened with input: '" + recipe + "'!");
+						GrimLog.error(currentPart, "Something unknown happened with input: '" + recipe + "'!");
 					}
 				}
 			}
@@ -137,12 +142,12 @@ public class ConfigUtils {
 			if (!in.isEmpty()) {
 				return in;
 			} else {
-				GrimLog.error(GrimPack.modName, "Couldn't add recipe: '" + recipe + "' input is empty!");
+				GrimLog.error(currentPart, "Couldn't add recipe: '" + recipe + "' input is empty!");
 			}
 		} else if (input instanceof String) {
 			return input;
 		} else {
-			GrimLog.error(GrimPack.modName, "Couldn't parse input in recipe: '" + recipe + "'!");
+			GrimLog.error(currentPart, "Couldn't parse input in recipe: '" + recipe + "'!");
 		}
 
 		return null;
@@ -156,13 +161,13 @@ public class ConfigUtils {
 			if (!out.isEmpty()) {
 				return out;
 			} else {
-				GrimLog.error(GrimPack.modName, "Couldn't add recipe: '" + recipe + "' output is empty!");
+				GrimLog.error(currentPart, "Couldn't add recipe: '" + recipe + "' output is empty!");
 			}
 
 		} else if (output instanceof String) {
-			GrimLog.error(GrimPack.modName, "Output cannot be an OreDictionary item in recipe: '" + recipe + "'!");
+			GrimLog.error(currentPart, "Output cannot be an OreDictionary item in recipe: '" + recipe + "'!");
 		} else {
-			GrimLog.error(GrimPack.modName, "Couldn't parse output in recipe: '" + recipe + "'!");
+			GrimLog.error(currentPart, "Couldn't parse output in recipe: '" + recipe + "'!");
 		}
 
 		return ItemStack.EMPTY;
@@ -172,7 +177,7 @@ public class ConfigUtils {
 		try {
 			return Float.parseFloat(s);
 		} catch (Exception e) {
-			GrimLog.error(GrimPack.modName, "Experience couldn't be parsed as a float: '" + recipe + "'!");
+			GrimLog.error(currentPart, "Experience couldn't be parsed as a float: '" + recipe + "'!");
 		}
 		return 0.0F;
 	}
@@ -199,7 +204,7 @@ public class ConfigUtils {
 							if (OreDictionary.doesOreNameExist(parts[1])) {
 								itemlist.addAll(OreDictionary.getOres(parts[1]));
 							} else {
-								GrimLog.error(GrimPack.modName, "Ore name does not exist: '" + parts[1] + "'!");
+								GrimLog.error(currentPart, "Ore name does not exist: '" + parts[1] + "'!");
 							}
 						} else {
 							if (Utils.isInteger(parts[1])) {
@@ -207,21 +212,21 @@ public class ConfigUtils {
 								if (item != null) {
 									itemlist.add(new ItemStack(item, 1, Integer.parseInt(parts[1])));
 								} else {
-									GrimLog.error(GrimPack.modName, "Can't find item that matches '" + u + "'!");
+									GrimLog.error(currentPart, "Can't find item that matches '" + u + "'!");
 								}
 							} else if (parts[1].equals("?")) {
 								Item item = Item.REGISTRY.getObject(new ResourceLocation(parts[0]));
 								if (item != null) {
 									itemlist.add(new ItemStack(item, 1, OreDictionary.WILDCARD_VALUE));
 								} else {
-									GrimLog.error(GrimPack.modName, "Can't find item that matches '" + u + "'!");
+									GrimLog.error(currentPart, "Can't find item that matches '" + u + "'!");
 								}
 							} else {
 								Item item = Item.REGISTRY.getObject(new ResourceLocation(parts[0], parts[1]));
 								if (item != null) {
 									itemlist.add(new ItemStack(item));
 								} else {
-									GrimLog.error(GrimPack.modName, "Can't find item that matches '" + u + "'!");
+									GrimLog.error(currentPart, "Can't find item that matches '" + u + "'!");
 								}
 							}
 						}
@@ -241,11 +246,11 @@ public class ConfigUtils {
 										itemlist.add(new ItemStack(stack.getItem(), 1, OreDictionary.WILDCARD_VALUE));
 									}
 								} else {
-									GrimLog.error(GrimPack.modName, "The third arg (meta) must be an int! Found '" + u + "'!");
+									GrimLog.error(currentPart, "The third arg (meta) must be an int! Found '" + u + "'!");
 								}
 
 							} else {
-								GrimLog.error(GrimPack.modName, "Ore name does not exist: '" + parts[1] + "'!");
+								GrimLog.error(currentPart, "Ore name does not exist: '" + parts[1] + "'!");
 							}
 						} else {
 							Item item = Item.REGISTRY.getObject(new ResourceLocation(parts[0], parts[1]));
@@ -257,10 +262,10 @@ public class ConfigUtils {
 									// Ignore meta
 									itemlist.add(new ItemStack(item, 1, OreDictionary.WILDCARD_VALUE));
 								} else {
-									GrimLog.error(GrimPack.modName, "The third arg (meta) must be an int! Found '" + u + "'!");
+									GrimLog.error(currentPart, "The third arg (meta) must be an int! Found '" + u + "'!");
 								}
 							} else {
-								GrimLog.error(GrimPack.modName, "Can't find item that matches: " + u);
+								GrimLog.error(currentPart, "Can't find item that matches: " + u);
 							}
 						}
 					}
@@ -270,7 +275,7 @@ public class ConfigUtils {
 					if (item != null) {
 						itemlist.add(new ItemStack(item));
 					} else {
-						GrimLog.error(GrimPack.modName, "Can't find item with name: " + u);
+						GrimLog.error(currentPart, "Can't find item with name: " + u);
 					}
 				}
 			}
@@ -333,11 +338,11 @@ public class ConfigUtils {
 											blocklist.put(block.getStateFromMeta(stack.getMetadata()), false);
 										}
 									} else {
-										GrimLog.error(GrimPack.modName, "Ignoring item '" + stack.getUnlocalizedName() + "' in OreDict '" + parts[1] + "' for blocks only list!");
+										GrimLog.error(currentPart, "Ignoring item '" + stack.getUnlocalizedName() + "' in OreDict '" + parts[1] + "' for blocks only list!");
 									}
 								}
 							} else {
-								GrimLog.error(GrimPack.modName, "OreDict name does not exist: '" + parts[1] + "'!");
+								GrimLog.error(currentPart, "OreDict name does not exist: '" + parts[1] + "'!");
 							}
 						} else {
 							if (Utils.isInteger(parts[1])) {
@@ -346,7 +351,7 @@ public class ConfigUtils {
 									// Meta
 									blocklist.put(block.getStateFromMeta(Integer.parseInt(parts[1])), false);
 								} else {
-									GrimLog.error(GrimPack.modName, "Can't find block that matches: " + u);
+									GrimLog.error(currentPart, "Can't find block that matches: " + u);
 								}
 							} else if (parts[1].equals("?")) {
 								// Ignore meta
@@ -354,14 +359,14 @@ public class ConfigUtils {
 								if (block != null) {
 									blocklist.put(block.getDefaultState(), true);
 								} else {
-									GrimLog.error(GrimPack.modName, "Can't find block that matches: " + u);
+									GrimLog.error(currentPart, "Can't find block that matches: " + u);
 								}
 							} else {
 								Block block = Block.REGISTRY.getObject(new ResourceLocation(parts[0], parts[1]));
 								if (block != null) {
 									blocklist.put(block.getDefaultState(), false);
 								} else {
-									GrimLog.error(GrimPack.modName, "Can't find block that matches: " + u);
+									GrimLog.error(currentPart, "Can't find block that matches: " + u);
 								}
 							}
 						}
@@ -375,7 +380,7 @@ public class ConfigUtils {
 											Block block = ((ItemBlock) stack.getItem()).getBlock();
 											blocklist.put(block.getStateFromMeta(Integer.parseInt(parts[2])), false);
 										} else {
-											GrimLog.error(GrimPack.modName, "Ignoring item '" + stack.getUnlocalizedName() + "' in OreDict '" + parts[1] + "'!");
+											GrimLog.error(currentPart, "Ignoring item '" + stack.getUnlocalizedName() + "' in OreDict '" + parts[1] + "'!");
 										}
 									}
 								} else if (parts[2].equals("?")) {
@@ -384,14 +389,14 @@ public class ConfigUtils {
 											Block block = ((ItemBlock) stack.getItem()).getBlock();
 											blocklist.put(block.getDefaultState(), true);
 										} else {
-											GrimLog.error(GrimPack.modName, "Ignoring item '" + stack.getUnlocalizedName() + "' in OreDict '" + parts[1] + "'!");
+											GrimLog.error(currentPart, "Ignoring item '" + stack.getUnlocalizedName() + "' in OreDict '" + parts[1] + "'!");
 										}
 									}
 								} else {
-									GrimLog.error(GrimPack.modName, "The third arg (meta) must be an int! Found '" + u + "'!");
+									GrimLog.error(currentPart, "The third arg (meta) must be an int! Found '" + u + "'!");
 								}
 							} else {
-								GrimLog.error(GrimPack.modName, "OreDict name does not exist: '" + parts[1] + "'!");
+								GrimLog.error(currentPart, "OreDict name does not exist: '" + parts[1] + "'!");
 							}
 						} else {
 							Block block = Block.REGISTRY.getObject(new ResourceLocation(parts[0], parts[1]));
@@ -403,10 +408,10 @@ public class ConfigUtils {
 									// Ignore meta
 									blocklist.put(block.getDefaultState(), true);
 								} else {
-									GrimLog.error(GrimPack.modName, "The third arg (meta) must be an int! Found '" + u + "'!");
+									GrimLog.error(currentPart, "The third arg (meta) must be an int! Found '" + u + "'!");
 								}
 							} else {
-								GrimLog.error(GrimPack.modName, "Can't find block that matches: " + u);
+								GrimLog.error(currentPart, "Can't find block that matches: " + u);
 							}
 						}
 					}
@@ -416,7 +421,7 @@ public class ConfigUtils {
 					if (block != null) {
 						blocklist.put(block.getDefaultState(), false);
 					} else {
-						GrimLog.error(GrimPack.modName, "Can't find block with name: " + u);
+						GrimLog.error(currentPart, "Can't find block with name: " + u);
 					}
 				}
 			}
@@ -441,7 +446,7 @@ public class ConfigUtils {
 					if (Utils.isInteger(split[2]) || split[2].equals("?")) {
 						return split[1] + ":" + split[2];
 					} else {
-						GrimLog.error(GrimPack.modName, "The third arg (meta) must be an int or '?'! Found in '" + s + "'!");
+						GrimLog.error(currentPart, "The third arg (meta) must be an int or '?'! Found in '" + s + "'!");
 					}
 				}
 
@@ -457,7 +462,7 @@ public class ConfigUtils {
 						// Ignore meta
 						return new ItemStack((Item) Item.REGISTRY.getObject(new ResourceLocation(s)), 1, OreDictionary.WILDCARD_VALUE);
 					} else {
-						GrimLog.error(GrimPack.modName, "Not sure what '" + s + "' is!");
+						GrimLog.error(currentPart, "Not sure what '" + s + "' is!");
 						return ItemStack.EMPTY;
 					}
 				}
