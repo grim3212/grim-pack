@@ -15,7 +15,7 @@ public class IndustryGenerate extends GrimWorldGen {
 
 	@Override
 	protected void generateSurface(World world, Random random, int i, int j) {
-		if (IndustryConfig.generateUranium) {
+		if (IndustryConfig.generateUranium && IndustryConfig.subpartNuclear) {
 			for (int k = 0; k < 8; k++) {
 				int l = i + random.nextInt(16);
 				int i1 = random.nextInt(22);
@@ -24,7 +24,7 @@ public class IndustryGenerate extends GrimWorldGen {
 			}
 		}
 
-		if (IndustryConfig.generateAluminum) {
+		if (IndustryConfig.generateAluminum && IndustryConfig.subpartMetalWorks) {
 			for (int k = 0; k < 12; ++k) {
 				int x = i + random.nextInt(16);
 				int y = random.nextInt(64);
@@ -33,7 +33,7 @@ public class IndustryGenerate extends GrimWorldGen {
 			}
 		}
 
-		if (IndustryConfig.generateOilOre) {
+		if (IndustryConfig.generateOilOre && IndustryConfig.subpartMachines) {
 			for (int k = 0; k < 6; ++k) {
 				int x = i + random.nextInt(16);
 				int y = random.nextInt(32);

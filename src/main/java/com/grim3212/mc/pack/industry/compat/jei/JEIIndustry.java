@@ -4,6 +4,7 @@ import javax.annotation.Nonnull;
 
 import com.grim3212.mc.pack.core.config.CoreConfig;
 import com.grim3212.mc.pack.industry.block.IndustryBlocks;
+import com.grim3212.mc.pack.industry.config.IndustryConfig;
 import com.grim3212.mc.pack.industry.item.IndustryItems;
 
 import mezz.jei.api.IJeiRuntime;
@@ -19,7 +20,7 @@ public class JEIIndustry implements IModPlugin {
 
 	@Override
 	public void register(@Nonnull IModRegistry registry) {
-		if (CoreConfig.useIndustry) {
+		if (CoreConfig.useIndustry && IndustryConfig.subpartWorkbenchUpgrades) {
 			// crafting table shiftclicking
 			registry.getRecipeTransferRegistry().addRecipeTransferHandler(new IronWorkbenchTransferInfo());
 			registry.getRecipeTransferRegistry().addRecipeTransferHandler(new DiamondWorkbenchTransferInfo());

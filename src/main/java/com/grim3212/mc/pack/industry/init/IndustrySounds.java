@@ -1,6 +1,7 @@
 package com.grim3212.mc.pack.industry.init;
 
 import com.grim3212.mc.pack.core.util.Utils;
+import com.grim3212.mc.pack.industry.config.IndustryConfig;
 
 import net.minecraft.util.SoundEvent;
 import net.minecraftforge.event.RegistryEvent;
@@ -15,8 +16,11 @@ public class IndustrySounds {
 	@SubscribeEvent
 	public void registerSounds(RegistryEvent.Register<SoundEvent> evt) {
 		IForgeRegistry<SoundEvent> reg = evt.getRegistry();
-		reg.register(spikeDeploySound);
-		reg.register(spikeCloseSound);
+
+		if (IndustryConfig.subpartSpikes) {
+			reg.register(spikeDeploySound);
+			reg.register(spikeCloseSound);
+		}
 	}
 
 }

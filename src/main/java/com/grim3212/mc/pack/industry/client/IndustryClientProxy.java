@@ -15,6 +15,7 @@ import com.grim3212.mc.pack.industry.client.tile.TileEntityObsidianSafeRenderer;
 import com.grim3212.mc.pack.industry.client.tile.TileEntitySpecificSensorRenderer;
 import com.grim3212.mc.pack.industry.client.tile.TileEntityWarehouseCrateRenderer;
 import com.grim3212.mc.pack.industry.client.tile.TileEntityWoodCabinetRenderer;
+import com.grim3212.mc.pack.industry.config.IndustryConfig;
 import com.grim3212.mc.pack.industry.entity.EntityExtruder;
 import com.grim3212.mc.pack.industry.tile.TileEntityCamo;
 import com.grim3212.mc.pack.industry.tile.TileEntityFan;
@@ -54,16 +55,19 @@ public class IndustryClientProxy extends IndustryCommonProxy {
 		MinecraftForge.EVENT_BUS.register(new IndustryModelHandler());
 		MinecraftForge.EVENT_BUS.register(new ClientEvents());
 
-		// TileEntities
-		ClientRegistry.bindTileEntitySpecialRenderer(TileEntitySpecificSensor.class, new TileEntitySpecificSensorRenderer());
-		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityWarehouseCrate.class, new TileEntityWarehouseCrateRenderer());
-		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityGlassCabinet.class, new TileEntityGlassCabinetRenderer());
-		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityWoodCabinet.class, new TileEntityWoodCabinetRenderer());
-		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityObsidianSafe.class, new TileEntityObsidianSafeRenderer());
-		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityGoldSafe.class, new TileEntityGoldSafeRenderer());
-		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityLocker.class, new TileEntityLockerRenderer());
-		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityItemTower.class, new TileEntityItemTowerRenderer());
+		if (IndustryConfig.subpartStorage) {
+			// TileEntities
+			ClientRegistry.bindTileEntitySpecialRenderer(TileEntitySpecificSensor.class, new TileEntitySpecificSensorRenderer());
+			ClientRegistry.bindTileEntitySpecialRenderer(TileEntityWarehouseCrate.class, new TileEntityWarehouseCrateRenderer());
+			ClientRegistry.bindTileEntitySpecialRenderer(TileEntityGlassCabinet.class, new TileEntityGlassCabinetRenderer());
+			ClientRegistry.bindTileEntitySpecialRenderer(TileEntityWoodCabinet.class, new TileEntityWoodCabinetRenderer());
+			ClientRegistry.bindTileEntitySpecialRenderer(TileEntityObsidianSafe.class, new TileEntityObsidianSafeRenderer());
+			ClientRegistry.bindTileEntitySpecialRenderer(TileEntityGoldSafe.class, new TileEntityGoldSafeRenderer());
+			ClientRegistry.bindTileEntitySpecialRenderer(TileEntityLocker.class, new TileEntityLockerRenderer());
+			ClientRegistry.bindTileEntitySpecialRenderer(TileEntityItemTower.class, new TileEntityItemTowerRenderer());
+		}
 
+		// TODO: Look into animations again now that you can set rotation origin
 		/*
 		 * ClientRegistry.bindTileEntitySpecialRenderer(TileEntityWarehouseCrate
 		 * .class, new AnimationTESR<TileEntityWarehouseCrate>() {
@@ -88,32 +92,35 @@ public class IndustryClientProxy extends IndustryCommonProxy {
 		 */
 
 		// Entities
-		RenderingRegistry.registerEntityRenderingHandler(EntityExtruder.class, new ExtruderFactory());
+		if (IndustryConfig.subpartExtruder)
+			RenderingRegistry.registerEntityRenderingHandler(EntityExtruder.class, new ExtruderFactory());
 	}
 
 	@Override
 	public void initColors() {
-		Minecraft.getMinecraft().getBlockColors().registerBlockColorHandler(new IBlockColor() {
-			public int colorMultiplier(IBlockState state, IBlockAccess worldIn, BlockPos pos, int tintIndex) {
-				if (state.getBlock() instanceof BlockSiding) {
-					return state.getValue(BlockSiding.COLOR).color;
-				}
-
-				return -1;
-			}
-		}, IndustryBlocks.horizontal_siding, IndustryBlocks.vertical_siding);
-
-		Minecraft.getMinecraft().getBlockColors().registerBlockColorHandler(new IBlockColor() {
-			public int colorMultiplier(IBlockState state, IBlockAccess worldIn, BlockPos pos, int tintIndex) {
-				if (pos != null) {
-					TileEntity te = worldIn.getTileEntity(pos);
-					if (te != null && te instanceof TileEntityCamo) {
-						return Minecraft.getMinecraft().getBlockColors().colorMultiplier(worldIn.getBlockState(pos.down()), worldIn, pos, tintIndex);
+		if (IndustryConfig.subpartDecoration) {
+			Minecraft.getMinecraft().getBlockColors().registerBlockColorHandler(new IBlockColor() {
+				public int colorMultiplier(IBlockState state, IBlockAccess worldIn, BlockPos pos, int tintIndex) {
+					if (state.getBlock() instanceof BlockSiding) {
+						return state.getValue(BlockSiding.COLOR).color;
 					}
+
+					return -1;
 				}
-				return 16777215;
-			}
-		}, IndustryBlocks.camo_plate);
+			}, IndustryBlocks.horizontal_siding, IndustryBlocks.vertical_siding);
+
+			Minecraft.getMinecraft().getBlockColors().registerBlockColorHandler(new IBlockColor() {
+				public int colorMultiplier(IBlockState state, IBlockAccess worldIn, BlockPos pos, int tintIndex) {
+					if (pos != null) {
+						TileEntity te = worldIn.getTileEntity(pos);
+						if (te != null && te instanceof TileEntityCamo) {
+							return Minecraft.getMinecraft().getBlockColors().colorMultiplier(worldIn.getBlockState(pos.down()), worldIn, pos, tintIndex);
+						}
+					}
+					return 16777215;
+				}
+			}, IndustryBlocks.camo_plate);
+		}
 	}
 
 	/**

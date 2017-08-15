@@ -4,6 +4,7 @@ import com.grim3212.mc.pack.core.block.BlockManualPage;
 import com.grim3212.mc.pack.core.item.ItemManualBlock;
 import com.grim3212.mc.pack.core.part.GrimCreativeTabs;
 import com.grim3212.mc.pack.industry.block.BlockElemental.ElementType;
+import com.grim3212.mc.pack.industry.config.IndustryConfig;
 import com.grim3212.mc.pack.industry.item.IndustryItems;
 import com.grim3212.mc.pack.industry.item.ItemGoldSafe;
 import com.grim3212.mc.pack.industry.item.ItemSensor;
@@ -177,15 +178,18 @@ public class IndustryBlocks {
 		r.register(conveyor_belt);
 		r.register(drill);
 		r.register(drill_head);
-		r.register(warehouse_crate);
-		r.register(wood_cabinet);
-		r.register(glass_cabinet);
-		r.register(obsidian_safe);
-		r.register(gold_safe);
-		r.register(locker);
-		r.register(item_tower);
-		r.register(tank);
-		r.register(locksmith_workbench);
+
+		if (IndustryConfig.subpartStorage) {
+			r.register(warehouse_crate);
+			r.register(wood_cabinet);
+			r.register(glass_cabinet);
+			r.register(obsidian_safe);
+			r.register(gold_safe);
+			r.register(locker);
+			r.register(item_tower);
+			r.register(tank);
+			r.register(locksmith_workbench);
+		}
 
 		initTileEntities();
 	}
@@ -194,15 +198,18 @@ public class IndustryBlocks {
 	public void initItems(RegistryEvent.Register<Item> evt) {
 		IForgeRegistry<Item> r = evt.getRegistry();
 
-		r.register(new ItemGoldSafe(gold_safe).setRegistryName(gold_safe.getRegistryName()));
-		r.register(new ItemManualBlock(tank).setRegistryName(tank.getRegistryName()));
-		r.register(new ItemManualBlock(item_tower).setRegistryName(item_tower.getRegistryName()));
-		r.register(new ItemManualBlock(locker).setRegistryName(locker.getRegistryName()));
-		r.register(new ItemManualBlock(obsidian_safe).setRegistryName(obsidian_safe.getRegistryName()));
-		r.register(new ItemManualBlock(locksmith_workbench).setRegistryName(locksmith_workbench.getRegistryName()));
-		r.register(new ItemManualBlock(wood_cabinet).setRegistryName(wood_cabinet.getRegistryName()));
-		r.register(new ItemManualBlock(glass_cabinet).setRegistryName(glass_cabinet.getRegistryName()));
-		r.register(new ItemManualBlock(warehouse_crate).setRegistryName(warehouse_crate.getRegistryName()));
+		if (IndustryConfig.subpartStorage) {
+			r.register(new ItemGoldSafe(gold_safe).setRegistryName(gold_safe.getRegistryName()));
+			r.register(new ItemManualBlock(tank).setRegistryName(tank.getRegistryName()));
+			r.register(new ItemManualBlock(item_tower).setRegistryName(item_tower.getRegistryName()));
+			r.register(new ItemManualBlock(locker).setRegistryName(locker.getRegistryName()));
+			r.register(new ItemManualBlock(obsidian_safe).setRegistryName(obsidian_safe.getRegistryName()));
+			r.register(new ItemManualBlock(locksmith_workbench).setRegistryName(locksmith_workbench.getRegistryName()));
+			r.register(new ItemManualBlock(wood_cabinet).setRegistryName(wood_cabinet.getRegistryName()));
+			r.register(new ItemManualBlock(glass_cabinet).setRegistryName(glass_cabinet.getRegistryName()));
+			r.register(new ItemManualBlock(warehouse_crate).setRegistryName(warehouse_crate.getRegistryName()));
+		}
+
 		r.register(new ItemManualBlock(drill).setRegistryName(drill.getRegistryName()));
 		r.register(new ItemManualBlock(drill_head).setRegistryName(drill_head.getRegistryName()));
 		r.register(new ItemManualBlock(conveyor_belt).setRegistryName(conveyor_belt.getRegistryName()));
@@ -270,36 +277,62 @@ public class IndustryBlocks {
 	}
 
 	private void initTileEntities() {
-		GameRegistry.registerTileEntity(TileEntitySensor.class, "sensors");
-		GameRegistry.registerTileEntity(TileEntityGravity.class, "gravity");
-		GameRegistry.registerTileEntity(TileEntityCamo.class, "camo_plate");
-		GameRegistry.registerTileEntity(TileEntityDGravity.class, "directional_gravity");
-		GameRegistry.registerTileEntity(TileEntityMachine.class, "machine");
-		GameRegistry.registerTileEntity(TileEntityMFurnace.class, "modern_furnace");
-		GameRegistry.registerTileEntity(TileEntityFan.class, "fan");
-		GameRegistry.registerTileEntity(TileEntitySpecificSensor.class, "specific_sensor");
-		GameRegistry.registerTileEntity(TileEntityFireSensor.class, "fire_sensor");
-		GameRegistry.registerTileEntity(TileEntityWarehouseCrate.class, "grimpack_warehouse_crate");
-		GameRegistry.registerTileEntity(TileEntityGlassCabinet.class, "grimpack_glass_cabinet");
-		GameRegistry.registerTileEntity(TileEntityWoodCabinet.class, "grimpack_wood_cabinet");
-		GameRegistry.registerTileEntity(TileEntityObsidianSafe.class, "grimpack_obsidian_safe");
-		GameRegistry.registerTileEntity(TileEntityGoldSafe.class, "grimpack_gold_safe");
-		GameRegistry.registerTileEntity(TileEntityLocker.class, "grimpack_locker");
-		GameRegistry.registerTileEntity(TileEntityItemTower.class, "grimpack_item_tower");
-		GameRegistry.registerTileEntity(TileEntityTank.class, "grimpack_tank");
+		if (IndustryConfig.subpartGravity) {
+			GameRegistry.registerTileEntity(TileEntityGravity.class, "gravity");
+			GameRegistry.registerTileEntity(TileEntityDGravity.class, "directional_gravity");
+		}
+
+		if (IndustryConfig.subpartDecoration)
+			GameRegistry.registerTileEntity(TileEntityCamo.class, "camo_plate");
+
+		if (IndustryConfig.subpartMachines) {
+			GameRegistry.registerTileEntity(TileEntityMachine.class, "machine");
+			GameRegistry.registerTileEntity(TileEntityMFurnace.class, "modern_furnace");
+		}
+
+		if (IndustryConfig.subpartFans)
+			GameRegistry.registerTileEntity(TileEntityFan.class, "fan");
+
+		if (IndustryConfig.subpartSensors) {
+			GameRegistry.registerTileEntity(TileEntitySpecificSensor.class, "specific_sensor");
+			GameRegistry.registerTileEntity(TileEntityFireSensor.class, "fire_sensor");
+			GameRegistry.registerTileEntity(TileEntitySensor.class, "sensors");
+		}
+
+		if (IndustryConfig.subpartStorage) {
+			GameRegistry.registerTileEntity(TileEntityWarehouseCrate.class, "grimpack_warehouse_crate");
+			GameRegistry.registerTileEntity(TileEntityGlassCabinet.class, "grimpack_glass_cabinet");
+			GameRegistry.registerTileEntity(TileEntityWoodCabinet.class, "grimpack_wood_cabinet");
+			GameRegistry.registerTileEntity(TileEntityObsidianSafe.class, "grimpack_obsidian_safe");
+			GameRegistry.registerTileEntity(TileEntityGoldSafe.class, "grimpack_gold_safe");
+			GameRegistry.registerTileEntity(TileEntityLocker.class, "grimpack_locker");
+			GameRegistry.registerTileEntity(TileEntityItemTower.class, "grimpack_item_tower");
+			GameRegistry.registerTileEntity(TileEntityTank.class, "grimpack_tank");
+		}
 	}
 
 	private void initOreDict() {
-		OreDictionary.registerOre("oreUranium", uranium_ore);
-		OreDictionary.registerOre("blockGlass", tempered_glass);
-		OreDictionary.registerOre("blockSteel", steel_block);
-		OreDictionary.registerOre("oreAluminum", aluminum_ore);
-		OreDictionary.registerOre("oreOil", oil_ore);
+		if (IndustryConfig.subpartNuclear)
+			OreDictionary.registerOre("oreUranium", uranium_ore);
+
+		if (IndustryConfig.subpartMachines) {
+			OreDictionary.registerOre("blockGlass", tempered_glass);
+			OreDictionary.registerOre("oreOil", oil_ore);
+		}
+
+		if (IndustryConfig.subpartSteel)
+			OreDictionary.registerOre("blockSteel", steel_block);
+
+		if (IndustryConfig.subpartCommon)
+			OreDictionary.registerOre("oreAluminum", aluminum_ore);
+
 	}
 
 	@SubscribeEvent
 	public void registerRecipes(RegistryEvent.Register<IRecipe> evt) {
-		GameRegistry.addSmelting(aluminum_ore, new ItemStack(IndustryItems.aluminum_ingot, 1), 0.45F);
-		GameRegistry.addSmelting(uranium_ore, new ItemStack(IndustryItems.uranium_ingot), 0.7F);
+		if (IndustryConfig.subpartCommon)
+			GameRegistry.addSmelting(aluminum_ore, new ItemStack(IndustryItems.aluminum_ingot, 1), 0.45F);
+		if (IndustryConfig.subpartNuclear)
+			GameRegistry.addSmelting(uranium_ore, new ItemStack(IndustryItems.uranium_ingot), 0.7F);
 	}
 }

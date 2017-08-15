@@ -51,16 +51,26 @@ public class GrimIndustry extends GrimPart {
 		MinecraftForge.EVENT_BUS.register(new IndustryBlocks());
 		MinecraftForge.EVENT_BUS.register(new IndustryItems());
 		MinecraftForge.EVENT_BUS.register(new IndustrySounds());
-		PacketDispatcher.registerMessage(MessageSetLock.class);
-		PacketDispatcher.registerMessage(MessageSensorChangeMode.class);
-		PacketDispatcher.registerMessage(MessageSensorSetEntity.class);
-		PacketDispatcher.registerMessage(MessageSensorSetItem.class);
-		PacketDispatcher.registerMessage(MessageSensorSetPlayer.class);
-		PacketDispatcher.registerMessage(MessageSensorSetPos.class);
-		PacketDispatcher.registerMessage(MessageSensorSetRender.class);
-		PacketDispatcher.registerMessage(MessageSensorSetBox.class);
-		PacketDispatcher.registerMessage(MessageSaveFan.class);
-		PacketDispatcher.registerMessage(MessageExtruderDirection.class);
+
+		if (IndustryConfig.subpartStorage)
+			PacketDispatcher.registerMessage(MessageSetLock.class);
+
+		if (IndustryConfig.subpartSensors) {
+			PacketDispatcher.registerMessage(MessageSensorChangeMode.class);
+			PacketDispatcher.registerMessage(MessageSensorSetEntity.class);
+			PacketDispatcher.registerMessage(MessageSensorSetItem.class);
+			PacketDispatcher.registerMessage(MessageSensorSetPlayer.class);
+			PacketDispatcher.registerMessage(MessageSensorSetPos.class);
+			PacketDispatcher.registerMessage(MessageSensorSetRender.class);
+			PacketDispatcher.registerMessage(MessageSensorSetBox.class);
+		}
+
+		if (IndustryConfig.subpartFans)
+			PacketDispatcher.registerMessage(MessageSaveFan.class);
+
+		if (IndustryConfig.subpartExtruder)
+			PacketDispatcher.registerMessage(MessageExtruderDirection.class);
+
 		GameRegistry.registerWorldGenerator(new IndustryGenerate(), 10);
 		IndustryEntities.initEntities();
 		proxy.preInit();
