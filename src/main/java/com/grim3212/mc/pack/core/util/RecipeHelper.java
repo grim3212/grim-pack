@@ -39,11 +39,11 @@ public class RecipeHelper {
 	 *            ore dictionary entry
 	 * @return A string that represents this ore dictionary list
 	 */
-	public static String getOreDict(List<ItemStack> ores) {
-		int[] oreNums = OreDictionary.getOreIDs(ores.get(0));
+	public static String getOreDict(ItemStack[] ores) {
+		int[] oreNums = OreDictionary.getOreIDs(ores[0]);
 
 		for (int i = 0; i < oreNums.length; i++) {
-			if (ores.equals(OreDictionary.getOres(OreDictionary.getOreName(oreNums[i])))) {
+			if (OreDictionary.containsMatch(true, OreDictionary.getOres(OreDictionary.getOreName(oreNums[i])), ores)) {
 				return OreDictionary.getOreName(oreNums[i]);
 			}
 		}

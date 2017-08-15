@@ -1,7 +1,6 @@
 package com.grim3212.mc.pack.core.manual.pages;
 
 import java.awt.Color;
-import java.util.Arrays;
 import java.util.List;
 
 import org.lwjgl.opengl.GL11;
@@ -141,7 +140,7 @@ public class PageCrafting extends Page {
 			GlStateManager.disableBlend();
 			GlStateManager.popMatrix();
 
-			this.renderItemCutWild(gui, NBTHelper.setStringItemStack(item.getMatchingStacks()[0], "customTooltip", I18n.format("grimpack.manual.oredictionary") + " : " + RecipeHelper.getOreDict(Arrays.asList(item.getMatchingStacks()))), x - 1, y - 1);
+			this.renderItemCutWild(gui, NBTHelper.setStringItemStack(item.getMatchingStacks()[0], "customTooltip", I18n.format("grimpack.manual.oredictionary") + " : " + RecipeHelper.getOreDict(item.getMatchingStacks())), x - 1, y - 1);
 		} else {
 			ItemStack[] stacks = item.getMatchingStacks();
 			if (stacks.length > 0)
