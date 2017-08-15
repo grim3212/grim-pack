@@ -10,6 +10,7 @@ import com.grim3212.mc.pack.core.manual.pages.PageImageText;
 import com.grim3212.mc.pack.core.manual.pages.PageInfo;
 import com.grim3212.mc.pack.core.util.RecipeHelper;
 import com.grim3212.mc.pack.decor.block.DecorBlocks;
+import com.grim3212.mc.pack.decor.config.DecorConfig;
 import com.grim3212.mc.pack.decor.init.DecorRecipes;
 import com.grim3212.mc.pack.decor.item.DecorItems;
 
@@ -71,67 +72,118 @@ public class ManualDecor implements IManualPart {
 
 	@Override
 	public void initPages() {
-		fancyPack_page = new PageInfo("fancy");
-		flatItemFrame_page = new PageCrafting("flat_item_frame", new ItemStack(DecorItems.flat_item_frame));
-		moss_page = new PageCrafting("moss", DecorRecipes.mossy);
-		fancyStone_page = new PageCrafting("stone", DecorRecipes.stone, 25);
-		road_page = new PageFurnace("road", new ItemStack(Blocks.GRAVEL));
-		calendar_page = new PageCrafting("calendar", new ItemStack(DecorBlocks.calendar));
-		clock_page = new PageCrafting("clock", DecorRecipes.clocks, 20);
-		wallpaperInfo_page = new PageInfo("wallpaperinfo");
-		wallpaper_page = new PageCrafting("wallpaper", new ItemStack(DecorItems.wallpaper));
-		framesInfo_page = new PageImageText("frameinfo", "frames_info_page.png", 0.85F);
-		frames_page = new PageCrafting("frames", DecorRecipes.frames, 25);
-		cage_page = new PageCrafting("cage", DecorRecipes.chains, 20);
-		lantern_page = new PageCrafting("lantern", RecipeHelper.getAllPaths("lantern"), 20);
-		crafts_page = new PageCrafting("crafts", DecorRecipes.crafts, 25);
-		firing_page = new PageFurnace("firing", new ItemStack[] { new ItemStack(DecorItems.unfired_craft), new ItemStack(DecorItems.unfired_pot) }, 20);
-		lights_page = new PageCrafting("lights", DecorRecipes.lights, 25);
-		colorizer_page = new PageCrafting("colorizer", DecorRecipes.colorizers, 20);
-		brush_page = new PageCrafting("brush", new ItemStack(DecorItems.brush));
-		table_page = new PageCrafting("table", new ItemStack(DecorBlocks.table));
-		chair_page = new PageCrafting("chair", new ItemStack(DecorBlocks.chair));
-		stool_page = new PageCrafting("stool", new ItemStack(DecorBlocks.stool));
-		counter_page = new PageCrafting("counter", new ItemStack(DecorBlocks.counter));
-		fence_page = new PageCrafting("fence", new ItemStack(DecorBlocks.fence));
-		fenceGate_page = new PageCrafting("fencegate", new ItemStack(DecorBlocks.fence_gate));
-		wall_page = new PageCrafting("wall", new ItemStack(DecorBlocks.wall));
-		burningWood_page = new PageCrafting("burning_wood", new ItemStack(DecorBlocks.burning_wood));
-		fireplace_page = new PageCrafting("fireplace", new ItemStack(DecorBlocks.fireplace));
-		chimney_page = new PageCrafting("chimney", new ItemStack(DecorBlocks.chimney));
-		stove_page = new PageCrafting("stove", new ItemStack(DecorBlocks.stove));
-		firepit_page = new PageCrafting("firepit", new ItemStack(DecorBlocks.firepit));
-		firering_page = new PageCrafting("firering", new ItemStack(DecorBlocks.firering));
-		grill_page = new PageCrafting("grill", new ItemStack(DecorBlocks.grill));
-		lamps_page = new PageCrafting("recipes", new ItemStack(DecorItems.lamp_item));
-		doors_page = new PageCrafting("doors", new ItemStack(DecorItems.decor_door_item));
-		slopeInfo_page = new PageInfo("slope_info");
-		corner_page = new PageCrafting("corner", new ItemStack(DecorBlocks.corner));
-		slope_page = new PageCrafting("slope", new ItemStack(DecorBlocks.slope));
-		slopedAngle_page = new PageCrafting("sloped_angle", new ItemStack(DecorBlocks.sloped_angle));
-		slantedCorner_page = new PageCrafting("slanted_corner", new ItemStack(DecorBlocks.slanted_corner));
-		obliqueSlope_page = new PageCrafting("oblique_slope", new ItemStack(DecorBlocks.oblique_slope));
-		slopedIntersection_page = new PageCrafting("sloped_intersection", new ItemStack(DecorBlocks.sloped_intersection));
-		pyramid_page = new PageCrafting("pyramid", new ItemStack(DecorBlocks.pyramid));
-		fullPyramid_page = new PageCrafting("full_pyramid", new ItemStack(DecorBlocks.full_pyramid));
-		slopedPost_page = new PageCrafting("sloped_post", new ItemStack(DecorBlocks.sloped_post));
-		stairs_page = new PageCrafting("stairs", new ItemStack(DecorBlocks.decor_stairs));
-		pruners_page = new PageCrafting("pruners", new ItemStack(DecorItems.pruners));
-		pillar_page = new PageCrafting("pillar", new ItemStack(DecorBlocks.pillar));
-		decorTrapDoor_page = new PageCrafting("trap_door", new ItemStack(DecorBlocks.decor_trap_door));
+		if (DecorConfig.subpartDecorations) {
+			fancyPack_page = new PageInfo("fancy");
+			moss_page = new PageCrafting("moss", DecorRecipes.mossy);
+			fancyStone_page = new PageCrafting("stone", DecorRecipes.stone, 25);
+			road_page = new PageFurnace("road", new ItemStack(Blocks.GRAVEL));
+			crafts_page = new PageCrafting("crafts", DecorRecipes.crafts, 25);
+			firing_page = new PageFurnace("firing", new ItemStack[] { new ItemStack(DecorItems.unfired_craft), new ItemStack(DecorItems.unfired_pot) }, 20);
+		}
+
+		if (DecorConfig.subpartFlatItemFrame)
+			flatItemFrame_page = new PageCrafting("flat_item_frame", new ItemStack(DecorItems.flat_item_frame));
+
+		if (DecorConfig.subpartCalendar)
+			calendar_page = new PageCrafting("calendar", new ItemStack(DecorBlocks.calendar));
+
+		if (DecorConfig.subpartWallClock)
+			clock_page = new PageCrafting("clock", DecorRecipes.clocks, 20);
+
+		if (DecorConfig.subpartWallpaper) {
+			wallpaperInfo_page = new PageInfo("wallpaperinfo");
+			wallpaper_page = new PageCrafting("wallpaper", new ItemStack(DecorItems.wallpaper));
+		}
+
+		if (DecorConfig.subpartFrames) {
+			framesInfo_page = new PageImageText("frameinfo", "frames_info_page.png", 0.85F);
+			frames_page = new PageCrafting("frames", DecorRecipes.frames, 25);
+		}
+
+		if (DecorConfig.subpartCages)
+			cage_page = new PageCrafting("cage", DecorRecipes.chains, 20);
+
+		if (DecorConfig.subpartLanterns)
+			lantern_page = new PageCrafting("lantern", RecipeHelper.getAllPaths("lantern"), 20);
+
+		if (DecorConfig.subpartLightBulbs)
+			lights_page = new PageCrafting("lights", DecorRecipes.lights, 25);
+
+		if (DecorConfig.subpartColorizer) {
+			colorizer_page = new PageCrafting("colorizer", DecorRecipes.colorizers, 20);
+			brush_page = new PageCrafting("brush", new ItemStack(DecorItems.brush));
+
+			if (DecorConfig.subpartFurniture) {
+				table_page = new PageCrafting("table", new ItemStack(DecorBlocks.table));
+				chair_page = new PageCrafting("chair", new ItemStack(DecorBlocks.chair));
+				stool_page = new PageCrafting("stool", new ItemStack(DecorBlocks.stool));
+				counter_page = new PageCrafting("counter", new ItemStack(DecorBlocks.counter));
+				fence_page = new PageCrafting("fence", new ItemStack(DecorBlocks.fence));
+				fenceGate_page = new PageCrafting("fencegate", new ItemStack(DecorBlocks.fence_gate));
+				wall_page = new PageCrafting("wall", new ItemStack(DecorBlocks.wall));
+				doors_page = new PageCrafting("doors", new ItemStack(DecorItems.decor_door_item));
+				decorTrapDoor_page = new PageCrafting("trap_door", new ItemStack(DecorBlocks.decor_trap_door));
+			}
+
+			if (DecorConfig.subpartFireplaces) {
+				burningWood_page = new PageCrafting("burning_wood", new ItemStack(DecorBlocks.burning_wood));
+				fireplace_page = new PageCrafting("fireplace", new ItemStack(DecorBlocks.fireplace));
+				chimney_page = new PageCrafting("chimney", new ItemStack(DecorBlocks.chimney));
+				stove_page = new PageCrafting("stove", new ItemStack(DecorBlocks.stove));
+				firepit_page = new PageCrafting("firepit", new ItemStack(DecorBlocks.firepit));
+				firering_page = new PageCrafting("firering", new ItemStack(DecorBlocks.firering));
+				grill_page = new PageCrafting("grill", new ItemStack(DecorBlocks.grill));
+			}
+
+			if (DecorConfig.subpartLampPosts)
+				lamps_page = new PageCrafting("recipes", new ItemStack(DecorItems.lamp_item));
+
+			if (DecorConfig.subpartSlopes) {
+				slopeInfo_page = new PageInfo("slope_info");
+				corner_page = new PageCrafting("corner", new ItemStack(DecorBlocks.corner));
+				slope_page = new PageCrafting("slope", new ItemStack(DecorBlocks.slope));
+				slopedAngle_page = new PageCrafting("sloped_angle", new ItemStack(DecorBlocks.sloped_angle));
+				slantedCorner_page = new PageCrafting("slanted_corner", new ItemStack(DecorBlocks.slanted_corner));
+				obliqueSlope_page = new PageCrafting("oblique_slope", new ItemStack(DecorBlocks.oblique_slope));
+				slopedIntersection_page = new PageCrafting("sloped_intersection", new ItemStack(DecorBlocks.sloped_intersection));
+				pyramid_page = new PageCrafting("pyramid", new ItemStack(DecorBlocks.pyramid));
+				fullPyramid_page = new PageCrafting("full_pyramid", new ItemStack(DecorBlocks.full_pyramid));
+				slopedPost_page = new PageCrafting("sloped_post", new ItemStack(DecorBlocks.sloped_post));
+				stairs_page = new PageCrafting("stairs", new ItemStack(DecorBlocks.decor_stairs));
+				pruners_page = new PageCrafting("pruners", new ItemStack(DecorItems.pruners));
+				pillar_page = new PageCrafting("pillar", new ItemStack(DecorBlocks.pillar));
+			}
+		}
 	}
 
 	@Override
 	public void registerChapters(ManualPart part) {
-		ManualRegistry.addChapter("intro", part).addPages(fancyPack_page, moss_page, fancyStone_page, road_page);
-		ManualRegistry.addChapter("hanging", part).addPages(calendar_page, clock_page, wallpaperInfo_page, wallpaper_page, framesInfo_page, frames_page, flatItemFrame_page);
-		ManualRegistry.addChapter("deco", part).addPages(cage_page, lantern_page, crafts_page, firing_page, lights_page);
-		ManualRegistry.addChapter("furniture", part).addPages(colorizer_page, brush_page, table_page, chair_page, stool_page, counter_page, doors_page, decorTrapDoor_page);
-		ManualRegistry.addChapter("other", part).addPages(fence_page, fenceGate_page, wall_page);
-		ManualRegistry.addChapter("fires", part).addPages(burningWood_page, fireplace_page, chimney_page, stove_page, firepit_page, firering_page);
-		ManualRegistry.addChapter("grill", part).addPages(grill_page);
-		ManualRegistry.addChapter("lamps", part).addPages(lamps_page);
-		ManualRegistry.addChapter("superslopes", part).addPages(slopeInfo_page, slope_page, slopedAngle_page, slantedCorner_page, corner_page, obliqueSlope_page, slopedIntersection_page, stairs_page, pyramid_page, fullPyramid_page, slopedPost_page, pillar_page, pruners_page);
+		if (DecorConfig.subpartDecorations)
+			ManualRegistry.addChapter("intro", part).addPages(fancyPack_page, moss_page, fancyStone_page, road_page);
+
+		if (DecorConfig.subpartCalendar || DecorConfig.subpartWallClock || DecorConfig.subpartWallpaper || DecorConfig.subpartFrames || DecorConfig.subpartFlatItemFrame)
+			ManualRegistry.addChapter("hanging", part).addPages(calendar_page, clock_page, wallpaperInfo_page, wallpaper_page, framesInfo_page, frames_page, flatItemFrame_page);
+
+		if (DecorConfig.subpartCages || DecorConfig.subpartLanterns || DecorConfig.subpartDecorations || DecorConfig.subpartLightBulbs)
+			ManualRegistry.addChapter("deco", part).addPages(cage_page, lantern_page, crafts_page, firing_page, lights_page);
+
+		if (DecorConfig.subpartColorizer) {
+			if (DecorConfig.subpartFurniture) {
+				ManualRegistry.addChapter("furniture", part).addPages(colorizer_page, brush_page, table_page, chair_page, stool_page, counter_page, doors_page, decorTrapDoor_page);
+				ManualRegistry.addChapter("other", part).addPages(fence_page, fenceGate_page, wall_page);
+			}
+
+			if (DecorConfig.subpartFireplaces) {
+				ManualRegistry.addChapter("fires", part).addPages(burningWood_page, fireplace_page, chimney_page, stove_page, firepit_page, firering_page);
+				ManualRegistry.addChapter("grill", part).addPages(grill_page);
+			}
+
+			if (DecorConfig.subpartLampPosts)
+				ManualRegistry.addChapter("lamps", part).addPages(lamps_page);
+
+			if (DecorConfig.subpartSlopes)
+				ManualRegistry.addChapter("superslopes", part).addPages(slopeInfo_page, slope_page, slopedAngle_page, slantedCorner_page, corner_page, obliqueSlope_page, slopedIntersection_page, stairs_page, pyramid_page, fullPyramid_page, slopedPost_page, pillar_page, pruners_page);
+		}
 	}
 
 }

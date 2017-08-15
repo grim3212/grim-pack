@@ -8,9 +8,12 @@
       "type": "grimpack:decor_subpart_enabled",
       "subpart": "flat_item_frame"
     },
-    {
-      "type": "grimpack:decor_subpart_enabled",
-      "subpart": "colorizer"
+    { "type": "forge:not",
+   	  "value": 
+	    {
+	      "type": "grimpack:decor_subpart_enabled",
+	      "subpart": "colorizer"
+	    }
     }
   ],
   "result": {
@@ -18,14 +21,17 @@
     "count": 4
   },
   "pattern": [
-    "###",
+    "#D#",
     "#L#",
-    "###"
+    "#D#"
   ],
   "type": "forge:ore_shaped",
   "key": {
+  	"D": {
+      "item": "#DYEGRAY"
+    },
     "#": {
-      "item": "grimpack:hardened_wood"
+      "item": "#PLANKWOOD"
     },
     "L": {
       "item": "#LEATHER"

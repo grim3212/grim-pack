@@ -1,4 +1,14 @@
 {
+"conditions": [
+    {
+      "type": "grimpack:part_enabled",
+      "part": "decor"
+    },
+    {
+      "type": "grimpack:decor_subpart_enabled",
+      "subpart": "wallclock"
+    }
+  ],
   "result": {
     "item": "minecraft:clock"
   },

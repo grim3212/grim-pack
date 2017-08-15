@@ -3,6 +3,7 @@ package com.grim3212.mc.pack.decor.item;
 import com.grim3212.mc.pack.core.item.ItemManualPage;
 import com.grim3212.mc.pack.core.part.GrimCreativeTabs;
 import com.grim3212.mc.pack.decor.block.DecorBlocks;
+import com.grim3212.mc.pack.decor.config.DecorConfig;
 
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -29,21 +30,42 @@ public class DecorItems {
 	public void initItems(RegistryEvent.Register<Item> evt) {
 		IForgeRegistry<Item> r = evt.getRegistry();
 
-		r.register(glass_shard);
-		r.register(frame);
-		r.register(wallpaper);
-		r.register(unfired_craft);
-		r.register(unfired_pot);
-		r.register(lamp_item);
-		r.register(brush);
-		r.register(pruners);
-		r.register(flat_item_frame);
-		r.register(decor_door_item);
+		if (DecorConfig.subpartLightBulbs)
+			r.register(glass_shard);
+
+		if (DecorConfig.subpartFrames)
+			r.register(frame);
+
+		if (DecorConfig.subpartWallpaper)
+			r.register(wallpaper);
+
+		if (DecorConfig.subpartDecorations) {
+			r.register(unfired_craft);
+			r.register(unfired_pot);
+		}
+
+		if (DecorConfig.subpartFlatItemFrame)
+			r.register(flat_item_frame);
+
+		if (DecorConfig.subpartColorizer) {
+			r.register(brush);
+
+			if (DecorConfig.subpartLampPosts)
+				r.register(lamp_item);
+
+			if (DecorConfig.subpartFurniture)
+				r.register(decor_door_item);
+
+			if (DecorConfig.subpartSlopes)
+				r.register(pruners);
+		}
 	}
 
 	@SubscribeEvent
 	public void registerRecipes(RegistryEvent.Register<IRecipe> evt) {
-		GameRegistry.addSmelting(unfired_craft, new ItemStack(DecorBlocks.craft_clay, 1), 0.35F);
-		GameRegistry.addSmelting(unfired_pot, new ItemStack(DecorBlocks.pot, 1), 0.35F);
+		if (DecorConfig.subpartDecorations) {
+			GameRegistry.addSmelting(unfired_craft, new ItemStack(DecorBlocks.craft_clay, 1), 0.35F);
+			GameRegistry.addSmelting(unfired_pot, new ItemStack(DecorBlocks.pot, 1), 0.35F);
+		}
 	}
 }

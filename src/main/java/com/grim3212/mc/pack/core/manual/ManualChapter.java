@@ -1,6 +1,5 @@
 package com.grim3212.mc.pack.core.manual;
 
-import java.util.Arrays;
 import java.util.List;
 
 import com.google.common.collect.ImmutableList;
@@ -53,19 +52,23 @@ public class ManualChapter {
 	}
 
 	public ManualChapter addPages(Page... pages) {
-		this.pages.addAll(Arrays.asList(pages));
 
 		for (int i = 0; i < pages.length; i++) {
 			Page page = pages[i];
-			page.setChapter(this);
-			page.setTitle(I18n.format(this.getUnlocalizedName() + ".page." + page.getPageName() + ".title"));
 
-			if (part != null)
-				page.setLink(new GuiManualPage(this, new GuiManualChapter(part, this.getPage(), this.part.getPage()), i));
+			if (page != null) {
+				page.setChapter(this);
+				page.setTitle(I18n.format(this.getUnlocalizedName() + ".page." + page.getPageName() + ".title"));
 
-			// If using values set above
-			if (page.setupMethod())
-				page.setup();
+				if (part != null)
+					page.setLink(new GuiManualPage(this, new GuiManualChapter(part, this.getPage(), this.part.getPage()), i));
+
+				// If using values set above
+				if (page.setupMethod())
+					page.setup();
+
+				this.pages.add(page);
+			}
 		}
 
 		return this;

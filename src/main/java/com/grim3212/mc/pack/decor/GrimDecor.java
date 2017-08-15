@@ -38,7 +38,10 @@ public class GrimDecor extends GrimPart {
 
 		MinecraftForge.EVENT_BUS.register(new DecorBlocks());
 		MinecraftForge.EVENT_BUS.register(new DecorItems());
-		PacketDispatcher.registerMessage(MessageParticles.class);
+
+		if (DecorConfig.subpartColorizer && DecorConfig.subpartFireplaces)
+			PacketDispatcher.registerMessage(MessageParticles.class);
+
 		DecorEntities.initEntities();
 		proxy.preInit();
 	}

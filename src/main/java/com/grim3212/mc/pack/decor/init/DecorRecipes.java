@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.google.common.collect.ImmutableList;
 import com.grim3212.mc.pack.core.util.RecipeHelper;
+import com.grim3212.mc.pack.decor.config.DecorConfig;
 
 import net.minecraft.util.ResourceLocation;
 
@@ -19,14 +20,26 @@ public class DecorRecipes {
 	public static List<ResourceLocation> frames;
 
 	public static void initRecipes() {
-		mossy = RecipeHelper.createPath("mossy_cobblestone");
-		clocks = ImmutableList.of(RecipeHelper.createPath("clock"), RecipeHelper.createPath("wall_clock"), RecipeHelper.createPath("wall_clock_alt"));
-		lights = ImmutableList.of(RecipeHelper.createPath("light_bulb"), RecipeHelper.createPath("glass"));
-		crafts = ImmutableList.of(RecipeHelper.createPath("craft_bone"), RecipeHelper.createPath("unfired_pot"), RecipeHelper.createPath("unfired_craft"));
-		stone = ImmutableList.of(RecipeHelper.createPath("fancy_stone"), RecipeHelper.createPath("stone_0"));
-		chains = ImmutableList.of(RecipeHelper.createPath("cage"), RecipeHelper.createPath("chain"));
-		colorizers = ImmutableList.of(RecipeHelper.createPath("hardened_wood"), RecipeHelper.createPath("colorizer"), RecipeHelper.createPath("colorizer_light"));
-		frames = ImmutableList.copyOf(RecipeHelper.getAllPaths("frame"));
+		if (DecorConfig.subpartDecorations) {
+			mossy = RecipeHelper.createPath("mossy_cobblestone");
+			stone = ImmutableList.of(RecipeHelper.createPath("fancy_stone"), RecipeHelper.createPath("stone_0"));
+			crafts = ImmutableList.of(RecipeHelper.createPath("craft_bone"), RecipeHelper.createPath("unfired_pot"), RecipeHelper.createPath("unfired_craft"));
+		}
+
+		if (DecorConfig.subpartWallClock)
+			clocks = ImmutableList.of(RecipeHelper.createPath("clock"), RecipeHelper.createPath("wall_clock"), RecipeHelper.createPath("wall_clock_alt"));
+
+		if (DecorConfig.subpartLightBulbs)
+			lights = ImmutableList.of(RecipeHelper.createPath("light_bulb"), RecipeHelper.createPath("glass"));
+
+		if (DecorConfig.subpartCages)
+			chains = ImmutableList.of(RecipeHelper.createPath("cage"), RecipeHelper.createPath("chain"));
+
+		if (DecorConfig.subpartColorizer)
+			colorizers = ImmutableList.of(RecipeHelper.createPath("hardened_wood"), RecipeHelper.createPath("colorizer"), RecipeHelper.createPath("colorizer_light"));
+
+		if (DecorConfig.subpartFrames)
+			frames = ImmutableList.copyOf(RecipeHelper.getAllPaths("frame"));
 	}
 
 }

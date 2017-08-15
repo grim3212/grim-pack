@@ -17,17 +17,17 @@ public class CuisineConditionFactory implements IConditionFactory {
 
 		switch (value) {
 		case "chocolate":
-			return () -> CuisineConfig.subpartChocolate == true;
+			return () -> CuisineConfig.subpartChocolate;
 		case "dairy":
-			return () -> CuisineConfig.subpartDairy == true;
+			return () -> CuisineConfig.subpartDairy;
 		case "dragonfruit":
-			return () -> CuisineConfig.subpartDragonFruit == true;
+			return () -> CuisineConfig.subpartDragonFruit;
 		case "health":
-			return () -> CuisineConfig.subpartHealth == true;
+			return () -> CuisineConfig.subpartHealth;
 		case "pie":
-			return () -> CuisineConfig.subpartPie == true;
+			return () -> CuisineConfig.subpartPie;
 		case "soda":
-			return () -> CuisineConfig.subpartSoda == true;
+			return () -> CuisineConfig.subpartSoda;
 		default:
 			return () -> true;
 		}

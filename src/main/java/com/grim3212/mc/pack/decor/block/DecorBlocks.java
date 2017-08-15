@@ -23,6 +23,7 @@ import com.grim3212.mc.pack.decor.block.colorizer.BlockColorizerStove;
 import com.grim3212.mc.pack.decor.block.colorizer.BlockColorizerTable;
 import com.grim3212.mc.pack.decor.block.colorizer.BlockColorizerTrapDoor;
 import com.grim3212.mc.pack.decor.block.colorizer.BlockColorizerWall;
+import com.grim3212.mc.pack.decor.config.DecorConfig;
 import com.grim3212.mc.pack.decor.item.ItemColorizer;
 import com.grim3212.mc.pack.decor.item.ItemDecorStairs;
 import com.grim3212.mc.pack.decor.item.ItemGrill;
@@ -98,50 +99,78 @@ public class DecorBlocks {
 	public void initBlocks(RegistryEvent.Register<Block> evt) {
 		IForgeRegistry<Block> r = evt.getRegistry();
 
-		r.register(hardened_wood);
-		r.register(burning_wood);
-		r.register(calendar);
-		r.register(wall_clock);
-		r.register(light_bulb);
-		r.register(lantern);
-		r.register(road);
-		r.register(fancy_stone);
-		r.register(chain);
-		r.register(cage);
-		r.register(pot);
-		r.register(craft_clay);
-		r.register(craft_bone);
-		r.register(counter);
-		r.register(stool);
-		r.register(chair);
-		r.register(colorizer);
-		r.register(colorizer_light);
-		r.register(wall);
-		r.register(fence);
-		r.register(fence_gate);
-		r.register(table);
-		r.register(lamp_post_bottom);
-		r.register(lamp_post_middle);
-		r.register(lamp_post_top);
-		r.register(fireplace);
-		r.register(firering);
-		r.register(firepit);
-		r.register(chimney);
-		r.register(stove);
-		r.register(grill);
-		r.register(corner);
-		r.register(pyramid);
-		r.register(full_pyramid);
-		r.register(slope);
-		r.register(sloped_angle);
-		r.register(slanted_corner);
-		r.register(oblique_slope);
-		r.register(sloped_intersection);
-		r.register(sloped_post);
-		r.register(pillar);
-		r.register(decor_stairs);
-		r.register(decor_door);
-		r.register(decor_trap_door);
+		if (DecorConfig.subpartCalendar)
+			r.register(calendar);
+
+		if (DecorConfig.subpartWallClock)
+			r.register(wall_clock);
+
+		if (DecorConfig.subpartLightBulbs)
+			r.register(light_bulb);
+
+		if (DecorConfig.subpartLanterns)
+			r.register(lantern);
+
+		if (DecorConfig.subpartCages) {
+			r.register(chain);
+			r.register(cage);
+		}
+
+		if (DecorConfig.subpartDecorations) {
+			r.register(road);
+			r.register(fancy_stone);
+			r.register(pot);
+			r.register(craft_clay);
+			r.register(craft_bone);
+		}
+
+		if (DecorConfig.subpartColorizer) {
+			r.register(hardened_wood);
+			r.register(colorizer);
+			r.register(colorizer_light);
+
+			if (DecorConfig.subpartFurniture) {
+				r.register(counter);
+				r.register(stool);
+				r.register(chair);
+				r.register(wall);
+				r.register(fence);
+				r.register(fence_gate);
+				r.register(decor_door);
+				r.register(decor_trap_door);
+				r.register(table);
+			}
+
+			if (DecorConfig.subpartLampPosts) {
+				r.register(lamp_post_bottom);
+				r.register(lamp_post_middle);
+				r.register(lamp_post_top);
+			}
+
+			if (DecorConfig.subpartFireplaces) {
+				r.register(burning_wood);
+				r.register(fireplace);
+				r.register(firering);
+				r.register(firepit);
+				r.register(chimney);
+				r.register(stove);
+				r.register(grill);
+			}
+
+			if (DecorConfig.subpartSlopes) {
+				r.register(corner);
+				r.register(pyramid);
+				r.register(full_pyramid);
+				r.register(slope);
+				r.register(sloped_angle);
+				r.register(slanted_corner);
+				r.register(oblique_slope);
+				r.register(sloped_intersection);
+				r.register(sloped_post);
+				r.register(pillar);
+				r.register(decor_stairs);
+			}
+		}
 
 		initTileEntities();
 	}
@@ -150,62 +179,98 @@ public class DecorBlocks {
 	public void initItems(RegistryEvent.Register<Item> evt) {
 		IForgeRegistry<Item> r = evt.getRegistry();
 
-		r.register(new ItemManualBlock(calendar).setRegistryName(calendar.getRegistryName()));
-		r.register(new ItemManualBlock(wall_clock).setRegistryName(wall_clock.getRegistryName()));
-		r.register(new ItemManualBlock(light_bulb).setRegistryName(light_bulb.getRegistryName()));
-		r.register(new ItemManualBlock(lamp_post_bottom).setRegistryName(lamp_post_bottom.getRegistryName()));
-		r.register(new ItemManualBlock(lamp_post_middle).setRegistryName(lamp_post_middle.getRegistryName()));
-		r.register(new ItemManualBlock(lamp_post_top).setRegistryName(lamp_post_top.getRegistryName()));
-		r.register(new ItemManualBlock(road).setRegistryName(road.getRegistryName()));
-		r.register(new ItemManualBlock(fancy_stone).setRegistryName(fancy_stone.getRegistryName()));
-		r.register(new ItemManualBlock(chain).setRegistryName(chain.getRegistryName()));
-		r.register(new ItemManualBlock(cage).setRegistryName(cage.getRegistryName()));
-		r.register(new ItemManualBlock(pot).setRegistryName(pot.getRegistryName()));
-		r.register(new ItemManualBlock(craft_clay).setRegistryName(craft_clay.getRegistryName()));
-		r.register(new ItemManualBlock(craft_bone).setRegistryName(craft_bone.getRegistryName()));
-		r.register(new ItemManualBlock(hardened_wood).setRegistryName(hardened_wood.getRegistryName()));
-		r.register(new ItemManualBlock(burning_wood).setRegistryName(burning_wood.getRegistryName()));
-		r.register(new ItemManualBlock(decor_door).setRegistryName(decor_door.getRegistryName()));
-		r.register(new ItemLantern(lantern).setRegistryName(lantern.getRegistryName()));
-		r.register(new ItemColorizer(colorizer).setRegistryName(colorizer.getRegistryName()));
-		r.register(new ItemColorizer(colorizer_light).setRegistryName(colorizer_light.getRegistryName()));
-		r.register(new ItemColorizer(fireplace).setRegistryName(fireplace.getRegistryName()));
-		r.register(new ItemColorizer(firering).setRegistryName(firering.getRegistryName()));
-		r.register(new ItemColorizer(firepit).setRegistryName(firepit.getRegistryName()));
-		r.register(new ItemColorizer(chimney).setRegistryName(chimney.getRegistryName()));
-		r.register(new ItemColorizer(stove).setRegistryName(stove.getRegistryName()));
-		r.register(new ItemColorizer(table).setRegistryName(table.getRegistryName()));
-		r.register(new ItemColorizer(counter).setRegistryName(counter.getRegistryName()));
-		r.register(new ItemColorizer(stool).setRegistryName(stool.getRegistryName()));
-		r.register(new ItemColorizer(chair).setRegistryName(chair.getRegistryName()));
-		r.register(new ItemColorizer(wall).setRegistryName(wall.getRegistryName()));
-		r.register(new ItemColorizer(fence).setRegistryName(fence.getRegistryName()));
-		r.register(new ItemColorizer(fence_gate).setRegistryName(fence_gate.getRegistryName()));
-		r.register(new ItemColorizer(decor_trap_door).setRegistryName(decor_trap_door.getRegistryName()));
-		r.register(new ItemGrill(grill).setRegistryName(grill.getRegistryName()));
-		r.register(new ItemSloped(corner).setRegistryName(corner.getRegistryName()));
-		r.register(new ItemSloped(slope, true).setRegistryName(slope.getRegistryName()));
-		r.register(new ItemSloped(sloped_angle).setRegistryName(sloped_angle.getRegistryName()));
-		r.register(new ItemSloped(slanted_corner).setRegistryName(slanted_corner.getRegistryName()));
-		r.register(new ItemSloped(oblique_slope).setRegistryName(oblique_slope.getRegistryName()));
-		r.register(new ItemSloped(sloped_intersection).setRegistryName(sloped_intersection.getRegistryName()));
-		r.register(new ItemSloped(pyramid).setRegistryName(pyramid.getRegistryName()));
-		r.register(new ItemSloped(full_pyramid).setRegistryName(full_pyramid.getRegistryName()));
-		r.register(new ItemSloped(sloped_post).setRegistryName(sloped_post.getRegistryName()));
-		r.register(new ItemSloped(pillar).setRegistryName(pillar.getRegistryName()));
-		r.register(new ItemDecorStairs(decor_stairs).setRegistryName(decor_stairs.getRegistryName()));
+		if (DecorConfig.subpartCalendar)
+			r.register(new ItemManualBlock(calendar).setRegistryName(calendar.getRegistryName()));
+
+		if (DecorConfig.subpartWallClock)
+			r.register(new ItemManualBlock(wall_clock).setRegistryName(wall_clock.getRegistryName()));
+
+		if (DecorConfig.subpartLightBulbs)
+			r.register(new ItemManualBlock(light_bulb).setRegistryName(light_bulb.getRegistryName()));
+
+		if (DecorConfig.subpartLanterns)
+			r.register(new ItemLantern(lantern).setRegistryName(lantern.getRegistryName()));
+
+		if (DecorConfig.subpartDecorations) {
+			r.register(new ItemManualBlock(road).setRegistryName(road.getRegistryName()));
+			r.register(new ItemManualBlock(fancy_stone).setRegistryName(fancy_stone.getRegistryName()));
+			r.register(new ItemManualBlock(pot).setRegistryName(pot.getRegistryName()));
+			r.register(new ItemManualBlock(craft_clay).setRegistryName(craft_clay.getRegistryName()));
+			r.register(new ItemManualBlock(craft_bone).setRegistryName(craft_bone.getRegistryName()));
+		}
+
+		if (DecorConfig.subpartCages) {
+			r.register(new ItemManualBlock(chain).setRegistryName(chain.getRegistryName()));
+			r.register(new ItemManualBlock(cage).setRegistryName(cage.getRegistryName()));
+		}
+
+		if (DecorConfig.subpartColorizer) {
+			r.register(new ItemManualBlock(hardened_wood).setRegistryName(hardened_wood.getRegistryName()));
+			r.register(new ItemColorizer(colorizer).setRegistryName(colorizer.getRegistryName()));
+			r.register(new ItemColorizer(colorizer_light).setRegistryName(colorizer_light.getRegistryName()));
+
+			if (DecorConfig.subpartLampPosts) {
+				r.register(new ItemManualBlock(lamp_post_bottom).setRegistryName(lamp_post_bottom.getRegistryName()));
+				r.register(new ItemManualBlock(lamp_post_middle).setRegistryName(lamp_post_middle.getRegistryName()));
+				r.register(new ItemManualBlock(lamp_post_top).setRegistryName(lamp_post_top.getRegistryName()));
+			}
+
+			if (DecorConfig.subpartFireplaces) {
+				r.register(new ItemManualBlock(burning_wood).setRegistryName(burning_wood.getRegistryName()));
+				r.register(new ItemColorizer(fireplace).setRegistryName(fireplace.getRegistryName()));
+				r.register(new ItemColorizer(firering).setRegistryName(firering.getRegistryName()));
+				r.register(new ItemColorizer(firepit).setRegistryName(firepit.getRegistryName()));
+				r.register(new ItemColorizer(chimney).setRegistryName(chimney.getRegistryName()));
+				r.register(new ItemColorizer(stove).setRegistryName(stove.getRegistryName()));
+				r.register(new ItemGrill(grill).setRegistryName(grill.getRegistryName()));
+			}
+
+			if (DecorConfig.subpartFurniture) {
+				r.register(new ItemColorizer(table).setRegistryName(table.getRegistryName()));
+				r.register(new ItemColorizer(counter).setRegistryName(counter.getRegistryName()));
+				r.register(new ItemColorizer(stool).setRegistryName(stool.getRegistryName()));
+				r.register(new ItemColorizer(chair).setRegistryName(chair.getRegistryName()));
+				r.register(new ItemColorizer(wall).setRegistryName(wall.getRegistryName()));
+				r.register(new ItemColorizer(fence).setRegistryName(fence.getRegistryName()));
+				r.register(new ItemColorizer(fence_gate).setRegistryName(fence_gate.getRegistryName()));
+				r.register(new ItemManualBlock(decor_door).setRegistryName(decor_door.getRegistryName()));
+				r.register(new ItemColorizer(decor_trap_door).setRegistryName(decor_trap_door.getRegistryName()));
+			}
+
+			if (DecorConfig.subpartSlopes) {
+				r.register(new ItemSloped(corner).setRegistryName(corner.getRegistryName()));
+				r.register(new ItemSloped(slope, true).setRegistryName(slope.getRegistryName()));
+				r.register(new ItemSloped(sloped_angle).setRegistryName(sloped_angle.getRegistryName()));
+				r.register(new ItemSloped(slanted_corner).setRegistryName(slanted_corner.getRegistryName()));
+				r.register(new ItemSloped(oblique_slope).setRegistryName(oblique_slope.getRegistryName()));
+				r.register(new ItemSloped(sloped_intersection).setRegistryName(sloped_intersection.getRegistryName()));
+				r.register(new ItemSloped(pyramid).setRegistryName(pyramid.getRegistryName()));
+				r.register(new ItemSloped(full_pyramid).setRegistryName(full_pyramid.getRegistryName()));
+				r.register(new ItemSloped(sloped_post).setRegistryName(sloped_post.getRegistryName()));
+				r.register(new ItemSloped(pillar).setRegistryName(pillar.getRegistryName()));
+				r.register(new ItemDecorStairs(decor_stairs).setRegistryName(decor_stairs.getRegistryName()));
+			}
+		}
 	}
 
-	private static void initTileEntities() {
-		GameRegistry.registerTileEntity(TileEntityCalendar.class, "calendar");
-		GameRegistry.registerTileEntity(TileEntityWallClock.class, "wall_clock");
-		GameRegistry.registerTileEntity(TileEntityGrill.class, "grill");
-		GameRegistry.registerTileEntity(TileEntityColorizer.class, "colorizer");
-		GameRegistry.registerTileEntity(TileEntityCage.class, "cage");
+	private void initTileEntities() {
+		if (DecorConfig.subpartCalendar)
+			GameRegistry.registerTileEntity(TileEntityCalendar.class, "calendar");
+		if (DecorConfig.subpartWallClock)
+			GameRegistry.registerTileEntity(TileEntityWallClock.class, "wall_clock");
+		if (DecorConfig.subpartColorizer) {
+			GameRegistry.registerTileEntity(TileEntityColorizer.class, "colorizer");
+			if (DecorConfig.subpartFireplaces)
+				GameRegistry.registerTileEntity(TileEntityGrill.class, "grill");
+		}
+
+		if (DecorConfig.subpartCages)
+			GameRegistry.registerTileEntity(TileEntityCage.class, "cage");
 	}
 
 	@SubscribeEvent
 	public void registerRecipes(RegistryEvent.Register<IRecipe> evt) {
-		GameRegistry.addSmelting(Blocks.GRAVEL, new ItemStack(road, 1), 0.15F);
+		if (DecorConfig.subpartDecorations)
+			GameRegistry.addSmelting(Blocks.GRAVEL, new ItemStack(road, 1), 0.15F);
 	}
 }

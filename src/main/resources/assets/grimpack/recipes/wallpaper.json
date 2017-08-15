@@ -1,4 +1,14 @@
 {
+"conditions": [
+    {
+      "type": "grimpack:part_enabled",
+      "part": "decor"
+    },
+    {
+      "type": "grimpack:decor_subpart_enabled",
+      "subpart": "wallpaper"
+    }
+  ],
   "result": {
     "item": "grimpack:wallpaper",
     "count": 6

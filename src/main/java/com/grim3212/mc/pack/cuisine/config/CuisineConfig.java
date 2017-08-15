@@ -15,7 +15,7 @@ public class CuisineConfig extends GrimConfig {
 
 	public static final String CONFIG_NAME = "cuisine";
 	public static final String CONFIG_GENERAL_NAME = "cuisine.general";
-	public static final String CONFIG_PARTS_NAME = "cuisine.parts";
+	public static final String CONFIG_PARTS_NAME = "cuisine.subparts";
 
 	public static boolean generateCocoaTrees;
 	public static boolean subpartChocolate;
@@ -42,21 +42,23 @@ public class CuisineConfig extends GrimConfig {
 
 	@Override
 	public void syncConfig() {
-		generateCocoaTrees = config.get(CONFIG_GENERAL_NAME, "Generate Cocoa Trees", true).getBoolean();
-
 		subpartChocolate = config.get(CONFIG_PARTS_NAME, "Enable SubPart chocolate", true).setRequiresMcRestart(true).getBoolean();
 		subpartDairy = config.get(CONFIG_PARTS_NAME, "Enable SubPart dairy", true).setRequiresMcRestart(true).getBoolean();
 		subpartDragonFruit = config.get(CONFIG_PARTS_NAME, "Enable SubPart dragon fruit", true).setRequiresMcRestart(true).getBoolean();
 		subpartHealth = config.get(CONFIG_PARTS_NAME, "Enable SubPart health", true).setRequiresMcRestart(true).getBoolean();
 		subpartPie = config.get(CONFIG_PARTS_NAME, "Enable SubPart pie", true).setRequiresMcRestart(true).getBoolean();
 		subpartSoda = config.get(CONFIG_PARTS_NAME, "Enable SubPart soda", true).setRequiresMcRestart(true).getBoolean();
+
+		if (subpartChocolate)
+			generateCocoaTrees = config.get(CONFIG_GENERAL_NAME, "Generate Cocoa Trees", true).getBoolean();
 		super.syncConfig();
 	}
 
 	@Override
 	public List<IConfigElement> getConfigItems() {
 		List<IConfigElement> list = new ArrayList<IConfigElement>();
-		list.add(new DummyCategoryElement("cuisineGeneralCfg", "grimpack.cuisine.cfg.general", new ConfigElement(GrimCuisine.INSTANCE.getConfig().getCategory(CONFIG_GENERAL_NAME)).getChildElements()));
+		if (subpartChocolate)
+			list.add(new DummyCategoryElement("cuisineGeneralCfg", "grimpack.cuisine.cfg.general", new ConfigElement(GrimCuisine.INSTANCE.getConfig().getCategory(CONFIG_GENERAL_NAME)).getChildElements()));
 		list.add(new DummyCategoryElement("cuisineSubPartCfg", "grimpack.cuisine.cfg.subparts", new ConfigElement(GrimCuisine.INSTANCE.getConfig().getCategory(CONFIG_PARTS_NAME)).getChildElements()));
 		return list;
 	}
