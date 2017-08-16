@@ -1,4 +1,18 @@
 {
+"conditions": [
+    {
+      "type": "grimpack:part_enabled",
+      "part": "industry"
+    },
+    {
+      "type": "grimpack:industry_subpart_enabled",
+      "subpart": "machines"
+    },
+    {
+      "type": "grimpack:ore_dict",
+      "oreName": "ingotSteel"
+    }
+  ],
   "result": {
     "item": "grimpack:modern_furnace"
   },

@@ -1,4 +1,22 @@
 {
+"conditions": [
+    {
+      "type": "grimpack:part_enabled",
+      "part": "industry"
+    },
+    {
+      "type": "grimpack:industry_subpart_enabled",
+      "subpart": "decoration"
+    },
+    {
+      "type": "grimpack:industry_subpart_enabled",
+      "subpart": "rways"
+    },
+    {
+      "type": "minecraft:item_exists",
+      "item": "ingotAluminum"
+    }
+  ],
   "result": {
     "item": "grimpack:vertical_siding",
     "count": 4

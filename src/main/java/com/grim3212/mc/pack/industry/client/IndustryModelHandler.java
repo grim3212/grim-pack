@@ -117,8 +117,13 @@ public class IndustryModelHandler {
 		if (IndustryConfig.subpartExtruder)
 			RenderHelper.renderItem(IndustryItems.extruder);
 
-		if (IndustryConfig.subpartCommon)
+		if (IndustryConfig.subpartCommon) {
 			RenderHelper.renderItem(IndustryItems.iron_stick);
+			RenderHelper.renderItem(IndustryItems.paint_roller);
+			RenderHelper.renderItem(IndustryItems.aluminum_ingot);
+
+			RenderHelper.renderBlock(IndustryBlocks.aluminum_ore);
+		}
 
 		if (IndustryConfig.subpartGates) {
 			RenderHelper.renderItem(IndustryItems.garage_panel);
@@ -153,15 +158,16 @@ public class IndustryModelHandler {
 		}
 
 		if (IndustryConfig.subpartMetalWorks) {
-			RenderHelper.renderItem(IndustryItems.aluminum_ingot);
-			RenderHelper.renderItem(IndustryItems.aluminum_can);
+			// TODO: Decide if Core should contain some basic items that all
+			// parts are able to use
 			RenderHelper.renderItem(IndustryItems.aluminum_shaft);
-			RenderHelper.renderBlock(IndustryBlocks.aluminum_ore);
+
 			RenderHelper.renderBlock(IndustryBlocks.aluminum_ladder);
 			RenderHelper.renderBlock(IndustryBlocks.metal_mesh);
 		}
 
 		if (IndustryConfig.subpartMachines) {
+			RenderHelper.renderItem(IndustryItems.aluminum_can);
 			RenderHelper.renderItem(IndustryItems.oily_chunk);
 			RenderHelper.renderItem(IndustryItems.rubber);
 			RenderHelper.renderItem(IndustryItems.drill_head_item);
@@ -203,7 +209,6 @@ public class IndustryModelHandler {
 		}
 
 		if (IndustryConfig.subpartRWays) {
-			RenderHelper.renderItem(IndustryItems.paint_roller);
 			RenderHelper.renderItem(IndustryItems.tarball);
 			RenderHelper.renderItem(IndustryItems.asphalt);
 

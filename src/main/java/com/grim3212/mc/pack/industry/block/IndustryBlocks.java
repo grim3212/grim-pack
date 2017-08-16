@@ -116,68 +116,114 @@ public class IndustryBlocks {
 	public void initBlocks(RegistryEvent.Register<Block> evt) {
 		IForgeRegistry<Block> r = evt.getRegistry();
 
-		r.register(modern_tile);
-		r.register(tempered_glass);
-		r.register(horizontal_siding);
-		r.register(vertical_siding);
-		r.register(concrete);
-		r.register(door_chain);
-		r.register(door_glass);
-		r.register(door_steel);
-		r.register(togglerack);
-		r.register(iron_workbench);
-		r.register(diamond_workbench);
-		r.register(ice_maker);
-		r.register(fire_block);
-		r.register(water_block);
-		r.register(lava_block);
-		r.register(spike);
-		r.register(wooden_sensor);
-		r.register(stone_sensor);
-		r.register(iron_sensor);
-		r.register(netherrack_sensor);
-		r.register(attractor);
-		r.register(repulsor);
-		r.register(gravitor);
-		r.register(direction_attractor);
-		r.register(direction_repulsor);
-		r.register(direction_gravitor);
-		r.register(nuclear_bomb);
-		r.register(reactor);
-		r.register(bomb_shell);
-		r.register(c4);
-		r.register(uranium_ore);
-		r.register(castle_gate);
-		r.register(garage);
-		r.register(halogen_light);
-		r.register(halogen_torch);
-		r.register(sidewalk);
-		r.register(rway);
-		r.register(rway_light_on);
-		r.register(rway_light_off);
-		r.register(rway_manhole);
-		r.register(fountain);
-		r.register(camo_plate);
-		r.register(chain_fence);
-		r.register(aluminum_ladder);
-		r.register(aluminum_ore);
-		r.register(oil_ore);
-		r.register(derrick);
-		r.register(modern_furnace);
-		r.register(refinery);
-		r.register(steel_block);
-		r.register(steel_pipe);
-		r.register(steel_frame);
-		r.register(fuel_tank);
-		r.register(fan);
-		r.register(specific_sensor);
-		r.register(upgraded_specific_sensor);
-		r.register(arrow_sensor);
-		r.register(metal_mesh);
-		r.register(fire_sensor);
-		r.register(conveyor_belt);
-		r.register(drill);
-		r.register(drill_head);
+		if (IndustryConfig.subpartDoors) {
+			r.register(door_chain);
+			r.register(door_glass);
+			r.register(door_steel);
+		}
+
+		if (IndustryConfig.subpartWorkbenchUpgrades) {
+			r.register(iron_workbench);
+			r.register(diamond_workbench);
+		}
+
+		if (IndustryConfig.subpartIceMaker)
+			r.register(ice_maker);
+
+		if (IndustryConfig.subpartElementalBlocks) {
+			r.register(fire_block);
+			r.register(water_block);
+			r.register(lava_block);
+			r.register(togglerack);
+		}
+
+		if (IndustryConfig.subpartSpikes)
+			r.register(spike);
+
+		if (IndustryConfig.subpartGravity) {
+			r.register(attractor);
+			r.register(repulsor);
+			r.register(gravitor);
+			r.register(direction_attractor);
+			r.register(direction_repulsor);
+			r.register(direction_gravitor);
+		}
+
+		if (IndustryConfig.subpartNuclear) {
+			r.register(nuclear_bomb);
+			r.register(reactor);
+			r.register(bomb_shell);
+			r.register(c4);
+			r.register(uranium_ore);
+		}
+
+		if (IndustryConfig.subpartGates) {
+			r.register(castle_gate);
+			r.register(garage);
+		}
+
+		if (IndustryConfig.subpartHLights) {
+			r.register(halogen_light);
+			r.register(halogen_torch);
+		}
+
+		if (IndustryConfig.subpartRWays) {
+			r.register(sidewalk);
+			r.register(rway);
+			r.register(rway_light_on);
+			r.register(rway_light_off);
+			r.register(rway_manhole);
+		}
+
+		if (IndustryConfig.subpartDecoration) {
+			r.register(fountain);
+			r.register(camo_plate);
+			r.register(chain_fence);
+			r.register(horizontal_siding);
+			r.register(vertical_siding);
+			r.register(concrete);
+		}
+
+		if (IndustryConfig.subpartCommon)
+			r.register(aluminum_ore);
+
+		if (IndustryConfig.subpartFans)
+			r.register(fan);
+
+		if (IndustryConfig.subpartSensors) {
+			r.register(wooden_sensor);
+			r.register(stone_sensor);
+			r.register(iron_sensor);
+			r.register(netherrack_sensor);
+			r.register(specific_sensor);
+			r.register(upgraded_specific_sensor);
+			r.register(arrow_sensor);
+			r.register(fire_sensor);
+		}
+
+		if (IndustryConfig.subpartMetalWorks) {
+			r.register(metal_mesh);
+			r.register(aluminum_ladder);
+		}
+
+		if (IndustryConfig.subpartSteel) {
+			r.register(steel_block);
+			r.register(steel_pipe);
+			r.register(steel_frame);
+		}
+
+		if (IndustryConfig.subpartMachines) {
+			r.register(oil_ore);
+			r.register(derrick);
+			r.register(modern_furnace);
+			r.register(refinery);
+			r.register(fuel_tank);
+			r.register(conveyor_belt);
+			r.register(drill);
+			r.register(drill_head);
+			r.register(modern_tile);
+			r.register(tempered_glass);
+		}
 
 		if (IndustryConfig.subpartStorage) {
 			r.register(warehouse_crate);
@@ -210,68 +256,112 @@ public class IndustryBlocks {
 			r.register(new ItemManualBlock(warehouse_crate).setRegistryName(warehouse_crate.getRegistryName()));
 		}
 
-		r.register(new ItemManualBlock(drill).setRegistryName(drill.getRegistryName()));
-		r.register(new ItemManualBlock(drill_head).setRegistryName(drill_head.getRegistryName()));
-		r.register(new ItemManualBlock(conveyor_belt).setRegistryName(conveyor_belt.getRegistryName()));
-		r.register(new ItemManualBlock(fire_sensor).setRegistryName(fire_sensor.getRegistryName()));
-		r.register(new ItemManualBlock(metal_mesh).setRegistryName(metal_mesh.getRegistryName()));
-		r.register(new ItemManualBlock(arrow_sensor).setRegistryName(arrow_sensor.getRegistryName()));
-		r.register(new ItemManualBlock(upgraded_specific_sensor).setRegistryName(upgraded_specific_sensor.getRegistryName()));
-		r.register(new ItemManualBlock(specific_sensor).setRegistryName(specific_sensor.getRegistryName()));
-		r.register(new ItemManualBlock(fan).setRegistryName(fan.getRegistryName()));
-		r.register(new ItemManualBlock(aluminum_ladder).setRegistryName(aluminum_ladder.getRegistryName()));
-		r.register(new ItemManualBlock(aluminum_ore).setRegistryName(aluminum_ore.getRegistryName()));
-		r.register(new ItemManualBlock(oil_ore).setRegistryName(oil_ore.getRegistryName()));
-		r.register(new ItemManualBlock(derrick).setRegistryName(derrick.getRegistryName()));
-		r.register(new ItemManualBlock(modern_furnace).setRegistryName(modern_furnace.getRegistryName()));
-		r.register(new ItemManualBlock(refinery).setRegistryName(refinery.getRegistryName()));
-		r.register(new ItemManualBlock(steel_block).setRegistryName(steel_block.getRegistryName()));
-		r.register(new ItemManualBlock(steel_pipe).setRegistryName(steel_pipe.getRegistryName()));
-		r.register(new ItemManualBlock(steel_frame).setRegistryName(steel_frame.getRegistryName()));
-		r.register(new ItemManualBlock(fuel_tank).setRegistryName(fuel_tank.getRegistryName()));
-		r.register(new ItemManualBlock(fountain).setRegistryName(fountain.getRegistryName()));
-		r.register(new ItemManualBlock(camo_plate).setRegistryName(camo_plate.getRegistryName()));
-		r.register(new ItemManualBlock(chain_fence).setRegistryName(chain_fence.getRegistryName()));
-		r.register(new ItemManualBlock(modern_tile).setRegistryName(modern_tile.getRegistryName()));
-		r.register(new ItemManualBlock(tempered_glass).setRegistryName(tempered_glass.getRegistryName()));
-		r.register(new ItemManualBlock(horizontal_siding).setRegistryName(horizontal_siding.getRegistryName()));
-		r.register(new ItemManualBlock(vertical_siding).setRegistryName(vertical_siding.getRegistryName()));
-		r.register(new ItemManualBlock(concrete).setRegistryName(concrete.getRegistryName()));
-		r.register(new ItemManualBlock(door_chain).setRegistryName(door_chain.getRegistryName()));
-		r.register(new ItemManualBlock(door_glass).setRegistryName(door_glass.getRegistryName()));
-		r.register(new ItemManualBlock(door_steel).setRegistryName(door_steel.getRegistryName()));
-		r.register(new ItemManualBlock(sidewalk).setRegistryName(sidewalk.getRegistryName()));
-		r.register(new ItemManualBlock(rway).setRegistryName(rway.getRegistryName()));
-		r.register(new ItemManualBlock(rway_light_on).setRegistryName(rway_light_on.getRegistryName()));
-		r.register(new ItemManualBlock(rway_light_off).setRegistryName(rway_light_off.getRegistryName()));
-		r.register(new ItemManualBlock(rway_manhole).setRegistryName(rway_manhole.getRegistryName()));
-		r.register(new ItemManualBlock(halogen_light).setRegistryName(halogen_light.getRegistryName()));
-		r.register(new ItemManualBlock(halogen_torch).setRegistryName(halogen_torch.getRegistryName()));
-		r.register(new ItemManualBlock(castle_gate).setRegistryName(castle_gate.getRegistryName()));
-		r.register(new ItemManualBlock(garage).setRegistryName(garage.getRegistryName()));
-		r.register(new ItemManualBlock(attractor).setRegistryName(attractor.getRegistryName()));
-		r.register(new ItemManualBlock(repulsor).setRegistryName(repulsor.getRegistryName()));
-		r.register(new ItemManualBlock(gravitor).setRegistryName(gravitor.getRegistryName()));
-		r.register(new ItemManualBlock(direction_attractor).setRegistryName(direction_attractor.getRegistryName()));
-		r.register(new ItemManualBlock(direction_repulsor).setRegistryName(direction_repulsor.getRegistryName()));
-		r.register(new ItemManualBlock(direction_gravitor).setRegistryName(direction_gravitor.getRegistryName()));
-		r.register(new ItemSensor(wooden_sensor).setRegistryName(wooden_sensor.getRegistryName()));
-		r.register(new ItemSensor(stone_sensor).setRegistryName(stone_sensor.getRegistryName()));
-		r.register(new ItemSensor(iron_sensor).setRegistryName(iron_sensor.getRegistryName()));
-		r.register(new ItemSensor(netherrack_sensor).setRegistryName(netherrack_sensor.getRegistryName()));
-		r.register(new ItemManualBlock(spike).setRegistryName(spike.getRegistryName()));
-		r.register(new ItemManualBlock(water_block).setRegistryName(water_block.getRegistryName()));
-		r.register(new ItemManualBlock(lava_block).setRegistryName(lava_block.getRegistryName()));
-		r.register(new ItemManualBlock(fire_block).setRegistryName(fire_block.getRegistryName()));
-		r.register(new ItemManualBlock(iron_workbench).setRegistryName(iron_workbench.getRegistryName()));
-		r.register(new ItemManualBlock(diamond_workbench).setRegistryName(diamond_workbench.getRegistryName()));
-		r.register(new ItemManualBlock(togglerack).setRegistryName(togglerack.getRegistryName()));
-		r.register(new ItemManualBlock(ice_maker).setRegistryName(ice_maker.getRegistryName()));
-		r.register(new ItemManualBlock(uranium_ore).setRegistryName(uranium_ore.getRegistryName()));
-		r.register(new ItemManualBlock(bomb_shell).setRegistryName(bomb_shell.getRegistryName()));
-		r.register(new ItemManualBlock(c4).setRegistryName(c4.getRegistryName()));
-		r.register(new ItemManualBlock(nuclear_bomb).setRegistryName(nuclear_bomb.getRegistryName()));
-		r.register(new ItemManualBlock(reactor).setRegistryName(reactor.getRegistryName()));
+		if (IndustryConfig.subpartFans)
+			r.register(new ItemManualBlock(fan).setRegistryName(fan.getRegistryName()));
+
+		if (IndustryConfig.subpartMetalWorks) {
+			r.register(new ItemManualBlock(metal_mesh).setRegistryName(metal_mesh.getRegistryName()));
+			r.register(new ItemManualBlock(aluminum_ladder).setRegistryName(aluminum_ladder.getRegistryName()));
+			r.register(new ItemManualBlock(aluminum_ore).setRegistryName(aluminum_ore.getRegistryName()));
+		}
+
+		if (IndustryConfig.subpartSteel) {
+			r.register(new ItemManualBlock(steel_block).setRegistryName(steel_block.getRegistryName()));
+			r.register(new ItemManualBlock(steel_pipe).setRegistryName(steel_pipe.getRegistryName()));
+			r.register(new ItemManualBlock(steel_frame).setRegistryName(steel_frame.getRegistryName()));
+		}
+
+		if (IndustryConfig.subpartMachines) {
+			r.register(new ItemManualBlock(fuel_tank).setRegistryName(fuel_tank.getRegistryName()));
+			r.register(new ItemManualBlock(modern_tile).setRegistryName(modern_tile.getRegistryName()));
+			r.register(new ItemManualBlock(tempered_glass).setRegistryName(tempered_glass.getRegistryName()));
+			r.register(new ItemManualBlock(oil_ore).setRegistryName(oil_ore.getRegistryName()));
+			r.register(new ItemManualBlock(derrick).setRegistryName(derrick.getRegistryName()));
+			r.register(new ItemManualBlock(modern_furnace).setRegistryName(modern_furnace.getRegistryName()));
+			r.register(new ItemManualBlock(refinery).setRegistryName(refinery.getRegistryName()));
+			r.register(new ItemManualBlock(drill).setRegistryName(drill.getRegistryName()));
+			r.register(new ItemManualBlock(drill_head).setRegistryName(drill_head.getRegistryName()));
+			r.register(new ItemManualBlock(conveyor_belt).setRegistryName(conveyor_belt.getRegistryName()));
+		}
+
+		if (IndustryConfig.subpartDecoration) {
+			r.register(new ItemManualBlock(horizontal_siding).setRegistryName(horizontal_siding.getRegistryName()));
+			r.register(new ItemManualBlock(vertical_siding).setRegistryName(vertical_siding.getRegistryName()));
+			r.register(new ItemManualBlock(concrete).setRegistryName(concrete.getRegistryName()));
+			r.register(new ItemManualBlock(fountain).setRegistryName(fountain.getRegistryName()));
+			r.register(new ItemManualBlock(camo_plate).setRegistryName(camo_plate.getRegistryName()));
+			r.register(new ItemManualBlock(chain_fence).setRegistryName(chain_fence.getRegistryName()));
+		}
+
+		if (IndustryConfig.subpartDoors) {
+			r.register(new ItemManualBlock(door_chain).setRegistryName(door_chain.getRegistryName()));
+			r.register(new ItemManualBlock(door_glass).setRegistryName(door_glass.getRegistryName()));
+			r.register(new ItemManualBlock(door_steel).setRegistryName(door_steel.getRegistryName()));
+		}
+
+		if (IndustryConfig.subpartDoors) {
+			r.register(new ItemManualBlock(sidewalk).setRegistryName(sidewalk.getRegistryName()));
+			r.register(new ItemManualBlock(rway).setRegistryName(rway.getRegistryName()));
+			r.register(new ItemManualBlock(rway_light_on).setRegistryName(rway_light_on.getRegistryName()));
+			r.register(new ItemManualBlock(rway_light_off).setRegistryName(rway_light_off.getRegistryName()));
+			r.register(new ItemManualBlock(rway_manhole).setRegistryName(rway_manhole.getRegistryName()));
+		}
+
+		if (IndustryConfig.subpartHLights) {
+			r.register(new ItemManualBlock(halogen_light).setRegistryName(halogen_light.getRegistryName()));
+			r.register(new ItemManualBlock(halogen_torch).setRegistryName(halogen_torch.getRegistryName()));
+		}
+
+		if (IndustryConfig.subpartGates) {
+			r.register(new ItemManualBlock(castle_gate).setRegistryName(castle_gate.getRegistryName()));
+			r.register(new ItemManualBlock(garage).setRegistryName(garage.getRegistryName()));
+		}
+
+		if (IndustryConfig.subpartGravity) {
+			r.register(new ItemManualBlock(attractor).setRegistryName(attractor.getRegistryName()));
+			r.register(new ItemManualBlock(repulsor).setRegistryName(repulsor.getRegistryName()));
+			r.register(new ItemManualBlock(gravitor).setRegistryName(gravitor.getRegistryName()));
+			r.register(new ItemManualBlock(direction_attractor).setRegistryName(direction_attractor.getRegistryName()));
+			r.register(new ItemManualBlock(direction_repulsor).setRegistryName(direction_repulsor.getRegistryName()));
+			r.register(new ItemManualBlock(direction_gravitor).setRegistryName(direction_gravitor.getRegistryName()));
+		}
+
+		if (IndustryConfig.subpartSensors) {
+			r.register(new ItemSensor(wooden_sensor).setRegistryName(wooden_sensor.getRegistryName()));
+			r.register(new ItemSensor(stone_sensor).setRegistryName(stone_sensor.getRegistryName()));
+			r.register(new ItemSensor(iron_sensor).setRegistryName(iron_sensor.getRegistryName()));
+			r.register(new ItemSensor(netherrack_sensor).setRegistryName(netherrack_sensor.getRegistryName()));
+			r.register(new ItemManualBlock(upgraded_specific_sensor).setRegistryName(upgraded_specific_sensor.getRegistryName()));
+			r.register(new ItemManualBlock(specific_sensor).setRegistryName(specific_sensor.getRegistryName()));
+			r.register(new ItemManualBlock(arrow_sensor).setRegistryName(arrow_sensor.getRegistryName()));
+			r.register(new ItemManualBlock(fire_sensor).setRegistryName(fire_sensor.getRegistryName()));
+		}
+
+		if (IndustryConfig.subpartSpikes)
+			r.register(new ItemManualBlock(spike).setRegistryName(spike.getRegistryName()));
+
+		if (IndustryConfig.subpartElementalBlocks) {
+			r.register(new ItemManualBlock(water_block).setRegistryName(water_block.getRegistryName()));
+			r.register(new ItemManualBlock(lava_block).setRegistryName(lava_block.getRegistryName()));
+			r.register(new ItemManualBlock(fire_block).setRegistryName(fire_block.getRegistryName()));
+			r.register(new ItemManualBlock(togglerack).setRegistryName(togglerack.getRegistryName()));
+		}
+
+		if (IndustryConfig.subpartWorkbenchUpgrades) {
+			r.register(new ItemManualBlock(iron_workbench).setRegistryName(iron_workbench.getRegistryName()));
+			r.register(new ItemManualBlock(diamond_workbench).setRegistryName(diamond_workbench.getRegistryName()));
+		}
+
+		if (IndustryConfig.subpartIceMaker)
+			r.register(new ItemManualBlock(ice_maker).setRegistryName(ice_maker.getRegistryName()));
+
+		if (IndustryConfig.subpartNuclear) {
+			r.register(new ItemManualBlock(uranium_ore).setRegistryName(uranium_ore.getRegistryName()));
+			r.register(new ItemManualBlock(bomb_shell).setRegistryName(bomb_shell.getRegistryName()));
+			r.register(new ItemManualBlock(c4).setRegistryName(c4.getRegistryName()));
+			r.register(new ItemManualBlock(nuclear_bomb).setRegistryName(nuclear_bomb.getRegistryName()));
+			r.register(new ItemManualBlock(reactor).setRegistryName(reactor.getRegistryName()));
+		}
 
 		initOreDict();
 	}

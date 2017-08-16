@@ -3,6 +3,10 @@
     {
       "type": "grimpack:part_enabled",
       "part": "industry"
+    },
+    {
+      "type": "grimpack:industry_subpart_enabled",
+      "subpart": "steel"
     }
   ],
   "result": {

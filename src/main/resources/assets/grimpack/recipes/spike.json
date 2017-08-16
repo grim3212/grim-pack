@@ -1,4 +1,18 @@
 {
+"conditions": [
+    {
+      "type": "grimpack:part_enabled",
+      "part": "industry"
+    },
+    {
+      "type": "grimpack:industry_subpart_enabled",
+      "subpart": "spikes"
+    },
+    {
+      "type": "grimpack:ore_dict",
+      "oreName": "stickIron"
+    }
+  ],
   "result": {
     "item": "grimpack:spike",
     "count": 8

@@ -1,4 +1,18 @@
 {
+"conditions": [
+    {
+      "type": "grimpack:part_enabled",
+      "part": "industry"
+    },
+    {
+      "type": "grimpack:industry_subpart_enabled",
+      "subpart": "metalworks"
+    },
+    {
+      "type": "grimpack:ore_dict",
+      "oreName": "ingotAluminum"
+    }
+  ],
   "result": {
     "item": "grimpack:aluminum_shaft",
     "count": 4

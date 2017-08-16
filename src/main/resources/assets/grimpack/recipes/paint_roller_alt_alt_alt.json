@@ -1,4 +1,18 @@
 {
+"conditions": [
+    {
+      "type": "grimpack:part_enabled",
+      "part": "industry"
+    },
+    {
+      "type": "grimpack:industry_subpart_enabled",
+      "subpart": "decoration"
+    },
+    {
+      "type": "grimpack:industry_subpart_enabled",
+      "oreName": "common"
+    }
+  ],
   "result": {
     "item": "grimpack:paint_roller"
   },

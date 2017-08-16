@@ -40,7 +40,7 @@ public class IndustryRecipes {
 		}
 
 		if (IndustryConfig.subpartMetalWorks) {
-			alumstuff = ImmutableList.of(RecipeHelper.createPath("aluminum_can"), RecipeHelper.createPath("aluminum_shaft"));
+			alumstuff = ImmutableList.of(RecipeHelper.createPath("aluminum_shaft"));
 			buckladd = ImmutableList.of(RecipeHelper.createPath("aluminum_ladder"), RecipeHelper.createPath("bucket"));
 		}
 

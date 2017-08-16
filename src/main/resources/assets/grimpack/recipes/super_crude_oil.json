@@ -1,4 +1,14 @@
 {
+"conditions": [
+    {
+      "type": "grimpack:part_enabled",
+      "part": "industry"
+    },
+    {
+      "type": "grimpack:industry_subpart_enabled",
+      "subpart": "machines"
+    }
+  ],
   "result": {
     "item": "grimpack:super_crude_oil"
   },

@@ -237,7 +237,7 @@ public class ManualIndustry implements IManualPart {
 			machineInfo_page = new PageInfo("info");
 			refinery_page = new PageCrafting("refinery", new ItemStack(IndustryBlocks.refinery));
 			refineryRecipes_page = new PageMachine("refinery_recipes", MachineRecipes.INSTANCE.getInputs(MachineType.REFINERY), 35, MachineType.REFINERY);
-			derrick_page = new PageCrafting("derrick", new ItemStack(IndustryBlocks.derrick));
+			derrick_page = new PageCrafting("derrick", 25, new ItemStack(IndustryBlocks.derrick), new ItemStack(IndustryItems.aluminum_can));
 			derrickRecipes_page = new PageMachine("derrick_recipes", new ItemStack(IndustryItems.aluminum_can), MachineType.DERRICK);
 			modernFurnace_page = new PageCrafting("mfurnace", new ItemStack(IndustryBlocks.modern_furnace));
 			modernFurnaceRecipes_page = new PageMachine("mfurnace_recipes", MachineRecipes.INSTANCE.getInputs(MachineType.MODERN_FURNACE), 35, MachineType.MODERN_FURNACE);

@@ -1,4 +1,22 @@
 {
+"conditions": [
+    {
+      "type": "grimpack:part_enabled",
+      "part": "industry"
+    },
+    {
+      "type": "grimpack:industry_subpart_enabled",
+      "subpart": "decoration"
+    },
+    {
+      "type": "grimpack:ore_dict",
+      "oreName": "ingotAluminum"
+    },
+    {
+      "type": "minecraft:item_exists",
+      "item": "grimpack:steel_pipe"
+    }
+  ],
   "result": {
     "item": "grimpack:fountain"
   },

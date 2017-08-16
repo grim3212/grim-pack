@@ -12,6 +12,7 @@ import com.grim3212.mc.pack.core.item.ItemManualSword;
 import com.grim3212.mc.pack.core.part.GrimCreativeTabs;
 import com.grim3212.mc.pack.industry.block.BlockSiding.EnumSidingColor;
 import com.grim3212.mc.pack.industry.block.IndustryBlocks;
+import com.grim3212.mc.pack.industry.config.IndustryConfig;
 
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -96,91 +97,152 @@ public class IndustryItems {
 	public void initItems(RegistryEvent.Register<Item> evt) {
 		IForgeRegistry<Item> r = evt.getRegistry();
 
-		r.register(locksmith_lock);
-		r.register(locksmith_key);
-		r.register(aluminum_can);
-		r.register(aluminum_shaft);
-		r.register(steel_shaft);
-		r.register(coal_dust);
-		r.register(coal_iron_ingot);
-		r.register(crude_oil);
-		r.register(super_crude_oil);
-		r.register(fuel);
-		r.register(oily_chunk);
-		r.register(steel_axe);
-		r.register(steel_hoe);
-		r.register(steel_ingot);
-		r.register(steel_pickaxe);
-		r.register(steel_shovel);
-		r.register(steel_sword);
-		r.register(rubber);
-		r.register(iron_stick);
-		r.register(door_chain_item);
-		r.register(door_glass_item);
-		r.register(door_steel_item);
-		r.register(gravity_boots);
-		r.register(anti_radiation_boots);
-		r.register(anti_radiation_chest);
-		r.register(anti_radiation_helmet);
-		r.register(anti_radiation_legs);
-		r.register(iron_parts);
-		r.register(reactor_core_case);
-		r.register(reactor_core);
-		r.register(graphite_rod);
-		r.register(graphite);
-		r.register(refined_plutonium);
-		r.register(plutonium_ingot);
-		r.register(refined_uranium);
-		r.register(uranium_ingot);
-		r.register(aluminum_ingot);
-		r.register(gravity_controller);
-		r.register(low_gravity_controller);
-		r.register(mob_repulsor);
-		r.register(gate_grating);
-		r.register(gate_trumpet);
-		r.register(garage_panel);
-		r.register(garage_remote);
-		r.register(paint_roller);
-		r.register(tarball);
-		r.register(asphalt);
-		r.register(paint_roller_white);
-		r.register(paint_roller_blue);
-		r.register(paint_roller_green);
-		r.register(paint_roller_red);
-		r.register(extruder);
-		r.register(portable_diamond_workbench);
-		r.register(portable_iron_workbench);
-		r.register(position_finder);
-		r.register(drill_head_item);
+		if (IndustryConfig.subpartStorage) {
+			r.register(locksmith_lock);
+			r.register(locksmith_key);
+		}
 
-		steel.setRepairItem(new ItemStack(steel_ingot));
-		antiRadiation.setRepairItem(new ItemStack(Blocks.WOOL));
-		gravboots.setRepairItem(new ItemStack(Items.IRON_INGOT));
+		if (IndustryConfig.subpartMetalWorks) {
+			r.register(aluminum_shaft);
+		}
+
+		if (IndustryConfig.subpartMachines) {
+			r.register(aluminum_can);
+			r.register(crude_oil);
+			r.register(super_crude_oil);
+			r.register(fuel);
+			r.register(oily_chunk);
+			r.register(rubber);
+			r.register(drill_head_item);
+		}
+
+		if (IndustryConfig.subpartCommon) {
+			r.register(iron_stick);
+			r.register(aluminum_ingot);
+			r.register(paint_roller);
+		}
+
+		if (IndustryConfig.subpartDoors) {
+			r.register(door_chain_item);
+			r.register(door_glass_item);
+			r.register(door_steel_item);
+		}
+
+		if (IndustryConfig.subpartGates) {
+			r.register(gate_grating);
+			r.register(gate_trumpet);
+			r.register(garage_panel);
+			r.register(garage_remote);
+		}
+
+		if (IndustryConfig.subpartRWays) {
+			r.register(tarball);
+			r.register(asphalt);
+		}
+
+		if (IndustryConfig.subpartDecoration) {
+			r.register(paint_roller_white);
+			r.register(paint_roller_blue);
+			r.register(paint_roller_green);
+			r.register(paint_roller_red);
+		}
+
+		if (IndustryConfig.subpartExtruder)
+			r.register(extruder);
+
+		if (IndustryConfig.subpartWorkbenchUpgrades) {
+			r.register(portable_diamond_workbench);
+			r.register(portable_iron_workbench);
+		}
+
+		if (IndustryConfig.subpartSensors)
+			r.register(position_finder);
+
+		if (IndustryConfig.subpartSteel) {
+			r.register(steel_axe);
+			r.register(steel_hoe);
+			r.register(steel_ingot);
+			r.register(steel_pickaxe);
+			r.register(steel_shovel);
+			r.register(steel_sword);
+			r.register(steel_shaft);
+			r.register(coal_dust);
+			r.register(coal_iron_ingot);
+
+			steel.setRepairItem(new ItemStack(steel_ingot));
+		}
+
+		if (IndustryConfig.subpartNuclear) {
+			r.register(anti_radiation_boots);
+			r.register(anti_radiation_chest);
+			r.register(anti_radiation_helmet);
+			r.register(anti_radiation_legs);
+			r.register(iron_parts);
+			r.register(reactor_core_case);
+			r.register(reactor_core);
+			r.register(graphite_rod);
+			r.register(graphite);
+			r.register(refined_plutonium);
+			r.register(plutonium_ingot);
+			r.register(refined_uranium);
+			r.register(uranium_ingot);
+
+			antiRadiation.setRepairItem(new ItemStack(Blocks.WOOL));
+		}
+
+		if (IndustryConfig.subpartGravity) {
+			r.register(gravity_boots);
+			r.register(gravity_controller);
+			r.register(low_gravity_controller);
+			r.register(mob_repulsor);
+
+			gravboots.setRepairItem(new ItemStack(Items.IRON_INGOT));
+		}
 
 		initOreDict();
 	}
 
 	private void initOreDict() {
-		OreDictionary.registerOre("rubber", rubber);
-		OreDictionary.registerOre("dustCoal", coal_dust);
-		OreDictionary.registerOre("ingotSteel", steel_ingot);
-		OreDictionary.registerOre("ingotUranium", uranium_ingot);
-		OreDictionary.registerOre("ingotRefinedUranium", refined_uranium);
-		OreDictionary.registerOre("ingotPlutonium", plutonium_ingot);
-		OreDictionary.registerOre("ingotRefinedPlutonium", refined_plutonium);
-		OreDictionary.registerOre("ingotAluminum", aluminum_ingot);
-		OreDictionary.registerOre("stickIron", iron_stick);
-		OreDictionary.registerOre("can", aluminum_can);
-		OreDictionary.registerOre("canOil", crude_oil);
-		OreDictionary.registerOre("canCrudeOil", super_crude_oil);
-		OreDictionary.registerOre("canFuel", fuel);
-		OreDictionary.registerOre("tar", tarball);
+		if (IndustryConfig.subpartSteel) {
+			OreDictionary.registerOre("dustCoal", coal_dust);
+			OreDictionary.registerOre("ingotSteel", steel_ingot);
+		}
+
+		if (IndustryConfig.subpartNuclear) {
+			OreDictionary.registerOre("ingotUranium", uranium_ingot);
+			OreDictionary.registerOre("ingotRefinedUranium", refined_uranium);
+			OreDictionary.registerOre("ingotPlutonium", plutonium_ingot);
+			OreDictionary.registerOre("ingotRefinedPlutonium", refined_plutonium);
+		}
+
+		if (IndustryConfig.subpartCommon) {
+			OreDictionary.registerOre("ingotAluminum", aluminum_ingot);
+			OreDictionary.registerOre("stickIron", iron_stick);
+		}
+
+		if (IndustryConfig.subpartMetalWorks)
+			OreDictionary.registerOre("can", aluminum_can);
+
+		if (IndustryConfig.subpartMachines) {
+			OreDictionary.registerOre("rubber", rubber);
+			OreDictionary.registerOre("canOil", crude_oil);
+			OreDictionary.registerOre("canCrudeOil", super_crude_oil);
+			OreDictionary.registerOre("canFuel", fuel);
+		}
+
+		if (IndustryConfig.subpartRWays)
+			OreDictionary.registerOre("tar", tarball);
 	}
 
 	@SubscribeEvent
 	public void registerRecipes(RegistryEvent.Register<IRecipe> evt) {
-		GameRegistry.addSmelting(tarball, new ItemStack(asphalt, 1), 0.35F);
-		GameRegistry.addSmelting(Items.FLINT, new ItemStack(graphite), 0.35F);
-		GameRegistry.addSmelting(coal_iron_ingot, new ItemStack(steel_ingot, 1), 0.5F);
+		if (IndustryConfig.subpartRWays)
+			GameRegistry.addSmelting(tarball, new ItemStack(asphalt, 1), 0.35F);
+
+		if (IndustryConfig.subpartNuclear)
+			GameRegistry.addSmelting(Items.FLINT, new ItemStack(graphite), 0.35F);
+
+		if (IndustryConfig.subpartSteel)
+			GameRegistry.addSmelting(coal_iron_ingot, new ItemStack(steel_ingot, 1), 0.5F);
 	}
 }

@@ -1,4 +1,18 @@
 {
+"conditions": [
+    {
+      "type": "grimpack:part_enabled",
+      "part": "industry"
+    },
+    {
+      "type": "grimpack:industry_subpart_enabled",
+      "subpart": "sensors"
+    },
+    {
+      "type": "grimpack:industry_subpart_enabled",
+      "subpart": "metalworks"
+    }
+  ],
   "result": {
     "item": "grimpack:arrow_sensor"
   },
