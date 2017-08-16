@@ -8,9 +8,9 @@ import com.grim3212.mc.pack.core.util.RecipeHelper;
 import com.grim3212.mc.pack.tools.blocks.ToolsBlocks;
 import com.grim3212.mc.pack.tools.client.ManualTools;
 import com.grim3212.mc.pack.tools.config.ToolsConfig;
-import com.grim3212.mc.pack.tools.crafting.ToolsRecipes;
 import com.grim3212.mc.pack.tools.entity.ToolsEntities;
 import com.grim3212.mc.pack.tools.event.MilkingEvent;
+import com.grim3212.mc.pack.tools.init.ToolsRecipes;
 import com.grim3212.mc.pack.tools.init.ToolsSounds;
 import com.grim3212.mc.pack.tools.items.ToolsItems;
 import com.grim3212.mc.pack.tools.network.MessagePowerStaffSwitchModes;
@@ -51,11 +51,22 @@ public class GrimTools extends GrimPart {
 		MinecraftForge.EVENT_BUS.register(new ToolsBlocks());
 		MinecraftForge.EVENT_BUS.register(new ToolsItems());
 		MinecraftForge.EVENT_BUS.register(new ToolsRecipes());
-		MinecraftForge.EVENT_BUS.register(new ToolsSounds());
-		MinecraftForge.EVENT_BUS.register(new MilkingEvent());
-		PacketDispatcher.registerMessage(MessageWandKeys.class);
-		PacketDispatcher.registerMessage(MessagePowerStaffSwitchModes.class);
-		PacketDispatcher.registerMessage(MessageSlingshotSwitchModes.class);
+
+		if (ToolsConfig.subpartRayGuns)
+			MinecraftForge.EVENT_BUS.register(new ToolsSounds());
+
+		if (ToolsConfig.subpartBuckets)
+			MinecraftForge.EVENT_BUS.register(new MilkingEvent());
+
+		if (ToolsConfig.subpartWands)
+			PacketDispatcher.registerMessage(MessageWandKeys.class);
+
+		if (ToolsConfig.subpartPowerstaff)
+			PacketDispatcher.registerMessage(MessagePowerStaffSwitchModes.class);
+
+		if (ToolsConfig.subpartSlingshots)
+			PacketDispatcher.registerMessage(MessageSlingshotSwitchModes.class);
+
 		GameRegistry.registerWorldGenerator(new ToolsGenerate(), 25);
 		ToolsEntities.initEntities();
 
@@ -74,7 +85,8 @@ public class GrimTools extends GrimPart {
 	public void postInit(FMLPostInitializationEvent event) {
 		super.postInit(event);
 
-		RecipeHelper.replaceRecipes(new ItemStack(Items.MILK_BUCKET), "bucketMilk", NonNullList.create());
+		if (ToolsConfig.subpartBuckets)
+			RecipeHelper.replaceRecipes(new ItemStack(Items.MILK_BUCKET), "bucketMilk", NonNullList.create());
 	}
 
 	@Override

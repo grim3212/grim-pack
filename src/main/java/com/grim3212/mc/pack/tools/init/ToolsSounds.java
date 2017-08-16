@@ -1,6 +1,7 @@
 package com.grim3212.mc.pack.tools.init;
 
 import com.grim3212.mc.pack.core.util.Utils;
+import com.grim3212.mc.pack.tools.config.ToolsConfig;
 
 import net.minecraft.util.SoundEvent;
 import net.minecraftforge.event.RegistryEvent;
@@ -14,7 +15,9 @@ public class ToolsSounds {
 	@SubscribeEvent
 	public void registerSounds(RegistryEvent.Register<SoundEvent> evt) {
 		IForgeRegistry<SoundEvent> reg = evt.getRegistry();
-		reg.register(raygunSound);
+
+		if (ToolsConfig.subpartRayGuns)
+			reg.register(raygunSound);
 	}
 
 }

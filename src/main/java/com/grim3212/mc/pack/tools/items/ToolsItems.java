@@ -10,8 +10,10 @@ import com.grim3212.mc.pack.core.item.ItemManualPickaxe;
 import com.grim3212.mc.pack.core.item.ItemManualSpade;
 import com.grim3212.mc.pack.core.item.ItemManualSword;
 import com.grim3212.mc.pack.core.part.GrimCreativeTabs;
+import com.grim3212.mc.pack.industry.config.IndustryConfig;
 import com.grim3212.mc.pack.industry.item.IndustryItems;
 import com.grim3212.mc.pack.tools.blocks.ToolsBlocks;
+import com.grim3212.mc.pack.tools.config.ToolsConfig;
 import com.grim3212.mc.pack.tools.items.ItemBetterBucket.BucketType;
 import com.grim3212.mc.pack.tools.util.ChiselRegistry;
 import com.grim3212.mc.pack.tools.util.DispenseBehaviors;
@@ -130,99 +132,153 @@ public class ToolsItems {
 	public void initItems(RegistryEvent.Register<Item> evt) {
 		IForgeRegistry<Item> r = evt.getRegistry();
 
-		r.register(boomerang);
-		r.register(diamond_boomerang);
-		r.register(backpack);
-		r.register(pellet_bag);
-		r.register(portable_workbench);
-		r.register(loaded_knife);
-		r.register(unloaded_knife);
-		r.register(ammo_part);
-		r.register(button_part);
-		r.register(spring_part);
-		r.register(black_diamond);
-		r.register(black_diamond_boots);
-		r.register(black_diamond_leggings);
-		r.register(black_diamond_chestplate);
-		r.register(black_diamond_helmet);
-		r.register(black_diamond_sword);
-		r.register(black_diamond_hoe);
-		r.register(black_diamond_axe);
-		r.register(black_diamond_shovel);
-		r.register(black_diamond_pickaxe);
-		r.register(wooden_bucket);
-		r.register(wooden_milk_bucket);
-		r.register(stone_bucket);
-		r.register(stone_milk_bucket);
-		r.register(golden_bucket);
-		r.register(golden_milk_bucket);
-		r.register(diamond_bucket);
-		r.register(diamond_milk_bucket);
-		r.register(obsidian_bucket);
-		r.register(obsidian_milk_bucket);
-		r.register(throwing_knife);
-		r.register(tomahawk);
-		r.register(grip);
-		r.register(diamond_chisel);
-		r.register(gold_ore_item);
-		r.register(iron_ore_item);
-		r.register(iron_chisel);
-		r.register(extinguisher);
-		r.register(wood_hammer);
-		r.register(stone_hammer);
-		r.register(gold_hammer);
-		r.register(iron_hammer);
-		r.register(diamond_hammer);
-		r.register(machete_gold);
-		r.register(machete_iron);
-		r.register(machete_diamond);
-		r.register(machete_stone);
-		r.register(machete_wood);
-		r.register(machete_slime);
-		r.register(building_wand);
-		r.register(breaking_wand);
-		r.register(mining_wand);
-		r.register(reinforced_building_wand);
-		r.register(reinforced_breaking_wand);
-		r.register(reinforced_mining_wand);
-		r.register(diamond_multi_tool);
-		r.register(wooden_multi_tool);
-		r.register(stone_multi_tool);
-		r.register(iron_multi_tool);
-		r.register(golden_multi_tool);
-		r.register(obsidian_multi_tool);
-		r.register(black_diamond_multi_tool);
-		r.register(pokeball);
-		r.register(powerstaff);
-		r.register(energy_canister);
-		r.register(element_115);
-		r.register(empty_energy_canister);
-		r.register(ray_gun);
-		r.register(advanced_empty_energy_canister);
-		r.register(advanced_energy_canister);
-		r.register(advanced_ray_gun);
-		r.register(dark_iron_ingot);
-		r.register(sling_shot);
-		r.register(sling_pellet);
-		r.register(spear);
-		r.register(iron_spear);
-		r.register(diamond_spear);
-		r.register(explosive_spear);
-		r.register(fire_spear);
-		r.register(slime_spear);
-		r.register(light_spear);
-		r.register(lightning_spear);
-		r.register(ultimate_fist);
-		r.register(mask);
+		if (ToolsConfig.subpartBoomerangs) {
+			r.register(boomerang);
+			r.register(diamond_boomerang);
+		}
 
-		if (CoreConfig.useIndustry || OreDictionary.doesOreNameExist("ingotSteel"))
-			r.register(steel_multi_tool);
+		if (ToolsConfig.subpartBackpacks)
+			r.register(backpack);
+
+		if (ToolsConfig.subpartPortableWorkbench)
+			r.register(portable_workbench);
+
+		if (ToolsConfig.subpartBlackDiamond) {
+			r.register(black_diamond);
+			r.register(black_diamond_boots);
+			r.register(black_diamond_leggings);
+			r.register(black_diamond_chestplate);
+			r.register(black_diamond_helmet);
+			r.register(black_diamond_sword);
+			r.register(black_diamond_hoe);
+			r.register(black_diamond_axe);
+			r.register(black_diamond_shovel);
+			r.register(black_diamond_pickaxe);
+		}
+
+		if (ToolsConfig.subpartBuckets) {
+			r.register(wooden_bucket);
+			r.register(wooden_milk_bucket);
+			r.register(stone_bucket);
+			r.register(stone_milk_bucket);
+			r.register(golden_bucket);
+			r.register(golden_milk_bucket);
+			r.register(diamond_bucket);
+			r.register(diamond_milk_bucket);
+			r.register(obsidian_bucket);
+			r.register(obsidian_milk_bucket);
+		}
+
+		if (ToolsConfig.subpartKnives) {
+			r.register(throwing_knife);
+			r.register(tomahawk);
+			r.register(grip);
+			r.register(loaded_knife);
+			r.register(unloaded_knife);
+			r.register(ammo_part);
+			r.register(button_part);
+			r.register(spring_part);
+		}
+
+		if (ToolsConfig.subpartChisel) {
+			r.register(diamond_chisel);
+			r.register(gold_ore_item);
+			r.register(iron_ore_item);
+			r.register(iron_chisel);
+		}
+
+		if (ToolsConfig.subpartExtinguisher)
+			r.register(extinguisher);
+
+		if (ToolsConfig.subpartHammers) {
+			r.register(wood_hammer);
+			r.register(stone_hammer);
+			r.register(gold_hammer);
+			r.register(iron_hammer);
+			r.register(diamond_hammer);
+		}
+
+		if (ToolsConfig.subpartMachetes) {
+			r.register(machete_gold);
+			r.register(machete_iron);
+			r.register(machete_diamond);
+			r.register(machete_stone);
+			r.register(machete_wood);
+			r.register(machete_slime);
+		}
+
+		if (ToolsConfig.subpartWands) {
+			r.register(building_wand);
+			r.register(breaking_wand);
+			r.register(mining_wand);
+			r.register(reinforced_building_wand);
+			r.register(reinforced_breaking_wand);
+			r.register(reinforced_mining_wand);
+		}
+
+		if (ToolsConfig.subpartPokeball)
+			r.register(pokeball);
+
+		if (ToolsConfig.subpartPowerstaff)
+			r.register(powerstaff);
+
+		if (ToolsConfig.subpartRayGuns) {
+			r.register(energy_canister);
+			r.register(element_115);
+			r.register(empty_energy_canister);
+			r.register(ray_gun);
+			r.register(advanced_empty_energy_canister);
+			r.register(advanced_energy_canister);
+			r.register(advanced_ray_gun);
+			r.register(dark_iron_ingot);
+		}
+
+		if (ToolsConfig.subpartSlingshots) {
+			r.register(sling_shot);
+			r.register(sling_pellet);
+			r.register(pellet_bag);
+		}
+
+		if (ToolsConfig.subpartSpears) {
+			r.register(spear);
+			r.register(iron_spear);
+			r.register(diamond_spear);
+			r.register(explosive_spear);
+			r.register(fire_spear);
+			r.register(slime_spear);
+			r.register(light_spear);
+			r.register(lightning_spear);
+		}
+
+		if (ToolsConfig.subpartUltimateFist)
+			r.register(ultimate_fist);
+
+		if (ToolsConfig.subpartMasks)
+			r.register(mask);
+
+		if (ToolsConfig.subpartMultiTools) {
+			r.register(diamond_multi_tool);
+			r.register(wooden_multi_tool);
+			r.register(stone_multi_tool);
+			r.register(iron_multi_tool);
+			r.register(golden_multi_tool);
+			r.register(obsidian_multi_tool);
+			r.register(black_diamond_multi_tool);
+			if (CoreConfig.useIndustry && IndustryConfig.subpartSteel)
+				r.register(steel_multi_tool);
+		}
 
 		// Set repair items
-		obsidianToolMaterial.setRepairItem(new ItemStack(Blocks.OBSIDIAN));
-		blackdiamond.setRepairItem(new ItemStack(black_diamond));
-		blackarmor.setRepairItem(new ItemStack(black_diamond));
-		masks.setRepairItem(new ItemStack(Items.PAPER));
+		if (ToolsConfig.subpartMultiTools)
+			obsidianToolMaterial.setRepairItem(new ItemStack(Blocks.OBSIDIAN));
+
+		if (ToolsConfig.subpartBlackDiamond) {
+			blackdiamond.setRepairItem(new ItemStack(black_diamond));
+			blackarmor.setRepairItem(new ItemStack(black_diamond));
+		}
+
+		if (ToolsConfig.subpartMasks)
+			masks.setRepairItem(new ItemStack(Items.PAPER));
 
 		// Register all of the dispenser behaviors
 		DispenseBehaviors.register();
@@ -231,37 +287,52 @@ public class ToolsItems {
 	}
 
 	private void initOreDict() {
-		OreDictionary.registerOre("ingotDarkIron", dark_iron_ingot);
-		OreDictionary.registerOre("bucketMilk", Items.MILK_BUCKET);
-		OreDictionary.registerOre("bucketMilk", wooden_milk_bucket);
-		OreDictionary.registerOre("bucketMilk", stone_milk_bucket);
-		OreDictionary.registerOre("bucketMilk", golden_milk_bucket);
-		OreDictionary.registerOre("bucketMilk", diamond_milk_bucket);
-		OreDictionary.registerOre("bucketMilk", obsidian_milk_bucket);
-		OreDictionary.registerOre("gemBlackDiamond", black_diamond);
-		OreDictionary.registerOre("element115", element_115);
-		OreDictionary.registerOre("oreIron", iron_ore_item);
-		OreDictionary.registerOre("oreGold", gold_ore_item);
-		OreDictionary.registerOre("canEnergy", energy_canister);
-		OreDictionary.registerOre("canAdvancedEnergy", advanced_energy_canister);
+		if (ToolsConfig.subpartBuckets) {
+			OreDictionary.registerOre("bucketMilk", Items.MILK_BUCKET);
+			OreDictionary.registerOre("bucketMilk", wooden_milk_bucket);
+			OreDictionary.registerOre("bucketMilk", stone_milk_bucket);
+			OreDictionary.registerOre("bucketMilk", golden_milk_bucket);
+			OreDictionary.registerOre("bucketMilk", diamond_milk_bucket);
+			OreDictionary.registerOre("bucketMilk", obsidian_milk_bucket);
+		}
+
+		if (ToolsConfig.subpartBlackDiamond)
+			OreDictionary.registerOre("gemBlackDiamond", black_diamond);
+
+		if (ToolsConfig.subpartChisel) {
+			OreDictionary.registerOre("oreIron", iron_ore_item);
+			OreDictionary.registerOre("oreGold", gold_ore_item);
+		}
+
+		if (ToolsConfig.subpartRayGuns) {
+			OreDictionary.registerOre("ingotDarkIron", dark_iron_ingot);
+			OreDictionary.registerOre("element115", element_115);
+			OreDictionary.registerOre("canEnergy", energy_canister);
+			OreDictionary.registerOre("canAdvancedEnergy", advanced_energy_canister);
+		}
 	}
 
 	@SubscribeEvent
 	public void registerRecipes(RegistryEvent.Register<IRecipe> evt) {
-		// Register chiseleable blocks
-		ChiselRegistry.registerBlock(Blocks.DIAMOND_ORE, Blocks.STONE, Items.DIAMOND, 1, 0);
-		ChiselRegistry.registerBlock(Blocks.EMERALD_ORE, Blocks.STONE, Items.EMERALD, 1, 0);
-		ChiselRegistry.registerBlock(Blocks.QUARTZ_ORE, Blocks.NETHERRACK, Items.QUARTZ, 1, 0);
-		ChiselRegistry.registerBlock(Blocks.GOLD_ORE, Blocks.STONE, Items.GOLD_INGOT, 1, 0);
-		ChiselRegistry.registerBlock(Blocks.IRON_ORE, Blocks.STONE, Items.IRON_INGOT, 1, 0);
-		ChiselRegistry.registerBlock(Blocks.REDSTONE_ORE, Blocks.STONE, Items.REDSTONE, 4, 0);
-		ChiselRegistry.registerBlock(Blocks.LIT_REDSTONE_ORE, Blocks.STONE, Items.REDSTONE, 4, 0);
-		ChiselRegistry.registerBlock(Blocks.COAL_ORE, Blocks.STONE, Items.COAL, 1, 0);
-		ChiselRegistry.registerBlock(Blocks.LAPIS_ORE, Blocks.STONE, Items.DYE, 3, 4);
-		ChiselRegistry.registerBlock(ToolsBlocks.black_diamond_ore, Blocks.STONE, black_diamond, 1, 0);
+		if (ToolsConfig.subpartChisel) {
+			// Register chiseleable blocks
+			// TODO: Change this to be configurable for the user
+			ChiselRegistry.registerBlock(Blocks.DIAMOND_ORE, Blocks.STONE, Items.DIAMOND, 1, 0);
+			ChiselRegistry.registerBlock(Blocks.EMERALD_ORE, Blocks.STONE, Items.EMERALD, 1, 0);
+			ChiselRegistry.registerBlock(Blocks.QUARTZ_ORE, Blocks.NETHERRACK, Items.QUARTZ, 1, 0);
+			ChiselRegistry.registerBlock(Blocks.GOLD_ORE, Blocks.STONE, Items.GOLD_INGOT, 1, 0);
+			ChiselRegistry.registerBlock(Blocks.IRON_ORE, Blocks.STONE, Items.IRON_INGOT, 1, 0);
+			ChiselRegistry.registerBlock(Blocks.REDSTONE_ORE, Blocks.STONE, Items.REDSTONE, 4, 0);
+			ChiselRegistry.registerBlock(Blocks.LIT_REDSTONE_ORE, Blocks.STONE, Items.REDSTONE, 4, 0);
+			ChiselRegistry.registerBlock(Blocks.COAL_ORE, Blocks.STONE, Items.COAL, 1, 0);
+			ChiselRegistry.registerBlock(Blocks.LAPIS_ORE, Blocks.STONE, Items.DYE, 3, 4);
+			ChiselRegistry.registerBlock(ToolsBlocks.black_diamond_ore, Blocks.STONE, black_diamond, 1, 0);
 
-		GameRegistry.addSmelting(iron_ore_item, new ItemStack(Items.IRON_INGOT), 0.4F);
-		GameRegistry.addSmelting(gold_ore_item, new ItemStack(Items.GOLD_INGOT), 1F);
-		GameRegistry.addSmelting(ToolsBlocks.black_diamond_ore, new ItemStack(black_diamond, 1), 1.0F);
+			GameRegistry.addSmelting(iron_ore_item, new ItemStack(Items.IRON_INGOT), 0.4F);
+			GameRegistry.addSmelting(gold_ore_item, new ItemStack(Items.GOLD_INGOT), 1F);
+		}
+
+		if (ToolsConfig.subpartBlackDiamond)
+			GameRegistry.addSmelting(ToolsBlocks.black_diamond_ore, new ItemStack(black_diamond, 1), 1.0F);
 	}
 }

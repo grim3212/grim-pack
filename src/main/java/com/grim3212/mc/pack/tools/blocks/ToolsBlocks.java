@@ -1,6 +1,7 @@
 package com.grim3212.mc.pack.tools.blocks;
 
 import com.grim3212.mc.pack.core.item.ItemManualBlock;
+import com.grim3212.mc.pack.tools.config.ToolsConfig;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
@@ -21,25 +22,37 @@ public class ToolsBlocks {
 	public void initBlocks(RegistryEvent.Register<Block> evt) {
 		IForgeRegistry<Block> r = evt.getRegistry();
 
-		r.register(black_diamond_block);
-		r.register(black_diamond_ore);
-		r.register(element_115_ore);
+		if (ToolsConfig.subpartBlackDiamond) {
+			r.register(black_diamond_block);
+			r.register(black_diamond_ore);
+		}
+
+		if (ToolsConfig.subpartRayGuns)
+			r.register(element_115_ore);
 	}
 
 	@SubscribeEvent
 	public void initItems(RegistryEvent.Register<Item> evt) {
 		IForgeRegistry<Item> r = evt.getRegistry();
 
-		r.register(new ItemManualBlock(black_diamond_ore).setRegistryName(black_diamond_ore.getRegistryName()));
-		r.register(new ItemManualBlock(black_diamond_block).setRegistryName(black_diamond_block.getRegistryName()));
-		r.register(new ItemManualBlock(element_115_ore).setRegistryName(element_115_ore.getRegistryName()));
+		if (ToolsConfig.subpartBlackDiamond) {
+			r.register(new ItemManualBlock(black_diamond_ore).setRegistryName(black_diamond_ore.getRegistryName()));
+			r.register(new ItemManualBlock(black_diamond_block).setRegistryName(black_diamond_block.getRegistryName()));
+		}
+
+		if (ToolsConfig.subpartRayGuns)
+			r.register(new ItemManualBlock(element_115_ore).setRegistryName(element_115_ore.getRegistryName()));
 
 		initOreDict();
 	}
 
 	private void initOreDict() {
-		OreDictionary.registerOre("oreBlackDiamond", black_diamond_ore);
-		OreDictionary.registerOre("blockBlackDiamond", black_diamond_block);
-		OreDictionary.registerOre("oreElement115", element_115_ore);
+		if (ToolsConfig.subpartBlackDiamond) {
+			OreDictionary.registerOre("oreBlackDiamond", black_diamond_ore);
+			OreDictionary.registerOre("blockBlackDiamond", black_diamond_block);
+		}
+
+		if (ToolsConfig.subpartRayGuns)
+			OreDictionary.registerOre("oreElement115", element_115_ore);
 	}
 }

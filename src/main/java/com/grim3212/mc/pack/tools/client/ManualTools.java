@@ -11,7 +11,8 @@ import com.grim3212.mc.pack.core.manual.pages.PageInfo;
 import com.grim3212.mc.pack.core.util.RecipeHelper;
 import com.grim3212.mc.pack.industry.item.IndustryItems;
 import com.grim3212.mc.pack.tools.blocks.ToolsBlocks;
-import com.grim3212.mc.pack.tools.crafting.ToolsRecipes;
+import com.grim3212.mc.pack.tools.config.ToolsConfig;
+import com.grim3212.mc.pack.tools.init.ToolsRecipes;
 import com.grim3212.mc.pack.tools.items.ToolsItems;
 
 import net.minecraft.item.ItemStack;
@@ -74,82 +75,170 @@ public class ManualTools implements IManualPart {
 
 	@Override
 	public void initPages() {
-		boomerang_page = new PageCrafting("wood", new ItemStack(ToolsItems.boomerang));
-		diamondBoomerang_page = new PageCrafting("diamond", new ItemStack(ToolsItems.diamond_boomerang));
-		backpack_page = new PageCrafting("backpacks", new ItemStack(ToolsItems.backpack));
-		backpackColors_page = new PageImageText("colors", "colors_image.png");
-		portableWorkbench_page = new PageCrafting("portableworkbench", new ItemStack(ToolsItems.portable_workbench));
-		blackOre_page = new PageImageText("blackore", "blackore.png");
-		blackDiamond_page = new PageFurnace("cookOre", new ItemStack(ToolsBlocks.black_diamond_ore));
-		blackBlocks_page = new PageCrafting("craftblack", ToolsRecipes.black, 25);
-		blackTools_page = new PageCrafting("tools", ToolsRecipes.blackTools, 18);
-		blackArmor_page = new PageCrafting("armor", ToolsRecipes.blackArmor, 18);
-		woodBucket_page = new PageCrafting("wooden", new ItemStack(ToolsItems.wooden_bucket));
-		stoneBucket_page = new PageCrafting("stone", new ItemStack(ToolsItems.stone_bucket));
-		goldBucket_page = new PageCrafting("golden", new ItemStack(ToolsItems.golden_bucket));
-		diamondBucket_page = new PageCrafting("diamond", new ItemStack(ToolsItems.diamond_bucket));
-		obsidianBucket_page = new PageCrafting("obsidian", new ItemStack(ToolsItems.obsidian_bucket));
-		milkBucket_page = new PageCrafting("milk", RecipeHelper.getRecipePath("minecraft:cake"));
-		grip_page = new PageCrafting("grip", new ItemStack(ToolsItems.grip));
-		spring_page = new PageCrafting("part2", new ItemStack(ToolsItems.spring_part));
-		button_page = new PageCrafting("part3", new ItemStack(ToolsItems.button_part));
-		rod_page = new PageCrafting("part4", new ItemStack(IndustryItems.iron_stick));
-		ballistic_page = new PageCrafting("ballistic", new ItemStack(ToolsItems.unloaded_knife));
-		ballisticKnife_page = new PageCrafting("knives", new ItemStack(ToolsItems.ammo_part));
-		throwingKnife_page = new PageCrafting("knife", new ItemStack(ToolsItems.throwing_knife));
-		tomahawk_page = new PageCrafting("tomahawk", new ItemStack(ToolsItems.tomahawk));
-		chisel_page = new PageCrafting("chisels", ToolsRecipes.chisels, 25);
-		chiselOre_page = new PageFurnace("ore", new ItemStack[] { new ItemStack(ToolsItems.gold_ore_item), new ItemStack(ToolsItems.iron_ore_item) }, 25);
-		extinguisher_page = new PageCrafting("extinguisher", ToolsRecipes.extinguisherRecipe);
-		extinguisherRefill_page = new PageCrafting("refill", ToolsRecipes.extinguisherRefillRecipe);
-		hammer_page = new PageCrafting("recipes", ToolsRecipes.hammers, 20);
-		machete_page = new PageCrafting("base", ToolsRecipes.machetes, 20);
-		macheteSlime_page = new PageCrafting("slime", new ItemStack(ToolsItems.machete_slime));
-		wandInfo_page = new PageInfo("info");
-		regularWand_page = new PageCrafting("regular", ToolsRecipes.regular, 20);
-		reinforcedWand_page = new PageCrafting("reinforced", ToolsRecipes.reinforced, 20);
-		multiTool_page = new PageCrafting("tools", ToolsRecipes.tools, 20);
-		pokeball_page = new PageCrafting("recipe", new ItemStack(ToolsItems.pokeball));
-		powerstaff_page = new PageCrafting("recipe", new ItemStack(ToolsItems.powerstaff));
-		element115_page = new PageImageText("element", "element115.png");
-		canister_page = new PageCrafting("canisters", ToolsRecipes.basicCanisters, 25);
-		raygun_page = new PageCrafting("raygun", new ItemStack(ToolsItems.ray_gun));
-		darkIron_page = new PageCrafting("darkIron", new ItemStack(ToolsItems.dark_iron_ingot));
-		advCanister_page = new PageCrafting("advCanisters", ToolsRecipes.advCanisters, 25);
-		advRaygun_page = new PageCrafting("advraygun", new ItemStack(ToolsItems.advanced_ray_gun));
-		spears_page = new PageCrafting("basics", ToolsRecipes.basics, 20);
-		specialSpears_page = new PageCrafting("specials", ToolsRecipes.specials, 20);
-		ultimateFist_page = new PageCrafting("fist", new ItemStack(ToolsItems.ultimate_fist));
-		emptyMask_page = new PageCrafting("empty", ToolsRecipes.emptyRecipe);
-		mobMask_page = new PageCrafting("mobs", ToolsRecipes.mobs, 15);
-		pellets_page = new PageCrafting("pellets", ToolsRecipes.pellets, 20);
-		slingshot_page = new PageCrafting("slingshot", new ItemStack(ToolsItems.sling_shot));
-		pelletBag_page = new PageCrafting("pelletBag", new ItemStack(ToolsItems.pellet_bag));
+		if (ToolsConfig.subpartBoomerangs) {
+			boomerang_page = new PageCrafting("wood", new ItemStack(ToolsItems.boomerang));
+			diamondBoomerang_page = new PageCrafting("diamond", new ItemStack(ToolsItems.diamond_boomerang));
+		}
+
+		if (ToolsConfig.subpartBackpacks) {
+			backpack_page = new PageCrafting("backpacks", new ItemStack(ToolsItems.backpack));
+			backpackColors_page = new PageImageText("colors", "colors_image.png");
+		}
+
+		if (ToolsConfig.subpartPortableWorkbench)
+			portableWorkbench_page = new PageCrafting("portableworkbench", new ItemStack(ToolsItems.portable_workbench));
+
+		if (ToolsConfig.subpartBlackDiamond) {
+			blackOre_page = new PageImageText("blackore", "blackore.png");
+			blackDiamond_page = new PageFurnace("cookOre", new ItemStack(ToolsBlocks.black_diamond_ore));
+			blackBlocks_page = new PageCrafting("craftblack", ToolsRecipes.black, 25);
+			blackTools_page = new PageCrafting("tools", ToolsRecipes.blackTools, 18);
+			blackArmor_page = new PageCrafting("armor", ToolsRecipes.blackArmor, 18);
+		}
+
+		if (ToolsConfig.subpartBuckets) {
+			woodBucket_page = new PageCrafting("wooden", new ItemStack(ToolsItems.wooden_bucket));
+			stoneBucket_page = new PageCrafting("stone", new ItemStack(ToolsItems.stone_bucket));
+			goldBucket_page = new PageCrafting("golden", new ItemStack(ToolsItems.golden_bucket));
+			diamondBucket_page = new PageCrafting("diamond", new ItemStack(ToolsItems.diamond_bucket));
+			obsidianBucket_page = new PageCrafting("obsidian", new ItemStack(ToolsItems.obsidian_bucket));
+			milkBucket_page = new PageCrafting("milk", RecipeHelper.getRecipePath("minecraft:cake"));
+		}
+
+		if (ToolsConfig.subpartKnives) {
+			grip_page = new PageCrafting("grip", new ItemStack(ToolsItems.grip));
+			spring_page = new PageCrafting("part2", new ItemStack(ToolsItems.spring_part));
+			button_page = new PageCrafting("part3", new ItemStack(ToolsItems.button_part));
+			rod_page = new PageCrafting("part4", new ItemStack(IndustryItems.iron_stick));
+			ballistic_page = new PageCrafting("ballistic", new ItemStack(ToolsItems.unloaded_knife));
+			ballisticKnife_page = new PageCrafting("knives", new ItemStack(ToolsItems.ammo_part));
+			throwingKnife_page = new PageCrafting("knife", new ItemStack(ToolsItems.throwing_knife));
+			tomahawk_page = new PageCrafting("tomahawk", new ItemStack(ToolsItems.tomahawk));
+		}
+
+		if (ToolsConfig.subpartChisel) {
+			chisel_page = new PageCrafting("chisels", ToolsRecipes.chisels, 25);
+			chiselOre_page = new PageFurnace("ore", new ItemStack[] { new ItemStack(ToolsItems.gold_ore_item), new ItemStack(ToolsItems.iron_ore_item) }, 25);
+		}
+
+		if (ToolsConfig.subpartExtinguisher) {
+			extinguisher_page = new PageCrafting("extinguisher", ToolsRecipes.extinguisherRecipe);
+			extinguisherRefill_page = new PageCrafting("refill", ToolsRecipes.extinguisherRefillRecipe);
+		}
+
+		if (ToolsConfig.subpartHammers)
+			hammer_page = new PageCrafting("recipes", ToolsRecipes.hammers, 20);
+
+		if (ToolsConfig.subpartMachetes) {
+			machete_page = new PageCrafting("base", ToolsRecipes.machetes, 20);
+			macheteSlime_page = new PageCrafting("slime", new ItemStack(ToolsItems.machete_slime));
+		}
+
+		if (ToolsConfig.subpartWands) {
+			wandInfo_page = new PageInfo("info");
+			regularWand_page = new PageCrafting("regular", ToolsRecipes.regular, 20);
+			reinforcedWand_page = new PageCrafting("reinforced", ToolsRecipes.reinforced, 20);
+		}
+
+		if (ToolsConfig.subpartMultiTools)
+			multiTool_page = new PageCrafting("tools", ToolsRecipes.tools, 20);
+
+		if (ToolsConfig.subpartPokeball)
+			pokeball_page = new PageCrafting("recipe", new ItemStack(ToolsItems.pokeball));
+
+		if (ToolsConfig.subpartPowerstaff)
+			powerstaff_page = new PageCrafting("recipe", new ItemStack(ToolsItems.powerstaff));
+
+		if (ToolsConfig.subpartRayGuns) {
+			element115_page = new PageImageText("element", "element115.png");
+			canister_page = new PageCrafting("canisters", ToolsRecipes.basicCanisters, 25);
+			raygun_page = new PageCrafting("raygun", new ItemStack(ToolsItems.ray_gun));
+			darkIron_page = new PageCrafting("darkIron", new ItemStack(ToolsItems.dark_iron_ingot));
+			advCanister_page = new PageCrafting("advCanisters", ToolsRecipes.advCanisters, 25);
+			advRaygun_page = new PageCrafting("advraygun", new ItemStack(ToolsItems.advanced_ray_gun));
+		}
+
+		if (ToolsConfig.subpartSpears) {
+			spears_page = new PageCrafting("basics", ToolsRecipes.basics, 20);
+			specialSpears_page = new PageCrafting("specials", ToolsRecipes.specials, 20);
+		}
+
+		if (ToolsConfig.subpartUltimateFist)
+			ultimateFist_page = new PageCrafting("fist", new ItemStack(ToolsItems.ultimate_fist));
+
+		if (ToolsConfig.subpartMasks) {
+			emptyMask_page = new PageCrafting("empty", ToolsRecipes.emptyRecipe);
+			mobMask_page = new PageCrafting("mobs", ToolsRecipes.mobs, 15);
+		}
+
+		if (ToolsConfig.subpartSlingshots) {
+			pellets_page = new PageCrafting("pellets", ToolsRecipes.pellets, 20);
+			slingshot_page = new PageCrafting("slingshot", new ItemStack(ToolsItems.sling_shot));
+			pelletBag_page = new PageCrafting("pelletBag", new ItemStack(ToolsItems.pellet_bag));
+		}
 	}
 
 	@Override
 	public void registerChapters(ManualPart part) {
-		ManualRegistry.addChapter("backpacks", part).addPages(backpack_page, backpackColors_page);
-		ManualRegistry.addChapter("portable", part).addPages(portableWorkbench_page);
-		ManualRegistry.addChapter("black", part).addPages(blackOre_page, blackDiamond_page, blackBlocks_page);
-		ManualRegistry.addChapter("tools", part).addPages(blackTools_page, blackArmor_page);
-		ManualRegistry.addChapter("buckets", part).addPages(woodBucket_page, stoneBucket_page, goldBucket_page, diamondBucket_page, obsidianBucket_page, milkBucket_page);
-		ManualRegistry.addChapter("ballistic", part).addPages(grip_page, spring_page, button_page, rod_page, ballistic_page, ballisticKnife_page);
-		ManualRegistry.addChapter("knives", part).addPages(throwingKnife_page, tomahawk_page);
-		ManualRegistry.addChapter("boomerang", part).addPages(boomerang_page, diamondBoomerang_page);
-		ManualRegistry.addChapter("chisels", part).addPages(chisel_page, chiselOre_page);
-		ManualRegistry.addChapter("extinguisher", part).addPages(extinguisher_page, extinguisherRefill_page);
-		ManualRegistry.addChapter("hammers", part).addPages(hammer_page);
-		ManualRegistry.addChapter("machetes", part).addPages(machete_page, macheteSlime_page);
-		ManualRegistry.addChapter("wands", part).addPages(wandInfo_page, regularWand_page, reinforcedWand_page);
-		ManualRegistry.addChapter("multi", part).addPages(multiTool_page);
-		ManualRegistry.addChapter("pokeball", part).addPages(pokeball_page);
-		ManualRegistry.addChapter("staff", part).addPages(powerstaff_page);
-		ManualRegistry.addChapter("raygun", part).addPages(element115_page, canister_page, raygun_page, darkIron_page, advCanister_page, advRaygun_page);
-		ManualRegistry.addChapter("sling", part).addPages(pellets_page, slingshot_page, pelletBag_page);
-		ManualRegistry.addChapter("spears", part).addPages(spears_page, specialSpears_page);
-		ManualRegistry.addChapter("ultimate", part).addPages(ultimateFist_page);
-		ManualRegistry.addChapter("masks", part).addPages(emptyMask_page, mobMask_page);
-	}
+		if (ToolsConfig.subpartBackpacks)
+			ManualRegistry.addChapter("backpacks", part).addPages(backpack_page, backpackColors_page);
 
+		if (ToolsConfig.subpartPortableWorkbench)
+			ManualRegistry.addChapter("portable", part).addPages(portableWorkbench_page);
+
+		if (ToolsConfig.subpartBlackDiamond) {
+			ManualRegistry.addChapter("black", part).addPages(blackOre_page, blackDiamond_page, blackBlocks_page);
+			ManualRegistry.addChapter("tools", part).addPages(blackTools_page, blackArmor_page);
+		}
+
+		if (ToolsConfig.subpartBuckets)
+			ManualRegistry.addChapter("buckets", part).addPages(woodBucket_page, stoneBucket_page, goldBucket_page, diamondBucket_page, obsidianBucket_page, milkBucket_page);
+
+		if (ToolsConfig.subpartKnives) {
+			ManualRegistry.addChapter("ballistic", part).addPages(grip_page, spring_page, button_page, rod_page, ballistic_page, ballisticKnife_page);
+			ManualRegistry.addChapter("knives", part).addPages(throwingKnife_page, tomahawk_page);
+		}
+
+		if (ToolsConfig.subpartBoomerangs)
+			ManualRegistry.addChapter("boomerang", part).addPages(boomerang_page, diamondBoomerang_page);
+
+		if (ToolsConfig.subpartChisel)
+			ManualRegistry.addChapter("chisels", part).addPages(chisel_page, chiselOre_page);
+
+		if (ToolsConfig.subpartExtinguisher)
+			ManualRegistry.addChapter("extinguisher", part).addPages(extinguisher_page, extinguisherRefill_page);
+
+		if (ToolsConfig.subpartHammers)
+			ManualRegistry.addChapter("hammers", part).addPages(hammer_page);
+
+		if (ToolsConfig.subpartMachetes)
+			ManualRegistry.addChapter("machetes", part).addPages(machete_page, macheteSlime_page);
+
+		if (ToolsConfig.subpartWands)
+			ManualRegistry.addChapter("wands", part).addPages(wandInfo_page, regularWand_page, reinforcedWand_page);
+
+		if (ToolsConfig.subpartMultiTools)
+			ManualRegistry.addChapter("multi", part).addPages(multiTool_page);
+
+		if (ToolsConfig.subpartPokeball)
+			ManualRegistry.addChapter("pokeball", part).addPages(pokeball_page);
+
+		if (ToolsConfig.subpartPowerstaff)
+			ManualRegistry.addChapter("staff", part).addPages(powerstaff_page);
+
+		if (ToolsConfig.subpartRayGuns)
+			ManualRegistry.addChapter("raygun", part).addPages(element115_page, canister_page, raygun_page, darkIron_page, advCanister_page, advRaygun_page);
+
+		if (ToolsConfig.subpartSlingshots)
+			ManualRegistry.addChapter("sling", part).addPages(pellets_page, slingshot_page, pelletBag_page);
+
+		if (ToolsConfig.subpartSpears)
+			ManualRegistry.addChapter("spears", part).addPages(spears_page, specialSpears_page);
+
+		if (ToolsConfig.subpartUltimateFist)
+			ManualRegistry.addChapter("ultimate", part).addPages(ultimateFist_page);
+
+		if (ToolsConfig.subpartMasks)
+			ManualRegistry.addChapter("masks", part).addPages(emptyMask_page, mobMask_page);
+	}
 }

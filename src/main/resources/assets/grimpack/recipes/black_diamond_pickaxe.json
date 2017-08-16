@@ -1,4 +1,14 @@
 {
+"conditions": [
+    {
+      "type": "grimpack:part_enabled",
+      "part": "tools"
+    },
+    {
+      "type": "grimpack:tools_subpart_enabled",
+      "subpart": "blackdiamond"
+    }
+  ],
   "result": {
     "item": "grimpack:black_diamond_pickaxe"
   },

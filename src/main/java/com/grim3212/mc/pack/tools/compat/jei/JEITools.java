@@ -3,6 +3,7 @@ package com.grim3212.mc.pack.tools.compat.jei;
 import com.grim3212.mc.pack.core.config.CoreConfig;
 import com.grim3212.mc.pack.tools.compat.jei.recipes.BackpackRecipeMaker;
 import com.grim3212.mc.pack.tools.compat.jei.recipes.PelletBagRecipeMaker;
+import com.grim3212.mc.pack.tools.config.ToolsConfig;
 import com.grim3212.mc.pack.tools.items.ToolsItems;
 
 import mezz.jei.api.IJeiRuntime;
@@ -19,16 +20,22 @@ public class JEITools implements IModPlugin {
 	@Override
 	public void register(IModRegistry registry) {
 		if (CoreConfig.useTools) {
-			// Backpack recipe
-			registry.addRecipes(BackpackRecipeMaker.getBackpackRecipes(), VanillaRecipeCategoryUid.CRAFTING);
-			// Pellet Bag recipe
-			registry.addRecipes(PelletBagRecipeMaker.getPelletBagRecipes(), VanillaRecipeCategoryUid.CRAFTING);
+			if (ToolsConfig.subpartBackpacks)
+				// Backpack recipe
+				registry.addRecipes(BackpackRecipeMaker.getBackpackRecipes(), VanillaRecipeCategoryUid.CRAFTING);
 
-			// portable workbench shiftclicking
-			registry.getRecipeTransferRegistry().addRecipeTransferHandler(new PortableWorkbenchTransferInfo());
+			if (ToolsConfig.subpartSlingshots)
+				// Pellet Bag recipe
+				registry.addRecipes(PelletBagRecipeMaker.getPelletBagRecipes(), VanillaRecipeCategoryUid.CRAFTING);
 
-			// add our portable workbench to the list with the vanilla crafting
-			registry.addRecipeCatalyst(new ItemStack(ToolsItems.portable_workbench, 1), VanillaRecipeCategoryUid.CRAFTING);
+			if (ToolsConfig.subpartPortableWorkbench) {
+				// portable workbench shiftclicking
+				registry.getRecipeTransferRegistry().addRecipeTransferHandler(new PortableWorkbenchTransferInfo());
+
+				// add our portable workbench to the list with the vanilla
+				// crafting
+				registry.addRecipeCatalyst(new ItemStack(ToolsItems.portable_workbench, 1), VanillaRecipeCategoryUid.CRAFTING);
+			}
 		}
 	}
 
@@ -38,8 +45,13 @@ public class JEITools implements IModPlugin {
 
 	@Override
 	public void registerItemSubtypes(ISubtypeRegistry subtypeRegistry) {
-		if (CoreConfig.useTools)
-			subtypeRegistry.useNbtForSubtypes(ToolsItems.backpack, ToolsItems.pellet_bag);
+		if (CoreConfig.useTools) {
+			if (ToolsConfig.subpartBackpacks)
+				subtypeRegistry.useNbtForSubtypes(ToolsItems.backpack);
+
+			if (ToolsConfig.subpartSlingshots)
+				subtypeRegistry.useNbtForSubtypes(ToolsItems.pellet_bag);
+		}
 	}
 
 	@Override

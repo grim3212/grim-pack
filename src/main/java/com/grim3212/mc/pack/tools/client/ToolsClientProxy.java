@@ -8,6 +8,7 @@ import com.grim3212.mc.pack.tools.client.entity.RenderBlockPushPullFactory;
 import com.grim3212.mc.pack.tools.client.entity.RenderBoomerang.RenderBoomerangFactory;
 import com.grim3212.mc.pack.tools.client.entity.RenderRayGun.RenderRayGunFactory;
 import com.grim3212.mc.pack.tools.client.entity.RenderSlingPellet.RenderSlingPelletFactory;
+import com.grim3212.mc.pack.tools.config.ToolsConfig;
 import com.grim3212.mc.pack.tools.entity.EntityAdvRayw;
 import com.grim3212.mc.pack.tools.entity.EntityBallisticKnife;
 import com.grim3212.mc.pack.tools.entity.EntityBlockPushPull;
@@ -38,57 +39,78 @@ public class ToolsClientProxy extends ClientProxy {
 		MinecraftForge.EVENT_BUS.register(new ToolsModelHandler());
 
 		// ENTITYS
-		RenderingRegistry.registerEntityRenderingHandler(EntityBlockPushPull.class, new RenderBlockPushPullFactory());
-		RenderingRegistry.registerEntityRenderingHandler(EntityPokeball.class, new RenderThrowableFactory(new ItemStack(ToolsItems.pokeball)));
-		RenderingRegistry.registerEntityRenderingHandler(EntitySlingPellet.class, new RenderSlingPelletFactory());
-		RenderingRegistry.registerEntityRenderingHandler(EntityRayw.class, new RenderRayGunFactory(new ResourceLocation(GrimPack.modID, "textures/entities/sonicw.png")));
-		RenderingRegistry.registerEntityRenderingHandler(EntityAdvRayw.class, new RenderRayGunFactory(new ResourceLocation(GrimPack.modID, "textures/entities/sonic_adv.png")));
-		RenderingRegistry.registerEntityRenderingHandler(EntitySpear.class, new RenderProjectileFactory(new ResourceLocation(GrimPack.modID, "textures/entities/spears.png")));
-		RenderingRegistry.registerEntityRenderingHandler(EntitySlimeSpear.class, new RenderProjectileFactory(new ResourceLocation(GrimPack.modID, "textures/entities/spears.png")));
-		RenderingRegistry.registerEntityRenderingHandler(EntityBallisticKnife.class, new RenderProjectileFactory(new ResourceLocation(GrimPack.modID, "textures/entities/ballistic_knife.png")));
-		RenderingRegistry.registerEntityRenderingHandler(EntityTomahawk.class, new RenderProjectileFactory(new ResourceLocation(GrimPack.modID, "textures/entities/tomahawk.png"), true));
-		RenderingRegistry.registerEntityRenderingHandler(EntityKnife.class, new RenderProjectileFactory(new ResourceLocation(GrimPack.modID, "textures/entities/throwing_knife.png"), true));
-		RenderingRegistry.registerEntityRenderingHandler(EntityBoomerang.class, new RenderBoomerangFactory(new ResourceLocation(GrimPack.modID, "textures/items/boomerang.png"), "grimpack:items/boomerang"));
-		RenderingRegistry.registerEntityRenderingHandler(EntityDiamondBoomerang.class, new RenderBoomerangFactory(new ResourceLocation(GrimPack.modID, "textures/items/diamond_boomerang.png"), "grimpack:items/diamond_boomerang"));
+		if (ToolsConfig.subpartPowerstaff)
+			RenderingRegistry.registerEntityRenderingHandler(EntityBlockPushPull.class, new RenderBlockPushPullFactory());
+
+		if (ToolsConfig.subpartPokeball)
+			RenderingRegistry.registerEntityRenderingHandler(EntityPokeball.class, new RenderThrowableFactory(new ItemStack(ToolsItems.pokeball)));
+
+		if (ToolsConfig.subpartSlingshots)
+			RenderingRegistry.registerEntityRenderingHandler(EntitySlingPellet.class, new RenderSlingPelletFactory());
+
+		if (ToolsConfig.subpartRayGuns) {
+			RenderingRegistry.registerEntityRenderingHandler(EntityRayw.class, new RenderRayGunFactory(new ResourceLocation(GrimPack.modID, "textures/entities/sonicw.png")));
+			RenderingRegistry.registerEntityRenderingHandler(EntityAdvRayw.class, new RenderRayGunFactory(new ResourceLocation(GrimPack.modID, "textures/entities/sonic_adv.png")));
+		}
+		if (ToolsConfig.subpartSpears) {
+			RenderingRegistry.registerEntityRenderingHandler(EntitySpear.class, new RenderProjectileFactory(new ResourceLocation(GrimPack.modID, "textures/entities/spears.png")));
+			RenderingRegistry.registerEntityRenderingHandler(EntitySlimeSpear.class, new RenderProjectileFactory(new ResourceLocation(GrimPack.modID, "textures/entities/spears.png")));
+		}
+
+		if (ToolsConfig.subpartKnives) {
+			RenderingRegistry.registerEntityRenderingHandler(EntityBallisticKnife.class, new RenderProjectileFactory(new ResourceLocation(GrimPack.modID, "textures/entities/ballistic_knife.png")));
+			RenderingRegistry.registerEntityRenderingHandler(EntityTomahawk.class, new RenderProjectileFactory(new ResourceLocation(GrimPack.modID, "textures/entities/tomahawk.png"), true));
+			RenderingRegistry.registerEntityRenderingHandler(EntityKnife.class, new RenderProjectileFactory(new ResourceLocation(GrimPack.modID, "textures/entities/throwing_knife.png"), true));
+		}
+
+		if (ToolsConfig.subpartBoomerangs) {
+			RenderingRegistry.registerEntityRenderingHandler(EntityBoomerang.class, new RenderBoomerangFactory(new ResourceLocation(GrimPack.modID, "textures/items/boomerang.png"), "grimpack:items/boomerang"));
+			RenderingRegistry.registerEntityRenderingHandler(EntityDiamondBoomerang.class, new RenderBoomerangFactory(new ResourceLocation(GrimPack.modID, "textures/items/diamond_boomerang.png"), "grimpack:items/diamond_boomerang"));
+		}
 
 		// Key bindings
-		MinecraftForge.EVENT_BUS.register(new KeyBindHelper());
+		if (ToolsConfig.subpartWands || ToolsConfig.subpartPowerstaff || ToolsConfig.subpartSlingshots)
+			MinecraftForge.EVENT_BUS.register(new KeyBindHelper());
 	}
 
 	@Override
 	public void initColors() {
-		Minecraft.getMinecraft().getItemColors().registerItemColorHandler(new IItemColor() {
-			@Override
-			public int getColorFromItemstack(ItemStack stack, int tintIndex) {
-				if (tintIndex == 1)
-					return Integer.parseInt(ItemBackpack.colorNumbers[15], 16);
-				else {
-					int packColor = ItemBackpack.getColor(stack);
+		if (ToolsConfig.subpartBackpacks) {
+			Minecraft.getMinecraft().getItemColors().registerItemColorHandler(new IItemColor() {
+				@Override
+				public int getColorFromItemstack(ItemStack stack, int tintIndex) {
+					if (tintIndex == 1)
+						return Integer.parseInt(ItemBackpack.colorNumbers[15], 16);
+					else {
+						int packColor = ItemBackpack.getColor(stack);
 
-					if (packColor < 0) {
-						return Integer.parseInt("C65C35", 16);
-					} else {
-						return Integer.parseInt(ItemBackpack.colorNumbers[packColor], 16);
+						if (packColor < 0) {
+							return Integer.parseInt("C65C35", 16);
+						} else {
+							return Integer.parseInt(ItemBackpack.colorNumbers[packColor], 16);
+						}
 					}
 				}
-			}
-		}, ToolsItems.backpack);
+			}, ToolsItems.backpack);
+		}
 
-		Minecraft.getMinecraft().getItemColors().registerItemColorHandler(new IItemColor() {
-			@Override
-			public int getColorFromItemstack(ItemStack stack, int tintIndex) {
-				if (tintIndex == 1)
-					return Integer.parseInt(ItemPelletBag.colorNumbers[15], 16);
-				else {
-					int packColor = ItemPelletBag.getColor(stack);
+		if (ToolsConfig.subpartSlingshots) {
+			Minecraft.getMinecraft().getItemColors().registerItemColorHandler(new IItemColor() {
+				@Override
+				public int getColorFromItemstack(ItemStack stack, int tintIndex) {
+					if (tintIndex == 1)
+						return Integer.parseInt(ItemPelletBag.colorNumbers[15], 16);
+					else {
+						int packColor = ItemPelletBag.getColor(stack);
 
-					if (packColor < 0) {
-						return Integer.parseInt("C65C35", 16);
-					} else {
-						return Integer.parseInt(ItemPelletBag.colorNumbers[packColor], 16);
+						if (packColor < 0) {
+							return Integer.parseInt("C65C35", 16);
+						} else {
+							return Integer.parseInt(ItemPelletBag.colorNumbers[packColor], 16);
+						}
 					}
 				}
-			}
-		}, ToolsItems.pellet_bag);
+			}, ToolsItems.pellet_bag);
+		}
 	}
 }

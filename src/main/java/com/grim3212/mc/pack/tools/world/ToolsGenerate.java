@@ -15,7 +15,7 @@ public class ToolsGenerate extends GrimWorldGen {
 
 	@Override
 	protected void generateSurface(World world, Random random, int i, int j) {
-		if (ToolsConfig.generateBlackDiamond) {
+		if (ToolsConfig.subpartBlackDiamond && ToolsConfig.generateBlackDiamond) {
 			for (int k = 0; k < 1; k++) {
 				int l = i + random.nextInt(16);
 				int i1 = random.nextInt(14);
@@ -24,7 +24,7 @@ public class ToolsGenerate extends GrimWorldGen {
 			}
 		}
 
-		if (ToolsConfig.generateElement115) {
+		if (ToolsConfig.subpartRayGuns && ToolsConfig.generateElement115) {
 			for (int k = 0; k < 7; k++) {
 				int x = i + random.nextInt(16);
 				int y = random.nextInt(32);

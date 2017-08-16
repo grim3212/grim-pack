@@ -1,4 +1,14 @@
 {
+"conditions": [
+    {
+      "type": "grimpack:part_enabled",
+      "part": "tools"
+    },
+    {
+      "type": "grimpack:tools_subpart_enabled",
+      "subpart": "powerstaff"
+    }
+  ],
   "result": {
     "item": "grimpack:powerstaff",
     "data": 0

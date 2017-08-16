@@ -1,4 +1,14 @@
 {
+"conditions": [
+    {
+      "type": "grimpack:part_enabled",
+      "part": "tools"
+    },
+    {
+      "type": "grimpack:tools_subpart_enabled",
+      "subpart": "multitools"
+    }
+  ],
   "result": {
     "item": "grimpack:golden_multi_tool"
   },

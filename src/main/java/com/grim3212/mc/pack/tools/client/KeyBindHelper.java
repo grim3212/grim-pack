@@ -4,6 +4,7 @@ import org.lwjgl.input.Keyboard;
 
 import com.grim3212.mc.pack.core.network.PacketDispatcher;
 import com.grim3212.mc.pack.tools.GrimTools;
+import com.grim3212.mc.pack.tools.config.ToolsConfig;
 import com.grim3212.mc.pack.tools.items.ItemBreakingWand;
 import com.grim3212.mc.pack.tools.items.ItemBuildingWand;
 import com.grim3212.mc.pack.tools.items.ItemMiningWand;
@@ -38,8 +39,14 @@ public class KeyBindHelper {
 	public KeyBindHelper() {
 		mc = Minecraft.getMinecraft();
 
-		for (KeyBinding key : new KeyBinding[] { Key_1, Key_2, Key_3, Key_Help, modeSwitch }) {
-			ClientRegistry.registerKeyBinding(key);
+		if (ToolsConfig.subpartWands) {
+			for (KeyBinding key : new KeyBinding[] { Key_1, Key_2, Key_3, Key_Help }) {
+				ClientRegistry.registerKeyBinding(key);
+			}
+		}
+
+		if (ToolsConfig.subpartPowerstaff || ToolsConfig.subpartSlingshots) {
+			ClientRegistry.registerKeyBinding(modeSwitch);
 		}
 	}
 
@@ -49,50 +56,63 @@ public class KeyBindHelper {
 		if (mc.inGameHasFocus) {
 			if (player != null)
 				if (player.getHeldItemMainhand() != null) {
-					if (player.getHeldItemMainhand().getItem() instanceof ItemPowerStaff) {
-						if (modeSwitch.isPressed()) {
-							PacketDispatcher.sendToServer(new MessagePowerStaffSwitchModes(EnumHand.MAIN_HAND));
+
+					if (ToolsConfig.subpartPowerstaff) {
+						if (player.getHeldItemMainhand().getItem() instanceof ItemPowerStaff) {
+							if (modeSwitch.isPressed()) {
+								PacketDispatcher.sendToServer(new MessagePowerStaffSwitchModes(EnumHand.MAIN_HAND));
+							}
 						}
 					}
 
-					if (player.getHeldItemMainhand().getItem() instanceof ItemSlingshot) {
-						if (modeSwitch.isPressed()) {
-							PacketDispatcher.sendToServer(new MessageSlingshotSwitchModes(EnumHand.MAIN_HAND));
+					if (ToolsConfig.subpartSlingshots) {
+						if (player.getHeldItemMainhand().getItem() instanceof ItemSlingshot) {
+							if (modeSwitch.isPressed()) {
+								PacketDispatcher.sendToServer(new MessageSlingshotSwitchModes(EnumHand.MAIN_HAND));
+							}
 						}
 					}
 
-					if (player.getHeldItemMainhand().getItem() instanceof ItemWand) {
-						if (Key_Help.isKeyDown()) {
-							printHelp(player, (ItemWand) player.getHeldItemMainhand().getItem());
-							return;
-						}
+					if (ToolsConfig.subpartWands) {
+						if (player.getHeldItemMainhand().getItem() instanceof ItemWand) {
+							if (Key_Help.isKeyDown()) {
+								printHelp(player, (ItemWand) player.getHeldItemMainhand().getItem());
+								return;
+							}
 
-						int keys = (Key_1.isKeyDown() ? 100 : 0) + (Key_2.isKeyDown() ? 10 : 0) + (Key_3.isKeyDown() ? 1 : 0);
-						PacketDispatcher.sendToServer(new MessageWandKeys(EnumHand.MAIN_HAND, keys));
+							int keys = (Key_1.isKeyDown() ? 100 : 0) + (Key_2.isKeyDown() ? 10 : 0) + (Key_3.isKeyDown() ? 1 : 0);
+							PacketDispatcher.sendToServer(new MessageWandKeys(EnumHand.MAIN_HAND, keys));
+						}
 					}
 				}
 
 			if (player.getHeldItemOffhand() != null) {
-				if (player.getHeldItemOffhand().getItem() instanceof ItemPowerStaff) {
-					if (modeSwitch.isPressed()) {
-						PacketDispatcher.sendToServer(new MessagePowerStaffSwitchModes(EnumHand.OFF_HAND));
+				if (ToolsConfig.subpartPowerstaff) {
+					if (player.getHeldItemOffhand().getItem() instanceof ItemPowerStaff) {
+						if (modeSwitch.isPressed()) {
+							PacketDispatcher.sendToServer(new MessagePowerStaffSwitchModes(EnumHand.OFF_HAND));
+						}
 					}
 				}
 
-				if (player.getHeldItemOffhand().getItem() instanceof ItemSlingshot) {
-					if (modeSwitch.isPressed()) {
-						PacketDispatcher.sendToServer(new MessageSlingshotSwitchModes(EnumHand.OFF_HAND));
+				if (ToolsConfig.subpartSlingshots) {
+					if (player.getHeldItemOffhand().getItem() instanceof ItemSlingshot) {
+						if (modeSwitch.isPressed()) {
+							PacketDispatcher.sendToServer(new MessageSlingshotSwitchModes(EnumHand.OFF_HAND));
+						}
 					}
 				}
 
-				if (player.getHeldItemOffhand().getItem() instanceof ItemWand) {
-					if (Key_Help.isKeyDown()) {
-						printHelp(player, (ItemWand) player.getHeldItemOffhand().getItem());
-						return;
-					}
+				if (ToolsConfig.subpartWands) {
+					if (player.getHeldItemOffhand().getItem() instanceof ItemWand) {
+						if (Key_Help.isKeyDown()) {
+							printHelp(player, (ItemWand) player.getHeldItemOffhand().getItem());
+							return;
+						}
 
-					int keys = (Key_1.isKeyDown() ? 100 : 0) + (Key_2.isKeyDown() ? 10 : 0) + (Key_3.isKeyDown() ? 1 : 0);
-					PacketDispatcher.sendToServer(new MessageWandKeys(EnumHand.OFF_HAND, keys));
+						int keys = (Key_1.isKeyDown() ? 100 : 0) + (Key_2.isKeyDown() ? 10 : 0) + (Key_3.isKeyDown() ? 1 : 0);
+						PacketDispatcher.sendToServer(new MessageWandKeys(EnumHand.OFF_HAND, keys));
+					}
 				}
 			}
 		}
