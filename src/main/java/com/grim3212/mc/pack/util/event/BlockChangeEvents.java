@@ -16,7 +16,7 @@ public class BlockChangeEvents {
 
 	@SubscribeEvent
 	public void playerInteract(RightClickBlock event) {
-		if (UtilConfig.doubleDoors) {
+		if (UtilConfig.subpartDoubleDoors) {
 			if (!event.getEntityPlayer().isSneaking()) {
 				IBlockState state = event.getWorld().getBlockState(event.getPos());
 				if (state.getBlock() instanceof BlockDoor) {
@@ -32,7 +32,7 @@ public class BlockChangeEvents {
 
 	@SubscribeEvent
 	public void createInfiniteLava(BlockEvent.CreateFluidSourceEvent event) {
-		if (UtilConfig.infiniteLava) {
+		if (UtilConfig.subpartInfiniteLava) {
 			if (event.getState().getMaterial() == Material.LAVA) {
 				event.setResult(Result.ALLOW);
 			}

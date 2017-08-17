@@ -11,7 +11,7 @@ public class EntityDeathEvent {
 
 	@SubscribeEvent
 	public void OnEntityDeath(LivingDeathEvent event) {
-		if ((event.getEntityLiving() instanceof EntityPlayerMP) && UtilConfig.spawnGraves && !event.getEntityLiving().getEntityWorld().getGameRules().getBoolean("keepInventory")) {
+		if (UtilConfig.subpartGraves && (event.getEntityLiving() instanceof EntityPlayerMP) && !event.getEntityLiving().getEntityWorld().getGameRules().getBoolean("keepInventory")) {
 			PlaceGrave.placeGrave((EntityPlayerMP) event.getEntityLiving());
 		}
 	}

@@ -166,7 +166,7 @@ public class BlockColorizerDoor extends BlockColorizer {
 
 			// Used to simplify double door logic that would need to be specific
 			// for this
-			if (UtilConfig.doubleDoors) {
+			if (UtilConfig.subpartDoubleDoors) {
 				int coordX = 0;
 				int coordZ = 0;
 				int coordOffset = DoubleDoor.isHingeLeft(BlockDoor.combineMetadata(worldIn, blockpos)) ? -1 : 1;

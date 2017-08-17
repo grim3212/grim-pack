@@ -25,14 +25,16 @@ public class KeyBindHelper {
 	private static long lastPress = 0L;
 
 	public KeyBindHelper() {
-		ClientRegistry.registerKeyBinding(fusrodah);
-		ClientRegistry.registerKeyBinding(timekey);
+		if (UtilConfig.subpartFusRoDah)
+			ClientRegistry.registerKeyBinding(fusrodah);
+		if (UtilConfig.subpartTime)
+			ClientRegistry.registerKeyBinding(timekey);
 	}
 
 	@SubscribeEvent
 	public void tick(KeyInputEvent event) {
 		Minecraft mc = Minecraft.getMinecraft();
-		if (timekey.isPressed()) {
+		if (UtilConfig.subpartTime && timekey.isPressed()) {
 			if (Minecraft.getMinecraft().inGameHasFocus) {
 				if ((RenderTickHandler.enabled = !RenderTickHandler.enabled)) {
 					RenderTickHandler.retracting = false;
@@ -42,7 +44,7 @@ public class KeyBindHelper {
 			}
 		}
 
-		if (fusrodah.isPressed() && UtilConfig.enableFusRoDah) {
+		if (UtilConfig.subpartFusRoDah && fusrodah.isPressed()) {
 			if (mc.inGameHasFocus) {
 				World world = mc.world;
 				EntityPlayerSP player = mc.player;

@@ -142,7 +142,7 @@ public class BlockColorizerFenceGate extends BlockColorizerFurnitureRotate {
 			worldIn.setBlockState(pos, state, 10);
 		}
 
-		if (UtilConfig.doubleDoors) {
+		if (UtilConfig.subpartDoubleDoors) {
 			DoubleFenceGate.setFenceGate(worldIn, pos, state);
 		}
 

@@ -15,6 +15,7 @@ public class UtilSounds {
 	@SubscribeEvent
 	public void registerSounds(RegistryEvent.Register<SoundEvent> evt) {
 		IForgeRegistry<SoundEvent> reg = evt.getRegistry();
+	
 		reg.register(fusrodahSound);
 		reg.register(fusrodahOldSound);
 	}

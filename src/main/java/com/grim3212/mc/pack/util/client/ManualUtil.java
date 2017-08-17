@@ -20,27 +20,38 @@ public class ManualUtil implements IManualPart {
 
 	@Override
 	public void initPages() {
-		autoItem_page = new PageImageText("info", "autoitem.png");
-		fusRoDah_page = new PageImageText("info", "fusrodah.png");
-		time_page = new PageImageText("info", "time.png");
-		grave_page = new PageImageText("info", "grave.png");
-		doors_page = new PageImageText("info", "doors.png");
-		lava_page = new PageImageText("info", "lava.png");
+		if (UtilConfig.subpartAutoItemReplacer)
+			autoItem_page = new PageImageText("info", "autoitem.png");
+
+		if (UtilConfig.subpartFusRoDah)
+			fusRoDah_page = new PageImageText("info", "fusrodah.png");
+
+		if (UtilConfig.subpartTime)
+			time_page = new PageImageText("info", "time.png");
+
+		if (UtilConfig.subpartGraves)
+			grave_page = new PageImageText("info", "grave.png");
+
+		if (UtilConfig.subpartDoubleDoors)
+			doors_page = new PageImageText("info", "doors.png");
+
+		if (UtilConfig.subpartInfiniteLava)
+			lava_page = new PageImageText("info", "lava.png");
 	}
 
 	@Override
 	public void registerChapters(ManualPart part) {
-		if (UtilConfig.enableAutoReplace)
+		if (UtilConfig.subpartAutoItemReplacer)
 			ManualRegistry.addChapter("autoitem", part).addPages(autoItem_page);
-		if (UtilConfig.enableFusRoDah)
+		if (UtilConfig.subpartFusRoDah)
 			ManualRegistry.addChapter("fusrodah", part).addPages(fusRoDah_page);
-		ManualRegistry.addChapter("time", part).addPages(time_page);
-		if (UtilConfig.spawnGraves)
+		if (UtilConfig.subpartTime)
+			ManualRegistry.addChapter("time", part).addPages(time_page);
+		if (UtilConfig.subpartGraves)
 			ManualRegistry.addChapter("grave", part).addPages(grave_page);
-		if (UtilConfig.doubleDoors)
+		if (UtilConfig.subpartDoubleDoors)
 			ManualRegistry.addChapter("doors", part).addPages(doors_page);
-		if (UtilConfig.infiniteLava)
+		if (UtilConfig.subpartInfiniteLava)
 			ManualRegistry.addChapter("lava", part).addPages(lava_page);
 	}
-
 }

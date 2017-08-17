@@ -155,7 +155,7 @@ public class BlockColorizerTrapDoor extends BlockColorizer {
 
 		state = state.cycleProperty(BlockTrapDoor.OPEN);
 
-		if (UtilConfig.doubleDoors) {
+		if (UtilConfig.subpartDoubleDoors) {
 			DoubleTrapDoor.setDoubleTrap(worldIn, pos, state, true);
 		}
 

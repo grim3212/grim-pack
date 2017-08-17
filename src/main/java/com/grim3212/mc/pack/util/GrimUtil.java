@@ -51,20 +51,27 @@ public class GrimUtil extends GrimPart {
 	public void preInit(FMLPreInitializationEvent event) {
 		super.preInit(event);
 
-		MinecraftForge.EVENT_BUS.register(new UtilBlocks());
-		MinecraftForge.EVENT_BUS.register(new UtilSounds());
-
-		PacketDispatcher.registerMessage(MessageFusRoDah.class);
-		MinecraftForge.EVENT_BUS.register(new EntityDeathEvent());
 		MinecraftForge.EVENT_BUS.register(new BlockChangeEvents());
 
-		if (event.getSide() == Side.CLIENT)
-			MinecraftForge.EVENT_BUS.register(new FrozenClientEvents());
-		FrozenCapability.registerCapability();
+		if (UtilConfig.subpartFusRoDah) {
+			MinecraftForge.EVENT_BUS.register(new UtilSounds());
+			PacketDispatcher.registerMessage(MessageFusRoDah.class);
+		}
 
-		baubles = Loader.isModLoaded("baubles");
-		if (baubles) {
-			GrimLog.info(GrimUtil.partName, "Found Baubles enabling grave support");
+		if (UtilConfig.subpartFrozen) {
+			if (event.getSide() == Side.CLIENT)
+				MinecraftForge.EVENT_BUS.register(new FrozenClientEvents());
+			FrozenCapability.registerCapability();
+		}
+
+		if (UtilConfig.subpartGraves) {
+			MinecraftForge.EVENT_BUS.register(new UtilBlocks());
+			MinecraftForge.EVENT_BUS.register(new EntityDeathEvent());
+
+			baubles = Loader.isModLoaded("baubles");
+			if (baubles) {
+				GrimLog.info(GrimUtil.partName, "Found Baubles enabling grave support");
+			}
 		}
 
 		proxy.preInit();
@@ -74,7 +81,8 @@ public class GrimUtil extends GrimPart {
 	public void init(FMLInitializationEvent event) {
 		super.init(event);
 
-		GameRegistry.registerTileEntity(TileEntityGrave.class, "grimpack:grave");
+		if (UtilConfig.subpartGraves)
+			GameRegistry.registerTileEntity(TileEntityGrave.class, "grimpack:grave");
 	}
 
 	@Override

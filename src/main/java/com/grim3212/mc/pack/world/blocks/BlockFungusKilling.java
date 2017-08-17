@@ -41,31 +41,32 @@ public class BlockFungusKilling extends BlockFungusBase implements IManualBlock 
 		case 1:
 			return block == WorldBlocks.fungus_growing || block == WorldBlocks.fungus_building || (block == WorldBlocks.fungus_killing && (Integer) side.getValue(TYPE) > 1);
 		case 2:
-			return KillingFungusWhitelist.isDirtWhitelisted(block);
+			return KillingFungusWhitelist.isDirtWhitelisted(side);
 		case 3:
-			return KillingFungusWhitelist.isSmoothWhitelisted(block);
+			return KillingFungusWhitelist.isSmoothWhitelisted(side);
 		case 4:
-			return KillingFungusWhitelist.isWaterLeavesWhitelisted(block);
+			return KillingFungusWhitelist.isWaterLeavesWhitelisted(side);
 		case 5:
-			return KillingFungusWhitelist.isSandGravelWhitelisted(block);
+			return KillingFungusWhitelist.isSandGravelWhitelisted(side);
 		case 6:
-			return KillingFungusWhitelist.isRocksWhitelisted(block);
+			return KillingFungusWhitelist.isRocksWhitelisted(side);
 		case 8:
-			return KillingFungusWhitelist.isDirtWhitelisted(block);
+			return KillingFungusWhitelist.isDirtWhitelisted(side);
 		case 9:
-			return KillingFungusWhitelist.isSmoothWhitelisted(block);
+			return KillingFungusWhitelist.isSmoothWhitelisted(side);
 		case 10:
-			return KillingFungusWhitelist.isWaterLeavesWhitelisted(block);
+			return KillingFungusWhitelist.isWaterLeavesWhitelisted(side);
 		case 11:
-			return KillingFungusWhitelist.isSandGravelWhitelisted(block);
+			return KillingFungusWhitelist.isSandGravelWhitelisted(side);
 		case 12:
-			return KillingFungusWhitelist.isRocksWhitelisted(block);
+			return KillingFungusWhitelist.isRocksWhitelisted(side);
 		case 13:
-			return !(KillingFungusWhitelist.isAllEatingBlacklisted(block)) && !(block == this && (Integer) side.getValue(TYPE) == meta);
+			return !(KillingFungusWhitelist.isAllEatingBlacklisted(side)) && !(block == this && (Integer) side.getValue(TYPE) == meta);
 		}
 
 		// standard fungus, or block builder (or tree killer)
-		return (block == Blocks.FLOWING_WATER || block == Blocks.WATER) || (block == Blocks.FLOWING_LAVA || block == Blocks.LAVA) || block == Blocks.AIR || block instanceof BlockBush || block == Blocks.FIRE || block == Blocks.SNOW_LAYER || block == Blocks.REEDS || block == Blocks.VINE || ((block == WorldBlocks.fungus_growing || block == WorldBlocks.fungus_building || block == WorldBlocks.fungus_killing) && (side != state || block != this)) || KillingFungusWhitelist.isForestEatingWhitelisted(block);
+		return (block == Blocks.FLOWING_WATER || block == Blocks.WATER) || (block == Blocks.FLOWING_LAVA || block == Blocks.LAVA) || block == Blocks.AIR || block instanceof BlockBush || block == Blocks.FIRE || block == Blocks.SNOW_LAYER || block == Blocks.REEDS || block == Blocks.VINE || ((block == WorldBlocks.fungus_growing || block == WorldBlocks.fungus_building || block == WorldBlocks.fungus_killing) && (side != state || block != this))
+				|| KillingFungusWhitelist.isForestEatingWhitelisted(side);
 	}
 
 	@Override
