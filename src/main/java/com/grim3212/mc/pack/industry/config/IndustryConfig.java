@@ -224,6 +224,7 @@ public class IndustryConfig extends GrimConfig {
 		buffer.writeBoolean(subpartRWays);
 		buffer.writeBoolean(subpartSensors);
 		buffer.writeBoolean(subpartSpikes);
+		buffer.writeBoolean(subpartSteel);
 		buffer.writeBoolean(subpartStorage);
 		buffer.writeBoolean(subpartWorkbenchUpgrades);
 

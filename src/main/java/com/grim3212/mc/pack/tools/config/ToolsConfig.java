@@ -223,6 +223,7 @@ public class ToolsConfig extends GrimConfig {
 	public void writeToClient(PacketBuffer buffer) {
 		buffer.writeBoolean(subpartBackpacks);
 		buffer.writeBoolean(subpartBlackDiamond);
+		buffer.writeBoolean(subpartBoomerangs);
 		buffer.writeBoolean(subpartBuckets);
 		buffer.writeBoolean(subpartChisel);
 		buffer.writeBoolean(subpartExtinguisher);
