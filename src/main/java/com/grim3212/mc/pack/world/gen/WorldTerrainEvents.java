@@ -12,16 +12,14 @@ public class WorldTerrainEvents {
 
 	@SubscribeEvent
 	public void replaceDesertWell(DecorateBiomeEvent.Decorate event) {
-		if (WorldConfig.replaceDesertWells) {
-			if (event.getType() == EventType.DESERT_WELL) {
-				event.setResult(Result.DENY);
+		if (event.getType() == EventType.DESERT_WELL) {
+			event.setResult(Result.DENY);
 
-				if (event.getRand().nextInt(1000) == 0) {
-					int i = event.getRand().nextInt(16) + 8;
-					int j = event.getRand().nextInt(16) + 8;
-					BlockPos blockpos1 = event.getWorld().getHeight(event.getPos().add(i, 0, j)).up();
-					(new WorldGenBetterDesertWells()).generate(event.getWorld(), event.getRand(), blockpos1);
-				}
+			if (event.getRand().nextInt(WorldConfig.desertWellSpawnRate) == 0) {
+				int i = event.getRand().nextInt(16) + 8;
+				int j = event.getRand().nextInt(16) + 8;
+				BlockPos blockpos1 = event.getWorld().getHeight(event.getPos().add(i, 0, j)).up();
+				(new WorldGenBetterDesertWells()).generate(event.getWorld(), event.getRand(), blockpos1);
 			}
 		}
 	}

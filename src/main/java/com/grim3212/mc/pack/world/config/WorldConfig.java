@@ -40,6 +40,7 @@ public class WorldConfig extends GrimConfig {
 	public static int spawnrate;
 	public static int sizevariancefrom7;
 	public static boolean fire;
+	public static int desertWellSpawnRate;
 
 	public static int glowstoneSeedPlantHeight;
 
@@ -56,6 +57,7 @@ public class WorldConfig extends GrimConfig {
 	public static boolean subpartDesertWells;
 	public static boolean subpartFlatBedrock;
 	public static boolean subpartFloatingIslands;
+	public static boolean subpartFloatingIslandWorldType;
 	public static boolean subpartFungus;
 	public static boolean subpartGlowstoneSeeds;
 	public static boolean subpartGunpowderReeds;
@@ -71,7 +73,27 @@ public class WorldConfig extends GrimConfig {
 	}
 
 	@Override
+	public void syncSubparts() {
+		subpart8BitMobs = config.get(CONFIG_PARTS_NAME, "Enable SubPart 8-bit mobs", true).setRequiresMcRestart(true).getBoolean();
+		subpartCorruption = config.get(CONFIG_PARTS_NAME, "Enable SubPart corruption", false).setRequiresMcRestart(true).getBoolean();
+		subpartDesertWells = config.get(CONFIG_PARTS_NAME, "Enable SubPart desert wells", true).setRequiresMcRestart(true).getBoolean();
+		subpartFlatBedrock = config.get(CONFIG_PARTS_NAME, "Enable SubPart flat bedrock", true).setRequiresMcRestart(true).getBoolean();
+		subpartFloatingIslands = config.get(CONFIG_PARTS_NAME, "Enable SubPart floating islands", true).setRequiresMcRestart(true).getBoolean();
+		subpartFloatingIslandWorldType = config.get(CONFIG_PARTS_NAME, "Enable SubPart floating island world type", false).setRequiresMcRestart(true).getBoolean();
+		subpartFungus = config.get(CONFIG_PARTS_NAME, "Enable SubPart fungus", true).setRequiresMcRestart(true).getBoolean();
+		subpartGlowstoneSeeds = config.get(CONFIG_PARTS_NAME, "Enable SubPart glowstone seeds", true).setRequiresMcRestart(true).getBoolean();
+		subpartGunpowderReeds = config.get(CONFIG_PARTS_NAME, "Enable SubPart gunpowder reeds", true).setRequiresMcRestart(true).getBoolean();
+		subpartIcePixie = config.get(CONFIG_PARTS_NAME, "Enable SubPart ice pixie", true).setRequiresMcRestart(true).getBoolean();
+		subpartMorePeople = config.get(CONFIG_PARTS_NAME, "Enable SubPart more people", false).setRequiresMcRestart(true).getBoolean();
+		subpartRandomite = config.get(CONFIG_PARTS_NAME, "Enable SubPart randomite", true).setRequiresMcRestart(true).getBoolean();
+		subpartTreasureMobs = config.get(CONFIG_PARTS_NAME, "Enable SubPart treasure mobs", true).setRequiresMcRestart(true).getBoolean();
+		subpartWorldGenExpanded = config.get(CONFIG_PARTS_NAME, "Enable SubPart world gen expanded", true).setRequiresMcRestart(true).getBoolean();
+	}
+
+	@Override
 	public void syncConfig() {
+		syncSubparts();
+
 		if (subpartCorruption) {
 			fire = config.get(CONFIG_GENERAL_NAME, "Enable Fire", true).getBoolean();
 			corruption = config.get(CONFIG_GENERAL_NAME, "Enable Corruption", false).getBoolean();
@@ -88,6 +110,9 @@ public class WorldConfig extends GrimConfig {
 
 		if (subpartGlowstoneSeeds)
 			glowstoneSeedPlantHeight = config.get(CONFIG_GENERAL_NAME, "Glowstone seed plant height", 15).getInt();
+
+		if (subpartDesertWells)
+			desertWellSpawnRate = config.get(CONFIG_GENERAL_NAME, "Desert Well spawn rate", 1000).getInt();
 
 		if (subpartWorldGenExpanded) {
 			config.addCustomCategoryComment(CONFIG_WORLD_GEN_NAME, "Change the values to decide how rare or common the different world gen items spawn. Larger values means rarer.");
@@ -145,6 +170,21 @@ public class WorldConfig extends GrimConfig {
 
 	@Override
 	public void readFromServer(PacketBuffer buffer) {
+		subpart8BitMobs = buffer.readBoolean();
+		subpartCorruption = buffer.readBoolean();
+		subpartDesertWells = buffer.readBoolean();
+		subpartFlatBedrock = buffer.readBoolean();
+		subpartFloatingIslands = buffer.readBoolean();
+		subpartFloatingIslandWorldType = buffer.readBoolean();
+		subpartFungus = buffer.readBoolean();
+		subpartGlowstoneSeeds = buffer.readBoolean();
+		subpartGunpowderReeds = buffer.readBoolean();
+		subpartIcePixie = buffer.readBoolean();
+		subpartMorePeople = buffer.readBoolean();
+		subpartRandomite = buffer.readBoolean();
+		subpartTreasureMobs = buffer.readBoolean();
+		subpartWorldGenExpanded = buffer.readBoolean();
+
 		if (subpartFlatBedrock) {
 			generateFlatBedRockSurface = buffer.readBoolean();
 			generateFlatBedRockNether = buffer.readBoolean();
@@ -156,6 +196,21 @@ public class WorldConfig extends GrimConfig {
 
 	@Override
 	public void writeToClient(PacketBuffer buffer) {
+		buffer.writeBoolean(subpart8BitMobs);
+		buffer.writeBoolean(subpartCorruption);
+		buffer.writeBoolean(subpartDesertWells);
+		buffer.writeBoolean(subpartFlatBedrock);
+		buffer.writeBoolean(subpartFloatingIslands);
+		buffer.writeBoolean(subpartFloatingIslandWorldType);
+		buffer.writeBoolean(subpartFungus);
+		buffer.writeBoolean(subpartGlowstoneSeeds);
+		buffer.writeBoolean(subpartGunpowderReeds);
+		buffer.writeBoolean(subpartIcePixie);
+		buffer.writeBoolean(subpartMorePeople);
+		buffer.writeBoolean(subpartRandomite);
+		buffer.writeBoolean(subpartTreasureMobs);
+		buffer.writeBoolean(subpartWorldGenExpanded);
+
 		if (subpartFlatBedrock) {
 			buffer.writeBoolean(generateFlatBedRockSurface);
 			buffer.writeBoolean(generateFlatBedRockNether);

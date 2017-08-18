@@ -1,4 +1,14 @@
 {
+"conditions": [
+    {
+      "type": "grimpack:part_enabled",
+      "part": "world"
+    },
+    {
+      "type": "grimpack:world_subpart_enabled",
+      "subpart": "gunpowderreeds"
+    }
+  ],
   "result": {
     "item": "grimpack:gunpowder_reed_item"
   },

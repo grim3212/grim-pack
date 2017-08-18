@@ -23,7 +23,7 @@ public class GrimWorldGenerator extends GrimWorldGen {
 
 	@Override
 	protected void generateSurface(World world, Random random, int posX, int posZ) {
-		if (WorldConfig.generateRandomite) {
+		if (WorldConfig.subpartRandomite) {
 			for (int itr = 0; itr < 11; ++itr) {
 				int x = posX + random.nextInt(16);
 				int y = random.nextInt(110);
@@ -32,7 +32,7 @@ public class GrimWorldGenerator extends GrimWorldGen {
 			}
 		}
 
-		if (WorldConfig.generateGunpowderReeds) {
+		if (WorldConfig.subpartGunpowderReeds) {
 			for (int reed = 0; reed < 5; ++reed) {
 				int Xcoord1 = posX + random.nextInt(16) + 8;
 				int Ycoord1 = random.nextInt(128);
@@ -41,14 +41,16 @@ public class GrimWorldGenerator extends GrimWorldGen {
 			}
 		}
 
-		FloatingIslandsBlacklist.generateFloatingIslands(world, random, posX + 8, posZ + 8);
+		if (WorldConfig.subpartFloatingIslands)
+			FloatingIslandsBlacklist.generateFloatingIslands(world, random, posX + 8, posZ + 8);
 
-		generateExtras(world, random, posX + 8, posZ + 8);
+		if (WorldConfig.subpartWorldGenExpanded)
+			generateExtras(world, random, posX + 8, posZ + 8);
 	}
 
 	@Override
 	protected void generateSurface(World world, IChunkProvider chunkProvider, Random random, int chunkX, int chunkZ) {
-		if (WorldConfig.generateFlatBedRockSurface) {
+		if (WorldConfig.subpartFlatBedrock && WorldConfig.generateFlatBedRockSurface) {
 			// Check if void chunk first
 			boolean voidWorld = world.getBlockState(new BlockPos(chunkX * 16, 0, chunkZ * 16)).getBlock() == Blocks.AIR;
 
@@ -125,7 +127,7 @@ public class GrimWorldGenerator extends GrimWorldGen {
 
 	@Override
 	protected void generateNether(World world, IChunkProvider chunkProvider, Random random, int chunkX, int chunkZ) {
-		if (WorldConfig.generateFlatBedRockNether) {
+		if (WorldConfig.subpartFlatBedrock && WorldConfig.generateFlatBedRockNether) {
 			ExtendedBlockStorage[] storage = chunkProvider.getLoadedChunk(chunkX, chunkZ).getBlockStorageArray();
 
 			for (ExtendedBlockStorage blocks : storage) {
@@ -158,11 +160,13 @@ public class GrimWorldGenerator extends GrimWorldGen {
 
 	@Override
 	protected void generateNether(World world, Random random, int i, int j) {
-		for (int var5 = 0; var5 < 18; ++var5) {
-			int var6 = i + random.nextInt(16);
-			int var7 = random.nextInt(128);
-			int var8 = j + random.nextInt(16);
-			(new WorldGenCorruption(10, WorldBlocks.corruption_block)).generate(world, random, new BlockPos(var6, var7, var8));
+		if (WorldConfig.subpartCorruption) {
+			for (int var5 = 0; var5 < 18; ++var5) {
+				int var6 = i + random.nextInt(16);
+				int var7 = random.nextInt(128);
+				int var8 = j + random.nextInt(16);
+				(new WorldGenCorruption(10, WorldBlocks.corruption_block)).generate(world, random, new BlockPos(var6, var7, var8));
+			}
 		}
 	}
 

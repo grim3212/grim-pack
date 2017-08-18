@@ -8,6 +8,7 @@ import com.grim3212.mc.pack.world.blocks.BlockFungusLayer;
 import com.grim3212.mc.pack.world.blocks.BlockGlowstoneSeed;
 import com.grim3212.mc.pack.world.blocks.BlockGunpowderReed;
 import com.grim3212.mc.pack.world.blocks.WorldBlocks;
+import com.grim3212.mc.pack.world.config.WorldConfig;
 import com.grim3212.mc.pack.world.items.WorldItems;
 
 import net.minecraft.client.renderer.block.statemap.StateMap;
@@ -19,28 +20,43 @@ public class WorldModelHandler {
 
 	@SubscribeEvent
 	public void registerModels(ModelRegistryEvent evt) {
-		ModelLoader.setCustomStateMapper(WorldBlocks.gunpowder_reed_block, new StateMap.Builder().ignore(BlockGunpowderReed.AGE).build());
-		ModelLoader.setCustomStateMapper(WorldBlocks.glowstone_seeds, new StateMap.Builder().ignore(BlockGlowstoneSeed.STEP).build());
-		ModelLoader.setCustomStateMapper(WorldBlocks.fungus_building, new StateMap.Builder().ignore(BlockFungusBuilding.TYPE).build());
-		ModelLoader.setCustomStateMapper(WorldBlocks.fungus_layer_building, new StateMap.Builder().ignore(BlockFungusLayer.TYPE).build());
-		ModelLoader.setCustomStateMapper(WorldBlocks.fungus_growing, new StateMap.Builder().ignore(BlockFungusGrowing.TYPE).build());
-		ModelLoader.setCustomStateMapper(WorldBlocks.fungus_killing, new StateMap.Builder().ignore(BlockFungusKilling.TYPE).build());
+		if (WorldConfig.subpartGunpowderReeds) {
+			ModelLoader.setCustomStateMapper(WorldBlocks.gunpowder_reed_block, new StateMap.Builder().ignore(BlockGunpowderReed.AGE).build());
+			RenderHelper.renderBlock(WorldBlocks.gunpowder_reed_block);
+			RenderHelper.renderItem(WorldItems.gunpowder_reed_item);
 
-		RenderHelper.renderBlock(WorldBlocks.randomite);
-		RenderHelper.renderBlock(WorldBlocks.gunpowder_reed_block);
-		RenderHelper.renderBlock(WorldBlocks.glowstone_seeds);
-		RenderHelper.renderBlock(WorldBlocks.corruption_block);
-		RenderHelper.renderBlock(WorldBlocks.fungus_maze);
-		RenderHelper.renderBlock(WorldBlocks.fungus_ore_building);
-		RenderHelper.renderBlockWithMetaInInventory(WorldBlocks.fungus_building, 16);
-		RenderHelper.renderBlockWithMetaInInventory(WorldBlocks.fungus_layer_building, 16);
-		RenderHelper.renderBlockWithMetaInInventory(WorldBlocks.fungus_growing, 16);
-		RenderHelper.renderBlockWithMetaInInventory(WorldBlocks.fungus_killing, 16);
+		}
 
-		RenderHelper.renderItem(WorldItems.gunpowder_reed_item);
-		RenderHelper.renderItem(WorldItems.fungicide);
-		RenderHelper.renderItem(WorldItems.parabuzzy_shell);
-		RenderHelper.renderItem(WorldItems.bobomb);
+		if (WorldConfig.subpartGlowstoneSeeds) {
+			ModelLoader.setCustomStateMapper(WorldBlocks.glowstone_seeds, new StateMap.Builder().ignore(BlockGlowstoneSeed.STEP).build());
+			RenderHelper.renderBlock(WorldBlocks.glowstone_seeds);
+		}
+
+		if (WorldConfig.subpartFungus) {
+			ModelLoader.setCustomStateMapper(WorldBlocks.fungus_building, new StateMap.Builder().ignore(BlockFungusBuilding.TYPE).build());
+			ModelLoader.setCustomStateMapper(WorldBlocks.fungus_layer_building, new StateMap.Builder().ignore(BlockFungusLayer.TYPE).build());
+			ModelLoader.setCustomStateMapper(WorldBlocks.fungus_growing, new StateMap.Builder().ignore(BlockFungusGrowing.TYPE).build());
+			ModelLoader.setCustomStateMapper(WorldBlocks.fungus_killing, new StateMap.Builder().ignore(BlockFungusKilling.TYPE).build());
+
+			RenderHelper.renderBlock(WorldBlocks.fungus_maze);
+			RenderHelper.renderBlock(WorldBlocks.fungus_ore_building);
+			RenderHelper.renderBlockWithMetaInInventory(WorldBlocks.fungus_building, 16);
+			RenderHelper.renderBlockWithMetaInInventory(WorldBlocks.fungus_layer_building, 16);
+			RenderHelper.renderBlockWithMetaInInventory(WorldBlocks.fungus_growing, 16);
+			RenderHelper.renderBlockWithMetaInInventory(WorldBlocks.fungus_killing, 16);
+			RenderHelper.renderItem(WorldItems.fungicide);
+		}
+
+		if (WorldConfig.subpartRandomite)
+			RenderHelper.renderBlock(WorldBlocks.randomite);
+
+		if (WorldConfig.subpartCorruption)
+			RenderHelper.renderBlock(WorldBlocks.corruption_block);
+
+		if (WorldConfig.subpart8BitMobs) {
+			RenderHelper.renderItem(WorldItems.parabuzzy_shell);
+			RenderHelper.renderItem(WorldItems.bobomb);
+		}
 	}
 
 }

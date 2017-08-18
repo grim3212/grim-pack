@@ -48,9 +48,14 @@ public class GrimWorld extends GrimPart {
 
 		MinecraftForge.EVENT_BUS.register(new WorldBlocks());
 		MinecraftForge.EVENT_BUS.register(new WorldItems());
-		MinecraftForge.EVENT_BUS.register(new WorldSounds());
+
+		if (WorldConfig.subpart8BitMobs)
+			MinecraftForge.EVENT_BUS.register(new WorldSounds());
+
 		GameRegistry.registerWorldGenerator(new GrimWorldGenerator(), 5);
-		MinecraftForge.TERRAIN_GEN_BUS.register(new WorldTerrainEvents());
+
+		if (WorldConfig.subpartDesertWells)
+			MinecraftForge.TERRAIN_GEN_BUS.register(new WorldTerrainEvents());
 		WorldLootTables.initLootTables();
 		WorldEntities.initEntities();
 
@@ -71,7 +76,9 @@ public class GrimWorld extends GrimPart {
 		super.postInit(event);
 
 		MinecraftForge.EVENT_BUS.post(new WorldPostInitEvent());
-		WorldTypes.registerTypes();
+
+		if (WorldConfig.subpartFloatingIslandWorldType)
+			WorldTypes.registerTypes();
 	}
 
 	@Override

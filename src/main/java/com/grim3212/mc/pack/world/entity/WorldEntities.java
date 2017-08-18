@@ -22,23 +22,32 @@ import net.minecraftforge.fml.common.registry.EntityRegistry;
 public class WorldEntities {
 
 	public static void initEntities() {
-		// Ice Pixie
-		Utils.registerEntity(EntityIcePixie.class, "IcePixie", 80, 3, true, 13887466, 7121318);
-		Utils.registerEntity(EntityIceCube.class, "IceCube", 80, 3, true);
+		if (WorldConfig.subpartIcePixie) {
+			// Ice Pixie
+			Utils.registerEntity(EntityIcePixie.class, "IcePixie", 80, 3, true, 13887466, 7121318);
+			Utils.registerEntity(EntityIceCube.class, "IceCube", 80, 3, true);
+		}
 
-		// Treasure Mob
-		Utils.registerEntity(EntityTreasureMob.class, "Treasure", 80, 3, true, 10777127, 16776192);
+		if (WorldConfig.subpartTreasureMobs) {
+			// Treasure Mob
+			Utils.registerEntity(EntityTreasureMob.class, "Treasure", 80, 3, true, 10777127, 16776192);
+		}
 
-		// More People
-		Utils.registerEntity(EntityNotch.class, "Notch", 80, 3, true, 16744319, 848639);
-		Utils.registerEntity(EntityPsycho.class, "Psychopath", 80, 3, true, 16744319, 16711680);
-		Utils.registerEntity(EntityFarmer.class, "Farmer", 80, 3, true, 16744319, 8336128);
-		Utils.registerEntity(EntityLumberJack.class, "LumberJack", 80, 3, true, 16744319, 10836174);
-		Utils.registerEntity(EntityMiner.class, "Miner", 80, 3, true, 16744319, 16753920);
-		Utils.registerEntity(EntityBomber.class, "SuicideBomber", 80, 3, true, 16744319, 4210752);
+		if (WorldConfig.subpartMorePeople) {
+			// More People
+			Utils.registerEntity(EntityNotch.class, "Notch", 80, 3, true, 16744319, 848639);
+			Utils.registerEntity(EntityPsycho.class, "Psychopath", 80, 3, true, 16744319, 16711680);
+			Utils.registerEntity(EntityFarmer.class, "Farmer", 80, 3, true, 16744319, 8336128);
+			Utils.registerEntity(EntityLumberJack.class, "LumberJack", 80, 3, true, 16744319, 10836174);
+			Utils.registerEntity(EntityMiner.class, "Miner", 80, 3, true, 16744319, 16753920);
+			Utils.registerEntity(EntityBomber.class, "SuicideBomber", 80, 3, true, 16744319, 4210752);
+		}
 
-		Utils.registerEntity(EntityBobomb.class, "Bobomb", 80, 3, true, 0x212946, 0xE7E7F5);
-		Utils.registerEntity(EntityParaBuzzy.class, "ParaBuzzy", 80, 3, true, 0x2B335A, 0x5F2525);
+		if (WorldConfig.subpart8BitMobs) {
+			// 8-Bit Mobs
+			Utils.registerEntity(EntityBobomb.class, "Bobomb", 80, 3, true, 0x212946, 0xE7E7F5);
+			Utils.registerEntity(EntityParaBuzzy.class, "ParaBuzzy", 80, 3, true, 0x2B335A, 0x5F2525);
+		}
 	}
 
 	public static void addSpawns() {
@@ -55,15 +64,15 @@ public class WorldEntities {
 		GrimLog.info(GrimWorld.partName, "Biome array size " + biomes.length);
 
 		// Ice pixie
-		if (WorldConfig.spawnIcePixies)
+		if (WorldConfig.subpartIcePixie)
 			EntityRegistry.addSpawn(EntityIcePixie.class, 50, 2, 5, EnumCreatureType.CREATURE, BiomeDictionary.getBiomes(Type.SNOWY).toArray(new Biome[BiomeDictionary.getBiomes(Type.SNOWY).size()]));
 
 		// TreasureMob
-		if (WorldConfig.spawnTreasureMobs)
+		if (WorldConfig.subpartTreasureMobs)
 			EntityRegistry.addSpawn(EntityTreasureMob.class, 5, 1, 1, EnumCreatureType.CREATURE, biomes);
 
 		// More People
-		if (WorldConfig.spawnMorePeople) {
+		if (WorldConfig.subpartMorePeople) {
 			EntityRegistry.addSpawn(EntityNotch.class, 4, 0, 1, EnumCreatureType.CREATURE, biomes);
 			EntityRegistry.addSpawn(EntityPsycho.class, 4, 1, 2, EnumCreatureType.CREATURE, biomes);
 			EntityRegistry.addSpawn(EntityFarmer.class, 8, 1, 2, EnumCreatureType.CREATURE, biomes);
@@ -72,7 +81,7 @@ public class WorldEntities {
 			EntityRegistry.addSpawn(EntityBomber.class, 4, 1, 2, EnumCreatureType.CREATURE, biomes);
 		}
 
-		if (WorldConfig.spawnParabuzzys) {
+		if (WorldConfig.subpart8BitMobs && WorldConfig.spawnParabuzzys) {
 			EntityRegistry.addSpawn(EntityParaBuzzy.class, 6, 1, 4, EnumCreatureType.CREATURE, biomes);
 		}
 	}

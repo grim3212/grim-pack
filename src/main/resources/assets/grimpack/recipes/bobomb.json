@@ -1,4 +1,14 @@
 {
+"conditions": [
+    {
+      "type": "grimpack:part_enabled",
+      "part": "world"
+    },
+    {
+      "type": "grimpack:world_subpart_enabled",
+      "subpart": "8bitmobs"
+    }
+  ],
   "result": {
     "item": "grimpack:bobomb"
   },

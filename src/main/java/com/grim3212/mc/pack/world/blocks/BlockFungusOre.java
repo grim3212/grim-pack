@@ -5,7 +5,9 @@ import java.util.Random;
 import com.grim3212.mc.pack.core.manual.IManualEntry.IManualBlock;
 import com.grim3212.mc.pack.core.manual.pages.Page;
 import com.grim3212.mc.pack.industry.block.IndustryBlocks;
+import com.grim3212.mc.pack.industry.config.IndustryConfig;
 import com.grim3212.mc.pack.world.client.ManualWorld;
+import com.grim3212.mc.pack.world.config.WorldConfig;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockBush;
@@ -66,15 +68,17 @@ public class BlockFungusOre extends BlockFungusBase implements IManualBlock {
 		if (number <= 30) {
 			return Blocks.COAL_ORE;
 		}
-		if (number <= 40) {
-			return IndustryBlocks.aluminum_ore;
-		}
+		if (IndustryConfig.subpartCommon)
+			if (number <= 40) {
+				return IndustryBlocks.aluminum_ore;
+			}
 		if (number <= 50) {
 			return Blocks.IRON_ORE;
 		}
-		if (number <= 60) {
-			return WorldBlocks.randomite;
-		}
+		if (WorldConfig.subpartRandomite)
+			if (number <= 60) {
+				return WorldBlocks.randomite;
+			}
 		if (number <= 70) {
 			return Blocks.REDSTONE_ORE;
 		}
@@ -90,7 +94,7 @@ public class BlockFungusOre extends BlockFungusBase implements IManualBlock {
 		if (number <= 95) {
 			return Blocks.EMERALD_ORE;
 		}
-		return WorldBlocks.randomite;
+		return Blocks.STONE;
 	}
 
 	@Override

@@ -4,6 +4,7 @@ import com.grim3212.mc.pack.core.item.ItemManualBlockSpecial;
 import com.grim3212.mc.pack.core.item.ItemManualPage;
 import com.grim3212.mc.pack.core.part.GrimCreativeTabs;
 import com.grim3212.mc.pack.world.blocks.WorldBlocks;
+import com.grim3212.mc.pack.world.config.WorldConfig;
 
 import net.minecraft.item.Item;
 import net.minecraftforge.event.RegistryEvent;
@@ -21,9 +22,15 @@ public class WorldItems {
 	public void initItems(RegistryEvent.Register<Item> evt) {
 		IForgeRegistry<Item> r = evt.getRegistry();
 
-		r.register(gunpowder_reed_item);
-		r.register(fungicide);
-		r.register(parabuzzy_shell);
-		r.register(bobomb);
+		if (WorldConfig.subpartGunpowderReeds)
+			r.register(gunpowder_reed_item);
+
+		if (WorldConfig.subpartGunpowderReeds)
+			r.register(fungicide);
+
+		if (WorldConfig.subpart8BitMobs) {
+			r.register(parabuzzy_shell);
+			r.register(bobomb);
+		}
 	}
 }

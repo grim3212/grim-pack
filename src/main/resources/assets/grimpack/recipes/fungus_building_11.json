@@ -1,4 +1,18 @@
 {
+"conditions": [
+    {
+      "type": "grimpack:part_enabled",
+      "part": "world"
+    },
+    {
+      "type": "grimpack:world_subpart_enabled",
+      "subpart": "fungus"
+    },
+    {
+      "type": "grimpack:world_subpart_enabled",
+      "subpart": "randomite"
+    }
+  ],
   "result": {
     "item": "grimpack:fungus_building",
     "data": 11

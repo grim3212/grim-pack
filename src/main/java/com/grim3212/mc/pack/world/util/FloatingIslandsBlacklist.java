@@ -31,32 +31,29 @@ public class FloatingIslandsBlacklist {
 	}
 
 	public static void generateFloatingIslands(World world, Random random, int i, int j) {
-		if (WorldConfig.generateFI) {
-			if (random.nextInt(WorldConfig.spawnrate) == 0) {
-				int height = 128;
-				boolean flag = true;
-				BlockPos pos = new BlockPos(i, height, j);
+		if (random.nextInt(WorldConfig.spawnrate) == 0) {
+			int height = 128;
+			boolean flag = true;
+			BlockPos pos = new BlockPos(i, height, j);
 
-				while (flag) {
-					if (world.isAirBlock(pos)) {
-						pos = pos.down();
+			while (flag) {
+				if (world.isAirBlock(pos)) {
+					pos = pos.down();
 
-						if (pos.getY() <= 0)
-							flag = false;
-
-					} else {
+					if (pos.getY() <= 0)
 						flag = false;
-					}
-				}
 
-				Block block = world.getBlockState(pos).getBlock();
-				if (blacklist.contains(block)) {
-					return;
-				} else if (world.getBlockState(pos).isOpaqueCube()) {
-					(new WorldGenFloatingIslands()).generate(world, random, pos);
+				} else {
+					flag = false;
 				}
+			}
+
+			Block block = world.getBlockState(pos).getBlock();
+			if (blacklist.contains(block)) {
+				return;
+			} else if (world.getBlockState(pos).isOpaqueCube()) {
+				(new WorldGenFloatingIslands()).generate(world, random, pos);
 			}
 		}
 	}
-
 }

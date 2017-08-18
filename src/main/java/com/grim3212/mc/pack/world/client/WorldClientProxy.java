@@ -15,6 +15,7 @@ import com.grim3212.mc.pack.world.client.entity.RenderIcePixie.RenderIcePixieFac
 import com.grim3212.mc.pack.world.client.entity.RenderParaBuzzy.RenderParaBuzzyFactory;
 import com.grim3212.mc.pack.world.client.entity.RenderPerson.RenderPersonFactory;
 import com.grim3212.mc.pack.world.client.entity.RenderTreasureMob.RenderTreasureMobFactory;
+import com.grim3212.mc.pack.world.config.WorldConfig;
 import com.grim3212.mc.pack.world.entity.EntityBobomb;
 import com.grim3212.mc.pack.world.entity.EntityBomber;
 import com.grim3212.mc.pack.world.entity.EntityFarmer;
@@ -46,70 +47,81 @@ public class WorldClientProxy extends ClientProxy {
 		MinecraftForge.EVENT_BUS.register(new WorldModelHandler());
 
 		// Entities
-		RenderingRegistry.registerEntityRenderingHandler(EntityIcePixie.class, new RenderIcePixieFactory());
-		RenderingRegistry.registerEntityRenderingHandler(EntityIceCube.class, new RenderIceCubeFactory());
-		RenderingRegistry.registerEntityRenderingHandler(EntityBobomb.class, new RenderBobombFactory());
-		RenderingRegistry.registerEntityRenderingHandler(EntityParaBuzzy.class, new RenderParaBuzzyFactory());
-		RenderingRegistry.registerEntityRenderingHandler(EntityTreasureMob.class, new RenderTreasureMobFactory());
-		RenderingRegistry.registerEntityRenderingHandler(EntityNotch.class, new RenderPersonFactory(new ResourceLocation(GrimPack.modID, "textures/entities/notch.png")));
-		RenderingRegistry.registerEntityRenderingHandler(EntityPsycho.class, new RenderPersonFactory(new ResourceLocation(GrimPack.modID, "textures/entities/psycho.png")));
-		RenderingRegistry.registerEntityRenderingHandler(EntityFarmer.class, new RenderPersonFactory(new ResourceLocation(GrimPack.modID, "textures/entities/farmer.png")));
-		RenderingRegistry.registerEntityRenderingHandler(EntityLumberJack.class, new RenderPersonFactory(new ResourceLocation(GrimPack.modID, "textures/entities/lumberjack.png")));
-		RenderingRegistry.registerEntityRenderingHandler(EntityMiner.class, new RenderPersonFactory(new ResourceLocation(GrimPack.modID, "textures/entities/miner.png")));
-		RenderingRegistry.registerEntityRenderingHandler(EntityBomber.class, new RenderPersonFactory(new ResourceLocation(GrimPack.modID, "textures/entities/bomber.png")));
+		if (WorldConfig.subpartIcePixie) {
+			RenderingRegistry.registerEntityRenderingHandler(EntityIcePixie.class, new RenderIcePixieFactory());
+			RenderingRegistry.registerEntityRenderingHandler(EntityIceCube.class, new RenderIceCubeFactory());
+		}
+
+		if (WorldConfig.subpart8BitMobs) {
+			RenderingRegistry.registerEntityRenderingHandler(EntityBobomb.class, new RenderBobombFactory());
+			RenderingRegistry.registerEntityRenderingHandler(EntityParaBuzzy.class, new RenderParaBuzzyFactory());
+		}
+
+		if (WorldConfig.subpartTreasureMobs)
+			RenderingRegistry.registerEntityRenderingHandler(EntityTreasureMob.class, new RenderTreasureMobFactory());
+
+		if (WorldConfig.subpartMorePeople) {
+			RenderingRegistry.registerEntityRenderingHandler(EntityNotch.class, new RenderPersonFactory(new ResourceLocation(GrimPack.modID, "textures/entities/notch.png")));
+			RenderingRegistry.registerEntityRenderingHandler(EntityPsycho.class, new RenderPersonFactory(new ResourceLocation(GrimPack.modID, "textures/entities/psycho.png")));
+			RenderingRegistry.registerEntityRenderingHandler(EntityFarmer.class, new RenderPersonFactory(new ResourceLocation(GrimPack.modID, "textures/entities/farmer.png")));
+			RenderingRegistry.registerEntityRenderingHandler(EntityLumberJack.class, new RenderPersonFactory(new ResourceLocation(GrimPack.modID, "textures/entities/lumberjack.png")));
+			RenderingRegistry.registerEntityRenderingHandler(EntityMiner.class, new RenderPersonFactory(new ResourceLocation(GrimPack.modID, "textures/entities/miner.png")));
+			RenderingRegistry.registerEntityRenderingHandler(EntityBomber.class, new RenderPersonFactory(new ResourceLocation(GrimPack.modID, "textures/entities/bomber.png")));
+		}
 	}
 
 	@Override
 	public void initColors() {
-		Minecraft.getMinecraft().getBlockColors().registerBlockColorHandler(new IBlockColor() {
-			@Override
-			public int colorMultiplier(IBlockState state, IBlockAccess worldIn, BlockPos pos, int tintIndex) {
-				if (state.getBlock() instanceof BlockFungusKilling)
-					return BlockFungusKilling.color[state.getValue(BlockFungusKilling.TYPE)];
-				else if (state.getBlock() instanceof BlockFungusBuilding)
-					return BlockFungusBuilding.color[state.getValue(BlockFungusBuilding.TYPE)];
-				else if (state.getBlock() instanceof BlockFungusOre)
-					return BlockFungusOre.color;
-				else if (state.getBlock() instanceof BlockFungusLayer)
-					return BlockFungusLayer.color[state.getValue(BlockFungusLayer.TYPE)];
-				else if (state.getBlock() instanceof BlockFungusGrowing)
-					return BlockFungusGrowing.color[state.getValue(BlockFungusGrowing.TYPE)];
-				else if (state.getBlock() instanceof BlockFungusMaze)
-					return BlockFungusMaze.color;
-				else
-					return 0xffffff;
-			}
-
-		}, WorldBlocks.fungus_growing, WorldBlocks.fungus_building, WorldBlocks.fungus_ore_building, WorldBlocks.fungus_layer_building, WorldBlocks.fungus_killing, WorldBlocks.fungus_maze);
-
-		Minecraft.getMinecraft().getItemColors().registerItemColorHandler(new IItemColor() {
-			@Override
-			public int getColorFromItemstack(ItemStack stack, int tintIndex) {
-				if (stack != null) {
-					int meta = stack.getItemDamage();
-
-					if (stack.getItem() == Item.getItemFromBlock(WorldBlocks.fungus_growing)) {
-						return BlockFungusGrowing.color[meta];
-					}
-					if (stack.getItem() == Item.getItemFromBlock(WorldBlocks.fungus_building)) {
-						return BlockFungusBuilding.color[meta];
-					}
-					if (stack.getItem() == Item.getItemFromBlock(WorldBlocks.fungus_ore_building)) {
+		if (WorldConfig.subpartFungus) {
+			Minecraft.getMinecraft().getBlockColors().registerBlockColorHandler(new IBlockColor() {
+				@Override
+				public int colorMultiplier(IBlockState state, IBlockAccess worldIn, BlockPos pos, int tintIndex) {
+					if (state.getBlock() instanceof BlockFungusKilling)
+						return BlockFungusKilling.color[state.getValue(BlockFungusKilling.TYPE)];
+					else if (state.getBlock() instanceof BlockFungusBuilding)
+						return BlockFungusBuilding.color[state.getValue(BlockFungusBuilding.TYPE)];
+					else if (state.getBlock() instanceof BlockFungusOre)
 						return BlockFungusOre.color;
-					}
-					if (stack.getItem() == Item.getItemFromBlock(WorldBlocks.fungus_layer_building)) {
-						return BlockFungusLayer.color[meta];
-					}
-					if (stack.getItem() == Item.getItemFromBlock(WorldBlocks.fungus_killing)) {
-						return BlockFungusKilling.color[meta];
-					}
-					if (stack.getItem() == Item.getItemFromBlock(WorldBlocks.fungus_maze)) {
+					else if (state.getBlock() instanceof BlockFungusLayer)
+						return BlockFungusLayer.color[state.getValue(BlockFungusLayer.TYPE)];
+					else if (state.getBlock() instanceof BlockFungusGrowing)
+						return BlockFungusGrowing.color[state.getValue(BlockFungusGrowing.TYPE)];
+					else if (state.getBlock() instanceof BlockFungusMaze)
 						return BlockFungusMaze.color;
-					}
+					else
+						return 0xffffff;
 				}
-				return 0xffffff;
-			}
-		}, WorldBlocks.fungus_growing, WorldBlocks.fungus_building, WorldBlocks.fungus_ore_building, WorldBlocks.fungus_layer_building, WorldBlocks.fungus_killing, WorldBlocks.fungus_maze);
 
+			}, WorldBlocks.fungus_growing, WorldBlocks.fungus_building, WorldBlocks.fungus_ore_building, WorldBlocks.fungus_layer_building, WorldBlocks.fungus_killing, WorldBlocks.fungus_maze);
+
+			Minecraft.getMinecraft().getItemColors().registerItemColorHandler(new IItemColor() {
+				@Override
+				public int getColorFromItemstack(ItemStack stack, int tintIndex) {
+					if (stack != null) {
+						int meta = stack.getItemDamage();
+
+						if (stack.getItem() == Item.getItemFromBlock(WorldBlocks.fungus_growing)) {
+							return BlockFungusGrowing.color[meta];
+						}
+						if (stack.getItem() == Item.getItemFromBlock(WorldBlocks.fungus_building)) {
+							return BlockFungusBuilding.color[meta];
+						}
+						if (stack.getItem() == Item.getItemFromBlock(WorldBlocks.fungus_ore_building)) {
+							return BlockFungusOre.color;
+						}
+						if (stack.getItem() == Item.getItemFromBlock(WorldBlocks.fungus_layer_building)) {
+							return BlockFungusLayer.color[meta];
+						}
+						if (stack.getItem() == Item.getItemFromBlock(WorldBlocks.fungus_killing)) {
+							return BlockFungusKilling.color[meta];
+						}
+						if (stack.getItem() == Item.getItemFromBlock(WorldBlocks.fungus_maze)) {
+							return BlockFungusMaze.color;
+						}
+					}
+					return 0xffffff;
+				}
+			}, WorldBlocks.fungus_growing, WorldBlocks.fungus_building, WorldBlocks.fungus_ore_building, WorldBlocks.fungus_layer_building, WorldBlocks.fungus_killing, WorldBlocks.fungus_maze);
+		}
 	}
 }

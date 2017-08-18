@@ -18,10 +18,10 @@ public class WorldSounds {
 	@SubscribeEvent
 	public void registerSounds(RegistryEvent.Register<SoundEvent> evt) {
 		IForgeRegistry<SoundEvent> reg = evt.getRegistry();
+
 		reg.register(bobomb_living);
 		reg.register(parabuzzy_dead);
 		reg.register(parabuzzy_living);
 		reg.register(parabuzzy_hurt);
 	}
-
 }

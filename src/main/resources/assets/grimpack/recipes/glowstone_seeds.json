@@ -1,4 +1,14 @@
 {
+"conditions": [
+    {
+      "type": "grimpack:part_enabled",
+      "part": "world"
+    },
+    {
+      "type": "grimpack:world_subpart_enabled",
+      "subpart": "glowstoneseeds"
+    }
+  ],
   "result": {
     "item": "grimpack:glowstone_seeds"
   },
