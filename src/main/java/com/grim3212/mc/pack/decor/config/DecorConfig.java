@@ -1,9 +1,9 @@
 package com.grim3212.mc.pack.decor.config;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import com.google.common.collect.Maps;
 import com.grim3212.mc.pack.core.config.ConfigUtils;
@@ -13,6 +13,7 @@ import com.grim3212.mc.pack.core.util.GrimLog;
 import com.grim3212.mc.pack.core.util.RecipeHelper;
 import com.grim3212.mc.pack.decor.GrimDecor;
 
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketBuffer;
 import net.minecraftforge.common.config.ConfigElement;
@@ -27,7 +28,8 @@ public class DecorConfig extends GrimConfig {
 	public static final String CONFIG_PARTS_NAME = "decor.subparts";
 	public static final String CONFIG_GRILL_RECIPES_NAME = "decor.customgrillrecipes";
 
-	public static HashMap<ItemStack, ItemStack> grillRecipes = Maps.newHashMap();
+	public static Map<ItemStack, ItemStack> grillRecipes = Maps.newHashMap();
+	public static Map<IBlockState, Boolean> decorBlocks = Maps.newHashMap();
 
 	public static boolean dyeFrames;
 	public static boolean burnFrames;
@@ -93,6 +95,8 @@ public class DecorConfig extends GrimConfig {
 	public void syncConfig() {
 		syncSubparts();
 
+		ConfigUtils.setCurrentPart(GrimDecor.partName);
+
 		if (subpartFrames) {
 			dyeFrames = config.get(CONFIG_GENERAL_NAME, "DyeFrames", true).getBoolean();
 			burnFrames = config.get(CONFIG_GENERAL_NAME, "BurnFrames", true).getBoolean();
@@ -113,8 +117,12 @@ public class DecorConfig extends GrimConfig {
 		if (subpartColorizer) {
 			useAllBlocks = config.get(CONFIG_GENERAL_NAME, "UseAllBlocks", true).getBoolean();
 
-			// TODO: Change this to use new configutils
 			decorationBlocks = config.get(CONFIG_GENERAL_NAME, "DecorationBlocks", new String[] { "mossy_cobblestone", "diamond_ore" }).getStringList();
+
+			if (!useAllBlocks)
+				// Don't waste time if we don't have to
+				ConfigUtils.loadBlocksOntoMap(decorationBlocks, decorBlocks);
+
 			consumeBlock = config.get(CONFIG_GENERAL_NAME, "Colorizers Consume Block", false).getBoolean();
 
 			if (subpartSlopes) {
@@ -214,7 +222,6 @@ public class DecorConfig extends GrimConfig {
 	public void loadGrillRecipes(String[] config) {
 		DecorConfig.grillRecipes.clear();
 
-		ConfigUtils.setCurrentPart(GrimDecor.partName);
 		List<Recipe> recipes = ConfigUtils.loadConfigurableRecipes(config, false);
 
 		for (Recipe recipe : recipes) {

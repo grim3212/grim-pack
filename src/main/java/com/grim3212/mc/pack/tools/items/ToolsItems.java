@@ -15,7 +15,6 @@ import com.grim3212.mc.pack.industry.item.IndustryItems;
 import com.grim3212.mc.pack.tools.blocks.ToolsBlocks;
 import com.grim3212.mc.pack.tools.config.ToolsConfig;
 import com.grim3212.mc.pack.tools.items.ItemBetterBucket.BucketType;
-import com.grim3212.mc.pack.tools.util.ChiselRegistry;
 import com.grim3212.mc.pack.tools.util.DispenseBehaviors;
 import com.grim3212.mc.pack.tools.util.EnumSpearType;
 
@@ -315,19 +314,6 @@ public class ToolsItems {
 	@SubscribeEvent
 	public void registerRecipes(RegistryEvent.Register<IRecipe> evt) {
 		if (ToolsConfig.subpartChisel) {
-			// Register chiseleable blocks
-			// TODO: Change this to be configurable for the user
-			ChiselRegistry.registerBlock(Blocks.DIAMOND_ORE, Blocks.STONE, Items.DIAMOND, 1, 0);
-			ChiselRegistry.registerBlock(Blocks.EMERALD_ORE, Blocks.STONE, Items.EMERALD, 1, 0);
-			ChiselRegistry.registerBlock(Blocks.QUARTZ_ORE, Blocks.NETHERRACK, Items.QUARTZ, 1, 0);
-			ChiselRegistry.registerBlock(Blocks.GOLD_ORE, Blocks.STONE, Items.GOLD_INGOT, 1, 0);
-			ChiselRegistry.registerBlock(Blocks.IRON_ORE, Blocks.STONE, Items.IRON_INGOT, 1, 0);
-			ChiselRegistry.registerBlock(Blocks.REDSTONE_ORE, Blocks.STONE, Items.REDSTONE, 4, 0);
-			ChiselRegistry.registerBlock(Blocks.LIT_REDSTONE_ORE, Blocks.STONE, Items.REDSTONE, 4, 0);
-			ChiselRegistry.registerBlock(Blocks.COAL_ORE, Blocks.STONE, Items.COAL, 1, 0);
-			ChiselRegistry.registerBlock(Blocks.LAPIS_ORE, Blocks.STONE, Items.DYE, 3, 4);
-			ChiselRegistry.registerBlock(ToolsBlocks.black_diamond_ore, Blocks.STONE, black_diamond, 1, 0);
-
 			GameRegistry.addSmelting(iron_ore_item, new ItemStack(Items.IRON_INGOT), 0.4F);
 			GameRegistry.addSmelting(gold_ore_item, new ItemStack(Items.GOLD_INGOT), 1F);
 		}

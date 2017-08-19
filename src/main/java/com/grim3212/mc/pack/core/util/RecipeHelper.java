@@ -4,20 +4,63 @@ import java.util.Iterator;
 import java.util.List;
 
 import com.google.common.collect.Lists;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonSyntaxException;
 import com.grim3212.mc.pack.GrimPack;
 
+import net.minecraft.block.Block;
+import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.item.crafting.ShapedRecipes;
 import net.minecraft.item.crafting.ShapelessRecipes;
+import net.minecraft.util.JsonUtils;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.common.crafting.JsonContext;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.OreIngredient;
 
 public class RecipeHelper {
+
+	public static class BlockStack {
+
+		private Block block;
+		private int meta;
+
+		public BlockStack(Block block, int meta) {
+			this.block = block;
+			this.meta = meta;
+		}
+
+		public Block getBlock() {
+			return block;
+		}
+
+		public int getMeta() {
+			return meta;
+		}
+	}
+
+	public static BlockStack getBlockStack(JsonObject json, JsonContext context) {
+		String blockName = context.appendModId(JsonUtils.getString(json, "item"));
+
+		Block block = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(blockName));
+
+		if (block == null)
+			throw new JsonSyntaxException("Unknown block '" + blockName + "'");
+
+		return new BlockStack(block, JsonUtils.getInt(json, "data", 0));
+	}
+
+	public static boolean isBlock(ItemStack in) {
+		if (in.getItem() instanceof ItemBlock) {
+			return true;
+		}
+		return false;
+	}
 
 	/**
 	 * Compare item stack based on damage. Takes into account

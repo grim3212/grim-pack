@@ -1,0 +1,23 @@
+{
+"type": "grimpack:chisel",
+"conditions": [
+    {
+      "type": "grimpack:part_enabled",
+      "part": "tools"
+    },
+    {
+      "type": "grimpack:tools_subpart_enabled",
+      "subpart": "chisel"
+    }
+  ],
+  "inBlock": {
+    "item": "minecraft:lapis_ore"
+  },
+  "outBlock": {
+    "item": "minecraft:stone",
+    "data": 0
+  },
+  "outItem": {
+    "defaultDrops": true
+  }
+}

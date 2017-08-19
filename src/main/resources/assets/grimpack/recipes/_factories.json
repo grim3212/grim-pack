@@ -8,5 +8,9 @@
 	"tools_subpart_enabled": "com.grim3212.mc.pack.tools.crafting.ToolsConditionFactory",
 	"util_subpart_enabled": "com.grim3212.mc.pack.util.crafting.UtilConditionFactory",
 	"world_subpart_enabled": "com.grim3212.mc.pack.world.crafting.WorldConditionFactory"
+  },
+  
+  "recipes": {
+  	"chisel": "com.grim3212.mc.pack.tools.crafting.ChiselRecipeFactory"
   }
 }

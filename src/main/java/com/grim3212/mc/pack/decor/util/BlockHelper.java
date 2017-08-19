@@ -3,6 +3,8 @@ package com.grim3212.mc.pack.decor.util;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import com.google.common.collect.ImmutableSet;
 import com.grim3212.mc.pack.decor.config.DecorConfig;
@@ -18,7 +20,6 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
@@ -61,24 +62,20 @@ public class BlockHelper {
 				}
 			}
 		} else {
-			String[] blocks = DecorConfig.decorationBlocks;
+			Map<IBlockState, Boolean> blocks = DecorConfig.decorBlocks;
 
-			if (blocks.length > 0) {
-				for (String u : blocks) {
-					Block block = Block.REGISTRY.getObject(new ResourceLocation(u));
+			if (blocks.size() > 0) {
+				Iterator<Entry<IBlockState, Boolean>> itr = blocks.entrySet().iterator();
 
-					if (!block.getDefaultState().getProperties().isEmpty()) {
-						for (IProperty prop : (ImmutableSet<IProperty<?>>) (block.getDefaultState().getProperties().keySet())) {
-							// Shade is used by Flat Colored Blocks
-							if ((prop.getName().equals("variant") || prop.getName().equals("color") || prop.getName().equals("type") || prop.getName().equals("shade")) && !(block instanceof BlockHugeMushroom)) {
-								loadedBlocks.put(block, prop.getAllowedValues().size());
+				while (itr.hasNext()) {
+					Entry<IBlockState, Boolean> entry = itr.next();
 
-							} else {
-								loadedBlocks.put(block, 0);
-							}
-						}
+					if (entry.getValue()) {
+						loadedBlocks.put(entry.getKey().getBlock(), 0);
 					} else {
-						loadedBlocks.put(block, 0);
+						Block block = entry.getKey().getBlock();
+
+						loadedBlocks.put(block, block.getMetaFromState(entry.getKey()));
 					}
 				}
 			}
@@ -104,13 +101,11 @@ public class BlockHelper {
 				loadedBlocks.add(block);
 			}
 		} else {
-			String[] blocks = DecorConfig.decorationBlocks;
-
-			if (blocks.length > 0) {
-				for (String u : blocks) {
-					Block block = Block.REGISTRY.getObject(new ResourceLocation(u));
-					loadedBlocks.add(block);
-				}
+			Map<IBlockState, Boolean> blocks = DecorConfig.decorBlocks;
+			Iterator<Entry<IBlockState, Boolean>> itr = blocks.entrySet().iterator();
+			while (itr.hasNext()) {
+				Entry<IBlockState, Boolean> entry = itr.next();
+				loadedBlocks.add(entry.getKey().getBlock());
 			}
 		}
 		return loadedBlocks;
