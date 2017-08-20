@@ -12,8 +12,6 @@ import net.minecraftforge.fml.client.config.IConfigElement;
 
 public class CoreConfig extends GrimConfig {
 
-	public static boolean giveManualOnJoin;
-	public static boolean showCheckmark;
 	public static final String CONFIG_NAME = "core";
 	public static final String CONFIG_GENERAL_NAME = "core.general";
 	public static final String CONFIG_PARTS_NAME = "core.parts";
@@ -25,9 +23,18 @@ public class CoreConfig extends GrimConfig {
 	public static boolean useUtil;
 	public static boolean useWorld;
 
+	public static boolean giveManualOnJoin;
+	public static boolean showDebugInfo;
+	public static boolean showCheckmark;
+
 	@Override
 	public String name() {
 		return CONFIG_NAME;
+	}
+
+	@Override
+	public void syncFirst() {
+		showDebugInfo = config.get(CONFIG_GENERAL_NAME, "Show debug info in console", false, "grimpack.core.cfg.showDebugInfo").getBoolean();
 	}
 
 	@Override
@@ -43,6 +50,7 @@ public class CoreConfig extends GrimConfig {
 	@Override
 	public void syncConfig() {
 		syncSubparts();
+		syncFirst();
 
 		giveManualOnJoin = config.get(CONFIG_GENERAL_NAME, "Give Instruction Manual on World Join", true, "grimpack.core.cfg.giveManual").getBoolean();
 		showCheckmark = config.get(CONFIG_GENERAL_NAME, "Show checkmark if available manual page", true, "grimpack.core.cfg.showCheckMark").getBoolean();

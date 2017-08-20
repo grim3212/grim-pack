@@ -4,6 +4,7 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.glu.GLU;
 
 import com.grim3212.mc.pack.GrimPack;
+import com.grim3212.mc.pack.core.client.gui.GuiGrimContainer;
 import com.grim3212.mc.pack.decor.block.DecorBlocks;
 import com.grim3212.mc.pack.decor.inventory.ContainerGrill;
 import com.grim3212.mc.pack.decor.tile.TileEntityGrill;
@@ -11,7 +12,6 @@ import com.grim3212.mc.pack.decor.util.DecorUtil;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
-import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.RenderItem;
@@ -24,7 +24,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class GuiGrill extends GuiContainer {
+public class GuiGrill extends GuiGrimContainer {
 
 	private TileEntityGrill grillInventory;
 	private IInventory playerInv;
@@ -35,12 +35,6 @@ public class GuiGrill extends GuiContainer {
 		super(new ContainerGrill(inventoryPlayer, grillTE));
 		this.playerInv = inventoryPlayer;
 		this.grillInventory = grillTE;
-	}
-
-	@Override
-	public void drawScreen(int mouseX, int mouseY, float partialTicks) {
-		this.drawDefaultBackground();
-		super.drawScreen(mouseX, mouseY, partialTicks);
 	}
 
 	@Override

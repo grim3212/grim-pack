@@ -2,9 +2,9 @@ package com.grim3212.mc.pack.industry.client.gui;
 
 import org.lwjgl.opengl.GL11;
 
+import com.grim3212.mc.pack.core.client.gui.GuiGrimContainer;
 import com.grim3212.mc.pack.industry.inventory.ContainerGoldSafe;
 
-import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
@@ -13,7 +13,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class GuiGoldSafe extends GuiContainer {
+public class GuiGoldSafe extends GuiGrimContainer {
 
 	private IInventory playerInventory;
 	private IInventory safeInventory;
@@ -30,12 +30,6 @@ public class GuiGoldSafe extends GuiContainer {
 		int i = short1 - 108;
 		this.inventoryRows = (safeInventory.getSizeInventory() / 9);
 		this.ySize = (i + this.inventoryRows * 18);
-	}
-	
-	@Override
-	public void drawScreen(int mouseX, int mouseY, float partialTicks) {
-		this.drawDefaultBackground();
-		super.drawScreen(mouseX, mouseY, partialTicks);
 	}
 
 	@Override

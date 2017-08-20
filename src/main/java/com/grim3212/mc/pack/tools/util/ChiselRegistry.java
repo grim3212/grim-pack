@@ -32,7 +32,7 @@ public class ChiselRegistry {
 		chiselReturnb.add(Pair.of(returnBlock, rbMeta));
 		chiselItem.add(stack);
 
-		GrimLog.info(GrimTools.partName, "Registered chisel recipe " + block.getRegistryName() + " -> " + returnBlock.getRegistryName() + ": " + (stack == ItemStack.EMPTY ? " default drops" : stack.toString()));
+		GrimLog.debugInfo(GrimTools.partName, "Registered chisel recipe " + block.getRegistryName() + " -> " + returnBlock.getRegistryName() + ": " + (stack == ItemStack.EMPTY ? " default drops" : stack.toString()));
 	}
 
 	@SuppressWarnings("deprecation")

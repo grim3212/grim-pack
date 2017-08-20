@@ -1,10 +1,10 @@
 package com.grim3212.mc.pack.tools.client.gui;
 
 import com.grim3212.mc.pack.GrimPack;
+import com.grim3212.mc.pack.core.client.gui.GuiGrimContainer;
 import com.grim3212.mc.pack.tools.inventory.ContainerPelletBag;
 import com.grim3212.mc.pack.tools.inventory.PelletBagInventory;
 
-import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.IInventory;
@@ -13,7 +13,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class GuiPelletBag extends GuiContainer {
+public class GuiPelletBag extends GuiGrimContainer {
 
 	private static final ResourceLocation resourceLocation = new ResourceLocation(GrimPack.modID, "textures/gui/pellet_bag_gui.png");
 	private IInventory playerInv;
@@ -24,12 +24,6 @@ public class GuiPelletBag extends GuiContainer {
 		this.inventory = inventory;
 		this.playerInv = inventoryPlayer;
 		this.ySize = 168;
-	}
-
-	@Override
-	public void drawScreen(int mouseX, int mouseY, float partialTicks) {
-		this.drawDefaultBackground();
-		super.drawScreen(mouseX, mouseY, partialTicks);
 	}
 
 	@Override

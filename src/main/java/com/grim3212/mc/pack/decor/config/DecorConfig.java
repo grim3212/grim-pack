@@ -1,20 +1,15 @@
 package com.grim3212.mc.pack.decor.config;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import com.google.common.collect.Maps;
 import com.grim3212.mc.pack.core.config.ConfigUtils;
 import com.grim3212.mc.pack.core.config.GrimConfig;
-import com.grim3212.mc.pack.core.config.Recipe;
-import com.grim3212.mc.pack.core.util.GrimLog;
-import com.grim3212.mc.pack.core.util.RecipeHelper;
 import com.grim3212.mc.pack.decor.GrimDecor;
 
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketBuffer;
 import net.minecraftforge.common.config.ConfigElement;
 import net.minecraftforge.fml.client.config.DummyConfigElement.DummyCategoryElement;
@@ -26,9 +21,7 @@ public class DecorConfig extends GrimConfig {
 	public static final String CONFIG_NAME = "decor";
 	public static final String CONFIG_GENERAL_NAME = "decor.general";
 	public static final String CONFIG_PARTS_NAME = "decor.subparts";
-	public static final String CONFIG_GRILL_RECIPES_NAME = "decor.customgrillrecipes";
 
-	public static Map<ItemStack, ItemStack> grillRecipes = Maps.newHashMap();
 	public static Map<IBlockState, Boolean> decorBlocks = Maps.newHashMap();
 
 	public static boolean dyeFrames;
@@ -132,13 +125,6 @@ public class DecorConfig extends GrimConfig {
 			if (subpartFireplaces) {
 				infiniteGrillFuel = config.get(CONFIG_GENERAL_NAME, "grimpack.decor.cfg.InfiniteGrillFuel", false).getBoolean();
 				enableFirepitNet = config.get(CONFIG_GENERAL_NAME, "grimpack.decor.cfg.EnableFirepitNet", true).getBoolean();
-				config.get(CONFIG_GRILL_RECIPES_NAME, "grimpack.decor.cfg.recipes", new String[] { "porkchop>cooked_porkchop", "beef>cooked_beef", "chicken>cooked_chicken", "potato>baked_potato", "rabbit>cooked_rabbit", "mutton>cooked_mutton", "fish>cooked_fish", "grimpack:chocolate_bowl>grimpack:chocolate_bowl_hot" });
-				config.addCustomCategoryComment(CONFIG_GRILL_RECIPES_NAME, "Use this to add new grill recipes. \nTo add a new recipe add a line then write out the [RawItemName] separated by a '>' then write out the [CookedItemName]. For mod items make sure to add the modID with a colon ':' and the then the item name. \nExample: grimpack:chocolate_ball>grimpack:chocolate_bar");
-
-				if (!config.getCategory(CONFIG_GRILL_RECIPES_NAME).isEmpty()) {
-					String[] recipes = config.getCategory(CONFIG_GRILL_RECIPES_NAME).get("grimpack.decor.cfg.recipes").getStringList();
-					loadGrillRecipes(recipes);
-				}
 			}
 		}
 
@@ -150,8 +136,6 @@ public class DecorConfig extends GrimConfig {
 		List<IConfigElement> list = new ArrayList<IConfigElement>();
 		if (subpartColorizer || subpartFrames || subpartFlatItemFrame || subpartWallpaper)
 			list.add(new DummyCategoryElement("decorGeneralCfg", "grimpack.decor.cfg.general", new ConfigElement(GrimDecor.INSTANCE.getConfig().getCategory(CONFIG_GENERAL_NAME)).getChildElements()));
-		if (subpartColorizer && subpartFireplaces)
-			list.add(new DummyCategoryElement("decorGrillRecipesCfg", "grimpack.decor.cfg.grillrecipes", new ConfigElement(GrimDecor.INSTANCE.getConfig().getCategory(CONFIG_GRILL_RECIPES_NAME)).getChildElements()));
 		list.add(new DummyCategoryElement("decorSubPartCfg", "grimpack.decor.cfg.subparts", new ConfigElement(GrimDecor.INSTANCE.getConfig().getCategory(CONFIG_PARTS_NAME)).getChildElements()));
 		return list;
 	}
@@ -217,42 +201,5 @@ public class DecorConfig extends GrimConfig {
 				builder.append(block + ",");
 			buffer.writeString(builder.toString());
 		}
-	}
-
-	public void loadGrillRecipes(String[] config) {
-		DecorConfig.grillRecipes.clear();
-
-		List<Recipe> recipes = ConfigUtils.loadConfigurableRecipes(config, false);
-
-		for (Recipe recipe : recipes) {
-			GrimLog.info(GrimDecor.partName, "Registered grill recipe: " + recipe);
-			DecorConfig.grillRecipes.put(recipe.getInput(), recipe.getOutput());
-		}
-	}
-
-	public static boolean grillRecipesContain(ItemStack stack) {
-		Iterator<ItemStack> itr = DecorConfig.grillRecipes.keySet().iterator();
-		while (itr.hasNext()) {
-			ItemStack compare = itr.next();
-
-			if (RecipeHelper.compareItemStacks(stack, compare)) {
-				return true;
-			}
-		}
-
-		return false;
-	}
-
-	public static ItemStack getOutput(ItemStack stack) {
-		Iterator<ItemStack> itr = DecorConfig.grillRecipes.keySet().iterator();
-		while (itr.hasNext()) {
-			ItemStack compare = itr.next();
-			if (RecipeHelper.compareItemStacks(stack, compare)) {
-				// Copy so we don't mess with the ItemStack
-				return DecorConfig.grillRecipes.get(compare).copy();
-			}
-		}
-
-		return ItemStack.EMPTY;
 	}
 }

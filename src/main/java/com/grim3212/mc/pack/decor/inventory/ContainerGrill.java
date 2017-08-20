@@ -1,6 +1,6 @@
 package com.grim3212.mc.pack.decor.inventory;
 
-import com.grim3212.mc.pack.decor.config.DecorConfig;
+import com.grim3212.mc.pack.decor.crafting.GrillRecipeFactory;
 import com.grim3212.mc.pack.decor.tile.TileEntityGrill;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -124,7 +124,7 @@ public class ContainerGrill extends Container {
 				}
 
 			} else {
-				if (DecorConfig.grillRecipesContain(realstack)) {
+				if (GrillRecipeFactory.grillRecipesContain(realstack)) {
 					for (int i = 0; i < 4; i++) {
 						if (this.grill.getStackInSlot(i).isEmpty()) {
 							ItemStack newstack = new ItemStack(realstack.getItem(), 1, realstack.getMetadata());

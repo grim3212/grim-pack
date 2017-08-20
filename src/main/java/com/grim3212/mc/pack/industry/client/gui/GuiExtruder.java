@@ -3,6 +3,7 @@ package com.grim3212.mc.pack.industry.client.gui;
 import java.io.IOException;
 
 import com.grim3212.mc.pack.GrimPack;
+import com.grim3212.mc.pack.core.client.gui.GuiGrimContainer;
 import com.grim3212.mc.pack.core.network.PacketDispatcher;
 import com.grim3212.mc.pack.industry.config.IndustryConfig;
 import com.grim3212.mc.pack.industry.inventory.ContainerExtruder;
@@ -10,7 +11,6 @@ import com.grim3212.mc.pack.industry.inventory.InventoryExtruder;
 import com.grim3212.mc.pack.industry.network.MessageExtruderDirection;
 
 import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -19,7 +19,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class GuiExtruder extends GuiContainer {
+public class GuiExtruder extends GuiGrimContainer {
 
 	private final InventoryPlayer playerInv;
 	private final InventoryExtruder extruderInv;
@@ -52,12 +52,6 @@ public class GuiExtruder extends GuiContainer {
 	@Override
 	protected void actionPerformed(GuiButton button) throws IOException {
 		PacketDispatcher.sendToServer(new MessageExtruderDirection((byte) button.id, extruderInv.getExtruder().getEntityId()));
-	}
-
-	@Override
-	public void drawScreen(int mouseX, int mouseY, float partialTicks) {
-		this.drawDefaultBackground();
-		super.drawScreen(mouseX, mouseY, partialTicks);
 	}
 
 	@Override

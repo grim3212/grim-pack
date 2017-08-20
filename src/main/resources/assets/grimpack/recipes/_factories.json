@@ -11,6 +11,8 @@
   },
   
   "recipes": {
+  	"grill": "com.grim3212.mc.pack.decor.crafting.GrillRecipeFactory",
+  	"machine": "com.grim3212.mc.pack.industry.crafting.MachineRecipeFactory",
   	"chisel": "com.grim3212.mc.pack.tools.crafting.ChiselRecipeFactory"
   }
 }

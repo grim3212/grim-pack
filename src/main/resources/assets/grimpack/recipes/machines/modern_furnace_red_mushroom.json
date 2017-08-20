@@ -1,0 +1,21 @@
+{
+"conditions": [
+    {
+      "type": "grimpack:part_enabled",
+      "part": "industry"
+    },
+    {
+      "type": "grimpack:industry_subpart_enabled",
+      "subpart": "machines"
+    }
+  ],
+  "type": "grimpack:machine",
+  "machine": "modern_furnace",
+  "input": {
+  	"item": "minecraft:red_mushroom"
+  },
+  "output": {
+    "item": "minecraft:nether_wart"
+  },
+  "experience": 0.25
+}

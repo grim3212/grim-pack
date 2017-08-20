@@ -1,15 +1,15 @@
 package com.grim3212.mc.pack.util.client.gui;
 
 import com.grim3212.mc.pack.GrimPack;
+import com.grim3212.mc.pack.core.client.gui.GuiGrimContainer;
 import com.grim3212.mc.pack.util.grave.ContainerGrave;
 import com.grim3212.mc.pack.util.grave.TileEntityGrave;
 
-import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 
-public class GuiGrave extends GuiContainer {
+public class GuiGrave extends GuiGrimContainer {
 
 	private TileEntityGrave grave;
 	private final InventoryPlayer playerInventory;
@@ -20,12 +20,6 @@ public class GuiGrave extends GuiContainer {
 		this.grave = te;
 		this.playerInventory = playerInv;
 		this.ySize = 222;
-	}
-
-	@Override
-	public void drawScreen(int mouseX, int mouseY, float partialTicks) {
-		this.drawDefaultBackground();
-		super.drawScreen(mouseX, mouseY, partialTicks);
 	}
 
 	@Override

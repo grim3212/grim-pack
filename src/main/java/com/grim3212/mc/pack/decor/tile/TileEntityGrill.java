@@ -5,6 +5,7 @@ import javax.annotation.Nonnull;
 import com.grim3212.mc.pack.core.network.PacketDispatcher;
 import com.grim3212.mc.pack.decor.block.colorizer.BlockColorizerGrill;
 import com.grim3212.mc.pack.decor.config.DecorConfig;
+import com.grim3212.mc.pack.decor.crafting.GrillRecipeFactory;
 import com.grim3212.mc.pack.decor.inventory.ContainerGrill;
 import com.grim3212.mc.pack.decor.network.MessageParticles;
 
@@ -163,11 +164,11 @@ public class TileEntityGrill extends TileEntityColorizer implements ITickable, I
 			int tiertime = (int) getTierTime();
 
 			for (int i = 0; i < 4; i++) {
-				if (!getStackInSlot(i).isEmpty() && (DecorConfig.grillRecipesContain(getStackInSlot(i)))) {
+				if (!getStackInSlot(i).isEmpty() && (GrillRecipeFactory.grillRecipesContain(getStackInSlot(i)))) {
 					this.cookTimes[i] += 1;
 
 					if (this.cookTimes[i] > tiertime) {
-						this.inventory.set(i, DecorConfig.getOutput(this.inventory.get(i)));
+						this.inventory.set(i, GrillRecipeFactory.getOutput(this.inventory.get(i)));
 						this.cookTimes[i] = 0;
 					} else {
 						this.cookTimes[i] += 1;

@@ -6,9 +6,9 @@ import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 
 import com.grim3212.mc.pack.GrimPack;
+import com.grim3212.mc.pack.core.client.gui.GuiGrimContainer;
 import com.grim3212.mc.pack.industry.inventory.ContainerLocker;
 
-import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
@@ -17,7 +17,7 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.util.ResourceLocation;
 
-public class GuiLocker extends GuiContainer {
+public class GuiLocker extends GuiGrimContainer {
 
 	private static final ResourceLocation GUILocker = new ResourceLocation(GrimPack.modID, "textures/gui/gui_locker.png");
 	private IInventory lockerInventory;
@@ -30,12 +30,6 @@ public class GuiLocker extends GuiContainer {
 		this.lockerInventory = lockerInventory;
 		this.ySize = 204;
 		this.xSize += 17;
-	}
-	
-	@Override
-	public void drawScreen(int mouseX, int mouseY, float partialTicks) {
-		this.drawDefaultBackground();
-		super.drawScreen(mouseX, mouseY, partialTicks);
 	}
 
 	protected void drawGuiContainerForegroundLayer(int par1, int par2) {

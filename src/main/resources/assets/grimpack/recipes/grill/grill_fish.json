@@ -1,0 +1,21 @@
+{
+"conditions": [
+    {
+      "type": "grimpack:part_enabled",
+      "part": "decor"
+    },
+    {
+      "type": "grimpack:decor_subpart_enabled",
+      "subpart": "fireplaces"
+    }
+  ],
+  "type": "grimpack:grill",
+  "input": {
+  	"item": "minecraft:fish",
+  	"data": 0
+  },
+  "output": {
+    "item": "minecraft:cooked_fish",
+  	"data": 0
+  }
+}

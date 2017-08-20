@@ -7,13 +7,13 @@ import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
 import com.grim3212.mc.pack.GrimPack;
+import com.grim3212.mc.pack.core.client.gui.GuiGrimContainer;
 import com.grim3212.mc.pack.core.network.PacketDispatcher;
 import com.grim3212.mc.pack.core.util.NBTHelper;
 import com.grim3212.mc.pack.industry.inventory.ContainerLocksmithWorkbench;
 import com.grim3212.mc.pack.industry.network.MessageSetLock;
 
 import net.minecraft.client.gui.GuiTextField;
-import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -29,7 +29,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class GuiLocksmithWorkbench extends GuiContainer implements IContainerListener {
+public class GuiLocksmithWorkbench extends GuiGrimContainer implements IContainerListener {
 
 	private GuiTextField lockField;
 	private final ContainerLocksmithWorkbench locksmith;
@@ -81,12 +81,6 @@ public class GuiLocksmithWorkbench extends GuiContainer implements IContainerLis
 	protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
 		super.mouseClicked(mouseX, mouseY, mouseButton);
 		this.lockField.mouseClicked(mouseX, mouseY, mouseButton);
-	}
-
-	@Override
-	public void drawScreen(int mouseX, int mouseY, float partialTicks) {
-		this.drawDefaultBackground();
-		super.drawScreen(mouseX, mouseY, partialTicks);
 	}
 
 	@Override

@@ -1,0 +1,22 @@
+{
+"conditions": [
+    {
+      "type": "grimpack:part_enabled",
+      "part": "industry"
+    },
+    {
+      "type": "grimpack:industry_subpart_enabled",
+      "subpart": "machines"
+    }
+  ],
+  "type": "grimpack:machine",
+  "machine": "refinery",
+  "input": {
+  	"item": "minecraft:dirt",
+  	"data": 0
+  },
+  "output": {
+    "item": "minecraft:clay_ball"
+  },
+  "experience": 0.25
+}

@@ -1,16 +1,16 @@
 package com.grim3212.mc.pack.industry.client.gui;
 
 import com.grim3212.mc.pack.GrimPack;
+import com.grim3212.mc.pack.core.client.gui.GuiGrimContainer;
 import com.grim3212.mc.pack.industry.inventory.ContainerMFurnace;
 import com.grim3212.mc.pack.industry.tile.TileEntityMFurnace;
 
-import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.util.ResourceLocation;
 
-public class GuiMFurnace extends GuiContainer {
+public class GuiMFurnace extends GuiGrimContainer {
 
 	private ResourceLocation gui = new ResourceLocation(GrimPack.modID, "textures/gui/gui_modern_furnace.png");
 
@@ -23,17 +23,12 @@ public class GuiMFurnace extends GuiContainer {
 		this.playerInventory = playerInv;
 		this.tileFurnace = furnaceInv;
 	}
-	
-	@Override
-	public void drawScreen(int mouseX, int mouseY, float partialTicks) {
-		this.drawDefaultBackground();
-		super.drawScreen(mouseX, mouseY, partialTicks);
-	}
 
 	/**
 	 * Draw the foreground layer for the GuiContainer (everything in front of
 	 * the items). Args : mouseX, mouseY
-	 */@Override
+	 */
+	@Override
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
 		String s = this.tileFurnace.getDisplayName().getUnformattedText();
 		this.fontRenderer.drawString(s, this.xSize / 2 - this.fontRenderer.getStringWidth(s) / 2, 6, 4210752);
@@ -42,7 +37,8 @@ public class GuiMFurnace extends GuiContainer {
 
 	/**
 	 * Args : renderPartialTicks, mouseX, mouseY
-	 */@Override
+	 */
+	@Override
 	protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
 		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 		this.mc.getTextureManager().bindTexture(gui);

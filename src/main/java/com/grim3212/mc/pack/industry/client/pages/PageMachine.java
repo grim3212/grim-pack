@@ -39,10 +39,9 @@ public class PageMachine extends Page {
 		this.type = type;
 	}
 
-	public PageMachine(String pageName, ItemStack[] input, int updateTime, MachineType type) {
+	public PageMachine(String pageName, NonNullList<ItemStack> input, int updateTime, MachineType type) {
 		super(pageName, false);
-		for (int i = 0; i < input.length; i++)
-			this.inputs.add(input[i]);
+		inputs.addAll(input);
 		this.updateTime = updateTime;
 		this.isArray = true;
 		this.type = type;

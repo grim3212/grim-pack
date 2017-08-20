@@ -1,0 +1,21 @@
+{
+"conditions": [
+    {
+      "type": "grimpack:part_enabled",
+      "part": "industry"
+    },
+    {
+      "type": "grimpack:industry_subpart_enabled",
+      "subpart": "machines"
+    }
+  ],
+  "type": "grimpack:machine",
+  "machine": "modern_furnace",
+  "input": {
+  	"item": "minecraft:glowstone"
+  },
+  "output": {
+    "item": "minecraft:sea_lantern"
+  },
+  "experience": 0.25
+}

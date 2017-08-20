@@ -3,6 +3,8 @@ package com.grim3212.mc.pack.core.util;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.Logger;
 
+import com.grim3212.mc.pack.core.config.CoreConfig;
+
 public class GrimLog {
 
 	public static Logger log;
@@ -17,6 +19,11 @@ public class GrimLog {
 
 	public static void info(String modName, String data) {
 		log.info("{" + modName + "}" + ": " + data);
+	}
+
+	public static void debugInfo(String modName, String data) {
+		if (CoreConfig.showDebugInfo)
+			log.info("{" + modName + "}" + ": " + data);
 	}
 
 	public static void warn(String modName, String data) {

@@ -20,12 +20,6 @@ public class GuiCage extends GuiGrimContainer {
 		this.playerInv = playerInv;
 		this.cage = cage;
 	}
-	
-	@Override
-	public void drawScreen(int mouseX, int mouseY, float partialTicks) {
-		this.drawDefaultBackground();
-		super.drawScreen(mouseX, mouseY, partialTicks);
-	}
 
 	@Override
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {

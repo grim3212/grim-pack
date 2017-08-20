@@ -37,8 +37,8 @@ public class ConfigUtils {
 	 *            Should xp be considered in this recipe
 	 * @return
 	 */
-	public static List<Recipe> loadConfigurableRecipes(String[] fromConfig, boolean xp) {
-		List<Recipe> recipes = Lists.newArrayList();
+	public static List<BasicRecipe> loadConfigurableRecipes(String[] fromConfig, boolean xp) {
+		List<BasicRecipe> recipes = Lists.newArrayList();
 
 		if (fromConfig.length > 0) {
 			for (int i = 0; i < fromConfig.length; i++) {
@@ -49,7 +49,7 @@ public class ConfigUtils {
 
 				// Make sure input and output are valid
 				if (input != null && !output.isEmpty()) {
-					Recipe recipe = new Recipe();
+					BasicRecipe recipe = new BasicRecipe();
 
 					// Set recipe since it is unchanging
 					recipe.output = output;
@@ -81,7 +81,7 @@ public class ConfigUtils {
 
 								if (Utils.isInteger(split[1])) {
 									for (ItemStack ore : inputs) {
-										Recipe oreRecipe = new Recipe();
+										BasicRecipe oreRecipe = new BasicRecipe();
 										oreRecipe.input = new ItemStack(ore.getItem(), 1, Integer.parseInt(split[1]));
 										oreRecipe.output = recipe.output;
 										oreRecipe.experience = recipe.experience;
@@ -92,7 +92,7 @@ public class ConfigUtils {
 									}
 								} else if (split[1].equals("?")) {
 									for (ItemStack ore : inputs) {
-										Recipe oreRecipe = new Recipe();
+										BasicRecipe oreRecipe = new BasicRecipe();
 										oreRecipe.input = new ItemStack(ore.getItem(), 1, OreDictionary.WILDCARD_VALUE);
 										oreRecipe.output = recipe.output;
 										oreRecipe.experience = recipe.experience;
@@ -112,7 +112,7 @@ public class ConfigUtils {
 								NonNullList<ItemStack> inputs = OreDictionary.getOres(oreDict);
 
 								for (ItemStack ore : inputs) {
-									Recipe oreRecipe = new Recipe();
+									BasicRecipe oreRecipe = new BasicRecipe();
 									oreRecipe.input = ore;
 									oreRecipe.output = recipe.output;
 									oreRecipe.experience = recipe.experience;
@@ -234,7 +234,6 @@ public class ConfigUtils {
 						// OreDictionary Meta Override
 						if (parts[0].equals(ORE_DICT)) {
 							if (OreDictionary.doesOreNameExist(parts[1])) {
-
 								if (Utils.isInteger(parts[2])) {
 									// Use meta
 									for (ItemStack stack : OreDictionary.getOres(parts[1])) {
@@ -338,7 +337,7 @@ public class ConfigUtils {
 											blocklist.put(block.getStateFromMeta(stack.getMetadata()), false);
 										}
 									} else {
-										GrimLog.error(currentPart, "Ignoring item '" + stack.getUnlocalizedName() + "' in OreDict '" + parts[1] + "' for blocks only list!");
+										GrimLog.debugInfo(currentPart, "Ignoring item '" + stack.getUnlocalizedName() + "' in OreDict '" + parts[1] + "' for blocks only list!");
 									}
 								}
 							} else {
@@ -380,7 +379,7 @@ public class ConfigUtils {
 											Block block = ((ItemBlock) stack.getItem()).getBlock();
 											blocklist.put(block.getStateFromMeta(Integer.parseInt(parts[2])), false);
 										} else {
-											GrimLog.error(currentPart, "Ignoring item '" + stack.getUnlocalizedName() + "' in OreDict '" + parts[1] + "'!");
+											GrimLog.debugInfo(currentPart, "Ignoring item '" + stack.getUnlocalizedName() + "' in OreDict '" + parts[1] + "'!");
 										}
 									}
 								} else if (parts[2].equals("?")) {
@@ -389,7 +388,7 @@ public class ConfigUtils {
 											Block block = ((ItemBlock) stack.getItem()).getBlock();
 											blocklist.put(block.getDefaultState(), true);
 										} else {
-											GrimLog.error(currentPart, "Ignoring item '" + stack.getUnlocalizedName() + "' in OreDict '" + parts[1] + "'!");
+											GrimLog.debugInfo(currentPart, "Ignoring item '" + stack.getUnlocalizedName() + "' in OreDict '" + parts[1] + "'!");
 										}
 									}
 								} else {

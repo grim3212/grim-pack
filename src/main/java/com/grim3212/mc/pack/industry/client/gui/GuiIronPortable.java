@@ -1,9 +1,9 @@
 package com.grim3212.mc.pack.industry.client.gui;
 
+import com.grim3212.mc.pack.core.client.gui.GuiGrimContainer;
 import com.grim3212.mc.pack.industry.inventory.ContainerIronWorkbench;
 import com.grim3212.mc.pack.industry.item.IndustryItems;
 
-import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
@@ -13,7 +13,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class GuiIronPortable extends GuiContainer {
+public class GuiIronPortable extends GuiGrimContainer {
 
 	private static final ResourceLocation resourceLocation = new ResourceLocation("textures/gui/container/crafting_table.png");
 	private IInventory playerInv;
@@ -26,12 +26,6 @@ public class GuiIronPortable extends GuiContainer {
 		if (stack.getItem() == IndustryItems.portable_iron_workbench) {
 			this.portableStack = stack;
 		}
-	}
-
-	@Override
-	public void drawScreen(int mouseX, int mouseY, float partialTicks) {
-		this.drawDefaultBackground();
-		super.drawScreen(mouseX, mouseY, partialTicks);
 	}
 
 	@Override

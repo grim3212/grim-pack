@@ -1,8 +1,8 @@
 package com.grim3212.mc.pack.industry.client.gui;
 
+import com.grim3212.mc.pack.core.client.gui.GuiGrimContainer;
 import com.grim3212.mc.pack.industry.inventory.ContainerIronWorkbench;
 
-import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
@@ -14,7 +14,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class GuiCraftingIron extends GuiContainer {
+public class GuiCraftingIron extends GuiGrimContainer {
 
 	private static final ResourceLocation resourceLocation = new ResourceLocation("textures/gui/container/crafting_table.png");
 	private IInventory playerInv;
@@ -22,12 +22,6 @@ public class GuiCraftingIron extends GuiContainer {
 	public GuiCraftingIron(EntityPlayer inventoryplayer, World world, BlockPos pos) {
 		super(new ContainerIronWorkbench(inventoryplayer, world, pos, false));
 		this.playerInv = inventoryplayer.inventory;
-	}
-
-	@Override
-	public void drawScreen(int mouseX, int mouseY, float partialTicks) {
-		this.drawDefaultBackground();
-		super.drawScreen(mouseX, mouseY, partialTicks);
 	}
 
 	@Override

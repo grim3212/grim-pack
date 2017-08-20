@@ -5,9 +5,7 @@ import java.util.List;
 
 import com.grim3212.mc.pack.core.config.ConfigUtils;
 import com.grim3212.mc.pack.core.config.GrimConfig;
-import com.grim3212.mc.pack.core.config.Recipe;
 import com.grim3212.mc.pack.industry.GrimIndustry;
-import com.grim3212.mc.pack.industry.util.MachineRecipes;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketBuffer;
@@ -152,15 +150,6 @@ public class IndustryConfig extends GrimConfig {
 
 		if (subpartMachines) {
 			generateOilOre = config.get(CONFIG_GENERAL_NAME, "Generate Oil Ore", true).getBoolean();
-
-			// Refinery Recipes
-			config.get(CONFIG_REFINERY_RECIPES_NAME, "grimpack.industry.cfg.refineryRecipes", new String[] { "grimpack:crude_oil>grimpack:fuel>0.25", "grimpack:super_crude_oil>grimpack:crude_oil>0.1", "log>grimpack:rubber>0.1", "log2>grimpack:rubber>0.1", "dirt>clay_ball>0.25", "rotten_flesh>leather>0.25", "poisonous_potato>potato>0.25", "spider_eye>nether_wart>0.25", "paper>painting>0.25", "egg>feather>0.25", "water_bucket>fish>0.25", "lava_bucket>fire_charge>0.25", "carrot_on_a_stick>lead>0.25", "gunpowder>blaze_powder>0.25", "vine>string>0.25", "ender_pearl>ender_eye>0.25" });
-			config.addCustomCategoryComment(CONFIG_REFINERY_RECIPES_NAME, "Use this to add new refinery recipes. \nTo add a new recipe add a line then write out the [RawItemName] separated by a '>' then write out the [RefinedItemName]. For mod items make sure to add the modID with a colon ':' and the then the item name. \nExample: grimpack:chocolate_ball>grimpack:chocolate_bar");
-
-			if (!config.getCategory(CONFIG_REFINERY_RECIPES_NAME).isEmpty()) {
-				String[] recipes = config.getCategory(CONFIG_REFINERY_RECIPES_NAME).get("grimpack.industry.cfg.refineryRecipes").getStringList();
-				this.loadMachineRecipes(recipes);
-			}
 		}
 		super.syncConfig();
 	}
@@ -172,8 +161,6 @@ public class IndustryConfig extends GrimConfig {
 			list.add(new DummyCategoryElement("industryGeneralCfg", "grimpack.industry.cfg.general", new ConfigElement(GrimIndustry.INSTANCE.getConfig().getCategory(CONFIG_GENERAL_NAME)).getChildElements()));
 		if (subpartExtruder)
 			list.add(new DummyCategoryElement("industryExtruderCfg", "grimpack.industry.cfg.extruder", new ConfigElement(GrimIndustry.INSTANCE.getConfig().getCategory(CONFIG_EXTRUDER_NAME)).getChildElements()));
-		if (subpartMachines)
-			list.add(new DummyCategoryElement("industryRefineryRecipesCfg", "grimpack.industry.cfg.refineryRecipesCat", new ConfigElement(GrimIndustry.INSTANCE.getConfig().getCategory(CONFIG_REFINERY_RECIPES_NAME)).getChildElements()));
 		list.add(new DummyCategoryElement("industrySubPartCfg", "grimpack.industry.cfg.subparts", new ConfigElement(GrimIndustry.INSTANCE.getConfig().getCategory(CONFIG_PARTS_NAME)).getChildElements()));
 		return list;
 	}
@@ -230,16 +217,5 @@ public class IndustryConfig extends GrimConfig {
 
 		if (subpartWorkbenchUpgrades)
 			buffer.writeBoolean(useWorkbenchUpgrades);
-	}
-
-	public void loadMachineRecipes(String[] string) {
-		// Clear to then repopulate
-		MachineRecipes.INSTANCE.getRefineryList().clear();
-
-		List<Recipe> recipes = ConfigUtils.loadConfigurableRecipes(string, true);
-
-		for (Recipe recipe : recipes) {
-			MachineRecipes.INSTANCE.addRefineryRecipe(recipe.getInput(), recipe.getOutput(), recipe.getExperience());
-		}
 	}
 }

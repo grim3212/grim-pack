@@ -7,6 +7,7 @@ import org.lwjgl.input.Keyboard;
 import com.grim3212.mc.pack.GrimPack;
 import com.grim3212.mc.pack.core.client.TooltipHelper;
 import com.grim3212.mc.pack.core.client.gui.GuiButtonIcon;
+import com.grim3212.mc.pack.core.client.gui.GuiGrimContainer;
 import com.grim3212.mc.pack.core.network.PacketDispatcher;
 import com.grim3212.mc.pack.industry.block.IndustryBlocks;
 import com.grim3212.mc.pack.industry.inventory.ContainerSpecificSensor;
@@ -24,7 +25,6 @@ import com.grim3212.mc.pack.industry.tile.TileEntitySpecificSensor;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiTextField;
-import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.RenderItem;
@@ -37,7 +37,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 
-public class GuiSpecificSensor extends GuiContainer {
+public class GuiSpecificSensor extends GuiGrimContainer {
 
 	private GuiTextField entityName;
 	private GuiTextField playerName;
@@ -509,12 +509,6 @@ public class GuiSpecificSensor extends GuiContainer {
 		this.maxZ.setVisible(onMainPage);
 
 		this.onMainPage = !onMainPage;
-	}
-
-	@Override
-	public void drawScreen(int mouseX, int mouseY, float partialTicks) {
-		this.drawDefaultBackground();
-		super.drawScreen(mouseX, mouseY, partialTicks);
 	}
 
 	@Override

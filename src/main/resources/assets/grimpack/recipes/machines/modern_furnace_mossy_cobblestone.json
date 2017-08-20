@@ -1,0 +1,22 @@
+{
+"conditions": [
+    {
+      "type": "grimpack:part_enabled",
+      "part": "industry"
+    },
+    {
+      "type": "grimpack:industry_subpart_enabled",
+      "subpart": "machines"
+    }
+  ],
+  "type": "grimpack:machine",
+  "machine": "modern_furnace",
+  "input": {
+  	"item": "minecraft:mossy_cobblestone"
+  },
+  "output": {
+    "item": "minecraft:prismarine",
+    "data": 0
+  },
+  "experience": 0.25
+}

@@ -1,8 +1,8 @@
 package com.grim3212.mc.pack.industry.client.gui;
 
+import com.grim3212.mc.pack.core.client.gui.GuiGrimContainer;
 import com.grim3212.mc.pack.industry.inventory.ContainerDiamondWorkbench;
 
-import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
@@ -14,7 +14,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class GuiCraftingDiamond extends GuiContainer {
+public class GuiCraftingDiamond extends GuiGrimContainer {
 
 	private static final ResourceLocation resourceLocation = new ResourceLocation("textures/gui/container/crafting_table.png");
 	private IInventory playerInv;
@@ -24,12 +24,6 @@ public class GuiCraftingDiamond extends GuiContainer {
 		this.playerInv = inventoryplayer.inventory;
 	}
 
-	@Override
-	public void drawScreen(int mouseX, int mouseY, float partialTicks) {
-		this.drawDefaultBackground();
-		super.drawScreen(mouseX, mouseY, partialTicks);
-	}
-	
 	@Override
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
 		this.fontRenderer.drawString(I18n.format("container.crafting_diamond"), 28, 6, 4210752);

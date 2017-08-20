@@ -1,16 +1,16 @@
 package com.grim3212.mc.pack.industry.client.gui;
 
 import com.grim3212.mc.pack.GrimPack;
+import com.grim3212.mc.pack.core.client.gui.GuiGrimContainer;
 import com.grim3212.mc.pack.industry.inventory.ContainerMachine;
 import com.grim3212.mc.pack.industry.tile.TileEntityMachine;
 import com.grim3212.mc.pack.industry.util.MachineRecipes.MachineType;
 
-import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 
-public class GuiMachine extends GuiContainer {
+public class GuiMachine extends GuiGrimContainer {
 
 	private TileEntityMachine machineInventory;
 	private final InventoryPlayer playerInventory;
@@ -28,12 +28,6 @@ public class GuiMachine extends GuiContainer {
 		}
 	}
 
-	@Override
-	public void drawScreen(int mouseX, int mouseY, float partialTicks) {
-		this.drawDefaultBackground();
-		super.drawScreen(mouseX, mouseY, partialTicks);
-	}
-	
 	@Override
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
 		String s = this.machineInventory.getDisplayName().getUnformattedText();

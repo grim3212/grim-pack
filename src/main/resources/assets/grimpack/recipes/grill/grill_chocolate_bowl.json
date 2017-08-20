@@ -1,0 +1,27 @@
+{
+"conditions": [
+    {
+      "type": "grimpack:part_enabled",
+      "part": "decor"
+    },
+    {
+      "type": "grimpack:decor_subpart_enabled",
+      "subpart": "fireplaces"
+    },
+    {
+      "type": "grimpack:part_enabled",
+      "part": "cuisine"
+    },
+    {
+      "type": "grimpack:cuisine_subpart_enabled",
+      "subpart": "chocolate"
+    }
+  ],
+  "type": "grimpack:grill",
+  "input": {
+  	"item": "grimpack:chocolate_bowl"
+  },
+  "output": {
+    "item": "grimpack:chocolate_bowl_hot"
+  }
+}

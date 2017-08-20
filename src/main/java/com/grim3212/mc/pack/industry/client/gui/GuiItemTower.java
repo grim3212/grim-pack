@@ -6,17 +6,17 @@ import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 
 import com.grim3212.mc.pack.GrimPack;
+import com.grim3212.mc.pack.core.client.gui.GuiGrimContainer;
 import com.grim3212.mc.pack.industry.inventory.ContainerItemTower;
 import com.grim3212.mc.pack.industry.inventory.InventoryItemTower;
 
-import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.util.ResourceLocation;
 
-public class GuiItemTower extends GuiContainer {
+public class GuiItemTower extends GuiGrimContainer {
 
 	private InventoryItemTower itemTowers;
 	private ContainerItemTower containerItemTower;
@@ -29,12 +29,6 @@ public class GuiItemTower extends GuiContainer {
 		this.itemTowers = ((InventoryItemTower) itemTowers);
 		this.ySize = 132;
 		this.xSize += 17;
-	}
-	
-	@Override
-	public void drawScreen(int mouseX, int mouseY, float partialTicks) {
-		this.drawDefaultBackground();
-		super.drawScreen(mouseX, mouseY, partialTicks);
 	}
 
 	@Override

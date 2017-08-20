@@ -44,7 +44,7 @@ public abstract class GuiGrimContainer extends GuiScreen {
 	 */
 	protected int guiTop;
 	/** holds the slot currently hovered */
-	private Slot theSlot;
+	private Slot hoverSlot;
 	/** Used when touchscreen is enabled. */
 	private Slot clickedSlot;
 	/** Used when touchscreen is enabled. */
@@ -93,6 +93,7 @@ public abstract class GuiGrimContainer extends GuiScreen {
 	 */
 	public void drawScreen(int mouseX, int mouseY, float partialTicks) {
 		this.drawDefaultBackground();
+
 		int i = this.guiLeft;
 		int j = this.guiTop;
 		this.drawGuiContainerBackgroundLayer(partialTicks, mouseX, mouseY);
@@ -106,19 +107,19 @@ public abstract class GuiGrimContainer extends GuiScreen {
 		GlStateManager.translate((float) i, (float) j, 0.0F);
 		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 		GlStateManager.enableRescaleNormal();
-		this.theSlot = null;
+		this.hoverSlot = null;
 		OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, 240.0F, 240.0F);
 		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 
 		for (int i1 = 0; i1 < this.inventorySlots.inventorySlots.size(); ++i1) {
-			Slot slot = (Slot) this.inventorySlots.inventorySlots.get(i1);
+			Slot slot = this.inventorySlots.inventorySlots.get(i1);
 
 			if (slot.isEnabled()) {
 				this.drawSlot(slot);
 			}
 
 			if (this.isMouseOverSlot(slot, mouseX, mouseY) && slot.isEnabled()) {
-				this.theSlot = slot;
+				this.hoverSlot = slot;
 				GlStateManager.disableLighting();
 				GlStateManager.disableDepth();
 				int j1 = slot.xPos;
@@ -144,7 +145,8 @@ public abstract class GuiGrimContainer extends GuiScreen {
 		ItemStack itemstack = this.draggedStack.isEmpty() ? inventoryplayer.getItemStack() : this.draggedStack;
 
 		if (!itemstack.isEmpty()) {
-			int k2 = this.draggedStack.isEmpty() ? 8 : 16;
+			int j2 = 8;
+			int k2 = this.draggedStack.isEmpty() ? j2 : 16;
 			String s = null;
 
 			if (!this.draggedStack.isEmpty() && this.isRightMouseClick) {
@@ -178,15 +180,17 @@ public abstract class GuiGrimContainer extends GuiScreen {
 		}
 
 		GlStateManager.popMatrix();
-
-		if (inventoryplayer.getItemStack().isEmpty() && this.theSlot != null && this.theSlot.getHasStack()) {
-			ItemStack itemstack1 = this.theSlot.getStack();
-			this.renderToolTip(itemstack1, mouseX, mouseY);
-		}
-
 		GlStateManager.enableLighting();
 		GlStateManager.enableDepth();
 		RenderHelper.enableStandardItemLighting();
+
+		this.renderHoveredToolTip(mouseX, mouseY);
+	}
+
+	protected void renderHoveredToolTip(int p_191948_1_, int p_191948_2_) {
+		if (this.mc.player.inventory.getItemStack().isEmpty() && this.hoverSlot != null && this.hoverSlot.getHasStack()) {
+			this.renderToolTip(this.hoverSlot.getStack(), p_191948_1_, p_191948_2_);
+		}
 	}
 
 	/**
@@ -266,13 +270,7 @@ public abstract class GuiGrimContainer extends GuiScreen {
 			if (textureatlassprite != null) {
 				GlStateManager.disableLighting();
 				this.mc.getTextureManager().bindTexture(slotIn.getBackgroundLocation());
-
-				if (slotIn instanceof SlotGrim) {
-					this.drawTexturedModalRect(i, j, textureatlassprite, ((SlotGrim) slotIn).xSize, ((SlotGrim) slotIn).ySize);
-				} else {
-					this.drawTexturedModalRect(i, j, textureatlassprite, 16, 16);
-				}
-
+				this.drawTexturedModalRect(i, j, textureatlassprite, 16, 16);
 				GlStateManager.enableLighting();
 				flag1 = true;
 			}
@@ -280,28 +278,12 @@ public abstract class GuiGrimContainer extends GuiScreen {
 
 		if (!flag1) {
 			if (flag) {
-				if (slotIn instanceof SlotGrim) {
-					drawRect(i, j, i + ((SlotGrim) slotIn).xSize, j + ((SlotGrim) slotIn).ySize, -2130706433);
-				} else {
-					drawRect(i, j, i + 16, j + 16, -2130706433);
-				}
+				drawRect(i, j, i + 16, j + 16, -2130706433);
 			}
 
 			GlStateManager.enableDepth();
-
-			if (slotIn instanceof SlotGrim) {
-				SlotGrim slot = (SlotGrim) slotIn;
-
-				// Subtract 16 for the size of an item
-				int x = i + ((slot.xSize - 16) / 2);
-				int y = j + ((slot.ySize - 16) / 2);
-
-				this.itemRender.renderItemAndEffectIntoGUI(this.mc.player, itemstack, x, y);
-				this.itemRender.renderItemOverlayIntoGUI(this.fontRenderer, itemstack, x, y, s);
-			} else {
-				this.itemRender.renderItemAndEffectIntoGUI(this.mc.player, itemstack, i, j);
-				this.itemRender.renderItemOverlayIntoGUI(this.fontRenderer, itemstack, i, j, s);
-			}
+			this.itemRender.renderItemAndEffectIntoGUI(this.mc.player, itemstack, i, j);
+			this.itemRender.renderItemOverlayIntoGUI(this.fontRenderer, itemstack, i, j, s);
 		}
 
 		this.itemRender.zLevel = 0.0F;
@@ -629,11 +611,11 @@ public abstract class GuiGrimContainer extends GuiScreen {
 
 		this.checkHotbarKeys(keyCode);
 
-		if (this.theSlot != null && this.theSlot.getHasStack()) {
+		if (this.hoverSlot != null && this.hoverSlot.getHasStack()) {
 			if (this.mc.gameSettings.keyBindPickBlock.isActiveAndMatches(keyCode)) {
-				this.handleMouseClick(this.theSlot, this.theSlot.slotNumber, 0, ClickType.CLONE);
+				this.handleMouseClick(this.hoverSlot, this.hoverSlot.slotNumber, 0, ClickType.CLONE);
 			} else if (this.mc.gameSettings.keyBindDrop.isActiveAndMatches(keyCode)) {
-				this.handleMouseClick(this.theSlot, this.theSlot.slotNumber, isCtrlKeyDown() ? 1 : 0, ClickType.THROW);
+				this.handleMouseClick(this.hoverSlot, this.hoverSlot.slotNumber, isCtrlKeyDown() ? 1 : 0, ClickType.THROW);
 			}
 		}
 	}
@@ -644,10 +626,10 @@ public abstract class GuiGrimContainer extends GuiScreen {
 	 * if a hotbar key was pressed.
 	 */
 	protected boolean checkHotbarKeys(int keyCode) {
-		if (this.mc.player.inventory.getItemStack().isEmpty() && this.theSlot != null) {
+		if (this.mc.player.inventory.getItemStack().isEmpty() && this.hoverSlot != null) {
 			for (int i = 0; i < 9; ++i) {
 				if (this.mc.gameSettings.keyBindsHotbar[i].isActiveAndMatches(keyCode)) {
-					this.handleMouseClick(this.theSlot, this.theSlot.slotNumber, i, ClickType.SWAP);
+					this.handleMouseClick(this.hoverSlot, this.hoverSlot.slotNumber, i, ClickType.SWAP);
 					return true;
 				}
 			}
@@ -695,7 +677,7 @@ public abstract class GuiGrimContainer extends GuiScreen {
 	 */
 	@javax.annotation.Nullable
 	public Slot getSlotUnderMouse() {
-		return this.theSlot;
+		return this.hoverSlot;
 	}
 
 	public int getGuiLeft() {

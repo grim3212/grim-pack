@@ -1,70 +1,42 @@
 package com.grim3212.mc.pack.industry.util;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Iterator;
+import java.util.Map;
 
-import org.apache.commons.lang3.tuple.ImmutableTriple;
-import org.apache.commons.lang3.tuple.Triple;
+import org.apache.commons.lang3.tuple.Pair;
 
-import com.grim3212.mc.pack.core.util.RecipeHelper;
-import com.grim3212.mc.pack.industry.block.IndustryBlocks;
-import com.grim3212.mc.pack.industry.item.IndustryItems;
+import com.google.common.collect.Maps;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonSyntaxException;
 
-import net.minecraft.block.Block;
-import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
+import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.util.IStringSerializable;
+import net.minecraft.util.JsonUtils;
+import net.minecraft.util.NonNullList;
 
 public class MachineRecipes {
 
 	public static final MachineRecipes INSTANCE = new MachineRecipes();
-	private List<Triple<ItemStack, ItemStack, Float>> modernFurnaceRecipes = new ArrayList<Triple<ItemStack, ItemStack, Float>>();
-	private List<Triple<ItemStack, ItemStack, Float>> derrickRecipes = new ArrayList<Triple<ItemStack, ItemStack, Float>>();
-	private List<Triple<ItemStack, ItemStack, Float>> refineryRecipes = new ArrayList<Triple<ItemStack, ItemStack, Float>>();
+	private Map<Ingredient, Pair<ItemStack, Float>> modernFurnaceRecipes = Maps.newHashMap();
+	private Map<Ingredient, Pair<ItemStack, Float>> derrickRecipes = Maps.newHashMap();
+	private Map<Ingredient, Pair<ItemStack, Float>> refineryRecipes = Maps.newHashMap();
 
-	private MachineRecipes() {
-		// TODO: Make modern recipes configurable
+	public NonNullList<ItemStack> getInputs(MachineType type) {
+		Map<Ingredient, Pair<ItemStack, Float>> recipes = this.getRecipeList(type);
 
-		// Modern furnace recipes
-		addRecipeForBlock(Blocks.GLASS, new ItemStack(IndustryBlocks.tempered_glass), 0.25f, MachineType.MODERN_FURNACE);
-		addRecipeForBlock(Blocks.CLAY, new ItemStack(IndustryBlocks.modern_tile), 0.25f, MachineType.MODERN_FURNACE);
+		NonNullList<ItemStack> inputs = NonNullList.create();
+		NonNullList<Ingredient> required = NonNullList.create();
+		required.addAll(recipes.keySet());
+		Iterator<Ingredient> req = required.iterator();
 
-		// Minecraft furnace transmutations
-		addRecipeForBlock(Blocks.BRICK_BLOCK, new ItemStack(Blocks.NETHERRACK), 0.25f, MachineType.MODERN_FURNACE);
-		addRecipeForBlock(Blocks.MYCELIUM, new ItemStack(Blocks.END_STONE), 0.25f, MachineType.MODERN_FURNACE);
-		addRecipeForBlock(Blocks.MOSSY_COBBLESTONE, new ItemStack(Blocks.PRISMARINE), 0.25f, MachineType.MODERN_FURNACE);
-		addRecipeForBlock(Blocks.GLOWSTONE, new ItemStack(Blocks.SEA_LANTERN), 0.25f, MachineType.MODERN_FURNACE);
-		addRecipeForBlock(Blocks.RED_MUSHROOM, new ItemStack(Items.NETHER_WART), 0.25f, MachineType.MODERN_FURNACE);
+		while (req.hasNext()) {
+			Ingredient in = req.next();
 
-		// Derrick recipes
-		addRecipe(IndustryItems.aluminum_can, new ItemStack(IndustryItems.crude_oil), 0.1f, MachineType.DERRICK);
-	}
-
-	/**
-	 * 
-	 * @param input
-	 *            Recipe input
-	 * @param output
-	 *            Recipe output
-	 * @param experience
-	 *            The experience when finished
-	 * @param recipeList
-	 *            0 = modern furnace, 1 = derrick, 2 = refinery
-	 */
-	public void addRecipeForBlock(Block input, ItemStack output, float experience, MachineType type) {
-		this.addRecipe(Item.getItemFromBlock(input), output, experience, type);
-	}
-
-	public ItemStack[] getInputs(MachineType type) {
-		List<Triple<ItemStack, ItemStack, Float>> recipes = this.getRecipeList(type);
-
-		ItemStack[] inputs = new ItemStack[recipes.size()];
-
-		for (int i = 0; i < recipes.size(); i++) {
-			inputs[i] = recipes.get(i).getLeft().copy();
+			if (in.getMatchingStacks().length > 0) {
+				inputs.add(in.getMatchingStacks()[0]);
+			}
 		}
 
 		return inputs;
@@ -81,63 +53,81 @@ public class MachineRecipes {
 	 * @param recipeList
 	 *            0 = modern furnace, 1 = derrick, 2 = refinery
 	 */
-	public void addRecipe(Item input, ItemStack output, float experience, MachineType type) {
-		if (type == MachineType.MODERN_FURNACE)
-			this.addModernFurnaceRecipe(new ItemStack(input, 1), output, experience);
-		else if (type == MachineType.DERRICK)
-			this.addDerrickRecipe(new ItemStack(input, 1), output, experience);
-		else if (type == MachineType.REFINERY)
-			this.addRefineryRecipe(new ItemStack(input, 1), output, experience);
-	}
-
-	public void addModernFurnaceRecipe(ItemStack input, ItemStack stack, float experience) {
-		if (!getResult(input, MachineType.MODERN_FURNACE).isEmpty())
-			return;
-
-		this.getModernFurnaceList().add(new ImmutableTriple<ItemStack, ItemStack, Float>(input, stack, experience));
-	}
-
-	public void addDerrickRecipe(ItemStack input, ItemStack stack, float experience) {
-		if (!getResult(input, MachineType.DERRICK).isEmpty())
-			return;
-
-		this.getDerrickList().add(new ImmutableTriple<ItemStack, ItemStack, Float>(input, stack, experience));
-	}
-
-	public void addRefineryRecipe(ItemStack input, ItemStack stack, float experience) {
-		if (!getResult(input, MachineType.REFINERY).isEmpty())
-			return;
-
-		this.getRefineryList().add(new ImmutableTriple<ItemStack, ItemStack, Float>(input, stack, experience));
+	public void addRecipe(Ingredient input, ItemStack output, float experience, MachineType type) {
+		this.getRecipeList(type).put(input, Pair.of(output, experience));
 	}
 
 	public ItemStack getResult(ItemStack stack, MachineType type) {
-		List<Triple<ItemStack, ItemStack, Float>> recipeList = this.getRecipeList(type);
+		Map<Ingredient, Pair<ItemStack, Float>> recipes = this.getRecipeList(type);
 
-		if (recipeList != null) {
-			for (Triple<ItemStack, ItemStack, Float> triple : recipeList) {
-				if (RecipeHelper.compareItemStacks(stack, triple.getLeft())) {
-					return triple.getMiddle();
-				}
+		NonNullList<Ingredient> required = NonNullList.create();
+		required.addAll(recipes.keySet());
+		Iterator<Ingredient> req = required.iterator();
+
+		while (req.hasNext()) {
+			Ingredient in = req.next();
+
+			if (in.apply(stack)) {
+				return recipes.get(in).getLeft().copy();
 			}
 		}
 
 		return ItemStack.EMPTY;
 	}
 
-	public List<Triple<ItemStack, ItemStack, Float>> getModernFurnaceList() {
+	public float getSmeltingExperience(ItemStack stack, MachineType type) {
+		float ret = stack.getItem().getSmeltingExperience(stack);
+		if (ret != -1)
+			return ret;
+
+		if (type == MachineType.MODERN_FURNACE) {
+			NonNullList<Ingredient> required = NonNullList.create();
+			required.addAll(this.getRecipeList(type).keySet());
+			Iterator<Ingredient> req = required.iterator();
+
+			while (req.hasNext()) {
+				Ingredient in = req.next();
+
+				if (in.apply(stack)) {
+					ret = this.getRecipeList(type).get(in).getRight();
+					break;
+				}
+			}
+
+			if (ret != -1)
+				return ret;
+			else
+				return FurnaceRecipes.instance().getSmeltingExperience(stack);
+		} else {
+			NonNullList<Ingredient> required = NonNullList.create();
+			required.addAll(this.getRecipeList(type).keySet());
+			Iterator<Ingredient> req = required.iterator();
+
+			while (req.hasNext()) {
+				Ingredient in = req.next();
+
+				if (in.apply(stack)) {
+					return this.getRecipeList(type).get(in).getRight();
+				}
+			}
+		}
+
+		return 0.0F;
+	}
+
+	public Map<Ingredient, Pair<ItemStack, Float>> getModernFurnaceList() {
 		return this.modernFurnaceRecipes;
 	}
 
-	public List<Triple<ItemStack, ItemStack, Float>> getDerrickList() {
+	public Map<Ingredient, Pair<ItemStack, Float>> getDerrickList() {
 		return this.derrickRecipes;
 	}
 
-	public List<Triple<ItemStack, ItemStack, Float>> getRefineryList() {
+	public Map<Ingredient, Pair<ItemStack, Float>> getRefineryList() {
 		return this.refineryRecipes;
 	}
 
-	public List<Triple<ItemStack, ItemStack, Float>> getRecipeList(MachineType type) {
+	public Map<Ingredient, Pair<ItemStack, Float>> getRecipeList(MachineType type) {
 		switch (type) {
 		case DERRICK:
 			return this.getDerrickList();
@@ -150,34 +140,6 @@ public class MachineRecipes {
 		}
 	}
 
-	public float getSmeltingExperience(ItemStack stack, MachineType type) {
-		float ret = stack.getItem().getSmeltingExperience(stack);
-		if (ret != -1)
-			return ret;
-
-		if (type == MachineType.MODERN_FURNACE) {
-			for (Triple<ItemStack, ItemStack, Float> triple : this.getRecipeList(type)) {
-				if (RecipeHelper.compareItemStacks(stack, triple.getMiddle())) {
-					ret = triple.getRight();
-					break;
-				}
-			}
-
-			if (ret != -1)
-				return ret;
-			else
-				return FurnaceRecipes.instance().getSmeltingExperience(stack);
-		} else {
-			for (Triple<ItemStack, ItemStack, Float> triple : this.getRecipeList(type)) {
-				if (RecipeHelper.compareItemStacks(stack, triple.getMiddle())) {
-					return triple.getRight();
-				}
-			}
-		}
-
-		return 0.0F;
-	}
-
 	public enum MachineType implements IStringSerializable {
 		MODERN_FURNACE, DERRICK, REFINERY;
 
@@ -186,6 +148,21 @@ public class MachineRecipes {
 		@Override
 		public String getName() {
 			return this.name();
+		}
+
+		public static MachineType fromJson(JsonObject json) {
+			String s = JsonUtils.getString(json, "machine");
+
+			switch (s) {
+			case "derrick":
+				return MachineType.DERRICK;
+			case "modern_furnace":
+				return MachineType.MODERN_FURNACE;
+			case "refinery":
+				return MachineType.REFINERY;
+			default:
+				throw new JsonSyntaxException("Machine type '" + s + "' does not exist!");
+			}
 		}
 	}
 }
