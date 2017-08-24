@@ -5,6 +5,7 @@ import java.awt.Rectangle;
 import java.util.List;
 
 import com.google.common.collect.Lists;
+import com.grim3212.mc.pack.compat.jei.JEIGrimPack;
 import com.grim3212.mc.pack.core.client.ClientUtil;
 import com.grim3212.mc.pack.tools.items.ToolsItems;
 
@@ -13,8 +14,6 @@ import mezz.jei.api.ingredients.IIngredientRegistry;
 import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.recipe.IFocus;
 import mezz.jei.api.recipe.IRecipeWrapper;
-import mezz.jei.gui.Focus;
-import mezz.jei.plugins.jei.JEIInternalPlugin;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
@@ -124,19 +123,17 @@ public class ChiselRecipeWrapper implements IRecipeWrapper {
 	}
 
 	private boolean click(int mouseButton, ItemStack stack) {
-		IJeiRuntime runtime = JEIInternalPlugin.jeiRuntime;
-		IIngredientRegistry ingredientRegistry = JEIInternalPlugin.ingredientRegistry;
+		IJeiRuntime runtime = JEIGrimPack.getJeiRuntime();
+		IIngredientRegistry ingredientRegistry = JEIGrimPack.getIngredientRegistry();
 
 		if (runtime != null && ingredientRegistry != null) {
 
 			if (ingredientRegistry.getIngredientHelper(ItemStack.class).isValidIngredient(stack)) {
 				if (mouseButton == 0) {
-					IFocus<?> focus = new Focus<ItemStack>(IFocus.Mode.OUTPUT, stack);
-					runtime.getRecipesGui().show(focus);
+					runtime.getRecipesGui().show(runtime.getRecipeRegistry().createFocus(IFocus.Mode.OUTPUT, stack));
 					return true;
 				} else if (mouseButton == 1) {
-					IFocus<?> focus = new Focus<ItemStack>(IFocus.Mode.INPUT, stack);
-					runtime.getRecipesGui().show(focus);
+					runtime.getRecipesGui().show(runtime.getRecipeRegistry().createFocus(IFocus.Mode.INPUT, stack));
 					return true;
 				}
 			}

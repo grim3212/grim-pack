@@ -40,7 +40,7 @@ import mezz.jei.api.IJeiRuntime;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.IModRegistry;
 import mezz.jei.api.ISubtypeRegistry;
-import mezz.jei.api.ingredients.IModIngredientRegistration;
+import mezz.jei.api.ingredients.IIngredientRegistry;
 import mezz.jei.api.recipe.IRecipeCategoryRegistration;
 import mezz.jei.api.recipe.VanillaRecipeCategoryUid;
 import mezz.jei.api.recipe.transfer.IRecipeTransferRegistry;
@@ -49,8 +49,13 @@ import net.minecraft.item.ItemStack;
 @mezz.jei.api.JEIPlugin
 public class JEIGrimPack implements IModPlugin {
 
+	private static IJeiRuntime jeiRuntime;
+	private static IJeiHelpers jeiHelpers;
+	private static IIngredientRegistry ingredientRegistry;
+
 	@Override
 	public void register(@Nonnull IModRegistry registry) {
+		JEIGrimPack.ingredientRegistry = registry.getIngredientRegistry();
 		final IJeiHelpers jeiHelpers = registry.getJeiHelpers();
 		IRecipeTransferRegistry recipeTransferRegistry = registry.getRecipeTransferRegistry();
 
@@ -123,6 +128,7 @@ public class JEIGrimPack implements IModPlugin {
 
 	@Override
 	public void registerCategories(IRecipeCategoryRegistration registry) {
+		JEIGrimPack.jeiHelpers = registry.getJeiHelpers();
 		final IGuiHelper guiHelper = registry.getJeiHelpers().getGuiHelper();
 
 		if (CoreConfig.useDecor) {
@@ -157,9 +163,18 @@ public class JEIGrimPack implements IModPlugin {
 
 	@Override
 	public void onRuntimeAvailable(@Nonnull IJeiRuntime jeiRuntime) {
+		JEIGrimPack.jeiRuntime = jeiRuntime;
 	}
 
-	@Override
-	public void registerIngredients(IModIngredientRegistration registry) {
+	public static IJeiHelpers getJeiHelpers() {
+		return jeiHelpers;
+	}
+
+	public static IJeiRuntime getJeiRuntime() {
+		return jeiRuntime;
+	}
+
+	public static IIngredientRegistry getIngredientRegistry() {
+		return ingredientRegistry;
 	}
 }

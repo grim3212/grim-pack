@@ -9,9 +9,9 @@ import com.grim3212.mc.pack.industry.util.MachineRecipes.MachineType;
 
 import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.recipe.IRecipeWrapper;
-import mezz.jei.util.Translator;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemStack;
 
 public class MachineRecipeWrapper implements IRecipeWrapper {
@@ -36,7 +36,7 @@ public class MachineRecipeWrapper implements IRecipeWrapper {
 	public void drawInfo(Minecraft minecraft, int recipeWidth, int recipeHeight, int mouseX, int mouseY) {
 		float experience = MachineRecipes.INSTANCE.getSmeltingExperience(output, type);
 		if (experience > 0) {
-			String experienceString = Translator.translateToLocalFormatted("grimpack.jei.experience", experience);
+			String experienceString = I18n.format("grimpack.jei.experience", experience);
 			FontRenderer fontRenderer = minecraft.fontRenderer;
 			int stringWidth = fontRenderer.getStringWidth(experienceString);
 			if (type != MachineType.MODERN_FURNACE)

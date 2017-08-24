@@ -14,8 +14,8 @@ import mezz.jei.api.gui.IDrawableAnimated;
 import mezz.jei.api.gui.IDrawableStatic;
 import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.recipe.IRecipeWrapper;
-import mezz.jei.util.Translator;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemStack;
 
 public class MFurnaceFuelWrapper implements IRecipeWrapper {
@@ -32,15 +32,15 @@ public class MFurnaceFuelWrapper implements IRecipeWrapper {
 		this.inputs = Collections.singletonList(inputList);
 
 		if (burnTime == 200) {
-			this.smeltCountString = Translator.translateToLocal("gui.jei.category.fuel.smeltCount.single");
+			this.smeltCountString = I18n.format("gui.jei.category.fuel.smeltCount.single");
 		} else {
 			NumberFormat numberInstance = NumberFormat.getNumberInstance();
 			numberInstance.setMaximumFractionDigits(2);
 			String smeltCount = numberInstance.format(burnTime / COOK_TIME);
-			this.smeltCountString = Translator.translateToLocalFormatted("gui.jei.category.fuel.smeltCount", smeltCount);
+			this.smeltCountString = I18n.format("gui.jei.category.fuel.smeltCount", smeltCount);
 		}
 
-		this.burnTimeString = Translator.translateToLocalFormatted("gui.jei.category.fuel.burnTime", burnTime);
+		this.burnTimeString = I18n.format("gui.jei.category.fuel.burnTime", burnTime);
 
 		IDrawableStatic flameDrawable = guiHelper.createDrawable(MachineRecipeMaker.MACHINE_LOCATION, 103, 0, 14, 14);
 		this.flame = guiHelper.createAnimatedDrawable(flameDrawable, 100, IDrawableAnimated.StartDirection.TOP, true);

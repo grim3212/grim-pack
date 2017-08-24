@@ -1,9 +1,10 @@
 package com.grim3212.mc.pack.compat.jei.drawables;
 
-import mezz.jei.Internal;
+import com.grim3212.mc.pack.compat.jei.JEIGrimPack;
+
 import mezz.jei.api.gui.IDrawableStatic;
+import mezz.jei.api.ingredients.IIngredientRegistry;
 import mezz.jei.api.ingredients.IIngredientRenderer;
-import mezz.jei.ingredients.IngredientRegistry;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.GlStateManager;
@@ -71,7 +72,7 @@ public class DrawableBlockUnderlay implements IDrawableStatic {
 		int width = this.width - maskRight - maskLeft;
 		int height = this.height - maskBottom - maskTop;
 
-		IngredientRegistry ingredientRegistry = Internal.getIngredientRegistry();
+		IIngredientRegistry ingredientRegistry = JEIGrimPack.getIngredientRegistry();
 		IIngredientRenderer<ItemStack> ingredientRenderer = ingredientRegistry.getIngredientRenderer(stack);
 		GlStateManager.enableDepth();
 		ingredientRenderer.render(minecraft, x + offsetX, y + offsetY, stack);
