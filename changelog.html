@@ -1,12 +1,46 @@
-<h1>Current: 5.0.0.3</h1>
+<h1>Current: 5.1.1.22</h1>
 
 <h3>Requirements</h3>
 <ul>
-	<li>Minecraft 1.12</li>
-	<li>Minecraft Forge 14.21.1.2400+</li>
-	<li>(Optional) JEI 4.7.1.69+</li>
-	<li>(Optional) JER 0.8.1.14+</li>
+	<li>Minecraft 1.12 - 1.12.1</li>
+	<li>Minecraft Forge 14.22.0.2456+</li>
+	<li>(Optional) JEI 4.7.5.88+</li>
+	<li>(Optional) JER 0.8.3.23+</li>
 </ul>
+
+<h2>Configurable Update - 5.1.1.22</h2>
+This update comes with many options to customize GrimPack more effectively. You now the option to disable subparts, customize recipes, customize machine, grill, and chisel recipes.
+You can customize Tool and Armor materials. And much more.
+
+With these changes comes a few compatibility issues.
+<font color="red">
+<ul>
+	<li>Current config will not be transferred over as they are now in a subfolder 'grimpack' and are split up for each part.</li>
+	<li>If you start a previous world you will get a notification about missing items. As long as it is just GrimPack items it should be fine.</li>
+	<li>If you customized recipes with a ResourcePack you should make sure to add in support for disabling parts.</li>
+</ul>
+</font>
+
+<h3>Changes</h3>
+<ul>
+	<li>Add the ability to disable subparts from each part.</li>
+	<li>Fix disabling a whole part doing nothing.</li>
+	<li>Every recipe is now dependent on the subpart and part they are from.</li>
+	<li>Add JSON recipes for the Grill, Machines, and Chisels.</li>
+	<li>Each of these has their own custom JEI category.</li>
+	<li>There are now a few common items found in the Core part.</li>
+	<li>Only one JEI Plugin handling the whole pack.</li>
+	<li>Tweak Backpack and Pellet Bag recipe creation for JEI.</li>
+	<li>Tool and Armor materials are now fully configurable and can be found in the 'config/grimpack/materials' folder.</li>
+	<li>Modern furnace fuel now is configurable.</li>
+	<li>Item versions of blocks that didn't need them were removed.</li>
+	<li>Extruder is now in the proper creative tab.</li>
+	<li>Instruction manual now has a new page 'PageItemStack' which renders an item scaled on the page.</li>
+	<li>Grill recipes now include experience (A future feature)</li>
+	<li>Fix oredict tooltips in the manual sometimes not working.</li>
+	<li>Fix tooltips missing in GUI's.</li>
+</ul>
+
 <h3>Changes 5.0.0.3</h3>
 <ul>
 	<li>Update for 1.12.</li>
@@ -18,7 +52,7 @@
 	<li>Fix Ultimate Fist durability config option.</li>
 	<li>Fix Boomerang's not able to return to offhand and deleting current items in main inventory.</li>
 	<li>Lots of fixes to get it 1.12 ready.</li>
-	<li> Achievements have been removed for the time being and should come back later as advancements.</li>
+	<li>Achievements have been removed for the time being and should come back later as advancements.</li>
 </ul>
 
 <h3>Changes 4.0.1.17</h3>
