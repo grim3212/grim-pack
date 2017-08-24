@@ -20,7 +20,6 @@ import com.grim3212.mc.pack.world.util.WorldLootTables;
 import jeresources.api.IJERAPI;
 import jeresources.api.JERPlugin;
 import jeresources.api.conditionals.LightLevel;
-import net.minecraft.client.Minecraft;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 import net.minecraftforge.common.BiomeDictionary;
@@ -31,11 +30,11 @@ public class JERGrimPack {
 	@JERPlugin
 	public static IJERAPI jerAPI;
 
-	public static void register() {
+	public void register() {
 		if (CoreConfig.useWorld) {
 			GrimLog.debugInfo(GrimWorld.partName, "Registering JustEnoughResources compat");
 
-			World world = Minecraft.getMinecraft().world;
+			final World world = jerAPI.getWorld();
 
 			if (WorldConfig.subpartIcePixie) {
 				String[] snowyBiomes = new String[BiomeDictionary.getBiomes(Type.SNOWY).size()];
