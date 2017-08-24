@@ -656,5 +656,33 @@
       "ore": "workbench"
     },
     "name": "WORKBENCH"
+  },
+  {
+    "ingredient": {
+      "type": "forge:ore_dict",
+      "ore": "graphite"
+    },
+    "name": "GRAPHITE"
+  },
+  {
+    "ingredient": {
+      "type": "forge:ore_dict",
+      "ore": "stickGraphite"
+    },
+    "name": "STICKGRAPHITE"
+  },
+  {
+    "ingredient": {
+      "type": "forge:ore_dict",
+      "ore": "stickAluminum"
+    },
+    "name": "STICKALUMINUM"
+  },
+  {
+    "ingredient": {
+      "type": "forge:ore_dict",
+      "ore": "stickSteel"
+    },
+    "name": "STICKSTEEL"
   }
 ]

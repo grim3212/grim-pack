@@ -11,18 +11,7 @@
 		}
 	},
 	"variants": {
-		"shaft": {
-			"true": {
-				
-			},
-			"false": {
-				"model": "cube_all"
-			}
-		},
-		"inventory": [
-			{
-				
-			}
-		]
+		"shaft=true": [{ }],
+		"shaft=false": [{ "model": "cube_all" }]
 	}
 }

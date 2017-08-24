@@ -146,6 +146,8 @@ public class BlockGrave extends BlockManual implements ITileEntityProvider {
 
 	@Override
 	public IBlockState getStateFromMeta(int meta) {
+		meta = (meta + 2);
+
 		EnumFacing enumfacing = EnumFacing.getFront(meta);
 
 		if (enumfacing.getAxis() == EnumFacing.Axis.Y) {
@@ -157,7 +159,7 @@ public class BlockGrave extends BlockManual implements ITileEntityProvider {
 
 	@Override
 	public int getMetaFromState(IBlockState state) {
-		return state.getValue(FACING).getIndex();
+		return (state.getValue(FACING).getIndex() - 2);
 	}
 
 	@Override

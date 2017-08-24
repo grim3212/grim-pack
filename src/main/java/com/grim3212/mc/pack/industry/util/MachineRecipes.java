@@ -1,10 +1,13 @@
 package com.grim3212.mc.pack.industry.util;
 
+import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang3.tuple.Pair;
 
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
@@ -15,6 +18,7 @@ import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.JsonUtils;
 import net.minecraft.util.NonNullList;
+import net.minecraftforge.oredict.OreDictionary;
 
 public class MachineRecipes {
 
@@ -22,6 +26,8 @@ public class MachineRecipes {
 	private Map<Ingredient, Pair<ItemStack, Float>> modernFurnaceRecipes = Maps.newHashMap();
 	private Map<Ingredient, Pair<ItemStack, Float>> derrickRecipes = Maps.newHashMap();
 	private Map<Ingredient, Pair<ItemStack, Float>> refineryRecipes = Maps.newHashMap();
+
+	private List<Pair<ItemStack, Integer>> modernFurnaceFuel = Lists.newArrayList();
 
 	public NonNullList<ItemStack> getInputs(MachineType type) {
 		Map<Ingredient, Pair<ItemStack, Float>> recipes = this.getRecipeList(type);
@@ -57,6 +63,35 @@ public class MachineRecipes {
 		this.getRecipeList(type).put(input, Pair.of(output, experience));
 	}
 
+	public ItemStack getResult(Object in, MachineType type) {
+		if (in instanceof String) {
+			return getResult((String) in, type);
+		} else if (in instanceof ItemStack) {
+			return getResult((ItemStack) in, type);
+		}
+		return ItemStack.EMPTY;
+	}
+
+	public ItemStack getResult(String oreDict, MachineType type) {
+		Map<Ingredient, Pair<ItemStack, Float>> recipes = this.getRecipeList(type);
+
+		NonNullList<Ingredient> required = NonNullList.create();
+		required.addAll(recipes.keySet());
+		Iterator<Ingredient> req = required.iterator();
+
+		while (req.hasNext()) {
+			Ingredient in = req.next();
+
+			for (ItemStack stack : OreDictionary.getOres(oreDict)) {
+				if (in.apply(stack)) {
+					return recipes.get(in).getLeft().copy();
+				}
+			}
+		}
+
+		return ItemStack.EMPTY;
+	}
+
 	public ItemStack getResult(ItemStack stack, MachineType type) {
 		Map<Ingredient, Pair<ItemStack, Float>> recipes = this.getRecipeList(type);
 
@@ -75,44 +110,51 @@ public class MachineRecipes {
 		return ItemStack.EMPTY;
 	}
 
-	public float getSmeltingExperience(ItemStack stack, MachineType type) {
-		float ret = stack.getItem().getSmeltingExperience(stack);
-		if (ret != -1)
-			return ret;
-
+	public float getSmeltingExperience(ItemStack output, MachineType type) {
 		if (type == MachineType.MODERN_FURNACE) {
-			NonNullList<Ingredient> required = NonNullList.create();
-			required.addAll(this.getRecipeList(type).keySet());
-			Iterator<Ingredient> req = required.iterator();
+			float ret = output.getItem().getSmeltingExperience(output);
 
-			while (req.hasNext()) {
-				Ingredient in = req.next();
+			Collection<Pair<ItemStack, Float>> values = this.getRecipeList(type).values();
+			Iterator<Pair<ItemStack, Float>> itr = values.iterator();
 
-				if (in.apply(stack)) {
-					ret = this.getRecipeList(type).get(in).getRight();
-					break;
+			while (itr.hasNext()) {
+				Pair<ItemStack, Float> outputs = itr.next();
+
+				if (!outputs.getLeft().isEmpty()) {
+					if (outputs.getLeft().isItemEqual(output)) {
+						ret = outputs.getRight();
+					}
 				}
 			}
 
 			if (ret != -1)
 				return ret;
 			else
-				return FurnaceRecipes.instance().getSmeltingExperience(stack);
+				return FurnaceRecipes.instance().getSmeltingExperience(output);
 		} else {
-			NonNullList<Ingredient> required = NonNullList.create();
-			required.addAll(this.getRecipeList(type).keySet());
-			Iterator<Ingredient> req = required.iterator();
+			Collection<Pair<ItemStack, Float>> values = this.getRecipeList(type).values();
+			Iterator<Pair<ItemStack, Float>> itr = values.iterator();
 
-			while (req.hasNext()) {
-				Ingredient in = req.next();
+			while (itr.hasNext()) {
+				Pair<ItemStack, Float> outputs = itr.next();
 
-				if (in.apply(stack)) {
-					return this.getRecipeList(type).get(in).getRight();
+				if (!outputs.getLeft().isEmpty()) {
+					if (outputs.getLeft().isItemEqual(output)) {
+						return outputs.getRight();
+					}
 				}
 			}
 		}
 
 		return 0.0F;
+	}
+
+	public void addModernFurnaceFuel(ItemStack stack, int burnTime) {
+		modernFurnaceFuel.add(Pair.of(stack, burnTime));
+	}
+
+	public List<Pair<ItemStack, Integer>> getModernFurnaceFuel() {
+		return modernFurnaceFuel;
 	}
 
 	public Map<Ingredient, Pair<ItemStack, Float>> getModernFurnaceList() {

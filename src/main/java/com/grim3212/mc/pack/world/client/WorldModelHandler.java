@@ -22,7 +22,7 @@ public class WorldModelHandler {
 	public void registerModels(ModelRegistryEvent evt) {
 		if (WorldConfig.subpartGunpowderReeds) {
 			ModelLoader.setCustomStateMapper(WorldBlocks.gunpowder_reed_block, new StateMap.Builder().ignore(BlockGunpowderReed.AGE).build());
-			RenderHelper.renderBlock(WorldBlocks.gunpowder_reed_block);
+			RenderHelper.renderBlockNormal(WorldBlocks.gunpowder_reed_block);
 			RenderHelper.renderItem(WorldItems.gunpowder_reed_item);
 
 		}

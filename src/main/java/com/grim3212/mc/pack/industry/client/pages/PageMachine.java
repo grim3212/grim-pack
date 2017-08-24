@@ -19,6 +19,7 @@ import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.oredict.OreDictionary;
 
 public class PageMachine extends Page {
 
@@ -29,9 +30,15 @@ public class PageMachine extends Page {
 	private int recipeShown = 0;
 	private int update = 0;
 	private int updateTime = 1;
-	private NonNullList<ItemStack> inputs = NonNullList.create();
+	private NonNullList<Object> inputs = NonNullList.create();
 	private boolean isArray = false;
 	private MachineType type;
+
+	public PageMachine(String pageName, String input, MachineType type) {
+		super(pageName, false);
+		this.inputs.add(input);
+		this.type = type;
+	}
 
 	public PageMachine(String pageName, ItemStack input, MachineType type) {
 		super(pageName, false);
@@ -75,7 +82,16 @@ public class PageMachine extends Page {
 
 		tooltipItem = ItemStack.EMPTY;
 
-		this.renderItem(gui, inputs.get(recipeShown), gui.getX() + 49, gui.getY() + 145);
+		Object o = inputs.get(recipeShown);
+
+		if (o instanceof String) {
+			NonNullList<ItemStack> ores = OreDictionary.getOres((String) inputs.get(recipeShown));
+
+			if (!ores.isEmpty())
+				this.renderItem(gui, ores.get(0), gui.getX() + 49, gui.getY() + 145);
+		} else if (o instanceof ItemStack) {
+			this.renderItem(gui, (ItemStack) inputs.get(recipeShown), gui.getX() + 49, gui.getY() + 145);
+		}
 
 		ItemStack output = MachineRecipes.INSTANCE.getResult(inputs.get(recipeShown), this.type);
 		this.renderItem(gui, output, gui.getX() + 122, gui.getY() + 143);

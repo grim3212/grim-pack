@@ -54,8 +54,8 @@ public class CuisineModelHandler {
 			RenderHelper.renderItem(CuisineItems.chocolate_bar_wrapped);
 			RenderHelper.renderItem(CuisineItems.chocolate_ball);
 			RenderHelper.renderItem(CuisineItems.wrapper);
-			RenderHelper.renderBlock(CuisineBlocks.cocoa_block);
-			RenderHelper.renderBlock(CuisineBlocks.cocoa_tree_sapling);
+			RenderHelper.renderBlockNormal(CuisineBlocks.cocoa_block);
+			RenderHelper.renderVariantForge(CuisineBlocks.cocoa_tree_sapling, "stage=0", "stage=1");
 			RenderHelper.renderBlock(CuisineBlocks.chocolate_bar_mould);
 			RenderHelper.renderBlock(CuisineBlocks.chocolate_cake);
 			RenderHelper.renderBlock(CuisineBlocks.chocolate_block);

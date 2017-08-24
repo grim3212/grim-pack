@@ -2,10 +2,10 @@ package com.grim3212.mc.pack.world.blocks;
 
 import java.util.Random;
 
+import com.grim3212.mc.pack.core.common.CommonItems;
+import com.grim3212.mc.pack.core.config.CoreConfig;
 import com.grim3212.mc.pack.core.manual.IManualEntry.IManualBlock;
 import com.grim3212.mc.pack.core.manual.pages.Page;
-import com.grim3212.mc.pack.industry.block.IndustryBlocks;
-import com.grim3212.mc.pack.industry.config.IndustryConfig;
 import com.grim3212.mc.pack.world.client.ManualWorld;
 import com.grim3212.mc.pack.world.config.WorldConfig;
 
@@ -68,9 +68,9 @@ public class BlockFungusOre extends BlockFungusBase implements IManualBlock {
 		if (number <= 30) {
 			return Blocks.COAL_ORE;
 		}
-		if (IndustryConfig.subpartCommon)
+		if (CoreConfig.subpartAluminum)
 			if (number <= 40) {
-				return IndustryBlocks.aluminum_ore;
+				return CommonItems.aluminum_ore;
 			}
 		if (number <= 50) {
 			return Blocks.IRON_ORE;

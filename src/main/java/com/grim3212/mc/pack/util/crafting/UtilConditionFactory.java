@@ -3,6 +3,7 @@ package com.grim3212.mc.pack.util.crafting;
 import java.util.function.BooleanSupplier;
 
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParseException;
 import com.grim3212.mc.pack.util.config.UtilConfig;
 
 import net.minecraft.util.JsonUtils;
@@ -33,7 +34,7 @@ public class UtilConditionFactory implements IConditionFactory {
 		case "time":
 			return () -> UtilConfig.subpartTime;
 		default:
-			return () -> false;
+			throw new JsonParseException("Part '" + value + "' is either misspelled or doesn't exist!");
 		}
 	}
 }

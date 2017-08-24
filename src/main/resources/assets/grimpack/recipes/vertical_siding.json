@@ -13,8 +13,8 @@
       "subpart": "rways"
     },
     {
-      "type": "minecraft:item_exists",
-      "item": "ingotAluminum"
+      "type": "grimpack:ore_dict",
+      "oreName": "ingotAluminum"
     }
   ],
   "result": {

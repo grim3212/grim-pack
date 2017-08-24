@@ -60,9 +60,6 @@ public class WorldBlocks {
 		if (WorldConfig.subpartGlowstoneSeeds)
 			r.register(new ItemManualBlock(glowstone_seeds).setRegistryName(glowstone_seeds.getRegistryName()));
 
-		if (WorldConfig.subpartGunpowderReeds)
-			r.register(new ItemManualBlock(gunpowder_reed_block).setRegistryName(gunpowder_reed_block.getRegistryName()));
-
 		if (WorldConfig.subpartRandomite)
 			r.register(new ItemManualBlock(randomite).setRegistryName(randomite.getRegistryName()));
 

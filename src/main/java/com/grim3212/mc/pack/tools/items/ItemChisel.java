@@ -16,11 +16,11 @@ import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Enchantments;
 import net.minecraft.init.Items;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -59,32 +59,30 @@ public class ItemChisel extends ItemManual {
 			int k1 = 0;
 			if (!worldIn.isRemote && !worldIn.restoringBlockSnapshots) {
 				if (k1 >= 0) {
-					ItemStack item = ChiselRegistry.chiselItem.get(bPos);
+					NonNullList<ItemStack> items = ChiselRegistry.chiselItem.get(bPos);
 					int enchantLevel = EnchantmentHelper.getEnchantmentLevel(Enchantments.FORTUNE, playerIn.getHeldItem(hand));
 
-					if (item == ItemStack.EMPTY) {
-						// Default drops
-						Item itemDropped = state.getBlock().getItemDropped(state, worldIn.rand, enchantLevel);
-						int amount = state.getBlock().quantityDropped(state, enchantLevel, worldIn.rand);
-						int meta = state.getBlock().damageDropped(state);
-
-						item = new ItemStack(itemDropped, amount, meta);
+					if (items.isEmpty()) {
+						NonNullList<ItemStack> drops = NonNullList.create();
+						state.getBlock().getDrops(drops, worldIn, pos, state, enchantLevel);
+						items = drops;
 					} else {
 						int count = ChiselRegistry.chiselBlocks.get(bPos).getLeft().quantityDroppedWithBonus(enchantLevel, worldIn.rand);
 
-						// Make sure we aren't changing the original
-						item = item.copy();
-
 						if (enchantLevel > 0) {
-							item.setCount(count);
+							for (ItemStack stack : items) {
+								stack.setCount(count);
+							}
 						}
 					}
 
-					EntityItem entItem = new EntityItem(worldIn, (double) pos.getX() + f1, (double) pos.getY() + f2, (double) pos.getZ() + f3, item);
-					worldIn.spawnEntity(entItem);
+					for (ItemStack stack : items) {
+						EntityItem entItem = new EntityItem(worldIn, (double) pos.getX() + f1, (double) pos.getY() + f2, (double) pos.getZ() + f3, stack);
+						worldIn.spawnEntity(entItem);
 
-					if (!(playerIn instanceof FakePlayer)) {
-						entItem.onCollideWithPlayer(playerIn);
+						if (!(playerIn instanceof FakePlayer)) {
+							entItem.onCollideWithPlayer(playerIn);
+						}
 					}
 
 					if (j1 >= 94) {

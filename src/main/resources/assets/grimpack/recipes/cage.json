@@ -7,6 +7,10 @@
     {
       "type": "grimpack:decor_subpart_enabled",
       "subpart": "cages"
+    },
+    {
+      "type": "grimpack:ore_dict",
+      "oreName": "stickIron"
     }
   ],
   "result": {

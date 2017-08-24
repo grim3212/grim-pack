@@ -1,5 +1,6 @@
 package com.grim3212.mc.pack.tools.crafting;
 
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
 import com.grim3212.mc.pack.core.util.RecipeHelper;
@@ -11,6 +12,7 @@ import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.util.JsonUtils;
+import net.minecraft.util.NonNullList;
 import net.minecraft.world.World;
 import net.minecraftforge.common.crafting.CraftingHelper;
 import net.minecraftforge.common.crafting.IRecipeFactory;
@@ -30,37 +32,51 @@ public class ChiselRecipeFactory implements IRecipeFactory {
 			if (!RecipeHelper.isBlock(outBlock))
 				throw new JsonSyntaxException("'outBlock' must be a block");
 
-			if (JsonUtils.getBoolean(JsonUtils.getJsonObject(json, "outItem"), "defaultDrops", false)) {
-				return new ChiselRecipe(inBlock, outBlock, ItemStack.EMPTY);
+			JsonObject outObject = JsonUtils.getJsonObject(json, "outItems");
+
+			if (JsonUtils.getBoolean(outObject, "defaultDrops", false)) {
+				return new ChiselRecipe(inBlock, outBlock, NonNullList.create());
 			} else {
-				ItemStack outItem = CraftingHelper.getItemStack(JsonUtils.getJsonObject(json, "outItem"), context);
-				return new ChiselRecipe(inBlock, outBlock, outItem);
+				NonNullList<ItemStack> outItems = NonNullList.create();
+				for (JsonElement ele : JsonUtils.getJsonArray(outObject, "items")) {
+					if (ele.isJsonObject())
+						outItems.add(CraftingHelper.getItemStack((JsonObject) ele, context));
+				}
+
+				return new ChiselRecipe(inBlock, outBlock, outItems);
 			}
 		} catch (JsonSyntaxException e) {
 			BlockStack block = RecipeHelper.getBlockStack(JsonUtils.getJsonObject(json, "inBlock"), context);
 			BlockStack rBlock = RecipeHelper.getBlockStack(JsonUtils.getJsonObject(json, "outBlock"), context);
 
-			if (JsonUtils.getBoolean(JsonUtils.getJsonObject(json, "outItem"), "defaultDrops", false)) {
-				return new ChiselRecipe(block, rBlock, ItemStack.EMPTY);
+			JsonObject outObject = JsonUtils.getJsonObject(json, "outItems");
+
+			if (JsonUtils.getBoolean(outObject, "defaultDrops", false)) {
+				return new ChiselRecipe(block, rBlock, NonNullList.create());
 			} else {
-				ItemStack outItem = CraftingHelper.getItemStack(JsonUtils.getJsonObject(json, "outItem"), context);
-				return new ChiselRecipe(block, rBlock, outItem);
+				NonNullList<ItemStack> outItems = NonNullList.create();
+				for (JsonElement ele : JsonUtils.getJsonArray(outObject, "items")) {
+					if (ele.isJsonObject())
+						outItems.add(CraftingHelper.getItemStack((JsonObject) ele, context));
+				}
+
+				return new ChiselRecipe(block, rBlock, outItems);
 			}
 		}
 	}
 
 	private class ChiselRecipe extends IForgeRegistryEntry.Impl<IRecipe> implements IRecipe {
 
-		public ChiselRecipe(ItemStack inBlock, ItemStack outBlock, ItemStack outItem) {
-			ChiselRegistry.registerBlock(inBlock, outBlock, outItem);
+		public ChiselRecipe(ItemStack inBlock, ItemStack outBlock, NonNullList<ItemStack> outItems) {
+			ChiselRegistry.registerBlock(inBlock, outBlock, outItems);
 		}
 
-		public ChiselRecipe(BlockStack inBlock, BlockStack outBlock, ItemStack outItem) {
-			this(inBlock.getBlock(), inBlock.getMeta(), outBlock.getBlock(), outBlock.getMeta(), outItem);
+		public ChiselRecipe(BlockStack inBlock, BlockStack outBlock, NonNullList<ItemStack> outItems) {
+			this(inBlock.getBlock(), inBlock.getMeta(), outBlock.getBlock(), outBlock.getMeta(), outItems);
 		}
 
-		public ChiselRecipe(Block inBlock, int bMeta, Block outBlock, int oMeta, ItemStack outItem) {
-			ChiselRegistry.registerBlock(inBlock, bMeta, outBlock, oMeta, outItem);
+		public ChiselRecipe(Block inBlock, int bMeta, Block outBlock, int oMeta, NonNullList<ItemStack> outItems) {
+			ChiselRegistry.registerBlock(inBlock, bMeta, outBlock, oMeta, outItems);
 		}
 
 		@Override

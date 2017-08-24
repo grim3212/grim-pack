@@ -5,8 +5,8 @@
       "part": "industry"
     },
     {
-      "type": "grimpack:industry_subpart_enabled",
-      "subpart": "steel"
+      "type": "grimpack:core_subpart_enabled",
+      "subpart": "coal"
     }
   ],
   "result": {

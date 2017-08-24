@@ -1,10 +1,10 @@
 package com.grim3212.mc.pack.decor.block.colorizer;
 
-import java.util.Random;
+import java.util.List;
 
-import javax.annotation.Nullable;
-
+import com.google.common.collect.Lists;
 import com.grim3212.mc.pack.core.manual.pages.Page;
+import com.grim3212.mc.pack.core.util.NBTHelper;
 import com.grim3212.mc.pack.decor.client.ManualDecor;
 import com.grim3212.mc.pack.decor.config.DecorConfig;
 import com.grim3212.mc.pack.decor.item.DecorItems;
@@ -24,7 +24,6 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockRenderLayer;
@@ -54,7 +53,6 @@ public class BlockColorizerDoor extends BlockColorizer {
 
 	public BlockColorizerDoor() {
 		super("decor_door");
-		this.setCreativeTab(null);
 	}
 
 	@Override
@@ -219,45 +217,21 @@ public class BlockColorizerDoor extends BlockColorizer {
 			BlockPos blockpos = pos.down();
 			IBlockState iblockstate = worldIn.getBlockState(blockpos);
 
-			if (iblockstate.getBlock() != this) {
-				worldIn.setBlockToAir(pos);
-			} else if (blockIn != this) {
+			if (blockIn != this) {
 				iblockstate.neighborChanged(worldIn, blockpos, blockIn, fromPos);
 			}
 		} else {
-			boolean flag1 = false;
 			BlockPos blockpos1 = pos.up();
 			IBlockState iblockstate1 = worldIn.getBlockState(blockpos1);
+			boolean flag = worldIn.isBlockPowered(pos) || worldIn.isBlockPowered(blockpos1);
 
-			if (iblockstate1.getBlock() != this) {
-				worldIn.setBlockToAir(pos);
-				flag1 = true;
-			}
+			if (blockIn != this && (flag || blockIn.getDefaultState().canProvidePower()) && flag != iblockstate1.getValue(BlockDoor.POWERED)) {
+				worldIn.setBlockState(blockpos1, iblockstate1.withProperty(BlockDoor.POWERED, flag), 2);
 
-			if (!worldIn.getBlockState(pos.down()).isSideSolid(worldIn, pos.down(), EnumFacing.UP)) {
-				worldIn.setBlockToAir(pos);
-				flag1 = true;
-
-				if (iblockstate1.getBlock() == this) {
-					worldIn.setBlockToAir(blockpos1);
-				}
-			}
-
-			if (flag1) {
-				if (!worldIn.isRemote) {
-					this.dropBlockAsItem(worldIn, pos, state, 0);
-				}
-			} else {
-				boolean flag = worldIn.isBlockPowered(pos) || worldIn.isBlockPowered(blockpos1);
-
-				if (blockIn != this && (flag || blockIn.getDefaultState().canProvidePower()) && flag != iblockstate1.getValue(BlockDoor.POWERED)) {
-					worldIn.setBlockState(blockpos1, iblockstate1.withProperty(BlockDoor.POWERED, flag), 2);
-
-					if (flag != state.getValue(BlockDoor.OPEN)) {
-						worldIn.setBlockState(pos, state.withProperty(BlockDoor.OPEN, flag), 2);
-						worldIn.markBlockRangeForRenderUpdate(pos, pos);
-						worldIn.playEvent((EntityPlayer) null, flag ? this.getOpenSound() : this.getCloseSound(), pos, 0);
-					}
+				if (flag != state.getValue(BlockDoor.OPEN)) {
+					worldIn.setBlockState(pos, state.withProperty(BlockDoor.OPEN, flag), 2);
+					worldIn.markBlockRangeForRenderUpdate(pos, pos);
+					worldIn.playEvent((EntityPlayer) null, flag ? this.getOpenSound() : this.getCloseSound(), pos, 0);
 				}
 			}
 		}
@@ -352,17 +326,6 @@ public class BlockColorizerDoor extends BlockColorizer {
 	}
 
 	@Override
-	public ItemStack getItem(World worldIn, BlockPos pos, IBlockState state) {
-		return new ItemStack(DecorItems.decor_door_item);
-	}
-
-	@Override
-	@Nullable
-	public Item getItemDropped(IBlockState state, Random rand, int fortune) {
-		return state.getValue(BlockDoor.HALF) == BlockDoor.EnumDoorHalf.UPPER ? null : DecorItems.decor_door_item;
-	}
-
-	@Override
 	public boolean clearColorizer(World worldIn, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand) {
 		TileEntity te = worldIn.getTileEntity(pos);
 		if (te instanceof TileEntityColorizer) {
@@ -416,20 +379,19 @@ public class BlockColorizerDoor extends BlockColorizer {
 	}
 
 	@Override
-	public void onBlockHarvested(World worldIn, BlockPos pos, IBlockState state, EntityPlayer player) {
-		BlockPos blockpos = pos.down();
-		BlockPos blockpos1 = pos.up();
+	public List<ItemStack> getDrops(IBlockAccess world, BlockPos pos, IBlockState state, int fortune) {
+		ItemStack item = new ItemStack(this);
+		NBTHelper.setString(item, "registryName", Block.REGISTRY.getNameForObject(Blocks.AIR).toString());
+		NBTHelper.setInteger(item, "meta", 0);
+		return Lists.newArrayList(item);
+	}
 
-		if (player.capabilities.isCreativeMode && state.getValue(BlockDoor.HALF) == BlockDoor.EnumDoorHalf.UPPER && worldIn.getBlockState(blockpos).getBlock() == this) {
-			worldIn.setBlockToAir(blockpos);
-		}
-
-		if (state.getValue(BlockDoor.HALF) == BlockDoor.EnumDoorHalf.LOWER && worldIn.getBlockState(blockpos1).getBlock() == this) {
-			if (player.capabilities.isCreativeMode) {
-				worldIn.setBlockToAir(pos);
-			}
-
-			worldIn.setBlockToAir(blockpos1);
+	@Override
+	public void onBlockDestroyedByPlayer(World worldIn, BlockPos pos, IBlockState state) {
+		if (state.getValue(BlockDoor.HALF) == BlockDoor.EnumDoorHalf.LOWER) {
+			worldIn.setBlockToAir(pos.up());
+		} else if (state.getValue(BlockDoor.HALF) == BlockDoor.EnumDoorHalf.UPPER) {
+			worldIn.setBlockToAir(pos.down());
 		}
 	}
 }

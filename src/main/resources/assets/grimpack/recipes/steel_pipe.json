@@ -7,6 +7,10 @@
     {
       "type": "grimpack:industry_subpart_enabled",
       "subpart": "steel"
+    },
+    {
+      "type": "grimpack:ore_dict",
+      "oreName": "ingotSteel"
     }
   ],
   "result": {

@@ -1,5 +1,7 @@
 package com.grim3212.mc.pack;
 
+import java.io.File;
+
 import com.grim3212.mc.pack.core.GrimCore;
 import com.grim3212.mc.pack.core.client.gui.PackGuiHandler;
 import com.grim3212.mc.pack.core.config.CoreConfig;
@@ -29,10 +31,13 @@ public class GrimPack {
 	public static final String modID = "grimpack";
 	public static final String modName = "Grim Pack";
 
+	public static File configDir;
+
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
 		// Setup log
 		GrimLog.log = event.getModLog();
+		configDir = event.getModConfigurationDirectory();
 
 		PartRegistry.registerPart(GrimCore.INSTANCE);
 		if (CoreConfig.useCuisine)

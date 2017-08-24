@@ -21,7 +21,7 @@
     "item": "minecraft:stone",
     "data": 0
   },
-  "outItem": {
+  "outItems": {
     "defaultDrops": true
   }
 }

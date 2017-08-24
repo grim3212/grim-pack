@@ -33,7 +33,7 @@ public class MachineRecipeFactory implements IRecipeFactory {
 			super(in, out, exp);
 			MachineRecipes.INSTANCE.addRecipe(input, out, exp, type);
 
-			GrimLog.debugInfo(GrimIndustry.partName, "Registered '" + type.getName() + "' recipe " + input.getMatchingStacks()[0].toString() + " -> " + output + ": " + experience);
+			GrimLog.debugInfo(GrimIndustry.partName, "Registered '" + type.getName() + "' recipe " + input.getMatchingStacks()[0].toString() + " -> " + output + " : " + experience);
 
 		}
 

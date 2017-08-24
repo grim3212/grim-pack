@@ -111,6 +111,7 @@ public class Page {
 		GlStateManager.enableBlend();
 		GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 		RenderHelper.enableGUIStandardItemLighting();
+		
 		GlStateManager.scale(1F, 1F, 0.75F);
 
 		GlStateManager.enableRescaleNormal();

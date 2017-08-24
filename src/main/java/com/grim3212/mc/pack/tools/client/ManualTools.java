@@ -9,7 +9,6 @@ import com.grim3212.mc.pack.core.manual.pages.PageFurnace;
 import com.grim3212.mc.pack.core.manual.pages.PageImageText;
 import com.grim3212.mc.pack.core.manual.pages.PageInfo;
 import com.grim3212.mc.pack.core.util.RecipeHelper;
-import com.grim3212.mc.pack.industry.item.IndustryItems;
 import com.grim3212.mc.pack.tools.blocks.ToolsBlocks;
 import com.grim3212.mc.pack.tools.config.ToolsConfig;
 import com.grim3212.mc.pack.tools.init.ToolsRecipes;
@@ -38,7 +37,6 @@ public class ManualTools implements IManualPart {
 	public static Page grip_page;
 	public static Page spring_page;
 	public static Page button_page;
-	public static Page rod_page;
 	public static Page ballistic_page;
 	public static Page ballisticKnife_page;
 	public static Page throwingKnife_page;
@@ -109,7 +107,6 @@ public class ManualTools implements IManualPart {
 			grip_page = new PageCrafting("grip", new ItemStack(ToolsItems.grip));
 			spring_page = new PageCrafting("part2", new ItemStack(ToolsItems.spring_part));
 			button_page = new PageCrafting("part3", new ItemStack(ToolsItems.button_part));
-			rod_page = new PageCrafting("part4", new ItemStack(IndustryItems.iron_stick));
 			ballistic_page = new PageCrafting("ballistic", new ItemStack(ToolsItems.unloaded_knife));
 			ballisticKnife_page = new PageCrafting("knives", new ItemStack(ToolsItems.ammo_part));
 			throwingKnife_page = new PageCrafting("knife", new ItemStack(ToolsItems.throwing_knife));
@@ -195,7 +192,7 @@ public class ManualTools implements IManualPart {
 			ManualRegistry.addChapter("buckets", part).addPages(woodBucket_page, stoneBucket_page, goldBucket_page, diamondBucket_page, obsidianBucket_page, milkBucket_page);
 
 		if (ToolsConfig.subpartKnives) {
-			ManualRegistry.addChapter("ballistic", part).addPages(grip_page, spring_page, button_page, rod_page, ballistic_page, ballisticKnife_page);
+			ManualRegistry.addChapter("ballistic", part).addPages(grip_page, spring_page, button_page, ballistic_page, ballisticKnife_page);
 			ManualRegistry.addChapter("knives", part).addPages(throwingKnife_page, tomahawk_page);
 		}
 

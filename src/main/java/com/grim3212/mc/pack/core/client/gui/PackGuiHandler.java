@@ -12,6 +12,7 @@ import com.grim3212.mc.pack.decor.tile.TileEntityCage;
 import com.grim3212.mc.pack.decor.tile.TileEntityGrill;
 import com.grim3212.mc.pack.industry.client.gui.GuiCraftingDiamond;
 import com.grim3212.mc.pack.industry.client.gui.GuiCraftingIron;
+import com.grim3212.mc.pack.industry.client.gui.GuiDerrick;
 import com.grim3212.mc.pack.industry.client.gui.GuiDiamondPortable;
 import com.grim3212.mc.pack.industry.client.gui.GuiExtruder;
 import com.grim3212.mc.pack.industry.client.gui.GuiFan;
@@ -21,9 +22,10 @@ import com.grim3212.mc.pack.industry.client.gui.GuiItemTower;
 import com.grim3212.mc.pack.industry.client.gui.GuiLocker;
 import com.grim3212.mc.pack.industry.client.gui.GuiLocksmithWorkbench;
 import com.grim3212.mc.pack.industry.client.gui.GuiMFurnace;
-import com.grim3212.mc.pack.industry.client.gui.GuiMachine;
+import com.grim3212.mc.pack.industry.client.gui.GuiRefinery;
 import com.grim3212.mc.pack.industry.client.gui.GuiSpecificSensor;
 import com.grim3212.mc.pack.industry.entity.EntityExtruder;
+import com.grim3212.mc.pack.industry.inventory.ContainerDerrick;
 import com.grim3212.mc.pack.industry.inventory.ContainerDiamondWorkbench;
 import com.grim3212.mc.pack.industry.inventory.ContainerExtruder;
 import com.grim3212.mc.pack.industry.inventory.ContainerGoldSafe;
@@ -32,7 +34,7 @@ import com.grim3212.mc.pack.industry.inventory.ContainerItemTower;
 import com.grim3212.mc.pack.industry.inventory.ContainerLocker;
 import com.grim3212.mc.pack.industry.inventory.ContainerLocksmithWorkbench;
 import com.grim3212.mc.pack.industry.inventory.ContainerMFurnace;
-import com.grim3212.mc.pack.industry.inventory.ContainerMachine;
+import com.grim3212.mc.pack.industry.inventory.ContainerRefinery;
 import com.grim3212.mc.pack.industry.inventory.ContainerSpecificSensor;
 import com.grim3212.mc.pack.industry.inventory.InventoryDualLocker;
 import com.grim3212.mc.pack.industry.inventory.InventoryItemTower;
@@ -109,8 +111,10 @@ public class PackGuiHandler implements IGuiHandler {
 			return new ContainerDiamondWorkbench(player, world, pos, false);
 		} else if (ID == MODERN_FURNACE_GUI_ID) {
 			return new ContainerMFurnace(player.inventory, (TileEntityMFurnace) tileentity);
-		} else if (ID == DERRICK_GUI_ID || ID == REFINERY_GUI_ID) {
-			return new ContainerMachine(player.inventory, (TileEntityMachine) tileentity);
+		} else if (ID == DERRICK_GUI_ID) {
+			return new ContainerDerrick(player.inventory, (TileEntityMachine) tileentity);
+		} else if (ID == REFINERY_GUI_ID) {
+			return new ContainerRefinery(player.inventory, (TileEntityMachine) tileentity);
 		} else if (ID == BACKPACK_MAIN_GUI_ID) {
 			BackpackInventory backpackInventory = new BackpackInventory(player.getHeldItemMainhand());
 			return new ContainerBackpack(backpackInventory, player.inventory);
@@ -165,8 +169,10 @@ public class PackGuiHandler implements IGuiHandler {
 			return new GuiCraftingDiamond(player, world, pos);
 		} else if (ID == MODERN_FURNACE_GUI_ID) {
 			return new GuiMFurnace(player.inventory, (TileEntityMFurnace) tileentity);
-		} else if (ID == DERRICK_GUI_ID || ID == REFINERY_GUI_ID) {
-			return new GuiMachine(player.inventory, (TileEntityMachine) tileentity);
+		} else if (ID == DERRICK_GUI_ID) {
+			return new GuiDerrick(player.inventory, (TileEntityMachine) tileentity);
+		} else if (ID == REFINERY_GUI_ID) {
+			return new GuiRefinery(player.inventory, (TileEntityMachine) tileentity);
 		} else if ((ID == GRILL_GUI_ID) && ((tileentity instanceof TileEntityGrill))) {
 			return new GuiGrill(player.inventory, (TileEntityGrill) tileentity);
 		} else if (ID == BACKPACK_MAIN_GUI_ID) {

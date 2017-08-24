@@ -11,6 +11,10 @@
     {
       "type": "grimpack:ore_dict",
       "oreName": "ingotSteel"
+    },
+    {
+      "type": "grimpack:ore_dict",
+      "oreName": "can"
     }
   ],
   "result": {
@@ -24,7 +28,7 @@
   "type": "forge:ore_shaped",
   "key": {
     "a": {
-      "item": "grimpack:aluminum_can"
+      "item": "#CAN"
     },
     "r": {
       "item": "#DUSTREDSTONE"

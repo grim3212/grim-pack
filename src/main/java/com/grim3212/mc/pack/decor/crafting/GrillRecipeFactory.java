@@ -1,5 +1,6 @@
 package com.grim3212.mc.pack.decor.crafting;
 
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
 
@@ -24,8 +25,6 @@ public class GrillRecipeFactory implements IRecipeFactory {
 
 	public static Map<Ingredient, Pair<ItemStack, Float>> grillRecipes = Maps.newHashMap();
 
-	// TODO: Create JEI recipe page
-
 	@Override
 	public IRecipe parse(JsonContext context, JsonObject json) {
 		Ingredient in = CraftingHelper.getIngredient(JsonUtils.getJsonObject(json, "input"), context);
@@ -41,7 +40,7 @@ public class GrillRecipeFactory implements IRecipeFactory {
 			super(input, output, experience);
 			grillRecipes.put(input, Pair.of(output, experience));
 
-			GrimLog.debugInfo(GrimDecor.partName, "Registered grill recipe " + input.getMatchingStacks()[0].toString() + " -> " + output + ": " + experience);
+			GrimLog.debugInfo(GrimDecor.partName, "Registered grill recipe " + input.getMatchingStacks()[0].toString() + " -> " + output + " : " + experience);
 		}
 	}
 
@@ -74,5 +73,22 @@ public class GrillRecipeFactory implements IRecipeFactory {
 		}
 
 		return ItemStack.EMPTY;
+	}
+
+	public static float getExperience(ItemStack output) {
+		Collection<Pair<ItemStack, Float>> values = grillRecipes.values();
+		Iterator<Pair<ItemStack, Float>> itr = values.iterator();
+
+		while (itr.hasNext()) {
+			Pair<ItemStack, Float> outputs = itr.next();
+
+			if (!outputs.getLeft().isEmpty()) {
+				if (outputs.getLeft().isItemEqual(output)) {
+					return outputs.getRight();
+				}
+			}
+		}
+
+		return 0.0f;
 	}
 }

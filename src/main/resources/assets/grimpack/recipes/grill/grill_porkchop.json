@@ -15,5 +15,6 @@
   },
   "output": {
     "item": "minecraft:cooked_porkchop"
-  }
+  },
+  "experience": 0.35
 }

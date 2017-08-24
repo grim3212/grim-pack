@@ -12,7 +12,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class ContainerMachine extends Container {
+public abstract class ContainerMachine extends Container {
 
 	private TileEntityMachine machine;
 	private int runTime = 0;

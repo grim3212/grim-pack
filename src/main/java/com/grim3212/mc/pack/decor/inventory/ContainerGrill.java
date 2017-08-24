@@ -22,22 +22,22 @@ public class ContainerGrill extends Container {
 	private int lastCookTimes2;
 	private int lastCookTimes3 = 0;
 
-	public ContainerGrill(InventoryPlayer par1InventoryPlayer, TileEntityGrill par2TileEntityGrill) {
-		this.grill = par2TileEntityGrill;
-		addSlotToContainer(new SlotGrill(par2TileEntityGrill, 0, 71, 26, false));
-		addSlotToContainer(new SlotGrill(par2TileEntityGrill, 1, 89, 26, false));
-		addSlotToContainer(new SlotGrill(par2TileEntityGrill, 2, 71, 44, false));
-		addSlotToContainer(new SlotGrill(par2TileEntityGrill, 3, 89, 44, false));
-		addSlotToContainer(new SlotGrill(par2TileEntityGrill, 4, 135, 37, true));
+	public ContainerGrill(InventoryPlayer playerInv, TileEntityGrill grillTile) {
+		this.grill = grillTile;
+		addSlotToContainer(new SlotGrill(grillTile, 0, 71, 26, false));
+		addSlotToContainer(new SlotGrill(grillTile, 1, 89, 26, false));
+		addSlotToContainer(new SlotGrill(grillTile, 2, 71, 44, false));
+		addSlotToContainer(new SlotGrill(grillTile, 3, 89, 44, false));
+		addSlotToContainer(new SlotGrill(grillTile, 4, 135, 37, true));
 
 		for (int var3 = 0; var3 < 3; var3++) {
 			for (int var4 = 0; var4 < 9; var4++) {
-				addSlotToContainer(new Slot(par1InventoryPlayer, var4 + var3 * 9 + 9, 8 + var4 * 18, 84 + var3 * 18));
+				addSlotToContainer(new Slot(playerInv, var4 + var3 * 9 + 9, 8 + var4 * 18, 84 + var3 * 18));
 			}
 		}
 
 		for (int var3 = 0; var3 < 9; var3++) {
-			addSlotToContainer(new Slot(par1InventoryPlayer, var3, 8 + var3 * 18, 142));
+			addSlotToContainer(new Slot(playerInv, var3, 8 + var3 * 18, 142));
 		}
 	}
 

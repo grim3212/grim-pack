@@ -14,6 +14,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
@@ -21,18 +22,18 @@ public class ChiselRegistry {
 
 	public static List<Pair<Block, Integer>> chiselBlocks = Lists.newArrayList();
 	public static List<Pair<Block, Integer>> chiselReturnb = Lists.newArrayList();
-	public static List<ItemStack> chiselItem = Lists.newArrayList();
+	public static List<NonNullList<ItemStack>> chiselItem = Lists.newArrayList();
 
-	public static void registerBlock(ItemStack inputBlock, ItemStack returnBlock, ItemStack stack) {
-		registerBlock(Block.getBlockFromItem(inputBlock.getItem()), inputBlock.getMetadata(), Block.getBlockFromItem(returnBlock.getItem()), returnBlock.getMetadata(), stack);
+	public static void registerBlock(ItemStack inputBlock, ItemStack returnBlock, NonNullList<ItemStack> out) {
+		registerBlock(Block.getBlockFromItem(inputBlock.getItem()), inputBlock.getMetadata(), Block.getBlockFromItem(returnBlock.getItem()), returnBlock.getMetadata(), out);
 	}
 
-	public static void registerBlock(Block block, int bMeta, Block returnBlock, int rbMeta, ItemStack stack) {
+	public static void registerBlock(Block block, int bMeta, Block returnBlock, int rbMeta, NonNullList<ItemStack> out) {
 		chiselBlocks.add(Pair.of(block, bMeta));
 		chiselReturnb.add(Pair.of(returnBlock, rbMeta));
-		chiselItem.add(stack);
+		chiselItem.add(out);
 
-		GrimLog.debugInfo(GrimTools.partName, "Registered chisel recipe " + block.getRegistryName() + " -> " + returnBlock.getRegistryName() + ": " + (stack == ItemStack.EMPTY ? " default drops" : stack.toString()));
+		GrimLog.debugInfo(GrimTools.partName, "Registered chisel recipe " + block.getRegistryName() + " -> " + returnBlock.getRegistryName() + " : " + (out.size() == 0 ? " default drops" : out.toString()));
 	}
 
 	@SuppressWarnings("deprecation")

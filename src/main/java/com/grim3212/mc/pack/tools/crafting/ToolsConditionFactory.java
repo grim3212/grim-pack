@@ -3,6 +3,7 @@ package com.grim3212.mc.pack.tools.crafting;
 import java.util.function.BooleanSupplier;
 
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParseException;
 import com.grim3212.mc.pack.tools.config.ToolsConfig;
 
 import net.minecraft.util.JsonUtils;
@@ -55,7 +56,7 @@ public class ToolsConditionFactory implements IConditionFactory {
 		case "wands":
 			return () -> ToolsConfig.subpartWands;
 		default:
-			return () -> false;
+			throw new JsonParseException("Part '" + value + "' is either misspelled or doesn't exist!");
 		}
 	}
 

@@ -25,7 +25,7 @@ public class WorldItems {
 		if (WorldConfig.subpartGunpowderReeds)
 			r.register(gunpowder_reed_item);
 
-		if (WorldConfig.subpartGunpowderReeds)
+		if (WorldConfig.subpartFungus)
 			r.register(fungicide);
 
 		if (WorldConfig.subpart8BitMobs) {

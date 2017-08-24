@@ -40,6 +40,7 @@ public class IndustryModelHandler {
 			ModelLoader.setCustomStateMapper(IndustryBlocks.horizontal_siding, new StateMap.Builder().ignore(BlockSiding.COLOR).build());
 			ModelLoader.setCustomStateMapper(IndustryBlocks.vertical_siding, new StateMap.Builder().ignore(BlockSiding.COLOR).build());
 
+			RenderHelper.renderItem(IndustryItems.paint_roller);
 			RenderHelper.renderItem(IndustryItems.paint_roller_white);
 			RenderHelper.renderItem(IndustryItems.paint_roller_red);
 			RenderHelper.renderItem(IndustryItems.paint_roller_green);
@@ -73,10 +74,6 @@ public class IndustryModelHandler {
 			ModelLoader.setCustomStateMapper(IndustryBlocks.door_chain, new StateMap.Builder().ignore(BlockModernDoor.POWERED).build());
 			ModelLoader.setCustomStateMapper(IndustryBlocks.door_glass, new StateMap.Builder().ignore(BlockModernDoor.POWERED).build());
 			ModelLoader.setCustomStateMapper(IndustryBlocks.door_steel, new StateMap.Builder().ignore(BlockModernDoor.POWERED).build());
-
-			RenderHelper.renderItem(IndustryItems.door_chain_item);
-			RenderHelper.renderItem(IndustryItems.door_glass_item);
-			RenderHelper.renderItem(IndustryItems.door_steel_item);
 
 			RenderHelper.renderBlock(IndustryBlocks.door_chain);
 			RenderHelper.renderBlock(IndustryBlocks.door_glass);
@@ -117,14 +114,6 @@ public class IndustryModelHandler {
 		if (IndustryConfig.subpartExtruder)
 			RenderHelper.renderItem(IndustryItems.extruder);
 
-		if (IndustryConfig.subpartCommon) {
-			RenderHelper.renderItem(IndustryItems.iron_stick);
-			RenderHelper.renderItem(IndustryItems.paint_roller);
-			RenderHelper.renderItem(IndustryItems.aluminum_ingot);
-
-			RenderHelper.renderBlock(IndustryBlocks.aluminum_ore);
-		}
-
 		if (IndustryConfig.subpartGates) {
 			RenderHelper.renderItem(IndustryItems.garage_panel);
 			RenderHelper.renderItem(IndustryItems.garage_remote);
@@ -136,8 +125,6 @@ public class IndustryModelHandler {
 		}
 
 		if (IndustryConfig.subpartNuclear) {
-			RenderHelper.renderItem(IndustryItems.graphite);
-			RenderHelper.renderItem(IndustryItems.graphite_rod);
 			RenderHelper.renderItem(IndustryItems.iron_parts);
 			RenderHelper.renderItem(IndustryItems.anti_radiation_boots);
 			RenderHelper.renderItem(IndustryItems.anti_radiation_legs);
@@ -158,18 +145,12 @@ public class IndustryModelHandler {
 		}
 
 		if (IndustryConfig.subpartMetalWorks) {
-			// TODO: Decide if Core should contain some basic items that all
-			// parts are able to use
-			RenderHelper.renderItem(IndustryItems.aluminum_shaft);
-
 			RenderHelper.renderBlock(IndustryBlocks.aluminum_ladder);
 			RenderHelper.renderBlock(IndustryBlocks.metal_mesh);
 		}
 
 		if (IndustryConfig.subpartMachines) {
-			RenderHelper.renderItem(IndustryItems.aluminum_can);
 			RenderHelper.renderItem(IndustryItems.oily_chunk);
-			RenderHelper.renderItem(IndustryItems.rubber);
 			RenderHelper.renderItem(IndustryItems.drill_head_item);
 			RenderHelper.renderItem(IndustryItems.crude_oil);
 			RenderHelper.renderItem(IndustryItems.fuel);
@@ -183,22 +164,18 @@ public class IndustryModelHandler {
 			RenderHelper.renderBlock(IndustryBlocks.refinery);
 			RenderHelper.renderBlock(IndustryBlocks.modern_furnace);
 			RenderHelper.renderBlock(IndustryBlocks.drill);
-			RenderHelper.renderBlock(IndustryBlocks.drill_head);
+			RenderHelper.renderVariantForge(IndustryBlocks.drill_head, "shaft=false", "shaft=true");
 			RenderHelper.renderBlock(IndustryBlocks.conveyor_belt);
 		}
 
 		if (IndustryConfig.subpartSteel) {
-			RenderHelper.renderItem(IndustryItems.coal_dust);
 			RenderHelper.renderItem(IndustryItems.coal_iron_ingot);
-			RenderHelper.renderItem(IndustryItems.steel_ingot);
-			RenderHelper.renderItem(IndustryItems.steel_shaft);
 			RenderHelper.renderItem(IndustryItems.steel_axe);
 			RenderHelper.renderItem(IndustryItems.steel_hoe);
 			RenderHelper.renderItem(IndustryItems.steel_pickaxe);
 			RenderHelper.renderItem(IndustryItems.steel_shovel);
 			RenderHelper.renderItem(IndustryItems.steel_sword);
 
-			RenderHelper.renderBlock(IndustryBlocks.steel_block);
 			RenderHelper.renderBlock(IndustryBlocks.steel_frame);
 			RenderHelper.renderBlock(IndustryBlocks.steel_pipe);
 		}
@@ -215,7 +192,7 @@ public class IndustryModelHandler {
 			RenderHelper.renderBlock(IndustryBlocks.sidewalk);
 			RenderHelper.renderBlock(IndustryBlocks.rway);
 			RenderHelper.renderBlock(IndustryBlocks.rway_light_off);
-			RenderHelper.renderBlock(IndustryBlocks.rway_light_on);
+			RenderHelper.renderBlockNormal(IndustryBlocks.rway_light_on);
 			RenderHelper.renderBlock(IndustryBlocks.rway_manhole);
 		}
 

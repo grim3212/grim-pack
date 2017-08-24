@@ -9,22 +9,22 @@
       "subpart": "decoration"
     },
     {
-      "type": "grimpack:industry_subpart_enabled",
-      "subpart": "metalworks"
+      "type": "grimpack:ore_dict",
+      "oreName": "stickAluminum"
     }
   ],
   "result": {
     "item": "grimpack:chain_fence",
-    "count": 32
+    "count": 16
   },
   "pattern": [
     "sss",
     "sss"
   ],
-  "type": "minecraft:crafting_shaped",
+  "type": "forge:ore_shaped",
   "key": {
     "s": {
-      "item": "grimpack:aluminum_shaft"
+      "item": "#STICKALUMINUM"
     }
   }
 }

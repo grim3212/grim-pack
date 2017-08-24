@@ -15,5 +15,6 @@
   },
   "output": {
     "item": "minecraft:cooked_chicken"
-  }
+  },
+  "experience": 0.35
 }

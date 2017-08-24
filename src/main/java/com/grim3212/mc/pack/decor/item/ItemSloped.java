@@ -27,8 +27,6 @@ import net.minecraft.world.World;
 
 @SuppressWarnings("deprecation")
 public class ItemSloped extends ItemManualBlock {
-
-	private Block block;
 	/*
 	 * Determines if the rotation should be based on the direction the player is
 	 * looking
@@ -41,7 +39,6 @@ public class ItemSloped extends ItemManualBlock {
 
 	public ItemSloped(Block block, boolean simpleRotate) {
 		super(block);
-		this.block = block;
 		this.simpleRotate = simpleRotate;
 	}
 

@@ -10,6 +10,7 @@ import com.grim3212.mc.pack.core.item.ItemManualPickaxe;
 import com.grim3212.mc.pack.core.item.ItemManualSpade;
 import com.grim3212.mc.pack.core.item.ItemManualSword;
 import com.grim3212.mc.pack.core.part.GrimCreativeTabs;
+import com.grim3212.mc.pack.core.util.Utils;
 import com.grim3212.mc.pack.industry.config.IndustryConfig;
 import com.grim3212.mc.pack.industry.item.IndustryItems;
 import com.grim3212.mc.pack.tools.blocks.ToolsBlocks;
@@ -27,7 +28,6 @@ import net.minecraft.item.Item.ToolMaterial;
 import net.minecraft.item.ItemArmor.ArmorMaterial;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
-import net.minecraftforge.common.util.EnumHelper;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
@@ -36,10 +36,10 @@ import net.minecraftforge.registries.IForgeRegistry;
 
 public class ToolsItems {
 
-	public static final ToolMaterial blackdiamond = EnumHelper.addToolMaterial("black_diamond", 4, 5122, 15F, 5F, 20);
-	public static final ToolMaterial obsidianToolMaterial = EnumHelper.addToolMaterial("obsidian", 3, 3333, 9.5F, 7f, 14);
-	public static final ArmorMaterial masks = EnumHelper.addArmorMaterial("mask", GrimPack.modID + ":masks", 5, new int[] { 1, 2, 3, 1 }, 15, SoundEvents.BLOCK_CLOTH_PLACE, 0.0F);
-	public static final ArmorMaterial blackarmor = EnumHelper.addArmorMaterial("blackarmor", GrimPack.modID + ":blackarmor", 35, new int[] { 4, 8, 10, 4 }, 20, SoundEvents.ITEM_ARMOR_EQUIP_DIAMOND, 2.5F);
+	public static final ToolMaterial blackdiamond = Utils.addToolMaterial(ToolsConfig.blackDiamondToolMaterial);
+	public static final ToolMaterial obsidianToolMaterial = Utils.addToolMaterial(ToolsConfig.obsidianToolMaterial);
+	public static final ArmorMaterial masks = Utils.addArmorMaterial(GrimPack.modID + ":masks", SoundEvents.BLOCK_CLOTH_PLACE, ToolsConfig.maskArmorMaterial);
+	public static final ArmorMaterial blackarmor = Utils.addArmorMaterial(GrimPack.modID + ":blackarmor", SoundEvents.ITEM_ARMOR_EQUIP_DIAMOND, ToolsConfig.blackDiamondArmorMaterial);
 
 	public static final Item backpack = new ItemBackpack();
 	public static final Item pellet_bag = new ItemPelletBag();

@@ -24,11 +24,8 @@ import net.minecraft.world.World;
 @SuppressWarnings("deprecation")
 public class ItemColorizer extends ItemManualBlock {
 
-	private Block block;
-
 	public ItemColorizer(Block block) {
 		super(block);
-		this.block = block;
 	}
 
 	@Override

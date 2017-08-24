@@ -62,7 +62,6 @@ public class DecorModelHandler {
 				ModelLoader.setCustomStateMapper(DecorBlocks.fence_gate, new StateMap.Builder().ignore(BlockFenceGate.POWERED).build());
 				ModelLoader.setCustomStateMapper(DecorBlocks.decor_door, new StateMap.Builder().ignore(BlockDoor.POWERED).build());
 
-				RenderHelper.renderItem(DecorItems.decor_door_item);
 				RenderHelper.renderBlock(DecorBlocks.decor_trap_door);
 				RenderHelper.renderBlock(DecorBlocks.decor_door);
 				RenderHelper.renderBlock(DecorBlocks.counter);
@@ -88,9 +87,9 @@ public class DecorModelHandler {
 
 			if (DecorConfig.subpartLampPosts) {
 				RenderHelper.renderItem(DecorItems.lamp_item);
-				RenderHelper.renderBlock(DecorBlocks.lamp_post_bottom);
-				RenderHelper.renderBlock(DecorBlocks.lamp_post_middle);
-				RenderHelper.renderBlock(DecorBlocks.lamp_post_top);
+				RenderHelper.renderBlockNormal(DecorBlocks.lamp_post_bottom);
+				RenderHelper.renderBlockNormal(DecorBlocks.lamp_post_middle);
+				RenderHelper.renderBlockNormal(DecorBlocks.lamp_post_top);
 			}
 		}
 

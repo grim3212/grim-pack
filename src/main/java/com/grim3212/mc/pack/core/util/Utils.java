@@ -7,6 +7,8 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import com.grim3212.mc.pack.GrimPack;
+import com.grim3212.mc.pack.core.config.ConfigUtils.ArmorMaterialHolder;
+import com.grim3212.mc.pack.core.config.ConfigUtils.ToolMaterialHolder;
 import com.grim3212.mc.pack.core.network.MessageBetterExplosion;
 import com.grim3212.mc.pack.core.network.PacketDispatcher;
 
@@ -18,6 +20,8 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
+import net.minecraft.item.Item.ToolMaterial;
+import net.minecraft.item.ItemArmor.ArmorMaterial;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
@@ -27,6 +31,7 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.EnumHelper;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidUtil;
@@ -46,6 +51,14 @@ public class Utils {
 
 	private static int entityID = 0;
 	public static final AxisAlignedBB NULL_AABB = new AxisAlignedBB(0f, 0f, 0f, 0f, 0f, 0f);
+
+	public static ToolMaterial addToolMaterial(ToolMaterialHolder material) {
+		return EnumHelper.addToolMaterial(material.getName(), material.getHarvestLevel(), material.getMaxUses(), material.getEfficiency(), material.getDamage(), material.getEnchantability());
+	}
+
+	public static ArmorMaterial addArmorMaterial(String textureName, SoundEvent sound, ArmorMaterialHolder material) {
+		return EnumHelper.addArmorMaterial(material.getName(), textureName, material.getDurability(), material.getReductionAmounts(), material.getEnchantability(), sound, material.getToughness());
+	}
 
 	public static void registerEntity(Class<? extends Entity> entityClass, String entityName, int trackingRange, int updateFrequency, boolean sendsVelocityUpdates) {
 		EntityRegistry.registerModEntity(new ResourceLocation(GrimPack.modID, entityName), entityClass, entityName, entityID++, GrimPack.INSTANCE, trackingRange, updateFrequency, sendsVelocityUpdates);

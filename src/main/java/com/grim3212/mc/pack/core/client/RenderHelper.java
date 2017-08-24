@@ -24,6 +24,10 @@ public class RenderHelper {
 			ModelLoader.setCustomModelResourceLocation(item, i, new ModelResourceLocation(item.getRegistryName(), "inventory"));
 	}
 
+	public static void renderBlockNormal(Block block) {
+		ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(block), 0, new ModelResourceLocation(block.getRegistryName(), "normal"));
+	}
+
 	public static void renderBlock(Block block) {
 		renderItem(Item.getItemFromBlock(block));
 	}

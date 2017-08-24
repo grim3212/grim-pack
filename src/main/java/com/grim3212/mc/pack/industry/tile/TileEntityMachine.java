@@ -1,7 +1,8 @@
 package com.grim3212.mc.pack.industry.tile;
 
 import com.grim3212.mc.pack.industry.block.BlockRefinery;
-import com.grim3212.mc.pack.industry.inventory.ContainerMachine;
+import com.grim3212.mc.pack.industry.inventory.ContainerDerrick;
+import com.grim3212.mc.pack.industry.inventory.ContainerRefinery;
 import com.grim3212.mc.pack.industry.util.MachineRecipes;
 import com.grim3212.mc.pack.industry.util.MachineRecipes.MachineType;
 
@@ -341,7 +342,7 @@ public class TileEntityMachine extends TileEntityLockable implements ISidedInven
 
 	@Override
 	public Container createContainer(InventoryPlayer playerInventory, EntityPlayer playerIn) {
-		return new ContainerMachine(playerInventory, this);
+		return getMachineType() == MachineType.DERRICK ? new ContainerDerrick(playerInventory, this) : new ContainerRefinery(playerInventory, this);
 	}
 
 	@Override

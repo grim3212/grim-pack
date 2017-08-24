@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.grim3212.mc.pack.core.config.ConfigUtils;
+import com.grim3212.mc.pack.core.config.ConfigUtils.ArmorMaterialHolder;
+import com.grim3212.mc.pack.core.config.ConfigUtils.ToolMaterialHolder;
 import com.grim3212.mc.pack.core.config.GrimConfig;
 import com.grim3212.mc.pack.tools.GrimTools;
 import com.grim3212.mc.pack.tools.items.ItemBreakingWand;
@@ -23,6 +25,11 @@ public class ToolsConfig extends GrimConfig {
 	public static final String CONFIG_FIST_NAME = "tools.ultimatefist";
 	public static final String CONFIG_BOOMERANG_NAME = "tools.boomerang";
 	public static final String CONFIG_PARTS_NAME = "tools.subparts";
+
+	public static ToolMaterialHolder blackDiamondToolMaterial;
+	public static ToolMaterialHolder obsidianToolMaterial;
+	public static ArmorMaterialHolder maskArmorMaterial;
+	public static ArmorMaterialHolder blackDiamondArmorMaterial;
 
 	public static boolean ENABLE_free_build_mode;
 	public static boolean ENABLE_bedrock_breaking;
@@ -113,6 +120,17 @@ public class ToolsConfig extends GrimConfig {
 	@Override
 	public void syncFirst() {
 		multiToolDurabilityMultiplier = (float) config.get(CONFIG_GENERAL_NAME, "Multitool durability multiplier", 3).getDouble();
+
+		if (subpartBlackDiamond) {
+			blackDiamondToolMaterial = ConfigUtils.loadToolMaterial(new ToolMaterialHolder("black_diamond", 4, 5122, 15F, 5F, 20));
+			blackDiamondArmorMaterial = ConfigUtils.loadArmorMaterial(new ArmorMaterialHolder("black_diamond", 35, new int[] { 4, 8, 10, 4 }, 20, 2.5F));
+		}
+
+		if (subpartMultiTools)
+			obsidianToolMaterial = ConfigUtils.loadToolMaterial(new ToolMaterialHolder("obsidian", 3, 3333, 9.5F, 7f, 14));
+
+		if (subpartMasks)
+			maskArmorMaterial = ConfigUtils.loadArmorMaterial(new ArmorMaterialHolder("mask", 5, new int[] { 1, 2, 3, 1 }, 15, 0.0F));
 	}
 
 	@Override

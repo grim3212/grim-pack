@@ -5,6 +5,7 @@ import java.util.function.BooleanSupplier;
 import org.apache.logging.log4j.util.Strings;
 
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParseException;
 
 import net.minecraft.util.JsonUtils;
 import net.minecraftforge.common.crafting.IConditionFactory;
@@ -19,9 +20,9 @@ public class OreDictConditionFactory implements IConditionFactory {
 
 		if (!Strings.isEmpty(value)) {
 			return () -> OreDictionary.doesOreNameExist(value);
+		} else {
+			throw new JsonParseException("'oreName' cannot be empty!");
 		}
-
-		return () -> false;
 	}
 
 }

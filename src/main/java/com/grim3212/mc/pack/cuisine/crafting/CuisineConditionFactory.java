@@ -3,6 +3,7 @@ package com.grim3212.mc.pack.cuisine.crafting;
 import java.util.function.BooleanSupplier;
 
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParseException;
 import com.grim3212.mc.pack.cuisine.config.CuisineConfig;
 
 import net.minecraft.util.JsonUtils;
@@ -29,7 +30,7 @@ public class CuisineConditionFactory implements IConditionFactory {
 		case "soda":
 			return () -> CuisineConfig.subpartSoda;
 		default:
-			return () -> false;
+			throw new JsonParseException("Part '" + value + "' is either misspelled or doesn't exist!");
 		}
 	}
 

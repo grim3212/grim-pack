@@ -67,8 +67,6 @@ public class CuisineBlocks {
 		}
 
 		if (CuisineConfig.subpartChocolate) {
-			r.register(new ItemManualBlock(cocoa_block).setRegistryName(cocoa_block.getRegistryName()));
-			r.register(new ItemManualBlock(cocoa_tree_sapling).setRegistryName(cocoa_tree_sapling.getRegistryName()));
 			r.register(new ItemManualBlock(chocolate_bar_mould).setRegistryName(chocolate_bar_mould.getRegistryName()));
 			r.register(new ItemManualBlock(chocolate_cake).setRegistryName(chocolate_cake.getRegistryName()));
 			r.register(new ItemManualBlock(chocolate_block).setRegistryName(chocolate_block.getRegistryName()));

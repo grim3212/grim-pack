@@ -9,8 +9,11 @@ import org.lwjgl.opengl.GL11;
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
@@ -123,4 +126,25 @@ public class ClientUtil {
 		return null;
 	}
 
+	public static void renderBlock(IBlockState block, float x, float y, float z, float rotate, float scale) {
+		Minecraft mc = Minecraft.getMinecraft();
+		GlStateManager.enableRescaleNormal();
+		GlStateManager.pushMatrix();
+		GlStateManager.rotate(-30.0F, 0.0F, 1.0F, 0.0F);
+		net.minecraft.client.renderer.RenderHelper.enableStandardItemLighting();
+		GlStateManager.popMatrix();
+		GlStateManager.pushMatrix();
+		GlStateManager.translate(x, y, 50.0F + z);
+		GlStateManager.rotate(20.0F, 1.0F, 0.0F, 0.0F);
+		scale *= 50;
+		GlStateManager.scale(scale, -scale, -scale);
+		GlStateManager.translate(0.5F, 0.5F, 0.5F);
+		GlStateManager.rotate(rotate, 0.0F, 1.0F, 0.0F);
+		GlStateManager.translate(-0.5F, -0.5F, -0.5F);
+		mc.getTextureManager().bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
+		mc.getBlockRendererDispatcher().renderBlockBrightness(block, 1.0F);
+		GlStateManager.popMatrix();
+		net.minecraft.client.renderer.RenderHelper.disableStandardItemLighting();
+		GlStateManager.disableRescaleNormal();
+	}
 }

@@ -1,13 +1,12 @@
 package com.grim3212.mc.pack.industry.tile;
 
 import com.grim3212.mc.pack.industry.block.BlockModernFurnace;
+import com.grim3212.mc.pack.industry.block.IndustryBlocks;
 import com.grim3212.mc.pack.industry.inventory.ContainerMFurnace;
 import com.grim3212.mc.pack.industry.item.IndustryItems;
 import com.grim3212.mc.pack.industry.util.MachineRecipes;
 import com.grim3212.mc.pack.industry.util.MachineRecipes.MachineType;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -18,11 +17,7 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.inventory.ItemStackHelper;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemBlock;
-import net.minecraft.item.ItemHoe;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemSword;
-import net.minecraft.item.ItemTool;
 import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
@@ -34,7 +29,6 @@ import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
-import net.minecraftforge.event.ForgeEventFactory;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -339,41 +333,13 @@ public class TileEntityMFurnace extends TileEntityLockable implements ITickable,
 			return 0;
 		} else {
 			Item item = stack.getItem();
-			if (item instanceof ItemBlock && Block.getBlockFromItem(item) != Blocks.AIR) {
-				Block block = Block.getBlockFromItem(item);
 
-				if (block == Blocks.WOODEN_SLAB) {
-					return 150;
-				}
-
-				if (block.getDefaultState().getMaterial() == Material.WOOD) {
-					return 300;
-				}
-
-				if (block == Blocks.COAL_BLOCK) {
-					return 16000;
-				}
+			if (item == IndustryItems.fuel) {
+				return 25000;
+			} else if (item == Item.getItemFromBlock(IndustryBlocks.fuel_tank)) {
+				return (25000 * 9);
 			}
-
-			if (item instanceof ItemTool && "WOOD".equals(((ItemTool) item).getToolMaterialName()))
-				return 200;
-			if (item instanceof ItemSword && "WOOD".equals(((ItemSword) item).getToolMaterialName()))
-				return 200;
-			if (item instanceof ItemHoe && "WOOD".equals(((ItemHoe) item).getMaterialName()))
-				return 200;
-			if (item == Items.STICK)
-				return 100;
-			if (item == Items.COAL)
-				return 1600;
-			if (item == Items.LAVA_BUCKET)
-				return 20000;
-			if (item == Item.getItemFromBlock(Blocks.SAPLING))
-				return 100;
-			if (item == Items.BLAZE_ROD)
-				return 2400;
-			if (item == IndustryItems.fuel)
-				return 3200;
-			return ForgeEventFactory.getItemBurnTime(stack);
+			return 0;
 		}
 	}
 

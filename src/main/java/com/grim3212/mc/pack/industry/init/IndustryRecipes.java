@@ -18,7 +18,6 @@ public class IndustryRecipes {
 	public static List<ResourceLocation> doors;
 	public static List<ResourceLocation> coaliron;
 	public static List<ResourceLocation> steeltools;
-	public static List<ResourceLocation> alumstuff;
 	public static List<ResourceLocation> portableUpgrades;
 	public static List<ResourceLocation> fuelstuff;
 	public static List<ResourceLocation> sensors;
@@ -40,7 +39,6 @@ public class IndustryRecipes {
 		}
 
 		if (IndustryConfig.subpartMetalWorks) {
-			alumstuff = ImmutableList.of(RecipeHelper.createPath("aluminum_shaft"));
 			buckladd = ImmutableList.of(RecipeHelper.createPath("aluminum_ladder"), RecipeHelper.createPath("bucket"));
 		}
 

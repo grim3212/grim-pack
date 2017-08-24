@@ -1,10 +1,20 @@
 package com.grim3212.mc.pack.core.config;
 
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.tuple.Pair;
+
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.google.gson.JsonSyntaxException;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonWriter;
+import com.grim3212.mc.pack.GrimPack;
 import com.grim3212.mc.pack.core.GrimCore;
 import com.grim3212.mc.pack.core.util.GrimLog;
 import com.grim3212.mc.pack.core.util.Utils;
@@ -25,6 +35,231 @@ public class ConfigUtils {
 
 	public static void setCurrentPart(String currentPart) {
 		ConfigUtils.currentPart = currentPart;
+	}
+
+	public static ToolMaterialHolder loadToolMaterial(ToolMaterialHolder fallback) {
+		File directoryFile = new File(GrimPack.configDir, GrimPack.modID + "/materials");
+		File toolFile = new File(GrimPack.configDir, GrimPack.modID + "/materials/" + fallback.name + "_tool_material.json");
+
+		if (toolFile.exists()) {
+			int harvestLevel = fallback.harvestLevel;
+			int maxUses = fallback.maxUses;
+			float efficiency = fallback.efficiency;
+			float damage = fallback.damage;
+			int enchantability = fallback.enchantability;
+
+			try {
+				JsonReader reader = new JsonReader(new FileReader(toolFile));
+				reader.beginObject();
+
+				while (reader.hasNext()) {
+					String name = reader.nextName();
+
+					if (name.equals("harvestLevel")) {
+						harvestLevel = reader.nextInt();
+					} else if (name.equals("maxUses")) {
+						maxUses = reader.nextInt();
+					} else if (name.equals("efficiency")) {
+						efficiency = (float) reader.nextDouble();
+					} else if (name.equals("damage")) {
+						damage = (float) reader.nextDouble();
+					} else if (name.equals("enchantability")) {
+						enchantability = reader.nextInt();
+					} else {
+						reader.skipValue();
+					}
+				}
+
+				reader.endObject();
+				reader.close();
+
+			} catch (IOException e) {
+				throw new JsonSyntaxException("Tool material '" + fallback.name + "' had a problem reading.");
+			}
+
+			return new ToolMaterialHolder(fallback.name, harvestLevel, maxUses, efficiency, damage, enchantability);
+		} else {
+			try {
+				if (!directoryFile.exists()) {
+					directoryFile.mkdirs();
+				}
+
+				if (toolFile.createNewFile()) {
+					JsonWriter writer = new JsonWriter(new FileWriter(toolFile));
+					writer.setIndent("\t");
+					writer.setHtmlSafe(true);
+					writer.beginObject();
+
+					writer.name("harvestLevel").value(fallback.harvestLevel);
+					writer.name("maxUses").value(fallback.maxUses);
+					writer.name("efficiency").value(fallback.efficiency);
+					writer.name("damage").value(fallback.damage);
+					writer.name("enchantability").value(fallback.enchantability);
+
+					writer.endObject();
+					writer.close();
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+
+		return fallback;
+	}
+
+	public static ArmorMaterialHolder loadArmorMaterial(ArmorMaterialHolder fallback) {
+		File directoryFile = new File(GrimPack.configDir, GrimPack.modID + "/materials");
+		File armorFile = new File(GrimPack.configDir, GrimPack.modID + "/materials/" + fallback.name + "_armor_material.json");
+
+		if (armorFile.exists()) {
+			int durability = fallback.durability;
+			int[] reductionAmounts = fallback.reductionAmounts;
+			int enchantability = fallback.enchantability;
+			float toughness = fallback.toughness;
+
+			try {
+				JsonReader reader = new JsonReader(new FileReader(armorFile));
+				reader.beginObject();
+
+				while (reader.hasNext()) {
+					String name = reader.nextName();
+
+					if (name.equals("durability")) {
+						durability = reader.nextInt();
+					} else if (name.equals("reductionAmounts")) {
+						reader.beginArray();
+						for (int i = 0; i < reductionAmounts.length; i++) {
+							reductionAmounts[i] = reader.nextInt();
+						}
+						reader.endArray();
+					} else if (name.equals("enchantability")) {
+						enchantability = reader.nextInt();
+					} else if (name.equals("toughness")) {
+						toughness = (float) reader.nextDouble();
+					} else {
+						reader.skipValue();
+					}
+				}
+
+				reader.endObject();
+				reader.close();
+
+			} catch (IOException e) {
+				throw new JsonSyntaxException("Armor material '" + fallback.name + "' had a problem reading.");
+			}
+
+			return new ArmorMaterialHolder(fallback.name, durability, reductionAmounts, enchantability, toughness);
+		} else {
+
+			try {
+				if (!directoryFile.exists()) {
+					directoryFile.mkdirs();
+				}
+
+				if (armorFile.createNewFile()) {
+					JsonWriter writer = new JsonWriter(new FileWriter(armorFile));
+					writer.setIndent("\t");
+					writer.setHtmlSafe(true);
+					writer.beginObject();
+
+					writer.name("durability").value(fallback.durability);
+					writer.name("reductionAmounts");
+					writer.beginArray();
+					for (int amnt : fallback.reductionAmounts) {
+						writer.value(amnt);
+					}
+					writer.endArray();
+					writer.name("enchantability").value(fallback.enchantability);
+					writer.name("toughness").value(fallback.toughness);
+
+					writer.endObject();
+					writer.close();
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+
+		return fallback;
+	}
+
+	/**
+	 * A list of fuels that contain an itemstack and number for a type of fuel.
+	 * 
+	 * @param fromConfig
+	 *            Config entry to pull string away from
+	 */
+	public static List<Pair<ItemStack, Integer>> loadConfigurableFuel(String[] fromConfig) {
+		List<Pair<ItemStack, Integer>> recipes = Lists.newArrayList();
+
+		if (fromConfig.length > 0) {
+			for (int i = 0; i < fromConfig.length; i++) {
+				String[] rawids = fromConfig[i].split(">");
+
+				Object input = getInput(rawids[0], fromConfig[i]);
+				int burnTime = 0;
+
+				if (rawids.length > 1) {
+					burnTime = getBurnTime(rawids[1], fromConfig[i]);
+				} else {
+					GrimLog.debugInfo(currentPart, "No burn time argument found for '" + rawids[0] + "'");
+				}
+
+				// Make sure input and output are valid
+				if (input != null) {
+
+					// Change recipe depending on input
+					if (input instanceof ItemStack) {
+
+						// Add finished recipe
+						recipes.add(Pair.of((ItemStack) input, burnTime));
+					} else if (input instanceof String) {
+						String oreDict = (String) input;
+
+						if (oreDict.contains(":")) {
+							String[] split = oreDict.split(":");
+
+							if (OreDictionary.doesOreNameExist(split[0])) {
+								NonNullList<ItemStack> inputs = OreDictionary.getOres(split[0]);
+
+								if (Utils.isInteger(split[1])) {
+									for (ItemStack ore : inputs) {
+										// Add recipe for every OreDictionary
+										recipes.add(Pair.of(new ItemStack(ore.getItem(), 1, Integer.parseInt(split[1])), burnTime));
+									}
+								} else if (split[1].equals("?")) {
+									for (ItemStack ore : inputs) {
+
+										// Add recipe for every OreDictionary
+										recipes.add(Pair.of(new ItemStack(ore.getItem(), 1, OreDictionary.WILDCARD_VALUE), burnTime));
+									}
+								} else {
+									GrimLog.error(currentPart, "Something unknown happened with input: '" + fromConfig[i] + "'!");
+								}
+							} else {
+								GrimLog.error(currentPart, "Ore name: '" + split[0] + "' does not exist!");
+							}
+						} else {
+							if (OreDictionary.doesOreNameExist(oreDict)) {
+								NonNullList<ItemStack> inputs = OreDictionary.getOres(oreDict);
+
+								for (ItemStack ore : inputs) {
+
+									// Add recipe for every OreDictionary
+									recipes.add(Pair.of(ore, burnTime));
+								}
+							} else {
+								GrimLog.error(currentPart, "Ore name: '" + oreDict + "' does not exist!");
+							}
+						}
+					} else {
+						GrimLog.error(currentPart, "Something unknown happened with input: '" + fromConfig[i] + "'!");
+					}
+				}
+			}
+		}
+
+		return recipes;
 	}
 
 	/**
@@ -171,6 +406,15 @@ public class ConfigUtils {
 		}
 
 		return ItemStack.EMPTY;
+	}
+
+	private static int getBurnTime(String s, String recipe) {
+		try {
+			return Integer.parseInt(s);
+		} catch (Exception e) {
+			GrimLog.error(currentPart, "Burn time couldn't be parsed as an integer: '" + recipe + "'!");
+		}
+		return 0;
 	}
 
 	private static float getExperience(String s, String recipe) {
@@ -473,4 +717,81 @@ public class ConfigUtils {
 		return ItemStack.EMPTY;
 	}
 
+	public static class ToolMaterialHolder {
+		private final String name;
+		private final int harvestLevel;
+		private final int maxUses;
+		private final float efficiency;
+		private final float damage;
+		private final int enchantability;
+
+		public ToolMaterialHolder(String name, int harvestLevel, int maxUses, float efficiency, float damage, int enchantability) {
+			this.name = name;
+			this.harvestLevel = harvestLevel;
+			this.maxUses = maxUses;
+			this.efficiency = efficiency;
+			this.damage = damage;
+			this.enchantability = enchantability;
+		}
+
+		public String getName() {
+			return name;
+		}
+
+		public int getHarvestLevel() {
+			return harvestLevel;
+		}
+
+		public int getMaxUses() {
+			return maxUses;
+		}
+
+		public float getEfficiency() {
+			return efficiency;
+		}
+
+		public float getDamage() {
+			return damage;
+		}
+
+		public int getEnchantability() {
+			return enchantability;
+		}
+	}
+
+	public static class ArmorMaterialHolder {
+		private final String name;
+		private final int durability;
+		private final int[] reductionAmounts;
+		private final int enchantability;
+		private final float toughness;
+
+		public ArmorMaterialHolder(String name, int durability, int[] reductionAmounts, int enchantability, float toughness) {
+			this.name = name;
+			this.durability = durability;
+			this.reductionAmounts = reductionAmounts;
+			this.enchantability = enchantability;
+			this.toughness = toughness;
+		}
+
+		public String getName() {
+			return name;
+		}
+
+		public int getDurability() {
+			return durability;
+		}
+
+		public int[] getReductionAmounts() {
+			return reductionAmounts;
+		}
+
+		public int getEnchantability() {
+			return enchantability;
+		}
+
+		public float getToughness() {
+			return toughness;
+		}
+	}
 }

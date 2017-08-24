@@ -69,11 +69,12 @@ public class ItemLampPost extends ItemManual {
 
 	@Override
 	public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> subItems) {
-		ItemStack itemstack = new ItemStack(this);
-		NBTHelper.setString(itemstack, "registryName", Block.REGISTRY.getNameForObject(Blocks.AIR).toString());
-		NBTHelper.setInteger(itemstack, "meta", 0);
-		if (isInCreativeTab(tab))
+		if (isInCreativeTab(tab)) {
+			ItemStack itemstack = new ItemStack(this);
+			NBTHelper.setString(itemstack, "registryName", Block.REGISTRY.getNameForObject(Blocks.AIR).toString());
+			NBTHelper.setInteger(itemstack, "meta", 0);
 			subItems.add(itemstack);
+		}
 	}
 
 	@Override

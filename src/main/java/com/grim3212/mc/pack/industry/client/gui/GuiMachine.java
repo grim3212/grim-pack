@@ -2,7 +2,8 @@ package com.grim3212.mc.pack.industry.client.gui;
 
 import com.grim3212.mc.pack.GrimPack;
 import com.grim3212.mc.pack.core.client.gui.GuiGrimContainer;
-import com.grim3212.mc.pack.industry.inventory.ContainerMachine;
+import com.grim3212.mc.pack.industry.inventory.ContainerDerrick;
+import com.grim3212.mc.pack.industry.inventory.ContainerRefinery;
 import com.grim3212.mc.pack.industry.tile.TileEntityMachine;
 import com.grim3212.mc.pack.industry.util.MachineRecipes.MachineType;
 
@@ -10,22 +11,18 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 
-public class GuiMachine extends GuiGrimContainer {
+public abstract class GuiMachine extends GuiGrimContainer {
 
 	private TileEntityMachine machineInventory;
 	private final InventoryPlayer playerInventory;
 	private ResourceLocation gui;
 
-	public GuiMachine(InventoryPlayer playerInv, TileEntityMachine te) {
-		super(new ContainerMachine(playerInv, te));
+	public GuiMachine(InventoryPlayer playerInv, TileEntityMachine te, String location) {
+		super(te.getMachineType() == MachineType.DERRICK ? new ContainerDerrick(playerInv, te) : new ContainerRefinery(playerInv, te));
 		this.machineInventory = te;
 		this.playerInventory = playerInv;
 
-		if (te.getMachineType() == MachineType.DERRICK) {
-			gui = new ResourceLocation(GrimPack.modID, "textures/gui/gui_derrick.png");
-		} else if (te.getMachineType() == MachineType.REFINERY) {
-			gui = new ResourceLocation(GrimPack.modID, "textures/gui/gui_refinery.png");
-		}
+		gui = new ResourceLocation(GrimPack.modID, location);
 	}
 
 	@Override

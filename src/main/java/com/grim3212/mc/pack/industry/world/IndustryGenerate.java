@@ -24,15 +24,6 @@ public class IndustryGenerate extends GrimWorldGen {
 			}
 		}
 
-		if (IndustryConfig.generateAluminum && IndustryConfig.subpartMetalWorks) {
-			for (int k = 0; k < 12; ++k) {
-				int x = i + random.nextInt(16);
-				int y = random.nextInt(64);
-				int z = j + random.nextInt(16);
-				(new WorldGenMinable(IndustryBlocks.aluminum_ore.getDefaultState(), 8)).generate(world, random, new BlockPos(x, y, z));
-			}
-		}
-
 		if (IndustryConfig.generateOilOre && IndustryConfig.subpartMachines) {
 			for (int k = 0; k < 6; ++k) {
 				int x = i + random.nextInt(16);

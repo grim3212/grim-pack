@@ -15,5 +15,6 @@
   },
   "output": {
     "item": "minecraft:cooked_rabbit"
-  }
+  },
+  "experience": 0.35
 }

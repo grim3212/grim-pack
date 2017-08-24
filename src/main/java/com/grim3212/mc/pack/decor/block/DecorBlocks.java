@@ -25,6 +25,7 @@ import com.grim3212.mc.pack.decor.block.colorizer.BlockColorizerTrapDoor;
 import com.grim3212.mc.pack.decor.block.colorizer.BlockColorizerWall;
 import com.grim3212.mc.pack.decor.config.DecorConfig;
 import com.grim3212.mc.pack.decor.item.ItemColorizer;
+import com.grim3212.mc.pack.decor.item.ItemDecorDoor;
 import com.grim3212.mc.pack.decor.item.ItemDecorStairs;
 import com.grim3212.mc.pack.decor.item.ItemGrill;
 import com.grim3212.mc.pack.decor.item.ItemLantern;
@@ -209,12 +210,6 @@ public class DecorBlocks {
 			r.register(new ItemColorizer(colorizer).setRegistryName(colorizer.getRegistryName()));
 			r.register(new ItemColorizer(colorizer_light).setRegistryName(colorizer_light.getRegistryName()));
 
-			if (DecorConfig.subpartLampPosts) {
-				r.register(new ItemManualBlock(lamp_post_bottom).setRegistryName(lamp_post_bottom.getRegistryName()));
-				r.register(new ItemManualBlock(lamp_post_middle).setRegistryName(lamp_post_middle.getRegistryName()));
-				r.register(new ItemManualBlock(lamp_post_top).setRegistryName(lamp_post_top.getRegistryName()));
-			}
-
 			if (DecorConfig.subpartFireplaces) {
 				r.register(new ItemManualBlock(burning_wood).setRegistryName(burning_wood.getRegistryName()));
 				r.register(new ItemColorizer(fireplace).setRegistryName(fireplace.getRegistryName()));
@@ -233,7 +228,7 @@ public class DecorBlocks {
 				r.register(new ItemColorizer(wall).setRegistryName(wall.getRegistryName()));
 				r.register(new ItemColorizer(fence).setRegistryName(fence.getRegistryName()));
 				r.register(new ItemColorizer(fence_gate).setRegistryName(fence_gate.getRegistryName()));
-				r.register(new ItemManualBlock(decor_door).setRegistryName(decor_door.getRegistryName()));
+				r.register(new ItemDecorDoor(decor_door).setRegistryName(decor_door.getRegistryName()));
 				r.register(new ItemColorizer(decor_trap_door).setRegistryName(decor_trap_door.getRegistryName()));
 			}
 

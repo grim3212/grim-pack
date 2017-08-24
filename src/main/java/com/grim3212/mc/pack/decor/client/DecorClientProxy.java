@@ -80,7 +80,6 @@ public class DecorClientProxy extends DecorCommonProxy {
 			}
 
 			if (DecorConfig.subpartFurniture) {
-				itemColors.add(DecorItems.decor_door_item);
 				blockColors.addAll(Lists.newArrayList(DecorBlocks.counter, DecorBlocks.table, DecorBlocks.stool, DecorBlocks.chair, DecorBlocks.wall, DecorBlocks.fence, DecorBlocks.fence_gate, DecorBlocks.decor_trap_door, DecorBlocks.decor_door));
 			}
 

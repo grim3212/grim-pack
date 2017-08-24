@@ -16,8 +16,6 @@ public class IndustryConditionFactory implements IConditionFactory {
 		String value = JsonUtils.getString(json, "subpart", "");
 
 		switch (value) {
-		case "common":
-			return () -> IndustryConfig.subpartCommon;
 		case "conveyor":
 			return () -> IndustryConfig.subpartConveyor;
 		case "decoration":

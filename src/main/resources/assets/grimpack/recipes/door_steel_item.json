@@ -7,10 +7,14 @@
     {
       "type": "grimpack:industry_subpart_enabled",
       "subpart": "doors"
+    },
+    {
+      "type": "grimpack:ore_dict",
+      "oreName": "ingotSteel"
     }
   ],
   "result": {
-    "item": "grimpack:door_steel_item"
+    "item": "grimpack:door_steel"
   },
   "pattern": [
     "ss",

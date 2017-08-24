@@ -7,20 +7,24 @@
     {
       "type": "grimpack:industry_subpart_enabled",
       "subpart": "doors"
+    },
+    {
+      "type": "grimpack:ore_dict",
+      "oreName": "stickAluminum"
     }
   ],
   "result": {
-    "item": "grimpack:door_chain_item"
+    "item": "grimpack:door_chain"
   },
   "pattern": [
     "ss",
     "ss",
     "ss"
   ],
-  "type": "minecraft:crafting_shaped",
+  "type": "forge:ore_shaped",
   "key": {
     "s": {
-      "item": "grimpack:aluminum_shaft"
+      "item": "#STICKALUMINUM"
     }
   }
 }

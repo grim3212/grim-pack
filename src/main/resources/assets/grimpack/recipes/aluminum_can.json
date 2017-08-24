@@ -5,12 +5,8 @@
       "part": "industry"
     },
     {
-      "type": "grimpack:industry_subpart_enabled",
-      "subpart": "machines"
-    },
-    {
-      "type": "grimpack:ore_dict",
-      "oreName": "ingotAluminum"
+      "type": "grimpack:core_subpart_enabled",
+      "subpart": "aluminum"
     }
   ],
   "result": {

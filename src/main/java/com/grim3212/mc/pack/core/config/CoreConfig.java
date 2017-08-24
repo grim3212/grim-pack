@@ -15,6 +15,7 @@ public class CoreConfig extends GrimConfig {
 	public static final String CONFIG_NAME = "core";
 	public static final String CONFIG_GENERAL_NAME = "core.general";
 	public static final String CONFIG_PARTS_NAME = "core.parts";
+	public static final String CONFIG_SUB_PARTS_NAME = "core.parts";
 
 	public static boolean useCuisine;
 	public static boolean useDecor;
@@ -26,6 +27,15 @@ public class CoreConfig extends GrimConfig {
 	public static boolean giveManualOnJoin;
 	public static boolean showDebugInfo;
 	public static boolean showCheckmark;
+
+	public static boolean generateAluminum;
+
+	public static boolean subpartAluminum;
+	public static boolean subpartCoal;
+	public static boolean subpartGraphite;
+	public static boolean subpartIron;
+	public static boolean subpartRubber;
+	public static boolean subpartSteel;
 
 	@Override
 	public String name() {
@@ -45,6 +55,13 @@ public class CoreConfig extends GrimConfig {
 		useTools = config.get(CONFIG_PARTS_NAME, "Enable tools part", true).setRequiresMcRestart(true).getBoolean();
 		useUtil = config.get(CONFIG_PARTS_NAME, "Enable util part", true).setRequiresMcRestart(true).getBoolean();
 		useWorld = config.get(CONFIG_PARTS_NAME, "Enable world part", true).setRequiresMcRestart(true).getBoolean();
+
+		subpartAluminum = config.get(CONFIG_SUB_PARTS_NAME, "Enable aluminum subpart", true).setRequiresMcRestart(true).getBoolean();
+		subpartCoal = config.get(CONFIG_SUB_PARTS_NAME, "Enable coal subpart", true).setRequiresMcRestart(true).getBoolean();
+		subpartGraphite = config.get(CONFIG_SUB_PARTS_NAME, "Enable graphite subpart", true).setRequiresMcRestart(true).getBoolean();
+		subpartIron = config.get(CONFIG_SUB_PARTS_NAME, "Enable iron subpart", true).setRequiresMcRestart(true).getBoolean();
+		subpartRubber = config.get(CONFIG_SUB_PARTS_NAME, "Enable rubber subpart", true).setRequiresMcRestart(true).getBoolean();
+		subpartSteel = config.get(CONFIG_SUB_PARTS_NAME, "Enable steel subpart", true).setRequiresMcRestart(true).getBoolean();
 	}
 
 	@Override
@@ -55,6 +72,9 @@ public class CoreConfig extends GrimConfig {
 		giveManualOnJoin = config.get(CONFIG_GENERAL_NAME, "Give Instruction Manual on World Join", true, "grimpack.core.cfg.giveManual").getBoolean();
 		showCheckmark = config.get(CONFIG_GENERAL_NAME, "Show checkmark if available manual page", true, "grimpack.core.cfg.showCheckMark").getBoolean();
 
+		if (CoreConfig.subpartAluminum)
+			generateAluminum = config.get(CONFIG_GENERAL_NAME, "Generate Aluminum", true).getBoolean();
+
 		super.syncConfig();
 	}
 
@@ -63,6 +83,7 @@ public class CoreConfig extends GrimConfig {
 		List<IConfigElement> list = new ArrayList<IConfigElement>();
 		list.addAll(new ConfigElement(GrimCore.INSTANCE.getConfig().getCategory(CONFIG_GENERAL_NAME)).getChildElements());
 		list.add(new DummyCategoryElement("coreParts", "grimpack.core.cfg.parts", new ConfigElement(GrimCore.INSTANCE.getConfig().getCategory(CONFIG_PARTS_NAME)).getChildElements()));
+		list.add(new DummyCategoryElement("coreSubParts", "grimpack.core.cfg.subparts", new ConfigElement(GrimCore.INSTANCE.getConfig().getCategory(CONFIG_SUB_PARTS_NAME)).getChildElements()));
 		return list;
 	}
 
@@ -74,6 +95,13 @@ public class CoreConfig extends GrimConfig {
 		useTools = buffer.readBoolean();
 		useUtil = buffer.readBoolean();
 		useWorld = buffer.readBoolean();
+
+		subpartAluminum = buffer.readBoolean();
+		subpartCoal = buffer.readBoolean();
+		subpartGraphite = buffer.readBoolean();
+		subpartIron = buffer.readBoolean();
+		subpartRubber = buffer.readBoolean();
+		subpartSteel = buffer.readBoolean();
 	}
 
 	@Override
@@ -84,5 +112,12 @@ public class CoreConfig extends GrimConfig {
 		buffer.writeBoolean(useTools);
 		buffer.writeBoolean(useUtil);
 		buffer.writeBoolean(useWorld);
+
+		buffer.writeBoolean(subpartAluminum);
+		buffer.writeBoolean(subpartCoal);
+		buffer.writeBoolean(subpartGraphite);
+		buffer.writeBoolean(subpartIron);
+		buffer.writeBoolean(subpartRubber);
+		buffer.writeBoolean(subpartSteel);
 	}
 }

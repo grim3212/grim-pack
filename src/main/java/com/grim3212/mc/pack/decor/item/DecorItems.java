@@ -24,7 +24,6 @@ public class DecorItems {
 	public static final Item brush = new ItemBrush();
 	public static final Item pruners = new ItemPruners();
 	public static final Item flat_item_frame = new ItemFlatItemFrame();
-	public static final Item decor_door_item = new ItemDecorDoor();
 
 	@SubscribeEvent
 	public void initItems(RegistryEvent.Register<Item> evt) {
@@ -52,9 +51,6 @@ public class DecorItems {
 
 			if (DecorConfig.subpartLampPosts)
 				r.register(lamp_item);
-
-			if (DecorConfig.subpartFurniture)
-				r.register(decor_door_item);
 
 			if (DecorConfig.subpartSlopes)
 				r.register(pruners);

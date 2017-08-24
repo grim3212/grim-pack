@@ -17,5 +17,6 @@
   "output": {
     "item": "minecraft:cooked_fish",
   	"data": 0
-  }
+  },
+  "experience": 0.35
 }

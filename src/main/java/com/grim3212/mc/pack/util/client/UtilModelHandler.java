@@ -10,7 +10,7 @@ public class UtilModelHandler {
 
 	@SubscribeEvent
 	public void registerModels(ModelRegistryEvent evt) {
-		RenderHelper.renderBlock(UtilBlocks.grave);
+		RenderHelper.renderVariantForge(UtilBlocks.grave, "facing=north", "facing=south", "facing=west", "facing=east");
 	}
 
 }

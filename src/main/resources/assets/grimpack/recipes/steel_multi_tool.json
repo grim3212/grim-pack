@@ -15,6 +15,10 @@
     {
       "type": "grimpack:tools_subpart_enabled",
       "subpart": "multitools"
+    },
+    {
+      "type": "grimpack:ore_dict",
+      "oreName": "ingotSteel"
     }
   ],
   "result": {

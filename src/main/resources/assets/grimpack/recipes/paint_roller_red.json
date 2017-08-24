@@ -7,10 +7,6 @@
     {
       "type": "grimpack:industry_subpart_enabled",
       "subpart": "decoration"
-    },
-    {
-      "type": "grimpack:industry_subpart_enabled",
-      "oreName": "common"
     }
   ],
   "result": {

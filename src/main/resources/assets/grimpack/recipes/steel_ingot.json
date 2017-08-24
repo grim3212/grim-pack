@@ -5,7 +5,7 @@
       "part": "industry"
     },
     {
-      "type": "grimpack:industry_subpart_enabled",
+      "type": "grimpack:core_subpart_enabled",
       "subpart": "steel"
     }
   ],

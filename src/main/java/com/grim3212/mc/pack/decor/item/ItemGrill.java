@@ -24,11 +24,8 @@ import net.minecraft.world.World;
 @SuppressWarnings("deprecation")
 public class ItemGrill extends ItemManualBlock {
 
-	private Block block;
-
 	public ItemGrill(Block block) {
 		super(block);
-		this.block = block;
 	}
 
 	@Override

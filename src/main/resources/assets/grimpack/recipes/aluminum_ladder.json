@@ -7,6 +7,10 @@
     {
       "type": "grimpack:industry_subpart_enabled",
       "subpart": "metalworks"
+    },
+    {
+      "type": "grimpack:ore_dict",
+      "oreName": "stickAluminum"
     }
   ],
   "result": {
@@ -21,7 +25,7 @@
   "type": "minecraft:crafting_shaped",
   "key": {
     "s": {
-      "item": "grimpack:aluminum_shaft"
+      "item": "#STICKALUMINUM"
     }
   }
 }

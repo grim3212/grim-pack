@@ -7,6 +7,7 @@ import com.grim3212.mc.pack.industry.block.BlockElemental.ElementType;
 import com.grim3212.mc.pack.industry.config.IndustryConfig;
 import com.grim3212.mc.pack.industry.item.IndustryItems;
 import com.grim3212.mc.pack.industry.item.ItemGoldSafe;
+import com.grim3212.mc.pack.industry.item.ItemModernDoor;
 import com.grim3212.mc.pack.industry.item.ItemSensor;
 import com.grim3212.mc.pack.industry.tile.TileEntityCamo;
 import com.grim3212.mc.pack.industry.tile.TileEntityDGravity;
@@ -84,11 +85,9 @@ public class IndustryBlocks {
 	public static final Block camo_plate = new BlockCamoPlate();
 	public static final Block chain_fence = new BlockChainFence(Material.CIRCUITS);
 	public static final Block aluminum_ladder = new BlockAluminumLadder();
-	public static final Block aluminum_ore = (new BlockManualPage("aluminum_ore", Material.ROCK, SoundType.STONE, "industry:metalworks.alumingot")).setHardness(1.0F).setResistance(5.0F).setCreativeTab(GrimCreativeTabs.GRIM_INDUSTRY);
 	public static final Block oil_ore = new BlockOilOre();
 	public static final Block derrick = new BlockDerrick();
 	public static final Block modern_furnace = new BlockModernFurnace();
-	public static final Block steel_block = (new BlockManualPage("steel_block", Material.IRON, SoundType.METAL, "industry:metalworks.steelstuff")).setHardness(1.0F).setResistance(20.0F).setCreativeTab(GrimCreativeTabs.GRIM_INDUSTRY);
 	public static final Block steel_pipe = new BlockSteelPipe();
 	public static final Block refinery = new BlockRefinery();
 	public static final Block steel_frame = new BlockSteelFrame();
@@ -184,9 +183,6 @@ public class IndustryBlocks {
 			r.register(concrete);
 		}
 
-		if (IndustryConfig.subpartCommon)
-			r.register(aluminum_ore);
-
 		if (IndustryConfig.subpartFans)
 			r.register(fan);
 
@@ -207,7 +203,6 @@ public class IndustryBlocks {
 		}
 
 		if (IndustryConfig.subpartSteel) {
-			r.register(steel_block);
 			r.register(steel_pipe);
 			r.register(steel_frame);
 		}
@@ -262,11 +257,9 @@ public class IndustryBlocks {
 		if (IndustryConfig.subpartMetalWorks) {
 			r.register(new ItemManualBlock(metal_mesh).setRegistryName(metal_mesh.getRegistryName()));
 			r.register(new ItemManualBlock(aluminum_ladder).setRegistryName(aluminum_ladder.getRegistryName()));
-			r.register(new ItemManualBlock(aluminum_ore).setRegistryName(aluminum_ore.getRegistryName()));
 		}
 
 		if (IndustryConfig.subpartSteel) {
-			r.register(new ItemManualBlock(steel_block).setRegistryName(steel_block.getRegistryName()));
 			r.register(new ItemManualBlock(steel_pipe).setRegistryName(steel_pipe.getRegistryName()));
 			r.register(new ItemManualBlock(steel_frame).setRegistryName(steel_frame.getRegistryName()));
 		}
@@ -280,7 +273,6 @@ public class IndustryBlocks {
 			r.register(new ItemManualBlock(modern_furnace).setRegistryName(modern_furnace.getRegistryName()));
 			r.register(new ItemManualBlock(refinery).setRegistryName(refinery.getRegistryName()));
 			r.register(new ItemManualBlock(drill).setRegistryName(drill.getRegistryName()));
-			r.register(new ItemManualBlock(drill_head).setRegistryName(drill_head.getRegistryName()));
 			r.register(new ItemManualBlock(conveyor_belt).setRegistryName(conveyor_belt.getRegistryName()));
 		}
 
@@ -294,15 +286,14 @@ public class IndustryBlocks {
 		}
 
 		if (IndustryConfig.subpartDoors) {
-			r.register(new ItemManualBlock(door_chain).setRegistryName(door_chain.getRegistryName()));
-			r.register(new ItemManualBlock(door_glass).setRegistryName(door_glass.getRegistryName()));
-			r.register(new ItemManualBlock(door_steel).setRegistryName(door_steel.getRegistryName()));
+			r.register(new ItemModernDoor(door_chain).setRegistryName(door_chain.getRegistryName()));
+			r.register(new ItemModernDoor(door_glass).setRegistryName(door_glass.getRegistryName()));
+			r.register(new ItemModernDoor(door_steel).setRegistryName(door_steel.getRegistryName()));
 		}
 
 		if (IndustryConfig.subpartDoors) {
 			r.register(new ItemManualBlock(sidewalk).setRegistryName(sidewalk.getRegistryName()));
 			r.register(new ItemManualBlock(rway).setRegistryName(rway.getRegistryName()));
-			r.register(new ItemManualBlock(rway_light_on).setRegistryName(rway_light_on.getRegistryName()));
 			r.register(new ItemManualBlock(rway_light_off).setRegistryName(rway_light_off.getRegistryName()));
 			r.register(new ItemManualBlock(rway_manhole).setRegistryName(rway_manhole.getRegistryName()));
 		}
@@ -409,19 +400,10 @@ public class IndustryBlocks {
 			OreDictionary.registerOre("blockGlass", tempered_glass);
 			OreDictionary.registerOre("oreOil", oil_ore);
 		}
-
-		if (IndustryConfig.subpartSteel)
-			OreDictionary.registerOre("blockSteel", steel_block);
-
-		if (IndustryConfig.subpartCommon)
-			OreDictionary.registerOre("oreAluminum", aluminum_ore);
-
 	}
 
 	@SubscribeEvent
 	public void registerRecipes(RegistryEvent.Register<IRecipe> evt) {
-		if (IndustryConfig.subpartCommon)
-			GameRegistry.addSmelting(aluminum_ore, new ItemStack(IndustryItems.aluminum_ingot, 1), 0.45F);
 		if (IndustryConfig.subpartNuclear)
 			GameRegistry.addSmelting(uranium_ore, new ItemStack(IndustryItems.uranium_ingot), 0.7F);
 	}

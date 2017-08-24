@@ -10,7 +10,10 @@
     }
   ],
   "result": {
-    "item": "grimpack:pellet_bag"
+    "item": "grimpack:pellet_bag",
+     "nbt": {
+     	"color": -1
+     }
   },
   "pattern": [
     "SIL",

@@ -121,7 +121,7 @@ public class ManualDecor implements IManualPart {
 				fence_page = new PageCrafting("fence", new ItemStack(DecorBlocks.fence));
 				fenceGate_page = new PageCrafting("fencegate", new ItemStack(DecorBlocks.fence_gate));
 				wall_page = new PageCrafting("wall", new ItemStack(DecorBlocks.wall));
-				doors_page = new PageCrafting("doors", new ItemStack(DecorItems.decor_door_item));
+				doors_page = new PageCrafting("doors", new ItemStack(DecorBlocks.decor_door));
 				decorTrapDoor_page = new PageCrafting("trap_door", new ItemStack(DecorBlocks.decor_trap_door));
 			}
 

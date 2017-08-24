@@ -4,8 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.grim3212.mc.pack.core.config.ConfigUtils;
+import com.grim3212.mc.pack.core.config.ConfigUtils.ArmorMaterialHolder;
+import com.grim3212.mc.pack.core.config.ConfigUtils.ToolMaterialHolder;
 import com.grim3212.mc.pack.core.config.GrimConfig;
 import com.grim3212.mc.pack.industry.GrimIndustry;
+import com.grim3212.mc.pack.industry.util.MachineRecipes;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketBuffer;
@@ -18,13 +21,14 @@ public class IndustryConfig extends GrimConfig {
 	public static final String CONFIG_NAME = "industry";
 	public static final String CONFIG_GENERAL_NAME = "industry.general";
 	public static final String CONFIG_EXTRUDER_NAME = "industry.extruder";
-	public static final String CONFIG_REFINERY_RECIPES_NAME = "industry.customrefineryrecipes";
 	public static final String CONFIG_PARTS_NAME = "industry.subparts";
 
 	public static List<ItemStack> workbenchUpgradeList = new ArrayList<ItemStack>();
 
+	public static ToolMaterialHolder steelToolMaterial;
+	public static ArmorMaterialHolder antiRadiationArmorMaterial;
+	public static ArmorMaterialHolder gravityArmorMaterial;
 	public static boolean generateUranium;
-	public static boolean generateAluminum;
 	public static boolean generateOilOre;
 
 	// Workbench Upgrades
@@ -55,7 +59,6 @@ public class IndustryConfig extends GrimConfig {
 	public static boolean showFanParticles;
 
 	// Subparts
-	public static boolean subpartCommon;
 	public static boolean subpartConveyor;
 	public static boolean subpartDecoration;
 	public static boolean subpartDoors;
@@ -82,8 +85,21 @@ public class IndustryConfig extends GrimConfig {
 	}
 
 	@Override
+	public void syncFirst() {
+		ConfigUtils.setCurrentPart(GrimIndustry.partName);
+
+		if (subpartSteel)
+			steelToolMaterial = ConfigUtils.loadToolMaterial(new ToolMaterialHolder("steel", 3, 1200, 7.5F, 2.5F, 12));
+
+		if (subpartGravity)
+			gravityArmorMaterial = ConfigUtils.loadArmorMaterial(new ArmorMaterialHolder("gravity", 15, new int[] { 2, 6, 5, 2 }, 9, 0.0F));
+
+		if (subpartNuclear)
+			antiRadiationArmorMaterial = ConfigUtils.loadArmorMaterial(new ArmorMaterialHolder("anti_radiation", 5, new int[] { 2, 5, 3, 1 }, 15, 0.0F));
+	}
+
+	@Override
 	public void syncSubparts() {
-		subpartCommon = config.get(CONFIG_PARTS_NAME, "Enable SubPart common", true).setRequiresMcRestart(true).getBoolean();
 		subpartConveyor = config.get(CONFIG_PARTS_NAME, "Enable SubPart conveyor", true).setRequiresMcRestart(true).getBoolean();
 		subpartDecoration = config.get(CONFIG_PARTS_NAME, "Enable SubPart decoration", true).setRequiresMcRestart(true).getBoolean();
 		subpartDoors = config.get(CONFIG_PARTS_NAME, "Enable SubPart doors", true).setRequiresMcRestart(true).getBoolean();
@@ -140,9 +156,6 @@ public class IndustryConfig extends GrimConfig {
 			speedModifierMagmaCream = (float) config.get(CONFIG_EXTRUDER_NAME, "Magmacream speed modifier", 2.2F).getDouble();
 		}
 
-		if (subpartMetalWorks)
-			generateAluminum = config.get(CONFIG_GENERAL_NAME, "Generate Aluminum", true).getBoolean();
-
 		if (subpartNuclear) {
 			generateUranium = config.get(CONFIG_GENERAL_NAME, "Generate Uranium", true).getBoolean();
 			uraniumDamage = config.get(CONFIG_GENERAL_NAME, "Damage from Uranium Ore", 4).getInt();
@@ -150,6 +163,8 @@ public class IndustryConfig extends GrimConfig {
 
 		if (subpartMachines) {
 			generateOilOre = config.get(CONFIG_GENERAL_NAME, "Generate Oil Ore", true).getBoolean();
+			String[] fuels = config.get(CONFIG_GENERAL_NAME, "grimpack.industry.cfg.modernfurnace_fuels", new String[] { "grimpack:fuel>25000", "grimpack:fuel_tank>225000" }).getStringList();
+			MachineRecipes.INSTANCE.getModernFurnaceFuel().addAll(ConfigUtils.loadConfigurableFuel(fuels));
 		}
 		super.syncConfig();
 	}
@@ -157,7 +172,7 @@ public class IndustryConfig extends GrimConfig {
 	@Override
 	public List<IConfigElement> getConfigItems() {
 		List<IConfigElement> list = new ArrayList<IConfigElement>();
-		if (subpartWorkbenchUpgrades || subpartMetalWorks || subpartMachines || subpartFans || subpartNuclear)
+		if (subpartWorkbenchUpgrades || subpartMachines || subpartFans || subpartNuclear)
 			list.add(new DummyCategoryElement("industryGeneralCfg", "grimpack.industry.cfg.general", new ConfigElement(GrimIndustry.INSTANCE.getConfig().getCategory(CONFIG_GENERAL_NAME)).getChildElements()));
 		if (subpartExtruder)
 			list.add(new DummyCategoryElement("industryExtruderCfg", "grimpack.industry.cfg.extruder", new ConfigElement(GrimIndustry.INSTANCE.getConfig().getCategory(CONFIG_EXTRUDER_NAME)).getChildElements()));
@@ -167,7 +182,6 @@ public class IndustryConfig extends GrimConfig {
 
 	@Override
 	public void readFromServer(PacketBuffer buffer) {
-		subpartCommon = buffer.readBoolean();
 		subpartConveyor = buffer.readBoolean();
 		subpartDecoration = buffer.readBoolean();
 		subpartDoors = buffer.readBoolean();
@@ -194,7 +208,6 @@ public class IndustryConfig extends GrimConfig {
 
 	@Override
 	public void writeToClient(PacketBuffer buffer) {
-		buffer.writeBoolean(subpartCommon);
 		buffer.writeBoolean(subpartConveyor);
 		buffer.writeBoolean(subpartDecoration);
 		buffer.writeBoolean(subpartDoors);

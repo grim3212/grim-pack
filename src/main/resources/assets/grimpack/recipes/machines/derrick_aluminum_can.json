@@ -12,7 +12,7 @@
   "type": "grimpack:machine",
   "machine": "derrick",
   "input": {
-  	"item": "grimpack:aluminum_can"
+  	"item": "#CAN"
   },
   "output": {
     "item": "grimpack:crude_oil"

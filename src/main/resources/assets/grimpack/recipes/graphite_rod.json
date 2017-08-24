@@ -5,8 +5,8 @@
       "part": "industry"
     },
     {
-      "type": "grimpack:industry_subpart_enabled",
-      "subpart": "nuclear"
+      "type": "grimpack:ore_dict",
+      "oreName": "graphite"
     }
   ],
   "result": {
@@ -20,7 +20,7 @@
   "type": "minecraft:crafting_shaped",
   "key": {
     "G": {
-      "item": "grimpack:graphite"
+      "item": "#GRAPHITE"
     }
   }
 }

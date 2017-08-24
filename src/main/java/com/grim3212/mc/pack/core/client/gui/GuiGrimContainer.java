@@ -1,15 +1,16 @@
 package com.grim3212.mc.pack.core.client.gui;
 
 import java.io.IOException;
-import java.util.Set;
 
 import org.lwjgl.input.Keyboard;
 
-import com.google.common.collect.Sets;
 import com.grim3212.mc.pack.core.inventory.SlotGrim;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.GuiLabel;
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.RenderHelper;
@@ -26,23 +27,9 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public abstract class GuiGrimContainer extends GuiScreen {
+public abstract class GuiGrimContainer extends GuiContainer {
 	/** The location of the inventory background texture */
 	public static final ResourceLocation INVENTORY_BACKGROUND = new ResourceLocation("textures/gui/container/inventory.png");
-	/** The X size of the inventory window in pixels. */
-	protected int xSize = 176;
-	/** The Y size of the inventory window in pixels. */
-	protected int ySize = 166;
-	/** A list of the players inventory slots */
-	public Container inventorySlots;
-	/**
-	 * Starting X position for the Gui. Inconsistent use for Gui backgrounds.
-	 */
-	protected int guiLeft;
-	/**
-	 * Starting Y position for the Gui. Inconsistent use for Gui backgrounds.
-	 */
-	protected int guiTop;
 	/** holds the slot currently hovered */
 	private Slot hoverSlot;
 	/** Used when touchscreen is enabled. */
@@ -59,8 +46,6 @@ public abstract class GuiGrimContainer extends GuiScreen {
 	private ItemStack returningStack = ItemStack.EMPTY;
 	private Slot currentDragTargetSlot;
 	private long dragItemDropDelay;
-	protected final Set<Slot> dragSplittingSlots = Sets.<Slot>newHashSet();
-	protected boolean dragSplitting;
 	private int dragSplittingLimit;
 	private int dragSplittingButton;
 	private boolean ignoreMouseUp;
@@ -72,7 +57,7 @@ public abstract class GuiGrimContainer extends GuiScreen {
 	private ItemStack shiftClickedSlot = ItemStack.EMPTY;
 
 	public GuiGrimContainer(Container inventorySlotsIn) {
-		this.inventorySlots = inventorySlotsIn;
+		super(inventorySlotsIn);
 		this.ignoreMouseUp = true;
 	}
 
@@ -82,10 +67,19 @@ public abstract class GuiGrimContainer extends GuiScreen {
 	 * cleared beforehand.
 	 */
 	public void initGui() {
-		super.initGui();
 		this.mc.player.openContainer = this.inventorySlots;
 		this.guiLeft = (this.width - this.xSize) / 2;
 		this.guiTop = (this.height - this.ySize) / 2;
+	}
+
+	private void draw(int mouseX, int mouseY, float partialTicks) {
+		for (int i = 0; i < this.buttonList.size(); ++i) {
+			((GuiButton) this.buttonList.get(i)).drawButton(this.mc, mouseX, mouseY, partialTicks);
+		}
+
+		for (int j = 0; j < this.labelList.size(); ++j) {
+			((GuiLabel) this.labelList.get(j)).drawLabel(this.mc, mouseX, mouseY);
+		}
 	}
 
 	/**
@@ -101,7 +95,7 @@ public abstract class GuiGrimContainer extends GuiScreen {
 		RenderHelper.disableStandardItemLighting();
 		GlStateManager.disableLighting();
 		GlStateManager.disableDepth();
-		super.drawScreen(mouseX, mouseY, partialTicks);
+		draw(mouseX, mouseY, partialTicks);
 		RenderHelper.enableGUIStandardItemLighting();
 		GlStateManager.pushMatrix();
 		GlStateManager.translate((float) i, (float) j, 0.0F);
@@ -331,11 +325,31 @@ public abstract class GuiGrimContainer extends GuiScreen {
 		return null;
 	}
 
+	private void mouseClick(int mouseX, int mouseY, int mouseButton) throws IOException {
+		if (mouseButton == 0) {
+			for (int i = 0; i < this.buttonList.size(); ++i) {
+				GuiButton guibutton = this.buttonList.get(i);
+
+				if (guibutton.mousePressed(this.mc, mouseX, mouseY)) {
+					net.minecraftforge.client.event.GuiScreenEvent.ActionPerformedEvent.Pre event = new net.minecraftforge.client.event.GuiScreenEvent.ActionPerformedEvent.Pre(this, guibutton, this.buttonList);
+					if (net.minecraftforge.common.MinecraftForge.EVENT_BUS.post(event))
+						break;
+					guibutton = event.getButton();
+					this.selectedButton = guibutton;
+					guibutton.playPressSound(this.mc.getSoundHandler());
+					this.actionPerformed(guibutton);
+					if (this.equals(this.mc.currentScreen))
+						net.minecraftforge.common.MinecraftForge.EVENT_BUS.post(new net.minecraftforge.client.event.GuiScreenEvent.ActionPerformedEvent.Post(this, event.getButton(), this.buttonList));
+				}
+			}
+		}
+	}
+
 	/**
 	 * Called when the mouse is clicked. Args : mouseX, mouseY, clickedButton
 	 */
 	protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
-		super.mouseClicked(mouseX, mouseY, mouseButton);
+		mouseClick(mouseX, mouseY, mouseButton);
 		boolean flag = this.mc.gameSettings.keyBindPickBlock.isActiveAndMatches(mouseButton - 100);
 		Slot slot = this.getSlotAtPosition(mouseX, mouseY);
 		long i = Minecraft.getSystemTime();
@@ -451,12 +465,19 @@ public abstract class GuiGrimContainer extends GuiScreen {
 		}
 	}
 
+	protected void mouseRelease(int mouseX, int mouseY, int state) {
+		if (this.selectedButton != null && state == 0) {
+			this.selectedButton.mouseReleased(mouseX, mouseY);
+			this.selectedButton = null;
+		}
+	}
+
 	/**
 	 * Called when a mouse button is released.
 	 */
 	protected void mouseReleased(int mouseX, int mouseY, int state) {
-		super.mouseReleased(mouseX, mouseY, state); // Forge, Call parent to
-													// release buttons
+		mouseRelease(mouseX, mouseY, state); // Forge, Call parent to
+												// release buttons
 		Slot slot = this.getSlotAtPosition(mouseX, mouseY);
 		int i = this.guiLeft;
 		int j = this.guiTop;
@@ -660,8 +681,6 @@ public abstract class GuiGrimContainer extends GuiScreen {
 	 * Called from the main game loop to update the screen.
 	 */
 	public void updateScreen() {
-		super.updateScreen();
-
 		if (!this.mc.player.isEntityAlive() || this.mc.player.isDead) {
 			this.mc.player.closeScreen();
 		}

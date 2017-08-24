@@ -17,7 +17,11 @@
     "item": "minecraft:stone",
     "data": 0
   },
-  "outItem": {
-    "item": "grimpack:iron_ore_item"
+  "outItems": {
+    "items": [
+    	{
+    		"item": "grimpack:iron_ore_item"
+    	}
+    ]
   }
 }

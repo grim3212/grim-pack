@@ -40,6 +40,6 @@
         "facing=south,half=upper,hinge=right,open=true": [{ "custom": { "models": ["grimpack:block/decor_door_top"]} }],
         "facing=west,half=upper,hinge=right,open=true":  [{ "custom": { "models": ["grimpack:block/decor_door_top"]}, "y": 90 }],
         "facing=north,half=upper,hinge=right,open=true": [{ "custom": { "models": ["grimpack:block/decor_door_top"]}, "y": 180 }],
-		"inventory": [{ "transform": "identity" }]
+        "inventory": [{ "transform": "forge:default-item", "model": "grimpack:decor_colorizer", "custom": { "models": ["grimpack:item/decor_door_item_model"] }}]
     }
 }

@@ -7,6 +7,14 @@
     {
       "type": "grimpack:industry_subpart_enabled",
       "subpart": "steel"
+    },
+    {
+      "type": "grimpack:ore_dict",
+      "oreName": "ingotSteel"
+    },
+    {
+      "type": "grimpack:ore_dict",
+      "oreName": "stickSteel"
     }
   ],
   "result": {
@@ -20,7 +28,7 @@
   "type": "forge:ore_shaped",
   "key": {
     "s": {
-      "item": "grimpack:steel_shaft"
+      "item": "#STICKSTEEL"
     },
     "i": {
       "item": "#INGOTSTEEL"

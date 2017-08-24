@@ -7,6 +7,10 @@
     {
       "type": "grimpack:industry_subpart_enabled",
       "subpart": "nuclear"
+    },
+    {
+      "type": "grimpack:ore_dict",
+      "oreName": "stickGraphite"
     }
   ],
   "result": {
@@ -17,10 +21,10 @@
     " G ",
     " G "
   ],
-  "type": "minecraft:crafting_shaped",
+  "type": "forge:ore_shaped",
   "key": {
     "G": {
-      "item": "grimpack:graphite_rod"
+      "item": "#STICKGRAPHITE"
     }
   }
 }

@@ -13,8 +13,8 @@
       "oreName": "ingotAluminum"
     },
     {
-      "type": "minecraft:item_exists",
-      "item": "grimpack:steel_pipe"
+      "type": "grimpack:industry_subpart_enabled",
+      "subpart": "steel"
     }
   ],
   "result": {

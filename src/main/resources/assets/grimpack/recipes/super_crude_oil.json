@@ -7,6 +7,10 @@
     {
       "type": "grimpack:industry_subpart_enabled",
       "subpart": "machines"
+    },
+    {
+      "type": "grimpack:ore_dict",
+      "oreName": "can"
     }
   ],
   "result": {
@@ -16,10 +20,10 @@
     "o",
     "a"
   ],
-  "type": "minecraft:crafting_shaped",
+  "type": "forge:ore_shaped",
   "key": {
     "a": {
-      "item": "grimpack:aluminum_can"
+      "item": "#CAN"
     },
     "o": {
       "item": "grimpack:oily_chunk"

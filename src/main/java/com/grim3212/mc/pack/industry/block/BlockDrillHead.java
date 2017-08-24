@@ -33,6 +33,7 @@ public class BlockDrillHead extends BlockManual {
 		super("drill_head", Material.IRON, SoundType.METAL);
 		setHardness(9.0F);
 		setResistance(9.0F);
+		this.setCreativeTab(null);
 	}
 
 	@Override

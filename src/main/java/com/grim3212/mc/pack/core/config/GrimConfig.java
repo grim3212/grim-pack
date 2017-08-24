@@ -4,6 +4,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.grim3212.mc.pack.GrimPack;
+
 import net.minecraft.network.PacketBuffer;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fml.client.config.IConfigElement;
@@ -14,7 +16,7 @@ public abstract class GrimConfig {
 	public Configuration config;
 
 	public GrimConfig() {
-		config = new Configuration(new File(Loader.instance().getConfigDir(), Loader.instance().activeModContainer().getModId() + "/" + name() + ".cfg"));
+		config = new Configuration(new File(Loader.instance().getConfigDir(), GrimPack.modID + "/" + name() + ".cfg"));
 	}
 
 	/**

@@ -15,5 +15,6 @@
   },
   "output": {
     "item": "minecraft:cooked_mutton"
-  }
+  },
+  "experience": 0.35
 }

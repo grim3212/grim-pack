@@ -1,5 +1,7 @@
 package com.grim3212.mc.pack.industry.client;
 
+import com.grim3212.mc.pack.core.common.CommonItems;
+import com.grim3212.mc.pack.core.config.CoreConfig;
 import com.grim3212.mc.pack.core.manual.IManualPart;
 import com.grim3212.mc.pack.core.manual.ManualPart;
 import com.grim3212.mc.pack.core.manual.ManualRegistry;
@@ -16,8 +18,8 @@ import com.grim3212.mc.pack.industry.item.IndustryItems;
 import com.grim3212.mc.pack.industry.util.MachineRecipes;
 import com.grim3212.mc.pack.industry.util.MachineRecipes.MachineType;
 
-import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.oredict.OreDictionary;
 
 public class ManualIndustry implements IManualPart {
 
@@ -44,16 +46,12 @@ public class ManualIndustry implements IManualPart {
 	public static Page plutonium_page;
 	public static Page refinedPlutonium_page;
 	public static Page reactorCore_page;
-	public static Page graphite_page;
-	public static Page graphiteRod_page;
 	public static Page reactorCase_page;
 	public static Page ironParts_page;
 	public static Page reactor_page;
-	public static Page aluminum_page;
 	public static Page bombShell_page;
 	public static Page c4_page;
 	public static Page nuclearBomb_page;
-	public static Page ironStick_page;
 	public static Page gate_page;
 	public static Page gateTrumpet_page;
 	public static Page garage_page;
@@ -69,7 +67,6 @@ public class ManualIndustry implements IManualPart {
 	public static Page others_page;
 	public static Page decoration_page;
 	public static Page paintTech_page;
-	public static Page alumStuff_page;
 	public static Page buckLadd_page;
 	public static Page coalIron_page;
 	public static Page steelIngot_page;
@@ -173,20 +170,13 @@ public class ManualIndustry implements IManualPart {
 			plutonium_page = new PageCrafting("plutonium", new ItemStack(IndustryItems.plutonium_ingot));
 			refinedPlutonium_page = new PageCrafting("refined_plutonium", new ItemStack(IndustryItems.refined_plutonium));
 			reactorCore_page = new PageCrafting("reactor_core", new ItemStack(IndustryItems.reactor_core));
-			graphite_page = new PageFurnace("graphite", new ItemStack(Items.FLINT));
-			graphiteRod_page = new PageCrafting("graphite_rod", new ItemStack(IndustryItems.graphite_rod));
+
 			reactorCase_page = new PageCrafting("reactor_case", new ItemStack(IndustryItems.reactor_core_case));
 			ironParts_page = new PageCrafting("iron_parts", new ItemStack(IndustryItems.iron_parts));
 			reactor_page = new PageCrafting("reactor", new ItemStack(IndustryBlocks.reactor));
 			bombShell_page = new PageCrafting("bomb_shell", new ItemStack(IndustryBlocks.bomb_shell));
 			c4_page = new PageCrafting("c4", new ItemStack(IndustryBlocks.c4));
 			nuclearBomb_page = new PageCrafting("nuclear_bomb", new ItemStack(IndustryBlocks.nuclear_bomb));
-		}
-
-		if (IndustryConfig.subpartCommon) {
-			ironStick_page = new PageCrafting("iron_stick", new ItemStack(IndustryItems.iron_stick));
-			paint_page = new PageCrafting("paint", new ItemStack(IndustryItems.paint_roller));
-			aluminum_page = new PageFurnace("aluminum", new ItemStack(IndustryBlocks.aluminum_ore));
 		}
 
 		if (IndustryConfig.subpartGates) {
@@ -214,12 +204,12 @@ public class ManualIndustry implements IManualPart {
 		if (IndustryConfig.subpartDecoration) {
 			others_page = new PageCrafting("others", IndustryRecipes.others, 25);
 			decoration_page = new PageCrafting("decoration", IndustryRecipes.decoration, 25);
+			paint_page = new PageCrafting("paint", new ItemStack(IndustryItems.paint_roller));
 			paintTech_page = new PageCrafting("paint", IndustryRecipes.paint, 25);
 		}
 
 		if (IndustryConfig.subpartMetalWorks) {
 			metalMesh_page = new PageCrafting("metal_mesh", new ItemStack(IndustryBlocks.metal_mesh));
-			alumStuff_page = new PageCrafting("alumstuff", IndustryRecipes.alumstuff, 25);
 			buckLadd_page = new PageCrafting("buckladd", IndustryRecipes.buckladd, 25);
 		}
 
@@ -237,8 +227,13 @@ public class ManualIndustry implements IManualPart {
 			machineInfo_page = new PageInfo("info");
 			refinery_page = new PageCrafting("refinery", new ItemStack(IndustryBlocks.refinery));
 			refineryRecipes_page = new PageMachine("refinery_recipes", MachineRecipes.INSTANCE.getInputs(MachineType.REFINERY), 35, MachineType.REFINERY);
-			derrick_page = new PageCrafting("derrick", 25, new ItemStack(IndustryBlocks.derrick), new ItemStack(IndustryItems.aluminum_can));
-			derrickRecipes_page = new PageMachine("derrick_recipes", new ItemStack(IndustryItems.aluminum_can), MachineType.DERRICK);
+
+			if (CoreConfig.subpartAluminum)
+				derrick_page = new PageCrafting("derrick", 25, new ItemStack(IndustryBlocks.derrick), new ItemStack(CommonItems.aluminum_can));
+
+			if (OreDictionary.doesOreNameExist("can"))
+				derrickRecipes_page = new PageMachine("derrick_recipes", "can", MachineType.DERRICK);
+
 			modernFurnace_page = new PageCrafting("mfurnace", new ItemStack(IndustryBlocks.modern_furnace));
 			modernFurnaceRecipes_page = new PageMachine("mfurnace_recipes", MachineRecipes.INSTANCE.getInputs(MachineType.MODERN_FURNACE), 35, MachineType.MODERN_FURNACE);
 		}
@@ -246,9 +241,6 @@ public class ManualIndustry implements IManualPart {
 
 	@Override
 	public void registerChapters(ManualPart part) {
-		if (IndustryConfig.subpartCommon)
-			ManualRegistry.addChapter("common", part).addPages(ironStick_page, paint_page, aluminum_page);
-
 		if (IndustryConfig.subpartWorkbenchUpgrades)
 			ManualRegistry.addChapter("benches", part).addPages(workbench_page, portableUpgrade_page);
 
@@ -275,7 +267,7 @@ public class ManualIndustry implements IManualPart {
 
 		if (IndustryConfig.subpartNuclear) {
 			ManualRegistry.addChapter("refining", part).addPages(uranium_page, radiationSuit_page, uraniumSmelt_page, refinedUranium_page, plutonium_page, refinedPlutonium_page, reactorCore_page);
-			ManualRegistry.addChapter("reactor", part).addPages(graphite_page, graphiteRod_page, reactorCase_page, ironParts_page, reactor_page);
+			ManualRegistry.addChapter("reactor", part).addPages(reactorCase_page, ironParts_page, reactor_page);
 			ManualRegistry.addChapter("explosives", part).addPages(bombShell_page, c4_page, nuclearBomb_page);
 		}
 
@@ -289,10 +281,10 @@ public class ManualIndustry implements IManualPart {
 			ManualRegistry.addChapter("rways", part).addPages(sidewalk_page, tarball_page, asphalt_page, rways_page);
 
 		if (IndustryConfig.subpartDoors || IndustryConfig.subpartDecoration)
-			ManualRegistry.addChapter("moderntech", part).addPages(doors_page, others_page, decoration_page, paintTech_page);
+			ManualRegistry.addChapter("moderntech", part).addPages(doors_page, others_page, decoration_page, paint_page, paintTech_page);
 
 		if (IndustryConfig.subpartMetalWorks || IndustryConfig.subpartSteel)
-			ManualRegistry.addChapter("metalworks", part).addPages(alumStuff_page, buckLadd_page, coalIron_page, steelIngot_page, steelStuff_page, steelTools_page, metalMesh_page);
+			ManualRegistry.addChapter("metalworks", part).addPages(buckLadd_page, coalIron_page, steelIngot_page, steelStuff_page, steelTools_page, metalMesh_page);
 
 		if (IndustryConfig.subpartMachines)
 			ManualRegistry.addChapter("machines", part).addPages(machineInfo_page, refinery_page, refineryRecipes_page, derrick_page, derrickRecipes_page, fuel_page, modernFurnace_page, modernFurnaceRecipes_page, drill_page, conveyorBelt_page);

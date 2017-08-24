@@ -3,6 +3,7 @@ package com.grim3212.mc.pack.world.crafting;
 import java.util.function.BooleanSupplier;
 
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParseException;
 import com.grim3212.mc.pack.world.config.WorldConfig;
 
 import net.minecraft.util.JsonUtils;
@@ -45,7 +46,7 @@ public class WorldConditionFactory implements IConditionFactory {
 		case "worldgenexpanded":
 			return () -> WorldConfig.subpartWorldGenExpanded;
 		default:
-			return () -> false;
+			throw new JsonParseException("Part '" + value + "' is either misspelled or doesn't exist!");
 		}
 	}
 }
