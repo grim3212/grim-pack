@@ -1030,6 +1030,7 @@ generator.floating_islands.info=[GrimPack] Floating Islands World Type
 grimpack.manual.title=Grim Instruction Manual
 grimpack.manual.shapeless=Shapeless Recipe
 grimpack.manual.oredictionary=Ore Dictionary
+grimpack.manual.missing=Recipe not found or loaded!
 grimpack.manual.header=Click on a mod to learn more about it.
 grimpack.manual.core.modinfo=This is the base mod that all of Grim's Parts require. This mod only implements 1 item and that is this item.
 grimpack.manual.core.subsection.im=Instruction Manual

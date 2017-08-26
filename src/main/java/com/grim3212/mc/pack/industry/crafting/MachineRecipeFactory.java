@@ -31,11 +31,13 @@ public class MachineRecipeFactory implements IRecipeFactory {
 
 		public MachineRecipe(MachineType type, Ingredient in, ItemStack out, float exp) {
 			super(in, out, exp);
-			MachineRecipes.INSTANCE.addRecipe(input, out, exp, type);
+			if (input.getMatchingStacks().length > 0) {
+				MachineRecipes.INSTANCE.addRecipe(input, out, exp, type);
 
-			GrimLog.debugInfo(GrimIndustry.partName, "Registered '" + type.getName() + "' recipe " + input.getMatchingStacks()[0].toString() + " -> " + output + " : " + experience);
-
+				GrimLog.debugInfo(GrimIndustry.partName, "Registered '" + type.getName() + "' recipe " + input.getMatchingStacks()[0].toString() + " -> " + output + " : " + experience);
+			} else {
+				GrimLog.error(GrimIndustry.partName, "Found empty ingredient for '" + type.getName() + "' recipe output '" + out + "'");
+			}
 		}
-
 	}
 }

@@ -105,28 +105,47 @@ public class PageCrafting extends Page {
 	}
 
 	public void renderRecipe(GuiManualPage gui, List<ResourceLocation> output) {
-		IRecipe recipe = ForgeRegistries.RECIPES.getValue(output.get(recipeShown));
+		ResourceLocation loc = output.get(recipeShown);
 
-		this.drawIngredientList(gui, recipe);
+		IRecipe recipe = ForgeRegistries.RECIPES.getValue(loc);
 
-		if (isShapeless) {
-			GlStateManager.pushMatrix();
-			GlStateManager.enableBlend();
-			TextureManager render = Minecraft.getMinecraft().renderEngine;
-			render.bindTexture(craftingOverlay);
+		if (recipe != null) {
+			ItemStack outstack = recipe.getRecipeOutput();
 
-			((GuiScreen) gui).drawTexturedModalRect(gui.getX() + 133, gui.getY() + 144, 0, 27, 36, 36);
-			GlStateManager.disableBlend();
-			GlStateManager.popMatrix();
+			if (outstack != ItemStack.EMPTY && outstack != null) {
+				this.drawIngredientList(gui, recipe);
+
+				if (isShapeless) {
+					GlStateManager.pushMatrix();
+					GlStateManager.enableBlend();
+					TextureManager render = Minecraft.getMinecraft().renderEngine;
+					render.bindTexture(craftingOverlay);
+
+					((GuiScreen) gui).drawTexturedModalRect(gui.getX() + 133, gui.getY() + 144, 0, 27, 36, 36);
+					GlStateManager.disableBlend();
+					GlStateManager.popMatrix();
+				}
+
+				if (isShapeless)
+					NBTHelper.setString(outstack, "customTooltip", I18n.format("grimpack.manual.shapeless"));
+				this.renderItem(gui, outstack, gui.getX() + 143, gui.getY() + 154);
+
+				FontRenderer renderer = Minecraft.getMinecraft().fontRenderer;
+				renderer.drawString(outstack.getDisplayName(), (gui.getManualWidth() / 2 - renderer.getStringWidth(outstack.getDisplayName()) / 2) + gui.getX(), gui.getY() + 210, Color.BLACK.getRGB(), false);
+			} else {
+				String missing = I18n.format("grimpack.manual.missing");
+
+				FontRenderer renderer = Minecraft.getMinecraft().fontRenderer;
+				renderer.drawString(missing, (gui.getManualWidth() / 2 - renderer.getStringWidth(missing) / 2) + gui.getX(), gui.getY() + 204, Color.RED.getRGB(), false);
+				renderer.drawString("'" + loc.toString() + "'", (gui.getManualWidth() / 2 - renderer.getStringWidth(loc.toString()) / 2) + gui.getX(), gui.getY() + 215, Color.BLACK.getRGB(), false);
+			}
+		} else {
+			String missing = I18n.format("grimpack.manual.missing");
+
+			FontRenderer renderer = Minecraft.getMinecraft().fontRenderer;
+			renderer.drawString(missing, (gui.getManualWidth() / 2 - renderer.getStringWidth(missing) / 2) + gui.getX(), gui.getY() + 204, Color.RED.getRGB(), false);
+			renderer.drawString("'" + loc.toString() + "'", (gui.getManualWidth() / 2 - renderer.getStringWidth(loc.toString()) / 2) + gui.getX(), gui.getY() + 215, Color.BLACK.getRGB(), false);
 		}
-
-		ItemStack outstack = recipe.getRecipeOutput();
-		if (isShapeless)
-			NBTHelper.setString(outstack, "customTooltip", I18n.format("grimpack.manual.shapeless"));
-		this.renderItem(gui, outstack, gui.getX() + 143, gui.getY() + 154);
-
-		FontRenderer renderer = Minecraft.getMinecraft().fontRenderer;
-		renderer.drawString(outstack.getDisplayName(), (gui.getManualWidth() / 2 - renderer.getStringWidth(outstack.getDisplayName()) / 2) + gui.getX(), gui.getY() + 210, Color.BLACK.getRGB(), false);
 	}
 
 	public void drawOreDictionaryItem(GuiManualPage gui, Ingredient item, int x, int y) {
