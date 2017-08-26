@@ -5,6 +5,10 @@
       "part": "industry"
     },
     {
+      "type": "grimpack:core_subpart_enabled",
+      "subpart": "graphite"
+    },
+    {
       "type": "grimpack:ore_dict",
       "oreName": "graphite"
     }
@@ -17,7 +21,7 @@
     "GGG",
     "GGG"
   ],
-  "type": "minecraft:crafting_shaped",
+  "type": "forge:ore_shaped",
   "key": {
     "G": {
       "item": "#GRAPHITE"

@@ -9,8 +9,8 @@
       "subpart": "decoration"
     },
     {
-      "type": "grimpack:industry_subpart_enabled",
-      "subpart": "steel"
+      "type": "grimpack:ore_dict",
+      "oreName": "stickSteel"
     }
   ],
   "result": {
@@ -28,7 +28,7 @@
       "item": "#STONE"
     },
     "s": {
-      "item": "grimpack:steel_shaft"
+      "item": "#STICKSTEEL"
     }
   }
 }

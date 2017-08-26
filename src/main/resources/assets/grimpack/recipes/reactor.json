@@ -7,6 +7,10 @@
     {
       "type": "grimpack:industry_subpart_enabled",
       "subpart": "nuclear"
+    },
+    {
+      "type": "grimpack:ore_dict",
+      "oreName": "graphite"
     }
   ],
   "result": {
@@ -17,7 +21,7 @@
     "CRC",
     "GMG"
   ],
-  "type": "minecraft:crafting_shaped",
+  "type": "forge:ore_shaped",
   "key": {
     "R": {
       "item": "grimpack:reactor_core"
@@ -26,7 +30,7 @@
       "item": "grimpack:reactor_core_case"
     },
     "G": {
-      "item": "grimpack:graphite"
+      "item": "#GRAPHITE"
     },
     "M": {
       "item": "grimpack:iron_parts"
