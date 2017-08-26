@@ -99,10 +99,6 @@ public class JEIGrimPack implements IModPlugin {
 				registry.addRecipeClickArea(GuiDerrick.class, 78, 32, 28, 23, MachineRecipeCategory.DERRICK_UID);
 				recipeTransferRegistry.addRecipeTransferHandler(ContainerDerrick.class, MachineRecipeCategory.DERRICK_UID, 0, 1, 2, 36);
 				registry.addRecipeCatalyst(new ItemStack(IndustryBlocks.derrick), MachineRecipeCategory.DERRICK_UID);
-
-				registry.addRecipes(ChiselRecipeMaker.getChiselRecipes(jeiHelpers), ChiselRecipeCategory.UID);
-				registry.addRecipeCatalyst(new ItemStack(ToolsItems.iron_chisel), ChiselRecipeCategory.UID);
-				registry.addRecipeCatalyst(new ItemStack(ToolsItems.diamond_chisel), ChiselRecipeCategory.UID);
 			}
 		}
 
@@ -122,6 +118,12 @@ public class JEIGrimPack implements IModPlugin {
 				// add our portable workbench to the list with the vanilla
 				// crafting
 				registry.addRecipeCatalyst(new ItemStack(ToolsItems.portable_workbench, 1), VanillaRecipeCategoryUid.CRAFTING);
+			}
+
+			if (ToolsConfig.subpartChisel) {
+				registry.addRecipes(ChiselRecipeMaker.getChiselRecipes(jeiHelpers), ChiselRecipeCategory.UID);
+				registry.addRecipeCatalyst(new ItemStack(ToolsItems.iron_chisel), ChiselRecipeCategory.UID);
+				registry.addRecipeCatalyst(new ItemStack(ToolsItems.diamond_chisel), ChiselRecipeCategory.UID);
 			}
 		}
 	}

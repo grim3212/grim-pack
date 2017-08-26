@@ -15,7 +15,7 @@ public class CoreConfig extends GrimConfig {
 	public static final String CONFIG_NAME = "core";
 	public static final String CONFIG_GENERAL_NAME = "core.general";
 	public static final String CONFIG_PARTS_NAME = "core.parts";
-	public static final String CONFIG_SUB_PARTS_NAME = "core.parts";
+	public static final String CONFIG_SUB_PARTS_NAME = "core.subparts";
 
 	public static boolean useCuisine;
 	public static boolean useDecor;

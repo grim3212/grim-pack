@@ -92,7 +92,6 @@ public class CommonItems {
 	}
 
 	private void initOreDict() {
-
 		if (CoreConfig.subpartAluminum) {
 			OreDictionary.registerOre("oreAluminum", aluminum_ore);
 			OreDictionary.registerOre("ingotAluminum", aluminum_ingot);
