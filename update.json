@@ -1,8 +1,8 @@
 {
 	"homepage": "https://grim3212.github.io/grim-pack/home",
 	"promos": {
-		"1.12.1-latest": "5.1.1.24",
-		"1.12.1-recommended": "5.1.1.24",
+		"1.12.1-latest": "5.1.1.27",
+		"1.12.1-recommended": "5.1.1.27",
 		"1.12-latest": "5.0.0.3",
 		"1.12-recommended": "5.0.0.3",
 		"1.11.2-latest": "4.0.1.20",
@@ -83,6 +83,7 @@
 		"5.0.0.0": "First update to 1.12. Small fix everywhere. All recipes should be configurable except for Backpacks and Pellet Bags."
 	},
 	"1.12.1": {
+		"5.1.1.27": "Fix recipe loading causing a crash and displaying missing recipes crash.",
 		"5.1.1.24": "Configurable Update. Lots of changes to make GrimPack more customizable like disabling subparts, customize tool and armor material values, and new JSON recipes for Grill, Machines, and Chisels.",
 		"5.1.1.22": "Configurable Update. Lots of changes to make GrimPack more customizable like disabling subparts, customize tool and armor material values, and new JSON recipes for Grill, Machines, and Chisels.",
 	}
