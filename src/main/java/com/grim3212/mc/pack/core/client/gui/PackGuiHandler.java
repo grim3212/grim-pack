@@ -55,6 +55,7 @@ import com.grim3212.mc.pack.tools.inventory.PelletBagInventory;
 import com.grim3212.mc.pack.util.client.gui.GuiGrave;
 import com.grim3212.mc.pack.util.grave.ContainerGrave;
 import com.grim3212.mc.pack.util.grave.TileEntityGrave;
+import com.grim3212.mc.pack.world.entity.EntityTreasureMob;
 
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.gui.inventory.GuiChest;
@@ -97,6 +98,7 @@ public class PackGuiHandler implements IGuiHandler {
 	public static final int GOLD_SAFE_GUI_ID = 24;
 	public static final int LOCKER_GUI_ID = 25;
 	public static final int ITEM_TOWER_GUI_ID = 26;
+	public static final int TREASURE_MOB_GUI_ID = 27;
 
 	@Override
 	public Object getServerGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
@@ -151,6 +153,8 @@ public class PackGuiHandler implements IGuiHandler {
 			return new ContainerLocker(player, new InventoryDualLocker((TileEntityStorage) tileentity, (TileEntityStorage) world.getTileEntity(pos.up())));
 		} else if (ID == ITEM_TOWER_GUI_ID) {
 			return this.getItemTowerContainer(player, world, x, y, z);
+		} else if (ID == TREASURE_MOB_GUI_ID) {
+			return new ContainerChest(player.inventory, this.getEntityAt(world, x, y, z, EntityTreasureMob.class).getTreasureInventory(), player);
 		}
 
 		return null;
@@ -219,6 +223,8 @@ public class PackGuiHandler implements IGuiHandler {
 			return new GuiLocker(player, new InventoryDualLocker((TileEntityStorage) tileentity, (TileEntityStorage) world.getTileEntity(pos.up())));
 		} else if (ID == ITEM_TOWER_GUI_ID) {
 			return this.getItemTowerGui(player, world, x, y, z);
+		} else if (ID == TREASURE_MOB_GUI_ID) {
+			return new GuiChest(player.inventory, this.getEntityAt(world, x, y, z, EntityTreasureMob.class).getTreasureInventory());
 		}
 
 		return null;

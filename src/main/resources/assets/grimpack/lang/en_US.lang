@@ -947,6 +947,7 @@ entity.grimpack.Bobomb.name=Bob-omb
 entity.grimpack.ParaBuzzy.name=Parabuzzy
 entity.grimpack.SuicideBomber.name=Suicide Bomber
 
+entity.treasure.inventory=Treasure Chest
 grimpack.world.bobomb_chat=\247fYou are the Bob-omb!
 
 grimpack.subtitle.raygun=Raygun fired

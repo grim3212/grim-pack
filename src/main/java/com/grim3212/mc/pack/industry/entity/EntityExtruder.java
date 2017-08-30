@@ -285,7 +285,6 @@ public class EntityExtruder extends Entity implements IEntityAdditionalSpawnData
 		if (flag || this.getDamageTaken() > 40.0F) {
 			if (!flag && this.world.getGameRules().getBoolean("doEntityDrops")) {
 				dropItem(IndustryItems.extruder, 1);
-
 			}
 
 			this.emptyItems();
