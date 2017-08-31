@@ -54,7 +54,7 @@ public class BlockCraftBone extends BlockManual {
 
 	@Override
 	public int getMetaFromState(IBlockState state) {
-		return (Integer) state.getValue(CYCLE);
+		return state.getValue(CYCLE);
 	}
 
 	@Override

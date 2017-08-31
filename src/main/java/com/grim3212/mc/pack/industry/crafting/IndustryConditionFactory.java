@@ -46,6 +46,8 @@ public class IndustryConditionFactory implements IConditionFactory {
 			return () -> IndustryConfig.subpartRWays;
 		case "sensors":
 			return () -> IndustryConfig.subpartSensors;
+		case "shapedcharges":
+			return () -> IndustryConfig.subpartShapedCharges;
 		case "spikes":
 			return () -> IndustryConfig.subpartSpikes;
 		case "steel":

@@ -1,0 +1,169 @@
+{
+	"forge_marker": 1,
+    "defaults": {
+		"transform": "forge:default-block",
+		"model": "minecraft:cube_bottom_top",
+    	"textures": {
+	        "bottom": "grimpack:blocks/shaped_charge_bottom",
+	        "top": "grimpack:blocks/shaped_charge_top",
+	        "side": "grimpack:blocks/shaped_charge_side"
+    	}
+    },
+    "variants": {
+    	"radius": {
+            "0": {
+            },
+            "1": {
+	            "textures": {
+		        	"side": "grimpack:blocks/shaped_charge_side_1"
+	    		}
+            },
+            "2": {
+	            "textures": {
+		        	"side": "grimpack:blocks/shaped_charge_side_2"
+	    		}
+            },
+            "3": {
+	            "textures": {
+		        	"side": "grimpack:blocks/shaped_charge_side_3"
+	    		}
+            },
+            "4": {
+	            "textures": {
+		        	"side": "grimpack:blocks/shaped_charge_side_4"
+	    		}
+            },
+            "5": {
+	            "textures": {
+		        	"side": "grimpack:blocks/shaped_charge_side_5"
+	    		}
+            },
+            "6": {
+	            "textures": {
+		        	"side": "grimpack:blocks/shaped_charge_side_6"
+	    		}
+            },
+            "7": {
+	            "textures": {
+		        	"side": "grimpack:blocks/shaped_charge_side_7"
+	    		}
+            },
+            "8": {
+	            "textures": {
+		        	"side": "grimpack:blocks/shaped_charge_side_8"
+	    		}
+            },
+            "9": {
+	            "textures": {
+		        	"side": "grimpack:blocks/shaped_charge_side_9"
+	    		}
+            },
+            "10": {
+	            "textures": {
+		        	"side": "grimpack:blocks/shaped_charge_side_10"
+	    		}
+            },
+            "11": {
+	            "textures": {
+		        	"side": "grimpack:blocks/shaped_charge_side_11"
+	    		}
+            },
+            "12": {
+	            "textures": {
+		        	"side": "grimpack:blocks/shaped_charge_side_12"
+	    		}
+            },
+            "13": {
+	            "textures": {
+		        	"side": "grimpack:blocks/shaped_charge_side_13"
+	    		}
+            },
+            "14": {
+	            "textures": {
+		        	"side": "grimpack:blocks/shaped_charge_side_14"
+	    		}
+            },
+            "15": {
+	            "textures": {
+		        	"side": "grimpack:blocks/shaped_charge_side_15"
+	    		}
+            }
+        },
+		"inventory_0": [{}],
+		"inventory_1": [{
+			"textures": {
+		        "side": "grimpack:blocks/shaped_charge_side_1"
+	    	}
+		}],
+		"inventory_2": [{
+			"textures": {
+		        "side": "grimpack:blocks/shaped_charge_side_2"
+	    	}
+		}],
+		"inventory_3": [{
+			"textures": {
+		        "side": "grimpack:blocks/shaped_charge_side_3"
+	    	}
+		}],
+		"inventory_4": [{
+			"textures": {
+		        "side": "grimpack:blocks/shaped_charge_side_4"
+	    	}
+		}],
+		"inventory_5": [{
+			"textures": {
+		        "side": "grimpack:blocks/shaped_charge_side_5"
+	    	}
+		}],
+		"inventory_6": [{
+			"textures": {
+		        "side": "grimpack:blocks/shaped_charge_side_6"
+	    	}
+		}],
+		"inventory_7": [{
+			"textures": {
+		        "side": "grimpack:blocks/shaped_charge_side_7"
+	    	}
+		}],
+		"inventory_8": [{
+			"textures": {
+		        "side": "grimpack:blocks/shaped_charge_side_8"
+	    	}
+		}],
+		"inventory_9": [{
+			"textures": {
+		        "side": "grimpack:blocks/shaped_charge_side_9"
+	    	}
+		}],
+		"inventory_10": [{
+			"textures": {
+		        "side": "grimpack:blocks/shaped_charge_side_10"
+	    	}
+		}],
+		"inventory_11": [{
+			"textures": {
+		        "side": "grimpack:blocks/shaped_charge_side_11"
+	    	}
+		}],
+		"inventory_12": [{
+			"textures": {
+		        "side": "grimpack:blocks/shaped_charge_side_12"
+	    	}
+		}],
+		"inventory_13": [{
+			"textures": {
+		        "side": "grimpack:blocks/shaped_charge_side_13"
+	    	}
+		}],
+		"inventory_14": [{
+			"textures": {
+		        "side": "grimpack:blocks/shaped_charge_side_14"
+	    	}
+		}],
+		"inventory_15": [{
+			"textures": {
+		        "side": "grimpack:blocks/shaped_charge_side_15"
+	    	}
+		}]
+    }
+}

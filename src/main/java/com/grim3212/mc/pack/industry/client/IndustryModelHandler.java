@@ -54,6 +54,10 @@ public class IndustryModelHandler {
 			RenderHelper.renderBlock(IndustryBlocks.camo_plate);
 		}
 
+		if (IndustryConfig.subpartShapedCharges) {
+			RenderHelper.renderVariantForgeMeta(IndustryBlocks.shaped_charge, 16);
+		}
+
 		if (IndustryConfig.subpartSensors) {
 			ModelLoader.setCustomStateMapper(IndustryBlocks.fire_sensor, new StateMap.Builder().ignore(BlockFireSensor.POWERED).build());
 			ModelLoader.setCustomStateMapper(IndustryBlocks.arrow_sensor, new StateMap.Builder().ignore(BlockSensorArrow.POWERED).build());

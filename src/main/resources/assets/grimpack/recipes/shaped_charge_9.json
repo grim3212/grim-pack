@@ -1,0 +1,40 @@
+{
+"conditions": [
+    {
+      "type": "grimpack:part_enabled",
+      "part": "industry"
+    },
+    {
+      "type": "grimpack:industry_subpart_enabled",
+      "subpart": "shapedcharges"
+    }
+  ],
+  "result": {
+    "item": "grimpack:shaped_charge",
+    "data": 9
+  },
+  "pattern": [
+    "###",
+    "QSQ",
+    "#D#"
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "#": {
+      "item": "grimpack:shaped_charge",
+      "data": 0
+    },
+    "S": {
+      "item": "grimpack:shaped_charge",
+      "data": 8
+    },
+    "D": {
+      "item": "grimpack:shaped_charge",
+      "data": 3
+    },
+    "Q": {
+      "item": "grimpack:shaped_charge",
+      "data": 1
+    }
+  }
+}

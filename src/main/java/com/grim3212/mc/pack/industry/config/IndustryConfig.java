@@ -74,6 +74,7 @@ public class IndustryConfig extends GrimConfig {
 	public static boolean subpartNuclear;
 	public static boolean subpartRWays;
 	public static boolean subpartSensors;
+	public static boolean subpartShapedCharges;
 	public static boolean subpartSpikes;
 	public static boolean subpartSteel;
 	public static boolean subpartStorage;
@@ -115,6 +116,7 @@ public class IndustryConfig extends GrimConfig {
 		subpartNuclear = config.get(CONFIG_PARTS_NAME, "Enable SubPart nuclear", true).setRequiresMcRestart(true).getBoolean();
 		subpartRWays = config.get(CONFIG_PARTS_NAME, "Enable SubPart rways", true).setRequiresMcRestart(true).getBoolean();
 		subpartSensors = config.get(CONFIG_PARTS_NAME, "Enable SubPart sensors", true).setRequiresMcRestart(true).getBoolean();
+		subpartShapedCharges = config.get(CONFIG_PARTS_NAME, "Enable SubPart shaped charges", false).setRequiresMcRestart(true).getBoolean();
 		subpartSpikes = config.get(CONFIG_PARTS_NAME, "Enable SubPart spikes", true).setRequiresMcRestart(true).getBoolean();
 		subpartSteel = config.get(CONFIG_PARTS_NAME, "Enable SubPart steel", true).setRequiresMcRestart(true).getBoolean();
 		subpartStorage = config.get(CONFIG_PARTS_NAME, "Enable SubPart storage", true).setRequiresMcRestart(true).getBoolean();
@@ -197,6 +199,7 @@ public class IndustryConfig extends GrimConfig {
 		subpartNuclear = buffer.readBoolean();
 		subpartRWays = buffer.readBoolean();
 		subpartSensors = buffer.readBoolean();
+		subpartShapedCharges = buffer.readBoolean();
 		subpartSpikes = buffer.readBoolean();
 		subpartSteel = buffer.readBoolean();
 		subpartStorage = buffer.readBoolean();
@@ -223,6 +226,7 @@ public class IndustryConfig extends GrimConfig {
 		buffer.writeBoolean(subpartNuclear);
 		buffer.writeBoolean(subpartRWays);
 		buffer.writeBoolean(subpartSensors);
+		buffer.writeBoolean(subpartShapedCharges);
 		buffer.writeBoolean(subpartSpikes);
 		buffer.writeBoolean(subpartSteel);
 		buffer.writeBoolean(subpartStorage);

@@ -91,6 +91,20 @@ public class RenderHelper {
 	 * @param variants
 	 *            The different variant names
 	 */
+	public static void renderVariantForgeMeta(Block item, int meta) {
+		for (int i = 0; i < meta; i++) {
+			ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(item), i, new ModelResourceLocation(item.getRegistryName(), "inventory_" + i));
+		}
+	}
+
+	/**
+	 * Uses the forge single blockstate for variants
+	 * 
+	 * @param item
+	 *            With variants
+	 * @param variants
+	 *            The different variant names
+	 */
 	public static void renderVariantForge(Block item, String... variants) {
 		for (int i = 0; i < variants.length; i++) {
 			ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(item), i, new ModelResourceLocation(item.getRegistryName(), variants[i]));

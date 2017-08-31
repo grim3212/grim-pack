@@ -20,6 +20,9 @@ public abstract class BlockManual extends Block implements IManualBlock {
 		setRegistryName(new ResourceLocation(GrimPack.modID, name));
 	}
 
+	/*
+	 * Return the default state for the block
+	 */
 	protected IBlockState getState() {
 		return blockState.getBaseState();
 	}

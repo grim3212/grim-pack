@@ -9,6 +9,7 @@ import com.grim3212.mc.pack.industry.item.IndustryItems;
 import com.grim3212.mc.pack.industry.item.ItemGoldSafe;
 import com.grim3212.mc.pack.industry.item.ItemModernDoor;
 import com.grim3212.mc.pack.industry.item.ItemSensor;
+import com.grim3212.mc.pack.industry.item.ItemShapedCharge;
 import com.grim3212.mc.pack.industry.tile.TileEntityCamo;
 import com.grim3212.mc.pack.industry.tile.TileEntityDGravity;
 import com.grim3212.mc.pack.industry.tile.TileEntityFan;
@@ -110,6 +111,7 @@ public class IndustryBlocks {
 	public static final Block locker = new BlockLocker();
 	public static final Block item_tower = new BlockItemTower();
 	public static final Block tank = new BlockTank();
+	public static final Block shaped_charge = new BlockShapedCharge();
 
 	@SubscribeEvent
 	public void initBlocks(RegistryEvent.Register<Block> evt) {
@@ -119,6 +121,10 @@ public class IndustryBlocks {
 			r.register(door_chain);
 			r.register(door_glass);
 			r.register(door_steel);
+		}
+
+		if (IndustryConfig.subpartShapedCharges) {
+			r.register(shaped_charge);
 		}
 
 		if (IndustryConfig.subpartWorkbenchUpgrades) {
@@ -250,6 +256,9 @@ public class IndustryBlocks {
 			r.register(new ItemManualBlock(glass_cabinet).setRegistryName(glass_cabinet.getRegistryName()));
 			r.register(new ItemManualBlock(warehouse_crate).setRegistryName(warehouse_crate.getRegistryName()));
 		}
+
+		if (IndustryConfig.subpartShapedCharges)
+			r.register(new ItemShapedCharge(shaped_charge).setRegistryName(shaped_charge.getRegistryName()));
 
 		if (IndustryConfig.subpartFans)
 			r.register(new ItemManualBlock(fan).setRegistryName(fan.getRegistryName()));

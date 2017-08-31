@@ -102,6 +102,8 @@ public class ManualIndustry implements IManualPart {
 	public static Page cabinets_page;
 	public static Page itemTower_page;
 	public static Page tank_page;
+	public static Page shapedChargeBase_page;
+	public static Page shapedCharge_page;
 
 	@Override
 	public void initPages() {
@@ -114,6 +116,11 @@ public class ManualIndustry implements IManualPart {
 			safes_page = new PageCrafting("safes", 25, new ItemStack(IndustryBlocks.obsidian_safe), new ItemStack(IndustryBlocks.gold_safe));
 			locker_page = new PageCrafting("locker", new ItemStack(IndustryBlocks.locker));
 			itemTower_page = new PageCrafting("item_tower", new ItemStack(IndustryBlocks.item_tower));
+		}
+
+		if (IndustryConfig.subpartShapedCharges) {
+			shapedChargeBase_page = new PageCrafting("shaped_charge", RecipeHelper.createPath("shaped_charge"));
+			shapedCharge_page = new PageCrafting("shaped_charge_radius", RecipeHelper.getAllPaths("shaped_charge_"), 20);
 		}
 
 		if (IndustryConfig.subpartSensors) {
@@ -268,7 +275,10 @@ public class ManualIndustry implements IManualPart {
 		if (IndustryConfig.subpartNuclear) {
 			ManualRegistry.addChapter("refining", part).addPages(uranium_page, radiationSuit_page, uraniumSmelt_page, refinedUranium_page, plutonium_page, refinedPlutonium_page, reactorCore_page);
 			ManualRegistry.addChapter("reactor", part).addPages(reactorCase_page, ironParts_page, reactor_page);
-			ManualRegistry.addChapter("explosives", part).addPages(bombShell_page, c4_page, nuclearBomb_page);
+		}
+
+		if (IndustryConfig.subpartNuclear || IndustryConfig.subpartShapedCharges) {
+			ManualRegistry.addChapter("explosives", part).addPages(bombShell_page, c4_page, nuclearBomb_page, shapedChargeBase_page, shapedCharge_page);
 		}
 
 		if (IndustryConfig.subpartGates)
