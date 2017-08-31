@@ -70,6 +70,7 @@ public class ManualTools implements IManualPart {
 	public static Page pellets_page;
 	public static Page slingshot_page;
 	public static Page pelletBag_page;
+	public static Page grenadeLauncher_page;
 
 	@Override
 	public void initPages() {
@@ -82,6 +83,9 @@ public class ManualTools implements IManualPart {
 			backpack_page = new PageCrafting("backpacks", new ItemStack(ToolsItems.backpack));
 			backpackColors_page = new PageImageText("colors", "colors_image.png");
 		}
+
+		if (ToolsConfig.subpartGrenadeLauncher)
+			grenadeLauncher_page = new PageCrafting("grenade", 25, new ItemStack(ToolsItems.grenade_launcher), new ItemStack(ToolsItems.grenade));
 
 		if (ToolsConfig.subpartPortableWorkbench)
 			portableWorkbench_page = new PageCrafting("portableworkbench", new ItemStack(ToolsItems.portable_workbench));
@@ -231,6 +235,9 @@ public class ManualTools implements IManualPart {
 
 		if (ToolsConfig.subpartSpears)
 			ManualRegistry.addChapter("spears", part).addPages(spears_page, specialSpears_page);
+
+		if (ToolsConfig.subpartGrenadeLauncher)
+			ManualRegistry.addChapter("grenade", part).addPages(grenadeLauncher_page);
 
 		if (ToolsConfig.subpartUltimateFist)
 			ManualRegistry.addChapter("ultimate", part).addPages(ultimateFist_page);

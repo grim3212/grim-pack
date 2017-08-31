@@ -291,9 +291,7 @@ public class EntityTreasureMob extends EntityTameable implements IManualEntity, 
 		return super.onInitialSpawn(difficulty, livingdata);
 	}
 
-	// FORGE
-	private IItemHandler itemHandler = null; // Initialized by initHorseChest
-												// above.
+	private IItemHandler itemHandler = null;
 
 	@SuppressWarnings("unchecked")
 	@Override

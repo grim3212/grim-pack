@@ -35,6 +35,9 @@ public class ToolsEntities {
 			Utils.registerEntity(EntityBoomerang.class, "boomerang", 32, 1, true);
 			Utils.registerEntity(EntityDiamondBoomerang.class, "diamond-boomerang", 32, 1, true);
 		}
+
+		if (ToolsConfig.subpartGrenadeLauncher)
+			Utils.registerEntity(EntityGrenade.class, "grenade", 32, 5, true);
 	}
 
 }

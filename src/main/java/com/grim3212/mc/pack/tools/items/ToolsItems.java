@@ -126,6 +126,8 @@ public class ToolsItems {
 	public static final Item mask = new ItemMaskArmor(masks, 3);
 	public static final Item boomerang = new ItemBoomerang("boomerang");
 	public static final Item diamond_boomerang = new ItemDiamondBoomerang();
+	public static final Item grenade_launcher = new ItemGrenadeLauncher();
+	public static final Item grenade = (new ItemManualPage("grenade", "tools:grenade.grenade")).setFull3D().setCreativeTab(GrimCreativeTabs.GRIM_TOOLS);
 
 	@SubscribeEvent
 	public void initItems(RegistryEvent.Register<Item> evt) {
@@ -189,6 +191,11 @@ public class ToolsItems {
 		if (ToolsConfig.subpartExtinguisher)
 			r.register(extinguisher);
 
+		if(ToolsConfig.subpartGrenadeLauncher) {
+			r.register(grenade);
+			r.register(grenade_launcher);
+		}
+		
 		if (ToolsConfig.subpartHammers) {
 			r.register(wood_hammer);
 			r.register(stone_hammer);

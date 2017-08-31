@@ -6,6 +6,7 @@ import com.grim3212.mc.pack.core.client.entity.RenderThrowable.RenderThrowableFa
 import com.grim3212.mc.pack.core.proxy.ClientProxy;
 import com.grim3212.mc.pack.tools.client.entity.RenderBlockPushPullFactory;
 import com.grim3212.mc.pack.tools.client.entity.RenderBoomerang.RenderBoomerangFactory;
+import com.grim3212.mc.pack.tools.client.entity.RenderGrenade.RenderGrenadeFactory;
 import com.grim3212.mc.pack.tools.client.entity.RenderRayGun.RenderRayGunFactory;
 import com.grim3212.mc.pack.tools.client.entity.RenderSlingPellet.RenderSlingPelletFactory;
 import com.grim3212.mc.pack.tools.config.ToolsConfig;
@@ -14,6 +15,7 @@ import com.grim3212.mc.pack.tools.entity.EntityBallisticKnife;
 import com.grim3212.mc.pack.tools.entity.EntityBlockPushPull;
 import com.grim3212.mc.pack.tools.entity.EntityBoomerang;
 import com.grim3212.mc.pack.tools.entity.EntityDiamondBoomerang;
+import com.grim3212.mc.pack.tools.entity.EntityGrenade;
 import com.grim3212.mc.pack.tools.entity.EntityKnife;
 import com.grim3212.mc.pack.tools.entity.EntityPokeball;
 import com.grim3212.mc.pack.tools.entity.EntityRayw;
@@ -67,6 +69,9 @@ public class ToolsClientProxy extends ClientProxy {
 			RenderingRegistry.registerEntityRenderingHandler(EntityBoomerang.class, new RenderBoomerangFactory(new ResourceLocation(GrimPack.modID, "textures/items/boomerang.png"), "grimpack:items/boomerang"));
 			RenderingRegistry.registerEntityRenderingHandler(EntityDiamondBoomerang.class, new RenderBoomerangFactory(new ResourceLocation(GrimPack.modID, "textures/items/diamond_boomerang.png"), "grimpack:items/diamond_boomerang"));
 		}
+
+		if (ToolsConfig.subpartGrenadeLauncher)
+			RenderingRegistry.registerEntityRenderingHandler(EntityGrenade.class, new RenderGrenadeFactory());
 
 		// Key bindings
 		if (ToolsConfig.subpartWands || ToolsConfig.subpartPowerstaff || ToolsConfig.subpartSlingshots)

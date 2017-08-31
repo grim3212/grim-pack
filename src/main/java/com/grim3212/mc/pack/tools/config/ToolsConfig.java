@@ -68,6 +68,8 @@ public class ToolsConfig extends GrimConfig {
 	public static float firePelletDamage;
 	public static float explosivePelletDamage;
 
+	public static float grenadeLauncherExplosion;
+
 	// Subparts
 	public static boolean subpartBackpacks;
 	public static boolean subpartBlackDiamond;
@@ -75,6 +77,7 @@ public class ToolsConfig extends GrimConfig {
 	public static boolean subpartBuckets;
 	public static boolean subpartChisel;
 	public static boolean subpartExtinguisher;
+	public static boolean subpartGrenadeLauncher;
 	public static boolean subpartHammers;
 	public static boolean subpartKnives;
 	public static boolean subpartMachetes;
@@ -102,6 +105,7 @@ public class ToolsConfig extends GrimConfig {
 		subpartBuckets = config.get(CONFIG_PARTS_NAME, "Enable SubPart buckets", true).setRequiresMcRestart(true).getBoolean();
 		subpartChisel = config.get(CONFIG_PARTS_NAME, "Enable SubPart chisel", true).setRequiresMcRestart(true).getBoolean();
 		subpartExtinguisher = config.get(CONFIG_PARTS_NAME, "Enable SubPart extinguisher", true).setRequiresMcRestart(true).getBoolean();
+		subpartGrenadeLauncher = config.get(CONFIG_PARTS_NAME, "Enable SubPart grenade launcher", true).setRequiresMcRestart(true).getBoolean();
 		subpartHammers = config.get(CONFIG_PARTS_NAME, "Enable SubPart hammers", true).setRequiresMcRestart(true).getBoolean();
 		subpartKnives = config.get(CONFIG_PARTS_NAME, "Enable SubPart knives", true).setRequiresMcRestart(true).getBoolean();
 		subpartMachetes = config.get(CONFIG_PARTS_NAME, "Enable SubPart machetes", true).setRequiresMcRestart(true).getBoolean();
@@ -147,6 +151,9 @@ public class ToolsConfig extends GrimConfig {
 			fistHasDurability = config.get(CONFIG_FIST_NAME, "Ultimate Fist Can Be Damaged", false).getBoolean();
 			fistDurabilityAmount = config.get(CONFIG_FIST_NAME, "Ultimate Fist Durability Amount", 1561).getInt();
 		}
+
+		if (subpartGrenadeLauncher)
+			grenadeLauncherExplosion = (float) config.get(CONFIG_GENERAL_NAME, "Grenade Launcher Explosion Strength", 4.0f).getDouble();
 
 		if (subpartWands) {
 			ENABLE_free_build_mode = config.get(CONFIG_GENERAL_NAME, "Enable Free Build Mode", false).getBoolean();
@@ -222,6 +229,7 @@ public class ToolsConfig extends GrimConfig {
 		subpartBuckets = buffer.readBoolean();
 		subpartChisel = buffer.readBoolean();
 		subpartExtinguisher = buffer.readBoolean();
+		subpartGrenadeLauncher = buffer.readBoolean();
 		subpartHammers = buffer.readBoolean();
 		subpartKnives = buffer.readBoolean();
 		subpartMachetes = buffer.readBoolean();
@@ -245,6 +253,7 @@ public class ToolsConfig extends GrimConfig {
 		buffer.writeBoolean(subpartBuckets);
 		buffer.writeBoolean(subpartChisel);
 		buffer.writeBoolean(subpartExtinguisher);
+		buffer.writeBoolean(subpartGrenadeLauncher);
 		buffer.writeBoolean(subpartHammers);
 		buffer.writeBoolean(subpartKnives);
 		buffer.writeBoolean(subpartMachetes);

@@ -174,6 +174,10 @@ public class ToolsModelHandler {
 			RenderHelper.renderItem(ToolsItems.diamond_boomerang);
 		}
 
+		if (ToolsConfig.subpartGrenadeLauncher) {
+			RenderHelper.renderItem(ToolsItems.grenade);
+			RenderHelper.renderItem(ToolsItems.grenade_launcher);
+		}
 	}
 
 	private void setBucketModelDefinition(Item item) {

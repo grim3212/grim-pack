@@ -468,6 +468,8 @@ item.ultimate_fist.name=Ultimate Fist
 item.mask.name=Mask
 item.gunpowder_reed_item.name=Gunpowder Reeds
 item.fungicide.name=Fungicidal Spray
+item.grenade.name=Grenade
+item.grenade_launcher.name=Grenade Launcher
 
 #================= OTHER =================#
 grimpack.core.cfg=Core Config
@@ -1494,6 +1496,9 @@ grimpack.manual.tools.subsection.knives.page.knife=To use simply right click whi
 grimpack.manual.tools.subsection.knives.page.knife.title=Throwing Knife
 grimpack.manual.tools.subsection.knives.page.tomahawk=This is how to craft the tomahawk. Like using the throwing knives just right click while holding it and it will be thrown.
 grimpack.manual.tools.subsection.knives.page.tomahawk.title=Tomahawk
+grimpack.manual.tools.subsection.grenade=Grenade Launcher
+grimpack.manual.tools.subsection.grenade.page.grenade=The Grenade Launcher allows you to launch an explosive grenade that when it hits something will explode. Just right click with grenades in your inventory.
+grimpack.manual.tools.subsection.grenade.page.grenade.title=Grenades
 
 grimpack.manual.tools.subsection.boomerang=Boomerangs
 grimpack.manual.tools.subsection.boomerang.page.wood=Wooden boomerangs can be thrown with right click and will go once it hits it's maximum distance it will return to you.
