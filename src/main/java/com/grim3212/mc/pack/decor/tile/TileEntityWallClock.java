@@ -1,16 +1,13 @@
 package com.grim3212.mc.pack.decor.tile;
 
+import com.grim3212.mc.pack.core.tile.TileEntityGrim;
 import com.grim3212.mc.pack.decor.block.BlockWallClock;
 
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.NetworkManager;
-import net.minecraft.network.play.server.SPacketUpdateTileEntity;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.math.MathHelper;
 
-public class TileEntityWallClock extends TileEntity implements ITickable {
+public class TileEntityWallClock extends TileEntityGrim implements ITickable {
 
 	private int time = 0;
 
@@ -19,39 +16,6 @@ public class TileEntityWallClock extends TileEntity implements ITickable {
 
 	public int getTime() {
 		return time;
-	}
-
-	@Override
-	public NBTTagCompound getUpdateTag() {
-		return writeToNBT(new NBTTagCompound());
-	}
-
-	@Override
-	public void handleUpdateTag(NBTTagCompound tag) {
-		readFromNBT(tag);
-	}
-
-	@Override
-	public NBTTagCompound writeToNBT(NBTTagCompound compound) {
-		return super.writeToNBT(compound);
-	}
-
-	@Override
-	public void readFromNBT(NBTTagCompound compound) {
-		super.readFromNBT(compound);
-	}
-
-	@Override
-	public SPacketUpdateTileEntity getUpdatePacket() {
-		NBTTagCompound nbtTagCompound = new NBTTagCompound();
-		writeToNBT(nbtTagCompound);
-		int metadata = getBlockMetadata();
-		return new SPacketUpdateTileEntity(this.pos, metadata, nbtTagCompound);
-	}
-
-	@Override
-	public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity pkt) {
-		readFromNBT(pkt.getNbtCompound());
 	}
 
 	private double field_94239_h;

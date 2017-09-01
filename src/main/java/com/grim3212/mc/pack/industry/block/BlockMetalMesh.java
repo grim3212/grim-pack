@@ -15,7 +15,6 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumFacing;
@@ -26,7 +25,7 @@ import net.minecraft.world.World;
 
 public class BlockMetalMesh extends BlockManual {
 
-	protected static final AxisAlignedBB COLLISION = new AxisAlignedBB(0.0F, 0.0F, 0.0F, 1.0F, 0.99F, 1.0F);
+	protected static final AxisAlignedBB COLLISION = new AxisAlignedBB(0.0F, 0.0F, 0.0F, 1.0F, 1.0F - 0.002F, 1.0F);
 
 	public BlockMetalMesh() {
 		super("metal_mesh", Material.IRON, SoundType.METAL);
@@ -69,7 +68,7 @@ public class BlockMetalMesh extends BlockManual {
 
 	@Override
 	public void onEntityCollidedWithBlock(World worldIn, BlockPos pos, IBlockState state, Entity entityIn) {
-		if (entityIn instanceof EntityItem && (worldIn.getBlockState(pos.down()).getBlock() == Blocks.AIR || worldIn.getBlockState(pos.down()).getBlock() == IndustryBlocks.metal_mesh)) {
+		if (entityIn instanceof EntityItem && (worldIn.isAirBlock(pos.down()) || worldIn.getBlockState(pos.down()).getBlock() == IndustryBlocks.metal_mesh || !worldIn.getBlockState(pos.down()).isSideSolid(worldIn, pos.down(), EnumFacing.UP))) {
 			EntityItem item = (EntityItem) entityIn;
 			item.motionX = 0.0D;
 			item.motionZ = 0.0D;

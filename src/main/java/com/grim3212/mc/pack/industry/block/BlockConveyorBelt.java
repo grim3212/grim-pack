@@ -116,25 +116,22 @@ public class BlockConveyorBelt extends BlockManual {
 				break;
 			}
 		} else if (entityIn instanceof EntityItem) {
-			EntityItem item = (EntityItem) entityIn;
-			item.setAgeToCreativeDespawnTime();
-
-			item.motionY = 0D;
-			item.motionX = 0D;
-			item.motionZ = 0D;
+			entityIn.motionY = 0D;
+			entityIn.motionX = 0D;
+			entityIn.motionZ = 0D;
 
 			switch (state.getValue(FACING)) {
 			case EAST:
-				item.setPosition(item.posX - 0.05D, (float) pos.getY() + 0.7F, item.posZ + ((float) pos.getZ() + 0.5F - item.posZ) / 1.5F);
+				entityIn.setPosition(entityIn.posX - 0.085D, pos.getY() + 0.7F, entityIn.posZ + (pos.getZ() + 0.5F - entityIn.posZ) / 1.5F);
 				break;
 			case NORTH:
-				item.setPosition(item.posX + ((float) pos.getX() + 0.5F - item.posX) / 1.5F, (float) pos.getY() + 0.7F, item.posZ + 0.05D);
+				entityIn.setPosition(entityIn.posX + (pos.getX() + 0.5F - entityIn.posX) / 1.5F, pos.getY() + 0.7F, entityIn.posZ + 0.085D);
 				break;
 			case SOUTH:
-				item.setPosition(item.posX + ((float) pos.getX() + 0.5F - item.posX) / 1.5F, (float) pos.getY() + 0.7F, item.posZ - 0.05D);
+				entityIn.setPosition(entityIn.posX + (pos.getX() + 0.5F - entityIn.posX) / 1.5F, pos.getY() + 0.7F, entityIn.posZ - 0.085D);
 				break;
 			case WEST:
-				item.setPosition(item.posX + 0.05D, (float) pos.getY() + 0.7F, item.posZ + ((float) pos.getZ() + 0.5F - item.posZ) / 1.5F);
+				entityIn.setPosition(entityIn.posX + 0.085D, pos.getY() + 0.7F, entityIn.posZ + (pos.getZ() + 0.5F - entityIn.posZ) / 1.5F);
 				break;
 			default:
 				break;

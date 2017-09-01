@@ -9,6 +9,7 @@ import com.grim3212.mc.pack.util.client.ManualUtil;
 import com.grim3212.mc.pack.util.config.UtilConfig;
 import com.grim3212.mc.pack.util.event.BlockChangeEvents;
 import com.grim3212.mc.pack.util.event.EntityDeathEvent;
+import com.grim3212.mc.pack.util.event.EntityLivingEvents;
 import com.grim3212.mc.pack.util.frozen.FrozenCapability;
 import com.grim3212.mc.pack.util.frozen.FrozenCapability.IFrozenCapability;
 import com.grim3212.mc.pack.util.frozen.FrozenClientEvents;
@@ -52,6 +53,9 @@ public class GrimUtil extends GrimPart {
 		super.preInit(event);
 
 		MinecraftForge.EVENT_BUS.register(new BlockChangeEvents());
+
+		if (UtilConfig.subpartChickenFeathers)
+			MinecraftForge.EVENT_BUS.register(new EntityLivingEvents());
 
 		if (UtilConfig.subpartFusRoDah) {
 			MinecraftForge.EVENT_BUS.register(new UtilSounds());
