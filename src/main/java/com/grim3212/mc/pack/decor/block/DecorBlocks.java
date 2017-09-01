@@ -30,6 +30,7 @@ import com.grim3212.mc.pack.decor.item.ItemDecorStairs;
 import com.grim3212.mc.pack.decor.item.ItemGrill;
 import com.grim3212.mc.pack.decor.item.ItemLantern;
 import com.grim3212.mc.pack.decor.item.ItemSloped;
+import com.grim3212.mc.pack.decor.tile.TileEntityAlarm;
 import com.grim3212.mc.pack.decor.tile.TileEntityCage;
 import com.grim3212.mc.pack.decor.tile.TileEntityCalendar;
 import com.grim3212.mc.pack.decor.tile.TileEntityColorizer;
@@ -50,6 +51,7 @@ import net.minecraftforge.registries.IForgeRegistry;
 
 public class DecorBlocks {
 
+	public static final Block alarm = new BlockAlarm();
 	public static final Block calendar = new BlockCalendar();
 	public static final Block wall_clock = new BlockWallClock();
 	public static final Block light_bulb = new BlockLightBulb();
@@ -102,6 +104,9 @@ public class DecorBlocks {
 
 		if (DecorConfig.subpartCalendar)
 			r.register(calendar);
+
+		if (DecorConfig.subpartAlarm)
+			r.register(alarm);
 
 		if (DecorConfig.subpartWallClock)
 			r.register(wall_clock);
@@ -183,6 +188,9 @@ public class DecorBlocks {
 		if (DecorConfig.subpartCalendar)
 			r.register(new ItemManualBlock(calendar).setRegistryName(calendar.getRegistryName()));
 
+		if (DecorConfig.subpartAlarm)
+			r.register(new ItemManualBlock(alarm).setRegistryName(alarm.getRegistryName()));
+
 		if (DecorConfig.subpartWallClock)
 			r.register(new ItemManualBlock(wall_clock).setRegistryName(wall_clock.getRegistryName()));
 
@@ -251,6 +259,8 @@ public class DecorBlocks {
 	private void initTileEntities() {
 		if (DecorConfig.subpartCalendar)
 			GameRegistry.registerTileEntity(TileEntityCalendar.class, "calendar");
+		if (DecorConfig.subpartAlarm)
+			GameRegistry.registerTileEntity(TileEntityAlarm.class, "alarm");
 		if (DecorConfig.subpartWallClock)
 			GameRegistry.registerTileEntity(TileEntityWallClock.class, "wall_clock");
 		if (DecorConfig.subpartColorizer) {

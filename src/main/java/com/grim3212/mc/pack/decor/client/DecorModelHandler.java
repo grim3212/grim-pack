@@ -2,6 +2,7 @@ package com.grim3212.mc.pack.decor.client;
 
 import com.grim3212.mc.pack.GrimPack;
 import com.grim3212.mc.pack.core.client.RenderHelper;
+import com.grim3212.mc.pack.decor.block.BlockAlarm;
 import com.grim3212.mc.pack.decor.block.BlockLantern.EnumLanternType;
 import com.grim3212.mc.pack.decor.block.DecorBlocks;
 import com.grim3212.mc.pack.decor.block.colorizer.BlockColorizerChimney;
@@ -99,6 +100,12 @@ public class DecorModelHandler {
 		if (DecorConfig.subpartLightBulbs) {
 			RenderHelper.renderItem(DecorItems.glass_shard);
 			RenderHelper.renderBlockWithMetaInInventory(DecorBlocks.light_bulb, 2);
+		}
+
+		if (DecorConfig.subpartAlarm) {
+			ModelLoader.setCustomStateMapper(DecorBlocks.alarm, new StateMap.Builder().ignore(BlockAlarm.POWERED).build());
+
+			RenderHelper.renderBlock(DecorBlocks.alarm);
 		}
 
 		if (DecorConfig.subpartWallpaper)

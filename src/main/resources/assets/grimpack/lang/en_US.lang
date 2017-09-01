@@ -9,6 +9,7 @@ grimpack.creative.world=Grim World
 
 #================= BLOCKS =================#
 tile.grave.name=Gravestone
+tile.alarm.name=Alarm Box
 tile.tank.name=Tank
 tile.warehouse_crate.name=Warehouse Crate
 tile.obsidian_safe.name=§5Obsidian Safe
@@ -971,6 +972,8 @@ entity.grimpack.SuicideBomber.name=Suicide Bomber
 entity.treasure.inventory=Treasure Chest
 grimpack.world.bobomb_chat=\247fYou are the Bob-omb!
 
+grimpack.subtitle.alarm=Alarm going off
+grimpack.subtitle.carlock=Carlock
 grimpack.subtitle.raygun=Raygun fired
 grimpack.subtitle.fusrodah=FusRoDah used
 grimpack.subtitle.spikeDeploy=Spike Deploy
@@ -1030,6 +1033,15 @@ mask.villager=Villager
 mask.wolf=Wolf
 mask.zombie=Zombie
 mask.zombie_pigman=Zombie Pig
+
+gui.alarm.title=Alarm Box
+gui.alarm.fulltext=Press the button below to cycle through the different types of alarms available. When you've found the one you want, click the 'Done' button at the bottom. Supply a redstone pulse (on/off signal) to any side of the box to sound the alarm.
+gui.alarm.name=Alarm %s
+gui.alarm.carlock=Car Lock
+gui.alarm.test=Test
+gui.alert.name=Bomb!
+gui.alert.desc=*VERY* loud one-time-only 'alarm' :-)
+gui.alert.test=BOOM! - No test for this 'alarm' :-)
 
 grimpack.cuisine.soda.tooltip.apple=Pretty basic soda
 grimpack.cuisine.soda.tooltip.bottle=Used to bottle your favorite soda
@@ -1234,6 +1246,10 @@ grimpack.manual.decor.subsection.furniture.page.doors.title=Doors
 grimpack.manual.decor.subsection.furniture.page.trap_door=You can also colorize trap doors so that you can have another way to hide an entrance but without breaking the look of the floor.
 grimpack.manual.decor.subsection.furniture.page.trap_door.title=Trap Doors
 #End Furniture
+
+grimpack.manual.decor.subsection.alarm=Alarms
+grimpack.manual.decor.subsection.alarm.page.alarm=Alarms are blocks that when powered with redstone emit an *alarming* sound... You can change which sound is played with a GUI.
+grimpack.manual.decor.subsection.alarm.page.alarm.title=Alarms
 
 #Start Other
 grimpack.manual.decor.subsection.other=Other

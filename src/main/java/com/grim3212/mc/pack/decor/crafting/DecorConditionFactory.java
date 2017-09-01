@@ -17,6 +17,8 @@ public class DecorConditionFactory implements IConditionFactory {
 		String value = JsonUtils.getString(json, "subpart", "");
 
 		switch (value) {
+		case "alarm":
+			return () -> DecorConfig.subpartAlarm;
 		case "cages":
 			return () -> DecorConfig.subpartCages;
 		case "calendar":

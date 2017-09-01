@@ -69,6 +69,7 @@ public class ManualDecor implements IManualPart {
 	public static Page flatItemFrame_page;
 	public static Page pillar_page;
 	public static Page decorTrapDoor_page;
+	public static Page alarm_page;
 
 	@Override
 	public void initPages() {
@@ -80,6 +81,9 @@ public class ManualDecor implements IManualPart {
 			crafts_page = new PageCrafting("crafts", DecorRecipes.crafts, 25);
 			firing_page = new PageFurnace("firing", new ItemStack[] { new ItemStack(DecorItems.unfired_craft), new ItemStack(DecorItems.unfired_pot) }, 20);
 		}
+
+		if (DecorConfig.subpartAlarm)
+			alarm_page = new PageCrafting("alarm", new ItemStack(DecorBlocks.alarm));
 
 		if (DecorConfig.subpartFlatItemFrame)
 			flatItemFrame_page = new PageCrafting("flat_item_frame", new ItemStack(DecorItems.flat_item_frame));
@@ -166,6 +170,9 @@ public class ManualDecor implements IManualPart {
 
 		if (DecorConfig.subpartCages || DecorConfig.subpartLanterns || DecorConfig.subpartDecorations || DecorConfig.subpartLightBulbs)
 			ManualRegistry.addChapter("deco", part).addPages(cage_page, lantern_page, crafts_page, firing_page, lights_page);
+
+		if (DecorConfig.subpartAlarm)
+			ManualRegistry.addChapter("alarm", part).addPages(alarm_page);
 
 		if (DecorConfig.subpartColorizer) {
 			if (DecorConfig.subpartFurniture) {

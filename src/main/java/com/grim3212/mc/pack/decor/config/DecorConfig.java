@@ -44,6 +44,7 @@ public class DecorConfig extends GrimConfig {
 	public static int smoothness;
 
 	// Subparts
+	public static boolean subpartAlarm;
 	public static boolean subpartCages;
 	public static boolean subpartCalendar;
 	public static boolean subpartColorizer;
@@ -68,6 +69,7 @@ public class DecorConfig extends GrimConfig {
 	public void syncSubparts() {
 		config.addCustomCategoryComment(CONFIG_PARTS_NAME, "Subparts fireplaces, furniture, lamp posts, and slopes require Colorizer to also be active. If colorizer is disabled so are they.");
 
+		subpartAlarm = config.get(CONFIG_PARTS_NAME, "Enable SubPart alarm", true).setRequiresMcRestart(true).getBoolean();
 		subpartCages = config.get(CONFIG_PARTS_NAME, "Enable SubPart cages", true).setRequiresMcRestart(true).getBoolean();
 		subpartCalendar = config.get(CONFIG_PARTS_NAME, "Enable SubPart calendar", true).setRequiresMcRestart(true).getBoolean();
 		subpartColorizer = config.get(CONFIG_PARTS_NAME, "Enable SubPart colorizer", true).setRequiresMcRestart(true).getBoolean();
@@ -142,6 +144,7 @@ public class DecorConfig extends GrimConfig {
 
 	@Override
 	public void readFromServer(PacketBuffer buffer) {
+		subpartAlarm = buffer.readBoolean();
 		subpartCages = buffer.readBoolean();
 		subpartCalendar = buffer.readBoolean();
 		subpartColorizer = buffer.readBoolean();
@@ -172,6 +175,7 @@ public class DecorConfig extends GrimConfig {
 
 	@Override
 	public void writeToClient(PacketBuffer buffer) {
+		buffer.writeBoolean(subpartAlarm);
 		buffer.writeBoolean(subpartCages);
 		buffer.writeBoolean(subpartCalendar);
 		buffer.writeBoolean(subpartColorizer);

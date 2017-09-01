@@ -1,0 +1,11 @@
+{
+	"forge_marker": 1,
+    "defaults": {
+		"transform": "forge:default-block",
+        "model": "grimpack:alarm"
+    },
+    "variants": {
+        "normal": [{}],
+		"inventory": [{}]
+    }
+}

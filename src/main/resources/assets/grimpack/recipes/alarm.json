@@ -1,0 +1,32 @@
+{
+"conditions": [
+    {
+      "type": "grimpack:part_enabled",
+      "part": "decor"
+    },
+    {
+      "type": "grimpack:decor_subpart_enabled",
+      "subpart": "alarm"
+    }
+  ],
+  "result": {
+    "item": "grimpack:alarm"
+  },
+  "pattern": [
+    "III", 
+    "IRI", 
+    "ILI"
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "R": {
+      "item": "#DUSTREDSTONE"
+    },
+    "I": {
+      "item": "#INGOTIRON"
+    },
+    "L": {
+      "item": "minecraft:lever"
+    }
+  }
+}

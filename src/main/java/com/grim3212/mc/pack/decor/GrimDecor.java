@@ -8,8 +8,10 @@ import com.grim3212.mc.pack.decor.client.ManualDecor;
 import com.grim3212.mc.pack.decor.config.DecorConfig;
 import com.grim3212.mc.pack.decor.entity.DecorEntities;
 import com.grim3212.mc.pack.decor.init.DecorRecipes;
+import com.grim3212.mc.pack.decor.init.DecorSounds;
 import com.grim3212.mc.pack.decor.item.DecorItems;
 import com.grim3212.mc.pack.decor.network.MessageParticles;
+import com.grim3212.mc.pack.decor.network.MessageSaveAlarm;
 
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.SidedProxy;
@@ -38,9 +40,13 @@ public class GrimDecor extends GrimPart {
 
 		MinecraftForge.EVENT_BUS.register(new DecorBlocks());
 		MinecraftForge.EVENT_BUS.register(new DecorItems());
+		MinecraftForge.EVENT_BUS.register(new DecorSounds());
 
 		if (DecorConfig.subpartColorizer && DecorConfig.subpartFireplaces)
 			PacketDispatcher.registerMessage(MessageParticles.class);
+
+		if (DecorConfig.subpartAlarm)
+			PacketDispatcher.registerMessage(MessageSaveAlarm.class);
 
 		DecorEntities.initEntities();
 		proxy.preInit();
