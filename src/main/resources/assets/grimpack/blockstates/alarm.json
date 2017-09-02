@@ -2,10 +2,17 @@
 	"forge_marker": 1,
     "defaults": {
 		"transform": "forge:default-block",
-        "model": "grimpack:alarm"
+        "model": "grimpack:alarm_wall"
     },
     "variants": {
-        "normal": [{}],
+        "facing": {
+			"down": { "model": "grimpack:alarm", "x": 180 },
+			"up": { "model": "grimpack:alarm" },
+			"north": {  },
+			"south": { "y": 180 },
+			"west": { "y": 270 },
+			"east": { "y": 90 }
+		},
 		"inventory": [{}]
     }
 }
