@@ -53,6 +53,8 @@ public class ToolsConditionFactory implements IConditionFactory {
 			return () -> ToolsConfig.subpartSlingshots;
 		case "spears":
 			return () -> ToolsConfig.subpartSpears;
+		case "staffs":
+			return () -> ToolsConfig.subpartStaffs;
 		case "ultimatefist":
 			return () -> ToolsConfig.subpartUltimateFist;
 		case "wands":

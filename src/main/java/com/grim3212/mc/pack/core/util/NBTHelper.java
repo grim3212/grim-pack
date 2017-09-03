@@ -204,6 +204,16 @@ public class NBTHelper {
 
 		return itemStack.getTagCompound().getInteger(keyName);
 	}
+	
+	public static int getInt(ItemStack itemStack, String keyName, int fallback) {
+		initNBTTagCompound(itemStack);
+
+		if (!itemStack.getTagCompound().hasKey(keyName)) {
+			setInteger(itemStack, keyName, fallback);
+		}
+
+		return itemStack.getTagCompound().getInteger(keyName);
+	}
 
 	public static void setInteger(ItemStack itemStack, String keyName, int keyValue) {
 		initNBTTagCompound(itemStack);

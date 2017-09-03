@@ -74,7 +74,7 @@ public class ToolsClientProxy extends ClientProxy {
 			RenderingRegistry.registerEntityRenderingHandler(EntityGrenade.class, new RenderGrenadeFactory());
 
 		// Key bindings
-		if (ToolsConfig.subpartWands || ToolsConfig.subpartPowerstaff || ToolsConfig.subpartSlingshots)
+		if (ToolsConfig.subpartWands || ToolsConfig.subpartPowerstaff || ToolsConfig.subpartSlingshots || ToolsConfig.subpartStaffs)
 			MinecraftForge.EVENT_BUS.register(new KeyBindHelper());
 	}
 

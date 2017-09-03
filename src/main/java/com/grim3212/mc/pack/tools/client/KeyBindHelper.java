@@ -10,9 +10,11 @@ import com.grim3212.mc.pack.tools.items.ItemBuildingWand;
 import com.grim3212.mc.pack.tools.items.ItemMiningWand;
 import com.grim3212.mc.pack.tools.items.ItemPowerStaff;
 import com.grim3212.mc.pack.tools.items.ItemSlingshot;
+import com.grim3212.mc.pack.tools.items.ItemStaff;
 import com.grim3212.mc.pack.tools.items.ItemWand;
 import com.grim3212.mc.pack.tools.network.MessagePowerStaffSwitchModes;
 import com.grim3212.mc.pack.tools.network.MessageSlingshotSwitchModes;
+import com.grim3212.mc.pack.tools.network.MessageStaffKey;
 import com.grim3212.mc.pack.tools.network.MessageWandKeys;
 
 import net.minecraft.client.Minecraft;
@@ -29,17 +31,17 @@ public class KeyBindHelper {
 
 	private final Minecraft mc;
 
-	private KeyBinding Key_1 = new KeyBinding("Wands Key 1", Keyboard.KEY_X, GrimTools.partName);
-	private KeyBinding Key_2 = new KeyBinding("Wands Key 2", Keyboard.KEY_C, GrimTools.partName);
-	private KeyBinding Key_3 = new KeyBinding("Wands Key 3", Keyboard.KEY_V, GrimTools.partName);
-	private KeyBinding Key_Help = new KeyBinding("Wands Help Key", Keyboard.KEY_LCONTROL, GrimTools.partName);
+	private KeyBinding Key_1 = new KeyBinding("Tools Key 1", Keyboard.KEY_X, GrimTools.partName);
+	private KeyBinding Key_2 = new KeyBinding("Tools Key 2", Keyboard.KEY_C, GrimTools.partName);
+	private KeyBinding Key_3 = new KeyBinding("Tools Key 3", Keyboard.KEY_V, GrimTools.partName);
+	private KeyBinding Key_Help = new KeyBinding("Tools Help Key", Keyboard.KEY_LCONTROL, GrimTools.partName);
 
 	private KeyBinding modeSwitch = new KeyBinding("GrimTools Switch Modes", Keyboard.KEY_M, GrimTools.partName);
 
 	public KeyBindHelper() {
 		mc = Minecraft.getMinecraft();
 
-		if (ToolsConfig.subpartWands) {
+		if (ToolsConfig.subpartWands || ToolsConfig.subpartStaffs) {
 			for (KeyBinding key : new KeyBinding[] { Key_1, Key_2, Key_3, Key_Help }) {
 				ClientRegistry.registerKeyBinding(key);
 			}
@@ -56,7 +58,6 @@ public class KeyBindHelper {
 		if (mc.inGameHasFocus) {
 			if (player != null)
 				if (player.getHeldItemMainhand() != null) {
-
 					if (ToolsConfig.subpartPowerstaff) {
 						if (player.getHeldItemMainhand().getItem() instanceof ItemPowerStaff) {
 							if (modeSwitch.isPressed()) {
@@ -82,6 +83,14 @@ public class KeyBindHelper {
 
 							int keys = (Key_1.isKeyDown() ? 100 : 0) + (Key_2.isKeyDown() ? 10 : 0) + (Key_3.isKeyDown() ? 1 : 0);
 							PacketDispatcher.sendToServer(new MessageWandKeys(EnumHand.MAIN_HAND, keys));
+						}
+					}
+
+					if (ToolsConfig.subpartStaffs) {
+						if (player.getHeldItemMainhand().getItem() instanceof ItemStaff) {
+
+							int keys = (Key_1.isKeyDown() ? 1 : 0) + (Key_2.isKeyDown() ? 10 : 0);
+							PacketDispatcher.sendToServer(new MessageStaffKey(EnumHand.MAIN_HAND, keys));
 						}
 					}
 				}
@@ -112,6 +121,14 @@ public class KeyBindHelper {
 
 						int keys = (Key_1.isKeyDown() ? 100 : 0) + (Key_2.isKeyDown() ? 10 : 0) + (Key_3.isKeyDown() ? 1 : 0);
 						PacketDispatcher.sendToServer(new MessageWandKeys(EnumHand.OFF_HAND, keys));
+					}
+				}
+
+				if (ToolsConfig.subpartStaffs) {
+					if (player.getHeldItemOffhand().getItem() instanceof ItemStaff) {
+
+						int keys = (Key_1.isKeyDown() ? 1 : 0) + (Key_2.isKeyDown() ? 10 : 0);
+						PacketDispatcher.sendToServer(new MessageStaffKey(EnumHand.OFF_HAND, keys));
 					}
 				}
 			}

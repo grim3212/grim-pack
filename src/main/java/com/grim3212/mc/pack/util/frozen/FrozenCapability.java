@@ -42,6 +42,12 @@ public class FrozenCapability {
 		}
 	}
 
+	/**
+	 * Duration of 0 will make them stay frozen indefinitely
+	 * 
+	 * @param entity
+	 * @param duration
+	 */
 	public static void freezeEntity(EntityLivingBase entity, int duration) {
 		frozen(entity, true, duration);
 	}
@@ -65,7 +71,7 @@ public class FrozenCapability {
 					@Override
 					@Nullable
 					public <T> T getCapability(@Nonnull Capability<T> capability, @Nullable EnumFacing facing) {
-						return capability == GrimUtil.FROZEN_CAP ? GrimUtil.FROZEN_CAP.<T>cast(inst) : null;
+						return capability == GrimUtil.FROZEN_CAP ? GrimUtil.FROZEN_CAP.<T> cast(inst) : null;
 					}
 
 					@Override

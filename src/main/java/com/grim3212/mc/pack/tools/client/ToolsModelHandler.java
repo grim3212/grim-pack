@@ -58,6 +58,11 @@ public class ToolsModelHandler {
 			RenderHelper.renderItem(ToolsItems.black_diamond_pickaxe);
 		}
 
+		if (ToolsConfig.subpartStaffs) {
+			RenderHelper.renderItem(ToolsItems.neptune_staff);
+			RenderHelper.renderItem(ToolsItems.phoenix_staff);
+		}
+
 		if (ToolsConfig.subpartRayGuns) {
 			RenderHelper.renderBlock(ToolsBlocks.element_115_ore);
 

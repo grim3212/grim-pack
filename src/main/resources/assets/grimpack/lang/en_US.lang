@@ -490,6 +490,8 @@ item.gunpowder_reed_item.name=Gunpowder Reeds
 item.fungicide.name=Fungicidal Spray
 item.grenade.name=Grenade
 item.grenade_launcher.name=Grenade Launcher
+item.neptune_staff.name=Neptune Staff
+item.phoenix_staff.name=Phoenix Staff
 
 #================= OTHER =================#
 grimpack.core.cfg=Core Config

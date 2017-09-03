@@ -128,6 +128,8 @@ public class ToolsItems {
 	public static final Item diamond_boomerang = new ItemDiamondBoomerang();
 	public static final Item grenade_launcher = new ItemGrenadeLauncher();
 	public static final Item grenade = (new ItemManualPage("grenade", "tools:grenade.grenade")).setFull3D().setCreativeTab(GrimCreativeTabs.GRIM_TOOLS);
+	public static final Item neptune_staff = new ItemNeptuneStaff();
+	public static final Item phoenix_staff = new ItemPhoenixStaff();
 
 	@SubscribeEvent
 	public void initItems(RegistryEvent.Register<Item> evt) {
@@ -191,11 +193,11 @@ public class ToolsItems {
 		if (ToolsConfig.subpartExtinguisher)
 			r.register(extinguisher);
 
-		if(ToolsConfig.subpartGrenadeLauncher) {
+		if (ToolsConfig.subpartGrenadeLauncher) {
 			r.register(grenade);
 			r.register(grenade_launcher);
 		}
-		
+
 		if (ToolsConfig.subpartHammers) {
 			r.register(wood_hammer);
 			r.register(stone_hammer);
@@ -237,6 +239,11 @@ public class ToolsItems {
 			r.register(advanced_energy_canister);
 			r.register(advanced_ray_gun);
 			r.register(dark_iron_ingot);
+		}
+
+		if (ToolsConfig.subpartStaffs) {
+			r.register(neptune_staff);
+			r.register(phoenix_staff);
 		}
 
 		if (ToolsConfig.subpartSlingshots) {

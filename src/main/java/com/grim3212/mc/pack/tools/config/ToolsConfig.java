@@ -89,6 +89,7 @@ public class ToolsConfig extends GrimConfig {
 	public static boolean subpartRayGuns;
 	public static boolean subpartSlingshots;
 	public static boolean subpartSpears;
+	public static boolean subpartStaffs;
 	public static boolean subpartUltimateFist;
 	public static boolean subpartWands;
 
@@ -117,6 +118,7 @@ public class ToolsConfig extends GrimConfig {
 		subpartRayGuns = config.get(CONFIG_PARTS_NAME, "Enable SubPart ray guns", true).setRequiresMcRestart(true).getBoolean();
 		subpartSlingshots = config.get(CONFIG_PARTS_NAME, "Enable SubPart slingshots", true).setRequiresMcRestart(true).getBoolean();
 		subpartSpears = config.get(CONFIG_PARTS_NAME, "Enable SubPart spears", true).setRequiresMcRestart(true).getBoolean();
+		subpartStaffs = config.get(CONFIG_PARTS_NAME, "Enable SubPart staffs", true).setRequiresMcRestart(true).getBoolean();
 		subpartUltimateFist = config.get(CONFIG_PARTS_NAME, "Enable SubPart ultimate fist", true).setRequiresMcRestart(true).getBoolean();
 		subpartWands = config.get(CONFIG_PARTS_NAME, "Enable SubPart wands", true).setRequiresMcRestart(true).getBoolean();
 	}
@@ -241,6 +243,7 @@ public class ToolsConfig extends GrimConfig {
 		subpartRayGuns = buffer.readBoolean();
 		subpartSlingshots = buffer.readBoolean();
 		subpartSpears = buffer.readBoolean();
+		subpartStaffs = buffer.readBoolean();
 		subpartUltimateFist = buffer.readBoolean();
 		subpartWands = buffer.readBoolean();
 	}
@@ -265,6 +268,7 @@ public class ToolsConfig extends GrimConfig {
 		buffer.writeBoolean(subpartRayGuns);
 		buffer.writeBoolean(subpartSlingshots);
 		buffer.writeBoolean(subpartSpears);
+		buffer.writeBoolean(subpartStaffs);
 		buffer.writeBoolean(subpartUltimateFist);
 		buffer.writeBoolean(subpartWands);
 	}

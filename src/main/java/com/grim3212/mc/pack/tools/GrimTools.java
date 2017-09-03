@@ -15,6 +15,7 @@ import com.grim3212.mc.pack.tools.init.ToolsSounds;
 import com.grim3212.mc.pack.tools.items.ToolsItems;
 import com.grim3212.mc.pack.tools.network.MessagePowerStaffSwitchModes;
 import com.grim3212.mc.pack.tools.network.MessageSlingshotSwitchModes;
+import com.grim3212.mc.pack.tools.network.MessageStaffKey;
 import com.grim3212.mc.pack.tools.network.MessageWandKeys;
 import com.grim3212.mc.pack.tools.world.ToolsGenerate;
 
@@ -66,6 +67,9 @@ public class GrimTools extends GrimPart {
 
 		if (ToolsConfig.subpartSlingshots)
 			PacketDispatcher.registerMessage(MessageSlingshotSwitchModes.class);
+
+		if (ToolsConfig.subpartStaffs)
+			PacketDispatcher.registerMessage(MessageStaffKey.class);
 
 		GameRegistry.registerWorldGenerator(new ToolsGenerate(), 25);
 		ToolsEntities.initEntities();
