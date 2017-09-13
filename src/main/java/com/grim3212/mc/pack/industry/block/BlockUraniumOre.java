@@ -28,30 +28,26 @@ public class BlockUraniumOre extends BlockManual {
 
 	@Override
 	public void onEntityCollidedWithBlock(World worldIn, BlockPos pos, IBlockState state, Entity entityIn) {
-
 		float damage = IndustryConfig.uraniumDamage;
 		float damageFraction = damage / 4;
 		if (entityIn instanceof EntityPlayer) {
 			if (!((EntityPlayer) entityIn).inventory.armorInventory.get(0).isEmpty() && ((EntityPlayer) entityIn).inventory.armorInventory.get(0).getItem() == IndustryItems.anti_radiation_boots) {
-				damage = damage - damageFraction;
+				damage -= damageFraction;
 				if (damage < 0)
 					damage = 0;
 			}
 			if (!((EntityPlayer) entityIn).inventory.armorInventory.get(1).isEmpty() && ((EntityPlayer) entityIn).inventory.armorInventory.get(1).getItem() == IndustryItems.anti_radiation_legs) {
-				// damage--;
-				damage = damage - damageFraction;
+				damage -= damageFraction;
 				if (damage < 0)
 					damage = 0;
 			}
 			if (!((EntityPlayer) entityIn).inventory.armorInventory.get(2).isEmpty() && ((EntityPlayer) entityIn).inventory.armorInventory.get(2).getItem() == IndustryItems.anti_radiation_chest) {
-				// damage--;
-				damage = damage - damageFraction;
+				damage -= damageFraction;
 				if (damage < 0)
 					damage = 0;
 			}
 			if (!((EntityPlayer) entityIn).inventory.armorInventory.get(3).isEmpty() && ((EntityPlayer) entityIn).inventory.armorInventory.get(3).getItem() == IndustryItems.anti_radiation_helmet) {
-				// damage--;
-				damage = damage - damageFraction;
+				damage -= damageFraction;
 				if (damage < 0)
 					damage = 0;
 			}
@@ -76,26 +72,22 @@ public class BlockUraniumOre extends BlockManual {
 		float damage = IndustryConfig.uraniumDamage;
 		float damageFraction = damage / 4;
 		if (!playerIn.inventory.armorInventory.get(3).isEmpty() && playerIn.inventory.armorInventory.get(3).getItem() == IndustryItems.anti_radiation_helmet) {
-			// damage--;
-			damage = damage - damageFraction;
+			damage -= damageFraction;
 			if (damage < 0)
 				damage = 0;
 		}
 		if (!playerIn.inventory.armorInventory.get(2).isEmpty() && playerIn.inventory.armorInventory.get(2).getItem() == IndustryItems.anti_radiation_chest) {
-			// damage--;
-			damage = damage - damageFraction;
+			damage -= damageFraction;
 			if (damage < 0)
 				damage = 0;
 		}
 		if (!playerIn.inventory.armorInventory.get(1).isEmpty() && playerIn.inventory.armorInventory.get(1).getItem() == IndustryItems.anti_radiation_legs) {
-			// damage--;
-			damage = damage - damageFraction;
+			damage -= damageFraction;
 			if (damage < 0)
 				damage = 0;
 		}
 		if (!playerIn.inventory.armorInventory.get(0).isEmpty() && playerIn.inventory.armorInventory.get(0).getItem() == IndustryItems.anti_radiation_boots) {
-			// damage--;
-			damage = damage - damageFraction;
+			damage -= damageFraction;
 			if (damage < 0)
 				damage = 0;
 		}
