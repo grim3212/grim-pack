@@ -11,8 +11,10 @@ import net.minecraft.block.properties.PropertyInteger;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.item.EntityItem;
+import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Enchantments;
+import net.minecraft.item.ItemShears;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
 import net.minecraft.tileentity.TileEntity;
@@ -110,16 +112,8 @@ public abstract class BlockFungusBase extends BlockManual {
 
 	@Override
 	public void harvestBlock(World worldIn, EntityPlayer player, BlockPos pos, IBlockState state, TileEntity te, ItemStack stack) {
-		super.harvestBlock(worldIn, player, pos, state, te, stack);
-		// Possibly change
-		if (player.getActiveItemStack() != null && player.getActiveItemStack().getItem() instanceof ItemSword) {
-			float f = 0.7F;
-			double d = (double) (worldIn.rand.nextFloat() * f) + (double) (1.0F - f) * 0.5D;
-			double d1 = (double) (worldIn.rand.nextFloat() * f) + (double) (1.0F - f) * 0.5D;
-			double d2 = (double) (worldIn.rand.nextFloat() * f) + (double) (1.0F - f) * 0.5D;
-			EntityItem entityitem = new EntityItem(worldIn, (double) pos.getX() + d, (double) pos.getY() + d1, (double) pos.getZ() + d2, new ItemStack(this, 1, (Integer) state.getValue(TYPE)));
-			entityitem.setPickupDelay(10);
-			worldIn.spawnEntity(entityitem);
+		if (!stack.isEmpty() && (stack.getItem() instanceof ItemSword || stack.getItem() instanceof ItemShears || EnchantmentHelper.getEnchantmentLevel(Enchantments.SILK_TOUCH, stack) > 0)) {
+			super.harvestBlock(worldIn, player, pos, state, te, stack);
 		}
 	}
 

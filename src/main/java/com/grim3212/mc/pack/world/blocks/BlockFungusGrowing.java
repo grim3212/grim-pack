@@ -8,11 +8,15 @@ import com.grim3212.mc.pack.world.client.ManualWorld;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockBush;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.init.Enchantments;
 import net.minecraft.init.Items;
+import net.minecraft.item.ItemShears;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.ItemSword;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -42,20 +46,23 @@ public class BlockFungusGrowing extends BlockFungusBase {
 
 	@Override
 	public void harvestBlock(World worldIn, EntityPlayer player, BlockPos pos, IBlockState state, TileEntity te, ItemStack stack) {
-		super.harvestBlock(worldIn, player, pos, state, te, stack);
+		if (!stack.isEmpty() && (stack.getItem() instanceof ItemSword || stack.getItem() instanceof ItemShears || EnchantmentHelper.getEnchantmentLevel(Enchantments.SILK_TOUCH, stack) > 0)) {
+			super.harvestBlock(worldIn, player, pos, state, te, stack);
+		} else {
+			if (worldIn.rand.nextInt(4) != 0) {
+				return;
+			}
 
-		if (worldIn.rand.nextInt(4) != 0) {
-			return;
+			float f = 0.7F;
+			double d = (double) (worldIn.rand.nextFloat() * f) + (double) (1.0F - f) * 0.5D;
+			double d1 = (double) (worldIn.rand.nextFloat() * f) + (double) (1.0F - f) * 0.5D;
+			double d2 = (double) (worldIn.rand.nextFloat() * f) + (double) (1.0F - f) * 0.5D;
+			if (!worldIn.isRemote) {
+				EntityItem entityitem = new EntityItem(worldIn, (double) pos.getX() + d, (double) pos.getY() + d1, (double) pos.getZ() + d2, new ItemStack(Items.SLIME_BALL, worldIn.rand.nextInt(EnchantmentHelper.getEnchantmentLevel(Enchantments.FORTUNE, stack) + 2) + 1));
+				entityitem.setPickupDelay(10);
+				worldIn.spawnEntity(entityitem);
+			}
 		}
-
-		float f = 0.7F;
-		double d = (double) (worldIn.rand.nextFloat() * f) + (double) (1.0F - f) * 0.5D;
-		double d1 = (double) (worldIn.rand.nextFloat() * f) + (double) (1.0F - f) * 0.5D;
-		double d2 = (double) (worldIn.rand.nextFloat() * f) + (double) (1.0F - f) * 0.5D;
-		EntityItem entityitem = new EntityItem(worldIn, (double) pos.getX() + d, (double) pos.getY() + d1, (double) pos.getZ() + d2, new ItemStack(Items.SLIME_BALL, worldIn.rand.nextInt(2) + 1));
-		entityitem.setPickupDelay(10);
-		if (!worldIn.isRemote)
-			worldIn.spawnEntity(entityitem);
 	}
 
 	@Override
