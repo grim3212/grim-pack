@@ -8,6 +8,8 @@ import com.grim3212.mc.pack.tools.config.ToolsConfig;
 import com.grim3212.mc.pack.tools.items.ItemBreakingWand;
 import com.grim3212.mc.pack.tools.items.ItemBuildingWand;
 import com.grim3212.mc.pack.tools.items.ItemMiningWand;
+import com.grim3212.mc.pack.tools.items.ItemNeptuneStaff;
+import com.grim3212.mc.pack.tools.items.ItemPhoenixStaff;
 import com.grim3212.mc.pack.tools.items.ItemPowerStaff;
 import com.grim3212.mc.pack.tools.items.ItemSlingshot;
 import com.grim3212.mc.pack.tools.items.ItemStaff;
@@ -21,6 +23,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
@@ -88,6 +91,10 @@ public class KeyBindHelper {
 
 					if (ToolsConfig.subpartStaffs) {
 						if (player.getHeldItemMainhand().getItem() instanceof ItemStaff) {
+							if (Key_Help.isKeyDown()) {
+								printStaffHelp(player, player.getHeldItemMainhand());
+								return;
+							}
 
 							int keys = (Key_1.isKeyDown() ? 1 : 0) + (Key_2.isKeyDown() ? 10 : 0);
 							PacketDispatcher.sendToServer(new MessageStaffKey(EnumHand.MAIN_HAND, keys));
@@ -126,6 +133,10 @@ public class KeyBindHelper {
 
 				if (ToolsConfig.subpartStaffs) {
 					if (player.getHeldItemOffhand().getItem() instanceof ItemStaff) {
+						if (Key_Help.isKeyDown()) {
+							printStaffHelp(player, player.getHeldItemMainhand());
+							return;
+						}
 
 						int keys = (Key_1.isKeyDown() ? 1 : 0) + (Key_2.isKeyDown() ? 10 : 0);
 						PacketDispatcher.sendToServer(new MessageStaffKey(EnumHand.OFF_HAND, keys));
@@ -161,6 +172,23 @@ public class KeyBindHelper {
 			addChatMessage(player, Keyboard.getKeyName(Key_2.getKeyCode()) + " - " + I18n.format("help.mine.key2"));
 			addChatMessage(player, Keyboard.getKeyName(Key_3.getKeyCode()) + " - " + I18n.format("help.mine.key3"));
 			addChatMessage(player, Keyboard.getKeyName(Key_1.getKeyCode()) + "+" + Keyboard.getKeyName(Key_2.getKeyCode()) + " - " + I18n.format("help.mine.key1.2"));
+		}
+	}
+
+	public void printStaffHelp(EntityPlayer player, ItemStack staff) {
+		addChatMessage(player, "=== " + staff.getItem().getItemStackDisplayName(staff) + " ===");
+		if (staff.getItem() instanceof ItemNeptuneStaff) {
+			addChatMessage(player, I18n.format("help.neptune.block"));
+			addChatMessage(player, Keyboard.getKeyName(Key_1.getKeyCode()) + " - " + I18n.format("help.neptune.key1"));
+			addChatMessage(player, Keyboard.getKeyName(Key_1.getKeyCode()) + " - " + I18n.format("help.neptune.key1.block"));
+			addChatMessage(player, Keyboard.getKeyName(Key_2.getKeyCode()) + " - " + I18n.format("help.neptune.key2"));
+			addChatMessage(player, Keyboard.getKeyName(Key_2.getKeyCode()) + " - " + I18n.format("help.neptune.key2.block"));
+		} else if (staff.getItem() instanceof ItemPhoenixStaff) {
+			addChatMessage(player, I18n.format("help.phoenix.block"));
+			addChatMessage(player, Keyboard.getKeyName(Key_1.getKeyCode()) + " - " + I18n.format("help.phoenix.key1"));
+			addChatMessage(player, Keyboard.getKeyName(Key_1.getKeyCode()) + " - " + I18n.format("help.phoenix.key1.block"));
+			addChatMessage(player, Keyboard.getKeyName(Key_2.getKeyCode()) + " - " + I18n.format("help.phoenix.key2"));
+			addChatMessage(player, Keyboard.getKeyName(Key_2.getKeyCode()) + " - " + I18n.format("help.phoenix.key2.block"));
 		}
 	}
 

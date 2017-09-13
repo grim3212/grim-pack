@@ -71,6 +71,8 @@ public class ManualTools implements IManualPart {
 	public static Page slingshot_page;
 	public static Page pelletBag_page;
 	public static Page grenadeLauncher_page;
+	public static Page neptuneStaff_page;
+	public static Page phoenixStaff_page;
 
 	@Override
 	public void initPages() {
@@ -82,6 +84,11 @@ public class ManualTools implements IManualPart {
 		if (ToolsConfig.subpartBackpacks) {
 			backpack_page = new PageCrafting("backpacks", new ItemStack(ToolsItems.backpack));
 			backpackColors_page = new PageImageText("colors", "colors_image.png");
+		}
+
+		if (ToolsConfig.subpartStaffs) {
+			neptuneStaff_page = new PageCrafting("neptune", new ItemStack(ToolsItems.neptune_staff));
+			phoenixStaff_page = new PageCrafting("phoenix", new ItemStack(ToolsItems.phoenix_staff));
 		}
 
 		if (ToolsConfig.subpartGrenadeLauncher)
@@ -224,8 +231,8 @@ public class ManualTools implements IManualPart {
 		if (ToolsConfig.subpartPokeball)
 			ManualRegistry.addChapter("pokeball", part).addPages(pokeball_page);
 
-		if (ToolsConfig.subpartPowerstaff)
-			ManualRegistry.addChapter("staff", part).addPages(powerstaff_page);
+		if (ToolsConfig.subpartPowerstaff || ToolsConfig.subpartStaffs)
+			ManualRegistry.addChapter("staff", part).addPages(powerstaff_page, neptuneStaff_page, phoenixStaff_page);
 
 		if (ToolsConfig.subpartRayGuns)
 			ManualRegistry.addChapter("raygun", part).addPages(element115_page, canister_page, raygun_page, darkIron_page, advCanister_page, advRaygun_page);

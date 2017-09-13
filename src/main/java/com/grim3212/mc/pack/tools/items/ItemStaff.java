@@ -16,6 +16,7 @@ import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 
 public abstract class ItemStaff extends ItemManual {
@@ -70,8 +71,12 @@ public abstract class ItemStaff extends ItemManual {
 	}
 
 	protected void particles(World world, BlockPos pos, Random rand) {
-		for (int l = 0; l < 100; l++) {
-			world.spawnParticle(EnumParticleTypes.REDSTONE, (pos.getX() + rand.nextDouble() * 16D) - rand.nextDouble() * 16D, (pos.getY() + rand.nextDouble() * 16D) - rand.nextDouble() * 16D, (pos.getZ() + rand.nextDouble() * 16D) - rand.nextDouble() * 16D, 0.29999999999999999D, 0.40000000000000002D, 1.0D);
-		}
+		world.spawnParticle(EnumParticleTypes.REDSTONE, (pos.getX() + rand.nextDouble() * 16D) - rand.nextDouble() * 16D, (pos.getY() + rand.nextDouble() * 16D) - rand.nextDouble() * 16D, (pos.getZ() + rand.nextDouble() * 16D) - rand.nextDouble() * 16D, 0.29999999999999999D, 0.40000000000000002D, 1.0D);
+	}
+	
+	protected float getDistance(int i, int j, int k, int l) {
+		float f = MathHelper.abs(i - k);
+		float f1 = MathHelper.abs(j - l);
+		return MathHelper.sqrt(f * f + f1 * f1);
 	}
 }

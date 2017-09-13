@@ -3,12 +3,14 @@ package com.grim3212.mc.pack.tools.items;
 import java.util.List;
 
 import com.grim3212.mc.pack.core.manual.pages.Page;
-import com.grim3212.mc.pack.core.util.GrimLog;
+import com.grim3212.mc.pack.core.network.PacketDispatcher;
 import com.grim3212.mc.pack.core.util.NBTHelper;
-import com.grim3212.mc.pack.tools.GrimTools;
+import com.grim3212.mc.pack.tools.client.ManualTools;
 import com.grim3212.mc.pack.util.config.UtilConfig;
 import com.grim3212.mc.pack.util.frozen.FrozenCapability;
+import com.grim3212.mc.pack.util.frozen.MessageFrozen;
 
+import net.minecraft.block.BlockLiquid;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -27,8 +29,8 @@ import net.minecraft.world.World;
 
 public class ItemNeptuneStaff extends ItemStaff {
 
-	private static final int FREEZE_MOBS = 0;
-	private static final int PLACE_WATER = 1;
+	private static final int PLACE_WATER = 0;
+	private static final int FREEZE_MOBS = 1;
 	private static final int FREEZE_WATER = 10;
 
 	public ItemNeptuneStaff() {
@@ -37,19 +39,22 @@ public class ItemNeptuneStaff extends ItemStaff {
 
 	@Override
 	public Page getPage(ItemStack stack) {
-		return null;
+		return ManualTools.neptuneStaff_page;
 	}
 
 	@Override
 	protected void hitEntity(EntityLivingBase target) {
 		FrozenCapability.freezeEntity(target, 0);
+		if (!target.world.isRemote) {
+			// Send to Client
+			PacketDispatcher.sendToDimension(new MessageFrozen(target.getEntityId(), true, 0), target.dimension);
+		}
 	}
 
 	@Override
 	public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn) {
 		ItemStack stack = playerIn.getHeldItem(handIn);
 		int keys = NBTHelper.getInt(stack, "Keys");
-		GrimLog.info(GrimTools.partName, "" + keys);
 
 		if (keys == FREEZE_MOBS) {
 			playerIn.swingArm(handIn);
@@ -73,7 +78,6 @@ public class ItemNeptuneStaff extends ItemStaff {
 			stack.damageItem(1, player);
 			freezeStuff(player, stack, worldIn, player.getPosition(), false);
 		} else if (keys == PLACE_WATER) {
-
 			BlockPos waterPos = pos.offset(facing);
 
 			if (worldIn.isAirBlock(waterPos) || worldIn.getBlockState(waterPos).getBlock().isReplaceable(worldIn, waterPos)) {
@@ -84,7 +88,7 @@ public class ItemNeptuneStaff extends ItemStaff {
 		} else if (keys == FREEZE_WATER) {
 			BlockPos waterPos = pos.offset(facing);
 
-			if (worldIn.getBlockState(waterPos).getBlock() == Blocks.WATER) {
+			if (worldIn.getBlockState(waterPos).getBlock() == Blocks.WATER && worldIn.getBlockState(waterPos).getValue(BlockLiquid.LEVEL) == 0) {
 				worldIn.spawnParticle(EnumParticleTypes.SMOKE_LARGE, 20D, 20D, 20D, 0.0D, 0.0D, 0.0D);
 				worldIn.setBlockState(waterPos, Blocks.ICE.getDefaultState());
 				stack.damageItem(1, player);
@@ -92,12 +96,6 @@ public class ItemNeptuneStaff extends ItemStaff {
 		}
 
 		return EnumActionResult.SUCCESS;
-	}
-
-	public float getDistance(int i, int j, int k, int l) {
-		float f = MathHelper.abs(i - k);
-		float f1 = MathHelper.abs(j - l);
-		return MathHelper.sqrt(f * f + f1 * f1);
 	}
 
 	private int freezeStuff(EntityPlayer player, ItemStack itemstack, World world, BlockPos pos, boolean water) {
@@ -115,7 +113,7 @@ public class ItemNeptuneStaff extends ItemStaff {
 						BlockPos newPos = new BlockPos(l, i1, j1);
 						IBlockState state = world.getBlockState(newPos);
 
-						if (state.getBlock() == Blocks.FLOWING_WATER || state.getBlock() == Blocks.WATER) {
+						if (state.getBlock() == Blocks.WATER && state.getValue(BlockLiquid.LEVEL) == 0 || state.getBlock() == Blocks.FLOWING_WATER && state.getValue(BlockLiquid.LEVEL) == 0) {
 							world.setBlockState(newPos, Blocks.ICE.getDefaultState());
 							particles(world, newPos, itemRand);
 							dmg++;

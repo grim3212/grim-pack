@@ -54,6 +54,10 @@ public class FrozenCapability {
 
 	public static void unFreezeEntity(EntityLivingBase entity) {
 		frozen(entity, false, 0);
+
+		// Allow the entity to 'live' again
+		((EntityLiving) entity).setNoAI(false);
+		entity.setSilent(false);
 	}
 
 	public static class FrozenEvents {
