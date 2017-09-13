@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -35,152 +36,6 @@ public class ConfigUtils {
 
 	public static void setCurrentPart(String currentPart) {
 		ConfigUtils.currentPart = currentPart;
-	}
-
-	public static ToolMaterialHolder loadToolMaterial(ToolMaterialHolder fallback) {
-		File directoryFile = new File(GrimPack.configDir, GrimPack.modID + "/materials");
-		File toolFile = new File(GrimPack.configDir, GrimPack.modID + "/materials/" + fallback.name + "_tool_material.json");
-
-		if (toolFile.exists()) {
-			int harvestLevel = fallback.harvestLevel;
-			int maxUses = fallback.maxUses;
-			float efficiency = fallback.efficiency;
-			float damage = fallback.damage;
-			int enchantability = fallback.enchantability;
-
-			try {
-				JsonReader reader = new JsonReader(new FileReader(toolFile));
-				reader.beginObject();
-
-				while (reader.hasNext()) {
-					String name = reader.nextName();
-
-					if (name.equals("harvestLevel")) {
-						harvestLevel = reader.nextInt();
-					} else if (name.equals("maxUses")) {
-						maxUses = reader.nextInt();
-					} else if (name.equals("efficiency")) {
-						efficiency = (float) reader.nextDouble();
-					} else if (name.equals("damage")) {
-						damage = (float) reader.nextDouble();
-					} else if (name.equals("enchantability")) {
-						enchantability = reader.nextInt();
-					} else {
-						reader.skipValue();
-					}
-				}
-
-				reader.endObject();
-				reader.close();
-
-			} catch (IOException e) {
-				throw new JsonSyntaxException("Tool material '" + fallback.name + "' had a problem reading.");
-			}
-
-			return new ToolMaterialHolder(fallback.name, harvestLevel, maxUses, efficiency, damage, enchantability);
-		} else {
-			try {
-				if (!directoryFile.exists()) {
-					directoryFile.mkdirs();
-				}
-
-				if (toolFile.createNewFile()) {
-					JsonWriter writer = new JsonWriter(new FileWriter(toolFile));
-					writer.setIndent("\t");
-					writer.setHtmlSafe(true);
-					writer.beginObject();
-
-					writer.name("harvestLevel").value(fallback.harvestLevel);
-					writer.name("maxUses").value(fallback.maxUses);
-					writer.name("efficiency").value(fallback.efficiency);
-					writer.name("damage").value(fallback.damage);
-					writer.name("enchantability").value(fallback.enchantability);
-
-					writer.endObject();
-					writer.close();
-				}
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-
-		return fallback;
-	}
-
-	public static ArmorMaterialHolder loadArmorMaterial(ArmorMaterialHolder fallback) {
-		File directoryFile = new File(GrimPack.configDir, GrimPack.modID + "/materials");
-		File armorFile = new File(GrimPack.configDir, GrimPack.modID + "/materials/" + fallback.name + "_armor_material.json");
-
-		if (armorFile.exists()) {
-			int durability = fallback.durability;
-			int[] reductionAmounts = fallback.reductionAmounts;
-			int enchantability = fallback.enchantability;
-			float toughness = fallback.toughness;
-
-			try {
-				JsonReader reader = new JsonReader(new FileReader(armorFile));
-				reader.beginObject();
-
-				while (reader.hasNext()) {
-					String name = reader.nextName();
-
-					if (name.equals("durability")) {
-						durability = reader.nextInt();
-					} else if (name.equals("reductionAmounts")) {
-						reader.beginArray();
-						for (int i = 0; i < reductionAmounts.length; i++) {
-							reductionAmounts[i] = reader.nextInt();
-						}
-						reader.endArray();
-					} else if (name.equals("enchantability")) {
-						enchantability = reader.nextInt();
-					} else if (name.equals("toughness")) {
-						toughness = (float) reader.nextDouble();
-					} else {
-						reader.skipValue();
-					}
-				}
-
-				reader.endObject();
-				reader.close();
-
-			} catch (IOException e) {
-				throw new JsonSyntaxException("Armor material '" + fallback.name + "' had a problem reading.");
-			}
-
-			return new ArmorMaterialHolder(fallback.name, durability, reductionAmounts, enchantability, toughness);
-		} else {
-
-			try {
-				if (!directoryFile.exists()) {
-					directoryFile.mkdirs();
-				}
-
-				if (armorFile.createNewFile()) {
-					JsonWriter writer = new JsonWriter(new FileWriter(armorFile));
-					writer.setIndent("\t");
-					writer.setHtmlSafe(true);
-					writer.beginObject();
-
-					writer.name("durability").value(fallback.durability);
-					writer.name("reductionAmounts");
-					writer.beginArray();
-					for (int amnt : fallback.reductionAmounts) {
-						writer.value(amnt);
-					}
-					writer.endArray();
-					writer.name("enchantability").value(fallback.enchantability);
-					writer.name("toughness").value(fallback.toughness);
-
-					writer.endObject();
-					writer.close();
-				}
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-
-		return fallback;
 	}
 
 	/**
@@ -719,11 +574,17 @@ public class ConfigUtils {
 
 	public static class ToolMaterialHolder {
 		private final String name;
-		private final int harvestLevel;
-		private final int maxUses;
-		private final float efficiency;
-		private final float damage;
-		private final int enchantability;
+		private final int defaultHarvestLevel;
+		private final int defaultMaxUses;
+		private final float defaultEfficiency;
+		private final float defaultDamage;
+		private final int defaultEnchantability;
+
+		private int harvestLevel;
+		private int maxUses;
+		private float efficiency;
+		private float damage;
+		private int enchantability;
 
 		public ToolMaterialHolder(String name, int harvestLevel, int maxUses, float efficiency, float damage, int enchantability) {
 			this.name = name;
@@ -732,6 +593,12 @@ public class ConfigUtils {
 			this.efficiency = efficiency;
 			this.damage = damage;
 			this.enchantability = enchantability;
+
+			this.defaultHarvestLevel = harvestLevel;
+			this.defaultMaxUses = maxUses;
+			this.defaultEfficiency = efficiency;
+			this.defaultDamage = damage;
+			this.defaultEnchantability = enchantability;
 		}
 
 		public String getName() {
@@ -757,14 +624,106 @@ public class ConfigUtils {
 		public int getEnchantability() {
 			return enchantability;
 		}
+
+		@Override
+		public String toString() {
+			return "[Name:" + getName() + ", HarvestLevel:" + getHarvestLevel() + ", MaxUses:" + getMaxUses() + ", Efficiency:" + getEfficiency() + ", Damage:" + getDamage() + ", Enchantability:" + getEnchantability() + "]";
+		}
+
+		public void load() {
+			File directoryFile = new File(GrimPack.configDir, GrimPack.modID + "/materials");
+			File toolFile = new File(GrimPack.configDir, GrimPack.modID + "/materials/" + this.name + "_tool_material.json");
+
+			if (toolFile.exists()) {
+				int harvestLevel = this.defaultHarvestLevel;
+				int maxUses = this.defaultMaxUses;
+				float efficiency = this.defaultEfficiency;
+				float damage = this.defaultDamage;
+				int enchantability = this.defaultEnchantability;
+
+				try {
+					JsonReader reader = new JsonReader(new FileReader(toolFile));
+					reader.beginObject();
+
+					while (reader.hasNext()) {
+						String name = reader.nextName();
+
+						if (name.equals("harvestLevel")) {
+							harvestLevel = reader.nextInt();
+						} else if (name.equals("maxUses")) {
+							maxUses = reader.nextInt();
+						} else if (name.equals("efficiency")) {
+							efficiency = (float) reader.nextDouble();
+						} else if (name.equals("damage")) {
+							damage = (float) reader.nextDouble();
+						} else if (name.equals("enchantability")) {
+							enchantability = reader.nextInt();
+						} else {
+							reader.skipValue();
+						}
+					}
+
+					reader.endObject();
+					reader.close();
+
+				} catch (IOException e) {
+					throw new JsonSyntaxException("Tool material '" + this.name + "' had a problem loading.");
+				}
+
+				this.harvestLevel = harvestLevel;
+				this.maxUses = maxUses;
+				this.efficiency = efficiency;
+				this.damage = damage;
+				this.enchantability = enchantability;
+			} else {
+				try {
+					if (!directoryFile.exists()) {
+						directoryFile.mkdirs();
+					}
+
+					if (toolFile.createNewFile()) {
+						JsonWriter writer = new JsonWriter(new FileWriter(toolFile));
+						writer.setIndent("\t");
+						writer.setHtmlSafe(true);
+						writer.beginObject();
+
+						writer.name("harvestLevel").value(this.defaultHarvestLevel);
+						writer.name("maxUses").value(this.defaultMaxUses);
+						writer.name("efficiency").value(this.defaultEfficiency);
+						writer.name("damage").value(this.defaultDamage);
+						writer.name("enchantability").value(this.defaultEnchantability);
+
+						writer.endObject();
+						writer.close();
+
+						// Reset to defaults if the file was deleted and already
+						// had values
+						this.harvestLevel = defaultHarvestLevel;
+						this.maxUses = defaultMaxUses;
+						this.efficiency = defaultEfficiency;
+						this.damage = defaultDamage;
+						this.enchantability = defaultEnchantability;
+					}
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+
+			GrimLog.debugInfo(currentPart, "Loaded Tool Material - '" + this.name + "_tool_material.json'. " + this.toString());
+		}
 	}
 
 	public static class ArmorMaterialHolder {
 		private final String name;
-		private final int durability;
-		private final int[] reductionAmounts;
-		private final int enchantability;
-		private final float toughness;
+		private final int defaultDurability;
+		private final int[] defaultReductionAmounts;
+		private final int defaultEnchantability;
+		private final float defaultToughness;
+
+		private int durability;
+		private int[] reductionAmounts;
+		private int enchantability;
+		private float toughness;
 
 		public ArmorMaterialHolder(String name, int durability, int[] reductionAmounts, int enchantability, float toughness) {
 			this.name = name;
@@ -772,6 +731,11 @@ public class ConfigUtils {
 			this.reductionAmounts = reductionAmounts;
 			this.enchantability = enchantability;
 			this.toughness = toughness;
+
+			this.defaultDurability = durability;
+			this.defaultReductionAmounts = reductionAmounts.clone();
+			this.defaultEnchantability = enchantability;
+			this.defaultToughness = toughness;
 		}
 
 		public String getName() {
@@ -792,6 +756,95 @@ public class ConfigUtils {
 
 		public float getToughness() {
 			return toughness;
+		}
+
+		@Override
+		public String toString() {
+			return "[Name:" + getName() + ", Durability:" + getDurability() + ", ReductionAmounts:" + Arrays.toString(getReductionAmounts()) + ", Enchantability:" + getEnchantability() + ", Toughness:" + getToughness() + "]";
+		}
+
+		public void load() {
+			File directoryFile = new File(GrimPack.configDir, GrimPack.modID + "/materials");
+			File armorFile = new File(GrimPack.configDir, GrimPack.modID + "/materials/" + this.name + "_armor_material.json");
+
+			if (armorFile.exists()) {
+				int durability = this.defaultDurability;
+				int[] reductionAmounts = this.defaultReductionAmounts.clone();
+				int enchantability = this.defaultEnchantability;
+				float toughness = this.defaultToughness;
+
+				try {
+					JsonReader reader = new JsonReader(new FileReader(armorFile));
+					reader.beginObject();
+
+					while (reader.hasNext()) {
+						String name = reader.nextName();
+
+						if (name.equals("durability")) {
+							durability = reader.nextInt();
+						} else if (name.equals("reductionAmounts")) {
+							reader.beginArray();
+							for (int i = 0; i < reductionAmounts.length; i++) {
+								reductionAmounts[i] = reader.nextInt();
+							}
+							reader.endArray();
+						} else if (name.equals("enchantability")) {
+							enchantability = reader.nextInt();
+						} else if (name.equals("toughness")) {
+							toughness = (float) reader.nextDouble();
+						} else {
+							reader.skipValue();
+						}
+					}
+
+					reader.endObject();
+					reader.close();
+				} catch (IOException e) {
+					throw new JsonSyntaxException("Armor material '" + this.name + "' had a problem loading.");
+				}
+
+				this.durability = durability;
+				this.reductionAmounts = reductionAmounts;
+				this.enchantability = enchantability;
+				this.toughness = toughness;
+
+			} else {
+				try {
+					if (!directoryFile.exists()) {
+						directoryFile.mkdirs();
+					}
+
+					if (armorFile.createNewFile()) {
+						JsonWriter writer = new JsonWriter(new FileWriter(armorFile));
+						writer.setIndent("\t");
+						writer.setHtmlSafe(true);
+						writer.beginObject();
+
+						writer.name("durability").value(this.defaultDurability);
+						writer.name("reductionAmounts");
+						writer.beginArray();
+						for (int amnt : this.defaultReductionAmounts) {
+							writer.value(amnt);
+						}
+						writer.endArray();
+						writer.name("enchantability").value(this.defaultEnchantability);
+						writer.name("toughness").value(this.defaultToughness);
+
+						writer.endObject();
+						writer.close();
+
+						// Reset to defaults if the file was deleted and already
+						// had values
+						this.durability = defaultDurability;
+						this.reductionAmounts = defaultReductionAmounts.clone();
+						this.enchantability = defaultEnchantability;
+						this.toughness = defaultToughness;
+					}
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+			GrimLog.debugInfo(currentPart, "Loaded Armor Material - '" + this.name + "_armor_material.json'. " + this.toString());
 		}
 	}
 }

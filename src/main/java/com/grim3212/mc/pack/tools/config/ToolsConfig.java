@@ -26,10 +26,10 @@ public class ToolsConfig extends GrimConfig {
 	public static final String CONFIG_BOOMERANG_NAME = "tools.boomerang";
 	public static final String CONFIG_PARTS_NAME = "tools.subparts";
 
-	public static ToolMaterialHolder blackDiamondToolMaterial;
-	public static ToolMaterialHolder obsidianToolMaterial;
-	public static ArmorMaterialHolder maskArmorMaterial;
-	public static ArmorMaterialHolder blackDiamondArmorMaterial;
+	public static ToolMaterialHolder blackDiamondToolMaterial = new ToolMaterialHolder("black_diamond", 4, 5122, 15F, 5F, 20);
+	public static ToolMaterialHolder obsidianToolMaterial = new ToolMaterialHolder("obsidian", 3, 3333, 9.5F, 7f, 14);
+	public static ArmorMaterialHolder maskArmorMaterial = new ArmorMaterialHolder("mask", 5, new int[] { 1, 2, 3, 1 }, 15, 0.0F);
+	public static ArmorMaterialHolder blackDiamondArmorMaterial = new ArmorMaterialHolder("black_diamond", 35, new int[] { 4, 8, 10, 4 }, 20, 2.5F);
 
 	public static boolean ENABLE_free_build_mode;
 	public static boolean ENABLE_bedrock_breaking;
@@ -125,18 +125,19 @@ public class ToolsConfig extends GrimConfig {
 
 	@Override
 	public void syncFirst() {
+		ConfigUtils.setCurrentPart(GrimTools.partName);
 		multiToolDurabilityMultiplier = (float) config.get(CONFIG_GENERAL_NAME, "Multitool durability multiplier", 3).getDouble();
 
 		if (subpartBlackDiamond) {
-			blackDiamondToolMaterial = ConfigUtils.loadToolMaterial(new ToolMaterialHolder("black_diamond", 4, 5122, 15F, 5F, 20));
-			blackDiamondArmorMaterial = ConfigUtils.loadArmorMaterial(new ArmorMaterialHolder("black_diamond", 35, new int[] { 4, 8, 10, 4 }, 20, 2.5F));
+			blackDiamondToolMaterial.load();
+			blackDiamondArmorMaterial.load();
 		}
 
 		if (subpartMultiTools)
-			obsidianToolMaterial = ConfigUtils.loadToolMaterial(new ToolMaterialHolder("obsidian", 3, 3333, 9.5F, 7f, 14));
+			obsidianToolMaterial.load();
 
 		if (subpartMasks)
-			maskArmorMaterial = ConfigUtils.loadArmorMaterial(new ArmorMaterialHolder("mask", 5, new int[] { 1, 2, 3, 1 }, 15, 0.0F));
+			maskArmorMaterial.load();
 	}
 
 	@Override

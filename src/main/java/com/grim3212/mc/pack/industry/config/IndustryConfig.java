@@ -25,9 +25,9 @@ public class IndustryConfig extends GrimConfig {
 
 	public static List<ItemStack> workbenchUpgradeList = new ArrayList<ItemStack>();
 
-	public static ToolMaterialHolder steelToolMaterial;
-	public static ArmorMaterialHolder antiRadiationArmorMaterial;
-	public static ArmorMaterialHolder gravityArmorMaterial;
+	public static ToolMaterialHolder steelToolMaterial = new ToolMaterialHolder("steel", 3, 1200, 7.5F, 2.5F, 12);
+	public static ArmorMaterialHolder antiRadiationArmorMaterial = new ArmorMaterialHolder("anti_radiation", 5, new int[] { 2, 5, 3, 1 }, 15, 0.0F);
+	public static ArmorMaterialHolder gravityArmorMaterial = new ArmorMaterialHolder("gravity", 15, new int[] { 2, 6, 5, 2 }, 9, 0.0F);
 	public static boolean generateUranium;
 	public static boolean generateOilOre;
 
@@ -88,15 +88,12 @@ public class IndustryConfig extends GrimConfig {
 	@Override
 	public void syncFirst() {
 		ConfigUtils.setCurrentPart(GrimIndustry.partName);
-
 		if (subpartSteel)
-			steelToolMaterial = ConfigUtils.loadToolMaterial(new ToolMaterialHolder("steel", 3, 1200, 7.5F, 2.5F, 12));
-
+			steelToolMaterial.load();
 		if (subpartGravity)
-			gravityArmorMaterial = ConfigUtils.loadArmorMaterial(new ArmorMaterialHolder("gravity", 15, new int[] { 2, 6, 5, 2 }, 9, 0.0F));
-
+			gravityArmorMaterial.load();
 		if (subpartNuclear)
-			antiRadiationArmorMaterial = ConfigUtils.loadArmorMaterial(new ArmorMaterialHolder("anti_radiation", 5, new int[] { 2, 5, 3, 1 }, 15, 0.0F));
+			antiRadiationArmorMaterial.load();
 	}
 
 	@Override
@@ -127,6 +124,7 @@ public class IndustryConfig extends GrimConfig {
 	@Override
 	public void syncConfig() {
 		syncSubparts();
+		syncFirst();
 
 		ConfigUtils.setCurrentPart(GrimIndustry.partName);
 

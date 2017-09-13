@@ -21,6 +21,8 @@ import net.minecraftforge.registries.IForgeRegistry;
 
 public class CommonItems {
 
+	// TODO: Look into only initializing blocks and items that should be
+	// registered
 	public static final Block aluminum_ore = (new BlockManualPage("aluminum_ore", Material.ROCK, SoundType.STONE, "core:aluminum.aluminum")).setHardness(1.0F).setResistance(5.0F).setCreativeTab(GrimCreativeTabs.GRIM_CORE);
 	public static final Block steel_block = (new BlockManualPage("steel_block", Material.IRON, SoundType.METAL, "core:steel.steel_block")).setHardness(1.0F).setResistance(20.0F).setCreativeTab(GrimCreativeTabs.GRIM_CORE);
 
