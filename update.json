@@ -1,8 +1,8 @@
 {
 	"homepage": "https://grim3212.github.io/grim-pack/home",
 	"promos": {
-		"1.12.1-latest": "5.1.2.35",
-		"1.12.1-recommended": "5.1.2.35",
+		"1.12.1-latest": "5.1.3.42",
+		"1.12.1-recommended": "5.1.3.42",
 		"1.12-latest": "5.0.0.3",
 		"1.12-recommended": "5.0.0.3",
 		"1.11.2-latest": "4.0.1.20",
@@ -83,6 +83,7 @@
 		"5.0.0.0": "First update to 1.12. Small fix everywhere. All recipes should be configurable except for Backpacks and Pellet Bags."
 	},
 	"1.12.1": {
+		"5.1.3.42": "New site https://www.grim3212.com/grim-pack. Information pulled from Instruction Manual. Fix aluminum links, emptying buckets, flatitemframe rendering, tooltips for tools, and grabbing oredict names. Recipe condition for subparts changed to check if part is loaded first.",
 		"5.1.2.35": "Tameable Treasure mob, grenade launcher, shaped charges, chicken feathers, alarm box, legendary staves, fix fungus drops, and fix crash with armor and tool materials.",
 		"5.1.1.27": "Fix recipe loading causing a crash and displaying missing recipes crash.",
 		"5.1.1.24": "Configurable Update. Lots of changes to make GrimPack more customizable like disabling subparts, customize tool and armor material values, and new JSON recipes for Grill, Machines, and Chisels.",
