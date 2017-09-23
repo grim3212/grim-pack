@@ -1,9 +1,5 @@
 {
-	"conditions": [
-    {
-      "type": "grimpack:part_enabled",
-      "part": "cuisine"
-    },
+"conditions": [
     {
       "type": "grimpack:cuisine_subpart_enabled",
       "subpart": "health"

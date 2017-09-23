@@ -1,17 +1,10 @@
 {
 	"conditions": [
     {
-      "type": "grimpack:part_enabled",
-      "part": "industry"
-    },
-    {
       "type": "grimpack:industry_subpart_enabled",
       "subpart": "steel"
     },
-    {
-      "type": "grimpack:part_enabled",
-      "part": "tools"
-    },
+    
     {
       "type": "grimpack:tools_subpart_enabled",
       "subpart": "multitools"

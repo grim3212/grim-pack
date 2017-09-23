@@ -1,17 +1,10 @@
 {
 "conditions": [
     {
-      "type": "grimpack:part_enabled",
-      "part": "decor"
-    },
-    {
       "type": "grimpack:decor_subpart_enabled",
       "subpart": "fireplaces"
     },
-    {
-      "type": "grimpack:part_enabled",
-      "part": "cuisine"
-    },
+    
     {
       "type": "grimpack:cuisine_subpart_enabled",
       "subpart": "chocolate"

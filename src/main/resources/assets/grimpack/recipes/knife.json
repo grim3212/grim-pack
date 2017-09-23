@@ -1,10 +1,6 @@
 {
 "conditions": [
     {
-      "type": "grimpack:part_enabled",
-      "part": "cuisine"
-    },
-    {
       "type": "forge:or",
       "values": [
       	{

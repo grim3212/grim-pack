@@ -30,7 +30,7 @@ public class CoreConditionFactory implements IConditionFactory {
 		case "steel":
 			return () -> CoreConfig.subpartSteel;
 		default:
-			throw new JsonParseException("Part '" + value + "' is either misspelled or doesn't exist!");
+			throw new JsonParseException("SubPart '" + value + "' is either misspelled or doesn't exist!");
 		}
 	}
 
