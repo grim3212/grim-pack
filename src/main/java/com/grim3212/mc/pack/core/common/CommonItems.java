@@ -27,8 +27,8 @@ public class CommonItems {
 	public static final Block steel_block = (new BlockManualPage("steel_block", Material.IRON, SoundType.METAL, "core:steel.steel_block")).setHardness(1.0F).setResistance(20.0F).setCreativeTab(GrimCreativeTabs.GRIM_CORE);
 
 	public static final Item aluminum_ingot = (new ItemManualPage("aluminum_ingot", "core:aluminum.aluminum")).setCreativeTab(GrimCreativeTabs.GRIM_CORE);
-	public static final Item aluminum_can = (new ItemManualPage("aluminum_can", "core:aluminum.aluminium_can")).setCreativeTab(GrimCreativeTabs.GRIM_CORE);
-	public static final Item aluminum_shaft = (new ItemManualPage("aluminum_shaft", "core:aluminum.aluminium_shaft")).setCreativeTab(GrimCreativeTabs.GRIM_CORE);
+	public static final Item aluminum_can = (new ItemManualPage("aluminum_can", "core:aluminum.aluminum_can")).setCreativeTab(GrimCreativeTabs.GRIM_CORE);
+	public static final Item aluminum_shaft = (new ItemManualPage("aluminum_shaft", "core:aluminum.aluminum_shaft")).setCreativeTab(GrimCreativeTabs.GRIM_CORE);
 	public static final Item steel_shaft = (new ItemManualPage("steel_shaft", "core:steel.steel_shaft")).setCreativeTab(GrimCreativeTabs.GRIM_CORE);
 	public static final Item steel_ingot = (new ItemManualPage("steel_ingot", "core:steel.steel_ingot")).setCreativeTab(GrimCreativeTabs.GRIM_CORE);
 	public static final Item rubber = (new ItemManualPage("rubber", "core:common.rubber")).setCreativeTab(GrimCreativeTabs.GRIM_CORE);
