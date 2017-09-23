@@ -40,7 +40,7 @@ public class ManualCore implements IManualPart {
 		instructionManual_page = new PageCrafting("instructionmanual", new ItemStack(CoreItems.instruction_manual));
 
 		if (CoreConfig.subpartIron)
-			ironStick_page = new PageCrafting("iron_stick", new ItemStack(CommonItems.iron_stick));
+			ironStick_page = new PageCrafting("iron_stick", new ItemStack(CommonItems.iron_stick)).setExtraInfo("grimpack.doc.core.common.iron_stick");
 
 		if (CoreConfig.subpartAluminum) {
 			aluminum_page = new PageFurnace("aluminum", new ItemStack(CommonItems.aluminum_ore));
@@ -68,10 +68,10 @@ public class ManualCore implements IManualPart {
 
 	@Override
 	public void registerChapters(ManualPart modSection) {
-		ManualRegistry.addChapter("im", modSection).addPages(info_page, instructionManual_page);
+		ManualRegistry.addChapter("im", modSection).addPages(info_page, instructionManual_page).addImageUrl("assets/grimpack/images/im.png");
 
 		if (CoreConfig.subpartCoal || CoreConfig.subpartIron || CoreConfig.subpartGraphite || CoreConfig.subpartRubber)
-			ManualRegistry.addChapter("common", modSection).addPages(ironStick_page, coalDust_page, graphite_page, graphiteRod_page, rubber_page);
+			ManualRegistry.addChapter("common", modSection).addPages(ironStick_page, coalDust_page, graphite_page, graphiteRod_page, rubber_page).setExtraInfo("grimpack.doc.core.common");
 
 		if (CoreConfig.subpartAluminum)
 			ManualRegistry.addChapter("aluminum", modSection).addPages(aluminum_page, aluminumShaft_page, aluminumCan_page);

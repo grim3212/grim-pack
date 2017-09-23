@@ -82,7 +82,7 @@ public class ItemInstructionManual extends ItemManual {
 
 	@Override
 	public void addInformation(ItemStack stack, World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
-		tooltip.add(I18n.format("tooltip.manual.number") + ManualRegistry.getLoadedMods().size());
+		tooltip.add(I18n.format("tooltip.manual.number") + ManualRegistry.getLoadedParts().size());
 	}
 
 	@Override

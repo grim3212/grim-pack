@@ -17,6 +17,8 @@ public class ManualChapter {
 	private String partId;
 	private List<Page> pages = Lists.newArrayList();
 	private ManualPart part;
+	private List<String> imageUrls = Lists.newArrayList();
+	private String extraInfo = "";
 
 	public ManualChapter(String chapterId, String partId) {
 		this.chapterId = chapterId;
@@ -52,7 +54,6 @@ public class ManualChapter {
 	}
 
 	public ManualChapter addPages(Page... pages) {
-
 		for (int i = 0; i < pages.length; i++) {
 			Page page = pages[i];
 
@@ -81,5 +82,48 @@ public class ManualChapter {
 	 */
 	public List<Page> getPages() {
 		return ImmutableList.copyOf(this.pages);
+	}
+
+	/**
+	 * Used only for documenting.
+	 * 
+	 * The URL can be full 'https://i.imgur.com/oiqrWcM.png' Or relative to
+	 * domain 'assets/images/coolImg.png'
+	 * 
+	 * @param urls
+	 */
+	public ManualChapter addImageUrl(String urls) {
+		this.imageUrls.add(urls);
+		return this;
+	}
+
+	public ManualChapter appendImageUrl(String name) {
+		return addImageUrl("/assets/grimpack/images/" + name);
+	}
+	
+	public ManualChapter appendImageUrls(List<String> names) {
+		for(String name : names) {
+			this.appendImageUrl(name);
+		}
+		
+		return this;
+	}
+
+	public ManualChapter addImageUrls(List<String> urls) {
+		this.imageUrls.addAll(urls);
+		return this;
+	}
+
+	public List<String> getImageUrls() {
+		return this.imageUrls;
+	}
+
+	public ManualChapter setExtraInfo(String extraInfo) {
+		this.extraInfo = extraInfo;
+		return this;
+	}
+
+	public String getExtraInfo() {
+		return I18n.format(extraInfo);
 	}
 }

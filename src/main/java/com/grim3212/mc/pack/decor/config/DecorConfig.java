@@ -106,7 +106,7 @@ public class DecorConfig extends GrimConfig {
 		}
 
 		if (subpartFlatItemFrame) {
-			flipBlocks = config.get(CONFIG_GENERAL_NAME, "Flip Blocks in Flat Item Frames", false).getBoolean();
+			flipBlocks = config.get(CONFIG_GENERAL_NAME, "Flip Blocks in Flat Item Frames", true).getBoolean();
 		}
 
 		if (subpartColorizer) {

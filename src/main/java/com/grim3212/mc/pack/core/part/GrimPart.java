@@ -1,5 +1,8 @@
 package com.grim3212.mc.pack.core.part;
 
+import java.util.List;
+
+import com.google.common.collect.Lists;
 import com.grim3212.mc.pack.GrimPack;
 import com.grim3212.mc.pack.core.config.GrimConfig;
 import com.grim3212.mc.pack.core.manual.IManualPart;
@@ -110,5 +113,13 @@ public abstract class GrimPart {
 
 	public Configuration getConfig() {
 		return this.getGrimConfig().config;
+	}
+
+	public List<String> getImageUrls() {
+		return Lists.newArrayList();
+	}
+
+	public String getExtraInfo() {
+		return "";
 	}
 }

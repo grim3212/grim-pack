@@ -29,6 +29,11 @@ public class PageImageText extends Page {
 	@Override
 	public void setup() {
 		this.imageLocation = new ResourceLocation(GrimPack.modID + ":textures/gui/manual/" + location);
+
+		// Only add if there was no original images
+		if (this.getImageUrls().isEmpty()) {
+			this.addImageUrl("assets/grimpack/" + this.imageLocation.getResourcePath().substring(13));
+		}
 	}
 
 	@Override

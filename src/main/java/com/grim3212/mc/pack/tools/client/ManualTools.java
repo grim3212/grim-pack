@@ -145,7 +145,7 @@ public class ManualTools implements IManualPart {
 		if (ToolsConfig.subpartWands) {
 			wandInfo_page = new PageInfo("info");
 			regularWand_page = new PageCrafting("regular", ToolsRecipes.regular, 20);
-			reinforcedWand_page = new PageCrafting("reinforced", ToolsRecipes.reinforced, 20);
+			reinforcedWand_page = new PageCrafting("reinforced", ToolsRecipes.reinforced, 20).appendImageUrl("spare_ores.png");
 		}
 
 		if (ToolsConfig.subpartMultiTools)
@@ -208,7 +208,7 @@ public class ManualTools implements IManualPart {
 		}
 
 		if (ToolsConfig.subpartBoomerangs)
-			ManualRegistry.addChapter("boomerang", part).addPages(boomerang_page, diamondBoomerang_page);
+			ManualRegistry.addChapter("boomerang", part).addPages(boomerang_page, diamondBoomerang_page).addImageUrl("boomerang.png");
 
 		if (ToolsConfig.subpartChisel)
 			ManualRegistry.addChapter("chisels", part).addPages(chisel_page, chiselOre_page);

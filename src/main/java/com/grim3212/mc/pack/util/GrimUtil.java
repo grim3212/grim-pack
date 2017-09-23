@@ -1,5 +1,8 @@
 package com.grim3212.mc.pack.util;
 
+import java.util.List;
+
+import com.google.common.collect.Lists;
 import com.grim3212.mc.pack.core.manual.IManualPart;
 import com.grim3212.mc.pack.core.network.PacketDispatcher;
 import com.grim3212.mc.pack.core.part.GrimPart;
@@ -93,5 +96,10 @@ public class GrimUtil extends GrimPart {
 	@SideOnly(Side.CLIENT)
 	public IManualPart getManual() {
 		return ManualUtil.INSTANCE;
+	}
+
+	@Override
+	public List<String> getImageUrls() {
+		return Lists.newArrayList("assets/grimpack/images/util_main.png");
 	}
 }

@@ -83,11 +83,11 @@ public class ManualWorld implements IManualPart {
 			greed_page = new PageCrafting("recipes", WorldRecipes.greed, 25);
 
 		if (WorldConfig.subpartGlowstoneSeeds)
-			glowSeeds_page = new PageCrafting("recipe", new ItemStack(WorldBlocks.glowstone_seeds));
+			glowSeeds_page = new PageCrafting("recipe", new ItemStack(WorldBlocks.glowstone_seeds)).appendImageUrl("glowstone_seeds.jpg");
 
 		if (WorldConfig.subpartFungus) {
 			greenFungus_page = new PageCrafting("green", WorldRecipes.greenFungus, 25);
-			colorFungus_page = new PageCrafting("color", WorldRecipes.coloredFungus, 15);
+			colorFungus_page = new PageCrafting("color", WorldRecipes.coloredFungus, 15).appendImageUrl("fungus.jpg");
 			buildFungus_page = new PageCrafting("build", WorldRecipes.buildingFungus, 15);
 			mazeFungus_page = new PageCrafting("maze", WorldRecipes.mazeFungus, 15);
 			killingFungus_page = new PageCrafting("kill", WorldRecipes.acidFungus, 25);
@@ -97,7 +97,7 @@ public class ManualWorld implements IManualPart {
 		}
 
 		if (WorldConfig.subpart8BitMobs) {
-			parabuzzy_page = new PageImageText("parabuzzy", "parabuzzy.png");
+			parabuzzy_page = new PageImageText("parabuzzy", "parabuzzy.png").appendImageUrl("parabuzzy.png");
 			bobomb_page = new PageCrafting("bobomb", new ItemStack(WorldItems.bobomb));
 		}
 	}

@@ -6,6 +6,8 @@ import java.util.List;
 import org.lwjgl.opengl.GL11;
 
 import com.google.common.collect.Lists;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import com.grim3212.mc.pack.GrimPack;
 import com.grim3212.mc.pack.core.client.TooltipHelper;
 import com.grim3212.mc.pack.core.manual.gui.GuiManualPage;
@@ -113,5 +115,19 @@ public class PageItemStack extends Page {
 				stackShown = 0;
 		}
 		++update;
+	}
+
+	@Override
+	public JsonObject deconstruct() {
+		JsonObject json = super.deconstruct();
+
+		JsonArray displayStacks = new JsonArray();
+		for (ItemStack stack : this.displayStacks) {
+			displayStacks.add(this.deconstructItem(stack));
+		}
+
+		json.add("displayStacks", displayStacks);
+
+		return json;
 	}
 }

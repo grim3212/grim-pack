@@ -9,6 +9,7 @@ import com.grim3212.mc.pack.core.part.GrimCreativeTabs;
 import com.grim3212.mc.pack.core.part.PartRegistry;
 import com.grim3212.mc.pack.core.util.GrimLog;
 import com.grim3212.mc.pack.core.util.generator.CommandGenerate;
+import com.grim3212.mc.pack.core.util.generator.GenerateRendererHandler;
 import com.grim3212.mc.pack.cuisine.GrimCuisine;
 import com.grim3212.mc.pack.decor.GrimDecor;
 import com.grim3212.mc.pack.industry.GrimIndustry;
@@ -16,6 +17,7 @@ import com.grim3212.mc.pack.tools.GrimTools;
 import com.grim3212.mc.pack.util.GrimUtil;
 import com.grim3212.mc.pack.world.GrimWorld;
 
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
@@ -64,6 +66,11 @@ public class GrimPack {
 		NetworkRegistry.INSTANCE.registerGuiHandler(GrimPack.INSTANCE, new PackGuiHandler());
 
 		PartRegistry.preInit(event);
+
+		// Only allow in debug environments
+		if (Loader.instance().activeModContainer().getVersion().equals("@MOD_VERSION@")) {
+			MinecraftForge.EVENT_BUS.register(new GenerateRendererHandler());
+		}
 	}
 
 	@EventHandler

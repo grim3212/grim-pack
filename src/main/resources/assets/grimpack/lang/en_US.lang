@@ -1062,13 +1062,70 @@ grimpack.cuisine.soda.tooltip.mushroom=Doesn't heal much and doesn't taste good
 generator.floating_islands=Floating Islands
 generator.floating_islands.info=[GrimPack] Floating Islands World Type
 
+grimpack.generator.crafting_shaped=Shaped Recipe
+grimpack.generator.crafting_shapeless=Shapeless Recipe
+grimpack.generator.furnace=Furnace
+grimpack.generator.REFINERY=Refinery
+grimpack.generator.MODERN_FURNACE=Modern Furnace
+grimpack.generator.DERRICK=Oil Derrick
+
+grimpack.doc.configname=Config
+grimpack.doc.coreinfo=The core part includes the <strong>Instruction Manual</strong> which provides info about blocks, items, and more in game. The core part also includes common blocks and items that are and can be used through out the Grim Pack.
+grimpack.doc.core.common=These common items can have uses throughout the entirety of the <strong>GrimPack</strong>. Some have many, some only a few, and some may not be used at all but rather use the ore dictionary for other mods.
+grimpack.doc.core.common.iron_stick=The <strong>iron sticks</strong> are used in most tool recipes functioning as a more durable replacement for the stick. 
+
+commands.grim_documentation_generation.usage=/gtg [fileLocation]
+commands.grim_documentation_generation.nofile=This command requires the location of the file you want to generate
+commands.grim_documentation_generation.start=Documentation generation started
+commands.grim_documentation_generation.finish=Documentation generation was a success
+commands.grim_documentation_generation.error=Something went wrong during writing the file
+
+#================= EXTRA ENTRIES =================#
+grimpack.manual.info.modinfo=This section goes into more detail on ways to customize GrimPack, as well as, some basic information, installation instructions, and more. Just click on a chapter to the side to read it. <img src="/assets/grimpack/images/grimpack.png" class="img-fluid">
+grimpack.manual.info.subsection.intro=Introduction
+grimpack.manual.info.subsection.intro.page.info=The GrimPack contains a large amount of blocks, items, entities, world gen, and more. The pack is a conglomeration of all of the mods I (Grim3212) updated in the past. The Pack itself has versions back to <a href="https://minecraft.curseforge.com/projects/grim-pack/files/2299844">1.8.9</a> while all of the separate mods that this is made of may data back to 1.1.0. As of right now there are currently 7 parts to the pack. Each focusing on a specific set of blocks, items, or something else. Things are still being changed and added to GrimPack whenever I have some spare time. The Pack is very configurable and you disable parts or subparts for pretty much everything except a few things from Grim Core.<br>This website pulls all of it's information from the Instruction Manual so it follows the same order as it would appears in the manual. So, with each update this site will be updated with the new info and always be up-to-date. Pulling from the manual also means that if a language is translated then the website will have support for that language.
+grimpack.manual.info.subsection.intro.page.info.title=Info
+grimpack.manual.info.subsection.intro.page.download=assets/grimpack/html/en_us/download.html
+grimpack.manual.info.subsection.intro.page.download.title=Installation
+grimpack.manual.info.subsection.intro.page.wip=Since the GrimPack is a combination of all of my old mods I am always trying to update some of the ones I haven't updated yet and add them into the pack. Depending on the mod it can be quite complex and take time where as some are very easy. I also have bugs to be fixed and requests come in. Sometimes they will interest me and I will try and add the ideas if they seem feasible.<br><br><strong class="text-danger">The pack is always changing!!</strong><br><br>I do not have time to work on this many separate mods so if I want to make something new it gets added as an option in the GrimPack. It takes time for things to happen so just be patient and see how the pack changes over time.
+grimpack.manual.info.subsection.intro.page.wip.title=W.I.P
+grimpack.manual.info.subsection.recipes=Reading Recipes
+grimpack.manual.info.subsection.recipes.page.crafting.title=Crafting Recipes
+grimpack.manual.info.subsection.recipes.page.crafting=Crafting recipes in GrimPack will come in two variants. Shaped or Shapeless and this depends on the type of recipe. So, if it requires a certain pattern then 'Crafting Shaped' will appear under. If it can be put in any order then 'Crafting Shapeless. will appear under.<br>Crafting recipes also can contain ore dictionary items. If an input for a recipe accepts an oreDict entry there will be a <font color="gold">GOLD</font> glow around it and if you hover over the item the oreName will appear at the bottom of the tooltip.
+grimpack.manual.info.subsection.recipes.page.furnace.title=Furnace Recipes
+grimpack.manual.info.subsection.recipes.page.furnace=Furnace recipes will only contain an input and output. Place the item specified in the left side and you will get the item on the right side.
+grimpack.manual.info.subsection.recipes.page.other.title=Other Recipes
+grimpack.manual.info.subsection.recipes.page.other=There are also a few other recipes that are available right now but these are only for <a href="/grim-pack/industry/machines">Machines</a>. These follow the same rules as the furnace for getting the output. But some can contain oreNames just like with Crafting Recipes so look for the <font color="gold">GOLD</font> glow around an input and hover over it to see the oreName.
+grimpack.manual.info.subsection.configuration=Configuration
+grimpack.manual.info.subsection.configuration.info=We will not look at all the ways to modify the GrimPack to your liking. There are many ways to get to the config. One is in game go to mods, find GrimPack, and click on config. The other is it will be in your instance folder, in the config folder will be another folder labeled grimpack.
+grimpack.manual.info.subsection.configuration.page.parts=assets/grimpack/html/en_us/config_parts.html
+grimpack.manual.info.subsection.configuration.page.parts.title=Parts
+grimpack.manual.info.subsection.configuration.page.lists=assets/grimpack/html/en_us/config_lists.html
+grimpack.manual.info.subsection.configuration.page.lists.title=Lists
+grimpack.manual.info.subsection.configuration.page.tools=assets/grimpack/html/en_us/config_tools.html
+grimpack.manual.info.subsection.configuration.page.tools.title=Tools
+grimpack.manual.info.subsection.configuration.page.armor=assets/grimpack/html/en_us/config_armor.html
+grimpack.manual.info.subsection.configuration.page.armor.title=Armor
+grimpack.manual.info.subsection.configuration.page.other=assets/grimpack/html/en_us/config_other.html
+grimpack.manual.info.subsection.configuration.page.other.title=Other
+grimpack.manual.info.subsection.resourcepacks=Resource Packs
+grimpack.manual.info.subsection.resourcepacks.info=Resource Pack allow you to modify how Minecraft currently looks as well as other things like modifying recipes and sounds. GrimPack, like most mods, has support for this. Almost everything that normally is supported by a ResourcePack is supported in GrimPack except for a few exceptions.<br><a href="https://minecraft.gamepedia.com/Resource_pack">More Information</a>
+grimpack.manual.info.subsection.resourcepacks.page.looks.title=Looks & Sounds
+grimpack.manual.info.subsection.resourcepacks.page.looks=Once you are familiar with how ResourcePacks work you can get started on changing the way blocks and items look. All items and blocks use vanilla's model system, except for <a href="/grim-pack/decor/superslopes">SuperSlopes</a>.<br>Super Slopes use 3D obj models. You can use <a href="https://www.blender.org/">Blender</a> to edit or create new models. Also most <a href="/grim-pack/decor/furniture">Colorizer</a> blocks don't explicitly set a texture since their texture is supposed to be dynamic. These models when designed should use 'tintindex' since they are supposed to be able to take on a blocks color as well.<br>There are a few sounds that are distributed with GrimPack. You should be able to change them as you would with any other sound. A list of sounds included can be found at <strong class="text-primary"><a href="https://github.com/grim3212/grim-pack/tree/master/src/main/resources/assets/grimpack/sounds">here</a></strong>
+grimpack.manual.info.subsection.resourcepacks.page.recipes.title=Recipes
+grimpack.manual.info.subsection.resourcepacks.page.recipes=assets/grimpack/html/en_us/recipes.html
+grimpack.manual.info.subsection.faq=F.A.Q.
+grimpack.manual.info.subsection.faq.info=<ul><li><span class="text-info">Can you update X?</span> - No</li><li><span class="text-info">Can I help?</span> - Yes</li><li><span class="text-info">When will you update?</span> - No idea. I'll get around to it</li><li><span class="text-info">The mod crashes, what do I do?</span> - Make sure it is GrimPack's fault and report <a href="https://github.com/grim3212/grim-pack/issues">here</a></li><li><span class="text-info">Can you help me with my mod?</span> - No</li><li><span class="text-info">Can I include this in a pack?</span> - YES!</li><li><span class="text-info">Can I do a mod review?</span> - Sure, and send a link my way! :D</li></ul>
+grimpack.manual.info.subsection.faq.page.about.title=About
+grimpack.manual.info.subsection.faq.page.about=The GrimPack is a combination of older mods that I updated in the past. There were many mods that I maintained separately. I started to run out of time and updating was a huge pain for over 30 mods. So, I decided to combine them into one pack to make it easier for me.<br>I started playing Minecraft in Beta 1.2_02. I started modding towards the end of Beta but released my first public mod for 1.1.0. Ever since then I have enjoyed making mods and keeping others ideas alive. GrimPack contains many Beta mods that were abandoned as well as newer abandoned mods. I have been the core developer of the separate mods as well as GrimPack. But we have had a <a href="https://github.com/grim3212/grim-pack/graphs/contributors">few contributors</a>.
+
 #================= INSTRUCTION MANUAL =================#
 grimpack.manual.title=Grim Instruction Manual
 grimpack.manual.shapeless=Shapeless Recipe
 grimpack.manual.oredictionary=Ore Dictionary
 grimpack.manual.missing=Recipe not found or loaded!
-grimpack.manual.header=Click on a mod to learn more about it.
-grimpack.manual.core.modinfo=This is the base mod that all of Grim's Parts require. This mod only implements 1 item and that is this item.
+grimpack.manual.header=Click on a part to learn more about it.
+grimpack.manual.core.modinfo=This part implements the instruction manual as well as many common items used through out GrimPack.
 grimpack.manual.core.subsection.im=Instruction Manual
 grimpack.manual.core.subsection.im.page.howto=The instruction manual contains many different pages on the different parts that you currently have installed. <br>Recipe pages will, as the name suggests, display recipes. If a recipe is shapeless the output will be <f>a<f>lgreen<f>0<f>r and if a recipe contains ore dictionary items they will be <f>e<f>lyellow<f>0<f>r. <br>There are also furnace pages, info pages (like this one), and info and image pages. A mod can also add there own custom page types too. <br>You can also right click on entity's, blocks, and items in the world with the instruction manual to immediately open it up to that page. A <f>a<f>lgreen<f>0<f>r checkmark will appear next to the crosshair if it contains a manual page.
 grimpack.manual.core.subsection.im.page.howto.title=Users Guide

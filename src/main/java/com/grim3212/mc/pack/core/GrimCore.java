@@ -1,5 +1,8 @@
 package com.grim3212.mc.pack.core;
 
+import java.util.List;
+
+import com.google.common.collect.Lists;
 import com.grim3212.mc.pack.compat.jer.JERGrimPack;
 import com.grim3212.mc.pack.core.client.ManualCore;
 import com.grim3212.mc.pack.core.common.CommonItems;
@@ -84,5 +87,15 @@ public class GrimCore extends GrimPart {
 	@SideOnly(Side.CLIENT)
 	public IManualPart getManual() {
 		return ManualCore.INSTANCE;
+	}
+
+	@Override
+	public List<String> getImageUrls() {
+		return Lists.newArrayList("assets/grimpack/images/core_main.png");
+	}
+
+	@Override
+	public String getExtraInfo() {
+		return "grimpack.doc.coreinfo";
 	}
 }

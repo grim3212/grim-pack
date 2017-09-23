@@ -86,7 +86,7 @@ public class ManualDecor implements IManualPart {
 			alarm_page = new PageCrafting("alarm", new ItemStack(DecorBlocks.alarm));
 
 		if (DecorConfig.subpartFlatItemFrame)
-			flatItemFrame_page = new PageCrafting("flat_item_frame", new ItemStack(DecorItems.flat_item_frame));
+			flatItemFrame_page = new PageCrafting("flat_item_frame", new ItemStack(DecorItems.flat_item_frame)).appendImageUrl("flatitemframe.png");
 
 		if (DecorConfig.subpartCalendar)
 			calendar_page = new PageCrafting("calendar", new ItemStack(DecorBlocks.calendar));
@@ -105,7 +105,7 @@ public class ManualDecor implements IManualPart {
 		}
 
 		if (DecorConfig.subpartCages)
-			cage_page = new PageCrafting("cage", DecorRecipes.chains, 20);
+			cage_page = new PageCrafting("cage", DecorRecipes.chains, 20).appendImageUrl("cage.png");
 
 		if (DecorConfig.subpartLanterns)
 			lantern_page = new PageCrafting("lantern", RecipeHelper.getAllPaths("lantern"), 20);
@@ -119,24 +119,24 @@ public class ManualDecor implements IManualPart {
 
 			if (DecorConfig.subpartFurniture) {
 				table_page = new PageCrafting("table", new ItemStack(DecorBlocks.table));
-				chair_page = new PageCrafting("chair", new ItemStack(DecorBlocks.chair));
-				stool_page = new PageCrafting("stool", new ItemStack(DecorBlocks.stool));
+				chair_page = new PageCrafting("chair", new ItemStack(DecorBlocks.chair)).appendImageUrl("furniture.png");
+				stool_page = new PageCrafting("stool", new ItemStack(DecorBlocks.stool)).appendImageUrl("stools.png");
 				counter_page = new PageCrafting("counter", new ItemStack(DecorBlocks.counter));
 				fence_page = new PageCrafting("fence", new ItemStack(DecorBlocks.fence));
 				fenceGate_page = new PageCrafting("fencegate", new ItemStack(DecorBlocks.fence_gate));
 				wall_page = new PageCrafting("wall", new ItemStack(DecorBlocks.wall));
-				doors_page = new PageCrafting("doors", new ItemStack(DecorBlocks.decor_door));
+				doors_page = new PageCrafting("doors", DecorRecipes.decor_door);
 				decorTrapDoor_page = new PageCrafting("trap_door", new ItemStack(DecorBlocks.decor_trap_door));
 			}
 
 			if (DecorConfig.subpartFireplaces) {
 				burningWood_page = new PageCrafting("burning_wood", new ItemStack(DecorBlocks.burning_wood));
-				fireplace_page = new PageCrafting("fireplace", new ItemStack(DecorBlocks.fireplace));
+				fireplace_page = new PageCrafting("fireplace", new ItemStack(DecorBlocks.fireplace)).appendImageUrl("fireplaces.png");
 				chimney_page = new PageCrafting("chimney", new ItemStack(DecorBlocks.chimney));
 				stove_page = new PageCrafting("stove", new ItemStack(DecorBlocks.stove));
 				firepit_page = new PageCrafting("firepit", new ItemStack(DecorBlocks.firepit));
 				firering_page = new PageCrafting("firering", new ItemStack(DecorBlocks.firering));
-				grill_page = new PageCrafting("grill", new ItemStack(DecorBlocks.grill));
+				grill_page = new PageCrafting("grill", new ItemStack(DecorBlocks.grill)).appendImageUrl("grills.png");
 			}
 
 			if (DecorConfig.subpartLampPosts)
@@ -189,7 +189,7 @@ public class ManualDecor implements IManualPart {
 				ManualRegistry.addChapter("lamps", part).addPages(lamps_page);
 
 			if (DecorConfig.subpartSlopes)
-				ManualRegistry.addChapter("superslopes", part).addPages(slopeInfo_page, slope_page, slopedAngle_page, slantedCorner_page, corner_page, obliqueSlope_page, slopedIntersection_page, stairs_page, pyramid_page, fullPyramid_page, slopedPost_page, pillar_page, pruners_page);
+				ManualRegistry.addChapter("superslopes", part).addPages(slopeInfo_page, slope_page, slopedAngle_page, slantedCorner_page, corner_page, obliqueSlope_page, slopedIntersection_page, stairs_page, pyramid_page, fullPyramid_page, slopedPost_page, pillar_page, pruners_page).appendImageUrl("slope.png");
 		}
 	}
 

@@ -1,22 +1,23 @@
 package com.grim3212.mc.pack.core.manual;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import javax.annotation.Nullable;
 
+import com.google.common.collect.Lists;
 import com.grim3212.mc.pack.core.manual.pages.Page;
 
 public class ManualRegistry {
 
-	private static ArrayList<ManualPart> loadedMods = new ArrayList<ManualPart>();
+	private static List<ManualPart> loadedParts = Lists.newArrayList();
 
 	public static void registerMod(ManualPart part) {
-		part.setPage(Math.floorDiv(loadedMods.size(), 12));
-		loadedMods.add(part);
+		part.setPage(Math.floorDiv(loadedParts.size(), 12));
+		loadedParts.add(part);
 	}
 
 	public static ManualPart getPartFromId(String partId) {
-		for (ManualPart part : loadedMods) {
+		for (ManualPart part : loadedParts) {
 			if (part.getPartId().equals(partId)) {
 				return part;
 			}
@@ -24,8 +25,8 @@ public class ManualRegistry {
 		return null;
 	}
 
-	public static ArrayList<ManualPart> getLoadedMods() {
-		return loadedMods;
+	public static List<ManualPart> getLoadedParts() {
+		return loadedParts;
 	}
 
 	public static void addPage(ManualPart part, ManualChapter chapter) {
@@ -51,7 +52,7 @@ public class ManualRegistry {
 		if (split.length > 1) {
 			String[] path = split[1].split("\\.");
 
-			for (ManualPart part : loadedMods) {
+			for (ManualPart part : loadedParts) {
 				if (id.equals(part.getPartId())) {
 					for (ManualChapter chapter : part.getChapters()) {
 						if (chapter.getChapterId().equals(path[0])) {
@@ -76,14 +77,14 @@ public class ManualRegistry {
 	@Nullable
 	public static String getStringFromPage(Page page) {
 		if (page != null) {
-			return page.getLink().getChapter().getPartId() + ":" + page.getLink().getChapter() + "." + page.getPageName();
+			return page.getLink().getChapter().getPartId() + ":" + page.getLink().getChapter().getChapterId() + "." + page.getPageName();
 		}
 
 		return null;
 	}
 
 	public static void clearManual() {
-		for (ManualPart part : getLoadedMods())
+		for (ManualPart part : getLoadedParts())
 			part.getChapters().clear();
 	}
 }

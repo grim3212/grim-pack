@@ -4,6 +4,8 @@ import java.awt.Color;
 
 import org.lwjgl.opengl.GL11;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import com.grim3212.mc.pack.GrimPack;
 import com.grim3212.mc.pack.core.client.TooltipHelper;
 import com.grim3212.mc.pack.core.manual.gui.GuiManualPage;
@@ -85,5 +87,28 @@ public class PageFurnace extends Page {
 				recipeShown = 0;
 		}
 		++update;
+	}
+
+	@Override
+	public JsonObject deconstruct() {
+		JsonObject json = super.deconstruct();
+
+		JsonArray recipes = new JsonArray();
+		// Construct array out of all inputs
+		for (ItemStack input : this.inputs) {
+			JsonObject recipe = new JsonObject();
+			recipe.addProperty("id", input.getItem().getRegistryName().toString());
+			recipe.addProperty("recipeType", "furnace");
+			recipe.add("input", this.deconstructItem(input));
+			ItemStack output = FurnaceRecipes.instance().getSmeltingResult(input);
+			recipe.add("output", this.deconstructItem(output));
+			recipe.addProperty("xp", FurnaceRecipes.instance().getSmeltingExperience(output));
+			recipes.add(recipe);
+		}
+
+		// Add recipes to json
+		json.add("recipes", recipes);
+
+		return json;
 	}
 }

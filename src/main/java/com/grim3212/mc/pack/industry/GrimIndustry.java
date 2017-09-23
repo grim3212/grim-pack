@@ -1,5 +1,8 @@
 package com.grim3212.mc.pack.industry;
 
+import java.util.List;
+
+import com.google.common.collect.Lists;
 import com.grim3212.mc.pack.core.manual.IManualPart;
 import com.grim3212.mc.pack.core.network.PacketDispatcher;
 import com.grim3212.mc.pack.core.part.GrimPart;
@@ -88,5 +91,10 @@ public class GrimIndustry extends GrimPart {
 	@SideOnly(Side.CLIENT)
 	public IManualPart getManual() {
 		return ManualIndustry.INSTANCE;
+	}
+
+	@Override
+	public List<String> getImageUrls() {
+		return Lists.newArrayList("assets/grimpack/images/industry_main.png");
 	}
 }

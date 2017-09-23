@@ -60,7 +60,7 @@ public class ManualCuisine implements IManualPart {
 
 		if (CuisineConfig.subpartDairy) {
 			cheeseMaker_page = new PageCrafting("cheese", new ItemStack(CuisineBlocks.cheese_maker));
-			butterChurn_page = new PageCrafting("butter", new ItemStack(CuisineBlocks.butter_churn));
+			butterChurn_page = new PageCrafting("butter", new ItemStack(CuisineBlocks.butter_churn)).appendImageUrl("butter.png");
 			cheeseBlock_page = new PageCrafting("cheeseblock", CuisineRecipes.cheeseRecipe, 25);
 			sandwiches_page = new PageCrafting("sandwiches", CuisineRecipes.sandwiches, 25);
 			eggs_page = new PageCrafting("eggs", CuisineRecipes.eggs, 25);
@@ -81,7 +81,7 @@ public class ManualCuisine implements IManualPart {
 			hotChocolate_page = new PageFurnace("bowlChocHot", new ItemStack(CuisineItems.chocolate_bowl));
 			chocolateBall_page = new PageCrafting("chocBall", new ItemStack(CuisineItems.chocolate_ball));
 			chocolateCake_page = new PageCrafting("cake", new ItemStack(CuisineBlocks.chocolate_cake));
-			chocolateMould_page = new PageCrafting("mould", new ItemStack(CuisineBlocks.chocolate_bar_mould));
+			chocolateMould_page = new PageCrafting("mould", new ItemStack(CuisineBlocks.chocolate_bar_mould)).appendImageUrl("chocolate_mould.png");
 			chocolateBars_page = new PageCrafting("bars", CuisineRecipes.choc, 25);
 			chocolateCandy_page = new PageCrafting("candy", CuisineRecipes.candy, 25);
 		}

@@ -1,5 +1,8 @@
 package com.grim3212.mc.pack.decor;
 
+import java.util.List;
+
+import com.google.common.collect.Lists;
 import com.grim3212.mc.pack.core.manual.IManualPart;
 import com.grim3212.mc.pack.core.network.PacketDispatcher;
 import com.grim3212.mc.pack.core.part.GrimPart;
@@ -64,5 +67,10 @@ public class GrimDecor extends GrimPart {
 	@SideOnly(Side.CLIENT)
 	public IManualPart getManual() {
 		return ManualDecor.INSTANCE;
+	}
+
+	@Override
+	public List<String> getImageUrls() {
+		return Lists.newArrayList("assets/grimpack/images/decor_main.png");
 	}
 }

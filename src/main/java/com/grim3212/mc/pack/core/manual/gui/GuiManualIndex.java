@@ -77,8 +77,8 @@ public class GuiManualIndex extends GuiScreen {
 	protected void drawFooter() {
 		float numPages = 1;
 
-		if (ManualRegistry.getLoadedMods().size() > 12) {
-			numPages = (float) (((ManualRegistry.getLoadedMods().size() - 12.0) / 14.0) + 1.0);
+		if (ManualRegistry.getLoadedParts().size() > 12) {
+			numPages = (float) (((ManualRegistry.getLoadedParts().size() - 12.0) / 14.0) + 1.0);
 		}
 
 		FontRenderer renderer = Minecraft.getMinecraft().fontRenderer;
@@ -119,27 +119,27 @@ public class GuiManualIndex extends GuiScreen {
 		buttonList.add(goHome = new GuiButtonHome(2, width / 2 - 9 / 2, y + manualHeight - 11));
 
 		if (page == 0) {
-			changeForward.visible = ManualRegistry.getLoadedMods().size() > 12;
-			changeForward.enabled = ManualRegistry.getLoadedMods().size() > 12;
+			changeForward.visible = ManualRegistry.getLoadedParts().size() > 12;
+			changeForward.enabled = ManualRegistry.getLoadedParts().size() > 12;
 			changeBack.visible = false;
 			changeBack.enabled = false;
 			goHome.visible = false;
 			goHome.enabled = false;
 		} else {
-			changeForward.visible = (ManualRegistry.getLoadedMods().size() - 12 > (page * 14));
-			changeForward.enabled = (ManualRegistry.getLoadedMods().size() - 12 > (page * 14));
+			changeForward.visible = (ManualRegistry.getLoadedParts().size() - 12 > (page * 14));
+			changeForward.enabled = (ManualRegistry.getLoadedParts().size() - 12 > (page * 14));
 			goHome.visible = true;
 			goHome.enabled = true;
 		}
 
 		if (page == 0) {
-			for (int i = 0; i < ManualRegistry.getLoadedMods().size() && i < 12; i++) {
-				buttonList.add(new GuiButtonModSection(i + 3, x + 15, y + (58 + i * 14), 10, ManualRegistry.getLoadedMods().get(i).getPartName()));
+			for (int i = 0; i < ManualRegistry.getLoadedParts().size() && i < 12; i++) {
+				buttonList.add(new GuiButtonModSection(i + 3, x + 15, y + (58 + i * 14), 10, ManualRegistry.getLoadedParts().get(i).getPartName()));
 			}
 		} else {
 			for (int i = 0; i < 14; i++) {
-				if ((12 + ((page - 1) * 14 + i)) < ManualRegistry.getLoadedMods().size())
-					buttonList.add(new GuiButtonModSection(i + 3, x + 15, y + (30 + i * 14), 10, ManualRegistry.getLoadedMods().get(12 + ((page - 1) * 14 + i)).getPartName()));
+				if ((12 + ((page - 1) * 14 + i)) < ManualRegistry.getLoadedParts().size())
+					buttonList.add(new GuiButtonModSection(i + 3, x + 15, y + (30 + i * 14), 10, ManualRegistry.getLoadedParts().get(12 + ((page - 1) * 14 + i)).getPartName()));
 			}
 		}
 	}
@@ -160,10 +160,10 @@ public class GuiManualIndex extends GuiScreen {
 			break;
 		default:
 			if (page == 0) {
-				ManualPart part = ManualRegistry.getLoadedMods().get(button.id - 3);
+				ManualPart part = ManualRegistry.getLoadedParts().get(button.id - 3);
 				mc.displayGuiScreen(new GuiManualChapter(part, this.page));
 			} else {
-				ManualPart part = ManualRegistry.getLoadedMods().get(12 + ((page - 1) * 14 + (button.id - 3)));
+				ManualPart part = ManualRegistry.getLoadedParts().get(12 + ((page - 1) * 14 + (button.id - 3)));
 				mc.displayGuiScreen(new GuiManualChapter(part, this.page));
 			}
 		}

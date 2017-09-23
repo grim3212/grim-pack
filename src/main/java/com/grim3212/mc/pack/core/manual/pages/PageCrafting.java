@@ -3,15 +3,20 @@ package com.grim3212.mc.pack.core.manual.pages;
 import java.awt.Color;
 import java.util.List;
 
+import javax.annotation.Nullable;
+
 import org.lwjgl.opengl.GL11;
 
 import com.google.common.collect.ImmutableList;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import com.grim3212.mc.pack.GrimPack;
 import com.grim3212.mc.pack.core.client.TooltipHelper;
 import com.grim3212.mc.pack.core.manual.gui.GuiManualPage;
 import com.grim3212.mc.pack.core.util.GrimLog;
 import com.grim3212.mc.pack.core.util.NBTHelper;
 import com.grim3212.mc.pack.core.util.RecipeHelper;
+import com.grim3212.mc.pack.core.util.generator.Generator;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
@@ -215,6 +220,8 @@ public class PageCrafting extends Page {
 			int width = shapedOre.getWidth();
 			int height = shapedOre.getHeight();
 
+			// System.out.println(width + ", " + height);
+
 			for (int y = 0; y < height; y++) {
 				for (int x = 0; x < width; x++) {
 					Ingredient item = shapedOre.getIngredients().get(x + y * width);
@@ -239,5 +246,87 @@ public class PageCrafting extends Page {
 
 			isShapeless = true;
 		}
+	}
+
+	@Override
+	public JsonObject deconstruct() {
+		JsonObject json = super.deconstruct();
+
+		JsonArray recipes = new JsonArray();
+		for (ResourceLocation r : outputRecipes) {
+			IRecipe recipe = ForgeRegistries.RECIPES.getValue(r);
+			if (recipe == null) {
+				GrimLog.error(Generator.GENERATOR_NAME, "Error finding recipe " + r);
+				continue;
+			}
+
+			JsonObject recipeOBj = this.deconstructRecipe(r.toString(), recipe);
+
+			if (recipeOBj != null)
+				recipes.add(recipeOBj);
+		}
+
+		// Add the recipes array
+		json.add("recipes", recipes);
+
+		return json;
+	}
+
+	@Nullable
+	private JsonObject deconstructRecipe(String id, IRecipe iRecipe) {
+		JsonObject recipe = new JsonObject();
+		recipe.addProperty("id", id);
+
+		ItemStack outstack = iRecipe.getRecipeOutput();
+		if (outstack == ItemStack.EMPTY) {
+			GrimLog.error(Generator.GENERATOR_NAME, "Error with outstack of recipe. It was Empty!");
+			return null;
+		}
+
+		if (iRecipe instanceof ShapedRecipes || iRecipe instanceof ShapedOreRecipe) {
+			recipe.addProperty("recipeType", "crafting_shaped");
+			// Add output itemstack
+			recipe.add("output", this.deconstructItem(outstack));
+
+			JsonArray inputs = new JsonArray();
+			// Get shaped items
+			int width = 0;
+			int height = 0;
+
+			if (iRecipe instanceof ShapedRecipes) {
+				width = ((ShapedRecipes) iRecipe).getWidth();
+				height = ((ShapedRecipes) iRecipe).getHeight();
+			} else {
+				width = ((ShapedOreRecipe) iRecipe).getWidth();
+				height = ((ShapedOreRecipe) iRecipe).getHeight();
+			}
+
+			for (int y = 0; y < height; y++) {
+				for (int x = 0; x < width; x++) {
+					Ingredient item = iRecipe.getIngredients().get(x + y * width);
+					inputs.add(this.deconstructItem(item, x, y));
+				}
+			}
+
+			recipe.add("inputs", inputs);
+
+		} else if (iRecipe instanceof ShapelessRecipes || iRecipe instanceof ShapelessOreRecipe) {
+			recipe.addProperty("recipeType", "crafting_shapeless");
+			// Add output itemstack
+			recipe.add("output", this.deconstructItem(outstack));
+
+			JsonArray inputs = new JsonArray();
+			// Get shapeless items
+			for (int i = 0; i < iRecipe.getIngredients().size(); i++)
+				inputs.add(this.deconstructItem(iRecipe.getIngredients().get(i), i < 3 ? i : i < 6 ? i - 3 : i - 6, i < 3 ? 0 : i < 6 ? 1 : 2));
+
+			recipe.add("inputs", inputs);
+
+		} else {
+			GrimLog.error(Generator.GENERATOR_NAME, "IRecipe found was not of a crafting type. Something went wrong!");
+			return null;
+		}
+
+		return recipe;
 	}
 }

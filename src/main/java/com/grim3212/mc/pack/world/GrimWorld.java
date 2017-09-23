@@ -1,5 +1,8 @@
 package com.grim3212.mc.pack.world;
 
+import java.util.List;
+
+import com.google.common.collect.Lists;
 import com.grim3212.mc.pack.core.manual.IManualPart;
 import com.grim3212.mc.pack.core.part.GrimPart;
 import com.grim3212.mc.pack.core.proxy.CommonProxy;
@@ -79,5 +82,10 @@ public class GrimWorld extends GrimPart {
 	@SideOnly(Side.CLIENT)
 	public IManualPart getManual() {
 		return ManualWorld.INSTANCE;
+	}
+	
+	@Override
+	public List<String> getImageUrls() {
+		return Lists.newArrayList("assets/grimpack/images/world_main.png");
 	}
 }

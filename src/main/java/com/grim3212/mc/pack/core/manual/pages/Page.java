@@ -2,11 +2,22 @@ package com.grim3212.mc.pack.core.manual.pages;
 
 import java.util.List;
 
+import javax.annotation.Nullable;
+
 import org.lwjgl.opengl.GL11;
 
+import com.google.common.collect.Lists;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.grim3212.mc.pack.core.manual.IManualEntry.IManualItem;
 import com.grim3212.mc.pack.core.manual.ManualChapter;
+import com.grim3212.mc.pack.core.manual.ManualRegistry;
 import com.grim3212.mc.pack.core.manual.gui.GuiManualPage;
+import com.grim3212.mc.pack.core.util.GrimLog;
+import com.grim3212.mc.pack.core.util.RecipeHelper;
+import com.grim3212.mc.pack.core.util.generator.Generator;
+import com.grim3212.mc.pack.core.util.generator.GeneratorUtil;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
@@ -15,19 +26,24 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.RenderItem;
 import net.minecraft.client.resources.I18n;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.Ingredient;
 import net.minecraftforge.oredict.OreDictionary;
+import net.minecraftforge.oredict.OreIngredient;
 
-public class Page {
+public abstract class Page {
 
 	private String pageName;
 	private String title;
 	private ManualChapter chapter;
+	private List<String> imageUrls = Lists.newArrayList();
 	protected int relativeMouseX;
 	protected int relativeMouseY;
 	protected ItemStack tooltipItem = ItemStack.EMPTY;
 	private boolean setupMethod = false;
 	private GuiManualPage link;
+	private String extraInfo = "";
 
 	/**
 	 * Basic Page constructor
@@ -61,6 +77,10 @@ public class Page {
 		return link;
 	}
 
+	public String getLinkString() {
+		return ManualRegistry.getStringFromPage(this);
+	}
+
 	public void setChapter(ManualChapter chapter) {
 		this.chapter = chapter;
 	}
@@ -75,6 +95,15 @@ public class Page {
 
 	public void setTitle(String title) {
 		this.title = title;
+	}
+
+	public Page setExtraInfo(String extraInfo) {
+		this.extraInfo = extraInfo;
+		return this;
+	}
+
+	public String getExtraInfo() {
+		return I18n.format(extraInfo);
 	}
 
 	public String getPageName() {
@@ -111,7 +140,7 @@ public class Page {
 		GlStateManager.enableBlend();
 		GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 		RenderHelper.enableGUIStandardItemLighting();
-		
+
 		GlStateManager.scale(1F, 1F, 0.75F);
 
 		GlStateManager.enableRescaleNormal();
@@ -157,6 +186,143 @@ public class Page {
 					tooltipItem = ItemStack.EMPTY;
 					Minecraft.getMinecraft().displayGuiScreen(page.getLink().copySelf());
 				}
+			}
+		}
+	}
+
+	/**
+	 * When documentation is being generated how will the page break down into
+	 * Json As well as what images will be saved etc...
+	 * 
+	 * @return
+	 */
+	public JsonObject deconstruct() {
+		JsonObject json = new JsonObject();
+		json.addProperty("id", this.getPageName());
+		json.addProperty("name", this.getTitle());
+		if (this.getExtraInfo().isEmpty())
+			json.addProperty("info", GeneratorUtil.changeFormatCodes(this.getInfo()));
+		else
+			json.addProperty("info", this.getExtraInfo());
+
+		// Add in Image Urls
+		if (this.getImageUrls() != null && this.getImageUrls().size() > 0) {
+			JsonArray urls = new JsonArray();
+			for (String s : this.getImageUrls())
+				urls.add(s);
+
+			json.add("imageUrls", urls);
+		}
+
+		return json;
+	}
+
+	/**
+	 * Used only for documenting.
+	 * 
+	 * The URL can be full 'https://i.imgur.com/oiqrWcM.png' Or relative to
+	 * domain 'assets/images/coolImg.png'
+	 * 
+	 * @param urls
+	 */
+	public Page addImageUrl(String urls) {
+		this.imageUrls.add(urls);
+		return this;
+	}
+
+	public Page addImageUrls(List<String> urls) {
+		this.imageUrls.addAll(urls);
+		return this;
+	}
+
+	public Page appendImageUrl(String name) {
+		return this.addImageUrl("/assets/grimpack/images/" + name);
+	}
+
+	public Page appendImageUrls(List<String> names) {
+		for (String name : names)
+			this.appendImageUrl(name);
+
+		return this;
+	}
+
+	protected List<String> getImageUrls() {
+		return this.imageUrls;
+	}
+
+	protected JsonObject deconstructItem(ItemStack stack) {
+		return this.deconstructItem(stack, -1, -1);
+	}
+
+	protected JsonObject deconstructItem(ItemStack stack, int locX, int locY) {
+		JsonObject item = new JsonObject();
+		item.addProperty("id", stack.getItem().getRegistryName().toString());
+		item.addProperty("unloc", stack.getUnlocalizedName());
+		item.addProperty("name", GeneratorUtil.nameToHtml(stack.getDisplayName()));
+		item.addProperty("amount", stack.getCount());
+		item.addProperty("meta", stack.getMetadata());
+
+		if (locX != -1 && locY != -1) {
+			item.addProperty("posX", locX);
+			item.addProperty("posY", locY);
+		}
+
+		if (stack.hasTagCompound()) {
+			JsonObject nbt = (JsonObject) new JsonParser().parse(stack.serializeNBT().toString());
+			item.add("nbt", nbt);
+		}
+
+		// Get tooltip info
+		List<String> tts = stack.getTooltip(null, ITooltipFlag.TooltipFlags.NORMAL);
+		if (!tts.isEmpty() && tts.size() > 1) {
+			JsonArray tooltips = new JsonArray();
+
+			for (String s : tts) {
+				// Find reset characters and replace with just text
+				tooltips.add(GeneratorUtil.nameToHtml(s));
+			}
+
+			item.add("tooltip", tooltips);
+		}
+
+		// See if the item should have a link
+		if (stack.getItem() instanceof IManualItem) {
+			Page page = ((IManualItem) stack.getItem()).getPage(stack);
+
+			if (page != null) {
+				item.addProperty("link", page.getLinkString());
+				item.addProperty("part", page.getLink().getChapter().getPartId());
+				item.addProperty("chapter", page.getLink().getChapter().getChapterId());
+			}
+
+		}
+
+		// Add as an exportable image
+		Generator.exports.add(stack.copy());
+
+		return item;
+	}
+
+	@Nullable
+	protected JsonObject deconstructItem(Ingredient item, int locX, int locY) {
+		if (item == Ingredient.EMPTY) {
+			JsonObject empty = new JsonObject();
+			empty.addProperty("id", "empty");
+			return empty;
+		}
+
+		if (item instanceof OreIngredient) {
+			String oreName = RecipeHelper.getOreDict(item.getMatchingStacks());
+			JsonObject itemObj = this.deconstructItem(item.getMatchingStacks()[0], locX, locY);
+			itemObj.addProperty("oreName", oreName);
+			return itemObj;
+		} else {
+			ItemStack[] stacks = item.getMatchingStacks();
+			if (stacks.length > 0) {
+				return this.deconstructItem(stacks[0], locX, locY);
+			} else {
+				GrimLog.error(Generator.GENERATOR_NAME, "Ingredient did not have any matching stacks");
+				return null;
 			}
 		}
 	}

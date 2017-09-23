@@ -22,8 +22,17 @@ public class PartRegistry {
 
 	public static void registerPart(GrimPart part) {
 		partsToLoad.add(part);
-		ManualRegistry.registerMod(part.setModSection(new ManualPart(part.getPartName(), part.getPartId())));
+		ManualRegistry.registerMod(part.setModSection(new ManualPart(part.getPartName(), part.getPartId())).addImageUrls(part.getImageUrls()).setExtraInfo(part.getExtraInfo()));
 		GrimLog.info(GrimPack.modName, "Registered Grim Part: { " + part.getPartName() + " }");
+	}
+
+	public static GrimPart getPart(String partId) {
+		for (GrimPart part : partsToLoad) {
+			if (part.getPartId().equals(partId)) {
+				return part;
+			}
+		}
+		return null;
 	}
 
 	public static void preInit(FMLPreInitializationEvent event) {

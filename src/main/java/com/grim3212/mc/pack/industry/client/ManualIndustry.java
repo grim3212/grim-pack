@@ -126,8 +126,8 @@ public class ManualIndustry implements IManualPart {
 		if (IndustryConfig.subpartSensors) {
 			specificSensorInfo_page = new PageInfo("specific_sensor_info");
 			specificSensorInfo2_page = new PageInfo("specific_sensor_info2");
-			positionFinder_page = new PageCrafting("position_finder", new ItemStack(IndustryItems.position_finder));
-			specificSensor_page = new PageCrafting("specific_sensor", new ItemStack(IndustryBlocks.specific_sensor));
+			positionFinder_page = new PageCrafting("position_finder", new ItemStack(IndustryItems.position_finder)).appendImageUrl("gps.png");
+			specificSensor_page = new PageCrafting("specific_sensor", new ItemStack(IndustryBlocks.specific_sensor)).appendImageUrl("specific_sensor.png");
 			upgradedSpecificSensor_page = new PageCrafting("upgraded_specific_sensor", new ItemStack(IndustryBlocks.upgraded_specific_sensor));
 			sensor_page = new PageCrafting("recipes", IndustryRecipes.sensors, 20);
 			arrowSensor_page = new PageCrafting("arrow_sensor", new ItemStack(IndustryBlocks.arrow_sensor));
@@ -202,7 +202,7 @@ public class ManualIndustry implements IManualPart {
 			sidewalk_page = new PageCrafting("swalk", new ItemStack(IndustryBlocks.sidewalk));
 			tarball_page = new PageCrafting("tarball", new ItemStack(IndustryItems.tarball));
 			asphalt_page = new PageFurnace("asphalt", new ItemStack(IndustryItems.tarball));
-			rways_page = new PageCrafting("rways", IndustryRecipes.rways, 20);
+			rways_page = new PageCrafting("rways", IndustryRecipes.rways, 20).appendImageUrl("rway.png");
 		}
 
 		if (IndustryConfig.subpartDoors)
@@ -261,10 +261,10 @@ public class ManualIndustry implements IManualPart {
 			ManualRegistry.addChapter("spikes", part).addPages(spike_page);
 
 		if (IndustryConfig.subpartFans)
-			ManualRegistry.addChapter("fan", part).addPages(fan_page);
+			ManualRegistry.addChapter("fan", part).addPages(fan_page).appendImageUrl("fans.png");
 
 		if (IndustryConfig.subpartExtruder)
-			ManualRegistry.addChapter("extruders", part).addPages(extruder_page, extruderInfo_page);
+			ManualRegistry.addChapter("extruders", part).addPages(extruder_page, extruderInfo_page).appendImageUrl("extruder.png");
 
 		if (IndustryConfig.subpartSensors)
 			ManualRegistry.addChapter("sensors", part).addPages(sensor_page, positionFinder_page, specificSensorInfo_page, specificSensorInfo2_page, specificSensor_page, upgradedSpecificSensor_page, arrowSensor_page, fireSensor_page);
@@ -300,7 +300,7 @@ public class ManualIndustry implements IManualPart {
 			ManualRegistry.addChapter("machines", part).addPages(machineInfo_page, refinery_page, refineryRecipes_page, derrick_page, derrickRecipes_page, fuel_page, modernFurnace_page, modernFurnaceRecipes_page, drill_page, conveyorBelt_page);
 
 		if (IndustryConfig.subpartIceMaker)
-			ManualRegistry.addChapter("ice", part).addPages(iceMaker_page);
+			ManualRegistry.addChapter("ice", part).addPages(iceMaker_page).appendImageUrl("icemaker.png");
 	}
 
 }
