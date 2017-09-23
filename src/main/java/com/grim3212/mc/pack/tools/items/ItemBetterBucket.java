@@ -42,7 +42,7 @@ import net.minecraftforge.fluids.capability.templates.FluidHandlerItemStack;
 public class ItemBetterBucket extends ItemManual {
 
 	public final int maxCapacity;
-	public final ItemStack empty;
+	public ItemStack empty = ItemStack.EMPTY;
 	public final float maxPickupTemp;
 	public final boolean pickupFire;
 	public final int milkingLevel;
@@ -72,7 +72,7 @@ public class ItemBetterBucket extends ItemManual {
 	}
 
 	public ItemBetterBucket(int maxCapacity, int milkingLevel, BucketType bucketType) {
-		this(maxCapacity, milkingLevel, 5000f, null, bucketType);
+		this(maxCapacity, milkingLevel, 5000f, ItemStack.EMPTY, bucketType);
 	}
 
 	public ItemBetterBucket(int maxCapacity, int milkingLevel, ItemStack stack, BucketType bucketType) {
@@ -407,12 +407,13 @@ public class ItemBetterBucket extends ItemManual {
 
 	public ItemStack tryBreakBucket(ItemStack stack) {
 		if (getAmount(stack) <= 0) {
-			if (this.onBroken != null && this.empty != null) {
-				if (!this.onBroken.isEmpty()) {
-					return this.onBroken.copy();
-				} else {
-					return this.empty.copy();
-				}
+			if (!this.onBroken.isEmpty()) {
+				return this.onBroken.copy();
+			} else if (!this.empty.isEmpty()) {
+				return this.empty.copy();
+			} else {
+				// Return empty if both are empty anyway
+				return ItemStack.EMPTY;
 			}
 		}
 		return stack.copy();
@@ -436,6 +437,11 @@ public class ItemBetterBucket extends ItemManual {
 	public static void setAmount(ItemStack stack, int amount) {
 		NBTTagCompound tag = NBTHelper.getTagCompound(stack, FluidHandlerItemStack.FLUID_NBT_KEY);
 		NBTHelper.setInt(tag, "Amount", amount);
+
+		if (amount <= 0) {
+			NBTHelper.setString(tag, "FluidName", "empty");
+			NBTHelper.setInt(tag, "Amount", 0);
+		}
 	}
 
 	@Override
