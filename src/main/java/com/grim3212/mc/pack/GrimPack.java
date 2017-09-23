@@ -5,8 +5,10 @@ import java.io.File;
 import com.grim3212.mc.pack.core.GrimCore;
 import com.grim3212.mc.pack.core.client.gui.PackGuiHandler;
 import com.grim3212.mc.pack.core.config.CoreConfig;
+import com.grim3212.mc.pack.core.part.GrimCreativeTabs;
 import com.grim3212.mc.pack.core.part.PartRegistry;
 import com.grim3212.mc.pack.core.util.GrimLog;
+import com.grim3212.mc.pack.core.util.generator.CommandGenerate;
 import com.grim3212.mc.pack.cuisine.GrimCuisine;
 import com.grim3212.mc.pack.decor.GrimDecor;
 import com.grim3212.mc.pack.industry.GrimIndustry;
@@ -14,12 +16,14 @@ import com.grim3212.mc.pack.tools.GrimTools;
 import com.grim3212.mc.pack.util.GrimUtil;
 import com.grim3212.mc.pack.world.GrimWorld;
 
+import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.Mod.Instance;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 
 @Mod(modid = GrimPack.modID, name = GrimPack.modName, version = "@MOD_VERSION@", acceptedMinecraftVersions = "[1.12,1.13)", guiFactory = "com.grim3212.mc.pack.core.config.ConfigGuiFactory", updateJSON = "https://raw.githubusercontent.com/grim3212/grim-pack/master/update.json")
@@ -38,6 +42,9 @@ public class GrimPack {
 		// Setup log
 		GrimLog.log = event.getModLog();
 		configDir = event.getModConfigurationDirectory();
+
+		// Init creative tabs that should be loaded
+		GrimCreativeTabs.initTabs();
 
 		PartRegistry.registerPart(GrimCore.INSTANCE);
 		if (CoreConfig.useCuisine)
@@ -67,5 +74,13 @@ public class GrimPack {
 	@EventHandler
 	public void postInit(FMLPostInitializationEvent event) {
 		PartRegistry.postInit(event);
+	}
+
+	@EventHandler
+	public void serverStart(FMLServerStartingEvent event) {
+		// Only allow in debug environments
+		if (Loader.instance().activeModContainer().getVersion().equals("@MOD_VERSION@")) {
+			event.registerServerCommand(new CommandGenerate());
+		}
 	}
 }

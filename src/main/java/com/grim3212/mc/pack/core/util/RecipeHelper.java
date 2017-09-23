@@ -83,15 +83,75 @@ public class RecipeHelper {
 	 * @return A string that represents this ore dictionary list
 	 */
 	public static String getOreDict(ItemStack[] ores) {
+		// List<Integer> oreIds = Lists.newArrayList();
+		//
+		// for (ItemStack stack : ores) {
+		// for (int id : OreDictionary.getOreIDs(stack)) {
+		// oreIds.add(id);
+		// }
+		// }
+
 		int[] oreNums = OreDictionary.getOreIDs(ores[0]);
 
 		for (int i = 0; i < oreNums.length; i++) {
-			if (OreDictionary.containsMatch(true, OreDictionary.getOres(OreDictionary.getOreName(oreNums[i])), ores)) {
+			if (containsMatch(false, ores, OreDictionary.getOres(OreDictionary.getOreName(oreNums[i])))) {
 				return OreDictionary.getOreName(oreNums[i]);
 			}
 		}
 
 		return "No Ore Dict Found!";
+	}
+
+	public static String getOreDict(NonNullList<ItemStack> ores) {
+		int[] oreNums = OreDictionary.getOreIDs(ores.get(0));
+
+		for (int i = 0; i < oreNums.length; i++) {
+			if (containsMatch(false, ores, OreDictionary.getOres(OreDictionary.getOreName(oreNums[i])))) {
+				return OreDictionary.getOreName(oreNums[i]);
+			}
+		}
+
+		return "No Ore Dict Found!";
+	}
+
+	/**
+	 * Reversed order from OreDictionary so I don't have to convert arrays to
+	 * lists and vice versa
+	 * 
+	 * @param strict
+	 * @param inputs
+	 * @param targets
+	 * @return
+	 */
+	public static boolean containsMatch(boolean strict, ItemStack[] inputs, NonNullList<ItemStack> targets) {
+		for (ItemStack input : inputs) {
+			for (ItemStack target : targets) {
+				if (OreDictionary.itemMatches(target, input, strict)) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * Reversed order from OreDictionary so I don't have to convert arrays to
+	 * lists and vice versa
+	 * 
+	 * @param strict
+	 * @param inputs
+	 * @param targets
+	 * @return
+	 */
+	public static boolean containsMatch(boolean strict, NonNullList<ItemStack> inputs, NonNullList<ItemStack> targets) {
+		for (ItemStack input : inputs) {
+			for (ItemStack target : targets) {
+				if (OreDictionary.itemMatches(target, input, strict)) {
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 
 	public static ResourceLocation getRecipePath(String fullPath) {
