@@ -59,7 +59,7 @@ public class ItemPowerStaff extends ItemManual {
 	@Override
 	public void addInformation(ItemStack stack, World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
 		String mode = NBTHelper.getString(stack, "Mode");
-		tooltip.add(I18n.format("tooltip.powerstaff.currentMode") + I18n.format("grimtools.powerstaff." + mode));
+		tooltip.add(I18n.format("tooltip.powerstaff.currentMode") + I18n.format("grimtools.powerstaff." + (mode.isEmpty() ? "FloatingPush" : mode)));
 	}
 
 	@Override

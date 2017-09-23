@@ -43,7 +43,7 @@ public class ItemSlingshot extends ItemManual {
 	@Override
 	public void addInformation(ItemStack stack, World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
 		String mode = NBTHelper.getString(stack, "Mode");
-		tooltip.add(I18n.format("tooltip.slingshot.currentMode") + I18n.format("grimtools.slingshot." + mode));
+		tooltip.add(I18n.format("tooltip.slingshot.currentMode") + I18n.format("grimtools.slingshot." + (mode.isEmpty() ? EnumSlingshotModes.RANDOM.getUnlocalized() : mode)));
 	}
 
 	@Override
