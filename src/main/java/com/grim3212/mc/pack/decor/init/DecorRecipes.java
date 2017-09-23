@@ -11,6 +11,7 @@ import net.minecraft.util.ResourceLocation;
 public class DecorRecipes {
 
 	public static ResourceLocation mossy;
+	public static ResourceLocation decor_door;
 	public static List<ResourceLocation> stone;
 	public static List<ResourceLocation> chains;
 	public static List<ResourceLocation> crafts;
@@ -35,11 +36,16 @@ public class DecorRecipes {
 		if (DecorConfig.subpartCages)
 			chains = ImmutableList.of(RecipeHelper.createPath("cage"), RecipeHelper.createPath("chain"));
 
-		if (DecorConfig.subpartColorizer)
+		if (DecorConfig.subpartColorizer) {
 			colorizers = ImmutableList.of(RecipeHelper.createPath("hardened_wood"), RecipeHelper.createPath("colorizer"), RecipeHelper.createPath("colorizer_light"));
+
+			if (DecorConfig.subpartFurniture)
+				decor_door = RecipeHelper.createPath("decor_door_item");
+		}
 
 		if (DecorConfig.subpartFrames)
 			frames = ImmutableList.copyOf(RecipeHelper.getAllPaths("frame"));
+
 	}
 
 }

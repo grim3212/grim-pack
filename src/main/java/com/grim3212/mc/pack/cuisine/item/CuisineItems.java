@@ -137,7 +137,7 @@ public class CuisineItems {
 	}
 
 	@SubscribeEvent
-	public static void registerRecipes(RegistryEvent.Register<IRecipe> evt) {
+	public void registerRecipes(RegistryEvent.Register<IRecipe> evt) {
 		if (CuisineConfig.subpartChocolate)
 			GameRegistry.addSmelting(chocolate_bowl, new ItemStack(chocolate_bowl_hot), 0.3F);
 		if (CuisineConfig.subpartDairy)
