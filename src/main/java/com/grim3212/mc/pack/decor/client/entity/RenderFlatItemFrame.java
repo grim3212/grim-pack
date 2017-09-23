@@ -127,20 +127,14 @@ public class RenderFlatItemFrame extends RenderItemFrame {
 				} else {
 					GlStateManager.scale(0.5F, 0.5F, 0.5F);
 
-					if (!this.itemRenderer.shouldRenderItemIn3D(entityitem.getItem()) || item instanceof ItemSkull) {
-						GlStateManager.rotate(180.0F, 0.0F, 1.0F, 0.0F);
-					}
-
 					if (itemFrame.getHorizontalFacing().getAxis() == EnumFacing.Axis.Y) {
 						if (DecorConfig.flipBlocks && this.itemRenderer.shouldRenderItemIn3D(entityitem.getItem()) || item instanceof ItemSkull) {
-							GlStateManager.rotate(-90.0F, 1.0F, 0.0F, 0.0F);
-
 							if (item instanceof ItemSkull) {
-								GlStateManager.translate(0.0F, -0.2F, 0.0F);
-								GlStateManager.rotate(180.0F, 0.0F, 0.0F, 1.0F);
-							} else {
-								GlStateManager.translate(0.0F, 0.2F, 0.0F);
-							}
+								//GlStateManager.translate(0.0F, -0.2F, 0.0F);
+								GlStateManager.rotate(180.0F, 1.0F, 0.0F, 0.0F);
+							} 
+							
+							GlStateManager.rotate(180.0F, 0.0F, 1.0F, 0.0F);
 						}
 					}
 
