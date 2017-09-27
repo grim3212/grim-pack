@@ -69,7 +69,8 @@ public class GrimPack {
 
 		// Only allow in debug environments
 		if (Loader.instance().activeModContainer().getVersion().equals("@MOD_VERSION@")) {
-			MinecraftForge.EVENT_BUS.register(new GenerateRendererHandler());
+			if (event.getSide().isClient())
+				MinecraftForge.EVENT_BUS.register(new GenerateRendererHandler());
 		}
 	}
 
