@@ -31,6 +31,7 @@ import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.item.crafting.ShapedRecipes;
 import net.minecraft.item.crafting.ShapelessRecipes;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.common.crafting.IShapedRecipe;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.oredict.OreIngredient;
 import net.minecraftforge.oredict.ShapedOreRecipe;
@@ -186,45 +187,15 @@ public class PageCrafting extends Page {
 	}
 
 	public void drawIngredientList(GuiManualPage gui, IRecipe recipe) {
-		// vanilla recipe classes
-		if (recipe instanceof ShapedRecipes) {
-			ShapedRecipes shaped = (ShapedRecipes) recipe;
-
-			for (int y = 0; y < shaped.recipeHeight; y++) {
-				for (int x = 0; x < shaped.recipeWidth; x++) {
-					Ingredient item = shaped.recipeItems.get(x + y * shaped.recipeWidth);
-					if (item != Ingredient.EMPTY) {
-						drawOreDictionaryItem(gui, item, gui.getX() + x * 29 + 30 - x * 2, gui.getY() + y * 27 + 128);
-					}
-				}
-			}
-
-			isShapeless = false;
-		} else if (recipe instanceof ShapelessRecipes) {
-			ShapelessRecipes shapeless = (ShapelessRecipes) recipe;
-
-			for (int i = 0; i < shapeless.recipeItems.size(); i++) {
-				if (i < 3)
-					drawOreDictionaryItem(gui, shapeless.recipeItems.get(i), gui.getX() + i * 29 + 30 - i * 2, gui.getY() + 128);
-				else if (i < 6)
-					drawOreDictionaryItem(gui, shapeless.recipeItems.get(i), gui.getX() + (i - 3) * 29 + 30 - (i - 3) * 2, gui.getY() + 155);
-				else
-					drawOreDictionaryItem(gui, shapeless.recipeItems.get(i), gui.getX() + (i - 6) * 29 + 30 - (i - 6) * 2, gui.getY() + 182);
-			}
-
-			isShapeless = true;
-		}
-		// ore dictionary classes
-		else if (recipe instanceof ShapedOreRecipe) {
-			ShapedOreRecipe shapedOre = (ShapedOreRecipe) recipe;
-			int width = shapedOre.getWidth();
-			int height = shapedOre.getHeight();
-
-			// System.out.println(width + ", " + height);
+		// shaped recipes
+		if (recipe instanceof ShapedRecipes || recipe instanceof ShapedOreRecipe) {
+			IShapedRecipe shaped = (IShapedRecipe) recipe;
+			int width = shaped.getRecipeWidth();
+			int height = shaped.getRecipeHeight();
 
 			for (int y = 0; y < height; y++) {
 				for (int x = 0; x < width; x++) {
-					Ingredient item = shapedOre.getIngredients().get(x + y * width);
+					Ingredient item = shaped.getIngredients().get(x + y * width);
 					if (item != Ingredient.EMPTY) {
 						drawOreDictionaryItem(gui, item, gui.getX() + x * 29 + 30 - x * 2, gui.getY() + y * 27 + 128);
 					}
@@ -232,16 +203,16 @@ public class PageCrafting extends Page {
 			}
 
 			isShapeless = false;
-		} else if (recipe instanceof ShapelessOreRecipe) {
-			ShapelessOreRecipe shapelessOre = (ShapelessOreRecipe) recipe;
+		} else if (recipe instanceof ShapelessRecipes || recipe instanceof ShapelessOreRecipe) {
+			IRecipe shapeless = (IRecipe) recipe;
 
-			for (int i = 0; i < shapelessOre.getIngredients().size(); i++) {
+			for (int i = 0; i < shapeless.getIngredients().size(); i++) {
 				if (i < 3)
-					drawOreDictionaryItem(gui, shapelessOre.getIngredients().get(i), gui.getX() + i * 29 + 30 - i * 2, gui.getY() + 128);
+					drawOreDictionaryItem(gui, shapeless.getIngredients().get(i), gui.getX() + i * 29 + 30 - i * 2, gui.getY() + 128);
 				else if (i < 6)
-					drawOreDictionaryItem(gui, shapelessOre.getIngredients().get(i), gui.getX() + (i - 3) * 29 + 30 - (i - 3) * 2, gui.getY() + 155);
+					drawOreDictionaryItem(gui, shapeless.getIngredients().get(i), gui.getX() + (i - 3) * 29 + 30 - (i - 3) * 2, gui.getY() + 155);
 				else
-					drawOreDictionaryItem(gui, shapelessOre.getIngredients().get(i), gui.getX() + (i - 6) * 29 + 30 - (i - 6) * 2, gui.getY() + 182);
+					drawOreDictionaryItem(gui, shapeless.getIngredients().get(i), gui.getX() + (i - 6) * 29 + 30 - (i - 6) * 2, gui.getY() + 182);
 			}
 
 			isShapeless = true;
@@ -289,17 +260,11 @@ public class PageCrafting extends Page {
 			recipe.add("output", this.deconstructItem(outstack));
 
 			JsonArray inputs = new JsonArray();
-			// Get shaped items
-			int width = 0;
-			int height = 0;
 
-			if (iRecipe instanceof ShapedRecipes) {
-				width = ((ShapedRecipes) iRecipe).getWidth();
-				height = ((ShapedRecipes) iRecipe).getHeight();
-			} else {
-				width = ((ShapedOreRecipe) iRecipe).getWidth();
-				height = ((ShapedOreRecipe) iRecipe).getHeight();
-			}
+			IShapedRecipe shaped = (IShapedRecipe) iRecipe;
+			// Get shaped items
+			int width = shaped.getRecipeWidth();
+			int height = shaped.getRecipeHeight();
 
 			for (int y = 0; y < height; y++) {
 				for (int x = 0; x < width; x++) {

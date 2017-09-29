@@ -6,7 +6,6 @@ import com.google.common.collect.Lists;
 import com.grim3212.mc.pack.core.manual.IManualPart;
 import com.grim3212.mc.pack.core.network.PacketDispatcher;
 import com.grim3212.mc.pack.core.part.GrimPart;
-import com.grim3212.mc.pack.core.proxy.CommonProxy;
 import com.grim3212.mc.pack.core.util.GrimLog;
 import com.grim3212.mc.pack.util.client.ManualUtil;
 import com.grim3212.mc.pack.util.config.UtilConfig;
@@ -19,6 +18,7 @@ import com.grim3212.mc.pack.util.frozen.FrozenClientEvents;
 import com.grim3212.mc.pack.util.grave.TileEntityGrave;
 import com.grim3212.mc.pack.util.init.UtilBlocks;
 import com.grim3212.mc.pack.util.init.UtilSounds;
+import com.grim3212.mc.pack.util.network.MessageAutoTorch;
 import com.grim3212.mc.pack.util.network.MessageFusRoDah;
 
 import net.minecraftforge.common.MinecraftForge;
@@ -36,8 +36,8 @@ public class GrimUtil extends GrimPart {
 
 	public static GrimUtil INSTANCE = new GrimUtil();
 
-	@SidedProxy(clientSide = "com.grim3212.mc.pack.util.client.UtilClientProxy", serverSide = COMMON_PROXY)
-	public static CommonProxy proxy;
+	@SidedProxy(clientSide = "com.grim3212.mc.pack.util.client.UtilClientProxy", serverSide = "com.grim3212.mc.pack.util.UtilCommonProxy")
+	public static UtilCommonProxy proxy;
 
 	public static final String partId = "util";
 	public static final String partName = "Grim Util";
@@ -80,6 +80,9 @@ public class GrimUtil extends GrimPart {
 				GrimLog.info(GrimUtil.partName, "Found Baubles enabling grave support");
 			}
 		}
+
+		if (UtilConfig.subpartAutoTorch)
+			PacketDispatcher.registerMessage(MessageAutoTorch.class);
 
 		proxy.preInit();
 	}

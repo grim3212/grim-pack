@@ -12,6 +12,7 @@ public class ManualUtil implements IManualPart {
 	public static ManualUtil INSTANCE = new ManualUtil();
 
 	public static Page autoItem_page;
+	public static Page autoTorch_page;
 	public static Page fusRoDah_page;
 	public static Page time_page;
 	public static Page grave_page;
@@ -22,6 +23,9 @@ public class ManualUtil implements IManualPart {
 	public void initPages() {
 		if (UtilConfig.subpartAutoItemReplacer)
 			autoItem_page = new PageImageText("info", "autoitem.png");
+
+		if (UtilConfig.subpartAutoTorch)
+			autoTorch_page = new PageImageText("info", "autotorch.png");
 
 		if (UtilConfig.subpartFusRoDah)
 			fusRoDah_page = new PageImageText("info", "fusrodah.png");
@@ -43,6 +47,8 @@ public class ManualUtil implements IManualPart {
 	public void registerChapters(ManualPart part) {
 		if (UtilConfig.subpartAutoItemReplacer)
 			ManualRegistry.addChapter("autoitem", part).addPages(autoItem_page);
+		if (UtilConfig.subpartAutoTorch)
+			ManualRegistry.addChapter("autotorch", part).addPages(autoTorch_page);
 		if (UtilConfig.subpartFusRoDah)
 			ManualRegistry.addChapter("fusrodah", part).addPages(fusRoDah_page);
 		if (UtilConfig.subpartTime)

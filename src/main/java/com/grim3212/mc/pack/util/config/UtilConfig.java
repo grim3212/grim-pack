@@ -8,6 +8,7 @@ import com.grim3212.mc.pack.util.GrimUtil;
 
 import net.minecraft.network.PacketBuffer;
 import net.minecraftforge.common.config.ConfigElement;
+import net.minecraftforge.common.config.Property;
 import net.minecraftforge.fml.client.config.DummyConfigElement.DummyCategoryElement;
 import net.minecraftforge.fml.client.config.IConfigElement;
 
@@ -18,6 +19,7 @@ public class UtilConfig extends GrimConfig {
 	public static final String CONFIG_FUSRODAH_NAME = "util.fusrodah";
 	public static final String CONFIG_DEBUG_NAME = "util.debug";
 	public static final String CONFIG_PARTS_NAME = "util.subparts";
+	public static final String CONFIG_AUTO_TORCH_NAME = "util.autotorch";
 
 	// Sync to client
 	public static double frd_power;
@@ -28,12 +30,16 @@ public class UtilConfig extends GrimConfig {
 	// Client Only
 	public static boolean soundEnabled;
 	public static boolean useOldSound;
+	public static int lightTolerance;
+	public static int torchDistance;
+	public static Property atEnabled;
 
 	// Debug
 	public static boolean showCollisionBoxes;
 
 	// Subparts
 	public static boolean subpartAutoItemReplacer;
+	public static boolean subpartAutoTorch;
 	public static boolean subpartChickenFeathers;
 	public static boolean subpartDebug;
 	public static boolean subpartDoubleDoors;
@@ -51,6 +57,7 @@ public class UtilConfig extends GrimConfig {
 	@Override
 	public void syncSubparts() {
 		subpartAutoItemReplacer = config.get(CONFIG_PARTS_NAME, "Enable SubPart auto item replacer", true).setRequiresMcRestart(true).getBoolean();
+		subpartAutoTorch = config.get(CONFIG_PARTS_NAME, "Enable SubPart auto torch", true).setRequiresMcRestart(true).getBoolean();
 		subpartChickenFeathers = config.get(CONFIG_PARTS_NAME, "Enable SubPart chicken feathers", true).setRequiresMcRestart(true).getBoolean();
 		subpartDebug = config.get(CONFIG_PARTS_NAME, "Enable SubPart debug", true).setRequiresMcRestart(true).getBoolean();
 		subpartDoubleDoors = config.get(CONFIG_PARTS_NAME, "Enable SubPart double doors", true).setRequiresMcRestart(true).getBoolean();
@@ -79,6 +86,17 @@ public class UtilConfig extends GrimConfig {
 		if (subpartDebug)
 			showCollisionBoxes = config.get(CONFIG_DEBUG_NAME, "Show collision boxes", false).getBoolean();
 
+		if (subpartAutoTorch) {
+			atEnabled = config.get(CONFIG_AUTO_TORCH_NAME, "AutoTorch enabled", false);
+
+			// Tolerance is a slider
+			lightTolerance = config.get(CONFIG_AUTO_TORCH_NAME, "AutoTorch Light Tolerance", 30, "AutoTorch Light Tolerance defines what the maximum light tolerance can be before another torch will be placed. So, if it is higher the more torches will be placed while lower will decrease the amount.", 0, 100).setConfigEntryClass(GrimUtil.proxy.getSliderClass()).getInt();
+
+			// Distance cycles through possible values
+			String d = config.get(CONFIG_AUTO_TORCH_NAME, "AutoTorch Torch Distance", "grimpack.util.autotorch.d0", "AutoTorch Distance allows you to specify where to place the torch. There are currently 4 options from under the player to three blocks in front of the player", new String[] { "grimpack.util.autotorch.d0", "grimpack.util.autotorch.d1", "grimpack.util.autotorch.d2", "grimpack.util.autotorch.d3" }).getString();
+			torchDistance = d.equals("grimpack.util.autotorch.d1") ? 1 : d.equals("grimpack.util.autotorch.d2") ? 2 : d.equals("grimpack.util.autotorch.d3") ? 3 : 0;
+		}
+
 		super.syncConfig();
 	}
 
@@ -89,6 +107,8 @@ public class UtilConfig extends GrimConfig {
 			list.add(new DummyCategoryElement("utilGeneralCfg", "grimpack.util.cfg.general", new ConfigElement(GrimUtil.INSTANCE.getConfig().getCategory(CONFIG_GENERAL_NAME)).getChildElements()));
 		if (subpartFusRoDah)
 			list.add(new DummyCategoryElement("utilFusRoDahCfg", "grimpack.util.cfg.fusrodah", new ConfigElement(GrimUtil.INSTANCE.getConfig().getCategory(CONFIG_FUSRODAH_NAME)).getChildElements()));
+		if (subpartAutoTorch)
+			list.add(new DummyCategoryElement("utilAutoTorchCfg", "grimpack.util.cfg.autotorch", new ConfigElement(GrimUtil.INSTANCE.getConfig().getCategory(CONFIG_AUTO_TORCH_NAME)).getChildElements()));
 		if (subpartDebug)
 			list.add(new DummyCategoryElement("utilDebugCfg", "grimpack.util.cfg.debug", new ConfigElement(GrimUtil.INSTANCE.getConfig().getCategory(CONFIG_DEBUG_NAME)).getChildElements()));
 		list.add(new DummyCategoryElement("utilSubPartCfg", "grimpack.util.cfg.subparts", new ConfigElement(GrimUtil.INSTANCE.getConfig().getCategory(CONFIG_PARTS_NAME)).getChildElements()));
@@ -98,6 +118,7 @@ public class UtilConfig extends GrimConfig {
 	@Override
 	public void readFromServer(PacketBuffer buffer) {
 		subpartAutoItemReplacer = buffer.readBoolean();
+		subpartAutoTorch = buffer.readBoolean();
 		subpartChickenFeathers = buffer.readBoolean();
 		subpartDebug = buffer.readBoolean();
 		subpartDoubleDoors = buffer.readBoolean();
@@ -117,6 +138,7 @@ public class UtilConfig extends GrimConfig {
 	@Override
 	public void writeToClient(PacketBuffer buffer) {
 		buffer.writeBoolean(subpartAutoItemReplacer);
+		buffer.writeBoolean(subpartAutoTorch);
 		buffer.writeBoolean(subpartChickenFeathers);
 		buffer.writeBoolean(subpartDebug);
 		buffer.writeBoolean(subpartDoubleDoors);

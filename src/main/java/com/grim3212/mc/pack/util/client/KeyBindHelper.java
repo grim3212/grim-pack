@@ -13,6 +13,8 @@ import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.text.ChatType;
+import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -22,6 +24,7 @@ public class KeyBindHelper {
 
 	private KeyBinding fusrodah = new KeyBinding("FusRoDah", Keyboard.KEY_Z, GrimUtil.partName);
 	private KeyBinding timekey = new KeyBinding("Time Toggle", Keyboard.KEY_G, GrimUtil.partName);
+	private KeyBinding autotorch = new KeyBinding("AutoTorch", Keyboard.KEY_B, GrimUtil.partName);
 	private static long lastPress = 0L;
 
 	public KeyBindHelper() {
@@ -34,8 +37,22 @@ public class KeyBindHelper {
 	@SubscribeEvent
 	public void tick(KeyInputEvent event) {
 		Minecraft mc = Minecraft.getMinecraft();
+
+		if (UtilConfig.subpartAutoTorch && autotorch.isPressed()) {
+			if (UtilConfig.atEnabled.getBoolean()) {
+				mc.ingameGUI.addChatMessage(ChatType.GAME_INFO, new TextComponentTranslation("grimpack.util.autotorch.off"));
+			} else {
+				mc.ingameGUI.addChatMessage(ChatType.GAME_INFO, new TextComponentTranslation("grimpack.util.autotorch.on"));
+			}
+
+			// Enable / Disable
+			UtilConfig.atEnabled.set(!UtilConfig.atEnabled.getBoolean());
+			// Save config file
+			GrimUtil.INSTANCE.getConfig().save();
+		}
+
 		if (UtilConfig.subpartTime && timekey.isPressed()) {
-			if (Minecraft.getMinecraft().inGameHasFocus) {
+			if (mc.inGameHasFocus) {
 				if ((RenderTickHandler.enabled = !RenderTickHandler.enabled)) {
 					RenderTickHandler.retracting = false;
 				} else {
