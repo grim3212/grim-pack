@@ -10,6 +10,8 @@ grimpack.creative.world=Grim World
 #================= BLOCKS =================#
 tile.grave.name=Gravestone
 tile.alarm.name=Alarm Box
+tile.flip_flop_torch.name=Flip Flop Torch
+tile.glowstone_torch.name=Glowstone Torch
 tile.tank.name=Tank
 tile.warehouse_crate.name=Warehouse Crate
 tile.obsidian_safe.name=§5Obsidian Safe
@@ -1393,6 +1395,13 @@ grimpack.manual.industry.subsection.benches.page.portable_upgrade.title=Portabil
 grimpack.manual.industry.subsection.ice=Ice Maker
 grimpack.manual.industry.subsection.ice.page.recipes=Using a bucket of water you will be able to create ice using the Ice Maker. Once crafted right click on the Ice Maker with a Bowl of Water and the water will start the freezing process give it some time and once done it will have the texture of ice on top. Punch it to get your ice.
 grimpack.manual.industry.subsection.ice.page.recipes.title=Recipes
+
+grimpack.manual.industry.subsection.torches=Torches
+grimpack.manual.industry.subsection.torches.page.flipflop=Flip Flop Torches work as the flip flop logic gate. Give it power in the off state and it will be powered until it receives another source of power.
+grimpack.manual.industry.subsection.torches.page.flipflop.title=Flip Flop
+grimpack.manual.industry.subsection.torches.page.glowstone=Glowstone torches give off light when powered, just like Redstone Lamps. But, you are able to walk through these and they behave like regular torches. 
+grimpack.manual.industry.subsection.torches.page.glowstone.title=Glowstone
+
 grimpack.manual.industry.subsection.spikes=Spikes
 grimpack.manual.industry.subsection.spikes.page.recipe=Spikes can be placed on all 6 sides of a block and can be controlled by redstone. When active they deal a large amount of damage and when inactive they shrink into the ground and do no damage.
 grimpack.manual.industry.subsection.spikes.page.recipe.title=Recipe

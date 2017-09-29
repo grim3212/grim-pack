@@ -21,6 +21,8 @@ public class UtilConditionFactory implements IConditionFactory {
 			switch (value) {
 			case "autoitemreplacer":
 				return () -> UtilConfig.subpartAutoItemReplacer;
+			case "autotorch":
+				return () -> UtilConfig.subpartAutoTorch;
 			case "debug":
 				return () -> UtilConfig.subpartDebug;
 			case "doubledoors":

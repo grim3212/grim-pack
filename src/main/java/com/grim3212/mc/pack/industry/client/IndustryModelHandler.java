@@ -237,5 +237,10 @@ public class IndustryModelHandler {
 			RenderHelper.renderBlock(IndustryBlocks.direction_repulsor);
 			RenderHelper.renderBlock(IndustryBlocks.direction_gravitor);
 		}
+
+		if (IndustryConfig.subpartTorches) {
+			RenderHelper.renderBlock(IndustryBlocks.flip_flop_torch);
+			RenderHelper.renderBlock(IndustryBlocks.glowstone_torch);
+		}
 	}
 }

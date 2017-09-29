@@ -1,0 +1,28 @@
+{
+"conditions": [
+    {
+      "type": "grimpack:industry_subpart_enabled",
+      "subpart": "torches"
+    }
+  ],
+  "result": {
+    "item": "grimpack:glowstone_torch"
+  },
+  "pattern": [
+    "@",
+    "#",
+    "R"
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "@": {
+      "item": "#GLOWSTONE"
+    },
+    "#": {
+      "item": "#STICKWOOD"
+    },
+    "R": {
+      "item": "#DUSTREDSTONE"
+    }
+  }
+}

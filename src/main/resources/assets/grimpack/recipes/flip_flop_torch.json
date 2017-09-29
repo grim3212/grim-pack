@@ -1,0 +1,28 @@
+{
+"conditions": [
+    {
+      "type": "grimpack:industry_subpart_enabled",
+      "subpart": "torches"
+    }
+  ],
+  "result": {
+    "item": "grimpack:flip_flop_torch"
+  },
+  "pattern": [
+    "@",
+    "#",
+    "R"
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "@": {
+      "item": "#DYEBLUE"
+    },
+    "#": {
+      "item": "#STICKWOOD"
+    },
+    "R": {
+      "item": "#DUSTREDSTONE"
+    }
+  }
+}

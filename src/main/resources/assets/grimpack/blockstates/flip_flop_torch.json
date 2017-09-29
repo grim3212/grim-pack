@@ -1,0 +1,34 @@
+{
+	"forge_marker": 1,
+    "defaults": {
+		"transform": "forge:default-block",
+        "model": "torch_wall",
+		 "textures": {
+			"torch": "grimpack:blocks/flip_flop_torch_off"
+		 }
+    },
+    "variants": {
+		"facing": {
+			"north": { "y": 270 },
+			"south": { "y": 90 },
+			"west": { "y": 180 },
+			"east": { },
+			"up": { "model": "torch" }
+		},
+		"on": {
+			"true": { 
+				"textures": { "torch": "grimpack:blocks/flip_flop_torch_on" }
+			},
+			"false": {
+				"textures": { "torch": "grimpack:blocks/flip_flop_torch_off" }
+			}
+		},
+		"inventory": [{
+			"model": "builtin/generated",
+			"transform": "forge:default-item",
+			"textures": {
+				"layer0": "grimpack:blocks/flip_flop_torch_off"
+			}
+		}]
+    }
+}

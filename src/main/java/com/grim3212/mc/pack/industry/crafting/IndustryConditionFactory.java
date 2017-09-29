@@ -57,6 +57,8 @@ public class IndustryConditionFactory implements IConditionFactory {
 				return () -> IndustryConfig.subpartSteel;
 			case "storage":
 				return () -> IndustryConfig.subpartStorage;
+			case "torches":
+				return () -> IndustryConfig.subpartTorches;
 			case "workbench":
 				return () -> IndustryConfig.subpartWorkbenchUpgrades;
 			default:

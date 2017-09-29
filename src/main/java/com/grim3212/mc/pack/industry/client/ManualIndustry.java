@@ -104,6 +104,8 @@ public class ManualIndustry implements IManualPart {
 	public static Page tank_page;
 	public static Page shapedChargeBase_page;
 	public static Page shapedCharge_page;
+	public static Page flipFlopTorch_page;
+	public static Page glowstoneTorch_page;
 
 	@Override
 	public void initPages() {
@@ -244,6 +246,11 @@ public class ManualIndustry implements IManualPart {
 			modernFurnace_page = new PageCrafting("mfurnace", new ItemStack(IndustryBlocks.modern_furnace));
 			modernFurnaceRecipes_page = new PageMachine("mfurnace_recipes", MachineRecipes.INSTANCE.getInputs(MachineType.MODERN_FURNACE), 35, MachineType.MODERN_FURNACE);
 		}
+
+		if (IndustryConfig.subpartTorches) {
+			flipFlopTorch_page = new PageCrafting("flipflop", new ItemStack(IndustryBlocks.flip_flop_torch));
+			glowstoneTorch_page = new PageCrafting("glowstone", new ItemStack(IndustryBlocks.glowstone_torch));
+		}
 	}
 
 	@Override
@@ -301,6 +308,9 @@ public class ManualIndustry implements IManualPart {
 
 		if (IndustryConfig.subpartIceMaker)
 			ManualRegistry.addChapter("ice", part).addPages(iceMaker_page).appendImageUrl("icemaker.png");
+
+		if (IndustryConfig.subpartTorches)
+			ManualRegistry.addChapter("torches", part).addPages(flipFlopTorch_page, glowstoneTorch_page);
 	}
 
 }

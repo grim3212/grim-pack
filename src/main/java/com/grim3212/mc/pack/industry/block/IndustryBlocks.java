@@ -14,6 +14,7 @@ import com.grim3212.mc.pack.industry.tile.TileEntityCamo;
 import com.grim3212.mc.pack.industry.tile.TileEntityDGravity;
 import com.grim3212.mc.pack.industry.tile.TileEntityFan;
 import com.grim3212.mc.pack.industry.tile.TileEntityFireSensor;
+import com.grim3212.mc.pack.industry.tile.TileEntityFlipFlopTorch;
 import com.grim3212.mc.pack.industry.tile.TileEntityGlassCabinet;
 import com.grim3212.mc.pack.industry.tile.TileEntityGoldSafe;
 import com.grim3212.mc.pack.industry.tile.TileEntityGravity;
@@ -112,6 +113,8 @@ public class IndustryBlocks {
 	public static final Block item_tower = new BlockItemTower();
 	public static final Block tank = new BlockTank();
 	public static final Block shaped_charge = new BlockShapedCharge();
+	public static final Block flip_flop_torch = new BlockFlipFlopTorch();
+	public static final Block glowstone_torch = new BlockGlowstoneTorch();
 
 	@SubscribeEvent
 	public void initBlocks(RegistryEvent.Register<Block> evt) {
@@ -238,12 +241,22 @@ public class IndustryBlocks {
 			r.register(locksmith_workbench);
 		}
 
+		if (IndustryConfig.subpartTorches) {
+			r.register(flip_flop_torch);
+			r.register(glowstone_torch);
+		}
+
 		initTileEntities();
 	}
 
 	@SubscribeEvent
 	public void initItems(RegistryEvent.Register<Item> evt) {
 		IForgeRegistry<Item> r = evt.getRegistry();
+
+		if (IndustryConfig.subpartTorches) {
+			r.register(new ItemManualBlock(flip_flop_torch).setRegistryName(flip_flop_torch.getRegistryName()));
+			r.register(new ItemManualBlock(glowstone_torch).setRegistryName(glowstone_torch.getRegistryName()));
+		}
 
 		if (IndustryConfig.subpartStorage) {
 			r.register(new ItemGoldSafe(gold_safe).setRegistryName(gold_safe.getRegistryName()));
@@ -398,6 +411,10 @@ public class IndustryBlocks {
 			GameRegistry.registerTileEntity(TileEntityLocker.class, "grimpack_locker");
 			GameRegistry.registerTileEntity(TileEntityItemTower.class, "grimpack_item_tower");
 			GameRegistry.registerTileEntity(TileEntityTank.class, "grimpack_tank");
+		}
+
+		if (IndustryConfig.subpartTorches) {
+			GameRegistry.registerTileEntity(TileEntityFlipFlopTorch.class, "grimpack_flip_flop_torch");
 		}
 	}
 

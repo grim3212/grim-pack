@@ -78,6 +78,7 @@ public class IndustryConfig extends GrimConfig {
 	public static boolean subpartSpikes;
 	public static boolean subpartSteel;
 	public static boolean subpartStorage;
+	public static boolean subpartTorches;
 	public static boolean subpartWorkbenchUpgrades;
 
 	@Override
@@ -117,8 +118,8 @@ public class IndustryConfig extends GrimConfig {
 		subpartSpikes = config.get(CONFIG_PARTS_NAME, "Enable SubPart spikes", true).setRequiresMcRestart(true).getBoolean();
 		subpartSteel = config.get(CONFIG_PARTS_NAME, "Enable SubPart steel", true).setRequiresMcRestart(true).getBoolean();
 		subpartStorage = config.get(CONFIG_PARTS_NAME, "Enable SubPart storage", true).setRequiresMcRestart(true).getBoolean();
+		subpartTorches = config.get(CONFIG_PARTS_NAME, "Enable SubPart torches", true).setRequiresMcRestart(true).getBoolean();
 		subpartWorkbenchUpgrades = config.get(CONFIG_PARTS_NAME, "Enable SubPart workbench upgrades", true).setRequiresMcRestart(true).getBoolean();
-
 	}
 
 	@Override
@@ -201,6 +202,7 @@ public class IndustryConfig extends GrimConfig {
 		subpartSpikes = buffer.readBoolean();
 		subpartSteel = buffer.readBoolean();
 		subpartStorage = buffer.readBoolean();
+		subpartTorches = buffer.readBoolean();
 		subpartWorkbenchUpgrades = buffer.readBoolean();
 
 		if (subpartWorkbenchUpgrades)
@@ -228,6 +230,7 @@ public class IndustryConfig extends GrimConfig {
 		buffer.writeBoolean(subpartSpikes);
 		buffer.writeBoolean(subpartSteel);
 		buffer.writeBoolean(subpartStorage);
+		buffer.writeBoolean(subpartTorches);
 		buffer.writeBoolean(subpartWorkbenchUpgrades);
 
 		if (subpartWorkbenchUpgrades)
