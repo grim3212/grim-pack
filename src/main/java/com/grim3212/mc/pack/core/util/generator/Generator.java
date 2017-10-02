@@ -79,7 +79,7 @@ public class Generator {
 
 			// Get pretty print version of json
 			String prettyJson = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create().toJson(new JsonParser().parse(obj.toString()).getAsJsonObject());
-			
+
 			// Write the JsonObject
 			writer.write(prettyJson);
 			writer.close();
@@ -242,6 +242,7 @@ public class Generator {
 		ManualRegistry.addChapter("configuration", info).addPages(new PageInfo("parts"), new PageInfo("lists"), new PageInfo("tools"), new PageInfo("armor"), new PageInfo("other")).setExtraInfo("grimpack.manual.info.subsection.configuration.info");
 		ManualRegistry.addChapter("resourcepacks", info).addPages(new PageInfo("looks"), new PageInfo("recipes")).setExtraInfo("grimpack.manual.info.subsection.resourcepacks.info");
 		ManualRegistry.addChapter("faq", info).addPages(new PageInfo("about")).setExtraInfo("grimpack.manual.info.subsection.faq.info");
+		ManualRegistry.addChapter("changelog", info).addPages(new PageInfo("changes"));
 		addExtraPart(info);
 	}
 }
