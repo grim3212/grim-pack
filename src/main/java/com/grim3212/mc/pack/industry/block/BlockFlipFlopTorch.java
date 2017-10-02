@@ -6,7 +6,6 @@ import com.grim3212.mc.pack.GrimPack;
 import com.grim3212.mc.pack.core.manual.IManualEntry.IManualBlock;
 import com.grim3212.mc.pack.core.manual.pages.Page;
 import com.grim3212.mc.pack.core.part.GrimCreativeTabs;
-import com.grim3212.mc.pack.core.util.GrimLog;
 import com.grim3212.mc.pack.industry.client.ManualIndustry;
 import com.grim3212.mc.pack.industry.tile.TileEntityFlipFlopTorch;
 
@@ -91,7 +90,6 @@ public class BlockFlipFlopTorch extends BlockTorch implements IManualBlock, ITil
 			boolean prevFlag = flipTE.getPrevState();
 			flipTE.setPrevState(flag);
 
-			GrimLog.info("" + flag, "" + prevFlag);
 			if (flag != prevFlag) {
 				if (flag) {
 					if (state.getValue(ON)) {
@@ -142,7 +140,13 @@ public class BlockFlipFlopTorch extends BlockTorch implements IManualBlock, ITil
 	}
 
 	public static EnumFacing getFacing(int meta) {
-		return EnumFacing.getFront(meta & 7);
+		EnumFacing facing = EnumFacing.getFront(meta & 7);
+
+		// There is no down state
+		if (facing == EnumFacing.DOWN)
+			facing = EnumFacing.UP;
+
+		return facing;
 	}
 
 	@Override
