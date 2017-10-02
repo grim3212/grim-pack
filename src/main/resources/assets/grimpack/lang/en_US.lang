@@ -10,6 +10,8 @@ grimpack.creative.world=Grim World
 #================= BLOCKS =================#
 tile.grave.name=Gravestone
 tile.alarm.name=Alarm Box
+tile.neon_sign_standing.name=Neon Sign
+tile.neon_sign_wall.name=Neon Sign
 tile.flip_flop_torch.name=Flip Flop Torch
 tile.glowstone_torch.name=Glowstone Torch
 tile.tank.name=Tank
@@ -247,6 +249,7 @@ tile.fungus_killing.15.name=Glass Layer Building Fungus
 
 #================= ITEMS =================#
 item.parabuzzy_shell.name=Parabuzzy's Shell
+item.neon_sign.name=Neon Sign
 item.bobomb.name=Bob-omb
 item.bobomb_remote.name=Bob-omb Remote
 item.instruction_manual.name=Instruction Manual
@@ -986,6 +989,13 @@ entity.grimpack.Bobomb.name=Bob-omb
 entity.grimpack.ParaBuzzy.name=Parabuzzy
 entity.grimpack.SuicideBomber.name=Suicide Bomber
 
+grimpack.decor.neon.bold=Bold
+grimpack.decor.neon.italic=Italic
+grimpack.decor.neon.underline=Underline
+grimpack.decor.neon.strikethrough=Strikethrough
+grimpack.decor.neon.random=Obfuscated
+grimpack.decor.neon.reset=Reset
+
 entity.treasure.inventory=Treasure Chest
 grimpack.world.bobomb_chat=\247fYou are the Bob-omb!
 
@@ -1123,6 +1133,12 @@ grimpack.manual.info.subsection.configuration.page.armor=assets/grimpack/html/en
 grimpack.manual.info.subsection.configuration.page.armor.title=Armor
 grimpack.manual.info.subsection.configuration.page.other=assets/grimpack/html/en_us/config_other.html
 grimpack.manual.info.subsection.configuration.page.other.title=Other
+
+grimpack.manual.info.subsection.changelog=Changelog
+grimpack.manual.info.subsection.changelog.info=Look at what has changed between versions.
+grimpack.manual.info.subsection.changelog.page.changes=assets/grimpack/html/en_us/changelog.html
+grimpack.manual.info.subsection.changelog.page.changes.title=Changes
+
 grimpack.manual.info.subsection.resourcepacks=Resource Packs
 grimpack.manual.info.subsection.resourcepacks.info=Resource Pack allow you to modify how Minecraft currently looks as well as other things like modifying recipes and sounds. GrimPack, like most mods, has support for this. Almost everything that normally is supported by a ResourcePack is supported in GrimPack except for a few exceptions.<br><a href="https://minecraft.gamepedia.com/Resource_pack">More Information</a>
 grimpack.manual.info.subsection.resourcepacks.page.looks.title=Looks & Sounds
@@ -1249,6 +1265,8 @@ grimpack.manual.decor.subsection.hanging.page.frames=Similar to wallpaper, once 
 grimpack.manual.decor.subsection.hanging.page.frames.title=Frame
 grimpack.manual.decor.subsection.hanging.page.flat_item_frame=These "flat item frames" act exactly like regular item frames except that you can also place them on the top and bottom of blocks. These are slightly more expensive than regular item frames.
 grimpack.manual.decor.subsection.hanging.page.flat_item_frame.title=Flat Item Frame
+grimpack.manual.decor.subsection.hanging.page.neon_sign=Neon Signs work just like regular signs except colored text will glow and it has a fancy GUI to get the text to look just the way you want it. It also comes with three different backgrounds.
+grimpack.manual.decor.subsection.hanging.page.neon_sign.title=Neon Sign
 #End Hanging
 
 #Start Fires

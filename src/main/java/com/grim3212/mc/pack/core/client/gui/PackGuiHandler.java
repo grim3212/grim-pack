@@ -6,12 +6,14 @@ import com.google.common.collect.Lists;
 import com.grim3212.mc.pack.core.manual.gui.GuiManualIndex;
 import com.grim3212.mc.pack.decor.client.gui.GuiAlarm;
 import com.grim3212.mc.pack.decor.client.gui.GuiCage;
+import com.grim3212.mc.pack.decor.client.gui.GuiEditNeonSign;
 import com.grim3212.mc.pack.decor.client.gui.GuiGrill;
 import com.grim3212.mc.pack.decor.inventory.ContainerCage;
 import com.grim3212.mc.pack.decor.inventory.ContainerGrill;
 import com.grim3212.mc.pack.decor.tile.TileEntityAlarm;
 import com.grim3212.mc.pack.decor.tile.TileEntityCage;
 import com.grim3212.mc.pack.decor.tile.TileEntityGrill;
+import com.grim3212.mc.pack.decor.tile.TileEntityNeonSign;
 import com.grim3212.mc.pack.industry.client.gui.GuiCraftingDiamond;
 import com.grim3212.mc.pack.industry.client.gui.GuiCraftingIron;
 import com.grim3212.mc.pack.industry.client.gui.GuiDerrick;
@@ -102,6 +104,7 @@ public class PackGuiHandler implements IGuiHandler {
 	public static final int ITEM_TOWER_GUI_ID = 26;
 	public static final int TREASURE_MOB_GUI_ID = 27;
 	public static final int ALARM_GUI_ID = 28;
+	public static final int NEON_SIGN_GUI_ID = 29;
 
 	@Override
 	public Object getServerGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
@@ -230,6 +233,8 @@ public class PackGuiHandler implements IGuiHandler {
 			return new GuiChest(player.inventory, this.getEntityAt(world, x, y, z, EntityTreasureMob.class).getTreasureInventory());
 		} else if ((ID == ALARM_GUI_ID) && ((tileentity instanceof TileEntityAlarm))) {
 			return new GuiAlarm((TileEntityAlarm) tileentity, player);
+		} else if ((ID == NEON_SIGN_GUI_ID) && (tileentity instanceof TileEntityNeonSign)) {
+			return new GuiEditNeonSign((TileEntityNeonSign) tileentity);
 		}
 
 		return null;

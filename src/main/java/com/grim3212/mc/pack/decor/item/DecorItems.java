@@ -24,10 +24,14 @@ public class DecorItems {
 	public static final Item brush = new ItemBrush();
 	public static final Item pruners = new ItemPruners();
 	public static final Item flat_item_frame = new ItemFlatItemFrame();
+	public static final Item neon_sign = new ItemNeonSign();
 
 	@SubscribeEvent
 	public void initItems(RegistryEvent.Register<Item> evt) {
 		IForgeRegistry<Item> r = evt.getRegistry();
+
+		if (DecorConfig.subpartNeonSign)
+			r.register(neon_sign);
 
 		if (DecorConfig.subpartLightBulbs)
 			r.register(glass_shard);

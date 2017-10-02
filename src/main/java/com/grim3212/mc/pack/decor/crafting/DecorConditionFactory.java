@@ -43,6 +43,8 @@ public class DecorConditionFactory implements IConditionFactory {
 				return () -> DecorConfig.subpartLanterns;
 			case "lightbulbs":
 				return () -> DecorConfig.subpartLightBulbs;
+			case "neonsign":
+				return () -> DecorConfig.subpartNeonSign;
 			case "slopes":
 				return () -> DecorConfig.subpartColorizer && DecorConfig.subpartSlopes;
 			case "wallclock":

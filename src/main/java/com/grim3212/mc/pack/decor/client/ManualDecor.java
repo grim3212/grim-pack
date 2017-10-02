@@ -70,6 +70,7 @@ public class ManualDecor implements IManualPart {
 	public static Page pillar_page;
 	public static Page decorTrapDoor_page;
 	public static Page alarm_page;
+	public static Page neonSign_page;
 
 	@Override
 	public void initPages() {
@@ -112,6 +113,9 @@ public class ManualDecor implements IManualPart {
 
 		if (DecorConfig.subpartLightBulbs)
 			lights_page = new PageCrafting("lights", DecorRecipes.lights, 25);
+
+		if (DecorConfig.subpartNeonSign)
+			neonSign_page = new PageCrafting("neon_sign", new ItemStack(DecorItems.neon_sign)).appendImageUrl("neon_signs.png");
 
 		if (DecorConfig.subpartColorizer) {
 			colorizer_page = new PageCrafting("colorizer", DecorRecipes.colorizers, 20);
@@ -165,8 +169,8 @@ public class ManualDecor implements IManualPart {
 		if (DecorConfig.subpartDecorations)
 			ManualRegistry.addChapter("intro", part).addPages(fancyPack_page, moss_page, fancyStone_page, road_page);
 
-		if (DecorConfig.subpartCalendar || DecorConfig.subpartWallClock || DecorConfig.subpartWallpaper || DecorConfig.subpartFrames || DecorConfig.subpartFlatItemFrame)
-			ManualRegistry.addChapter("hanging", part).addPages(calendar_page, clock_page, wallpaperInfo_page, wallpaper_page, framesInfo_page, frames_page, flatItemFrame_page);
+		if (DecorConfig.subpartCalendar || DecorConfig.subpartWallClock || DecorConfig.subpartWallpaper || DecorConfig.subpartFrames || DecorConfig.subpartFlatItemFrame || DecorConfig.subpartNeonSign)
+			ManualRegistry.addChapter("hanging", part).addPages(calendar_page, clock_page, wallpaperInfo_page, wallpaper_page, framesInfo_page, frames_page, flatItemFrame_page, neonSign_page);
 
 		if (DecorConfig.subpartCages || DecorConfig.subpartLanterns || DecorConfig.subpartDecorations || DecorConfig.subpartLightBulbs)
 			ManualRegistry.addChapter("deco", part).addPages(cage_page, lantern_page, crafts_page, firing_page, lights_page);

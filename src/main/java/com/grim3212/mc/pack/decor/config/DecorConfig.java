@@ -56,6 +56,7 @@ public class DecorConfig extends GrimConfig {
 	public static boolean subpartLampPosts;
 	public static boolean subpartLanterns;
 	public static boolean subpartLightBulbs;
+	public static boolean subpartNeonSign;
 	public static boolean subpartSlopes;
 	public static boolean subpartWallClock;
 	public static boolean subpartWallpaper;
@@ -81,6 +82,7 @@ public class DecorConfig extends GrimConfig {
 		subpartLampPosts = config.get(CONFIG_PARTS_NAME, "Enable SubPart lamp posts", true).setRequiresMcRestart(true).getBoolean();
 		subpartLanterns = config.get(CONFIG_PARTS_NAME, "Enable SubPart lanterns", true).setRequiresMcRestart(true).getBoolean();
 		subpartLightBulbs = config.get(CONFIG_PARTS_NAME, "Enable SubPart lightbulbs", true).setRequiresMcRestart(true).getBoolean();
+		subpartNeonSign = config.get(CONFIG_PARTS_NAME, "Enable SubPart neon sign", true).setRequiresMcRestart(true).getBoolean();
 		subpartSlopes = config.get(CONFIG_PARTS_NAME, "Enable SubPart slopes", true).setRequiresMcRestart(true).getBoolean();
 		subpartWallClock = config.get(CONFIG_PARTS_NAME, "Enable SubPart wall clock", true).setRequiresMcRestart(true).getBoolean();
 		subpartWallpaper = config.get(CONFIG_PARTS_NAME, "Enable SubPart wallpaper", true).setRequiresMcRestart(true).getBoolean();
@@ -156,6 +158,7 @@ public class DecorConfig extends GrimConfig {
 		subpartLampPosts = buffer.readBoolean();
 		subpartLanterns = buffer.readBoolean();
 		subpartLightBulbs = buffer.readBoolean();
+		subpartNeonSign = buffer.readBoolean();
 		subpartSlopes = buffer.readBoolean();
 		subpartWallClock = buffer.readBoolean();
 		subpartWallpaper = buffer.readBoolean();
@@ -187,6 +190,7 @@ public class DecorConfig extends GrimConfig {
 		buffer.writeBoolean(subpartLampPosts);
 		buffer.writeBoolean(subpartLanterns);
 		buffer.writeBoolean(subpartLightBulbs);
+		buffer.writeBoolean(subpartNeonSign);
 		buffer.writeBoolean(subpartSlopes);
 		buffer.writeBoolean(subpartWallClock);
 		buffer.writeBoolean(subpartWallpaper);

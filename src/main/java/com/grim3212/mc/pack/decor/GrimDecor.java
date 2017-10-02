@@ -13,6 +13,9 @@ import com.grim3212.mc.pack.decor.entity.DecorEntities;
 import com.grim3212.mc.pack.decor.init.DecorRecipes;
 import com.grim3212.mc.pack.decor.init.DecorSounds;
 import com.grim3212.mc.pack.decor.item.DecorItems;
+import com.grim3212.mc.pack.decor.network.MessageNeonChangeMode;
+import com.grim3212.mc.pack.decor.network.MessageNeonOpen;
+import com.grim3212.mc.pack.decor.network.MessageNeonUpdate;
 import com.grim3212.mc.pack.decor.network.MessageParticles;
 import com.grim3212.mc.pack.decor.network.MessageSaveAlarm;
 
@@ -50,6 +53,12 @@ public class GrimDecor extends GrimPart {
 
 		if (DecorConfig.subpartAlarm)
 			PacketDispatcher.registerMessage(MessageSaveAlarm.class);
+
+		if (DecorConfig.subpartNeonSign) {
+			PacketDispatcher.registerMessage(MessageNeonOpen.class);
+			PacketDispatcher.registerMessage(MessageNeonChangeMode.class);
+			PacketDispatcher.registerMessage(MessageNeonUpdate.class);
+		}
 
 		DecorEntities.initEntities();
 		proxy.preInit();

@@ -1,0 +1,29 @@
+{
+"conditions": [
+    {
+      "type": "grimpack:decor_subpart_enabled",
+      "subpart": "neonsign"
+    }
+  ],
+  "result": {
+    "item": "grimpack:neon_sign",
+    "count": 3
+  },
+  "pattern": [
+    "XXX",
+    "XCX",
+    " G "
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "C": {
+      "item": "#DUSTREDSTONE"
+    },
+    "G": {
+      "item": "#PLANKWOOD"
+    },
+    "X": {
+      "item": "#OBSIDIAN"
+    }
+  }
+}

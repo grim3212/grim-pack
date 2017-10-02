@@ -12,6 +12,7 @@ import com.grim3212.mc.pack.decor.client.entity.RenderFrame.FrameFactory;
 import com.grim3212.mc.pack.decor.client.entity.RenderWallpaper.WallpaperFactory;
 import com.grim3212.mc.pack.decor.client.tile.TileEntityCageRenderer;
 import com.grim3212.mc.pack.decor.client.tile.TileEntityCalendarRenderer;
+import com.grim3212.mc.pack.decor.client.tile.TileEntityNeonSignRenderer;
 import com.grim3212.mc.pack.decor.config.DecorConfig;
 import com.grim3212.mc.pack.decor.entity.EntityFlatItemFrame;
 import com.grim3212.mc.pack.decor.entity.EntityFrame;
@@ -20,6 +21,7 @@ import com.grim3212.mc.pack.decor.item.DecorItems;
 import com.grim3212.mc.pack.decor.tile.TileEntityCage;
 import com.grim3212.mc.pack.decor.tile.TileEntityCalendar;
 import com.grim3212.mc.pack.decor.tile.TileEntityColorizer;
+import com.grim3212.mc.pack.decor.tile.TileEntityNeonSign;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
@@ -59,6 +61,8 @@ public class DecorClientProxy extends DecorCommonProxy {
 			ClientRegistry.bindTileEntitySpecialRenderer(TileEntityCalendar.class, new TileEntityCalendarRenderer());
 		if (DecorConfig.subpartCages)
 			ClientRegistry.bindTileEntitySpecialRenderer(TileEntityCage.class, new TileEntityCageRenderer());
+		if (DecorConfig.subpartNeonSign)
+			ClientRegistry.bindTileEntitySpecialRenderer(TileEntityNeonSign.class, new TileEntityNeonSignRenderer());
 
 		// ENTITYS
 		if (DecorConfig.subpartFrames)

@@ -14,6 +14,8 @@ import com.grim3212.mc.pack.decor.item.DecorItems;
 
 import net.minecraft.block.BlockDoor;
 import net.minecraft.block.BlockFenceGate;
+import net.minecraft.block.BlockStandingSign;
+import net.minecraft.block.BlockWallSign;
 import net.minecraft.client.renderer.block.statemap.StateMap;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.client.model.ModelLoader;
@@ -136,6 +138,16 @@ public class DecorModelHandler {
 		if (DecorConfig.subpartCages) {
 			RenderHelper.renderBlock(DecorBlocks.chain);
 			RenderHelper.renderBlock(DecorBlocks.cage);
+		}
+
+		if (DecorConfig.subpartNeonSign) {
+			ModelLoader.setCustomStateMapper(DecorBlocks.neon_sign_standing, new StateMap.Builder().ignore(BlockStandingSign.ROTATION).build());
+			ModelLoader.setCustomStateMapper(DecorBlocks.neon_sign_wall, new StateMap.Builder().ignore(BlockWallSign.FACING).build());
+
+			RenderHelper.renderBlockNormal(DecorBlocks.neon_sign_standing);
+			RenderHelper.renderBlockNormal(DecorBlocks.neon_sign_wall);
+
+			RenderHelper.renderItem(DecorItems.neon_sign);
 		}
 	}
 }

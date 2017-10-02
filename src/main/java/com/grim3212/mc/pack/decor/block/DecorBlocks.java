@@ -35,6 +35,7 @@ import com.grim3212.mc.pack.decor.tile.TileEntityCage;
 import com.grim3212.mc.pack.decor.tile.TileEntityCalendar;
 import com.grim3212.mc.pack.decor.tile.TileEntityColorizer;
 import com.grim3212.mc.pack.decor.tile.TileEntityGrill;
+import com.grim3212.mc.pack.decor.tile.TileEntityNeonSign;
 import com.grim3212.mc.pack.decor.tile.TileEntityWallClock;
 import com.grim3212.mc.pack.decor.util.DecorUtil.SlopeType;
 
@@ -51,6 +52,8 @@ import net.minecraftforge.registries.IForgeRegistry;
 
 public class DecorBlocks {
 
+	public static final Block neon_sign_standing = new BlockNeonSignStanding();
+	public static final Block neon_sign_wall = new BlockNeonSignWall();
 	public static final Block alarm = new BlockAlarm();
 	public static final Block calendar = new BlockCalendar();
 	public static final Block wall_clock = new BlockWallClock();
@@ -128,6 +131,11 @@ public class DecorBlocks {
 			r.register(pot);
 			r.register(craft_clay);
 			r.register(craft_bone);
+		}
+
+		if (DecorConfig.subpartNeonSign) {
+			r.register(neon_sign_standing);
+			r.register(neon_sign_wall);
 		}
 
 		if (DecorConfig.subpartColorizer) {
@@ -271,6 +279,9 @@ public class DecorBlocks {
 
 		if (DecorConfig.subpartCages)
 			GameRegistry.registerTileEntity(TileEntityCage.class, "cage");
+
+		if (DecorConfig.subpartNeonSign)
+			GameRegistry.registerTileEntity(TileEntityNeonSign.class, "neon_sign");
 	}
 
 	@SubscribeEvent
