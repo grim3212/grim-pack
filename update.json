@@ -1,6 +1,8 @@
 {
-	"homepage": "https://grim3212.github.io/grim-pack/home",
+	"homepage": "https://www.grim3212.com/grim-pack",
 	"promos": {
+		"1.12.2-latest": "5.2.6.45",
+		"1.12.2-recommended": "5.2.6.45",
 		"1.12.1-latest": "5.1.3.43",
 		"1.12.1-recommended": "5.1.3.43",
 		"1.12-latest": "5.0.0.3",
@@ -88,5 +90,8 @@
 		"5.1.1.27": "Fix recipe loading causing a crash and displaying missing recipes crash.",
 		"5.1.1.24": "Configurable Update. Lots of changes to make GrimPack more customizable like disabling subparts, customize tool and armor material values, and new JSON recipes for Grill, Machines, and Chisels.",
 		"5.1.1.22": "Configurable Update. Lots of changes to make GrimPack more customizable like disabling subparts, customize tool and armor material values, and new JSON recipes for Grill, Machines, and Chisels.",
-	}
+	},
+	"1.12.2": {
+		"5.2.6.45": "Update to 1.12.2. Add in autotorch, flip flop and glowstone torches, and Neon Signs.",
+	},
 }
