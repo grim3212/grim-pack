@@ -4,9 +4,11 @@ import java.util.List;
 
 import org.lwjgl.opengl.GL11;
 
+import net.minecraft.block.BlockHorizontal;
 import net.minecraft.client.gui.GuiUtilRenderComponents;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -19,15 +21,14 @@ public class TileEntityGraveRenderer extends TileEntitySpecialRenderer<TileEntit
 		GlStateManager.pushMatrix();
 
 		float f1 = 0.6666667F;
-		int i = te.getBlockMetadata();
+		EnumFacing facing = te.getWorld().getBlockState(te.getPos()).getValue(BlockHorizontal.FACING);
 		float f2 = 0.0F;
-		if (i == 2) {
+
+		if (facing == EnumFacing.NORTH) {
 			f2 = 180F;
-		}
-		if (i == 4) {
+		} else if (facing == EnumFacing.WEST) {
 			f2 = 90F;
-		}
-		if (i == 5) {
+		} else if (facing == EnumFacing.EAST) {
 			f2 = -90F;
 		}
 
