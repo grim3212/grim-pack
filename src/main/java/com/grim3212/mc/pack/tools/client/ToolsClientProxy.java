@@ -23,6 +23,7 @@ import com.grim3212.mc.pack.tools.entity.EntitySlimeSpear;
 import com.grim3212.mc.pack.tools.entity.EntitySlingPellet;
 import com.grim3212.mc.pack.tools.entity.EntitySpear;
 import com.grim3212.mc.pack.tools.entity.EntityTomahawk;
+import com.grim3212.mc.pack.tools.event.ChickenSuitJumpEvent;
 import com.grim3212.mc.pack.tools.items.ItemBackpack;
 import com.grim3212.mc.pack.tools.items.ItemPelletBag;
 import com.grim3212.mc.pack.tools.items.ToolsItems;
@@ -39,6 +40,9 @@ public class ToolsClientProxy extends ClientProxy {
 	@Override
 	public void preInit() {
 		MinecraftForge.EVENT_BUS.register(new ToolsModelHandler());
+
+		if (ToolsConfig.subpartChickenSuit)
+			MinecraftForge.EVENT_BUS.register(new ChickenSuitJumpEvent());
 
 		// ENTITYS
 		if (ToolsConfig.subpartPowerstaff)

@@ -1,0 +1,22 @@
+{
+"conditions": [
+    {
+      "type": "grimpack:tools_subpart_enabled",
+      "subpart": "chickensuit"
+    }
+  ],
+  "result": {
+    "item": "grimpack:chicken_suit_leggings"
+  },
+  "pattern": [
+    "###",
+    "# #",
+    "# #"
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "#": {
+      "item": "minecraft:feather"
+    }
+  }
+}

@@ -27,6 +27,8 @@ public class ToolsConditionFactory implements IConditionFactory {
 				return () -> ToolsConfig.subpartBoomerangs;
 			case "buckets":
 				return () -> ToolsConfig.subpartBuckets;
+			case "chickensuit":
+				return () -> ToolsConfig.subpartChickenSuit;
 			case "chisel":
 				return () -> ToolsConfig.subpartChisel;
 			case "extinguisher":

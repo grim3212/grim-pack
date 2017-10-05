@@ -40,6 +40,7 @@ public class ToolsItems {
 	public static final ToolMaterial obsidianToolMaterial = Utils.addToolMaterial(ToolsConfig.obsidianToolMaterial);
 	public static final ArmorMaterial masks = Utils.addArmorMaterial(GrimPack.modID + ":masks", SoundEvents.BLOCK_CLOTH_PLACE, ToolsConfig.maskArmorMaterial);
 	public static final ArmorMaterial blackarmor = Utils.addArmorMaterial(GrimPack.modID + ":blackarmor", SoundEvents.ITEM_ARMOR_EQUIP_DIAMOND, ToolsConfig.blackDiamondArmorMaterial);
+	public static final ArmorMaterial chicken_suit = Utils.addArmorMaterial(GrimPack.modID + ":chicken_suit", SoundEvents.BLOCK_CLOTH_PLACE, ToolsConfig.chickenSuitArmorMaterial);
 
 	public static final Item backpack = new ItemBackpack();
 	public static final Item pellet_bag = new ItemPelletBag();
@@ -130,6 +131,10 @@ public class ToolsItems {
 	public static final Item grenade = (new ItemManualPage("grenade", "tools:grenade.grenade")).setFull3D().setCreativeTab(GrimCreativeTabs.GRIM_TOOLS);
 	public static final Item neptune_staff = new ItemNeptuneStaff();
 	public static final Item phoenix_staff = new ItemPhoenixStaff();
+	public static final Item chicken_suit_helmet = new ItemChickenSuit("chicken_suit_helmet", EntityEquipmentSlot.HEAD);
+	public static final Item chicken_suit_chestplate = new ItemChickenSuit("chicken_suit_chestplate", EntityEquipmentSlot.CHEST);
+	public static final Item chicken_suit_leggings = new ItemChickenSuit("chicken_suit_leggings", EntityEquipmentSlot.LEGS);
+	public static final Item chicken_suit_boots = new ItemChickenSuit("chicken_suit_boots", EntityEquipmentSlot.FEET);
 
 	@SubscribeEvent
 	public void initItems(RegistryEvent.Register<Item> evt) {
@@ -279,6 +284,15 @@ public class ToolsItems {
 			r.register(black_diamond_multi_tool);
 			if (CoreConfig.useIndustry && IndustryConfig.subpartSteel)
 				r.register(steel_multi_tool);
+		}
+
+		if (ToolsConfig.subpartChickenSuit) {
+			r.register(chicken_suit_helmet);
+			r.register(chicken_suit_chestplate);
+			r.register(chicken_suit_leggings);
+			r.register(chicken_suit_boots);
+
+			chicken_suit.setRepairItem(new ItemStack(Items.FEATHER));
 		}
 
 		// Set repair items

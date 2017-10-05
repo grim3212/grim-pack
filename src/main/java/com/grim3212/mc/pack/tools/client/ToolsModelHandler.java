@@ -42,6 +42,13 @@ public class ToolsModelHandler {
 			setBucketModelDefinition(ToolsItems.obsidian_milk_bucket);
 		}
 
+		if (ToolsConfig.subpartChickenSuit) {
+			RenderHelper.renderItem(ToolsItems.chicken_suit_helmet);
+			RenderHelper.renderItem(ToolsItems.chicken_suit_chestplate);
+			RenderHelper.renderItem(ToolsItems.chicken_suit_leggings);
+			RenderHelper.renderItem(ToolsItems.chicken_suit_boots);
+		}
+
 		if (ToolsConfig.subpartBlackDiamond) {
 			RenderHelper.renderBlock(ToolsBlocks.black_diamond_ore);
 			RenderHelper.renderBlock(ToolsBlocks.black_diamond_block);

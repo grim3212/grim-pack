@@ -29,6 +29,7 @@ public class ToolsConfig extends GrimConfig {
 	public static ToolMaterialHolder blackDiamondToolMaterial = new ToolMaterialHolder("black_diamond", 4, 5122, 15F, 5F, 20);
 	public static ToolMaterialHolder obsidianToolMaterial = new ToolMaterialHolder("obsidian", 3, 3333, 9.5F, 7f, 14);
 	public static ArmorMaterialHolder maskArmorMaterial = new ArmorMaterialHolder("mask", 5, new int[] { 1, 2, 3, 1 }, 15, 0.0F);
+	public static ArmorMaterialHolder chickenSuitArmorMaterial = new ArmorMaterialHolder("chicken_suit", 5, new int[] { 1, 2, 3, 1 }, 15, 0.0F);
 	public static ArmorMaterialHolder blackDiamondArmorMaterial = new ArmorMaterialHolder("black_diamond", 35, new int[] { 4, 8, 10, 4 }, 20, 2.5F);
 
 	public static boolean ENABLE_free_build_mode;
@@ -75,6 +76,7 @@ public class ToolsConfig extends GrimConfig {
 	public static boolean subpartBlackDiamond;
 	public static boolean subpartBoomerangs;
 	public static boolean subpartBuckets;
+	public static boolean subpartChickenSuit;
 	public static boolean subpartChisel;
 	public static boolean subpartExtinguisher;
 	public static boolean subpartGrenadeLauncher;
@@ -104,6 +106,7 @@ public class ToolsConfig extends GrimConfig {
 		subpartBlackDiamond = config.get(CONFIG_PARTS_NAME, "Enable SubPart black diamond", true).setRequiresMcRestart(true).getBoolean();
 		subpartBoomerangs = config.get(CONFIG_PARTS_NAME, "Enable SubPart boomerangs", true).setRequiresMcRestart(true).getBoolean();
 		subpartBuckets = config.get(CONFIG_PARTS_NAME, "Enable SubPart buckets", true).setRequiresMcRestart(true).getBoolean();
+		subpartChickenSuit = config.get(CONFIG_PARTS_NAME, "Enable SubPart chicken suit", true).setRequiresMcRestart(true).getBoolean();
 		subpartChisel = config.get(CONFIG_PARTS_NAME, "Enable SubPart chisel", true).setRequiresMcRestart(true).getBoolean();
 		subpartExtinguisher = config.get(CONFIG_PARTS_NAME, "Enable SubPart extinguisher", true).setRequiresMcRestart(true).getBoolean();
 		subpartGrenadeLauncher = config.get(CONFIG_PARTS_NAME, "Enable SubPart grenade launcher", true).setRequiresMcRestart(true).getBoolean();
@@ -138,6 +141,10 @@ public class ToolsConfig extends GrimConfig {
 
 		if (subpartMasks)
 			maskArmorMaterial.load();
+
+		if (subpartChickenSuit)
+			chickenSuitArmorMaterial.load();
+
 	}
 
 	@Override
@@ -230,6 +237,7 @@ public class ToolsConfig extends GrimConfig {
 		subpartBlackDiamond = buffer.readBoolean();
 		subpartBoomerangs = buffer.readBoolean();
 		subpartBuckets = buffer.readBoolean();
+		subpartChickenSuit = buffer.readBoolean();
 		subpartChisel = buffer.readBoolean();
 		subpartExtinguisher = buffer.readBoolean();
 		subpartGrenadeLauncher = buffer.readBoolean();
@@ -255,6 +263,7 @@ public class ToolsConfig extends GrimConfig {
 		buffer.writeBoolean(subpartBlackDiamond);
 		buffer.writeBoolean(subpartBoomerangs);
 		buffer.writeBoolean(subpartBuckets);
+		buffer.writeBoolean(subpartChickenSuit);
 		buffer.writeBoolean(subpartChisel);
 		buffer.writeBoolean(subpartExtinguisher);
 		buffer.writeBoolean(subpartGrenadeLauncher);

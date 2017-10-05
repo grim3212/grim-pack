@@ -266,6 +266,10 @@ item.flat_item_frame.name=Flat Item Frame
 item.extruder.name=Extruder
 item.pruners.name=Pruners
 item.iron_stick.name=Iron Rod
+item.chicken_suit_helmet.name=Chicken Hat
+item.chicken_suit_chestplate.name=Chicken Suit
+item.chicken_suit_leggings.name=Chicken Legs
+item.chicken_suit_boots.name=Chicken Boots
 item.brush.name=Brush
 item.soda.apple.name=Apple Soda
 item.soda.bottle.name=Soda Bottle
@@ -1686,6 +1690,11 @@ grimpack.manual.tools.subsection.extinguisher.page.refill.title=Refilling
 grimpack.manual.tools.subsection.hammers=Hammers
 grimpack.manual.tools.subsection.hammers.page.recipes=Hammers are new tools that on use will destroy the block in one hit but not drop the items. So if you have a huge mountain of dirt to get rid of this will be very helpful.
 grimpack.manual.tools.subsection.hammers.page.recipes.title=Recipes
+
+grimpack.manual.tools.subsection.chicken_suit=Chicken Suit
+grimpack.manual.tools.subsection.chicken_suit.page.recipes=The Chicken Suit is a unique armor set. With every piece of the suit you get an extra jump. With these you can 'fly' around as good as a chicken.
+grimpack.manual.tools.subsection.chicken_suit.page.recipes.title=Recipes
+
 grimpack.manual.tools.subsection.machetes=Machetes
 grimpack.manual.tools.subsection.machetes.page.base=Their are machetes with the base items that regular Minecraft tools use. Machetes are used to hurt mobs but also can help when breaking leaves, webs, cloth, vines, and cactus.
 grimpack.manual.tools.subsection.machetes.page.base.title=Base

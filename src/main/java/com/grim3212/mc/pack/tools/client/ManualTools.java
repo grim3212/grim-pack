@@ -73,12 +73,17 @@ public class ManualTools implements IManualPart {
 	public static Page grenadeLauncher_page;
 	public static Page neptuneStaff_page;
 	public static Page phoenixStaff_page;
+	public static Page chickenSuit_page;
 
 	@Override
 	public void initPages() {
 		if (ToolsConfig.subpartBoomerangs) {
 			boomerang_page = new PageCrafting("wood", new ItemStack(ToolsItems.boomerang));
 			diamondBoomerang_page = new PageCrafting("diamond", new ItemStack(ToolsItems.diamond_boomerang));
+		}
+
+		if (ToolsConfig.subpartChickenSuit) {
+			chickenSuit_page = new PageCrafting("recipes", 20, new ItemStack[] { new ItemStack(ToolsItems.chicken_suit_helmet), new ItemStack(ToolsItems.chicken_suit_chestplate), new ItemStack(ToolsItems.chicken_suit_leggings), new ItemStack(ToolsItems.chicken_suit_boots) });
 		}
 
 		if (ToolsConfig.subpartBackpacks) {
@@ -251,5 +256,8 @@ public class ManualTools implements IManualPart {
 
 		if (ToolsConfig.subpartMasks)
 			ManualRegistry.addChapter("masks", part).addPages(emptyMask_page, mobMask_page);
+
+		if (ToolsConfig.subpartChickenSuit)
+			ManualRegistry.addChapter("chicken_suit", part).addPages(chickenSuit_page);
 	}
 }
