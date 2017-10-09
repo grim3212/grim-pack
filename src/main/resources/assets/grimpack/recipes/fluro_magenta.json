@@ -1,0 +1,30 @@
+{
+"conditions": [
+    {
+      "type": "grimpack:decor_subpart_enabled",
+      "subpart": "fluro"
+    }
+  ],
+  "result": {
+    "item": "grimpack:fluro",
+    "count": 8,
+    "data": 2
+  },
+  "pattern": [
+    "#Y#",
+    "YXY",
+    "#Y#"
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+  	"X": {
+      "item": "grimpack:illumination_tube"
+    },
+    "Y": {
+      "item": "#DYEMAGENTA"
+    },
+    "#": {
+      "item": "#BLOCKGLASS"
+    }
+  }
+}

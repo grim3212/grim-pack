@@ -51,6 +51,7 @@ public class DecorConfig extends GrimConfig {
 	public static boolean subpartDecorations;
 	public static boolean subpartFireplaces;
 	public static boolean subpartFlatItemFrame;
+	public static boolean subpartFluro;
 	public static boolean subpartFrames;
 	public static boolean subpartFurniture;
 	public static boolean subpartLampPosts;
@@ -77,6 +78,7 @@ public class DecorConfig extends GrimConfig {
 		subpartDecorations = config.get(CONFIG_PARTS_NAME, "Enable SubPart decorations", true).setRequiresMcRestart(true).getBoolean();
 		subpartFireplaces = config.get(CONFIG_PARTS_NAME, "Enable SubPart fireplaces", true).setRequiresMcRestart(true).getBoolean();
 		subpartFlatItemFrame = config.get(CONFIG_PARTS_NAME, "Enable SubPart flat item frame", true).setRequiresMcRestart(true).getBoolean();
+		subpartFluro = config.get(CONFIG_PARTS_NAME, "Enable SubPart fluro", true).setRequiresMcRestart(true).getBoolean();
 		subpartFrames = config.get(CONFIG_PARTS_NAME, "Enable SubPart frames", true).setRequiresMcRestart(true).getBoolean();
 		subpartFurniture = config.get(CONFIG_PARTS_NAME, "Enable SubPart furniture", true).setRequiresMcRestart(true).getBoolean();
 		subpartLampPosts = config.get(CONFIG_PARTS_NAME, "Enable SubPart lamp posts", true).setRequiresMcRestart(true).getBoolean();
@@ -153,6 +155,7 @@ public class DecorConfig extends GrimConfig {
 		subpartDecorations = buffer.readBoolean();
 		subpartFireplaces = buffer.readBoolean();
 		subpartFlatItemFrame = buffer.readBoolean();
+		subpartFluro = buffer.readBoolean();
 		subpartFrames = buffer.readBoolean();
 		subpartFurniture = buffer.readBoolean();
 		subpartLampPosts = buffer.readBoolean();
@@ -185,6 +188,7 @@ public class DecorConfig extends GrimConfig {
 		buffer.writeBoolean(subpartDecorations);
 		buffer.writeBoolean(subpartFireplaces);
 		buffer.writeBoolean(subpartFlatItemFrame);
+		buffer.writeBoolean(subpartFluro);
 		buffer.writeBoolean(subpartFrames);
 		buffer.writeBoolean(subpartFurniture);
 		buffer.writeBoolean(subpartLampPosts);

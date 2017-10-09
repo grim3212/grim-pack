@@ -1,0 +1,29 @@
+{
+"conditions": [
+    {
+      "type": "grimpack:decor_subpart_enabled",
+      "subpart": "fluro"
+    }
+  ],
+  "result": {
+    "item": "grimpack:illumination_tube",
+    "count": 4
+  },
+  "pattern": [
+    " X ",
+    "#Y#",
+    " X "
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+  	"X": {
+      "item": "#STONE"
+    },
+    "Y": {
+      "item": "#DUSTGLOWSTONE"
+    },
+    "#": {
+      "item": "#BLOCKGLASS"
+    }
+  }
+}

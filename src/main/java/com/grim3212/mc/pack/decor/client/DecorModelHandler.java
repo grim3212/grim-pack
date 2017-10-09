@@ -3,6 +3,7 @@ package com.grim3212.mc.pack.decor.client;
 import com.grim3212.mc.pack.GrimPack;
 import com.grim3212.mc.pack.core.client.RenderHelper;
 import com.grim3212.mc.pack.decor.block.BlockAlarm;
+import com.grim3212.mc.pack.decor.block.BlockFluro;
 import com.grim3212.mc.pack.decor.block.BlockLantern.EnumLanternType;
 import com.grim3212.mc.pack.decor.block.DecorBlocks;
 import com.grim3212.mc.pack.decor.block.colorizer.BlockColorizerChimney;
@@ -94,6 +95,13 @@ public class DecorModelHandler {
 				RenderHelper.renderBlockNormal(DecorBlocks.lamp_post_middle);
 				RenderHelper.renderBlockNormal(DecorBlocks.lamp_post_top);
 			}
+		}
+
+		if (DecorConfig.subpartFluro) {
+			ModelLoader.setCustomStateMapper(DecorBlocks.fluro, new StateMap.Builder().ignore(BlockFluro.COLOR).build());
+			RenderHelper.renderBlockWithMetaInInventory(DecorBlocks.fluro, 16);
+
+			RenderHelper.renderBlock(DecorBlocks.illumination_tube);
 		}
 
 		if (DecorConfig.subpartFlatItemFrame)

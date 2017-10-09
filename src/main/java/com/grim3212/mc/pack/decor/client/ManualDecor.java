@@ -71,9 +71,16 @@ public class ManualDecor implements IManualPart {
 	public static Page decorTrapDoor_page;
 	public static Page alarm_page;
 	public static Page neonSign_page;
+	public static Page fluro_page;
+	public static Page illuminationTube_page;
 
 	@Override
 	public void initPages() {
+		if (DecorConfig.subpartFluro) {
+			fluro_page = new PageCrafting("fluro", RecipeHelper.getAllPaths("fluro_"), 25);
+			illuminationTube_page = new PageCrafting("illumination_tube", RecipeHelper.getAllPaths("illumination_tube_"), 25);
+		}
+
 		if (DecorConfig.subpartDecorations) {
 			fancyPack_page = new PageInfo("fancy");
 			moss_page = new PageCrafting("moss", DecorRecipes.mossy);
@@ -172,8 +179,8 @@ public class ManualDecor implements IManualPart {
 		if (DecorConfig.subpartCalendar || DecorConfig.subpartWallClock || DecorConfig.subpartWallpaper || DecorConfig.subpartFrames || DecorConfig.subpartFlatItemFrame || DecorConfig.subpartNeonSign)
 			ManualRegistry.addChapter("hanging", part).addPages(calendar_page, clock_page, wallpaperInfo_page, wallpaper_page, framesInfo_page, frames_page, flatItemFrame_page, neonSign_page);
 
-		if (DecorConfig.subpartCages || DecorConfig.subpartLanterns || DecorConfig.subpartDecorations || DecorConfig.subpartLightBulbs)
-			ManualRegistry.addChapter("deco", part).addPages(cage_page, lantern_page, crafts_page, firing_page, lights_page);
+		if (DecorConfig.subpartCages || DecorConfig.subpartLanterns || DecorConfig.subpartDecorations || DecorConfig.subpartLightBulbs || DecorConfig.subpartFluro)
+			ManualRegistry.addChapter("deco", part).addPages(cage_page, lantern_page, crafts_page, firing_page, lights_page, fluro_page, illuminationTube_page);
 
 		if (DecorConfig.subpartAlarm)
 			ManualRegistry.addChapter("alarm", part).addPages(alarm_page);

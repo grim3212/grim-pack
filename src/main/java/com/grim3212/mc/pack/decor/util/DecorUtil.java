@@ -12,11 +12,23 @@ import com.grim3212.mc.pack.decor.config.DecorConfig;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 
 public class DecorUtil {
+
+	public static String[] getDyeNames() {
+		EnumDyeColor[] states = EnumDyeColor.values();
+		String[] names = new String[states.length];
+
+		for (int i = 0; i < states.length; i++) {
+			names[i] = states[i].name();
+		}
+
+		return names;
+	}
 
 	public static ItemStack createFurnitureWithState(Block block, IBlockState toPlace) {
 		ItemStack furniture = new ItemStack(block);

@@ -33,6 +33,8 @@ public class DecorConditionFactory implements IConditionFactory {
 				return () -> DecorConfig.subpartColorizer && DecorConfig.subpartFireplaces;
 			case "flatitemframe":
 				return () -> DecorConfig.subpartFlatItemFrame;
+			case "fluro":
+				return () -> DecorConfig.subpartFluro;
 			case "frames":
 				return () -> DecorConfig.subpartFrames;
 			case "furniture":

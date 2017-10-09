@@ -1,0 +1,27 @@
+{
+	"forge_marker": 1,
+    "defaults": {
+		"transform": "forge:default-block",
+        "model": "torch_wall",
+		 "textures": {
+			"torch": "grimpack:blocks/illumination_tube"
+		}
+    },
+    "variants": {
+		"facing": {
+			"north": { "y": 270 },
+			"south": { "y": 90 },
+			"west": { "y": 180 },
+			"east": { },
+			"up": { "model": "torch" },
+			"down": { "model": "torch", "x": 180 }
+		},
+		"inventory": [{
+			"model": "builtin/generated",
+			"transform": "forge:default-item",
+			"textures": {
+				"layer0": "grimpack:blocks/illumination_tube"
+			}
+		}]
+    }
+}

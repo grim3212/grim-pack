@@ -43,6 +43,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemCloth;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraftforge.event.RegistryEvent;
@@ -52,6 +53,8 @@ import net.minecraftforge.registries.IForgeRegistry;
 
 public class DecorBlocks {
 
+	public static final Block illumination_tube = new BlockIlluminationTube();
+	public static final Block fluro = new BlockFluro();
 	public static final Block neon_sign_standing = new BlockNeonSignStanding();
 	public static final Block neon_sign_wall = new BlockNeonSignWall();
 	public static final Block alarm = new BlockAlarm();
@@ -104,6 +107,11 @@ public class DecorBlocks {
 	@SubscribeEvent
 	public void initBlocks(RegistryEvent.Register<Block> evt) {
 		IForgeRegistry<Block> r = evt.getRegistry();
+
+		if (DecorConfig.subpartFluro) {
+			r.register(fluro);
+			r.register(illumination_tube);
+		}
 
 		if (DecorConfig.subpartCalendar)
 			r.register(calendar);
@@ -192,6 +200,11 @@ public class DecorBlocks {
 	@SubscribeEvent
 	public void initItems(RegistryEvent.Register<Item> evt) {
 		IForgeRegistry<Item> r = evt.getRegistry();
+
+		if (DecorConfig.subpartFluro) {
+			r.register(new ItemCloth(fluro).setRegistryName(fluro.getRegistryName()));
+			r.register(new ItemManualBlock(illumination_tube).setRegistryName(illumination_tube.getRegistryName()));
+		}
 
 		if (DecorConfig.subpartCalendar)
 			r.register(new ItemManualBlock(calendar).setRegistryName(calendar.getRegistryName()));

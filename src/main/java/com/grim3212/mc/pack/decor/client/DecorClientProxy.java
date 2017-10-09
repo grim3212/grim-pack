@@ -5,6 +5,7 @@ import java.util.List;
 import com.google.common.collect.Lists;
 import com.grim3212.mc.pack.core.util.NBTHelper;
 import com.grim3212.mc.pack.decor.DecorCommonProxy;
+import com.grim3212.mc.pack.decor.block.BlockFluro;
 import com.grim3212.mc.pack.decor.block.DecorBlocks;
 import com.grim3212.mc.pack.decor.block.colorizer.BlockColorizer;
 import com.grim3212.mc.pack.decor.client.entity.RenderFlatItemFrame.FlatItemFrameFactory;
@@ -28,6 +29,7 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.color.IBlockColor;
 import net.minecraft.client.renderer.color.IItemColor;
+import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -157,7 +159,27 @@ public class DecorClientProxy extends DecorCommonProxy {
 					return 16777215;
 				}
 			}, itemColors.toArray(new Item[itemColors.size()]));
+		}
 
+		if (DecorConfig.subpartFluro) {
+			Minecraft.getMinecraft().getBlockColors().registerBlockColorHandler(new IBlockColor() {
+				public int colorMultiplier(IBlockState state, IBlockAccess worldIn, BlockPos pos, int tintIndex) {
+					if (state != null) {
+						return state.getValue(BlockFluro.COLOR).getColorValue();
+					}
+					return 16777215;
+				}
+			}, DecorBlocks.fluro);
+
+			Minecraft.getMinecraft().getItemColors().registerItemColorHandler(new IItemColor() {
+				@Override
+				public int getColorFromItemstack(ItemStack stack, int tintIndex) {
+					if (!stack.isEmpty()) {
+						return EnumDyeColor.byMetadata(stack.getMetadata()).getColorValue();
+					}
+					return 16777215;
+				}
+			}, DecorBlocks.fluro);
 		}
 	}
 }
