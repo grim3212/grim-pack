@@ -2,7 +2,7 @@ package com.grim3212.mc.pack.tools.event;
 
 import com.grim3212.mc.pack.core.network.PacketDispatcher;
 import com.grim3212.mc.pack.tools.items.ItemChickenSuit;
-import com.grim3212.mc.pack.tools.network.MessageDoubleJump;
+import com.grim3212.mc.pack.tools.network.MessageChickenSuitUpdate;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
@@ -46,13 +46,13 @@ public class ChickenSuitJumpEvent {
 					// This is handled by vanilla already
 					if (numJumps > 0) {
 						mc.player.jump();
-						mc.player.fallDistance = -this.numJumps;
+						mc.player.fallDistance = 0.0f;
 
 						// Only play sound to client player
 						mc.world.playSound(mc.player, mc.player.getPosition(), SoundEvents.ENTITY_CHICKEN_AMBIENT, SoundCategory.PLAYERS, 1.0F, 1.0F);
 
 						// Double jump on server
-						PacketDispatcher.sendToServer(new MessageDoubleJump(numJumps));
+						PacketDispatcher.sendToServer(new MessageChickenSuitUpdate());
 					} else {
 						// Allow for resetting fall damage when falling
 						// 'Flap those wings' :)
@@ -64,12 +64,24 @@ public class ChickenSuitJumpEvent {
 							mc.world.playSound(mc.player, mc.player.getPosition(), SoundEvents.ENTITY_CHICKEN_AMBIENT, SoundCategory.PLAYERS, 1.0F, 1.0F);
 
 							// Double jump on server
-							PacketDispatcher.sendToServer(new MessageDoubleJump(numJumps));
+							PacketDispatcher.sendToServer(new MessageChickenSuitUpdate());
 						}
 					}
 
 					numJumps++;
 				}
+
+				if (!mc.gameSettings.keyBindSneak.isKeyDown() && mc.player.motionY < 0.0D) {
+					double d = -0.14999999999999999D - 0.14999999999999999D * (1.0D - (double) numJumps / 5D);
+					if (mc.player.motionY < d) {
+						mc.player.motionY = d;
+					}
+					mc.player.fallDistance = 0.0F;
+
+					// Glide on server
+					PacketDispatcher.sendToServer(new MessageChickenSuitUpdate(this.numJumps));
+				}
+
 			} else {
 				numJumps = 0;
 			}

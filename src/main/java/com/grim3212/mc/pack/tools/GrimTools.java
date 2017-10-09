@@ -16,7 +16,7 @@ import com.grim3212.mc.pack.tools.event.MilkingEvent;
 import com.grim3212.mc.pack.tools.init.ToolsRecipes;
 import com.grim3212.mc.pack.tools.init.ToolsSounds;
 import com.grim3212.mc.pack.tools.items.ToolsItems;
-import com.grim3212.mc.pack.tools.network.MessageDoubleJump;
+import com.grim3212.mc.pack.tools.network.MessageChickenSuitUpdate;
 import com.grim3212.mc.pack.tools.network.MessagePowerStaffSwitchModes;
 import com.grim3212.mc.pack.tools.network.MessageSlingshotSwitchModes;
 import com.grim3212.mc.pack.tools.network.MessageStaffKey;
@@ -76,7 +76,7 @@ public class GrimTools extends GrimPart {
 			PacketDispatcher.registerMessage(MessageStaffKey.class);
 
 		if (ToolsConfig.subpartChickenSuit)
-			PacketDispatcher.registerMessage(MessageDoubleJump.class);
+			PacketDispatcher.registerMessage(MessageChickenSuitUpdate.class);
 
 		GameRegistry.registerWorldGenerator(new ToolsGenerate(), 25);
 		ToolsEntities.initEntities();
