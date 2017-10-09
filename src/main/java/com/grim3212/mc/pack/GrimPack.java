@@ -7,7 +7,7 @@ import com.grim3212.mc.pack.core.client.gui.PackGuiHandler;
 import com.grim3212.mc.pack.core.config.CoreConfig;
 import com.grim3212.mc.pack.core.part.GrimCreativeTabs;
 import com.grim3212.mc.pack.core.part.PartRegistry;
-import com.grim3212.mc.pack.core.util.GrimLog;
+import com.grim3212.mc.pack.core.util.GrimLog.LogTimer;
 import com.grim3212.mc.pack.core.util.generator.CommandGenerate;
 import com.grim3212.mc.pack.core.util.generator.GenerateRendererHandler;
 import com.grim3212.mc.pack.cuisine.GrimCuisine;
@@ -41,8 +41,8 @@ public class GrimPack {
 
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
-		// Setup log
-		GrimLog.log = event.getModLog();
+		LogTimer.start("PreInit");
+
 		configDir = event.getModConfigurationDirectory();
 
 		// Init creative tabs that should be loaded
@@ -72,16 +72,26 @@ public class GrimPack {
 			if (event.getSide().isClient())
 				MinecraftForge.EVENT_BUS.register(new GenerateRendererHandler());
 		}
+
+		LogTimer.stop();
 	}
 
 	@EventHandler
 	public void init(FMLInitializationEvent event) {
+		LogTimer.start("Init");
+
 		PartRegistry.init(event);
+
+		LogTimer.stop();
 	}
 
 	@EventHandler
 	public void postInit(FMLPostInitializationEvent event) {
+		LogTimer.start("PostInit");
+
 		PartRegistry.postInit(event);
+
+		LogTimer.stop();
 	}
 
 	@EventHandler
