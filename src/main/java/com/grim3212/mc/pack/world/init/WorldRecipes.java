@@ -6,8 +6,10 @@ import java.util.List;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.grim3212.mc.pack.core.util.RecipeHelper;
+import com.grim3212.mc.pack.world.blocks.WorldBlocks;
 import com.grim3212.mc.pack.world.config.WorldConfig;
 
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 
 public class WorldRecipes {
@@ -22,6 +24,7 @@ public class WorldRecipes {
 	public static List<ResourceLocation> acidFungus;
 	public static List<ResourceLocation> breakingFungus;
 	public static List<ResourceLocation> vertFungus;
+	public static List<ItemStack> runes;
 
 	public static void initRecipes() {
 		if (WorldConfig.subpartGunpowderReeds)
@@ -56,6 +59,10 @@ public class WorldRecipes {
 			for (int i = 8; i < 13; i++)
 				vertFungus.add(RecipeHelper.createPath("fungus_killing_" + i));
 			vertFungus.addAll(RecipeHelper.getAllPaths("fungus_killing_13"));
+
+			runes = Lists.newArrayList();
+			for (int i = 0; i < 16; i++)
+				runes.add(new ItemStack(WorldBlocks.rune, 1, i));
 		}
 	}
 

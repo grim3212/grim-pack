@@ -6,6 +6,7 @@ import com.grim3212.mc.pack.core.manual.ManualRegistry;
 import com.grim3212.mc.pack.core.manual.pages.Page;
 import com.grim3212.mc.pack.core.manual.pages.PageCrafting;
 import com.grim3212.mc.pack.core.manual.pages.PageImageText;
+import com.grim3212.mc.pack.core.manual.pages.PageItemStack;
 import com.grim3212.mc.pack.world.blocks.WorldBlocks;
 import com.grim3212.mc.pack.world.config.WorldConfig;
 import com.grim3212.mc.pack.world.init.WorldRecipes;
@@ -43,6 +44,8 @@ public class ManualWorld implements IManualPart {
 	public static Page fungicide_page;
 	public static Page parabuzzy_page;
 	public static Page bobomb_page;
+	public static Page rune_page;
+	public static Page fountain_page;
 
 	@Override
 	public void initPages() {
@@ -100,6 +103,11 @@ public class ManualWorld implements IManualPart {
 			parabuzzy_page = new PageImageText("parabuzzy", "parabuzzy.png").appendImageUrl("parabuzzy.png");
 			bobomb_page = new PageCrafting("bobomb", new ItemStack(WorldItems.bobomb));
 		}
+
+		if (WorldConfig.subpartRuins) {
+			rune_page = new PageItemStack("runes", 25, WorldRecipes.runes);
+			fountain_page = new PageImageText("fountains", "fountain.png");
+		}
 	}
 
 	@Override
@@ -132,6 +140,10 @@ public class ManualWorld implements IManualPart {
 		if (WorldConfig.subpartFungus) {
 			ManualRegistry.addChapter("fungus", part).addPages(greenFungus_page, colorFungus_page, buildFungus_page, mazeFungus_page, killingFungus_page, eatingFungus_page, verticalFungus_page);
 			ManualRegistry.addChapter("fungicide", part).addPages(fungicide_page);
+		}
+
+		if (WorldConfig.subpartRuins) {
+			ManualRegistry.addChapter("ruins", part).addPages(rune_page, fountain_page);
 		}
 	}
 }

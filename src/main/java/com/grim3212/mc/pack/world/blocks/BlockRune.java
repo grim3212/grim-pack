@@ -3,6 +3,7 @@ package com.grim3212.mc.pack.world.blocks;
 import com.grim3212.mc.pack.core.block.BlockManual;
 import com.grim3212.mc.pack.core.manual.pages.Page;
 import com.grim3212.mc.pack.core.part.GrimCreativeTabs;
+import com.grim3212.mc.pack.world.client.ManualWorld;
 
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
@@ -42,7 +43,7 @@ public class BlockRune extends BlockManual {
 
 	@Override
 	public Page getPage(IBlockState state) {
-		return null;
+		return ManualWorld.rune_page;
 	}
 
 	@Override
@@ -92,7 +93,7 @@ public class BlockRune extends BlockManual {
 
 	private PotionEffect getPotionEffect(EnumRuneType type, int xpLevel, float durationMod, float amplifierMod) {
 		// TODO: Add in config options for modifiers
-		//XPLVLMOD, DURATIONMOD, AMPLIFIERMOD
+		// XPLVLMOD, DURATIONMOD, AMPLIFIERMOD
 		int duration = (int) (1000F + (float) (500F + (xpLevel * 100)) * durationMod);
 		int amplifier = (int) (0.0D + Math.floor(amplifierMod * (float) xpLevel));
 
