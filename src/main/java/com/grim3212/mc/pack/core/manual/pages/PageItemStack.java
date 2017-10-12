@@ -44,6 +44,7 @@ public class PageItemStack extends Page {
 		super(pageName, false);
 
 		this.displayStacks = stacks;
+		this.updateTime = updateTime;
 	}
 
 	@Override
