@@ -3,6 +3,7 @@ package com.grim3212.mc.pack.world.blocks;
 import com.grim3212.mc.pack.core.item.ItemManualBlock;
 import com.grim3212.mc.pack.world.config.WorldConfig;
 import com.grim3212.mc.pack.world.items.ItemFungus;
+import com.grim3212.mc.pack.world.items.ItemRune;
 
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
@@ -13,6 +14,7 @@ import net.minecraftforge.registries.IForgeRegistry;
 
 public class WorldBlocks {
 
+	public static final Block rune = new BlockRune();
 	public static final Block randomite = new BlockRandomite();
 	public static final Block corruption_block = new BlockCorruption();
 	public static final BlockGunpowderReed gunpowder_reed_block = new BlockGunpowderReed();
@@ -48,6 +50,10 @@ public class WorldBlocks {
 			r.register(fungus_killing);
 			r.register(fungus_maze);
 		}
+
+		if (WorldConfig.subpartRuins) {
+			r.register(rune);
+		}
 	}
 
 	@SubscribeEvent
@@ -70,6 +76,10 @@ public class WorldBlocks {
 			r.register(new ItemFungus(fungus_layer_building).setRegistryName(fungus_layer_building.getRegistryName()));
 			r.register(new ItemFungus(fungus_killing).setRegistryName(fungus_killing.getRegistryName()));
 			r.register(new ItemFungus(fungus_maze).setRegistryName(fungus_maze.getRegistryName()));
+		}
+
+		if (WorldConfig.subpartRuins) {
+			r.register(new ItemRune(rune).setRegistryName(rune.getRegistryName()));
 		}
 
 		initOreDict();

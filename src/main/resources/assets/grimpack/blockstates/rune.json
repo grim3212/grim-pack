@@ -1,0 +1,43 @@
+{
+	"forge_marker": 1,
+    "defaults": {
+		"transform": "forge:default-block",
+        "model": "minecraft:cube_all"
+    },
+    "variants": {
+		"rune_type": { 
+			"ur": { "textures": { "all": "grimpack:blocks/rune_ur" } },
+			"eoh": { "textures": { "all": "grimpack:blocks/rune_eoh" } },
+			"hagel": { "textures": { "all": "grimpack:blocks/rune_hagel" } },
+			"eolh": { "textures": { "all": "grimpack:blocks/rune_eolh" } },
+			"cen": { "textures": { "all": "grimpack:blocks/rune_cen" } },
+			"ger": { "textures": { "all": "grimpack:blocks/rune_ger" } },
+			"rad": { "textures": { "all": "grimpack:blocks/rune_rad" } },
+			"is": { "textures": { "all": "grimpack:blocks/rune_is" } },
+			"daeg": { "textures": { "all": "grimpack:blocks/rune_daeg" } },
+			"tyr": { "textures": { "all": "grimpack:blocks/rune_tyr" } },
+			"beorc": { "textures": { "all": "grimpack:blocks/rune_beorc" } },
+			"lagu": { "textures": { "all": "grimpack:blocks/rune_lagu" } },
+			"odal": { "textures": { "all": "grimpack:blocks/rune_odal" } },
+			"nyd": { "textures": { "all": "grimpack:blocks/rune_nyd" } },
+			"thorn": { "textures": { "all": "grimpack:blocks/rune_thorn" } },
+			"os": { "textures": { "all": "grimpack:blocks/rune_os" } }
+		},
+		"ur": [{ "textures": { "all": "grimpack:blocks/rune_ur" } }],
+		"eoh": [{ "textures": { "all": "grimpack:blocks/rune_eoh" } }],
+		"hagel": [{ "textures": { "all": "grimpack:blocks/rune_hagel" } }],
+		"eolh": [{ "textures": { "all": "grimpack:blocks/rune_eolh" } }],
+		"cen": [{ "textures": { "all": "grimpack:blocks/rune_cen" } }],
+		"ger": [{ "textures": { "all": "grimpack:blocks/rune_ger" } }],
+		"rad": [{ "textures": { "all": "grimpack:blocks/rune_rad" } }],
+		"is": [{ "textures": { "all": "grimpack:blocks/rune_is" } }],
+		"daeg": [{ "textures": { "all": "grimpack:blocks/rune_daeg" } }],
+		"tyr": [{ "textures": { "all": "grimpack:blocks/rune_tyr" } }],
+		"beorc": [{ "textures": { "all": "grimpack:blocks/rune_beorc" } }],
+		"lagu": [{ "textures": { "all": "grimpack:blocks/rune_lagu" } }],
+		"odal": [{ "textures": { "all": "grimpack:blocks/rune_odal" } }],
+		"nyd": [{ "textures": { "all": "grimpack:blocks/rune_nyd" } }],
+		"thorn": [{ "textures": { "all": "grimpack:blocks/rune_thorn" } }],
+		"os": [{ "textures": { "all": "grimpack:blocks/rune_os" } }]
+    }
+}

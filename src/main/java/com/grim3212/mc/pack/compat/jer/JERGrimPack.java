@@ -76,6 +76,12 @@ public class JERGrimPack {
 				jerAPI.getDungeonRegistry().registerChest(WorldLootTables.CHESTS_DESERT_LEVEL_25.getResourcePath(), WorldLootTables.CHESTS_DESERT_LEVEL_25);
 				jerAPI.getDungeonRegistry().registerChest(WorldLootTables.CHESTS_DESERT_LEVEL_30.getResourcePath(), WorldLootTables.CHESTS_DESERT_LEVEL_30);
 			}
+
+			if (WorldConfig.subpartRuins) {
+				jerAPI.getDungeonRegistry().registerCategory("chests/fountain", "grimpack.jer.dungeon.fountain");
+
+				jerAPI.getDungeonRegistry().registerChest(WorldLootTables.CHESTS_FOUNTAIN.getResourcePath(), WorldLootTables.CHESTS_FOUNTAIN);
+			}
 		}
 	}
 }

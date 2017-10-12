@@ -21,6 +21,7 @@ public class WorldConfig extends GrimConfig {
 	public static final String CONFIG_PARTS_NAME = "world.subparts";
 	public static final String CONFIG_FLOATING_ISLANDS_NAME = "world.floating-islands";
 	public static final String CONFIG_FUNGUS_NAME = "world.fungus";
+	public static final String CONFIG_RUINS_NAME = "world.ruins";
 
 	public static String[] DIRT_EATING_BLOCKS_POSSIBLE;
 	public static String[] SMOOTHSTONE_EATING_BLOCKS_POSSIBLE;
@@ -44,6 +45,19 @@ public class WorldConfig extends GrimConfig {
 
 	public static int glowstoneSeedPlantHeight;
 
+	// Ruin Options
+	public static int ruinDistance;
+	public static int ruinTries;
+	public static int ruinSpread;
+	public static int ruinChance;
+
+	public static int spireRadius;
+	public static int spireHeight;
+	public static int spireChance;
+	public static float deathSpires;
+
+	public static float runeChance;
+
 	// Sync to client
 	public static boolean generateFlatBedRockSurface;
 	public static boolean generateFlatBedRockNether;
@@ -64,6 +78,7 @@ public class WorldConfig extends GrimConfig {
 	public static boolean subpartIcePixie;
 	public static boolean subpartMorePeople;
 	public static boolean subpartRandomite;
+	public static boolean subpartRuins;
 	public static boolean subpartTreasureMobs;
 	public static boolean subpartWorldGenExpanded;
 
@@ -86,6 +101,7 @@ public class WorldConfig extends GrimConfig {
 		subpartIcePixie = config.get(CONFIG_PARTS_NAME, "Enable SubPart ice pixie", true).setRequiresMcRestart(true).getBoolean();
 		subpartMorePeople = config.get(CONFIG_PARTS_NAME, "Enable SubPart more people", false).setRequiresMcRestart(true).getBoolean();
 		subpartRandomite = config.get(CONFIG_PARTS_NAME, "Enable SubPart randomite", true).setRequiresMcRestart(true).getBoolean();
+		subpartRuins = config.get(CONFIG_PARTS_NAME, "Enable SubPart ruins", true).setRequiresMcRestart(true).getBoolean();
 		subpartTreasureMobs = config.get(CONFIG_PARTS_NAME, "Enable SubPart treasure mobs", true).setRequiresMcRestart(true).getBoolean();
 		subpartWorldGenExpanded = config.get(CONFIG_PARTS_NAME, "Enable SubPart world gen expanded", true).setRequiresMcRestart(true).getBoolean();
 	}
@@ -150,6 +166,20 @@ public class WorldConfig extends GrimConfig {
 			ConfigUtils.loadBlocksOntoMap(ROCKS_EATING_BLOCKS_POSSIBLE, KillingFungusWhitelist.rocks);
 		}
 
+		if (subpartRuins) {
+			ruinDistance = config.get(CONFIG_RUINS_NAME, "Ruin Distance", 150).getInt();
+			ruinSpread = config.get(CONFIG_RUINS_NAME, "Ruin Spread", 32).getInt();
+			ruinTries = config.get(CONFIG_RUINS_NAME, "Ruin Tries", 16).getInt();
+			ruinChance = config.get(CONFIG_RUINS_NAME, "Ruin Chance", 50).getInt();
+
+			spireRadius = config.get(CONFIG_RUINS_NAME, "Spire Radius", 7).getInt();
+			spireHeight = config.get(CONFIG_RUINS_NAME, "Spire Height", 40).getInt();
+			deathSpires = (float) config.get(CONFIG_RUINS_NAME, "Death Spires", 0.001D).getDouble();
+			spireChance = config.get(CONFIG_RUINS_NAME, "Spire Chance", 50).getInt();
+
+			runeChance = (float) config.get(CONFIG_RUINS_NAME, "Rune Chance", 0.15D).getDouble();
+		}
+
 		super.syncConfig();
 	}
 
@@ -162,6 +192,8 @@ public class WorldConfig extends GrimConfig {
 			list.add(new DummyCategoryElement("worldFungusCfg", "grimpack.world.cfg.fungus", new ConfigElement(GrimWorld.INSTANCE.getConfig().getCategory(CONFIG_FUNGUS_NAME)).getChildElements()));
 		if (subpartWorldGenExpanded)
 			list.add(new DummyCategoryElement("worldWorldGenCfg", "grimpack.world.cfg.world-gen", new ConfigElement(GrimWorld.INSTANCE.getConfig().getCategory(CONFIG_WORLD_GEN_NAME)).getChildElements()));
+		if (subpartRuins)
+			list.add(new DummyCategoryElement("worldRuinsGenCfg", "grimpack.world.cfg.ruins", new ConfigElement(GrimWorld.INSTANCE.getConfig().getCategory(CONFIG_RUINS_NAME)).getChildElements()));
 		if (subpartFloatingIslands)
 			list.add(new DummyCategoryElement("worldFloatingIslandsCfg", "grimpack.world.cfg.floatingIslands", new ConfigElement(GrimWorld.INSTANCE.getConfig().getCategory(CONFIG_FLOATING_ISLANDS_NAME)).getChildElements()));
 		list.add(new DummyCategoryElement("worldSubPartCfg", "grimpack.world.cfg.subparts", new ConfigElement(GrimWorld.INSTANCE.getConfig().getCategory(CONFIG_PARTS_NAME)).getChildElements()));
@@ -182,6 +214,7 @@ public class WorldConfig extends GrimConfig {
 		subpartIcePixie = buffer.readBoolean();
 		subpartMorePeople = buffer.readBoolean();
 		subpartRandomite = buffer.readBoolean();
+		subpartRuins = buffer.readBoolean();
 		subpartTreasureMobs = buffer.readBoolean();
 		subpartWorldGenExpanded = buffer.readBoolean();
 
@@ -208,6 +241,7 @@ public class WorldConfig extends GrimConfig {
 		buffer.writeBoolean(subpartIcePixie);
 		buffer.writeBoolean(subpartMorePeople);
 		buffer.writeBoolean(subpartRandomite);
+		buffer.writeBoolean(subpartRuins);
 		buffer.writeBoolean(subpartTreasureMobs);
 		buffer.writeBoolean(subpartWorldGenExpanded);
 

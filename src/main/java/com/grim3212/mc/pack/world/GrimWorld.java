@@ -12,6 +12,8 @@ import com.grim3212.mc.pack.world.config.WorldConfig;
 import com.grim3212.mc.pack.world.entity.WorldEntities;
 import com.grim3212.mc.pack.world.gen.GrimWorldGenerator;
 import com.grim3212.mc.pack.world.gen.WorldTerrainEvents;
+import com.grim3212.mc.pack.world.gen.structure.floatingislands.StructureFloatingIsland;
+import com.grim3212.mc.pack.world.gen.structure.fountain.StructureFountain;
 import com.grim3212.mc.pack.world.init.WorldRecipes;
 import com.grim3212.mc.pack.world.init.WorldSounds;
 import com.grim3212.mc.pack.world.items.WorldItems;
@@ -76,6 +78,14 @@ public class GrimWorld extends GrimPart {
 
 		if (WorldConfig.subpartFloatingIslandWorldType)
 			WorldTypes.registerTypes();
+
+		if (WorldConfig.subpartRuins) {
+			GameRegistry.registerWorldGenerator(StructureFountain.INSTANCE, 25);
+		}
+
+		if (WorldConfig.subpartFloatingIslands) {
+			GameRegistry.registerWorldGenerator(StructureFloatingIsland.INSTANCE, 25);
+		}
 	}
 
 	@Override
@@ -83,7 +93,7 @@ public class GrimWorld extends GrimPart {
 	public IManualPart getManual() {
 		return ManualWorld.INSTANCE;
 	}
-	
+
 	@Override
 	public List<String> getImageUrls() {
 		return Lists.newArrayList("assets/grimpack/images/world_main.png");

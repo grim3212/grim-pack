@@ -7,6 +7,7 @@ import com.grim3212.mc.pack.world.blocks.BlockFungusKilling;
 import com.grim3212.mc.pack.world.blocks.BlockFungusLayer;
 import com.grim3212.mc.pack.world.blocks.BlockGlowstoneSeed;
 import com.grim3212.mc.pack.world.blocks.BlockGunpowderReed;
+import com.grim3212.mc.pack.world.blocks.BlockRune.EnumRuneType;
 import com.grim3212.mc.pack.world.blocks.WorldBlocks;
 import com.grim3212.mc.pack.world.config.WorldConfig;
 import com.grim3212.mc.pack.world.items.WorldItems;
@@ -56,6 +57,10 @@ public class WorldModelHandler {
 		if (WorldConfig.subpart8BitMobs) {
 			RenderHelper.renderItem(WorldItems.parabuzzy_shell);
 			RenderHelper.renderItem(WorldItems.bobomb);
+		}
+
+		if (WorldConfig.subpartRuins) {
+			RenderHelper.renderVariantForge(WorldBlocks.rune, EnumRuneType.names());
 		}
 	}
 

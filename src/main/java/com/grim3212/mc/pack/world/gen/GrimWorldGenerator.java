@@ -5,7 +5,6 @@ import java.util.Random;
 import com.grim3212.mc.pack.core.part.GrimWorldGen;
 import com.grim3212.mc.pack.world.blocks.WorldBlocks;
 import com.grim3212.mc.pack.world.config.WorldConfig;
-import com.grim3212.mc.pack.world.util.FloatingIslandsBlacklist;
 
 import net.minecraft.init.Biomes;
 import net.minecraft.init.Blocks;
@@ -41,15 +40,13 @@ public class GrimWorldGenerator extends GrimWorldGen {
 			}
 		}
 
-		if (WorldConfig.subpartFloatingIslands)
-			FloatingIslandsBlacklist.generateFloatingIslands(world, random, posX + 8, posZ + 8);
-
 		if (WorldConfig.subpartWorldGenExpanded)
 			generateExtras(world, random, posX + 8, posZ + 8);
 	}
 
 	@Override
 	protected void generateSurface(World world, IChunkProvider chunkProvider, Random random, int chunkX, int chunkZ) {
+
 		if (WorldConfig.subpartFlatBedrock && WorldConfig.generateFlatBedRockSurface) {
 			// Check if void chunk first
 			boolean voidWorld = world.getBlockState(new BlockPos(chunkX * 16, 0, chunkZ * 16)).getBlock() == Blocks.AIR;

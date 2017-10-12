@@ -264,6 +264,23 @@ tile.fungus_killing.13.name=Vertical All Eating Fungus
 tile.fungus_killing.14.name=Forest Killing Blob
 tile.fungus_killing.15.name=Glass Layer Building Fungus
 
+tile.rune.ur.name=§3UR§r Rune
+tile.rune.eoh.name=§dEOH§r Rune
+tile.rune.hagel.name=§3HAGEL§r Rune
+tile.rune.eolh.name=§3EOLH§r Rune
+tile.rune.cen.name=§3CEN§r Rune
+tile.rune.ger.name=§3GER§r Rune
+tile.rune.rad.name=§3RAD§r Rune
+tile.rune.is.name=§dIS§r Rune
+tile.rune.daeg.name=§dDAEG§r Rune
+tile.rune.tyr.name=§dTYR§r Rune
+tile.rune.beorc.name=§3BEORC§r Rune
+tile.rune.lagu.name=§3LAGU§r Rune
+tile.rune.odal.name=§3ODAL§r Rune
+tile.rune.nyd.name=§dNYD§r Rune
+tile.rune.thorn.name=§dTHORN§r Rune
+tile.rune.os.name=§dOS§r Rune
+
 #================= ITEMS =================#
 item.parabuzzy_shell.name=Parabuzzy's Shell
 item.neon_sign.name=Neon Sign
