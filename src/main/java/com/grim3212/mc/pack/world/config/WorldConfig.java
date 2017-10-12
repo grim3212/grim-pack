@@ -46,16 +46,7 @@ public class WorldConfig extends GrimConfig {
 	public static int glowstoneSeedPlantHeight;
 
 	// Ruin Options
-	public static int ruinDistance;
-	public static int ruinTries;
-	public static int ruinSpread;
 	public static int ruinChance;
-
-	public static int spireRadius;
-	public static int spireHeight;
-	public static int spireChance;
-	public static float deathSpires;
-
 	public static float runeChance;
 
 	// Sync to client
@@ -167,16 +158,7 @@ public class WorldConfig extends GrimConfig {
 		}
 
 		if (subpartRuins) {
-			ruinDistance = config.get(CONFIG_RUINS_NAME, "Ruin Distance", 150).getInt();
-			ruinSpread = config.get(CONFIG_RUINS_NAME, "Ruin Spread", 32).getInt();
-			ruinTries = config.get(CONFIG_RUINS_NAME, "Ruin Tries", 16).getInt();
-			ruinChance = config.get(CONFIG_RUINS_NAME, "Ruin Chance", 50).getInt();
-
-			spireRadius = config.get(CONFIG_RUINS_NAME, "Spire Radius", 7).getInt();
-			spireHeight = config.get(CONFIG_RUINS_NAME, "Spire Height", 40).getInt();
-			deathSpires = (float) config.get(CONFIG_RUINS_NAME, "Death Spires", 0.001D).getDouble();
-			spireChance = config.get(CONFIG_RUINS_NAME, "Spire Chance", 50).getInt();
-
+			ruinChance = config.get(CONFIG_RUINS_NAME, "Ruin Chance", 150).getInt();
 			runeChance = (float) config.get(CONFIG_RUINS_NAME, "Rune Chance", 0.15D).getDouble();
 		}
 

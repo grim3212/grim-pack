@@ -30,7 +30,7 @@ public class StructureCactusField extends Structure {
 
 		int size = random.nextInt(24) + 3;
 
-		return new StructureCactusFieldGenerator(getStructureName(), size, 2, getStructureStorage(world)).generate(world, random, new BlockPos(x, y, z));
+		return new StructureCactusFieldGenerator(getStructureName(), size, 10, getStructureStorage(world)).generate(world, random, new BlockPos(x, y, z));
 	}
 
 	@Override
