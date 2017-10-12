@@ -7,8 +7,6 @@ import com.grim3212.mc.pack.GrimPack;
 import com.grim3212.mc.pack.core.part.GrimCreativeTabs;
 import com.grim3212.mc.pack.decor.block.DecorBlocks;
 import com.grim3212.mc.pack.decor.block.colorizer.BlockColorizerHedge;
-import com.grim3212.mc.pack.decor.block.colorizer.BlockColorizerSlopedRotate;
-import com.grim3212.mc.pack.decor.block.colorizer.BlockColorizerSlopedRotate.EnumHalf;
 import com.grim3212.mc.pack.decor.tile.TileEntityColorizer;
 
 import net.minecraft.block.Block;
@@ -49,9 +47,9 @@ public class ItemPruners extends ItemTool {
 			stack.damageItem(1, playerIn);
 
 			if (playerIn.isSneaking()) {
-				worldIn.setBlockState(pos, DecorBlocks.sloped_post.getDefaultState().withProperty(BlockColorizerSlopedRotate.HALF, EnumHalf.TOP), 3);
+				worldIn.setBlockState(pos, DecorBlocks.sloped_post.getDefaultState().withProperty(BlockColorizerHedge.FACING, EnumFacing.DOWN), 3);
 			} else {
-				worldIn.setBlockState(pos, DecorBlocks.sloped_post.getDefaultState().withProperty(BlockColorizerSlopedRotate.HALF, EnumHalf.BOTTOM), 3);
+				worldIn.setBlockState(pos, DecorBlocks.sloped_post.getDefaultState().withProperty(BlockColorizerHedge.FACING, EnumFacing.UP), 3);
 			}
 
 			TileEntity tileentity = worldIn.getTileEntity(pos);
@@ -68,9 +66,9 @@ public class ItemPruners extends ItemTool {
 				if (exState.getBlock() instanceof BlockLeaves) {
 					stack.damageItem(1, playerIn);
 					if (playerIn.isSneaking()) {
-						worldIn.setBlockState(pos, DecorBlocks.full_pyramid.getDefaultState().withProperty(BlockColorizerSlopedRotate.HALF, EnumHalf.TOP), 3);
+						worldIn.setBlockState(pos, DecorBlocks.full_pyramid.getDefaultState().withProperty(BlockColorizerHedge.FACING, EnumFacing.DOWN), 3);
 					} else {
-						worldIn.setBlockState(pos, DecorBlocks.full_pyramid.getDefaultState().withProperty(BlockColorizerSlopedRotate.HALF, EnumHalf.BOTTOM), 3);
+						worldIn.setBlockState(pos, DecorBlocks.full_pyramid.getDefaultState().withProperty(BlockColorizerHedge.FACING, EnumFacing.UP), 3);
 					}
 
 					TileEntity tileentity = worldIn.getTileEntity(pos);
@@ -89,9 +87,9 @@ public class ItemPruners extends ItemTool {
 					stack.damageItem(1, playerIn);
 
 					if (playerIn.isSneaking()) {
-						worldIn.setBlockState(pos, DecorBlocks.pyramid.getDefaultState().withProperty(BlockColorizerSlopedRotate.HALF, EnumHalf.TOP), 3);
+						worldIn.setBlockState(pos, DecorBlocks.pyramid.getDefaultState().withProperty(BlockColorizerHedge.FACING, EnumFacing.DOWN), 3);
 					} else {
-						worldIn.setBlockState(pos, DecorBlocks.pyramid.getDefaultState().withProperty(BlockColorizerSlopedRotate.HALF, EnumHalf.BOTTOM), 3);
+						worldIn.setBlockState(pos, DecorBlocks.pyramid.getDefaultState().withProperty(BlockColorizerHedge.FACING, EnumFacing.UP), 3);
 					}
 
 					TileEntity tileentity = worldIn.getTileEntity(pos);
