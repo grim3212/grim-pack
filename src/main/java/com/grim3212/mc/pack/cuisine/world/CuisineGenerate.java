@@ -15,10 +15,10 @@ public class CuisineGenerate extends GrimWorldGen {
 	protected void generateSurface(World world, Random random, int i, int j) {
 		if (CuisineConfig.generateCocoaTrees) {
 			for (int k = 0; k < 10; k++) {
-				int l = random.nextInt(66) + 63;
-				int i1 = i + random.nextInt(16);
-				int j1 = j + random.nextInt(16);
-				BlockPos pos = new BlockPos(i1, l, j1);
+				int x = i + 8 + random.nextInt(16);
+				int y = random.nextInt(66) + 63;
+				int z = j + 8 + random.nextInt(16);
+				BlockPos pos = new BlockPos(x, y, z);
 				if ((world.getBlockState(pos.down()).getBlock() == Blocks.GRASS || world.getBlockState(pos.down()).getBlock() == Blocks.DIRT) && random.nextInt(10) < 1) {
 					(new WorldGenCocoaTrees()).generate(world, random, pos);
 				}
