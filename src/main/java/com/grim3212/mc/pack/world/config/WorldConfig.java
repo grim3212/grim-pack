@@ -132,12 +132,12 @@ public class WorldConfig extends GrimConfig {
 
 		if (subpartWorldGenExpanded) {
 			config.addCustomCategoryComment(CONFIG_WORLD_GEN_NAME, "Change the values to decide how rare or common the different world gen items spawn. Larger values means rarer.");
-			frequencyWheatField = config.get(CONFIG_WORLD_GEN_NAME, "Frequency Wheat Field", 350).getInt();
+			frequencyWheatField = config.get(CONFIG_WORLD_GEN_NAME, "Frequency Wheat Field", 50).getInt();
 			frequencySaplings = config.get(CONFIG_WORLD_GEN_NAME, "Frequency Saplings", 200).getInt();
 			frequencyTreeStumps = config.get(CONFIG_WORLD_GEN_NAME, "Frequency Tree Stumps", 200).getInt();
-			frequencyCactusFields = config.get(CONFIG_WORLD_GEN_NAME, "Frequency Cactus Fields", 400).getInt();
-			frequencySandstonePillars = config.get(CONFIG_WORLD_GEN_NAME, "Frequency Sandstone Pillars", 400).getInt();
-			frequencySandPits = config.get(CONFIG_WORLD_GEN_NAME, "Frequency Sand Pits", 600).getInt();
+			frequencyCactusFields = config.get(CONFIG_WORLD_GEN_NAME, "Frequency Cactus Fields", 100).getInt();
+			frequencySandstonePillars = config.get(CONFIG_WORLD_GEN_NAME, "Frequency Sandstone Pillars", 250).getInt();
+			frequencySandPits = config.get(CONFIG_WORLD_GEN_NAME, "Frequency Sand Pits", 100).getInt();
 			frequencyMelons = config.get(CONFIG_WORLD_GEN_NAME, "Frequency Melons", 200).getInt();
 		}
 

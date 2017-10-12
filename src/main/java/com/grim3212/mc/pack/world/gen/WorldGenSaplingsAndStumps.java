@@ -2,6 +2,8 @@ package com.grim3212.mc.pack.world.gen;
 
 import java.util.Random;
 
+import com.grim3212.mc.pack.world.gen.structure.wheatfield.WorldGenFarmland;
+
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.math.BlockPos;

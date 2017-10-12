@@ -2,26 +2,25 @@ package com.grim3212.mc.pack.world.gen.structure.floatingislands;
 
 import java.util.Random;
 
-import com.grim3212.mc.pack.world.gen.structure.StructureStorage;
+import com.grim3212.mc.pack.world.gen.structure.StructureGenerator;
 
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeHell;
-import net.minecraft.world.gen.structure.StructureBoundingBox;
 
-public class WorldGenFloatingIslands {
+public class WorldGenFloatingIslands extends StructureGenerator {
 
 	private int size;
-	private final StructureStorage storage;
 
-	public WorldGenFloatingIslands(int size, StructureStorage storage) {
+	public WorldGenFloatingIslands(String structName, int size) {
+		super(structName);
+
 		this.size = size;
-
-		this.storage = storage;
 	}
 
+	@Override
 	public boolean generate(World world, Random rand, BlockPos pos) {
 		int yStart = rand.nextInt(25) + 20;
 
@@ -72,10 +71,6 @@ public class WorldGenFloatingIslands {
 					}
 				}
 			}
-		BlockPos start = new BlockPos(pos.getX() - size, pos.getY(), pos.getZ() - size);
-
-		// save it
-		storage.addBBSave(StructureFloatingIsland.FLOATING_ISLAND_NAME, new StructureBoundingBox(start.getX(), start.getY(), start.getZ(), start.getX() + (size * 2), start.getY() + 17, start.getZ() + (size * 2)));
 		return true;
 	}
 }

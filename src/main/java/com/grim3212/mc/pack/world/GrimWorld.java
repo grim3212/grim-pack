@@ -12,8 +12,11 @@ import com.grim3212.mc.pack.world.config.WorldConfig;
 import com.grim3212.mc.pack.world.entity.WorldEntities;
 import com.grim3212.mc.pack.world.gen.GrimWorldGenerator;
 import com.grim3212.mc.pack.world.gen.WorldTerrainEvents;
+import com.grim3212.mc.pack.world.gen.structure.cactusfield.StructureCactusField;
 import com.grim3212.mc.pack.world.gen.structure.floatingislands.StructureFloatingIsland;
 import com.grim3212.mc.pack.world.gen.structure.fountain.StructureFountain;
+import com.grim3212.mc.pack.world.gen.structure.sandpit.StructureSandPit;
+import com.grim3212.mc.pack.world.gen.structure.wheatfield.StructureWheatField;
 import com.grim3212.mc.pack.world.init.WorldRecipes;
 import com.grim3212.mc.pack.world.init.WorldSounds;
 import com.grim3212.mc.pack.world.items.WorldItems;
@@ -85,6 +88,12 @@ public class GrimWorld extends GrimPart {
 
 		if (WorldConfig.subpartFloatingIslands) {
 			GameRegistry.registerWorldGenerator(StructureFloatingIsland.INSTANCE, 25);
+		}
+
+		if (WorldConfig.subpartWorldGenExpanded) {
+			GameRegistry.registerWorldGenerator(StructureCactusField.INSTANCE, 25);
+			GameRegistry.registerWorldGenerator(StructureSandPit.INSTANCE, 25);
+			GameRegistry.registerWorldGenerator(StructureWheatField.INSTANCE, 25);
 		}
 	}
 

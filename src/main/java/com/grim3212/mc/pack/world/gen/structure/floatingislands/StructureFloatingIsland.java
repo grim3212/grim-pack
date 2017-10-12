@@ -10,13 +10,14 @@ import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraft.world.gen.structure.StructureBoundingBox;
 
 public class StructureFloatingIsland extends Structure {
 
 	public static StructureFloatingIsland INSTANCE = new StructureFloatingIsland();
 
 	public static ArrayList<Block> blacklist = new ArrayList<Block>();
-	public static final String FLOATING_ISLAND_NAME = "FloatingIslands";
+	private static final String FLOATING_ISLAND_NAME = "FloatingIslands";
 
 	static {
 		blacklist.add(Blocks.WATER);
@@ -66,7 +67,13 @@ public class StructureFloatingIsland extends Structure {
 		} else if (world.getBlockState(pos).isOpaqueCube()) {
 			int size = 7 + random.nextInt(WorldConfig.sizevariancefrom7);
 
-			return (new WorldGenFloatingIslands(size, getStructureStorage(world))).generate(world, random, pos);
+			if (new WorldGenFloatingIslands(FLOATING_ISLAND_NAME, size).generate(world, random, pos)) {
+				BlockPos start = new BlockPos(pos.getX() - size, pos.getY(), pos.getZ() - size);
+
+				// Save
+				addBBSave(world, new StructureBoundingBox(start.getX(), start.getY(), start.getZ(), start.getX() + (size * 2), start.getY() + 17, start.getZ() + (size * 2)));
+				return true;
+			}
 		}
 
 		return false;
@@ -79,6 +86,6 @@ public class StructureFloatingIsland extends Structure {
 
 	@Override
 	protected boolean canGenerate() {
-		return WorldConfig.subpartFloatingIslands;
+		return WorldConfig.subpartFloatingIslands && WorldConfig.spawnrate > 0;
 	}
 }

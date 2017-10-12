@@ -4,6 +4,7 @@ import java.util.Random;
 
 import com.grim3212.mc.pack.world.blocks.WorldBlocks;
 import com.grim3212.mc.pack.world.config.WorldConfig;
+import com.grim3212.mc.pack.world.gen.structure.StructureGenerator;
 import com.grim3212.mc.pack.world.util.RuinUtil;
 import com.grim3212.mc.pack.world.util.WorldLootTables;
 
@@ -14,7 +15,7 @@ import net.minecraft.tileentity.TileEntityMobSpawner;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class StructureFountainGenerator {
+public class StructureFountainGenerator extends StructureGenerator {
 
 	private int maxHeight;
 	private int type;
@@ -23,7 +24,9 @@ public class StructureFountainGenerator {
 	private int spawnerSkipCount;
 	private boolean runePlaced;
 
-	public StructureFountainGenerator(int height, int type) {
+	public StructureFountainGenerator(String structName, int height, int type) {
+		super(structName);
+
 		this.maxHeight = height;
 		this.type = type;
 		this.placedSpawners = 0;
@@ -32,6 +35,7 @@ public class StructureFountainGenerator {
 		this.runePlaced = false;
 	}
 
+	@Override
 	@SuppressWarnings("deprecation")
 	public boolean generate(World world, Random random, BlockPos pos) {
 		if (pos.getY() == -1) {

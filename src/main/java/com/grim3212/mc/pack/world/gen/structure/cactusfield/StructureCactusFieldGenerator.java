@@ -1,27 +1,56 @@
-package com.grim3212.mc.pack.world.gen;
+package com.grim3212.mc.pack.world.gen.structure.cactusfield;
 
 import java.util.Random;
+
+import com.grim3212.mc.pack.world.gen.structure.StructureGenerator;
+import com.grim3212.mc.pack.world.gen.structure.StructureStorage;
+import com.grim3212.mc.pack.world.gen.structure.wheatfield.WorldGenFarmland;
 
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraft.world.gen.feature.WorldGenerator;
+import net.minecraft.world.gen.structure.StructureBoundingBox;
 
-public class WorldGenSandExpanded extends WorldGenerator {
+public class StructureCactusFieldGenerator extends StructureGenerator {
 
-	int size; // size of object to be placed
-	int type; // type of object to be placed
+	private final int size;
+	private final int attempts;
+	private final StructureStorage storage;
 
-	public WorldGenSandExpanded(int a, int b) {
-		size = a;
-		type = b;
+	public StructureCactusFieldGenerator(String structName, int size, int attempts, StructureStorage storage) {
+		super(structName);
+
+		this.size = size;
+		this.attempts = attempts;
+		this.storage = storage;
+	}
+
+	@Override
+	public boolean generate(World worldIn, Random random, BlockPos pos) {
+		int maxAttempts = attempts;
+		for (int l = 0; l < maxAttempts; l++) {
+			int x = (pos.getX() + random.nextInt(8)) - random.nextInt(8);
+			int y = (pos.getY() + random.nextInt(4)) - random.nextInt(4);
+			int z = (pos.getZ() + random.nextInt(8)) - random.nextInt(8);
+
+			BlockPos newPos = new BlockPos(x, y, z);
+
+			if (validCactusBlock(worldIn, newPos)) {
+				recBlockGenerateX(worldIn, random, newPos, size);
+
+				// Save struct
+				storage.addBBSave(structName, new StructureBoundingBox(newPos.getX(), newPos.getY() - size, newPos.getZ(), newPos.getX() + (size * 2), newPos.getY() + size, newPos.getZ() + (size * 2)));
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	private boolean validCactusBlock(World world, BlockPos pos) {
 		Block bid = world.getBlockState(pos.up()).getBlock();
 		return world.getBlockState(pos).getBlock() == Blocks.SAND && (bid == Blocks.AIR || bid == Blocks.CACTUS || bid == Blocks.DEADBUSH);
-
 	}
 
 	private void recBlockGenerateX(World world, Random random, BlockPos pos, int count) {
@@ -69,70 +98,15 @@ public class WorldGenSandExpanded extends WorldGenerator {
 		WorldGenFarmland.removeAboveBlocks(world, pos.up().north());
 		WorldGenFarmland.removeAboveBlocks(world, pos.up().south());
 
-		// generate z in next valid z block with count = numWheat
+		// generate z in next valid z block with count = size
 		if (count < 2)
 			return;
+
 		if (validCactusBlock(world, pos.south(2)))
 			recBlockGenerateZ(world, random, pos.south(2), count - 1);
 		else if (validCactusBlock(world, pos.south(2).down()))
 			recBlockGenerateZ(world, random, pos.south(2).down(), count - 1);
 		else if (validCactusBlock(world, pos.south(2).up()))
 			recBlockGenerateZ(world, random, pos.south(2).up(), count - 1);
-	}
-
-	@Override
-	/*
-	 * Generates different things in sand, based on the type: 0: Sandstone
-	 * Pillar 1: Cactus Field 2: Sand Pit
-	 */
-	public boolean generate(World worldIn, Random random, BlockPos pos) {
-		int maxAttempts = 2;
-		for (int l = 0; l < maxAttempts; l++) {
-			int i1 = (pos.getX() + random.nextInt(8)) - random.nextInt(8);
-			int j1 = (pos.getY() + random.nextInt(4)) - random.nextInt(4);
-			int k1 = (pos.getZ() + random.nextInt(8)) - random.nextInt(8);
-
-			BlockPos newPos = new BlockPos(i1, j1, k1);
-
-			if (type == 0 && worldIn.getBlockState(newPos).getBlock() == Blocks.SAND && j1 < 126 - size) {
-				// Sand Pillar
-				for (int l1 = 0; l1 < size; l1++)
-					for (int l2 = 0; l2 < size / 4; l2++)
-						for (int l3 = 0; l3 < size / 4; l3++)
-							worldIn.setBlockState(pos.add(l2, l1, l3), Blocks.SANDSTONE.getDefaultState());
-				return true;
-			} else if (type == 1 && validCactusBlock(worldIn, newPos)) {
-				recBlockGenerateX(worldIn, random, newPos, size);
-				return true;
-			} else if (type == 2 && worldIn.getBlockState(newPos.down()).getBlock() == Blocks.SAND && worldIn.getBlockState(newPos).getBlock() == Blocks.AIR) {
-				int depth = (int) (Math.ceil(((double) size) / 2));
-				for (int l0 = 0; l0 < size; l0++)
-					for (int l1 = 0; l1 < size; l1++) {
-						// place sand block X blocks down; determined by depth
-						// and indexes
-						int layer0 = l0 < depth ? l0 : size - 1 - l0;
-						int layer1 = l1 < depth ? l1 : size - 1 - l1;
-						int layer = layer0 < layer1 ? layer0 : layer1;
-
-						// place sand block, and remove above blocks plus fill
-						// below blocks
-						worldIn.setBlockState(pos.add(l0, -3 - (layer * 3), l1), Blocks.SAND.getDefaultState());
-						worldIn.setBlockState(pos.add(l0, -4 - (layer * 3), l1), Blocks.SAND.getDefaultState());
-						worldIn.setBlockState(pos.add(l0, -5 - (layer * 3), l1), Blocks.SAND.getDefaultState());
-						WorldGenFarmland.removeAboveBlocks(worldIn, pos.add(l0, -2 - (layer * 3), l1));
-						WorldGenFarmland.fillBelowBlocks(worldIn, pos.add(l0, -6 - (layer * 3), l1), Blocks.SAND);
-						// add random additional sand blocks
-						float f = random.nextFloat();
-						if (f < 0.75F)
-							worldIn.setBlockState(pos.add(l0, -2 - (layer * 3), l1), Blocks.SAND.getDefaultState());
-						if (f < 0.45F)
-							worldIn.setBlockState(pos.add(l0, -1 - (layer * 3), l1), Blocks.SAND.getDefaultState());
-						if (f < 0.15F)
-							worldIn.setBlockState(pos.add(l0, -(layer * 3), l1), Blocks.SAND.getDefaultState());
-					}
-				return true;
-			}
-		}
-		return false;
 	}
 }
