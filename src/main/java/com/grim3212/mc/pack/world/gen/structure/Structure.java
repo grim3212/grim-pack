@@ -21,7 +21,7 @@ public abstract class Structure implements IWorldGenerator {
 	protected abstract String getStructureName();
 
 	public boolean isStructureAt(World world, BlockPos pos) {
-		for (StructureBoundingBox data : getStructureStorage(world).getStructures()) {
+		for (StructureBoundingBox data : getStructureData(world).getStructures()) {
 			if (data.isVecInside(pos)) {
 				return true;
 			}
@@ -29,7 +29,23 @@ public abstract class Structure implements IWorldGenerator {
 		return false;
 	}
 
-	protected abstract StructureStorage getStructureStorage(World world);
+	protected StructureStorage getStructureStorage(World world) {
+		int dimensionId = world.provider.getDimension();
+		if (!structureData.containsKey(dimensionId)) {
+			StructureStorage data = StructureStorage.getStructureStorage(world);
+			structureData.put(dimensionId, data);
+		}
+
+		return structureData.get(dimensionId);
+	}
+
+	protected StructureData getStructureData(World world) {
+		return getStructureStorage(world).getStructureData(getStructureName());
+	}
+
+	protected void addBBSave(World world, StructureBoundingBox bb) {
+		getStructureStorage(world).addBBSave(getStructureName(), bb);
+	}
 
 	@Override
 	public void generate(Random random, int chunkX, int chunkZ, World world, IChunkGenerator chunkGenerator, IChunkProvider chunkProvider) {
@@ -49,7 +65,7 @@ public abstract class Structure implements IWorldGenerator {
 
 		// Is the structure allowed to generate in this chunk
 		if (!canGenerateInChunk(world, random, chunkX, chunkZ)) {
-			StructureStorage structureData = getStructureStorage(world);
+			StructureData structureData = getStructureData(world);
 
 			int[] offsets = getChunkOffsets();
 			if (offsets.length != 4)
@@ -74,7 +90,7 @@ public abstract class Structure implements IWorldGenerator {
 		if (!areSurroundingChunksLoaded(chunkX, chunkZ, chunkProvider)) {
 			// GrimLog.info("Marked For Generated", "Chunk: x: " + chunkX + ",
 			// z: " + chunkZ);
-			getStructureStorage(world).markChunkForGeneration(chunkX, chunkZ, generationSeed);
+			getStructureData(world).markChunkForGeneration(chunkX, chunkZ, generationSeed);
 			return;
 		}
 

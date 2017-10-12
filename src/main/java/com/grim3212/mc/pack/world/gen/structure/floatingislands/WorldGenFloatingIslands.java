@@ -75,8 +75,7 @@ public class WorldGenFloatingIslands {
 		BlockPos start = new BlockPos(pos.getX() - size, pos.getY(), pos.getZ() - size);
 
 		// save it
-		storage.getStructures().add(new StructureBoundingBox(start.getX(), start.getY(), start.getZ(), start.getX() + (size * 2), start.getY() + 17, start.getZ() + (size * 2)));
-		storage.markDirty();
+		storage.addBBSave(StructureFloatingIsland.FLOATING_ISLAND_NAME, new StructureBoundingBox(start.getX(), start.getY(), start.getZ(), start.getX() + (size * 2), start.getY() + 17, start.getZ() + (size * 2)));
 		return true;
 	}
 }

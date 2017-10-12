@@ -5,7 +5,6 @@ import java.util.Random;
 
 import com.grim3212.mc.pack.world.config.WorldConfig;
 import com.grim3212.mc.pack.world.gen.structure.Structure;
-import com.grim3212.mc.pack.world.gen.structure.StructureStorage;
 
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
@@ -17,6 +16,7 @@ public class StructureFloatingIsland extends Structure {
 	public static StructureFloatingIsland INSTANCE = new StructureFloatingIsland();
 
 	public static ArrayList<Block> blacklist = new ArrayList<Block>();
+	public static final String FLOATING_ISLAND_NAME = "FloatingIslands";
 
 	static {
 		blacklist.add(Blocks.WATER);
@@ -35,7 +35,7 @@ public class StructureFloatingIsland extends Structure {
 
 	@Override
 	protected String getStructureName() {
-		return "FloatingIslands";
+		return FLOATING_ISLAND_NAME;
 	}
 
 	@Override
@@ -80,34 +80,5 @@ public class StructureFloatingIsland extends Structure {
 	@Override
 	protected boolean canGenerate() {
 		return WorldConfig.subpartFloatingIslands;
-	}
-
-	private static final String STORAGE_NAME = "GrimFloatingIslands";
-
-	@Override
-	protected StructureStorage getStructureStorage(World world) {
-		int dimensionId = world.provider.getDimension();
-		if (!structureData.containsKey(dimensionId)) {
-			FloatingIslandStorage data = (FloatingIslandStorage) world.getPerWorldStorage().getOrLoadData(FloatingIslandStorage.class, STORAGE_NAME);
-			if (data == null) {
-				data = new FloatingIslandStorage(STORAGE_NAME);
-				world.getPerWorldStorage().setData(STORAGE_NAME, data);
-			}
-			structureData.put(dimensionId, data);
-		}
-
-		return structureData.get(dimensionId);
-	}
-
-	private class FloatingIslandStorage extends StructureStorage {
-
-		public FloatingIslandStorage(String name) {
-			super(name);
-		}
-
-		@Override
-		public String getStructureName() {
-			return "FloatingIslands";
-		}
 	}
 }

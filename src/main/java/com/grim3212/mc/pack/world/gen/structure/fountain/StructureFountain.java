@@ -4,7 +4,6 @@ import java.util.Random;
 
 import com.grim3212.mc.pack.world.config.WorldConfig;
 import com.grim3212.mc.pack.world.gen.structure.Structure;
-import com.grim3212.mc.pack.world.gen.structure.StructureStorage;
 
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -42,8 +41,7 @@ public class StructureFountain extends Structure {
 			BlockPos start = new BlockPos(pos.getX() - halfWidth, pos.getY(), pos.getZ() - halfWidth);
 
 			// save it
-			getStructureStorage(world).getStructures().add(new StructureBoundingBox(start.getX(), start.getY(), start.getZ(), start.getX() + (halfWidth * 2), start.getY() + height, start.getZ() + (halfWidth * 2)));
-			getStructureStorage(world).markDirty();
+			addBBSave(world, new StructureBoundingBox(start.getX(), start.getY(), start.getZ(), start.getX() + (halfWidth * 2), start.getY() + height, start.getZ() + (halfWidth * 2)));
 			return true;
 		}
 		return false;
@@ -64,34 +62,5 @@ public class StructureFountain extends Structure {
 		}
 
 		return false;
-	}
-
-	private static final String STORAGE_NAME = "GrimFountains";
-	
-	@Override
-	protected StructureStorage getStructureStorage(World world) {
-		int dimensionId = world.provider.getDimension();
-		if (!structureData.containsKey(dimensionId)) {
-			FountainStorage data = (FountainStorage) world.getPerWorldStorage().getOrLoadData(FountainStorage.class, STORAGE_NAME);
-			if (data == null) {
-				data = new FountainStorage(STORAGE_NAME);
-				world.getPerWorldStorage().setData(STORAGE_NAME, data);
-			}
-			structureData.put(dimensionId, data);
-		}
-
-		return structureData.get(dimensionId);
-	}
-
-	private class FountainStorage extends StructureStorage {
-
-		public FountainStorage(String name) {
-			super(name);
-		}
-
-		@Override
-		public String getStructureName() {
-			return "Fountains";
-		}
 	}
 }
