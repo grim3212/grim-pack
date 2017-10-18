@@ -6,6 +6,7 @@ import java.util.function.Predicate;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import com.google.common.base.Stopwatch;
 import com.grim3212.mc.pack.GrimPack;
 import com.grim3212.mc.pack.core.config.ConfigUtils.ArmorMaterialHolder;
 import com.grim3212.mc.pack.core.config.ConfigUtils.ToolMaterialHolder;
@@ -379,6 +380,39 @@ public class Utils {
 			}
 
 			FluidUtil.tryFluidTransfer(handler, fluidHandler, Integer.MAX_VALUE, true);
+		}
+	}
+
+	public static class UtilTimer {
+		// Based off of JEI LoggedTimer
+		private final Stopwatch stopWatch = Stopwatch.createUnstarted();
+		private String message = "";
+		private final boolean debug;
+
+		public UtilTimer() {
+			this(false);
+		}
+
+		public UtilTimer(boolean debug) {
+			this.debug = debug;
+		}
+
+		public void start(String message) {
+			this.message = message;
+			if (debug)
+				GrimLog.debugInfo(GrimPack.modName, message + " starting...");
+			else
+				GrimLog.info(GrimPack.modName, message + " starting...");
+			stopWatch.reset();
+			stopWatch.start();
+		}
+
+		public void stop() {
+			stopWatch.stop();
+			if (debug)
+				GrimLog.debugInfo(GrimPack.modName, message + " completed in " + stopWatch);
+			else
+				GrimLog.info(GrimPack.modName, message + " completed in " + stopWatch);
 		}
 	}
 }

@@ -3,6 +3,8 @@ package com.grim3212.mc.pack.world.gen.structure;
 import java.util.Optional;
 import java.util.Random;
 
+import com.grim3212.mc.pack.world.config.WorldConfig;
+
 import gnu.trove.map.hash.TIntObjectHashMap;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.DimensionType;
@@ -14,7 +16,9 @@ import net.minecraftforge.fml.common.IWorldGenerator;
 
 public abstract class Structure implements IWorldGenerator {
 
-	private static final int[] BASE_OFFSETS = new int[] { -1, 1, -1, 1 };
+	protected static final int[] BASE_OFFSETS = new int[] { -1, 1, -1, 1 };
+	protected static final int[] BASIC_2_OFFSETS = new int[] { -2, 2, -2, 2 };
+	protected static final int[] BASIC_3_OFFSETS = new int[] { -3, 3, -3, 3 };
 
 	protected TIntObjectHashMap<StructureStorage> structureData = new TIntObjectHashMap<>();
 
@@ -61,7 +65,7 @@ public abstract class Structure implements IWorldGenerator {
 
 		// predetermine the seed so the generation is the same no matter when
 		// the structure is generated
-		long generationSeed = random.nextLong();
+		long generationSeed = random.nextLong() ^ getStructureName().hashCode();
 
 		// Is the structure allowed to generate in this chunk
 		if (!canGenerateInChunk(world, random, chunkX, chunkZ)) {
@@ -121,6 +125,14 @@ public abstract class Structure implements IWorldGenerator {
 			return true;
 		}
 		return false;
+	}
+
+	protected boolean checkStructures(World world, BlockPos pos) {
+		if (WorldConfig.checkForStructures) {
+			return !getStructureStorage(world).isStructureAt(pos);
+		}
+
+		return true;
 	}
 
 	private boolean areSurroundingChunksLoaded(int chunkX, int chunkZ, IChunkProvider chunkprovider) {

@@ -46,6 +46,11 @@ public class ManualWorld implements IManualPart {
 	public static Page bobomb_page;
 	public static Page rune_page;
 	public static Page fountain_page;
+	public static Page pyramid_page;
+	public static Page ruin_page;
+	public static Page snowball_page;
+	public static Page waterDome_page;
+	public static Page spire_page;
 
 	@Override
 	public void initPages() {
@@ -107,6 +112,11 @@ public class ManualWorld implements IManualPart {
 		if (WorldConfig.subpartRuins) {
 			rune_page = new PageItemStack("runes", 25, WorldRecipes.runes);
 			fountain_page = new PageImageText("fountains", "fountain.png");
+			pyramid_page = new PageImageText("pyramids", "pyramid.png");
+			ruin_page = new PageImageText("ruins", "ruin.png");
+			snowball_page = new PageImageText("snowballs", "snowball.png");
+			waterDome_page = new PageImageText("waterdomes", "waterdome.png");
+			spire_page = new PageImageText("spires", "spire.png");
 		}
 	}
 
@@ -143,7 +153,7 @@ public class ManualWorld implements IManualPart {
 		}
 
 		if (WorldConfig.subpartRuins) {
-			ManualRegistry.addChapter("ruins", part).addPages(rune_page, fountain_page);
+			ManualRegistry.addChapter("ruins", part).addPages(rune_page, fountain_page, pyramid_page, ruin_page, snowball_page, waterDome_page, spire_page);
 		}
 	}
 }

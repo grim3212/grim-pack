@@ -1058,6 +1058,8 @@ grimpack.jer.dungeon.desert_level20=Level 20 Desert Well
 grimpack.jer.dungeon.desert_level25=Level 25 Desert Well
 grimpack.jer.dungeon.desert_level30=Level 30 Desert Well
 grimpack.jer.dungeon.fountain=Fountain
+grimpack.jer.dungeon.pyramid=Pyramid
+grimpack.jer.dungeon.ruin=Ruins
 
 grimtools.slingshot.random=Random
 grimtools.slingshot.all=In Order
@@ -1857,6 +1859,16 @@ grimpack.manual.world.subsection.ruins.page.runes=Runes are magical blocks that 
 grimpack.manual.world.subsection.ruins.page.runes.title=Runes
 grimpack.manual.world.subsection.ruins.page.fountains=Fountains can be large structures that generate in the water. They can contain spawners and rare loot.
 grimpack.manual.world.subsection.ruins.page.fountains.title=Fountains
+grimpack.manual.world.subsection.ruins.page.pyramids=Pyramids are large structures that have started to decay over the years. Most have many levels but can be very rewarding.
+grimpack.manual.world.subsection.ruins.page.pyramids.title=Pyramids
+grimpack.manual.world.subsection.ruins.page.ruins=Ruins are remnants of a past civilization. Ruins have decayed greatly over the years but can still contain treasures of old.
+grimpack.manual.world.subsection.ruins.page.ruins.title=Ruins
+grimpack.manual.world.subsection.ruins.page.snowballs=Snowballs are massive snow and ice structures. They closely resemble massive snowmen.
+grimpack.manual.world.subsection.ruins.page.snowballs.title=Snowballs
+grimpack.manual.world.subsection.ruins.page.waterdomes=Water Domes are structures found on the bottom of the ocean that can contain Runes as well as some rare ones are made of uncommon materials.
+grimpack.manual.world.subsection.ruins.page.waterdomes.title=Water Domes
+grimpack.manual.world.subsection.ruins.page.spires=Spires are natural structures that reach towards the sky. These can contain runes as well as very rarely be 'death spires'.
+grimpack.manual.world.subsection.ruins.page.spires.title=Spires
 
 #Help Messages
 help.build.key1=FULL box

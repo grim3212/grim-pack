@@ -83,6 +83,14 @@ public class RuinUtil {
 		}
 	}
 
+	public static double distanceBetweenD(int x1, int z1, int x2, int z2) {
+		return Math.sqrt(Math.pow(x2 - x1, 2D) + Math.pow(z2 - z1, 2D));
+	}
+
+	public static int distanceBetween(int x1, int z1, int x2, int z2) {
+		return (int) distanceBetweenD(x1, z1, x2, z2);
+	}
+
 	public static class RuneMob extends WeightedRandom.Item {
 		public ResourceLocation type;
 

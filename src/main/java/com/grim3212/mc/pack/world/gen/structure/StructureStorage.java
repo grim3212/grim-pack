@@ -3,11 +3,13 @@ package com.grim3212.mc.pack.world.gen.structure;
 import java.util.List;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import com.google.common.collect.Lists;
 
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.structure.StructureBoundingBox;
 import net.minecraft.world.storage.WorldSavedData;
@@ -19,6 +21,90 @@ public class StructureStorage extends WorldSavedData {
 
 	public StructureStorage(String name) {
 		super(name);
+	}
+
+	@Nullable
+	public StructureData getStructureAt(BlockPos pos) {
+		for (StructureData data : structures) {
+			for (StructureBoundingBox check : data.getStructures()) {
+				if (check.isVecInside(pos)) {
+					return data;
+				}
+			}
+		}
+
+		return null;
+	}
+
+	public boolean isStructureAt(BlockPos pos) {
+		return isStructureAt(pos, new String[0]);
+	}
+
+	public boolean isStructureAt(BlockPos pos, String... structs) {
+		for (int i = 0; i < structures.size(); i++) {
+			if (structs.length > 0) {
+				for (int j = 0; j < structs.length; j++) {
+					if (structs[j].equals(structures.get(i).getStructName())) {
+						for (StructureBoundingBox check : structures.get(i).getStructures()) {
+							if (check.isVecInside(pos)) {
+								return true;
+							}
+						}
+					}
+				}
+			} else {
+				for (StructureBoundingBox data : structures.get(i).getStructures()) {
+					if (data.isVecInside(pos)) {
+						return true;
+					}
+				}
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * Check if the box intersects with a structure of any type
+	 * 
+	 * @param box
+	 * @return
+	 */
+	public boolean intersects(StructureBoundingBox box) {
+		return intersects(box, new String[0]);
+	}
+
+	/**
+	 * Check if a StructureBoundingBox intersects any structures
+	 * 
+	 * if given a string array then it will consult only those structs otherwise
+	 * it will check all structures
+	 * 
+	 * @param box
+	 * @param structs
+	 * @return
+	 */
+	public boolean intersects(StructureBoundingBox box, String... structs) {
+		for (int i = 0; i < structures.size(); i++) {
+			if (structs.length > 0) {
+				for (int j = 0; j < structs.length; j++) {
+					if (structs[j].equals(structures.get(i).getStructName())) {
+						for (StructureBoundingBox check : structures.get(i).getStructures()) {
+							if (box.intersectsWith(check)) {
+								return true;
+							}
+						}
+					}
+				}
+			} else {
+				for (StructureBoundingBox check : structures.get(i).getStructures()) {
+					if (box.intersectsWith(check)) {
+						return true;
+					}
+				}
+			}
+		}
+
+		return false;
 	}
 
 	public StructureData getStructureData(String structName) {

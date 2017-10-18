@@ -32,7 +32,7 @@ public class StructureSandPit extends Structure {
 		int size = random.nextInt(19) + 4;
 		BlockPos pos = new BlockPos(x, y, z);
 
-		if (new StructureSandPitGenerator(getStructureName(), size, 10).generate(world, random, pos)) {
+		if (checkStructures(world, pos) && new StructureSandPitGenerator(getStructureName(), size, 10).generate(world, random, pos)) {
 			int depth = (int) (Math.ceil(((double) size) / 2));
 
 			addBBSave(world, new StructureBoundingBox(pos.getX(), pos.getY() - size - depth, pos.getZ(), pos.getX() + size, pos.getY() + (size / 2), pos.getZ() + size));
@@ -52,6 +52,11 @@ public class StructureSandPit extends Structure {
 		}
 
 		return false;
+	}
+
+	@Override
+	protected int[] getChunkOffsets() {
+		return BASIC_2_OFFSETS;
 	}
 
 	@Override

@@ -1,4 +1,4 @@
-package com.grim3212.mc.pack.world.gen.structure.cactusfield;
+package com.grim3212.mc.pack.world.gen.structure.snowball;
 
 import java.util.Random;
 
@@ -11,36 +11,35 @@ import net.minecraft.world.biome.Biome;
 import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.common.BiomeDictionary.Type;
 
-public class StructureCactusField extends Structure {
+public class StructureSnowball extends Structure {
 
-	public static StructureCactusField INSTANCE = new StructureCactusField();
+	public static StructureSnowball INSTANCE = new StructureSnowball();
 
 	@Override
 	protected String getStructureName() {
-		return "CactusFields";
+		return "SnowBalls";
 	}
 
 	@Override
 	protected boolean generateStructureInChunk(long seed, World world, int chunkX, int chunkZ) {
 		Random random = new Random(seed);
 
-		int x = chunkX * 16 + random.nextInt(16);
-		int z = chunkZ * 16 + random.nextInt(16);
-		int y = random.nextInt(55) + 60;
-		int size = random.nextInt(24) + 3;
+		int x = chunkX * 16 + 8 + random.nextInt(16);
+		int z = chunkZ * 16 + 8 + random.nextInt(16);
+		BlockPos pos = world.getTopSolidOrLiquidBlock(new BlockPos(x, 0, z));
 
-		BlockPos pos = new BlockPos(x, y, z);
+		int radius = 3 * (3 + random.nextInt(5));
 
-		return checkStructures(world, pos) && new StructureCactusFieldGenerator(getStructureName(), size, 10, getStructureStorage(world)).generate(world, random, pos);
+		return checkStructures(world, pos) && new StructureSnowBallGenerator(getStructureName(), radius, getStructureStorage(world)).generate(world, random, pos);
 	}
 
 	@Override
 	protected boolean canGenerateInChunk(World world, Random rand, int chunkX, int chunkZ) {
-		if (rand.nextInt(WorldConfig.frequencyCactusFields) == 0) {
+		if (rand.nextInt(WorldConfig.ruinSnowBallChance) == 0) {
 			BlockPos pos = new BlockPos(chunkX * 16, 0, chunkZ * 16);
 			Biome biome = world.getBiomeProvider().getBiome(pos);
 
-			return BiomeDictionary.hasType(biome, Type.SANDY);
+			return BiomeDictionary.hasType(biome, Type.SNOWY);
 		}
 
 		return false;
@@ -48,11 +47,11 @@ public class StructureCactusField extends Structure {
 
 	@Override
 	protected boolean canGenerate() {
-		return WorldConfig.subpartWorldGenExpanded && WorldConfig.frequencyCactusFields > 0;
+		return WorldConfig.subpartRuins && WorldConfig.ruinSnowBallChance > 0;
 	}
 
 	@Override
 	protected int[] getChunkOffsets() {
-		return BASIC_3_OFFSETS;
+		return BASIC_2_OFFSETS;
 	}
 }

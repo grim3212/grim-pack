@@ -79,7 +79,11 @@ public class JERGrimPack {
 
 			if (WorldConfig.subpartRuins) {
 				jerAPI.getDungeonRegistry().registerCategory("chests/fountain", "grimpack.jer.dungeon.fountain");
+				jerAPI.getDungeonRegistry().registerCategory("chests/pyramid", "grimpack.jer.dungeon.pyramid");
+				jerAPI.getDungeonRegistry().registerCategory("chests/ruin", "grimpack.jer.dungeon.ruin");
 
+				jerAPI.getDungeonRegistry().registerChest(WorldLootTables.CHESTS_RUIN.getResourcePath(), WorldLootTables.CHESTS_RUIN);
+				jerAPI.getDungeonRegistry().registerChest(WorldLootTables.CHESTS_PYRAMID.getResourcePath(), WorldLootTables.CHESTS_PYRAMID);
 				jerAPI.getDungeonRegistry().registerChest(WorldLootTables.CHESTS_FOUNTAIN.getResourcePath(), WorldLootTables.CHESTS_FOUNTAIN);
 			}
 		}

@@ -15,11 +15,10 @@ import net.minecraftforge.common.BiomeDictionary.Type;
 public class StructureFountain extends Structure {
 
 	public static StructureFountain INSTANCE = new StructureFountain();
-	private static final String FOUNTAIN_NAME = "Fountains";
 
 	@Override
 	protected String getStructureName() {
-		return FOUNTAIN_NAME;
+		return "Fountains";
 	}
 
 	@Override
@@ -38,7 +37,7 @@ public class StructureFountain extends Structure {
 		int type = random.nextInt(2);
 		int halfWidth = StructureFountainGenerator.halfWidth(height);
 
-		if (new StructureFountainGenerator(FOUNTAIN_NAME, height, type).generate(world, random, pos)) {
+		if (checkStructures(world, pos) && new StructureFountainGenerator(getStructureName(), height, type).generate(world, random, pos)) {
 			BlockPos start = new BlockPos(pos.getX() - halfWidth, pos.getY(), pos.getZ() - halfWidth);
 
 			// save it
@@ -50,12 +49,12 @@ public class StructureFountain extends Structure {
 
 	@Override
 	protected boolean canGenerate() {
-		return WorldConfig.subpartRuins && WorldConfig.ruinChance > 0;
+		return WorldConfig.subpartRuins && WorldConfig.ruinFountainChance > 0;
 	}
 
 	@Override
 	protected boolean canGenerateInChunk(World world, Random rand, int chunkX, int chunkZ) {
-		if (rand.nextInt(WorldConfig.ruinChance) == 0) {
+		if (rand.nextInt(WorldConfig.ruinFountainChance) == 0) {
 			BlockPos pos = new BlockPos(chunkX * 16, 0, chunkZ * 16);
 			Biome biome = world.getBiomeProvider().getBiome(pos);
 
