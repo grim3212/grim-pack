@@ -38,6 +38,10 @@ public class ToolsEntities {
 
 		if (ToolsConfig.subpartGrenadeLauncher)
 			Utils.registerEntity(EntityGrenade.class, "grenade", 32, 5, true);
+
+		if (ToolsConfig.subpartDetonators) {
+			Utils.registerEntity(EntityDetonator.class, "detonators", 32, 5, true);
+		}
 	}
 
 }

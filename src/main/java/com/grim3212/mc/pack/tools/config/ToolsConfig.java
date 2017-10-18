@@ -78,6 +78,7 @@ public class ToolsConfig extends GrimConfig {
 	public static boolean subpartBuckets;
 	public static boolean subpartChickenSuit;
 	public static boolean subpartChisel;
+	public static boolean subpartDetonators;
 	public static boolean subpartExtinguisher;
 	public static boolean subpartGrenadeLauncher;
 	public static boolean subpartHammers;
@@ -108,6 +109,7 @@ public class ToolsConfig extends GrimConfig {
 		subpartBuckets = config.get(CONFIG_PARTS_NAME, "Enable SubPart buckets", true).setRequiresMcRestart(true).getBoolean();
 		subpartChickenSuit = config.get(CONFIG_PARTS_NAME, "Enable SubPart chicken suit", true).setRequiresMcRestart(true).getBoolean();
 		subpartChisel = config.get(CONFIG_PARTS_NAME, "Enable SubPart chisel", true).setRequiresMcRestart(true).getBoolean();
+		subpartDetonators = config.get(CONFIG_PARTS_NAME, "Enable SubPart detonators", true).setRequiresMcRestart(true).getBoolean();
 		subpartExtinguisher = config.get(CONFIG_PARTS_NAME, "Enable SubPart extinguisher", true).setRequiresMcRestart(true).getBoolean();
 		subpartGrenadeLauncher = config.get(CONFIG_PARTS_NAME, "Enable SubPart grenade launcher", true).setRequiresMcRestart(true).getBoolean();
 		subpartHammers = config.get(CONFIG_PARTS_NAME, "Enable SubPart hammers", true).setRequiresMcRestart(true).getBoolean();
@@ -239,6 +241,7 @@ public class ToolsConfig extends GrimConfig {
 		subpartBuckets = buffer.readBoolean();
 		subpartChickenSuit = buffer.readBoolean();
 		subpartChisel = buffer.readBoolean();
+		subpartDetonators = buffer.readBoolean();
 		subpartExtinguisher = buffer.readBoolean();
 		subpartGrenadeLauncher = buffer.readBoolean();
 		subpartHammers = buffer.readBoolean();
@@ -265,6 +268,7 @@ public class ToolsConfig extends GrimConfig {
 		buffer.writeBoolean(subpartBuckets);
 		buffer.writeBoolean(subpartChickenSuit);
 		buffer.writeBoolean(subpartChisel);
+		buffer.writeBoolean(subpartDetonators);
 		buffer.writeBoolean(subpartExtinguisher);
 		buffer.writeBoolean(subpartGrenadeLauncher);
 		buffer.writeBoolean(subpartHammers);

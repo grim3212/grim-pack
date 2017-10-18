@@ -1,0 +1,29 @@
+{
+"conditions": [
+    {
+      "type": "grimpack:tools_subpart_enabled",
+      "subpart": "detonators"
+    }
+  ],
+  "result": {
+    "item": "grimpack:solar_detonator",
+    "count": 16
+  },
+  "pattern": [
+    " X ",
+    "YZY",
+    " Y "
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "X": {
+      "item": "minecraft:clock"
+    },
+    "Y": {
+      "item": "minecraft:blaze_rod"
+    },
+    "Z": {
+      "item": "#DUSTGLOWSTONE"
+    }
+  }
+}

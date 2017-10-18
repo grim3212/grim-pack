@@ -4,10 +4,12 @@ import com.grim3212.mc.pack.core.util.GrimLog;
 import com.grim3212.mc.pack.tools.GrimTools;
 import com.grim3212.mc.pack.tools.config.ToolsConfig;
 import com.grim3212.mc.pack.tools.entity.EntityBallisticKnife;
+import com.grim3212.mc.pack.tools.entity.EntityDetonator;
 import com.grim3212.mc.pack.tools.entity.EntityKnife;
 import com.grim3212.mc.pack.tools.entity.EntitySlimeSpear;
 import com.grim3212.mc.pack.tools.entity.EntitySpear;
 import com.grim3212.mc.pack.tools.entity.EntityTomahawk;
+import com.grim3212.mc.pack.tools.items.ItemDetonator;
 import com.grim3212.mc.pack.tools.items.ItemSpear;
 import com.grim3212.mc.pack.tools.items.ToolsItems;
 
@@ -25,7 +27,7 @@ public class DispenseBehaviors {
 
 		if (ToolsConfig.subpartSpears) {
 			GrimLog.info(GrimTools.partName, "Registering spears dispenser behaviors");
-			
+
 			BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.putObject(ToolsItems.spear, new SpearDispenseBehavior());
 			BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.putObject(ToolsItems.iron_spear, new SpearDispenseBehavior());
 			BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.putObject(ToolsItems.diamond_spear, new SpearDispenseBehavior());
@@ -43,9 +45,17 @@ public class DispenseBehaviors {
 			});
 		}
 
+		if (ToolsConfig.subpartSpears) {
+			GrimLog.info(GrimTools.partName, "Registering detonators dispenser behaviors");
+
+			BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.putObject(ToolsItems.thermal_detonator, new DetonatorDispenseBehavior());
+			BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.putObject(ToolsItems.solar_detonator, new DetonatorDispenseBehavior());
+			BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.putObject(ToolsItems.nukeulator, new DetonatorDispenseBehavior());
+		}
+
 		if (ToolsConfig.subpartKnives) {
 			GrimLog.info(GrimTools.partName, "Registering knives dispenser behaviors");
-			
+
 			BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.putObject(ToolsItems.throwing_knife, new BehaviorProjectileDispense() {
 				@Override
 				protected IProjectile getProjectileEntity(World worldIn, IPosition position, ItemStack stackIn) {
@@ -87,6 +97,18 @@ public class DispenseBehaviors {
 			spear.pickupStatus = EntityArrow.PickupStatus.ALLOWED;
 			return spear;
 		}
+	}
 
+	private static class DetonatorDispenseBehavior extends BehaviorProjectileDispense {
+		@Override
+		protected IProjectile getProjectileEntity(World worldIn, IPosition position, ItemStack stackIn) {
+			EnumDetonatorType type = EnumDetonatorType.SOLAR;
+
+			if (stackIn.getItem() instanceof ItemDetonator)
+				type = ((ItemDetonator) stackIn.getItem()).getType();
+
+			EntityDetonator detonator = new EntityDetonator(worldIn, position.getX(), position.getY(), position.getZ(), type);
+			return detonator;
+		}
 	}
 }

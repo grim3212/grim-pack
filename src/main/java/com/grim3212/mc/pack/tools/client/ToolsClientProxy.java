@@ -6,6 +6,7 @@ import com.grim3212.mc.pack.core.client.entity.RenderThrowable.RenderThrowableFa
 import com.grim3212.mc.pack.core.proxy.ClientProxy;
 import com.grim3212.mc.pack.tools.client.entity.RenderBlockPushPullFactory;
 import com.grim3212.mc.pack.tools.client.entity.RenderBoomerang.RenderBoomerangFactory;
+import com.grim3212.mc.pack.tools.client.entity.RenderDetonator.RenderDetonatorFactory;
 import com.grim3212.mc.pack.tools.client.entity.RenderGrenade.RenderGrenadeFactory;
 import com.grim3212.mc.pack.tools.client.entity.RenderRayGun.RenderRayGunFactory;
 import com.grim3212.mc.pack.tools.client.entity.RenderSlingPellet.RenderSlingPelletFactory;
@@ -14,6 +15,7 @@ import com.grim3212.mc.pack.tools.entity.EntityAdvRayw;
 import com.grim3212.mc.pack.tools.entity.EntityBallisticKnife;
 import com.grim3212.mc.pack.tools.entity.EntityBlockPushPull;
 import com.grim3212.mc.pack.tools.entity.EntityBoomerang;
+import com.grim3212.mc.pack.tools.entity.EntityDetonator;
 import com.grim3212.mc.pack.tools.entity.EntityDiamondBoomerang;
 import com.grim3212.mc.pack.tools.entity.EntityGrenade;
 import com.grim3212.mc.pack.tools.entity.EntityKnife;
@@ -76,6 +78,10 @@ public class ToolsClientProxy extends ClientProxy {
 
 		if (ToolsConfig.subpartGrenadeLauncher)
 			RenderingRegistry.registerEntityRenderingHandler(EntityGrenade.class, new RenderGrenadeFactory());
+
+		if (ToolsConfig.subpartDetonators) {
+			RenderingRegistry.registerEntityRenderingHandler(EntityDetonator.class, new RenderDetonatorFactory());
+		}
 
 		// Key bindings
 		if (ToolsConfig.subpartWands || ToolsConfig.subpartPowerstaff || ToolsConfig.subpartSlingshots || ToolsConfig.subpartStaffs)

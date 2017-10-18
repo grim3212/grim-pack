@@ -1,0 +1,29 @@
+{
+"conditions": [
+    {
+      "type": "grimpack:tools_subpart_enabled",
+      "subpart": "detonators"
+    }
+  ],
+  "result": {
+    "item": "grimpack:nukeulator",
+    "count": 16
+  },
+  "pattern": [
+    " X ",
+    "YZY",
+    " Y "
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "X": {
+      "item": "minecraft:clock"
+    },
+    "Y": {
+      "item": "minecraft:blaze_rod"
+    },
+    "Z": {
+      "item": "minecraft:tnt"
+    }
+  }
+}

@@ -17,6 +17,7 @@ import com.grim3212.mc.pack.tools.blocks.ToolsBlocks;
 import com.grim3212.mc.pack.tools.config.ToolsConfig;
 import com.grim3212.mc.pack.tools.items.ItemBetterBucket.BucketType;
 import com.grim3212.mc.pack.tools.util.DispenseBehaviors;
+import com.grim3212.mc.pack.tools.util.EnumDetonatorType;
 import com.grim3212.mc.pack.tools.util.EnumSpearType;
 
 import net.minecraft.init.Blocks;
@@ -135,6 +136,9 @@ public class ToolsItems {
 	public static final Item chicken_suit_chestplate = new ItemChickenSuit("chicken_suit_chestplate", EntityEquipmentSlot.CHEST);
 	public static final Item chicken_suit_leggings = new ItemChickenSuit("chicken_suit_leggings", EntityEquipmentSlot.LEGS);
 	public static final Item chicken_suit_boots = new ItemChickenSuit("chicken_suit_boots", EntityEquipmentSlot.FEET);
+	public static final Item thermal_detonator = new ItemDetonator(EnumDetonatorType.THERMAL);
+	public static final Item solar_detonator = new ItemDetonator(EnumDetonatorType.SOLAR);
+	public static final Item nukeulator = new ItemDetonator(EnumDetonatorType.NUKEULATOR);
 
 	@SubscribeEvent
 	public void initItems(RegistryEvent.Register<Item> evt) {
@@ -293,6 +297,12 @@ public class ToolsItems {
 			r.register(chicken_suit_boots);
 
 			chicken_suit.setRepairItem(new ItemStack(Items.FEATHER));
+		}
+
+		if (ToolsConfig.subpartDetonators) {
+			r.register(thermal_detonator);
+			r.register(solar_detonator);
+			r.register(nukeulator);
 		}
 
 		// Set repair items

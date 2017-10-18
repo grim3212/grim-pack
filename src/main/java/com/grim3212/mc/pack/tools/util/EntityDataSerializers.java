@@ -28,8 +28,28 @@ public class EntityDataSerializers {
 		}
 	};
 
+	public static final DataSerializer<EnumDetonatorType> DETONATOR_TYPE = new DataSerializer<EnumDetonatorType>() {
+		public void write(PacketBuffer buf, EnumDetonatorType value) {
+			buf.writeEnumValue(value);
+		}
+
+		public EnumDetonatorType read(PacketBuffer buf) throws IOException {
+			return (EnumDetonatorType) buf.readEnumValue(EnumDetonatorType.class);
+		}
+
+		public DataParameter<EnumDetonatorType> createKey(int id) {
+			return new DataParameter<EnumDetonatorType>(id, this);
+		}
+
+		@Override
+		public EnumDetonatorType copyValue(EnumDetonatorType value) {
+			return value;
+		}
+	};
+
 	// Register serializers
 	static {
 		DataSerializers.registerSerializer(PELLET_TYPE);
+		DataSerializers.registerSerializer(DETONATOR_TYPE);
 	}
 }

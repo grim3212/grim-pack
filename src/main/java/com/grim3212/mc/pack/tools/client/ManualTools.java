@@ -74,6 +74,7 @@ public class ManualTools implements IManualPart {
 	public static Page neptuneStaff_page;
 	public static Page phoenixStaff_page;
 	public static Page chickenSuit_page;
+	public static Page detonators_page;
 
 	@Override
 	public void initPages() {
@@ -189,6 +190,10 @@ public class ManualTools implements IManualPart {
 			slingshot_page = new PageCrafting("slingshot", new ItemStack(ToolsItems.sling_shot));
 			pelletBag_page = new PageCrafting("pelletBag", new ItemStack(ToolsItems.pellet_bag));
 		}
+
+		if (ToolsConfig.subpartDetonators) {
+			detonators_page = new PageCrafting("recipes", 20, new ItemStack[] { new ItemStack(ToolsItems.thermal_detonator), new ItemStack(ToolsItems.solar_detonator), new ItemStack(ToolsItems.nukeulator) });
+		}
 	}
 
 	@Override
@@ -259,5 +264,8 @@ public class ManualTools implements IManualPart {
 
 		if (ToolsConfig.subpartChickenSuit)
 			ManualRegistry.addChapter("chicken_suit", part).addPages(chickenSuit_page);
+
+		if (ToolsConfig.subpartDetonators)
+			ManualRegistry.addChapter("detonators", part).addPages(detonators_page);
 	}
 }

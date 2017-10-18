@@ -45,11 +45,11 @@ public abstract class EntityProjectile extends Entity implements IProjectile, IT
 		}
 	} });
 
-	private int xTile;
-	private int yTile;
-	private int zTile;
-	private Block inTile;
-	private int inData;
+	protected int xTile;
+	protected int yTile;
+	protected int zTile;
+	protected Block inTile;
+	protected int inData;
 	protected boolean inGround;
 	protected int timeInGround;
 	/** 1 if the player can pick up the projectile */
@@ -58,11 +58,11 @@ public abstract class EntityProjectile extends Entity implements IProjectile, IT
 	public int projectileShake;
 	/** The owner of this projectile. */
 	public Entity shootingEntity;
-	private int ticksInGround;
-	private int ticksInAir;
-	private double damage;
+	protected int ticksInGround;
+	protected int ticksInAir;
+	protected double damage;
 	/** The amount of knockback an projectile applies when it hits a mob. */
-	private int knockbackStrength;
+	protected int knockbackStrength;
 	protected float entityDrop = 0.05f;
 
 	public EntityProjectile(World worldIn) {
@@ -202,7 +202,7 @@ public abstract class EntityProjectile extends Entity implements IProjectile, IT
 		if (iblockstate.getMaterial() != Material.AIR) {
 			AxisAlignedBB axisalignedbb = iblockstate.getCollisionBoundingBox(this.world, blockpos);
 
-			if (axisalignedbb != Block.NULL_AABB && axisalignedbb.offset(blockpos).contains(new Vec3d(this.posX, this.posY, this.posZ))) {
+			if (axisalignedbb != Block.NULL_AABB && axisalignedbb.offset(blockpos).contains(new Vec3d(this.posX, this.posY, this.posZ)) && canStickInGround()) {
 				this.inGround = true;
 			}
 		}
@@ -558,5 +558,9 @@ public abstract class EntityProjectile extends Entity implements IProjectile, IT
 	@Override
 	public void setThrower(Entity entity) {
 		this.shootingEntity = entity;
+	}
+
+	public boolean canStickInGround() {
+		return true;
 	}
 }

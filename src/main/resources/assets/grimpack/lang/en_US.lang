@@ -284,6 +284,9 @@ tile.rune.os.name=§dOS§r Rune
 #================= ITEMS =================#
 item.parabuzzy_shell.name=Parabuzzy's Shell
 item.neon_sign.name=Neon Sign
+item.thermal_detonator.name=Thermal Detonator
+item.solar_detonator.name=UV Detonator
+item.nukeulator.name=Nukeulator
 item.bobomb.name=Bob-omb
 item.bobomb_remote.name=Bob-omb Remote
 item.instruction_manual.name=Instruction Manual
@@ -1739,6 +1742,10 @@ grimpack.manual.tools.subsection.hammers.page.recipes.title=Recipes
 grimpack.manual.tools.subsection.chicken_suit=Chicken Suit
 grimpack.manual.tools.subsection.chicken_suit.page.recipes=The Chicken Suit is a unique armor set. With every piece of the suit you get an extra jump. With these you can 'fly' around as good as a chicken.
 grimpack.manual.tools.subsection.chicken_suit.page.recipes.title=Recipes
+
+grimpack.manual.tools.subsection.detonators=Detonators
+grimpack.manual.tools.subsection.detonators.page.recipes=Currently there are three detonators. Simple right click a detonator to throw it and wait until the fuse burns and it explodes. The Thermal Detonator breaks blocks and spawns fire. The Solar Detonator only hurts entities. Finally, the Nukeulator causes a massive explosion.
+grimpack.manual.tools.subsection.detonators.page.recipes.title=Recipes
 
 grimpack.manual.tools.subsection.machetes=Machetes
 grimpack.manual.tools.subsection.machetes.page.base=Their are machetes with the base items that regular Minecraft tools use. Machetes are used to hurt mobs but also can help when breaking leaves, webs, cloth, vines, and cactus.

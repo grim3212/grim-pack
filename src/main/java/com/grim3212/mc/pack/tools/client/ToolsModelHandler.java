@@ -190,6 +190,12 @@ public class ToolsModelHandler {
 			RenderHelper.renderItem(ToolsItems.grenade);
 			RenderHelper.renderItem(ToolsItems.grenade_launcher);
 		}
+
+		if (ToolsConfig.subpartDetonators) {
+			RenderHelper.renderItem(ToolsItems.thermal_detonator);
+			RenderHelper.renderItem(ToolsItems.solar_detonator);
+			RenderHelper.renderItem(ToolsItems.nukeulator);
+		}
 	}
 
 	private void setBucketModelDefinition(Item item) {
