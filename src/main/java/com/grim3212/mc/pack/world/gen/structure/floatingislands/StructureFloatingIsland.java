@@ -67,11 +67,13 @@ public class StructureFloatingIsland extends Structure {
 		} else if (world.getBlockState(pos).isOpaqueCube()) {
 			int size = 7 + random.nextInt(WorldConfig.sizevariancefrom7);
 
-			if (new WorldGenFloatingIslands(FLOATING_ISLAND_NAME, size).generate(world, random, pos)) {
-				BlockPos start = new BlockPos(pos.getX() - size, pos.getY(), pos.getZ() - size);
+			BlockPos start = new BlockPos(pos.getX() - size, pos.getY(), pos.getZ() - size);
+			StructureBoundingBox bb = new StructureBoundingBox(start.getX(), start.getY(), start.getZ(), start.getX() + (size * 2), start.getY() + 17, start.getZ() + (size * 2));
 
+			// Check before we generate if we are intersecting another Structure
+			if (checkStructures(world, pos) && new WorldGenFloatingIslands(FLOATING_ISLAND_NAME, size).generate(world, random, pos)) {
 				// Save
-				addBBSave(world, new StructureBoundingBox(start.getX(), start.getY(), start.getZ(), start.getX() + (size * 2), start.getY() + 17, start.getZ() + (size * 2)));
+				addBBSave(world, bb);
 				return true;
 			}
 		}

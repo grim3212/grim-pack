@@ -28,7 +28,9 @@ public class StructureWheatField extends Structure {
 		int z = chunkZ * 16 + random.nextInt(16);
 		int y = random.nextInt(40) + 60;
 
-		return new WorldGenFarmland(getStructureName(), random.nextInt(8) + 4, random.nextInt(6) + 2, 16, getStructureStorage(world)).generate(world, random, new BlockPos(x, y, z));
+		BlockPos pos = new BlockPos(x, y, z);
+
+		return checkStructures(world, pos) && new WorldGenFarmland(getStructureName(), random.nextInt(8) + 4, random.nextInt(6) + 2, 16, getStructureStorage(world)).generate(world, random, pos);
 	}
 
 	@Override

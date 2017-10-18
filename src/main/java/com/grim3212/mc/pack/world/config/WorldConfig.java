@@ -46,8 +46,19 @@ public class WorldConfig extends GrimConfig {
 	public static int glowstoneSeedPlantHeight;
 
 	// Ruin Options
+	public static int ruinFountainChance;
+	public static int ruinPyramidChance;
+	public static int ruinSnowBallChance;
+	public static int ruinWaterDomeChance;
 	public static int ruinChance;
+	public static int spireChance;
+	public static int spireRadius;
+	public static int spireHeight;
+	public static float deathSpireChance;
+	public static int ruinTries;
 	public static float runeChance;
+
+	public static boolean checkForStructures;
 
 	// Sync to client
 	public static boolean generateFlatBedRockSurface;
@@ -101,6 +112,9 @@ public class WorldConfig extends GrimConfig {
 	public void syncConfig() {
 		syncSubparts();
 
+		// Should structures check if there is already one at that pos
+		checkForStructures = config.get(CONFIG_GENERAL_NAME, "Check For Structures", false).getBoolean();
+
 		if (subpartCorruption) {
 			fire = config.get(CONFIG_GENERAL_NAME, "Enable Fire", true).getBoolean();
 			corruption = config.get(CONFIG_GENERAL_NAME, "Enable Corruption", false).getBoolean();
@@ -123,18 +137,18 @@ public class WorldConfig extends GrimConfig {
 
 		if (subpartWorldGenExpanded) {
 			config.addCustomCategoryComment(CONFIG_WORLD_GEN_NAME, "Change the values to decide how rare or common the different world gen items spawn. Larger values means rarer.");
-			frequencyWheatField = config.get(CONFIG_WORLD_GEN_NAME, "Frequency Wheat Field", 50).getInt();
+			frequencyWheatField = config.get(CONFIG_WORLD_GEN_NAME, "Frequency Wheat Field", 150).getInt();
 			frequencySaplings = config.get(CONFIG_WORLD_GEN_NAME, "Frequency Saplings", 200).getInt();
 			frequencyTreeStumps = config.get(CONFIG_WORLD_GEN_NAME, "Frequency Tree Stumps", 200).getInt();
-			frequencyCactusFields = config.get(CONFIG_WORLD_GEN_NAME, "Frequency Cactus Fields", 100).getInt();
+			frequencyCactusFields = config.get(CONFIG_WORLD_GEN_NAME, "Frequency Cactus Fields", 150).getInt();
 			frequencySandstonePillars = config.get(CONFIG_WORLD_GEN_NAME, "Frequency Sandstone Pillars", 250).getInt();
-			frequencySandPits = config.get(CONFIG_WORLD_GEN_NAME, "Frequency Sand Pits", 100).getInt();
+			frequencySandPits = config.get(CONFIG_WORLD_GEN_NAME, "Frequency Sand Pits", 250).getInt();
 			frequencyMelons = config.get(CONFIG_WORLD_GEN_NAME, "Frequency Melons", 200).getInt();
 		}
 
 		if (subpartFloatingIslands) {
 			config.addCustomCategoryComment(CONFIG_FLOATING_ISLANDS_NAME, "Floating Islands configuration options. Spawn rate becomes more rare as the number grows.");
-			spawnrate = config.get(CONFIG_FLOATING_ISLANDS_NAME, "Spawn Rate", 100).getInt();
+			spawnrate = config.get(CONFIG_FLOATING_ISLANDS_NAME, "Spawn Rate", 500).getInt();
 			sizevariancefrom7 = config.get(CONFIG_FLOATING_ISLANDS_NAME, "Size Variance", 5).getInt();
 		}
 
@@ -158,8 +172,18 @@ public class WorldConfig extends GrimConfig {
 		}
 
 		if (subpartRuins) {
-			ruinChance = config.get(CONFIG_RUINS_NAME, "Ruin Chance", 150).getInt();
+			ruinFountainChance = config.get(CONFIG_RUINS_NAME, "Ruin Fountain Chance", 350).getInt();
+			ruinPyramidChance = config.get(CONFIG_RUINS_NAME, "Ruin Pyramid Chance", 650).getInt();
+			ruinSnowBallChance = config.get(CONFIG_RUINS_NAME, "Ruin Snowball Chance", 1000).getInt();
+			ruinWaterDomeChance = config.get(CONFIG_RUINS_NAME, "Ruin Water Dome Chance", 1000).getInt();
+			ruinChance = config.get(CONFIG_RUINS_NAME, "Ruin Chance", 350).getInt();
+			ruinTries = config.get(CONFIG_RUINS_NAME, "Ruin Tries", 16).getInt();
 			runeChance = (float) config.get(CONFIG_RUINS_NAME, "Rune Chance", 0.15D).getDouble();
+
+			spireChance = config.get(CONFIG_RUINS_NAME, "Spire Chance", 350).getInt();
+			spireRadius = config.get(CONFIG_RUINS_NAME, "Spire Radius", 7).getInt();
+			spireHeight = config.get(CONFIG_RUINS_NAME, "Spire Height", 40).getInt();
+			deathSpireChance = (float) config.get(CONFIG_RUINS_NAME, "Death Spire Chance", 0.001D).getDouble();
 		}
 
 		super.syncConfig();

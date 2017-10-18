@@ -19,6 +19,8 @@ public class WorldLootTables {
 	public static ResourceLocation ENTITIES_PARABUZZY;
 
 	public static ResourceLocation CHESTS_FOUNTAIN;
+	public static ResourceLocation CHESTS_PYRAMID;
+	public static ResourceLocation CHESTS_RUIN;
 
 	public static ResourceLocation CHESTS_DESERT_LEVEL_10;
 	public static ResourceLocation CHESTS_DESERT_LEVEL_15;
@@ -55,6 +57,8 @@ public class WorldLootTables {
 
 		if (WorldConfig.subpartRuins) {
 			CHESTS_FOUNTAIN = LootTableList.register(new ResourceLocation(GrimPack.modID, "chests/fountain"));
+			CHESTS_PYRAMID = LootTableList.register(new ResourceLocation(GrimPack.modID, "chests/pyramid"));
+			CHESTS_RUIN = LootTableList.register(new ResourceLocation(GrimPack.modID, "chests/ruin"));
 		}
 	}
 }
