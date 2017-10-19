@@ -2,7 +2,6 @@ package com.grim3212.mc.pack.core.block;
 
 import com.grim3212.mc.pack.GrimPack;
 import com.grim3212.mc.pack.core.manual.IManualEntry.IManualBlock;
-import com.grim3212.mc.pack.core.manual.pages.Page;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
@@ -26,7 +25,4 @@ public abstract class BlockManual extends Block implements IManualBlock {
 	protected IBlockState getState() {
 		return blockState.getBaseState();
 	}
-
-	@Override
-	public abstract Page getPage(IBlockState state);
 }

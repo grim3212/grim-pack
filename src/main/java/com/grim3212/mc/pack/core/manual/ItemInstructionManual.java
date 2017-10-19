@@ -65,7 +65,7 @@ public class ItemInstructionManual extends ItemManual {
 		IBlockState state = world.getBlockState(pos);
 		if (state.getBlock() instanceof IManualBlock) {
 			if (world.isRemote)
-				updatePage(((IManualBlock) state.getBlock()).getPage(state));
+				updatePage(((IManualBlock) state.getBlock()).getPage(world, pos, state));
 
 			player.openGui(GrimPack.INSTANCE, PackGuiHandler.MANUAL_GUI_ID, world, 0, 0, 0);
 			return EnumActionResult.SUCCESS;
