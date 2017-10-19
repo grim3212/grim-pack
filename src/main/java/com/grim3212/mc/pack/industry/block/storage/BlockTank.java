@@ -1,4 +1,4 @@
-package com.grim3212.mc.pack.industry.block;
+package com.grim3212.mc.pack.industry.block.storage;
 
 import com.grim3212.mc.pack.core.block.BlockManual;
 import com.grim3212.mc.pack.core.manual.pages.Page;

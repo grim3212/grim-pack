@@ -1,6 +1,6 @@
 package com.grim3212.mc.pack.industry.tile;
 
-import com.grim3212.mc.pack.industry.block.BlockStorage;
+import com.grim3212.mc.pack.industry.block.storage.BlockStorage;
 
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;

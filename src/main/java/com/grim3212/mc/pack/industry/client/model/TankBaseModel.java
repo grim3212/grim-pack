@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.google.common.collect.Maps;
-import com.grim3212.mc.pack.industry.block.BlockTank;
+import com.grim3212.mc.pack.industry.block.storage.BlockTank;
 
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.block.model.BakedQuad;
