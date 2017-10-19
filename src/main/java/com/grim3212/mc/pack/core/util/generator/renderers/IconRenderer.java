@@ -33,11 +33,14 @@ public class IconRenderer {
 			GlStateManager.scale(scale, scale, 1);
 
 			for (ItemStack item : items) {
-				try {
-					IconRenderer.renderItem(item, scale);
-				} catch (Exception e) {
-					GrimLog.error(Generator.GENERATOR_NAME, "Couldn't render " + item.getUnlocalizedName() + " at " + 16 * scale + " scale!");
-					e.printStackTrace();
+				// Don't regenerate already done items
+				if (!new File(Generator.getIconDir() + "/" + item.getItem().getRegistryName().getResourceDomain() + "/" + item.getItem().getRegistryName().getResourcePath() + "/" + item.getMetadata()).exists()) {
+					try {
+						IconRenderer.renderItem(item, scale);
+					} catch (Exception e) {
+						GrimLog.error(Generator.GENERATOR_NAME, "Couldn't render " + item.getUnlocalizedName() + " at " + 16 * scale + " scale!");
+						e.printStackTrace();
+					}
 				}
 			}
 			GlStateManager.popMatrix();

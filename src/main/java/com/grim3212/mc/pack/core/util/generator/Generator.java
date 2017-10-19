@@ -40,7 +40,7 @@ import net.minecraftforge.common.ForgeVersion;
 public class Generator {
 
 	public static final String GENERATOR_NAME = "Grim Generator";
-	private static final String GRIMPACK_VERSION = "5.2.6.45";
+	private static final String GRIMPACK_VERSION = "5.2.11.55";
 	private static final String JEI_VERSION = "4.7.11.101";
 	private static final String JER_VERSION = "0.8.5.26";
 
