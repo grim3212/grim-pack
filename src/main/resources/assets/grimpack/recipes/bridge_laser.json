@@ -1,0 +1,26 @@
+{
+"conditions": [
+    {
+      "type": "grimpack:industry_subpart_enabled",
+      "subpart": "bridges"
+    }
+  ],
+  "result": {
+    "item": "grimpack:bridge_control",
+    "data": 0
+  },
+  "pattern": [
+    "III", 
+    "IRI", 
+    "III"
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "R": {
+      "item": "#SLIMEBALL"
+    },
+    "I": {
+      "item": "#INGOTIRON"
+    }
+  }
+}

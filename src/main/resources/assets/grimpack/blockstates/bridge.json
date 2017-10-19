@@ -1,0 +1,17 @@
+{
+	"forge_marker": 1,
+	"defaults": {
+		"model": "grimpack:dynamic_bridge",
+		"transform": "forge:default-block",
+		"custom": {
+			"models": ["grimpack:block/tinted_cube"]
+		}
+	},
+	"variants": {
+		"normal": [
+			{
+				
+			}
+		]
+	}
+}

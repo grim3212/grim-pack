@@ -8,6 +8,12 @@ grimpack.creative.util=Grim Util
 grimpack.creative.world=Grim World
 
 #================= BLOCKS =================#
+tile.bridge_control_laser.name=Laser Bridge Control
+tile.bridge_control_accel.name=Accel Bridge Control
+tile.bridge_control_death.name=Death Bridge Control
+tile.bridge_control_trick.name=Trick Bridge Control
+tile.bridge_control_gravity.name=Gravity Lift Control
+tile.bridge.name=Bridge
 tile.grave.name=Gravestone
 tile.alarm.name=Alarm Box
 tile.neon_sign_standing.name=Neon Sign
@@ -1471,6 +1477,19 @@ grimpack.manual.industry.subsection.torches.page.flipflop=Flip Flop Torches work
 grimpack.manual.industry.subsection.torches.page.flipflop.title=Flip Flop
 grimpack.manual.industry.subsection.torches.page.glowstone=Glowstone torches give off light when powered, just like Redstone Lamps. But, you are able to walk through these and they behave like regular torches. 
 grimpack.manual.industry.subsection.torches.page.glowstone.title=Glowstone
+
+grimpack.manual.industry.subsection.bridges=Bridges
+grimpack.manual.industry.subsection.bridges.page.laser=Laser Bridges are basic bridges that can't be broken, these can be walked on and if you right click a block on the Laser Bridge Control the lasers will take the texture of that block. Shift Right Click with an empty hand to reset. Give it a redstone signal to shoot the laser. These have a max distance set in the config and will also stop at any non-replaceable block. (Green Laser)
+grimpack.manual.industry.subsection.bridges.page.laser.title=Laser
+grimpack.manual.industry.subsection.bridges.page.accel=Accel Bridges work just like Laser Bridges and when you walk on these you get a speed boost. (Red Laser)
+grimpack.manual.industry.subsection.bridges.page.accel.title=Acceleration
+grimpack.manual.industry.subsection.bridges.page.trick=Trick Bridges look and behave exactly like Laser Bridges in every way except that you cannot walk on these and will fall right through them. (Yellow Laser)
+grimpack.manual.industry.subsection.bridges.page.trick.title=Trick
+grimpack.manual.industry.subsection.bridges.page.death.title=Death
+grimpack.manual.industry.subsection.bridges.page.death=Death Bridges look and behave exactly like Trick Bridges in every way and if any entity comes into contact with a laser it will hurt them. (Red Laser)
+grimpack.manual.industry.subsection.bridges.page.gravity.title=Gravity Lift
+grimpack.manual.industry.subsection.bridges.page.gravity=Gravity Lift's shoot out like all the other Bridges except these you can walk into and you will get pushed in the direction it is facing. These are different than other Bridges because they will stop if they come into contact with another Gravity Lift.
+
 
 grimpack.manual.industry.subsection.spikes=Spikes
 grimpack.manual.industry.subsection.spikes.page.recipe=Spikes can be placed on all 6 sides of a block and can be controlled by redstone. When active they deal a large amount of damage and when inactive they shrink into the ground and do no damage.

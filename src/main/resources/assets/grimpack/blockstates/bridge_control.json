@@ -1,0 +1,43 @@
+{
+	"forge_marker": 1,
+    "defaults": {
+		"transform": "forge:default-block",
+        "model": "minecraft:orientable",
+		"textures": {
+			"top": "grimpack:blocks/bridge_control_top",
+			"side": "grimpack:blocks/bridge_control_side"
+		}
+    },
+    "variants": {
+    	"type": {
+    		"laser": { "textures": { "front": "grimpack:blocks/bridge_control_laser" } },
+    		"accel": { "textures": { "front": "grimpack:blocks/bridge_control_accel" } },
+    		"death": { "textures": { "front": "grimpack:blocks/bridge_control_death" } },
+    		"trick": { "textures": { "front": "grimpack:blocks/bridge_control_trick" } },
+    		"gravity": { "textures": { "front": "grimpack:blocks/bridge_control_gravity" } }
+    	},
+		"facing": {
+			"down": { "model": "minecraft:orientable_vertical", "x": 180 },
+			"up": { "model": "minecraft:orientable_vertical" },
+			"north": {  },
+			"south": { "y": 180 },
+			"west": { "y": 270 },
+			"east": { "y": 90 }
+		},
+		"laser": [{
+			"textures": { "front": "grimpack:blocks/bridge_control_laser" }
+		}],
+		"accel": [{
+			"textures": { "front": "grimpack:blocks/bridge_control_accel" }
+		}],
+		"death": [{
+			"textures": { "front": "grimpack:blocks/bridge_control_death" }
+		}],
+		"trick": [{
+			"textures": { "front": "grimpack:blocks/bridge_control_trick" }
+		}],
+		"gravity": [{
+			"textures": { "front": "grimpack:blocks/bridge_control_gravity" }
+		}]
+    }
+}

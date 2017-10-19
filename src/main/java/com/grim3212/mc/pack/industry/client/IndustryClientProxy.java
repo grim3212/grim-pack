@@ -2,6 +2,7 @@ package com.grim3212.mc.pack.industry.client;
 
 import com.google.common.collect.ImmutableMap;
 import com.grim3212.mc.pack.industry.IndustryCommonProxy;
+import com.grim3212.mc.pack.industry.block.BlockBridge;
 import com.grim3212.mc.pack.industry.block.BlockSiding;
 import com.grim3212.mc.pack.industry.block.IndustryBlocks;
 import com.grim3212.mc.pack.industry.client.entity.RenderExtruder.ExtruderFactory;
@@ -17,6 +18,7 @@ import com.grim3212.mc.pack.industry.client.tile.TileEntityWarehouseCrateRendere
 import com.grim3212.mc.pack.industry.client.tile.TileEntityWoodCabinetRenderer;
 import com.grim3212.mc.pack.industry.config.IndustryConfig;
 import com.grim3212.mc.pack.industry.entity.EntityExtruder;
+import com.grim3212.mc.pack.industry.tile.TileEntityBridge;
 import com.grim3212.mc.pack.industry.tile.TileEntityCamo;
 import com.grim3212.mc.pack.industry.tile.TileEntityFan;
 import com.grim3212.mc.pack.industry.tile.TileEntityGlassCabinet;
@@ -31,6 +33,7 @@ import com.grim3212.mc.pack.industry.tile.TileEntityWoodCabinet;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.color.IBlockColor;
+import net.minecraft.init.Blocks;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
@@ -120,6 +123,28 @@ public class IndustryClientProxy extends IndustryCommonProxy {
 					return 16777215;
 				}
 			}, IndustryBlocks.camo_plate);
+		}
+
+		if (IndustryConfig.subpartBridges) {
+			Minecraft.getMinecraft().getBlockColors().registerBlockColorHandler(new IBlockColor() {
+				public int colorMultiplier(IBlockState state, IBlockAccess worldIn, BlockPos pos, int tintIndex) {
+					if (state != null) {
+						if (pos != null) {
+							TileEntity te = worldIn.getTileEntity(pos);
+							if (te != null && te instanceof TileEntityBridge) {
+								TileEntityBridge bridge = (TileEntityBridge) te;
+
+								if (bridge.getBlockState() != Blocks.AIR.getDefaultState()) {
+									return Minecraft.getMinecraft().getBlockColors().colorMultiplier(bridge.getBlockState(), worldIn, pos, tintIndex);
+								}
+
+								return state.getValue(BlockBridge.TYPE).getRenderColor();
+							}
+						}
+					}
+					return 16777215;
+				}
+			}, IndustryBlocks.bridge);
 		}
 	}
 

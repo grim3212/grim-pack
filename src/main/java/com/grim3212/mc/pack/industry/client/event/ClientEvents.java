@@ -14,8 +14,10 @@ public class ClientEvents {
 
 	@SubscribeEvent
 	public void textureStitch(TextureStitchEvent event) {
-		if (IndustryConfig.subpartFans)
+		if (IndustryConfig.subpartFans) {
 			event.getMap().registerSprite(new ResourceLocation(GrimPack.modID, "entities/whiteAir"));
+			event.getMap().registerSprite(new ResourceLocation(GrimPack.modID, "blocks/bridge_gravity"));
+		}
 	}
 
 	@SubscribeEvent

@@ -1,0 +1,30 @@
+{
+"conditions": [
+    {
+      "type": "grimpack:industry_subpart_enabled",
+      "subpart": "bridges"
+    }
+  ],
+  "result": {
+    "item": "grimpack:bridge_control",
+    "data": 4
+  },
+  "pattern": [
+    "III", 
+    "IRI", 
+    "IOI"
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "R": {
+      "item": "grimpack:bridge_control",
+      "data": 0
+    },
+    "I": {
+      "item": "#INGOTIRON"
+    },
+    "O": {
+      "item": "#GEMDIAMOND"
+    }
+  }
+}

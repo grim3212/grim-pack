@@ -19,6 +19,8 @@ public class IndustryConditionFactory implements IConditionFactory {
 
 		if (CoreConfig.useIndustry) {
 			switch (value) {
+			case "bridges":
+				return () -> IndustryConfig.subpartBridges;
 			case "conveyor":
 				return () -> IndustryConfig.subpartConveyor;
 			case "decoration":

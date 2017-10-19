@@ -55,10 +55,13 @@ public class IndustryConfig extends GrimConfig {
 	// Uranium Damage - add by SH
 	public static float uraniumDamage;
 
+	public static int bridgeMaxLength;
+
 	// Client Only Settings
 	public static boolean showFanParticles;
 
 	// Subparts
+	public static boolean subpartBridges;
 	public static boolean subpartConveyor;
 	public static boolean subpartDecoration;
 	public static boolean subpartDoors;
@@ -99,6 +102,7 @@ public class IndustryConfig extends GrimConfig {
 
 	@Override
 	public void syncSubparts() {
+		subpartBridges = config.get(CONFIG_PARTS_NAME, "Enable SubPart bridges", true).setRequiresMcRestart(true).getBoolean();
 		subpartConveyor = config.get(CONFIG_PARTS_NAME, "Enable SubPart conveyor", true).setRequiresMcRestart(true).getBoolean();
 		subpartDecoration = config.get(CONFIG_PARTS_NAME, "Enable SubPart decoration", true).setRequiresMcRestart(true).getBoolean();
 		subpartDoors = config.get(CONFIG_PARTS_NAME, "Enable SubPart doors", true).setRequiresMcRestart(true).getBoolean();
@@ -141,6 +145,9 @@ public class IndustryConfig extends GrimConfig {
 		if (subpartFans)
 			showFanParticles = config.get(CONFIG_GENERAL_NAME, "Show Fan Particles", true).getBoolean();
 
+		if (subpartBridges)
+			bridgeMaxLength = config.get(CONFIG_GENERAL_NAME, "Maximum Bridge Length", 128).getInt();
+
 		if (subpartExtruder) {
 			fuelPerMinedBlock = config.get(CONFIG_EXTRUDER_NAME, "Fuel per mined block", 400).getInt();
 			fuelPerExtrudedBlock = config.get(CONFIG_EXTRUDER_NAME, "Fuel per extruded block", 200).getInt();
@@ -173,7 +180,7 @@ public class IndustryConfig extends GrimConfig {
 	@Override
 	public List<IConfigElement> getConfigItems() {
 		List<IConfigElement> list = new ArrayList<IConfigElement>();
-		if (subpartWorkbenchUpgrades || subpartMachines || subpartFans || subpartNuclear)
+		if (subpartWorkbenchUpgrades || subpartMachines || subpartFans || subpartNuclear || subpartBridges)
 			list.add(new DummyCategoryElement("industryGeneralCfg", "grimpack.industry.cfg.general", new ConfigElement(GrimIndustry.INSTANCE.getConfig().getCategory(CONFIG_GENERAL_NAME)).getChildElements()));
 		if (subpartExtruder)
 			list.add(new DummyCategoryElement("industryExtruderCfg", "grimpack.industry.cfg.extruder", new ConfigElement(GrimIndustry.INSTANCE.getConfig().getCategory(CONFIG_EXTRUDER_NAME)).getChildElements()));
@@ -183,6 +190,7 @@ public class IndustryConfig extends GrimConfig {
 
 	@Override
 	public void readFromServer(PacketBuffer buffer) {
+		subpartBridges = buffer.readBoolean();
 		subpartConveyor = buffer.readBoolean();
 		subpartDecoration = buffer.readBoolean();
 		subpartDoors = buffer.readBoolean();
@@ -211,6 +219,7 @@ public class IndustryConfig extends GrimConfig {
 
 	@Override
 	public void writeToClient(PacketBuffer buffer) {
+		buffer.writeBoolean(subpartBridges);
 		buffer.writeBoolean(subpartConveyor);
 		buffer.writeBoolean(subpartDecoration);
 		buffer.writeBoolean(subpartDoors);

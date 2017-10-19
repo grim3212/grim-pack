@@ -2,12 +2,15 @@ package com.grim3212.mc.pack.industry.client;
 
 import com.grim3212.mc.pack.core.client.RenderHelper;
 import com.grim3212.mc.pack.core.client.model.EmptyStateMap;
+import com.grim3212.mc.pack.industry.block.BlockBridge;
+import com.grim3212.mc.pack.industry.block.BlockBridgeControl;
 import com.grim3212.mc.pack.industry.block.BlockFireSensor;
 import com.grim3212.mc.pack.industry.block.BlockFountain;
 import com.grim3212.mc.pack.industry.block.BlockModernDoor;
 import com.grim3212.mc.pack.industry.block.BlockSensorArrow;
 import com.grim3212.mc.pack.industry.block.BlockSiding;
 import com.grim3212.mc.pack.industry.block.IndustryBlocks;
+import com.grim3212.mc.pack.industry.client.model.BridgeModel.BridgeModelLoader;
 import com.grim3212.mc.pack.industry.client.model.CamoPlateModel.CamoPlateModelLoader;
 import com.grim3212.mc.pack.industry.config.IndustryConfig;
 import com.grim3212.mc.pack.industry.item.IndustryItems;
@@ -18,6 +21,7 @@ import com.grim3212.mc.pack.industry.tile.TileEntityLocker;
 import com.grim3212.mc.pack.industry.tile.TileEntityObsidianSafe;
 import com.grim3212.mc.pack.industry.tile.TileEntityWarehouseCrate;
 import com.grim3212.mc.pack.industry.tile.TileEntityWoodCabinet;
+import com.grim3212.mc.pack.industry.util.EnumBridgeType;
 
 import net.minecraft.client.renderer.block.statemap.StateMap;
 import net.minecraft.item.Item;
@@ -241,6 +245,16 @@ public class IndustryModelHandler {
 		if (IndustryConfig.subpartTorches) {
 			RenderHelper.renderBlock(IndustryBlocks.flip_flop_torch);
 			RenderHelper.renderBlock(IndustryBlocks.glowstone_torch);
+		}
+
+		if (IndustryConfig.subpartBridges) {
+			ModelLoaderRegistry.registerLoader(BridgeModelLoader.instance);
+
+			ModelLoader.setCustomStateMapper(IndustryBlocks.bridge, new StateMap.Builder().ignore(BlockBridge.TYPE).build());
+			ModelLoader.setCustomStateMapper(IndustryBlocks.bridge_control, new StateMap.Builder().ignore(BlockBridgeControl.ACTIVE).build());
+
+			RenderHelper.renderBlockNormal(IndustryBlocks.bridge);
+			RenderHelper.renderVariantForge(IndustryBlocks.bridge_control, EnumBridgeType.names());
 		}
 	}
 }

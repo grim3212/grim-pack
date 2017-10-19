@@ -106,6 +106,11 @@ public class ManualIndustry implements IManualPart {
 	public static Page shapedCharge_page;
 	public static Page flipFlopTorch_page;
 	public static Page glowstoneTorch_page;
+	public static Page bridgeLaser_page;
+	public static Page bridgeAccel_page;
+	public static Page bridgeTrick_page;
+	public static Page bridgeDeath_page;
+	public static Page gravLift_page;
 
 	@Override
 	public void initPages() {
@@ -251,6 +256,14 @@ public class ManualIndustry implements IManualPart {
 			flipFlopTorch_page = new PageCrafting("flipflop", new ItemStack(IndustryBlocks.flip_flop_torch));
 			glowstoneTorch_page = new PageCrafting("glowstone", new ItemStack(IndustryBlocks.glowstone_torch));
 		}
+
+		if (IndustryConfig.subpartBridges) {
+			bridgeLaser_page = new PageCrafting("laser", RecipeHelper.createPath("bridge_laser"));
+			bridgeAccel_page = new PageCrafting("accel", RecipeHelper.createPath("bridge_accel"));
+			bridgeTrick_page = new PageCrafting("trick", RecipeHelper.createPath("bridge_trick"));
+			bridgeDeath_page = new PageCrafting("death", RecipeHelper.createPath("bridge_death"));
+			gravLift_page = new PageCrafting("gravity", RecipeHelper.createPath("bridge_gravity"));
+		}
 	}
 
 	@Override
@@ -311,6 +324,9 @@ public class ManualIndustry implements IManualPart {
 
 		if (IndustryConfig.subpartTorches)
 			ManualRegistry.addChapter("torches", part).addPages(flipFlopTorch_page, glowstoneTorch_page);
+
+		if (IndustryConfig.subpartBridges)
+			ManualRegistry.addChapter("bridges", part).addPages(bridgeLaser_page, bridgeAccel_page, bridgeTrick_page, bridgeDeath_page, gravLift_page);
 	}
 
 }
