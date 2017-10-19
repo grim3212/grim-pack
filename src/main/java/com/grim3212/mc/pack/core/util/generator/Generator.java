@@ -78,7 +78,7 @@ public class Generator {
 			Writer writer = new OutputStreamWriter(new FileOutputStream(file), "UTF-8");
 
 			// Get pretty print version of json
-			String prettyJson = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create().toJson(new JsonParser().parse(obj.toString()).getAsJsonObject());
+			String prettyJson = new GsonBuilder().disableHtmlEscaping().create().toJson(new JsonParser().parse(obj.toString()).getAsJsonObject());
 
 			// Write the JsonObject
 			writer.write(prettyJson);
