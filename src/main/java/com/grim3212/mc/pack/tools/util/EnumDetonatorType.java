@@ -45,10 +45,6 @@ public enum EnumDetonatorType implements IStringSerializable {
 		return fire;
 	}
 
-	public static EnumDetonatorType[] getValues() {
-		return values;
-	}
-
 	public static final EnumDetonatorType values[] = values();
 
 	public static String[] names() {

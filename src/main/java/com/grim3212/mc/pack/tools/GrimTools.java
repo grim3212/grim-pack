@@ -21,6 +21,7 @@ import com.grim3212.mc.pack.tools.network.MessagePowerStaffSwitchModes;
 import com.grim3212.mc.pack.tools.network.MessageSlingshotSwitchModes;
 import com.grim3212.mc.pack.tools.network.MessageStaffKey;
 import com.grim3212.mc.pack.tools.network.MessageWandKeys;
+import com.grim3212.mc.pack.tools.util.EntityDataSerializers;
 import com.grim3212.mc.pack.tools.world.ToolsGenerate;
 
 import net.minecraft.init.Items;
@@ -90,6 +91,7 @@ public class GrimTools extends GrimPart {
 		proxy.initColors();
 
 		ToolsRecipes.initRecipes();
+		EntityDataSerializers.registerSerializers();
 	}
 
 	@Override

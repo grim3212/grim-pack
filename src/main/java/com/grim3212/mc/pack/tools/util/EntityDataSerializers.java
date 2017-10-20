@@ -34,7 +34,7 @@ public class EntityDataSerializers {
 		}
 
 		public EnumDetonatorType read(PacketBuffer buf) throws IOException {
-			return (EnumDetonatorType) buf.readEnumValue(EnumDetonatorType.class);
+			return buf.readEnumValue(EnumDetonatorType.class);
 		}
 
 		public DataParameter<EnumDetonatorType> createKey(int id) {
@@ -48,7 +48,7 @@ public class EntityDataSerializers {
 	};
 
 	// Register serializers
-	static {
+	public static void registerSerializers() {
 		DataSerializers.registerSerializer(PELLET_TYPE);
 		DataSerializers.registerSerializer(DETONATOR_TYPE);
 	}
