@@ -104,6 +104,7 @@ curseforge {
 		mainArtifact jar
         releaseType = mod_release_type
 		addGameVersion '1.12'
+		addGameVersion '1.12.1'
         changelogType = 'html'
         changelog = file("changelog.html")
         relations {
