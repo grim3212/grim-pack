@@ -1,5 +1,8 @@
 package com.grim3212.mc.pack.core.manual.pages;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.grim3212.mc.pack.core.manual.gui.GuiManualPage;
 
 import net.minecraft.client.Minecraft;
@@ -29,8 +32,14 @@ public class PageInfo extends Page {
 	 * @param pageInfo
 	 *            Where to find the info to localize and break up into colors
 	 *            and line breaks
+	 *            
+	 * Modified version of Botania PageText by Vazkii 
+	 * 
+	 * https://github.com/Vazkii/Botania/blob/master/src/main/java/vazkii/botania/common/lexicon/page/PageText.java 
 	 */
 	public static void drawText(int x, int y, String pageInfo) {
+		int width = 166;
+
 		String pageText = I18n.format(pageInfo).replaceAll("<f>", "\u00a7");
 		String[] paragraphs = pageText.split("<br>");
 
@@ -38,13 +47,54 @@ public class PageInfo extends Page {
 		boolean unicode = renderer.getUnicodeFlag();
 		renderer.setUnicodeFlag(true);
 
-		for (int i = 0; i < paragraphs.length; i++) {
-			int length = renderer.getWordWrappedHeight(paragraphs[i], 162);
-			renderer.drawSplitString(paragraphs[i], x, y, 162, 0);
+		List<List<String>> lines = new ArrayList<>();
 
-			y += length + 10;
+		String controlCodes;
+		for (String s : paragraphs) {
+			List<String> words = new ArrayList<>();
+			String lineStr = "";
+			String[] tokens = s.split(" ");
+			for (String token : tokens) {
+				String prev = lineStr;
+				String spaced = token + " ";
+				lineStr += spaced;
+
+				controlCodes = toControlCodes(getControlCodes(prev));
+				if (renderer.getStringWidth(lineStr) > width) {
+					lines.add(words);
+					lineStr = controlCodes + spaced;
+					words = new ArrayList<>();
+				}
+
+				words.add(controlCodes + token);
+			}
+
+			if (!lineStr.isEmpty())
+				lines.add(words);
+			lines.add(new ArrayList<>());
+		}
+
+		for (List<String> words : lines) {
+			words.size();
+			int xPos = x;
+
+			for (String s : words) {
+				renderer.drawString(s, xPos, y, 0);
+				xPos += renderer.getStringWidth(s) + 4;
+			}
+
+			y += 10;
 		}
 
 		renderer.setUnicodeFlag(unicode);
+	}
+
+	private static String getControlCodes(String s) {
+		String controls = s.replaceAll("(?<!\u00a7)(.)", "");
+		return controls.replaceAll(".*r", "r");
+	}
+
+	private static String toControlCodes(String s) {
+		return s.replaceAll(".", "\u00a7$0");
 	}
 }
