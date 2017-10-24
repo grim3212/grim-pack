@@ -6,6 +6,7 @@ import com.grim3212.mc.pack.core.manual.ManualRegistry;
 import com.grim3212.mc.pack.core.manual.pages.Page;
 import com.grim3212.mc.pack.core.manual.pages.PageCrafting;
 import com.grim3212.mc.pack.core.manual.pages.PageImageText;
+import com.grim3212.mc.pack.core.manual.pages.PageInfo;
 import com.grim3212.mc.pack.core.manual.pages.PageItemStack;
 import com.grim3212.mc.pack.world.blocks.WorldBlocks;
 import com.grim3212.mc.pack.world.config.WorldConfig;
@@ -51,6 +52,7 @@ public class ManualWorld implements IManualPart {
 	public static Page snowball_page;
 	public static Page waterDome_page;
 	public static Page spire_page;
+	public static Page runeInfo_page;
 
 	@Override
 	public void initPages() {
@@ -111,6 +113,7 @@ public class ManualWorld implements IManualPart {
 
 		if (WorldConfig.subpartRuins) {
 			rune_page = new PageItemStack("runes", 25, WorldRecipes.runes);
+			runeInfo_page = new PageInfo("rune_info");
 			fountain_page = new PageImageText("fountains", "fountain.png");
 			pyramid_page = new PageImageText("pyramids", "pyramid.png");
 			ruin_page = new PageImageText("ruins", "ruin.png");
@@ -153,7 +156,7 @@ public class ManualWorld implements IManualPart {
 		}
 
 		if (WorldConfig.subpartRuins) {
-			ManualRegistry.addChapter("ruins", part).addPages(rune_page, fountain_page, pyramid_page, ruin_page, snowball_page, waterDome_page, spire_page);
+			ManualRegistry.addChapter("ruins", part).addPages(rune_page, runeInfo_page, fountain_page, pyramid_page, ruin_page, snowball_page, waterDome_page, spire_page);
 		}
 	}
 }
