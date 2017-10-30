@@ -62,7 +62,7 @@ public class BlockSensorArrow extends BlockManual {
 
 			try {
 				// Get the ArrowStack using Reflection
-				Method getArrowStack = ReflectionHelper.findMethod(EntityArrow.class, "getArrowStack", null, (Class<?>[]) null);
+				Method getArrowStack = ReflectionHelper.findMethod(EntityArrow.class, "getArrowStack", "func_184550_j", (Class<?>[]) null);
 				getArrowStack.setAccessible(true);
 				Object o = getArrowStack.invoke(arrow, (Object[]) null);
 				// Kill the arrow entity

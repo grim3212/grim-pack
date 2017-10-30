@@ -24,7 +24,7 @@ public class RenderFrozenEntity<T extends EntityLivingBase> extends RenderLiving
 
 		try {
 			// Get the layers using Reflection
-			Field layers = ReflectionHelper.findField(RenderLivingBase.class, "layerRenderers");
+			Field layers = ReflectionHelper.findField(RenderLivingBase.class, "layerRenderers", "field_177097_h");
 			layers.setAccessible(true);
 			Object o = layers.get(living);
 
