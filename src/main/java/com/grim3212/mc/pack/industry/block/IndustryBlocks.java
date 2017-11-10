@@ -335,7 +335,7 @@ public class IndustryBlocks {
 			r.register(new ItemModernDoor(door_steel).setRegistryName(door_steel.getRegistryName()));
 		}
 
-		if (IndustryConfig.subpartDoors) {
+		if (IndustryConfig.subpartRWays) {
 			r.register(new ItemManualBlock(sidewalk).setRegistryName(sidewalk.getRegistryName()));
 			r.register(new ItemManualBlock(rway).setRegistryName(rway.getRegistryName()));
 			r.register(new ItemManualBlock(rway_light_off).setRegistryName(rway_light_off.getRegistryName()));
