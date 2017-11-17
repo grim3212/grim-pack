@@ -455,5 +455,17 @@ public class ItemBetterBucket extends ItemManual {
 			super(container, emptyContainer, capacity);
 		}
 
+		@Override
+		public int fill(FluidStack resource, boolean doFill) {
+			if (container.getItem() instanceof ItemBetterMilkBucket) {
+				if (resource.getUnlocalizedName().equals("fluid.milk")) {
+					return super.fill(resource, doFill);
+				} else {
+					return 0;
+				}
+			} else {
+				return super.fill(resource, doFill);
+			}
+		}
 	}
 }
