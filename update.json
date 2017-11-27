@@ -1,8 +1,8 @@
 {
 	"homepage": "https://www.grim3212.com/grim-pack",
 	"promos": {
-		"1.12.2-latest": "5.2.11.65",
-		"1.12.2-recommended": "5.2.11.65",
+		"1.12.2-latest": "5.2.11.66",
+		"1.12.2-recommended": "5.2.11.66",
 		"1.12.1-latest": "5.1.3.43",
 		"1.12.1-recommended": "5.1.3.43",
 		"1.12-latest": "5.0.0.3",
@@ -92,6 +92,7 @@
 		"5.1.1.22": "Configurable Update. Lots of changes to make GrimPack more customizable like disabling subparts, customize tool and armor material values, and new JSON recipes for Grill, Machines, and Chisels.",
 	},
 	"1.12.2": {
+		"5.2.11.66": "Change conveyor belts to be their own subpart as intended.",
 		"5.2.11.65": "Fix milk buckets being able to be filled with fluids other than milk.",
 		"5.2.11.64": "Fix RWays staying around and fix crash that would occur with graves and shaders. Update local Forge version.",
 		"5.2.11.62": "Add in Rune Info page, Add in Cage Info about Pokeballs. Fix crash with Freezing an entity and arrow sensors. Update local Forge version.",
