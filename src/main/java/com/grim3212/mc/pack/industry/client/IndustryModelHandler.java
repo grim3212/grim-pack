@@ -157,6 +157,10 @@ public class IndustryModelHandler {
 			RenderHelper.renderBlock(IndustryBlocks.metal_mesh);
 		}
 
+		if (IndustryConfig.subpartConveyor) {
+			RenderHelper.renderBlock(IndustryBlocks.conveyor_belt);
+		}
+
 		if (IndustryConfig.subpartMachines) {
 			RenderHelper.renderItem(IndustryItems.oily_chunk);
 			RenderHelper.renderItem(IndustryItems.drill_head_item);
@@ -173,7 +177,6 @@ public class IndustryModelHandler {
 			RenderHelper.renderBlock(IndustryBlocks.modern_furnace);
 			RenderHelper.renderBlock(IndustryBlocks.drill);
 			RenderHelper.renderVariantForge(IndustryBlocks.drill_head, "shaft=false", "shaft=true");
-			RenderHelper.renderBlock(IndustryBlocks.conveyor_belt);
 		}
 
 		if (IndustryConfig.subpartSteel) {

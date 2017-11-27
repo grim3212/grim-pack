@@ -233,13 +233,16 @@ public class IndustryBlocks {
 			r.register(steel_frame);
 		}
 
+		if (IndustryConfig.subpartConveyor) {
+			r.register(conveyor_belt);
+		}
+
 		if (IndustryConfig.subpartMachines) {
 			r.register(oil_ore);
 			r.register(derrick);
 			r.register(modern_furnace);
 			r.register(refinery);
 			r.register(fuel_tank);
-			r.register(conveyor_belt);
 			r.register(drill);
 			r.register(drill_head);
 			r.register(modern_tile);
@@ -317,6 +320,9 @@ public class IndustryBlocks {
 			r.register(new ItemManualBlock(modern_furnace).setRegistryName(modern_furnace.getRegistryName()));
 			r.register(new ItemManualBlock(refinery).setRegistryName(refinery.getRegistryName()));
 			r.register(new ItemManualBlock(drill).setRegistryName(drill.getRegistryName()));
+		}
+
+		if (IndustryConfig.subpartConveyor) {
 			r.register(new ItemManualBlock(conveyor_belt).setRegistryName(conveyor_belt.getRegistryName()));
 		}
 

@@ -234,9 +234,12 @@ public class ManualIndustry implements IManualPart {
 			steelTools_page = new PageCrafting("steeltools", IndustryRecipes.steeltools, 20);
 		}
 
+		if (IndustryConfig.subpartConveyor) {
+			conveyorBelt_page = new PageCrafting("conveyor_belt", new ItemStack(IndustryBlocks.conveyor_belt));
+		}
+
 		if (IndustryConfig.subpartMachines) {
 			drill_page = new PageCrafting("drill", 25, new ItemStack(IndustryBlocks.drill), new ItemStack(IndustryItems.drill_head_item));
-			conveyorBelt_page = new PageCrafting("conveyor_belt", new ItemStack(IndustryBlocks.conveyor_belt));
 			fuel_page = new PageCrafting("fuel", IndustryRecipes.fuelstuff, 25);
 			machineInfo_page = new PageInfo("info");
 			refinery_page = new PageCrafting("refinery", new ItemStack(IndustryBlocks.refinery));
@@ -316,7 +319,7 @@ public class ManualIndustry implements IManualPart {
 		if (IndustryConfig.subpartMetalWorks || IndustryConfig.subpartSteel)
 			ManualRegistry.addChapter("metalworks", part).addPages(buckLadd_page, coalIron_page, steelIngot_page, steelStuff_page, steelTools_page, metalMesh_page);
 
-		if (IndustryConfig.subpartMachines)
+		if (IndustryConfig.subpartMachines || IndustryConfig.subpartConveyor)
 			ManualRegistry.addChapter("machines", part).addPages(machineInfo_page, refinery_page, refineryRecipes_page, derrick_page, derrickRecipes_page, fuel_page, modernFurnace_page, modernFurnaceRecipes_page, drill_page, conveyorBelt_page);
 
 		if (IndustryConfig.subpartIceMaker)

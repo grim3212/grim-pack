@@ -2,7 +2,7 @@
 "conditions": [
     {
       "type": "grimpack:industry_subpart_enabled",
-      "subpart": "machines"
+      "subpart": "conveyor"
     },
     {
       "type": "grimpack:ore_dict",
