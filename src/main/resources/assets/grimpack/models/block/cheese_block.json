@@ -1,22 +1,20 @@
 {
-
-"textures": {
+	"textures": {
         "particle": "grimpack:blocks/cheese_block",
         "all": "grimpack:blocks/cheese_block"
     },
-
-"elements": [ 
+	"elements": [ 
 		{
-	    "from": [ 1, 0, 1 ],
-	    "to": [ 15, 8, 15 ],
+	    "from": [  1, 0,  1 ],
+	    "to":   [ 15, 8, 15 ],
 	    "faces": {
-	        "down":  { "uv": [ 16, 16, 0, 0 ], "texture": "#all" },
-	        "up":    { "uv": [ 0, 0, 16, 16 ], "texture": "#all" },
-	        "north": { "uv": [ 0, 10, 16, 16 ], "texture": "#all" },
-	        "south": { "uv": [ 0, 10, 16, 16 ], "texture": "#all" },
-	        "west":  { "uv": [ 0, 10, 16, 16 ], "texture": "#all" },
-	        "east":  { "uv": [ 0, 10, 16, 16 ], "texture": "#all" }
-	    }
-	}
-]
+			"down":  { "uv": [ 1, 1, 15, 15 ], "texture": "#all", "cullface": "down" },
+			"up":    { "uv": [ 1, 1, 15, 15 ], "texture": "#all" },
+			"north": { "uv": [ 1, 8, 15, 16 ], "texture": "#all" },
+			"south": { "uv": [ 1, 8, 15, 16 ], "texture": "#all" },
+			"west":  { "uv": [ 1, 8, 15, 16 ], "texture": "#all" },
+			"east":  { "uv": [ 1, 8, 15, 16 ], "texture": "#all" }
+			}
+		}
+	]
 }

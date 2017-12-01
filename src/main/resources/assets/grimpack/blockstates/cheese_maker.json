@@ -2,7 +2,7 @@
 	"forge_marker": 1,
     "defaults": {
 		"transform": "forge:default-block",
-		"model": "cube_top",
+		"model": "grimpack:cheese_maker",
 		"textures": {
 			"top": "grimpack:blocks/cheese_maker_top",
 			"side": "blocks/furnace_side"
