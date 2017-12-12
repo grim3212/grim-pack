@@ -61,7 +61,7 @@ public class TileEntityDGravity extends TileEntity implements ITickable {
 				if (!(entity instanceof EntityWeatherEffect)) {
 					if (entity instanceof EntityPlayer) {
 						// Check for GravityBoots
-						ItemStack armorStack = ((EntityPlayer) entity).inventory.armorItemInSlot(0);
+						ItemStack armorStack = ((EntityPlayer) entity).inventory.armorInventory.get(0);
 						ItemStack heldStack = ((EntityPlayer) entity).inventory.getCurrentItem();
 						if (armorStack != null) {
 							if (armorStack.getItem() == gravBoots) {
