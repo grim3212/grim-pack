@@ -8,6 +8,7 @@ import com.grim3212.mc.pack.core.client.ManualCore;
 import com.grim3212.mc.pack.core.common.CommonItems;
 import com.grim3212.mc.pack.core.common.CommonWorldGen;
 import com.grim3212.mc.pack.core.config.CoreConfig;
+import com.grim3212.mc.pack.core.config.GrimConfig;
 import com.grim3212.mc.pack.core.config.MessageSyncConfig;
 import com.grim3212.mc.pack.core.config.SyncConfigEvent;
 import com.grim3212.mc.pack.core.event.PostInitEvent;
@@ -16,9 +17,14 @@ import com.grim3212.mc.pack.core.manual.event.GiveManualEvent;
 import com.grim3212.mc.pack.core.network.MessageBetterExplosion;
 import com.grim3212.mc.pack.core.network.PacketDispatcher;
 import com.grim3212.mc.pack.core.part.GrimPart;
+import com.grim3212.mc.pack.core.part.PartRegistry;
 import com.grim3212.mc.pack.core.proxy.CommonProxy;
+import com.grim3212.mc.pack.core.util.CrashHandler;
+import com.grim3212.mc.pack.core.util.GrimLog;
 
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.client.config.IConfigElement;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Optional;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -65,6 +71,8 @@ public class GrimCore extends GrimPart {
 	@Override
 	public void init(FMLInitializationEvent event) {
 		super.init(event);
+		
+		FMLCommonHandler.instance().registerCrashCallable(new CrashHandler());
 	}
 
 	@Override
@@ -74,6 +82,14 @@ public class GrimCore extends GrimPart {
 		// Register Syncing config
 		MinecraftForge.EVENT_BUS.register(new SyncConfigEvent());
 		MinecraftForge.EVENT_BUS.post(new PostInitEvent());
+
+		GrimConfig coreConfig = PartRegistry.getPart(GrimCore.partId).getGrimConfig();
+
+		for (IConfigElement ele : coreConfig.getConfigItems()) {
+			if (!ele.isProperty()) {
+				GrimLog.info("TESTER", ele.getName() + ", " + ele.getQualifiedName() + ", " + ele.getLanguageKey());
+			}
+		}
 	}
 
 	@SideOnly(Side.CLIENT)

@@ -79,6 +79,7 @@ public class ItemBackpack extends ItemManual {
 				}
 			}
 		}
+		
 		return super.getUnlocalizedName() + "_" + "leather";
 	}
 

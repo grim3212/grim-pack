@@ -83,7 +83,7 @@ public class CoreConfig extends GrimConfig {
 		List<IConfigElement> list = new ArrayList<IConfigElement>();
 		list.addAll(new ConfigElement(GrimCore.INSTANCE.getConfig().getCategory(CONFIG_GENERAL_NAME)).getChildElements());
 		list.add(new DummyCategoryElement("coreParts", "grimpack.core.cfg.parts", new ConfigElement(GrimCore.INSTANCE.getConfig().getCategory(CONFIG_PARTS_NAME)).getChildElements()));
-		list.add(new DummyCategoryElement("coreSubParts", "grimpack.core.cfg.subparts", new ConfigElement(GrimCore.INSTANCE.getConfig().getCategory(CONFIG_SUB_PARTS_NAME)).getChildElements()));
+		list.add(new DummyCategoryElement("coreSubPartCfg", "grimpack.core.cfg.subparts", new ConfigElement(GrimCore.INSTANCE.getConfig().getCategory(CONFIG_SUB_PARTS_NAME)).getChildElements()));
 		return list;
 	}
 
