@@ -1,8 +1,8 @@
 {
 	"homepage": "https://www.grim3212.com/grim-pack",
 	"promos": {
-		"1.12.2-latest": "5.2.11.68",
-		"1.12.2-recommended": "5.2.11.68",
+		"1.12.2-latest": "5.2.12.73",
+		"1.12.2-recommended": "5.2.12.73",
 		"1.12.1-latest": "5.1.3.43",
 		"1.12.1-recommended": "5.1.3.43",
 		"1.12-latest": "5.0.0.3",
@@ -92,6 +92,7 @@
 		"5.1.1.22": "Configurable Update. Lots of changes to make GrimPack more customizable like disabling subparts, customize tool and armor material values, and new JSON recipes for Grill, Machines, and Chisels.",
 	},
 	"1.12.2": {
+		"5.2.12.73": "Add in a basic chunk loader. Add in information to crash reports to easily tell what is enabled/disabled. Fix mcmod.info url. Fix crash on ruin page if fungus was disabled.",
 		"5.2.11.68": "Fix crash on servers with Gravity and Directional Gravity blocks",
 		"5.2.11.67": "Change cheese block model (stohun01)",
 		"5.2.11.66": "Change conveyor belts to be their own subpart as intended.",
