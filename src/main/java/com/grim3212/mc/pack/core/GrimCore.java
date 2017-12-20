@@ -82,14 +82,6 @@ public class GrimCore extends GrimPart {
 		// Register Syncing config
 		MinecraftForge.EVENT_BUS.register(new SyncConfigEvent());
 		MinecraftForge.EVENT_BUS.post(new PostInitEvent());
-
-		GrimConfig coreConfig = PartRegistry.getPart(GrimCore.partId).getGrimConfig();
-
-		for (IConfigElement ele : coreConfig.getConfigItems()) {
-			if (!ele.isProperty()) {
-				GrimLog.info("TESTER", ele.getName() + ", " + ele.getQualifiedName() + ", " + ele.getLanguageKey());
-			}
-		}
 	}
 
 	@SideOnly(Side.CLIENT)
