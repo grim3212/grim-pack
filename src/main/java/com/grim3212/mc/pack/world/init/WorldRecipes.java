@@ -59,7 +59,9 @@ public class WorldRecipes {
 			for (int i = 8; i < 13; i++)
 				vertFungus.add(RecipeHelper.createPath("fungus_killing_" + i));
 			vertFungus.addAll(RecipeHelper.getAllPaths("fungus_killing_13"));
+		}
 
+		if (WorldConfig.subpartRuins) {
 			runes = Lists.newArrayList();
 			for (int i = 0; i < 16; i++)
 				runes.add(new ItemStack(WorldBlocks.rune, 1, i));
