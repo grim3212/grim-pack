@@ -20,27 +20,7 @@ import com.grim3212.mc.pack.industry.item.ItemGoldSafe;
 import com.grim3212.mc.pack.industry.item.ItemModernDoor;
 import com.grim3212.mc.pack.industry.item.ItemSensor;
 import com.grim3212.mc.pack.industry.item.ItemShapedCharge;
-import com.grim3212.mc.pack.industry.tile.TileEntityBridge;
-import com.grim3212.mc.pack.industry.tile.TileEntityBridgeControl;
-import com.grim3212.mc.pack.industry.tile.TileEntityBridgeGravity;
-import com.grim3212.mc.pack.industry.tile.TileEntityCamo;
-import com.grim3212.mc.pack.industry.tile.TileEntityDGravity;
-import com.grim3212.mc.pack.industry.tile.TileEntityFan;
-import com.grim3212.mc.pack.industry.tile.TileEntityFireSensor;
-import com.grim3212.mc.pack.industry.tile.TileEntityFlipFlopTorch;
-import com.grim3212.mc.pack.industry.tile.TileEntityGlassCabinet;
-import com.grim3212.mc.pack.industry.tile.TileEntityGoldSafe;
-import com.grim3212.mc.pack.industry.tile.TileEntityGravity;
-import com.grim3212.mc.pack.industry.tile.TileEntityItemTower;
-import com.grim3212.mc.pack.industry.tile.TileEntityLocker;
-import com.grim3212.mc.pack.industry.tile.TileEntityMFurnace;
-import com.grim3212.mc.pack.industry.tile.TileEntityMachine;
-import com.grim3212.mc.pack.industry.tile.TileEntityObsidianSafe;
-import com.grim3212.mc.pack.industry.tile.TileEntitySensor;
-import com.grim3212.mc.pack.industry.tile.TileEntitySpecificSensor;
-import com.grim3212.mc.pack.industry.tile.TileEntityTank;
-import com.grim3212.mc.pack.industry.tile.TileEntityWarehouseCrate;
-import com.grim3212.mc.pack.industry.tile.TileEntityWoodCabinet;
+import com.grim3212.mc.pack.industry.tile.*;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
@@ -128,6 +108,7 @@ public class IndustryBlocks {
 	public static final Block shaped_charge = new BlockShapedCharge();
 	public static final Block flip_flop_torch = new BlockFlipFlopTorch();
 	public static final Block glowstone_torch = new BlockGlowstoneTorch();
+	public static final Block chunk_loader = new BlockChunkLoader();
 
 	// Bridges
 	public static final Block bridge_control = new BlockBridgeControl();
@@ -271,6 +252,10 @@ public class IndustryBlocks {
 			r.register(bridge_control);
 		}
 
+		if(IndustryConfig.subpartChunkLoader){
+			r.register(chunk_loader);
+		}
+
 		initTileEntities();
 	}
 
@@ -408,6 +393,10 @@ public class IndustryBlocks {
 			r.register(new ItemBridgeControl(bridge_control).setRegistryName(bridge_control.getRegistryName()));
 		}
 
+		if(IndustryConfig.subpartChunkLoader){
+			r.register(new ItemManualBlock(chunk_loader).setRegistryName(chunk_loader.getRegistryName()));
+		}
+
 		initOreDict();
 	}
 
@@ -453,6 +442,10 @@ public class IndustryBlocks {
 			GameRegistry.registerTileEntity(TileEntityBridge.class, "grimpack_bridge");
 			GameRegistry.registerTileEntity(TileEntityBridgeGravity.class, "grimpack_gravity_bridge");
 			GameRegistry.registerTileEntity(TileEntityBridgeControl.class, "grimpack_bridge_control");
+		}
+
+		if(IndustryConfig.subpartChunkLoader){
+			GameRegistry.registerTileEntity(TileEntityChunkLoader.class, "grimpack_chunk_loader");
 		}
 	}
 

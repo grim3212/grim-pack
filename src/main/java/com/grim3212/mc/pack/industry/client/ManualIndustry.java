@@ -111,6 +111,7 @@ public class ManualIndustry implements IManualPart {
 	public static Page bridgeTrick_page;
 	public static Page bridgeDeath_page;
 	public static Page gravLift_page;
+    public static Page chunkLoader_page;
 
 	@Override
 	public void initPages() {
@@ -267,6 +268,10 @@ public class ManualIndustry implements IManualPart {
 			bridgeDeath_page = new PageCrafting("death", RecipeHelper.createPath("bridge_death"));
 			gravLift_page = new PageCrafting("gravity", RecipeHelper.createPath("bridge_gravity"));
 		}
+
+		if(IndustryConfig.subpartChunkLoader){
+		    chunkLoader_page = new PageCrafting("chunk_loader", new ItemStack(IndustryBlocks.chunk_loader));
+        }
 	}
 
 	@Override
@@ -330,6 +335,9 @@ public class ManualIndustry implements IManualPart {
 
 		if (IndustryConfig.subpartBridges)
 			ManualRegistry.addChapter("bridges", part).addPages(bridgeLaser_page, bridgeAccel_page, bridgeTrick_page, bridgeDeath_page, gravLift_page);
+
+		if(IndustryConfig.subpartChunkLoader)
+		    ManualRegistry.addChapter("chunk_loader", part).addPages(chunkLoader_page);
 	}
 
 }

@@ -8,6 +8,7 @@ grimpack.creative.util=Grim Util
 grimpack.creative.world=Grim World
 
 #================= BLOCKS =================#
+tile.chunk_loader.name=Chunk Loader
 tile.bridge_control_laser.name=Laser Bridge Control
 tile.bridge_control_accel.name=Accel Bridge Control
 tile.bridge_control_death.name=Death Bridge Control
@@ -760,7 +761,10 @@ Workbench black or white list.tooltip=These are where you will find either the w
 Workbench whitelist else blacklist.tooltip=If true then the workbench is in whitelist mode so all items listed are the only ones that can be crafted. But if false then blacklist mode will allow all items and blocks to be crafted except those listed in 'Workbench black or white list' config list.
 Return Default Recipe If Listed.tooltip=If true then if a block or item is either blacklisted or not on a whitelist then it will return the default crafting recipe.
 Damage from Uranium Ore.tooltip=Determines the amount of damage taken from trying to mine Uranium
+Chunk Loader Size.tooltip=The size of the chunk loader. It will chunk load a square this many chunks around the block. It should be odd.
+Chunk Loader Timeout.tooltip=The amount of time in hours that chunk loaders will disable themselves if their owners haven't logged on. Anything less than will disable this.
 Enable SubPart common.tooltip=True to load Minecraft with the common subpart of the Industry
+Enable SubPart chunk loader.tooltip=True to load Minecraft with the chunk loader subpart of the Industry
 Enable SubPart conveyor.tooltip=True to load Minecraft with the conveyor subpart of the Industry
 Enable SubPart decoration.tooltip=True to load Minecraft with the decoration subpart of the Industry
 Enable SubPart doors.tooltip=True to load Minecraft with the doors subpart of the Industry
@@ -1158,6 +1162,9 @@ commands.grim_documentation_generation.nofile=This command requires the location
 commands.grim_documentation_generation.start=Documentation generation started
 commands.grim_documentation_generation.finish=Documentation generation was a success
 commands.grim_documentation_generation.error=Something went wrong during writing the file
+
+commands.grim_cl_stats.usage=/gcls
+commands.grim_cl_stats.output=%d chunks in dim %d
 
 #================= EXTRA ENTRIES =================#
 grimpack.manual.info.modinfo=This section goes into more detail on ways to customize GrimPack, as well as, some basic information, installation instructions, and more. Just click on a chapter to the side to read it. <img src="/assets/grimpack/images/grimpack.png" class="img-fluid">
@@ -1648,6 +1655,10 @@ grimpack.manual.industry.subsection.explosives.page.shaped_charge=A shaped charg
 grimpack.manual.industry.subsection.explosives.page.shaped_charge.title=Shaped Charges
 grimpack.manual.industry.subsection.explosives.page.shaped_charge_radius=Shaped Charges are also able to be improved with a larger radius. Be warned the larger the radius the more it can lag out your game!
 grimpack.manual.industry.subsection.explosives.page.shaped_charge_radius.title=Shaped Charge - Radius
+
+grimpack.manual.industry.subsection.chunk_loader=Chunk Loader
+grimpack.manual.industry.subsection.chunk_loader.page.chunk_loader=This chunk loader will keep a square area around itself loaded. By default it is a radius of 5. Using this will allow you to keep parts of your world loaded at all times so, crops will still grow, furnaces will run, etc.
+grimpack.manual.industry.subsection.chunk_loader.page.chunk_loader.title=Recipe
 
 grimpack.manual.tools.modinfo=Adds a bunch of weapons and useful tools.
 grimpack.manual.tools.subsection.masks=Masks

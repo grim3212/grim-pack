@@ -1,16 +1,13 @@
 package com.grim3212.mc.pack.core.part;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.grim3212.mc.pack.GrimPack;
 import com.grim3212.mc.pack.core.manual.ManualPart;
 import com.grim3212.mc.pack.core.manual.ManualRegistry;
 import com.grim3212.mc.pack.core.util.GrimLog;
+import net.minecraftforge.fml.common.event.*;
 
-import net.minecraftforge.fml.common.event.FMLInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import java.util.ArrayList;
+import java.util.List;
 
 public class PartRegistry {
 
@@ -53,4 +50,15 @@ public class PartRegistry {
 		}
 	}
 
+	public static void serverStarting(FMLServerStartingEvent event) {
+		for (GrimPart part : partsToLoad) {
+			part.serverStarting(event);
+		}
+	}
+
+	public static void serverStarted(FMLServerStartedEvent event) {
+		for (GrimPart part : partsToLoad) {
+			part.serverStarted(event);
+		}
+	}
 }

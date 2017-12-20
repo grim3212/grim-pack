@@ -11,9 +11,7 @@ import com.grim3212.mc.pack.core.manual.ManualPart;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fml.client.event.ConfigChangedEvent.OnConfigChangedEvent;
-import net.minecraftforge.fml.common.event.FMLInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.event.*;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -121,5 +119,13 @@ public abstract class GrimPart {
 
 	public String getExtraInfo() {
 		return "";
+	}
+
+	public void serverStarting(FMLServerStartingEvent event){
+
+	}
+
+	public void serverStarted(FMLServerStartedEvent event){
+
 	}
 }

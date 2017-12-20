@@ -1,0 +1,32 @@
+{
+"conditions": [
+    {
+      "type": "grimpack:industry_subpart_enabled",
+      "subpart": "chunkloader"
+    }
+  ],
+  "result": {
+    "item": "grimpack:chunk_loader",
+    "count": 2
+  },
+  "pattern": [
+    "XXX",
+    "BDE",
+    "XXX"
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "B": {
+      "item": "minecraft:blaze_rod"
+    },
+    "E": {
+      "item": "#ENDERPEARL"
+    },
+    "D": {
+      "item": "#BLOCKDIAMOND"
+    },
+    "X": {
+      "item": "#OBSIDIAN"
+    }
+  }
+}

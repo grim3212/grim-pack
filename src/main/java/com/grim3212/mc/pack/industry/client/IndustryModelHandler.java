@@ -259,5 +259,9 @@ public class IndustryModelHandler {
 			RenderHelper.renderBlockNormal(IndustryBlocks.bridge);
 			RenderHelper.renderVariantForge(IndustryBlocks.bridge_control, EnumBridgeType.names());
 		}
+
+		if(IndustryConfig.subpartChunkLoader){
+			RenderHelper.renderBlock(IndustryBlocks.chunk_loader);
+		}
 	}
 }

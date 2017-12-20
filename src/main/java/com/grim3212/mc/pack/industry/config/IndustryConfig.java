@@ -31,6 +31,10 @@ public class IndustryConfig extends GrimConfig {
 	public static boolean generateUranium;
 	public static boolean generateOilOre;
 
+	//Chunk Loader
+	public static int chunkLoaderSize;
+	public static int chunkLoaderTimeout;
+
 	// Workbench Upgrades
 	public static String[] workbenchList;
 	public static boolean useWorkbenchUpgrades;
@@ -62,6 +66,7 @@ public class IndustryConfig extends GrimConfig {
 
 	// Subparts
 	public static boolean subpartBridges;
+	public static boolean subpartChunkLoader;
 	public static boolean subpartConveyor;
 	public static boolean subpartDecoration;
 	public static boolean subpartDoors;
@@ -103,6 +108,7 @@ public class IndustryConfig extends GrimConfig {
 	@Override
 	public void syncSubparts() {
 		subpartBridges = config.get(CONFIG_PARTS_NAME, "Enable SubPart bridges", true).setRequiresMcRestart(true).getBoolean();
+		subpartChunkLoader = config.get(CONFIG_PARTS_NAME, "Enable SubPart chunk loader", true).setRequiresMcRestart(true).getBoolean();
 		subpartConveyor = config.get(CONFIG_PARTS_NAME, "Enable SubPart conveyor", true).setRequiresMcRestart(true).getBoolean();
 		subpartDecoration = config.get(CONFIG_PARTS_NAME, "Enable SubPart decoration", true).setRequiresMcRestart(true).getBoolean();
 		subpartDoors = config.get(CONFIG_PARTS_NAME, "Enable SubPart doors", true).setRequiresMcRestart(true).getBoolean();
@@ -174,6 +180,12 @@ public class IndustryConfig extends GrimConfig {
 			String[] fuels = config.get(CONFIG_GENERAL_NAME, "grimpack.industry.cfg.modernfurnace_fuels", new String[] { "grimpack:fuel>25000", "grimpack:fuel_tank>225000" }).getStringList();
 			MachineRecipes.INSTANCE.getModernFurnaceFuel().addAll(ConfigUtils.loadConfigurableFuel(fuels));
 		}
+
+		if(subpartChunkLoader){
+			chunkLoaderSize = config.get(CONFIG_GENERAL_NAME, "Chunk Loader Size", 5, "Square chunks that are kept loaded. Should be odd!",  1, 32).getInt();
+			chunkLoaderTimeout = config.get(CONFIG_GENERAL_NAME, "Chunk Loader Timeout", 0, "Turns off chunkloaders if the owner hasn't been active for this many hours. Zero and below disables this").getInt();
+		}
+
 		super.syncConfig();
 	}
 
@@ -191,6 +203,7 @@ public class IndustryConfig extends GrimConfig {
 	@Override
 	public void readFromServer(PacketBuffer buffer) {
 		subpartBridges = buffer.readBoolean();
+		subpartChunkLoader = buffer.readBoolean();
 		subpartConveyor = buffer.readBoolean();
 		subpartDecoration = buffer.readBoolean();
 		subpartDoors = buffer.readBoolean();
@@ -220,6 +233,7 @@ public class IndustryConfig extends GrimConfig {
 	@Override
 	public void writeToClient(PacketBuffer buffer) {
 		buffer.writeBoolean(subpartBridges);
+		buffer.writeBoolean(subpartChunkLoader);
 		buffer.writeBoolean(subpartConveyor);
 		buffer.writeBoolean(subpartDecoration);
 		buffer.writeBoolean(subpartDoors);

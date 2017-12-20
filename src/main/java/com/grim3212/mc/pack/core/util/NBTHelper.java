@@ -204,7 +204,7 @@ public class NBTHelper {
 
 		return itemStack.getTagCompound().getInteger(keyName);
 	}
-	
+
 	public static int getInt(ItemStack itemStack, String keyName, int fallback) {
 		initNBTTagCompound(itemStack);
 
@@ -318,6 +318,23 @@ public class NBTHelper {
 
 		int[] pos = itemStack.getTagCompound().getIntArray(keyName);
 		return new BlockPos(pos[0], pos[1], pos[2]);
+	}
+
+	public static BlockPos getBlockPos(NBTTagCompound tag, String keyName) {
+		initNBTTagCompound(tag);
+
+		if (!tag.hasKey(keyName)) {
+			setBlockPos(tag, keyName, new BlockPos(0, 0, 0));
+		}
+
+		int[] pos = tag.getIntArray(keyName);
+		return new BlockPos(pos[0], pos[1], pos[2]);
+	}
+
+	public static void setBlockPos(NBTTagCompound tag, String keyName, BlockPos keyValue) {
+		initNBTTagCompound(tag);
+
+		tag.setIntArray(keyName, new int[] { keyValue.getX(), keyValue.getY(), keyValue.getZ() });
 	}
 
 	public static void setBlockPos(ItemStack itemStack, String keyName, BlockPos keyValue) {
