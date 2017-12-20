@@ -18,20 +18,20 @@ public class ChunkLoaderCallback implements LoadingCallback {
 
 	@Override
 	public void ticketsLoaded(List<Ticket> tickets, World world) {
-		
+
 		GrimLog.info(GrimIndustry.partName, tickets.size() + " chunk loaders found!");
-		
-		for(Ticket ticket : tickets) {
+
+		for (Ticket ticket : tickets) {
 			BlockPos pos = NBTHelper.getBlockPos(ticket.getModData(), "Pos");
 
 			Block block = world.getBlockState(pos).getBlock();
 			if (block == IndustryBlocks.chunk_loader) {
-                TileEntityChunkLoader tileEntity = (TileEntityChunkLoader) world.getTileEntity(pos);
-				if(tileEntity != null)
-                    tileEntity.chunkLoadNewTicket(ticket);
+				TileEntityChunkLoader tileEntity = (TileEntityChunkLoader) world.getTileEntity(pos);
+				if (tileEntity != null)
+					tileEntity.chunkLoadNewTicket(ticket);
 			}
 		}
-		
+
 	}
 
 }

@@ -56,15 +56,15 @@ public class UtilConfig extends GrimConfig {
 
 	@Override
 	public void syncSubparts() {
-		subpartAutoItemReplacer = config.get(CONFIG_PARTS_NAME, "Enable SubPart auto item replacer", true).setRequiresMcRestart(true).getBoolean();
+		subpartAutoItemReplacer = config.get(CONFIG_PARTS_NAME, "Enable SubPart auto item replacer", false).setRequiresMcRestart(true).getBoolean();
 		subpartAutoTorch = config.get(CONFIG_PARTS_NAME, "Enable SubPart auto torch", true).setRequiresMcRestart(true).getBoolean();
 		subpartChickenFeathers = config.get(CONFIG_PARTS_NAME, "Enable SubPart chicken feathers", true).setRequiresMcRestart(true).getBoolean();
-		subpartDebug = config.get(CONFIG_PARTS_NAME, "Enable SubPart debug", true).setRequiresMcRestart(true).getBoolean();
+		subpartDebug = config.get(CONFIG_PARTS_NAME, "Enable SubPart debug", false).setRequiresMcRestart(true).getBoolean();
 		subpartDoubleDoors = config.get(CONFIG_PARTS_NAME, "Enable SubPart double doors", true).setRequiresMcRestart(true).getBoolean();
 		subpartFrozen = config.get(CONFIG_PARTS_NAME, "Enable SubPart frozen", true).setRequiresMcRestart(true).getBoolean();
 		subpartFusRoDah = config.get(CONFIG_PARTS_NAME, "Enable SubPart fusrodah", true).setRequiresMcRestart(true).getBoolean();
 		subpartGraves = config.get(CONFIG_PARTS_NAME, "Enable SubPart graves", true).setRequiresMcRestart(true).getBoolean();
-		subpartInfiniteLava = config.get(CONFIG_PARTS_NAME, "Enable SubPart infinite lava", true).setRequiresMcRestart(true).getBoolean();
+		subpartInfiniteLava = config.get(CONFIG_PARTS_NAME, "Enable SubPart infinite lava", false).setRequiresMcRestart(true).getBoolean();
 		subpartTime = config.get(CONFIG_PARTS_NAME, "Enable SubPart time", true).setRequiresMcRestart(true).getBoolean();
 	}
 

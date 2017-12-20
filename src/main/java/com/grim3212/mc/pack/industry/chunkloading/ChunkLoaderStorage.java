@@ -17,9 +17,9 @@ public class ChunkLoaderStorage extends WorldSavedData {
 
 	private List<ChunkLoaderData> chunkLoaders = new ArrayList<ChunkLoaderData>();
 
-    public ChunkLoaderStorage() {
-        this(IDENTIFIER);
-    }
+	public ChunkLoaderStorage() {
+		this(IDENTIFIER);
+	}
 
 	public ChunkLoaderStorage(String name) {
 		super(name);
@@ -92,30 +92,23 @@ public class ChunkLoaderStorage extends WorldSavedData {
 		return instance;
 	}
 
-	public void addChunkLoader(ChunkLoaderData data)
-	{
-		if(!chunkLoaders.contains(data))
-		{
+	public void addChunkLoader(ChunkLoaderData data) {
+		if (!chunkLoaders.contains(data)) {
 			chunkLoaders.add(data);
 			this.markDirty();
 		}
 	}
 
-	public void removeChunkLoader(ChunkLoaderData data)
-	{
-		if(data != null)
-		{
+	public void removeChunkLoader(ChunkLoaderData data) {
+		if (data != null) {
 			chunkLoaders.remove(data);
 			this.markDirty();
 		}
 	}
 
-	public void updateLoginTime(String ownerId, long loginTime)
-	{
-		for(ChunkLoaderData data : chunkLoaders)
-		{
-			if(data.ownerId.equals(ownerId))
-			{
+	public void updateLoginTime(String ownerId, long loginTime) {
+		for (ChunkLoaderData data : chunkLoaders) {
+			if (data.ownerId.equals(ownerId)) {
 				data.ownerLastLogin = loginTime;
 			}
 		}
