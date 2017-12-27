@@ -6,10 +6,11 @@ import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandlerModifiable;
+import net.minecraftforge.items.wrapper.EmptyHandler;
 
 public abstract class ItemHandlerBase implements IItemHandlerModifiable {
 
-	private final IItemHandlerModifiable inventory;
+	private IItemHandlerModifiable inventory;
 	private final ItemStack stack;
 
 	public ItemHandlerBase(ItemStack itemStack) {
@@ -17,28 +18,48 @@ public abstract class ItemHandlerBase implements IItemHandlerModifiable {
 		this.inventory = (IItemHandlerModifiable) stack.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
 	}
 
+	private void checkInv() {
+		if (this.inventory == null) {
+			this.inventory = (IItemHandlerModifiable) stack.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
+
+			if (this.inventory == null) {
+				this.inventory = (IItemHandlerModifiable) EmptyHandler.INSTANCE;
+			}
+		}
+	}
+
 	@Override
 	public int getSlots() {
+		checkInv();
+
 		return inventory.getSlots();
 	}
 
 	@Override
 	public ItemStack getStackInSlot(int slot) {
+		checkInv();
+
 		return inventory.getStackInSlot(slot);
 	}
 
 	@Override
 	public ItemStack insertItem(int slot, ItemStack stack, boolean simulate) {
+		checkInv();
+
 		return inventory.insertItem(slot, stack, simulate);
 	}
 
 	@Override
 	public ItemStack extractItem(int slot, int amount, boolean simulate) {
+		checkInv();
+
 		return inventory.extractItem(slot, amount, simulate);
 	}
 
 	@Override
 	public void setStackInSlot(int slot, ItemStack stack) {
+		checkInv();
+
 		inventory.setStackInSlot(slot, stack);
 	}
 
