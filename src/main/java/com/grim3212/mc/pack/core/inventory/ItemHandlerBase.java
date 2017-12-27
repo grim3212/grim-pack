@@ -19,7 +19,7 @@ public abstract class ItemHandlerBase implements IItemHandlerModifiable {
 	}
 
 	private void checkInv() {
-		if (this.inventory == null) {
+		if (this.inventory == null || this.inventory == EmptyHandler.INSTANCE) {
 			this.inventory = (IItemHandlerModifiable) stack.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
 
 			if (this.inventory == null) {
