@@ -64,8 +64,8 @@ public class ToolsItems {
 	public static final Item black_diamond_chestplate = (new ItemManualArmor("black_diamond_chestplate", blackarmor, 4, EntityEquipmentSlot.CHEST, "tools:tools.armor")).setCreativeTab(GrimCreativeTabs.GRIM_TOOLS);
 	public static final Item black_diamond_leggings = (new ItemManualArmor("black_diamond_leggings", blackarmor, 4, EntityEquipmentSlot.LEGS, "tools:tools.armor")).setCreativeTab(GrimCreativeTabs.GRIM_TOOLS);
 	public static final Item black_diamond_boots = (new ItemManualArmor("black_diamond_boots", blackarmor, 4, EntityEquipmentSlot.FEET, "tools:tools.armor")).setCreativeTab(GrimCreativeTabs.GRIM_TOOLS);
-	public static final Item wooden_bucket = new ItemBetterBucket(1, 0, 1000f, new ItemStack(Items.STICK, 3), BucketType.wood);
-	public static final Item stone_bucket = new ItemBetterBucket(1, 0, new ItemStack(Blocks.COBBLESTONE, 3), BucketType.stone);
+	public static final Item wooden_bucket = new ItemBetterBucket(1, 0, 1000f, new ItemStack(Items.STICK, 2), BucketType.wood);
+	public static final Item stone_bucket = new ItemBetterBucket(1, 0, new ItemStack(Blocks.COBBLESTONE, 2), BucketType.stone);
 	public static final Item golden_bucket = new ItemBetterBucket(4, 0, BucketType.gold);
 	public static final Item diamond_bucket = new ItemBetterBucket(16, 1, BucketType.diamond);
 	public static final Item obsidian_bucket = new ItemBetterBucket(32, 2, true, BucketType.obsidian);

@@ -11,6 +11,7 @@ import com.grim3212.mc.pack.core.util.Utils;
 import com.grim3212.mc.pack.tools.client.ManualTools;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockDispenser;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.resources.I18n;
@@ -32,6 +33,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
+import net.minecraftforge.fluids.DispenseFluidContainer;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidActionResult;
 import net.minecraftforge.fluids.FluidRegistry;
@@ -46,7 +48,7 @@ public class ItemBetterBucket extends ItemManual {
 	public final float maxPickupTemp;
 	public final boolean pickupFire;
 	public final int milkingLevel;
-	private ItemStack onBroken = ItemStack.EMPTY;
+	protected ItemStack onBroken = ItemStack.EMPTY;
 	private boolean milkPause = false;
 	public final BucketType bucketType;
 
@@ -104,6 +106,8 @@ public class ItemBetterBucket extends ItemManual {
 		this.milkingLevel = milkingLevel;
 		this.bucketType = bucketType;
 		this.onBroken = brokenStack;
+
+		BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.putObject(this, DispenseFluidContainer.getInstance());
 	}
 
 	@Override
@@ -236,8 +240,19 @@ public class ItemBetterBucket extends ItemManual {
 				FluidActionResult filledResult = FluidUtil.tryPickUpFluid(itemStackIn, playerIn, worldIn, clickPos, raytrace.sideHit);
 				if (filledResult.isSuccess()) {
 
+					int filledAmount = getAmount(filledResult.getResult());
+
+					int leftover = filledAmount % Fluid.BUCKET_VOLUME;
+
 					// Don't change if in creative
+					// Also if it isn't a complete bucket then don't add it either
 					if (playerIn.capabilities.isCreativeMode) {
+						return ActionResult.newResult(EnumActionResult.SUCCESS, itemStackIn);
+					}
+
+					if (leftover != 0) {
+						// Remove the leftovers so we have a perfect bucket amount again
+						setAmount(itemStackIn, filledAmount - leftover);
 						return ActionResult.newResult(EnumActionResult.SUCCESS, itemStackIn);
 					}
 
@@ -446,25 +461,120 @@ public class ItemBetterBucket extends ItemManual {
 
 	@Override
 	public ICapabilityProvider initCapabilities(ItemStack stack, NBTTagCompound nbt) {
-		return new BucketFluidHandler(stack, empty, maxCapacity);
+		return new BucketFluidHandler(stack, onBroken, empty, maxCapacity);
 	}
 
-	public static class BucketFluidHandler extends FluidHandlerItemStack.SwapEmpty {
+	public static class BucketFluidHandler extends FluidHandlerItemStack {
 
-		public BucketFluidHandler(ItemStack container, ItemStack emptyContainer, int capacity) {
-			super(container, emptyContainer, capacity);
+		private ItemStack empty = ItemStack.EMPTY;
+		private ItemStack onBroken = ItemStack.EMPTY;
+
+		public BucketFluidHandler(ItemStack container, ItemStack onBroken, ItemStack empty, int capacity) {
+			super(container, capacity);
+
+			this.empty = empty;
+			this.onBroken = onBroken;
 		}
 
 		@Override
 		public int fill(FluidStack resource, boolean doFill) {
 			if (container.getItem() instanceof ItemBetterMilkBucket) {
 				if (resource.getUnlocalizedName().equals("fluid.milk")) {
-					return super.fill(resource, doFill);
+					return fillIncremental(resource, doFill);
 				} else {
 					return 0;
 				}
 			} else {
-				return super.fill(resource, doFill);
+				return fillIncremental(resource, doFill);
+			}
+		}
+
+		private int fillIncremental(FluidStack resource, boolean doFill) {
+			if (container.getCount() != 1 || resource == null || resource.amount <= 0 || !canFillFluidType(resource)) {
+				return 0;
+			}
+
+			FluidStack contained = getFluid();
+			if (contained == null) {
+				int fillAmount = Math.min(capacity, resource.amount);
+				int leftover = fillAmount % Fluid.BUCKET_VOLUME;
+
+				if (leftover != 0) {
+					// Account for offset and only fill in bucket increments
+					fillAmount -= leftover;
+				}
+
+				if (doFill) {
+					FluidStack filled = resource.copy();
+					filled.amount = fillAmount;
+					setFluid(filled);
+				}
+
+				return fillAmount;
+			} else {
+				if (contained.isFluidEqual(resource)) {
+					int fillAmount = Math.min(capacity - contained.amount, resource.amount);
+					int leftover = fillAmount % Fluid.BUCKET_VOLUME;
+
+					if (leftover != 0) {
+						// Account for offset and only fill in bucket increments
+						fillAmount -= leftover;
+					}
+
+					if (doFill && fillAmount > 0) {
+						contained.amount += fillAmount;
+						setFluid(contained);
+					}
+
+					return fillAmount;
+				}
+
+				return 0;
+			}
+		}
+
+		@Override
+		public FluidStack drain(int maxDrain, boolean doDrain) {
+			if (container.getCount() != 1 || maxDrain <= 0) {
+				return null;
+			}
+
+			FluidStack contained = getFluid();
+			if (contained == null || contained.amount <= 0 || !canDrainFluidType(contained)) {
+				return null;
+			}
+
+			int drainAmount = Math.min(contained.amount, maxDrain);
+			int leftover = drainAmount % Fluid.BUCKET_VOLUME;
+
+			if (leftover != 0) {
+				// Account for offset and only drain in bucket increments
+				drainAmount -= leftover;
+			}
+
+			FluidStack drained = contained.copy();
+			drained.amount = drainAmount;
+
+			if (doDrain) {
+				contained.amount -= drainAmount;
+				if (contained.amount == 0) {
+					setContainerToEmpty();
+				} else {
+					setFluid(contained);
+				}
+			}
+
+			return drained;
+		}
+
+		@Override
+		protected void setContainerToEmpty() {
+			super.setContainerToEmpty();
+
+			if (!this.onBroken.isEmpty()) {
+				container = this.onBroken.copy();
+			} else {
+				container = this.empty.copy();
 			}
 		}
 	}

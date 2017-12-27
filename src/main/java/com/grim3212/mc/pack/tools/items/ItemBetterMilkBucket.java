@@ -139,7 +139,7 @@ public class ItemBetterMilkBucket extends ItemManual {
 
 	@Override
 	public ICapabilityProvider initCapabilities(ItemStack stack, NBTTagCompound nbt) {
-		return new BucketFluidHandler(stack, parent.empty, parent.maxCapacity);
+		return new BucketFluidHandler(stack, parent.onBroken, parent.empty, parent.maxCapacity);
 	}
 
 }
