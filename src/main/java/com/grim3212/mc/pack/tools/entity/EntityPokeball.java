@@ -58,31 +58,23 @@ public class EntityPokeball extends EntityThrowable {
 					this.currentPokeball.setTagCompound(entity);
 					this.currentPokeball.damageItem(1, (EntityLivingBase) hitEntity);
 					this.currentPokeball.setCount(1);
-					this.entityDropItem(this.currentPokeball, 1.0F);
+					
 					hitEntity.setDead();
-					this.setDead();
 				}
 			}
 
 			if (!this.notCaught) {
 				Entity spawnEntity = EntityList.createEntityFromNBT(this.currentPokeball.getTagCompound(), this.world);
 				if (spawnEntity != null) {
-					spawnEntity.readFromNBT(this.currentPokeball.getTagCompound());
-				}
-
-				if (spawnEntity != null) {
 					spawnEntity.setLocationAndAngles(this.posX, this.posY + 1.0D, this.posZ, this.rotationYaw, 0.0F);
 					this.world.spawnEntity(spawnEntity);
-					this.entityDropItem(new ItemStack(ToolsItems.pokeball), 0.0F);
 				}
+				
+				//Always reset pokeball
+				this.currentPokeball = new ItemStack(ToolsItems.pokeball);
 			}
-
-			if (result.entityHit == null && this.notCaught) {
-				this.entityDropItem(new ItemStack(ToolsItems.pokeball), 0.0F);
-			}
-		}
-
-		if (!this.world.isRemote) {
+			
+			this.entityDropItem(this.currentPokeball, 0.2F);
 			this.world.setEntityState(this, (byte) 3);
 			this.setDead();
 		}
