@@ -4,6 +4,8 @@
 
 This is the combined mods previously known as Grims Mods.
 
+Information can be found at [https://www.grim3212.com/grim-pack](https://www.grim3212.com/grim-pack)
+
 These are seperated into 7 parts.
 
 Core, Cuisine, Decor, Industry, Tools, Util, and World
