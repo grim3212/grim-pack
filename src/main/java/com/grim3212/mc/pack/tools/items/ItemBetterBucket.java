@@ -9,6 +9,7 @@ import com.grim3212.mc.pack.core.part.GrimCreativeTabs;
 import com.grim3212.mc.pack.core.util.NBTHelper;
 import com.grim3212.mc.pack.core.util.Utils;
 import com.grim3212.mc.pack.tools.client.ManualTools;
+import com.grim3212.mc.pack.tools.config.ToolsConfig;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockDispenser;
@@ -240,20 +241,22 @@ public class ItemBetterBucket extends ItemManual {
 				FluidActionResult filledResult = FluidUtil.tryPickUpFluid(itemStackIn, playerIn, worldIn, clickPos, raytrace.sideHit);
 				if (filledResult.isSuccess()) {
 
-					int filledAmount = getAmount(filledResult.getResult());
-
-					int leftover = filledAmount % Fluid.BUCKET_VOLUME;
-
 					// Don't change if in creative
 					// Also if it isn't a complete bucket then don't add it either
 					if (playerIn.capabilities.isCreativeMode) {
 						return ActionResult.newResult(EnumActionResult.SUCCESS, itemStackIn);
 					}
 
-					if (leftover != 0) {
-						// Remove the leftovers so we have a perfect bucket amount again
-						setAmount(itemStackIn, filledAmount - leftover);
-						return ActionResult.newResult(EnumActionResult.SUCCESS, itemStackIn);
+					if (!ToolsConfig.allowPartialBucketAmounts) {
+						int filledAmount = getAmount(filledResult.getResult());
+
+						int leftover = filledAmount % Fluid.BUCKET_VOLUME;
+
+						if (leftover != 0) {
+							// Remove the leftovers so we have a perfect bucket amount again
+							setAmount(itemStackIn, filledAmount - leftover);
+							return ActionResult.newResult(EnumActionResult.SUCCESS, itemStackIn);
+						}
 					}
 
 					return ActionResult.newResult(EnumActionResult.SUCCESS, filledResult.result);
@@ -478,14 +481,18 @@ public class ItemBetterBucket extends ItemManual {
 
 		@Override
 		public int fill(FluidStack resource, boolean doFill) {
-			if (container.getItem() instanceof ItemBetterMilkBucket) {
-				if (resource.getUnlocalizedName().equals("fluid.milk")) {
-					return fillIncremental(resource, doFill);
-				} else {
-					return 0;
-				}
+			if (ToolsConfig.allowPartialBucketAmounts) {
+				return super.fill(resource, doFill);
 			} else {
-				return fillIncremental(resource, doFill);
+				if (container.getItem() instanceof ItemBetterMilkBucket) {
+					if (resource.getUnlocalizedName().equals("fluid.milk")) {
+						return fillIncremental(resource, doFill);
+					} else {
+						return 0;
+					}
+				} else {
+					return fillIncremental(resource, doFill);
+				}
 			}
 		}
 
@@ -535,36 +542,40 @@ public class ItemBetterBucket extends ItemManual {
 
 		@Override
 		public FluidStack drain(int maxDrain, boolean doDrain) {
-			if (container.getCount() != 1 || maxDrain <= 0) {
-				return null;
-			}
-
-			FluidStack contained = getFluid();
-			if (contained == null || contained.amount <= 0 || !canDrainFluidType(contained)) {
-				return null;
-			}
-
-			int drainAmount = Math.min(contained.amount, maxDrain);
-			int leftover = drainAmount % Fluid.BUCKET_VOLUME;
-
-			if (leftover != 0) {
-				// Account for offset and only drain in bucket increments
-				drainAmount -= leftover;
-			}
-
-			FluidStack drained = contained.copy();
-			drained.amount = drainAmount;
-
-			if (doDrain) {
-				contained.amount -= drainAmount;
-				if (contained.amount == 0) {
-					setContainerToEmpty();
-				} else {
-					setFluid(contained);
+			if (ToolsConfig.allowPartialBucketAmounts) {
+				return super.drain(maxDrain, doDrain);
+			} else {
+				if (container.getCount() != 1 || maxDrain <= 0) {
+					return null;
 				}
-			}
 
-			return drained;
+				FluidStack contained = getFluid();
+				if (contained == null || contained.amount <= 0 || !canDrainFluidType(contained)) {
+					return null;
+				}
+
+				int drainAmount = Math.min(contained.amount, maxDrain);
+				int leftover = drainAmount % Fluid.BUCKET_VOLUME;
+
+				if (leftover != 0) {
+					// Account for offset and only drain in bucket increments
+					drainAmount -= leftover;
+				}
+
+				FluidStack drained = contained.copy();
+				drained.amount = drainAmount;
+
+				if (doDrain) {
+					contained.amount -= drainAmount;
+					if (contained.amount == 0) {
+						setContainerToEmpty();
+					} else {
+						setFluid(contained);
+					}
+				}
+
+				return drained;
+			}
 		}
 
 		@Override

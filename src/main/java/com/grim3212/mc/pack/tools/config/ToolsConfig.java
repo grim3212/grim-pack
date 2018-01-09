@@ -32,6 +32,7 @@ public class ToolsConfig extends GrimConfig {
 	public static ArmorMaterialHolder chickenSuitArmorMaterial = new ArmorMaterialHolder("chicken_suit", 5, new int[] { 1, 2, 3, 1 }, 15, 0.0F);
 	public static ArmorMaterialHolder blackDiamondArmorMaterial = new ArmorMaterialHolder("black_diamond", 35, new int[] { 4, 8, 10, 4 }, 20, 2.5F);
 
+	public static boolean allowPartialBucketAmounts;
 	public static boolean ENABLE_free_build_mode;
 	public static boolean ENABLE_bedrock_breaking;
 	public static boolean ENABLE_easy_mining_obsidian;
@@ -146,7 +147,6 @@ public class ToolsConfig extends GrimConfig {
 
 		if (subpartChickenSuit)
 			chickenSuitArmorMaterial.load();
-
 	}
 
 	@Override
@@ -172,7 +172,8 @@ public class ToolsConfig extends GrimConfig {
 			ENABLE_bedrock_breaking = config.get(CONFIG_GENERAL_NAME, "Enable Bedrock Breaking", false).getBoolean();
 			ENABLE_easy_mining_obsidian = config.get(CONFIG_GENERAL_NAME, "Enable Easy Mining Obsidian", false).getBoolean();
 
-			BLOCKS_Destructive_wand_spared_ores = config.get(CONFIG_GENERAL_NAME, "Destructive Wand Spared Ores", new String[] { "oredict:oreGold", "oredict:oreIron", "oredict:oreCoal", "oredict:oreLapis", "minecraft:mob_spawner", "oredict:chest", "oredict:oreDiamond", "oredict:oreRedstone", "minecraft:lit_redstone_ore", "oredict:oreEmerald", "oredict:oreQuartz", "oredict:oreUranium", "oredict:oreAluminum", "oredict:oreOil", "oredict:oreElement115", "oredict:oreBlackDiamond", "oredict:oreRandomite" }).getStringList();
+			BLOCKS_Destructive_wand_spared_ores = config
+					.get(CONFIG_GENERAL_NAME, "Destructive Wand Spared Ores", new String[] { "oredict:oreGold", "oredict:oreIron", "oredict:oreCoal", "oredict:oreLapis", "minecraft:mob_spawner", "oredict:chest", "oredict:oreDiamond", "oredict:oreRedstone", "minecraft:lit_redstone_ore", "oredict:oreEmerald", "oredict:oreQuartz", "oredict:oreUranium", "oredict:oreAluminum", "oredict:oreOil", "oredict:oreElement115", "oredict:oreBlackDiamond", "oredict:oreRandomite" }).getStringList();
 			BLOCKS_Mining_wand_ores_for_surface_mining = config.get(CONFIG_GENERAL_NAME, "Mining Wand Ores for Surface Mining", new String[] { "oredict:oreGold", "oredict:oreIron", "oredict:oreCoal", "oredict:oreLapis", "oredict:oreDiamond", "oredict:oreRedstone", "minecraft:lit_redstone_ore", "oredict:oreEmerald", "oredict:oreQuartz", "oredict:oreUranium", "oredict:oreAluminum", "oredict:oreOil", "oredict:oreElement115", "oredict:oreBlackDiamond", "oredict:oreRandomite" }).getStringList();
 
 			ConfigUtils.loadBlocksOntoMap(BLOCKS_Destructive_wand_spared_ores, ItemBreakingWand.ores);
@@ -191,6 +192,9 @@ public class ToolsConfig extends GrimConfig {
 
 		if (subpartRayGuns)
 			generateElement115 = config.get(CONFIG_GENERAL_NAME, "Generate Element 115", true).getBoolean();
+
+		if (subpartBuckets)
+			allowPartialBucketAmounts = config.get(CONFIG_GENERAL_NAME, "Allow Partial Bucket Amounts", false).getBoolean();
 
 		if (subpartSlingshots) {
 			stonePelletDamage = Float.parseFloat(config.get(CONFIG_SLINGSHOT_NAME, "Stone Pellet Damage", 1.0f).setRequiresMcRestart(true).getString());
@@ -221,7 +225,7 @@ public class ToolsConfig extends GrimConfig {
 	@Override
 	public List<IConfigElement> getConfigItems() {
 		List<IConfigElement> list = new ArrayList<IConfigElement>();
-		if (subpartWands || subpartPowerstaff || subpartBlackDiamond || subpartRayGuns)
+		if (subpartWands || subpartPowerstaff || subpartBlackDiamond || subpartRayGuns || subpartBuckets)
 			list.add(new DummyCategoryElement("toolsGeneralCfg", "grimpack.tools.cfg.general", new ConfigElement(GrimTools.INSTANCE.getConfig().getCategory(CONFIG_GENERAL_NAME)).getChildElements()));
 		if (subpartUltimateFist)
 			list.add(new DummyCategoryElement("toolsUltimateFistCfg", "grimpack.tools.cfg.ultimatefist", new ConfigElement(GrimTools.INSTANCE.getConfig().getCategory(CONFIG_FIST_NAME)).getChildElements()));
