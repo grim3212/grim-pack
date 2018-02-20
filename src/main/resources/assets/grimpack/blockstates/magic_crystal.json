@@ -1,0 +1,23 @@
+{
+	"forge_marker": 1,
+    "defaults": {
+		"transform": "forge:default-block",
+        "model": "grimpack:magic_crystal",
+		"textures": {
+		  "cross": "grimpack:blocks/magic_crystal"
+		}
+    },
+    "variants": {
+        "ceiling=false,end=false": [{ "textures": { "cross": "grimpack:blocks/magic_crystal_bottom" } }],
+        "ceiling=false,end=true": [{  }],
+        "ceiling=true,end=false": [{ "x": 180, "textures": { "cross": "grimpack:blocks/magic_crystal_bottom" } }],
+        "ceiling=true,end=true": [{ "x": 180 }],
+		"inventory": [{
+			"model": "builtin/generated",
+			"transform": "forge:default-item",
+			"textures": {
+				"layer0": "grimpack:blocks/magic_crystal"
+			}
+		}]
+    }
+}

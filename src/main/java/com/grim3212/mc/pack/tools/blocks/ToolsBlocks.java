@@ -2,6 +2,8 @@ package com.grim3212.mc.pack.tools.blocks;
 
 import com.grim3212.mc.pack.core.item.ItemManualBlock;
 import com.grim3212.mc.pack.tools.config.ToolsConfig;
+import com.grim3212.mc.pack.tools.items.ItemCrystal;
+import com.grim3212.mc.pack.tools.tile.TileEntityCrystal;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
@@ -9,6 +11,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.item.Item;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.registries.IForgeRegistry;
 
@@ -17,6 +20,8 @@ public class ToolsBlocks {
 	public static final Block black_diamond_block = new BlockBlackDiamond(Material.IRON, SoundType.METAL);
 	public static final Block black_diamond_ore = new BlockBlackDiamond(Material.ROCK, SoundType.STONE);
 	public static final Block element_115_ore = new BlockElement();
+	public static final Block magic_crystal = new BlockCrystal("magic_crystal");
+	public static final Block magic_large_crystal = new BlockLargeCrystal();
 
 	@SubscribeEvent
 	public void initBlocks(RegistryEvent.Register<Block> evt) {
@@ -29,6 +34,13 @@ public class ToolsBlocks {
 
 		if (ToolsConfig.subpartRayGuns)
 			r.register(element_115_ore);
+
+		if (ToolsConfig.subpartMagic) {
+			r.register(magic_crystal);
+			r.register(magic_large_crystal);
+		}
+
+		initTileEntities();
 	}
 
 	@SubscribeEvent
@@ -43,6 +55,10 @@ public class ToolsBlocks {
 		if (ToolsConfig.subpartRayGuns)
 			r.register(new ItemManualBlock(element_115_ore).setRegistryName(element_115_ore.getRegistryName()));
 
+		if (ToolsConfig.subpartMagic) {
+			r.register(new ItemCrystal(magic_crystal).setRegistryName(magic_crystal.getRegistryName()));
+		}
+
 		initOreDict();
 	}
 
@@ -54,5 +70,11 @@ public class ToolsBlocks {
 
 		if (ToolsConfig.subpartRayGuns)
 			OreDictionary.registerOre("oreElement115", element_115_ore);
+	}
+
+	private void initTileEntities() {
+		if (ToolsConfig.subpartMagic) {
+			GameRegistry.registerTileEntity(TileEntityCrystal.class, "magic_crystal");
+		}
 	}
 }

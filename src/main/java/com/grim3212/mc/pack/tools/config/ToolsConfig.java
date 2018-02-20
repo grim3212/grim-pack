@@ -71,6 +71,8 @@ public class ToolsConfig extends GrimConfig {
 	public static float explosivePelletDamage;
 
 	public static float grenadeLauncherExplosion;
+	
+	public static boolean generateCrystals;
 
 	// Subparts
 	public static boolean subpartBackpacks;
@@ -85,6 +87,7 @@ public class ToolsConfig extends GrimConfig {
 	public static boolean subpartHammers;
 	public static boolean subpartKnives;
 	public static boolean subpartMachetes;
+	public static boolean subpartMagic;
 	public static boolean subpartMasks;
 	public static boolean subpartMultiTools;
 	public static boolean subpartPokeball;
@@ -116,6 +119,7 @@ public class ToolsConfig extends GrimConfig {
 		subpartHammers = config.get(CONFIG_PARTS_NAME, "Enable SubPart hammers", true).setRequiresMcRestart(true).getBoolean();
 		subpartKnives = config.get(CONFIG_PARTS_NAME, "Enable SubPart knives", true).setRequiresMcRestart(true).getBoolean();
 		subpartMachetes = config.get(CONFIG_PARTS_NAME, "Enable SubPart machetes", true).setRequiresMcRestart(true).getBoolean();
+		subpartMagic = config.get(CONFIG_PARTS_NAME, "Enable SubPart magic", true).setRequiresMcRestart(true).getBoolean();
 		subpartMasks = config.get(CONFIG_PARTS_NAME, "Enable SubPart masks", true).setRequiresMcRestart(true).getBoolean();
 		subpartMultiTools = config.get(CONFIG_PARTS_NAME, "Enable SubPart multitools", true).setRequiresMcRestart(true).getBoolean();
 		subpartPokeball = config.get(CONFIG_PARTS_NAME, "Enable SubPart pokeball", true).setRequiresMcRestart(true).getBoolean();
@@ -189,6 +193,9 @@ public class ToolsConfig extends GrimConfig {
 
 		if (subpartBlackDiamond)
 			generateBlackDiamond = config.get(CONFIG_GENERAL_NAME, "Generate Black Diamond", true).getBoolean();
+		
+		if(subpartMagic)
+			generateCrystals = config.get(CONFIG_GENERAL_NAME, "Generate Magic Crystals", true).getBoolean();
 
 		if (subpartRayGuns)
 			generateElement115 = config.get(CONFIG_GENERAL_NAME, "Generate Element 115", true).getBoolean();
@@ -225,7 +232,7 @@ public class ToolsConfig extends GrimConfig {
 	@Override
 	public List<IConfigElement> getConfigItems() {
 		List<IConfigElement> list = new ArrayList<IConfigElement>();
-		if (subpartWands || subpartPowerstaff || subpartBlackDiamond || subpartRayGuns || subpartBuckets)
+		if (subpartWands || subpartPowerstaff || subpartBlackDiamond || subpartRayGuns || subpartBuckets || subpartMagic)
 			list.add(new DummyCategoryElement("toolsGeneralCfg", "grimpack.tools.cfg.general", new ConfigElement(GrimTools.INSTANCE.getConfig().getCategory(CONFIG_GENERAL_NAME)).getChildElements()));
 		if (subpartUltimateFist)
 			list.add(new DummyCategoryElement("toolsUltimateFistCfg", "grimpack.tools.cfg.ultimatefist", new ConfigElement(GrimTools.INSTANCE.getConfig().getCategory(CONFIG_FIST_NAME)).getChildElements()));
@@ -251,6 +258,7 @@ public class ToolsConfig extends GrimConfig {
 		subpartHammers = buffer.readBoolean();
 		subpartKnives = buffer.readBoolean();
 		subpartMachetes = buffer.readBoolean();
+		subpartMagic = buffer.readBoolean();
 		subpartMasks = buffer.readBoolean();
 		subpartMultiTools = buffer.readBoolean();
 		subpartPokeball = buffer.readBoolean();
@@ -278,6 +286,7 @@ public class ToolsConfig extends GrimConfig {
 		buffer.writeBoolean(subpartHammers);
 		buffer.writeBoolean(subpartKnives);
 		buffer.writeBoolean(subpartMachetes);
+		buffer.writeBoolean(subpartMagic);
 		buffer.writeBoolean(subpartMasks);
 		buffer.writeBoolean(subpartMultiTools);
 		buffer.writeBoolean(subpartPokeball);

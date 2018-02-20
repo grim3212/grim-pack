@@ -4,6 +4,8 @@ import com.grim3212.mc.pack.GrimPack;
 import com.grim3212.mc.pack.core.client.entity.RenderProjectile.RenderProjectileFactory;
 import com.grim3212.mc.pack.core.client.entity.RenderThrowable.RenderThrowableFactory;
 import com.grim3212.mc.pack.core.proxy.ClientProxy;
+import com.grim3212.mc.pack.tools.blocks.BlockCrystal;
+import com.grim3212.mc.pack.tools.blocks.ToolsBlocks;
 import com.grim3212.mc.pack.tools.client.entity.RenderBlockPushPullFactory;
 import com.grim3212.mc.pack.tools.client.entity.RenderBoomerang.RenderBoomerangFactory;
 import com.grim3212.mc.pack.tools.client.entity.RenderDetonator.RenderDetonatorFactory;
@@ -29,11 +31,16 @@ import com.grim3212.mc.pack.tools.event.ChickenSuitJumpEvent;
 import com.grim3212.mc.pack.tools.items.ItemBackpack;
 import com.grim3212.mc.pack.tools.items.ItemPelletBag;
 import com.grim3212.mc.pack.tools.items.ToolsItems;
+import com.grim3212.mc.pack.tools.util.EnumCrystalType;
 
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.color.IBlockColor;
 import net.minecraft.client.renderer.color.IItemColor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 
@@ -126,6 +133,29 @@ public class ToolsClientProxy extends ClientProxy {
 					}
 				}
 			}, ToolsItems.pellet_bag);
+		}
+
+		if (ToolsConfig.subpartMagic) {
+			Minecraft.getMinecraft().getItemColors().registerItemColorHandler(new IItemColor() {
+				@Override
+				public int getColorFromItemstack(ItemStack stack, int tintIndex) {
+					return EnumCrystalType.values[stack.getMetadata()].getCrystalColor();
+				}
+			}, ToolsItems.shard, ToolsItems.gem);
+
+			Minecraft.getMinecraft().getItemColors().registerItemColorHandler(new IItemColor() {
+				@Override
+				public int getColorFromItemstack(ItemStack stack, int tintIndex) {
+					return EnumCrystalType.values[stack.getMetadata()].getCrystalColor();
+				}
+			}, ToolsBlocks.magic_crystal, ToolsBlocks.magic_large_crystal);
+
+			Minecraft.getMinecraft().getBlockColors().registerBlockColorHandler(new IBlockColor() {
+				@Override
+				public int colorMultiplier(IBlockState state, IBlockAccess worldIn, BlockPos pos, int tintIndex) {
+					return state.getValue(BlockCrystal.CRYSTAL_TYPE).getCrystalColor();
+				}
+			}, ToolsBlocks.magic_crystal, ToolsBlocks.magic_large_crystal);
 		}
 	}
 }

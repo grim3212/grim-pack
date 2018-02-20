@@ -139,6 +139,8 @@ public class ToolsItems {
 	public static final Item thermal_detonator = new ItemDetonator(EnumDetonatorType.THERMAL);
 	public static final Item solar_detonator = new ItemDetonator(EnumDetonatorType.SOLAR);
 	public static final Item nukeulator = new ItemDetonator(EnumDetonatorType.NUKEULATOR);
+	public static final Item shard = new ItemGem("shard");
+	public static final Item gem = new ItemGem("gem");
 
 	@SubscribeEvent
 	public void initItems(RegistryEvent.Register<Item> evt) {
@@ -304,6 +306,11 @@ public class ToolsItems {
 			r.register(solar_detonator);
 			r.register(nukeulator);
 		}
+		
+		if(ToolsConfig.subpartMagic) {
+			r.register(shard);
+			r.register(gem);
+		}
 
 		// Set repair items
 		if (ToolsConfig.subpartMultiTools)
@@ -346,6 +353,10 @@ public class ToolsItems {
 			OreDictionary.registerOre("element115", element_115);
 			OreDictionary.registerOre("canEnergy", energy_canister);
 			OreDictionary.registerOre("canAdvancedEnergy", advanced_energy_canister);
+		}
+		
+		if(ToolsConfig.subpartMagic) {
+			//TODO: Use gems
 		}
 	}
 
