@@ -118,7 +118,6 @@ public class BetterBucketModel implements IModel {
 		}
 
 		TRSRTransformation transform = state.apply(Optional.empty()).orElse(TRSRTransformation.identity());
-		;
 		TextureAtlasSprite fluidSprite = null;
 		ImmutableList.Builder<BakedQuad> builder = ImmutableList.builder();
 

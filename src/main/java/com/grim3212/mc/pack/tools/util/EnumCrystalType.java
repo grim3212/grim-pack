@@ -30,6 +30,15 @@ public enum EnumCrystalType implements IStringSerializable {
 		return names;
 	}
 
+	public static EnumCrystalType fromString(String type) {
+		for (EnumCrystalType crystalType : EnumCrystalType.values) {
+			if (crystalType.getUnlocalized().equalsIgnoreCase(type)) {
+				return crystalType;
+			}
+		}
+		return null;
+	}
+
 	public String getUnlocalized() {
 		return this.name;
 	}

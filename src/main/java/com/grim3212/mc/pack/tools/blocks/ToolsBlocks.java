@@ -21,7 +21,6 @@ public class ToolsBlocks {
 	public static final Block black_diamond_ore = new BlockBlackDiamond(Material.ROCK, SoundType.STONE);
 	public static final Block element_115_ore = new BlockElement();
 	public static final Block magic_crystal = new BlockCrystal("magic_crystal");
-	public static final Block magic_large_crystal = new BlockLargeCrystal();
 
 	@SubscribeEvent
 	public void initBlocks(RegistryEvent.Register<Block> evt) {
@@ -37,7 +36,6 @@ public class ToolsBlocks {
 
 		if (ToolsConfig.subpartMagic) {
 			r.register(magic_crystal);
-			r.register(magic_large_crystal);
 		}
 
 		initTileEntities();

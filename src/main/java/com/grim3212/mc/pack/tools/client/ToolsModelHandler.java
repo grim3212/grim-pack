@@ -7,6 +7,7 @@ import com.grim3212.mc.pack.industry.config.IndustryConfig;
 import com.grim3212.mc.pack.tools.blocks.BlockCrystal;
 import com.grim3212.mc.pack.tools.blocks.ToolsBlocks;
 import com.grim3212.mc.pack.tools.client.model.BetterBucketModel;
+import com.grim3212.mc.pack.tools.client.model.MagicModel;
 import com.grim3212.mc.pack.tools.config.ToolsConfig;
 import com.grim3212.mc.pack.tools.items.ItemMaskArmor;
 import com.grim3212.mc.pack.tools.items.ToolsItems;
@@ -201,14 +202,17 @@ public class ToolsModelHandler {
 		}
 
 		if (ToolsConfig.subpartMagic) {
+			// Register custom model
+			ModelLoaderRegistry.registerLoader(MagicModel.LoaderMagic.instance);
+
 			RenderHelper.renderItem(ToolsItems.shard, EnumCrystalType.values.length);
 			RenderHelper.renderItem(ToolsItems.gem, EnumCrystalType.values.length);
+			RenderHelper.renderItem(ToolsItems.magic_stone, EnumCrystalType.values.length * EnumCrystalType.values.length);
+			RenderHelper.renderItem(ToolsItems.magic_wand, EnumCrystalType.values.length * EnumCrystalType.values.length);
 
 			ModelLoader.setCustomStateMapper(ToolsBlocks.magic_crystal, new StateMap.Builder().ignore(BlockCrystal.CRYSTAL_TYPE).ignore(BlockCrystal.AGE).build());
-			ModelLoader.setCustomStateMapper(ToolsBlocks.magic_large_crystal, new StateMap.Builder().ignore(BlockCrystal.CRYSTAL_TYPE).ignore(BlockCrystal.AGE).build());
-			
+
 			RenderHelper.renderBlockWithMetaInInventory(ToolsBlocks.magic_crystal, EnumCrystalType.values.length);
-			RenderHelper.renderBlockNormal(ToolsBlocks.magic_large_crystal);
 		}
 	}
 

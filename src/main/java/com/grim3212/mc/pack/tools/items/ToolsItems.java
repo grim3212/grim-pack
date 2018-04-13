@@ -141,6 +141,8 @@ public class ToolsItems {
 	public static final Item nukeulator = new ItemDetonator(EnumDetonatorType.NUKEULATOR);
 	public static final Item shard = new ItemGem("shard");
 	public static final Item gem = new ItemGem("gem");
+	public static final Item magic_stone = new ItemMagicStone();
+	public static final Item magic_wand = new ItemMagicWand();
 
 	@SubscribeEvent
 	public void initItems(RegistryEvent.Register<Item> evt) {
@@ -310,6 +312,8 @@ public class ToolsItems {
 		if(ToolsConfig.subpartMagic) {
 			r.register(shard);
 			r.register(gem);
+			r.register(magic_wand);
+			r.register(magic_stone);
 		}
 
 		// Set repair items

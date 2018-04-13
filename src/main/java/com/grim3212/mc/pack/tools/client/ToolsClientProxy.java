@@ -52,6 +52,9 @@ public class ToolsClientProxy extends ClientProxy {
 
 		if (ToolsConfig.subpartChickenSuit)
 			MinecraftForge.EVENT_BUS.register(new ChickenSuitJumpEvent());
+		
+		if(ToolsConfig.subpartMagic)
+			MinecraftForge.EVENT_BUS.register(new ToolsClientEvents());
 
 		// ENTITYS
 		if (ToolsConfig.subpartPowerstaff)
@@ -148,14 +151,14 @@ public class ToolsClientProxy extends ClientProxy {
 				public int getColorFromItemstack(ItemStack stack, int tintIndex) {
 					return EnumCrystalType.values[stack.getMetadata()].getCrystalColor();
 				}
-			}, ToolsBlocks.magic_crystal, ToolsBlocks.magic_large_crystal);
+			}, ToolsBlocks.magic_crystal);
 
 			Minecraft.getMinecraft().getBlockColors().registerBlockColorHandler(new IBlockColor() {
 				@Override
 				public int colorMultiplier(IBlockState state, IBlockAccess worldIn, BlockPos pos, int tintIndex) {
 					return state.getValue(BlockCrystal.CRYSTAL_TYPE).getCrystalColor();
 				}
-			}, ToolsBlocks.magic_crystal, ToolsBlocks.magic_large_crystal);
+			}, ToolsBlocks.magic_crystal);
 		}
 	}
 }
