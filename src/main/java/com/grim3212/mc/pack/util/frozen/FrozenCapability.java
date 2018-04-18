@@ -28,7 +28,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 public class FrozenCapability {
 
 	public static void registerCapability() {
-		CapabilityManager.INSTANCE.register(IFrozenCapability.class, new FrozenStorage(), FrozenDefaultImpl.class);
+		CapabilityManager.INSTANCE.register(IFrozenCapability.class, new FrozenStorage(), FrozenDefaultImpl::new);
 		MinecraftForge.EVENT_BUS.register(new FrozenEvents());
 		PacketDispatcher.registerMessage(MessageFrozen.class);
 	}

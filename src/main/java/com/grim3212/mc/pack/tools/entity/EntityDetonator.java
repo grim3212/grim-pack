@@ -141,7 +141,7 @@ public class EntityDetonator extends EntityProjectile implements IManualEntity {
 	@Override
 	public boolean attackEntityFrom(DamageSource source, float amount) {
 		explode();
-		setBeenAttacked();
+		markVelocityChanged();
 		setDead();
 		return false;
 	}

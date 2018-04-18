@@ -130,7 +130,7 @@ public class InventoryExtruder implements IInventory {
 
 	@Override
 	public boolean isUsableByPlayer(EntityPlayer player) {
-		return player.getDistanceSqToEntity(extruder) <= 64.0D;
+		return player.getDistanceSq(extruder) <= 64.0D;
 	}
 
 	@Override

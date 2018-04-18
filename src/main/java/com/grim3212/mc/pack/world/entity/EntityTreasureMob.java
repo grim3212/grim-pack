@@ -179,7 +179,7 @@ public class EntityTreasureMob extends EntityTameable implements IManualEntity, 
 			} else if (!this.world.isRemote) {
 				this.aiSit.setSitting(!this.isSitting());
 			}
-		} else if ((this.aiTempt == null || this.aiTempt.isRunning()) && itemstack.getItem() == Items.GOLD_NUGGET && player.getDistanceSqToEntity(this) < 9.0D) {
+		} else if ((this.aiTempt == null || this.aiTempt.isRunning()) && itemstack.getItem() == Items.GOLD_NUGGET && player.getDistanceSq(this) < 9.0D) {
 			if (!player.capabilities.isCreativeMode) {
 				player.getHeldItem(hand).shrink(1);
 			}

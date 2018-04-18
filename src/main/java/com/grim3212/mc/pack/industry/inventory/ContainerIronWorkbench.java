@@ -40,7 +40,7 @@ public class ContainerIronWorkbench extends ContainerWorkbench {
 			EntityPlayerMP entityplayermp = (EntityPlayerMP) player;
 			IRecipe found = CraftingManager.findMatchingRecipe(this.craftMatrix, this.worldObj);
 
-			if (found != null && (found.isHidden() || !this.worldObj.getGameRules().getBoolean("doLimitedCrafting") || entityplayermp.getRecipeBook().containsRecipe(found))) {
+			if (found != null && (found.isDynamic() || !this.worldObj.getGameRules().getBoolean("doLimitedCrafting") || entityplayermp.getRecipeBook().isUnlocked(found))) {
 				this.craftResult.setRecipeUsed(found);
 				recipeStack = found.getCraftingResult(this.craftMatrix);
 			}

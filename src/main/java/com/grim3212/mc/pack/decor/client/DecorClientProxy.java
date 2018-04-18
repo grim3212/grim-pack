@@ -116,19 +116,19 @@ public class DecorClientProxy extends DecorCommonProxy {
 
 			Minecraft.getMinecraft().getItemColors().registerItemColorHandler(new IItemColor() {
 				@Override
-				public int getColorFromItemstack(ItemStack stack, int tintIndex) {
+				public int colorMultiplier(ItemStack stack, int tintIndex) {
 					if (stack != null && stack.hasTagCompound()) {
 						if (stack.getTagCompound().hasKey("registryName")) {
 							Block block = Block.REGISTRY.getObject(new ResourceLocation(NBTHelper.getString(stack, "registryName")));
 							if (stack.getTagCompound().hasKey("meta")) {
 								ItemStack colorStack = new ItemStack(block, 1, NBTHelper.getInt(stack, "meta"));
 								if (colorStack.getItem() != null) {
-									return Minecraft.getMinecraft().getItemColors().getColorFromItemstack(colorStack, tintIndex);
+									return Minecraft.getMinecraft().getItemColors().colorMultiplier(colorStack, tintIndex);
 								}
 							} else {
 								ItemStack colorStack = new ItemStack(block);
 								if (colorStack.getItem() != null) {
-									return Minecraft.getMinecraft().getItemColors().getColorFromItemstack(colorStack, tintIndex);
+									return Minecraft.getMinecraft().getItemColors().colorMultiplier(colorStack, tintIndex);
 								}
 							}
 						}
@@ -139,19 +139,19 @@ public class DecorClientProxy extends DecorCommonProxy {
 
 			Minecraft.getMinecraft().getItemColors().registerItemColorHandler(new IItemColor() {
 				@Override
-				public int getColorFromItemstack(ItemStack stack, int tintIndex) {
+				public int colorMultiplier(ItemStack stack, int tintIndex) {
 					if (stack != null && stack.hasTagCompound()) {
 						if (stack.getTagCompound().hasKey("registryName")) {
 							Block block = Block.REGISTRY.getObject(new ResourceLocation(NBTHelper.getString(stack, "registryName")));
 							if (stack.getTagCompound().hasKey("meta")) {
 								ItemStack colorStack = new ItemStack(block, 1, NBTHelper.getInt(stack, "meta"));
 								if (colorStack.getItem() != null) {
-									return Minecraft.getMinecraft().getItemColors().getColorFromItemstack(colorStack, tintIndex);
+									return Minecraft.getMinecraft().getItemColors().colorMultiplier(colorStack, tintIndex);
 								}
 							} else {
 								ItemStack colorStack = new ItemStack(block);
 								if (colorStack.getItem() != null) {
-									return Minecraft.getMinecraft().getItemColors().getColorFromItemstack(colorStack, tintIndex);
+									return Minecraft.getMinecraft().getItemColors().colorMultiplier(colorStack, tintIndex);
 								}
 							}
 						}
@@ -173,7 +173,7 @@ public class DecorClientProxy extends DecorCommonProxy {
 
 			Minecraft.getMinecraft().getItemColors().registerItemColorHandler(new IItemColor() {
 				@Override
-				public int getColorFromItemstack(ItemStack stack, int tintIndex) {
+				public int colorMultiplier(ItemStack stack, int tintIndex) {
 					if (!stack.isEmpty()) {
 						return EnumDyeColor.byMetadata(stack.getMetadata()).getColorValue();
 					}

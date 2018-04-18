@@ -42,7 +42,7 @@ public class ItemMultiTool extends ItemManualTool {
 			Blocks.STONE_PRESSURE_PLATE, Blocks.CLAY, Blocks.DIRT, Blocks.FARMLAND, Blocks.GRASS, Blocks.GRAVEL, Blocks.MYCELIUM, Blocks.SAND, Blocks.SNOW, Blocks.SNOW_LAYER, Blocks.SOUL_SAND, Blocks.GRASS_PATH, Blocks.PLANKS, Blocks.BOOKSHELF, Blocks.LOG, Blocks.LOG2, Blocks.CHEST, Blocks.PUMPKIN, Blocks.LIT_PUMPKIN, Blocks.MELON_BLOCK, Blocks.LADDER, Blocks.WOODEN_BUTTON, Blocks.WOODEN_PRESSURE_PLATE, });
 
 	protected ItemMultiTool(String name, ToolMaterial toolMaterial) {
-		super(name, 4.0f + toolMaterial.getDamageVsEntity(), -2.8f, toolMaterial, blocksEffectiveAgainst);
+		super(name, 4.0f + toolMaterial.getAttackDamage(), -2.8f, toolMaterial, blocksEffectiveAgainst);
 		this.setCreativeTab(GrimCreativeTabs.GRIM_TOOLS);
 		this.setMaxDamage((int) (toolMaterial.getMaxUses() * ToolsConfig.multiToolDurabilityMultiplier));
 	}
@@ -53,7 +53,7 @@ public class ItemMultiTool extends ItemManualTool {
 	}
 
 	@Override
-	public float getStrVsBlock(ItemStack stack, IBlockState state) {
+	public float getDestroySpeed(ItemStack stack, IBlockState state) {
 		if (state.getBlock() == Blocks.WEB || state.getBlock() == Blocks.LEAVES || state.getBlock() == Blocks.LEAVES2) {
 			return 15F;
 		}
@@ -62,7 +62,7 @@ public class ItemMultiTool extends ItemManualTool {
 		}
 
 		Material material = state.getMaterial();
-		return material != Material.WOOD && material != Material.PLANTS && material != Material.VINE && material != Material.IRON && material != Material.ANVIL && material != Material.ROCK ? super.getStrVsBlock(stack, state) : this.efficiencyOnProperMaterial;
+		return material != Material.WOOD && material != Material.PLANTS && material != Material.VINE && material != Material.IRON && material != Material.ANVIL && material != Material.ROCK ? super.getDestroySpeed(stack, state) : this.efficiency;
 	}
 
 	@Override

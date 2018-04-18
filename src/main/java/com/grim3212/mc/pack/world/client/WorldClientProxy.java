@@ -96,7 +96,7 @@ public class WorldClientProxy extends ClientProxy {
 
 			Minecraft.getMinecraft().getItemColors().registerItemColorHandler(new IItemColor() {
 				@Override
-				public int getColorFromItemstack(ItemStack stack, int tintIndex) {
+				public int colorMultiplier(ItemStack stack, int tintIndex) {
 					if (stack != null) {
 						int meta = stack.getItemDamage();
 

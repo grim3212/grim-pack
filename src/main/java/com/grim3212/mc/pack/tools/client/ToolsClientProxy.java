@@ -103,7 +103,7 @@ public class ToolsClientProxy extends ClientProxy {
 		if (ToolsConfig.subpartBackpacks) {
 			Minecraft.getMinecraft().getItemColors().registerItemColorHandler(new IItemColor() {
 				@Override
-				public int getColorFromItemstack(ItemStack stack, int tintIndex) {
+				public int colorMultiplier(ItemStack stack, int tintIndex) {
 					if (tintIndex == 1)
 						return Integer.parseInt(ItemBackpack.colorNumbers[15], 16);
 					else {
@@ -122,7 +122,7 @@ public class ToolsClientProxy extends ClientProxy {
 		if (ToolsConfig.subpartSlingshots) {
 			Minecraft.getMinecraft().getItemColors().registerItemColorHandler(new IItemColor() {
 				@Override
-				public int getColorFromItemstack(ItemStack stack, int tintIndex) {
+				public int colorMultiplier(ItemStack stack, int tintIndex) {
 					if (tintIndex == 1)
 						return Integer.parseInt(ItemPelletBag.colorNumbers[15], 16);
 					else {
@@ -141,14 +141,14 @@ public class ToolsClientProxy extends ClientProxy {
 		if (ToolsConfig.subpartMagic) {
 			Minecraft.getMinecraft().getItemColors().registerItemColorHandler(new IItemColor() {
 				@Override
-				public int getColorFromItemstack(ItemStack stack, int tintIndex) {
+				public int colorMultiplier(ItemStack stack, int tintIndex) {
 					return EnumCrystalType.values[stack.getMetadata()].getCrystalColor();
 				}
 			}, ToolsItems.shard, ToolsItems.gem);
 
 			Minecraft.getMinecraft().getItemColors().registerItemColorHandler(new IItemColor() {
 				@Override
-				public int getColorFromItemstack(ItemStack stack, int tintIndex) {
+				public int colorMultiplier(ItemStack stack, int tintIndex) {
 					return EnumCrystalType.values[stack.getMetadata()].getCrystalColor();
 				}
 			}, ToolsBlocks.magic_crystal);

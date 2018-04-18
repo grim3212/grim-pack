@@ -35,7 +35,7 @@ public class RenderIceCube extends Render<EntityIceCube> {
 
 		EntityItem ice = new EntityItem(renderManager.world, renderManager.viewerPosX, renderManager.viewerPosY, renderManager.viewerPosZ, new ItemStack(Blocks.ICE));
 		ice.hoverStart = 0.0F;
-		this.renderManager.doRenderEntity(ice, 0, 0, 0, 0, 0, false);
+		this.renderManager.renderEntity(ice, 0, 0, 0, 0, 0, false);
 		GlStateManager.disableRescaleNormal();
 		GlStateManager.popMatrix();
 

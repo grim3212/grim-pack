@@ -279,7 +279,7 @@ public class EntityExtruder extends Entity implements IEntityAdditionalSpawnData
 		this.setForwardDirection(-this.getForwardDirection());
 		this.setTimeSinceHit(10);
 		this.setDamageTaken(this.getDamageTaken() + amount * 11.0F);
-		this.setBeenAttacked();
+		this.markVelocityChanged();
 		boolean flag = source.getTrueSource() instanceof EntityPlayer && ((EntityPlayer) source.getTrueSource()).capabilities.isCreativeMode;
 
 		if (flag || this.getDamageTaken() > 40.0F) {

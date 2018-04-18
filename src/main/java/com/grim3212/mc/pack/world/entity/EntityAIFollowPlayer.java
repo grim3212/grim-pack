@@ -37,7 +37,7 @@ public class EntityAIFollowPlayer extends EntityAIBase {
 			return false;
 		} else if (player.isSpectator()) {
 			return false;
-		} else if (this.theFollower.getDistanceSqToEntity(player) < (double) (this.minDist * this.minDist)) {
+		} else if (this.theFollower.getDistanceSq(player) < (double) (this.minDist * this.minDist)) {
 			return false;
 		} else {
 			this.thePlayer = player;
@@ -50,7 +50,7 @@ public class EntityAIFollowPlayer extends EntityAIBase {
 	 */
 	@Override
 	public boolean shouldContinueExecuting() {
-		return !this.followerPathfinder.noPath() && this.theFollower.getDistanceSqToEntity(this.thePlayer) > (double) (this.maxDist * this.maxDist) && this.theFollower.getAttackTarget() == null;
+		return !this.followerPathfinder.noPath() && this.theFollower.getDistanceSq(this.thePlayer) > (double) (this.maxDist * this.maxDist) && this.theFollower.getAttackTarget() == null;
 	}
 
 	/**
@@ -67,7 +67,7 @@ public class EntityAIFollowPlayer extends EntityAIBase {
 	@Override
 	public void resetTask() {
 		this.thePlayer = null;
-		this.followerPathfinder.clearPathEntity();
+		this.followerPathfinder.clearPath();
 	}
 
 	/**

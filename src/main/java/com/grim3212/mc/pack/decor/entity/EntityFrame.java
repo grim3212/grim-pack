@@ -375,7 +375,7 @@ public class EntityFrame extends EntityHanging implements IEntityAdditionalSpawn
 				}
 
 				setDead();
-				setBeenAttacked();
+				markVelocityChanged();
 				playPlaceSound();
 
 				if (entityplayer.capabilities.isCreativeMode) {
@@ -391,7 +391,7 @@ public class EntityFrame extends EntityHanging implements IEntityAdditionalSpawn
 
 			if (damage > this.resistance) {
 				setDead();
-				setBeenAttacked();
+				markVelocityChanged();
 
 				if (!this.world.isRemote) {
 					this.world.spawnEntity(new EntityItem(this.world, this.posX, this.posY, this.posZ, new ItemStack(DecorItems.frame, 1, this.material)));

@@ -52,7 +52,7 @@ public class PelletBagRecipe extends IForgeRegistryEntry.Impl<IRecipe> implement
 	}
 
 	@Override
-	public boolean isHidden() {
+	public boolean isDynamic() {
 		return true;
 	}
 

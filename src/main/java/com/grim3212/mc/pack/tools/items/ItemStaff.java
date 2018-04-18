@@ -30,7 +30,7 @@ public abstract class ItemStaff extends ItemManual {
 	}
 
 	@Override
-	public float getStrVsBlock(ItemStack stack, IBlockState state) {
+	public float getDestroySpeed(ItemStack stack, IBlockState state) {
 		return state.getBlock() == Blocks.WEB ? 15f : 1.5f;
 	}
 

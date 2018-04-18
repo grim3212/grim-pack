@@ -201,7 +201,7 @@ public class EntityWallpaper extends EntityHanging implements IEntityAdditionalS
 		} else {
 			if ((!this.isDead) && (!this.world.isRemote)) {
 				setDead();
-				setBeenAttacked();
+				markVelocityChanged();
 				EntityPlayer player = null;
 
 				if ((damage.getTrueSource() instanceof EntityPlayer)) {

@@ -69,7 +69,7 @@ public class ItemSlingshot extends ItemManual {
 			worldIn.playSound(playerIn, playerIn.getPosition(), SoundEvents.ENTITY_ARROW_SHOOT, SoundCategory.PLAYERS, 0.5F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
 			if (!worldIn.isRemote) {
 				EntitySlingPellet pellet = new EntitySlingPellet(worldIn, playerIn, ammo);
-				pellet.setHeadingFromThrower(playerIn, playerIn.rotationPitch, playerIn.rotationYaw, 0.0F, 1.5F, 1.0F);
+				pellet.shoot(playerIn, playerIn.rotationPitch, playerIn.rotationYaw, 0.0F, 1.5F, 1.0F);
 				worldIn.spawnEntity(pellet);
 			}
 			return ActionResult.newResult(EnumActionResult.SUCCESS, playerIn.getHeldItem(hand));
@@ -87,7 +87,7 @@ public class ItemSlingshot extends ItemManual {
 				worldIn.playSound(playerIn, playerIn.getPosition(), SoundEvents.ENTITY_ARROW_SHOOT, SoundCategory.PLAYERS, 0.5F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
 				if (!worldIn.isRemote) {
 					EntitySlingPellet pellet = new EntitySlingPellet(worldIn, playerIn, ammoRequired);
-					pellet.setHeadingFromThrower(playerIn, playerIn.rotationPitch, playerIn.rotationYaw, 0.0F, 1.5F, 1.0F);
+					pellet.shoot(playerIn, playerIn.rotationPitch, playerIn.rotationYaw, 0.0F, 1.5F, 1.0F);
 					worldIn.spawnEntity(pellet);
 				}
 				return ActionResult.newResult(EnumActionResult.SUCCESS, playerIn.getHeldItem(hand));
@@ -111,7 +111,7 @@ public class ItemSlingshot extends ItemManual {
 								worldIn.playSound(playerIn, playerIn.getPosition(), SoundEvents.ENTITY_ARROW_SHOOT, SoundCategory.PLAYERS, 0.5F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
 								if (!worldIn.isRemote) {
 									EntitySlingPellet pellet = new EntitySlingPellet(worldIn, playerIn, ammoRequired);
-									pellet.setHeadingFromThrower(playerIn, playerIn.rotationPitch, playerIn.rotationYaw, 0.0F, 1.5F, 1.0F);
+									pellet.shoot(playerIn, playerIn.rotationPitch, playerIn.rotationYaw, 0.0F, 1.5F, 1.0F);
 									worldIn.spawnEntity(pellet);
 								}
 								return ActionResult.newResult(EnumActionResult.SUCCESS, playerIn.getHeldItem(hand));

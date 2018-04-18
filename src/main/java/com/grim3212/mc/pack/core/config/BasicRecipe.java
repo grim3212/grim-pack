@@ -38,7 +38,7 @@ public class BasicRecipe extends IForgeRegistryEntry.Impl<IRecipe> implements IR
 	}
 
 	@Override
-	public boolean isHidden() {
+	public boolean isDynamic() {
 		return true;
 	}
 

@@ -43,7 +43,7 @@ public class ItemPokeball extends ItemEgg implements IManualItem {
 
 		if (!worldIn.isRemote) {
 			EntityPokeball pokeball = new EntityPokeball(worldIn, playerIn, itemStackIn.copy());
-			pokeball.setHeadingFromThrower(playerIn, playerIn.rotationPitch, playerIn.rotationYaw, 0.0F, 1.5F, 1.0F);
+			pokeball.shoot(playerIn, playerIn.rotationPitch, playerIn.rotationYaw, 0.0F, 1.5F, 1.0F);
 			worldIn.spawnEntity(pokeball);
 		}
 

@@ -332,7 +332,7 @@ public class EntityParaBuzzy extends EntityTameable implements IManualEntity {
 			if (this.isOwner(player) && !this.world.isRemote && !this.isBreedingItem(itemstack)) {
 				this.aiSit.setSitting(!this.isSitting());
 				this.isJumping = false;
-				this.navigator.clearPathEntity();
+				this.navigator.clearPath();
 				this.setAttackTarget((EntityLivingBase) null);
 			}
 		} else if (itemstack.getItem() == Items.FISH && !this.isAngry()) {
@@ -343,7 +343,7 @@ public class EntityParaBuzzy extends EntityTameable implements IManualEntity {
 			if (!this.world.isRemote) {
 				if (this.rand.nextInt(3) == 0) {
 					this.setTamed(true);
-					this.navigator.clearPathEntity();
+					this.navigator.clearPath();
 					this.setAttackTarget((EntityLivingBase) null);
 					this.aiSit.setSitting(true);
 					this.setHealth(20.0F);

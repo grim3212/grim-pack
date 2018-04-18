@@ -35,13 +35,13 @@ public class ItemMachete extends ItemManualTool {
 	}
 
 	@Override
-	public float getStrVsBlock(ItemStack stack, IBlockState state) {
+	public float getDestroySpeed(ItemStack stack, IBlockState state) {
 		for (int i = 0; i < material.length; ++i) {
 			if (material[i] == state.getMaterial()) {
-				return this.efficiencyOnProperMaterial;
+				return this.efficiency;
 			}
 		}
-		return super.getStrVsBlock(stack, state);
+		return super.getDestroySpeed(stack, state);
 	}
 
 	@Override

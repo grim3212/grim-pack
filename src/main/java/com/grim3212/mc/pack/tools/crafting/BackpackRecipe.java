@@ -87,7 +87,7 @@ public class BackpackRecipe extends IForgeRegistryEntry.Impl<IRecipe> implements
 	}
 	
 	@Override
-	public boolean isHidden() {
+	public boolean isDynamic() {
 		return true;
 	}
 
