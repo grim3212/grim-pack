@@ -3,6 +3,7 @@ package com.grim3212.mc.pack.tools.items;
 import com.grim3212.mc.pack.core.item.ItemManual;
 import com.grim3212.mc.pack.core.manual.pages.Page;
 import com.grim3212.mc.pack.core.part.GrimCreativeTabs;
+import com.grim3212.mc.pack.core.util.NBTHelper;
 import com.grim3212.mc.pack.tools.util.EnumCrystalType;
 
 import net.minecraft.creativetab.CreativeTabs;
@@ -48,7 +49,15 @@ public class ItemMagicStone extends ItemManual {
 			this.subType = subType;
 		}
 
-		public static StoneType getStoneFromMeta(int meta) {
+		public static StoneType getStoneType(ItemStack stack) {
+			int meta = 0;
+
+			if (stack.getItem() instanceof ItemMagicWand) {
+				meta = NBTHelper.getInt(stack, "WandType");
+			} else {
+				meta = stack.getMetadata();
+			}
+
 			EnumCrystalType mainType = EnumCrystalType.values[(meta / EnumCrystalType.values.length)];
 			EnumCrystalType subType = EnumCrystalType.values[(meta % EnumCrystalType.values.length)];
 
@@ -69,7 +78,7 @@ public class ItemMagicStone extends ItemManual {
 
 			return this.mainType == type.mainType && this.subType == type.subType;
 		}
-		
+
 		@Override
 		public int hashCode() {
 			return EnumCrystalType.values.length * this.mainType.ordinal() + this.subType.ordinal();

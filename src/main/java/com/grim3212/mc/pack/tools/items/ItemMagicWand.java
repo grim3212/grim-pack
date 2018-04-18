@@ -42,9 +42,7 @@ public class ItemMagicWand extends ItemManual {
 
 	public ItemMagicWand() {
 		super("magic_wand");
-		setHasSubtypes(true);
 		setMaxStackSize(1);
-		setMaxDamage(0);
 		setCreativeTab(GrimCreativeTabs.GRIM_TOOLS);
 	}
 
@@ -70,8 +68,8 @@ public class ItemMagicWand extends ItemManual {
 	public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> items) {
 		if (isInCreativeTab(tab))
 			for (int j = 0; j < EnumWandType.values.length; ++j) {
-				ItemStack wand = new ItemStack(this, 1, EnumWandType.values[j].getStoneType().getMeta());
-				NBTHelper.setInteger(wand, "WandDamage", 0);
+				ItemStack wand = new ItemStack(this, 1);
+				NBTHelper.setInteger(wand, "WandType", EnumWandType.values[j].getStoneType().getMeta());
 				items.add(wand);
 			}
 	}
@@ -80,19 +78,10 @@ public class ItemMagicWand extends ItemManual {
 	public boolean isFull3D() {
 		return true;
 	}
-
+	
 	@Override
-	public boolean isDamaged(ItemStack stack) {
-		return this.getDamage(stack) > 0;
-	}
-
-	@Override
-	public void setDamage(ItemStack stack, int damage) {
-		NBTHelper.setInteger(stack, "WandDamage", damage);
-
-		if (this.getDamage(stack) < 0) {
-			NBTHelper.setInteger(stack, "WandDamage", 0);
-		}
+	public boolean isDamageable() {
+		return true;
 	}
 
 	@Override
@@ -101,20 +90,17 @@ public class ItemMagicWand extends ItemManual {
 	}
 
 	@Override
-	public int getDamage(ItemStack stack) {
-		return NBTHelper.getInt(stack, "WandDamage");
-	}
-
-	@Override
 	public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn) {
 		ItemStack stack = playerIn.getHeldItem(handIn);
+
 		EnumWandType type = EnumWandType.getWandType(stack);
 		int damage = 0;
 
 		// TODO: Check first if we can continue operating if damage exceeds 1
 		switch (type) {
 		case BOOM:
-			worldIn.createExplosion(playerIn, playerIn.posX, playerIn.posY, playerIn.posZ, type.getRange(), true);
+			if (!worldIn.isRemote)
+				worldIn.createExplosion(playerIn, playerIn.posX, playerIn.posY, playerIn.posZ, type.getRange(), true);
 			damage = 1;
 			break;
 		case DEATH:
@@ -145,8 +131,9 @@ public class ItemMagicWand extends ItemManual {
 
 		playerIn.swingArm(handIn);
 
-		if (!playerIn.isCreative())
+		if (!playerIn.isCreative()) {
 			stack.damageItem(damage, playerIn);
+		}
 
 		return ActionResult.newResult(EnumActionResult.SUCCESS, stack);
 	}
@@ -319,7 +306,7 @@ public class ItemMagicWand extends ItemManual {
 			if (!stack.isEmpty() && stack.isItemStackDamageable()) {
 				int toRepair = stack.getMaxDamage() - stack.getItemDamage();
 
-				stack.damageItem(-toRepair, null);
+				stack.damageItem(-toRepair, playerIn);
 
 				count += toRepair / 2;
 			}
@@ -331,7 +318,7 @@ public class ItemMagicWand extends ItemManual {
 		if (!offStack.isEmpty() && offStack.isItemStackDamageable()) {
 			int toRepair = offStack.getMaxDamage() - offStack.getItemDamage();
 
-			offStack.damageItem(-toRepair, null);
+			offStack.damageItem(-toRepair, playerIn);
 
 			count += toRepair / 2;
 		}
@@ -350,7 +337,7 @@ public class ItemMagicWand extends ItemManual {
 			if (!stack.isEmpty() && stack.getItem() instanceof ItemArmor && stack.getItemDamage() != 0) {
 				int toRepair = stack.getMaxDamage() - stack.getItemDamage();
 
-				stack.damageItem(-toRepair, null);
+				stack.damageItem(-toRepair, playerIn);
 
 				count += toRepair / 2;
 			}
@@ -368,16 +355,15 @@ public class ItemMagicWand extends ItemManual {
 				EntityPlayerMP player = (EntityPlayerMP) playerIn;
 				BlockPos spawnPoint = player.getBedLocation(player.world.provider.getDimension());
 				boolean flag = playerIn.isSpawnForced(world.provider.getDimension());
-				
+
 				if (spawnPoint != null) {
-					
+
 					BlockPos blockpos1 = EntityPlayer.getBedSpawnLocation(world, spawnPoint, flag);
-					
-					if (blockpos1 != null)
-		            {
-		                player.setSpawnPoint(spawnPoint, flag);
-		                
-		                if (player.timeUntilPortal == 0) {
+
+					if (blockpos1 != null) {
+						player.setSpawnPoint(spawnPoint, flag);
+
+						if (player.timeUntilPortal == 0) {
 							player.connection.setPlayerLocation(blockpos1.getX(), blockpos1.getY(), blockpos1.getZ(), player.cameraYaw, player.cameraPitch);
 
 							while (!world.getCollisionBoxes(player, player.getEntityBoundingBox()).isEmpty() && player.posY < 256.0D) {
@@ -386,14 +372,12 @@ public class ItemMagicWand extends ItemManual {
 
 							player.timeUntilPortal = 3;
 						}
-		            }
-		            else
-		            {
-		            	player.connection.sendPacket(new SPacketChangeGameState(0, 0.0F));
-		            	
-		            	BlockPos pos  = world.getSpawnPoint();
-		            	
-		            	if (player.timeUntilPortal == 0) {
+					} else {
+						player.connection.sendPacket(new SPacketChangeGameState(0, 0.0F));
+
+						BlockPos pos = world.getSpawnPoint();
+
+						if (player.timeUntilPortal == 0) {
 							player.connection.setPlayerLocation(pos.getX(), pos.getY(), pos.getZ(), player.cameraYaw, player.cameraPitch);
 
 							while (!world.getCollisionBoxes(player, player.getEntityBoundingBox()).isEmpty() && player.posY < 256.0D) {
@@ -402,7 +386,7 @@ public class ItemMagicWand extends ItemManual {
 
 							player.timeUntilPortal = 3;
 						}
-		            }
+					}
 				} else {
 					if (player.timeUntilPortal == 0) {
 						player.connection.setPlayerLocation(x, y, z, player.cameraYaw, player.cameraPitch);
@@ -422,9 +406,9 @@ public class ItemMagicWand extends ItemManual {
 				}
 			}
 		}
-		
+
 		playerIn.world.playSound((EntityPlayer) null, playerIn.posX, playerIn.posY, playerIn.posZ, SoundEvents.BLOCK_PORTAL_TRAVEL, SoundCategory.AMBIENT, 1, 1);
-		
+
 		for (int i = 0; i < 20; i++) {
 			double d3 = world.rand.nextGaussian() * 0.02D;
 			double d4 = world.rand.nextGaussian() * 0.02D;

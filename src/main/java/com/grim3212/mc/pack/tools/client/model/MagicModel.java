@@ -98,7 +98,7 @@ public class MagicModel implements IModel {
 			builder.addAll(model.getQuads(null, null, 0));
 		}
 
-		return new BakedMagicModel(this, builder.build(), mainSprite, format, Maps.immutableEnumMap(transformMap), Maps.<StoneType, IBakedModel>newHashMap());
+		return new BakedMagicModel(this, builder.build(), mainSprite, format, Maps.immutableEnumMap(transformMap), Maps.<StoneType, IBakedModel> newHashMap());
 	}
 
 	@Override
@@ -174,14 +174,14 @@ public class MagicModel implements IModel {
 		public static final BakedMagicStoneOverrideHandler INSTANCE = new BakedMagicStoneOverrideHandler();
 
 		private BakedMagicStoneOverrideHandler() {
-			super(ImmutableList.<ItemOverride>of());
+			super(ImmutableList.<ItemOverride> of());
 		}
 
 		@Override
 		public IBakedModel handleItemState(IBakedModel originalModel, ItemStack stack, World world, EntityLivingBase entity) {
 			BakedMagicModel stoneModel = (BakedMagicModel) originalModel;
 
-			StoneType stoneType = StoneType.getStoneFromMeta(stack.getMetadata());
+			StoneType stoneType = StoneType.getStoneType(stack);
 
 			if (stoneType != null) {
 				if (!stoneModel.cache.containsKey(stoneType)) {
