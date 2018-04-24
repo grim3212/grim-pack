@@ -37,6 +37,10 @@ public class ConfigUtils {
 	public static void setCurrentPart(String currentPart) {
 		ConfigUtils.currentPart = currentPart;
 	}
+	
+	public static String getCurrentPart() {
+		return currentPart;
+	}
 
 	/**
 	 * A list of fuels that contain an itemstack and number for a type of fuel.
