@@ -69,7 +69,9 @@ public class ItemMagicWand extends ItemManual {
 
 	@Override
 	public int getMaxDamage(ItemStack stack) {
-		return MagicRegistry.getMagic(stack).getMaxUses();
+		BaseMagic magic = MagicRegistry.getMagic(stack);
+
+		return magic != null ? magic.getMaxUses(): 1;
 	}
 
 	@Override

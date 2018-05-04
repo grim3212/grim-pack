@@ -5,6 +5,7 @@ import java.util.List;
 import com.grim3212.mc.pack.core.manual.pages.Page;
 import com.grim3212.mc.pack.core.network.PacketDispatcher;
 import com.grim3212.mc.pack.core.util.NBTHelper;
+import com.grim3212.mc.pack.core.util.Utils;
 import com.grim3212.mc.pack.tools.client.ManualTools;
 import com.grim3212.mc.pack.util.config.UtilConfig;
 import com.grim3212.mc.pack.util.frozen.FrozenCapability;
@@ -114,7 +115,7 @@ public class ItemPhoenixStaff extends ItemStaff {
 			if (water) {
 				for (int i1 = pos.getY() - range; i1 <= pos.getY() + range; i1++) {
 					for (int j1 = pos.getZ() - range; j1 <= pos.getZ() + range; j1++) {
-						if (getDistance(l, j1, pos.getX(), pos.getZ()) > range || getDistance(l, i1, pos.getX(), pos.getY()) > range) {
+						if (Utils.getDistance(l, j1, pos.getX(), pos.getZ()) > range || Utils.getDistance(l, i1, pos.getX(), pos.getY()) > range) {
 							continue;
 						}
 
@@ -136,7 +137,7 @@ public class ItemPhoenixStaff extends ItemStaff {
 						Entity entity = list.get(k1);
 
 						if (entity instanceof EntityLivingBase) {
-							if (!entity.isDead && getDistance(MathHelper.floor(entity.posX), MathHelper.floor((float) entity.posZ), pos.getX(), pos.getZ()) <= range && getDistance(MathHelper.floor(entity.posX), MathHelper.floor(entity.posY), pos.getX(), pos.getY()) <= range) {
+							if (!entity.isDead && Utils.getDistance(MathHelper.floor(entity.posX), MathHelper.floor((float) entity.posZ), pos.getX(), pos.getZ()) <= range && Utils.getDistance(MathHelper.floor(entity.posX), MathHelper.floor(entity.posY), pos.getX(), pos.getY()) <= range) {
 								particles(world, entity.getPosition(), itemRand);
 								FrozenCapability.unFreezeEntity((EntityLivingBase) entity);
 								dmg++;

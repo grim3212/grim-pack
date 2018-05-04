@@ -1,15 +1,13 @@
 package com.grim3212.mc.pack.tools.items;
 
-import java.util.List;
-
 import com.grim3212.mc.pack.core.manual.pages.Page;
 import com.grim3212.mc.pack.core.network.PacketDispatcher;
 import com.grim3212.mc.pack.core.util.NBTHelper;
+import com.grim3212.mc.pack.core.util.Utils;
 import com.grim3212.mc.pack.tools.client.ManualTools;
 import com.grim3212.mc.pack.util.config.UtilConfig;
 import com.grim3212.mc.pack.util.frozen.FrozenCapability;
 import com.grim3212.mc.pack.util.frozen.MessageFrozen;
-
 import net.minecraft.block.BlockLiquid;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
@@ -17,15 +15,13 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.EnumActionResult;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumHand;
-import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.util.*;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
+
+import java.util.List;
 
 public class ItemNeptuneStaff extends ItemStaff {
 
@@ -106,7 +102,7 @@ public class ItemNeptuneStaff extends ItemStaff {
 			if (water) {
 				for (int i1 = pos.getY() - range; i1 <= pos.getY() + range; i1++) {
 					for (int j1 = pos.getZ() - range; j1 <= pos.getZ() + range; j1++) {
-						if (getDistance(l, j1, pos.getX(), pos.getZ()) > range || getDistance(l, i1, pos.getX(), pos.getY()) > range) {
+						if (Utils.getDistance(l, j1, pos.getX(), pos.getZ()) > range || Utils.getDistance(l, i1, pos.getX(), pos.getY()) > range) {
 							continue;
 						}
 
@@ -128,7 +124,7 @@ public class ItemNeptuneStaff extends ItemStaff {
 						Entity entity = list.get(k1);
 
 						if (entity instanceof EntityLivingBase) {
-							if (!entity.isDead && getDistance(MathHelper.floor(entity.posX), MathHelper.floor((float) entity.posZ), pos.getX(), pos.getZ()) <= range && getDistance(MathHelper.floor(entity.posX), MathHelper.floor(entity.posY), pos.getX(), pos.getY()) <= range) {
+							if (!entity.isDead && Utils.getDistance(MathHelper.floor(entity.posX), MathHelper.floor((float) entity.posZ), pos.getX(), pos.getZ()) <= range && Utils.getDistance(MathHelper.floor(entity.posX), MathHelper.floor(entity.posY), pos.getX(), pos.getY()) <= range) {
 								particles(world, entity.getPosition(), itemRand);
 								FrozenCapability.freezeEntity((EntityLivingBase) entity, 0);
 								dmg++;

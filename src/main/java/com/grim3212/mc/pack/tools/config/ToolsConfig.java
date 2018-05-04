@@ -9,20 +9,9 @@ import com.grim3212.mc.pack.core.config.ConfigUtils.ToolMaterialHolder;
 import com.grim3212.mc.pack.core.config.GrimConfig;
 import com.grim3212.mc.pack.tools.GrimTools;
 import com.grim3212.mc.pack.tools.items.ItemBreakingWand;
-import com.grim3212.mc.pack.tools.items.ItemMagicStone.StoneType;
 import com.grim3212.mc.pack.tools.items.ItemMiningWand;
 import com.grim3212.mc.pack.tools.items.ItemPowerStaff;
-import com.grim3212.mc.pack.tools.magic.MagicArmor;
-import com.grim3212.mc.pack.tools.magic.MagicDeath;
-import com.grim3212.mc.pack.tools.magic.MagicDynomite;
-import com.grim3212.mc.pack.tools.magic.MagicFire;
-import com.grim3212.mc.pack.tools.magic.MagicHeal;
-import com.grim3212.mc.pack.tools.magic.MagicHome;
-import com.grim3212.mc.pack.tools.magic.MagicHunger;
-import com.grim3212.mc.pack.tools.magic.MagicItem;
-import com.grim3212.mc.pack.tools.magic.MagicPolymorph;
 import com.grim3212.mc.pack.tools.magic.MagicRegistry;
-import com.grim3212.mc.pack.tools.util.EnumCrystalType;
 
 import net.minecraft.network.PacketBuffer;
 import net.minecraftforge.common.config.ConfigElement;
@@ -166,17 +155,7 @@ public class ToolsConfig extends GrimConfig {
 
 		if (subpartMagic) {
 			MagicRegistry.reset();
-
-			new MagicArmor().load(100, 0f, new StoneType(EnumCrystalType.PURPLE, EnumCrystalType.RED));
-			new MagicDeath().load(100, 10f, new StoneType(EnumCrystalType.YELLOW, EnumCrystalType.BLACK));
-			new MagicDynomite().load(100, 5f, new StoneType(EnumCrystalType.RED, EnumCrystalType.BLACK));
-			new MagicFire().load(100, 0f, new StoneType(EnumCrystalType.RED, EnumCrystalType.YELLOW));
-			new MagicHeal().load(100, 10f, new StoneType(EnumCrystalType.BLUE, EnumCrystalType.YELLOW));
-			new MagicHome().load(100, 0f, new StoneType(EnumCrystalType.GREEN, EnumCrystalType.RED));
-			new MagicHunger().load(100, 10f, new StoneType(EnumCrystalType.BLUE, EnumCrystalType.WHITE));
-			new MagicItem().load(100, 10f, new StoneType(EnumCrystalType.PURPLE, EnumCrystalType.GREEN));
-			new MagicPolymorph().load(100, 20f, new StoneType(EnumCrystalType.PURPLE, EnumCrystalType.BLACK));
-
+			MagicRegistry.loadMagic();
 		}
 	}
 
