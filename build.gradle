@@ -17,7 +17,7 @@ buildscript {
     }
     dependencies {
         classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
-		classpath "gradle.plugin.com.matthewprenger:CurseGradle:1.0.9"
+		classpath "gradle.plugin.com.matthewprenger:CurseGradle:1.1.0"
     }
 }
 apply plugin: 'net.minecraftforge.gradle.forge'
@@ -103,8 +103,6 @@ curseforge {
         id = props.grimpack_id ? props.grimpack_id : '0'
 		mainArtifact jar
         releaseType = mod_release_type
-		addGameVersion '1.12'
-		addGameVersion '1.12.1'
         changelogType = 'html'
         changelog = file("changelog.html")
         relations {
