@@ -40,7 +40,7 @@ public class MFurnaceFuelWrapper implements IRecipeWrapper {
 			this.smeltCountString = I18n.format("gui.jei.category.fuel.smeltCount", smeltCount);
 		}
 
-		this.burnTimeString = I18n.format("gui.jei.category.fuel.burnTime", burnTime);
+		this.burnTimeString = I18n.format("grimpack.jei.category.fuel.burnTime", burnTime);
 
 		IDrawableStatic flameDrawable = guiHelper.createDrawable(MachineRecipeMaker.MACHINE_LOCATION, 103, 0, 14, 14);
 		this.flame = guiHelper.createAnimatedDrawable(flameDrawable, 100, IDrawableAnimated.StartDirection.TOP, true);

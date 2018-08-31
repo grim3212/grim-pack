@@ -3,6 +3,7 @@ package com.grim3212.mc.pack.util;
 import java.util.List;
 
 import com.google.common.collect.Lists;
+import com.grim3212.mc.pack.GrimPack;
 import com.grim3212.mc.pack.core.manual.IManualPart;
 import com.grim3212.mc.pack.core.network.PacketDispatcher;
 import com.grim3212.mc.pack.core.part.GrimPart;
@@ -21,6 +22,7 @@ import com.grim3212.mc.pack.util.init.UtilSounds;
 import com.grim3212.mc.pack.util.network.MessageAutoTorch;
 import com.grim3212.mc.pack.util.network.MessageFusRoDah;
 
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
@@ -92,7 +94,7 @@ public class GrimUtil extends GrimPart {
 		super.init(event);
 
 		if (UtilConfig.subpartGraves)
-			GameRegistry.registerTileEntity(TileEntityGrave.class, "grimpack:grave");
+			GameRegistry.registerTileEntity(TileEntityGrave.class, new ResourceLocation(GrimPack.modID, "grave"));
 	}
 
 	@Override

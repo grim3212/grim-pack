@@ -1,5 +1,6 @@
 package com.grim3212.mc.pack.industry.block;
 
+import com.grim3212.mc.pack.GrimPack;
 import com.grim3212.mc.pack.core.block.BlockManualPage;
 import com.grim3212.mc.pack.core.item.ItemManualBlock;
 import com.grim3212.mc.pack.core.part.GrimCreativeTabs;
@@ -28,6 +29,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
@@ -402,50 +404,50 @@ public class IndustryBlocks {
 
 	private void initTileEntities() {
 		if (IndustryConfig.subpartGravity) {
-			GameRegistry.registerTileEntity(TileEntityGravity.class, "gravity");
-			GameRegistry.registerTileEntity(TileEntityDGravity.class, "directional_gravity");
+			GameRegistry.registerTileEntity(TileEntityGravity.class, new ResourceLocation(GrimPack.modID, "gravity"));
+			GameRegistry.registerTileEntity(TileEntityDGravity.class, new ResourceLocation(GrimPack.modID, "directional_gravity"));
 		}
 
 		if (IndustryConfig.subpartDecoration)
-			GameRegistry.registerTileEntity(TileEntityCamo.class, "camo_plate");
+			GameRegistry.registerTileEntity(TileEntityCamo.class, new ResourceLocation(GrimPack.modID, "camo_plate"));
 
 		if (IndustryConfig.subpartMachines) {
-			GameRegistry.registerTileEntity(TileEntityMachine.class, "machine");
-			GameRegistry.registerTileEntity(TileEntityMFurnace.class, "modern_furnace");
+			GameRegistry.registerTileEntity(TileEntityMachine.class, new ResourceLocation(GrimPack.modID, "machine"));
+			GameRegistry.registerTileEntity(TileEntityMFurnace.class, new ResourceLocation(GrimPack.modID, "modern_furnace"));
 		}
 
 		if (IndustryConfig.subpartFans)
-			GameRegistry.registerTileEntity(TileEntityFan.class, "fan");
+			GameRegistry.registerTileEntity(TileEntityFan.class, new ResourceLocation(GrimPack.modID, "fan"));
 
 		if (IndustryConfig.subpartSensors) {
-			GameRegistry.registerTileEntity(TileEntitySpecificSensor.class, "specific_sensor");
-			GameRegistry.registerTileEntity(TileEntityFireSensor.class, "fire_sensor");
-			GameRegistry.registerTileEntity(TileEntitySensor.class, "sensors");
+			GameRegistry.registerTileEntity(TileEntitySpecificSensor.class, new ResourceLocation(GrimPack.modID, "specific_sensor"));
+			GameRegistry.registerTileEntity(TileEntityFireSensor.class, new ResourceLocation(GrimPack.modID, "fire_sensor"));
+			GameRegistry.registerTileEntity(TileEntitySensor.class, new ResourceLocation(GrimPack.modID, "sensors"));
 		}
 
 		if (IndustryConfig.subpartStorage) {
-			GameRegistry.registerTileEntity(TileEntityWarehouseCrate.class, "grimpack_warehouse_crate");
-			GameRegistry.registerTileEntity(TileEntityGlassCabinet.class, "grimpack_glass_cabinet");
-			GameRegistry.registerTileEntity(TileEntityWoodCabinet.class, "grimpack_wood_cabinet");
-			GameRegistry.registerTileEntity(TileEntityObsidianSafe.class, "grimpack_obsidian_safe");
-			GameRegistry.registerTileEntity(TileEntityGoldSafe.class, "grimpack_gold_safe");
-			GameRegistry.registerTileEntity(TileEntityLocker.class, "grimpack_locker");
-			GameRegistry.registerTileEntity(TileEntityItemTower.class, "grimpack_item_tower");
-			GameRegistry.registerTileEntity(TileEntityTank.class, "grimpack_tank");
+			GameRegistry.registerTileEntity(TileEntityWarehouseCrate.class, new ResourceLocation(GrimPack.modID, "warehouse_crate"));
+			GameRegistry.registerTileEntity(TileEntityGlassCabinet.class, new ResourceLocation(GrimPack.modID, "glass_cabinet"));
+			GameRegistry.registerTileEntity(TileEntityWoodCabinet.class, new ResourceLocation(GrimPack.modID, "wood_cabinet"));
+			GameRegistry.registerTileEntity(TileEntityObsidianSafe.class, new ResourceLocation(GrimPack.modID, "obsidian_safe"));
+			GameRegistry.registerTileEntity(TileEntityGoldSafe.class, new ResourceLocation(GrimPack.modID, "gold_safe"));
+			GameRegistry.registerTileEntity(TileEntityLocker.class, new ResourceLocation(GrimPack.modID, "locker"));
+			GameRegistry.registerTileEntity(TileEntityItemTower.class, new ResourceLocation(GrimPack.modID, "item_tower"));
+			GameRegistry.registerTileEntity(TileEntityTank.class, new ResourceLocation(GrimPack.modID, "tank"));
 		}
 
 		if (IndustryConfig.subpartTorches) {
-			GameRegistry.registerTileEntity(TileEntityFlipFlopTorch.class, "grimpack_flip_flop_torch");
+			GameRegistry.registerTileEntity(TileEntityFlipFlopTorch.class, new ResourceLocation(GrimPack.modID, "flip_flop_torch"));
 		}
 
 		if (IndustryConfig.subpartBridges) {
-			GameRegistry.registerTileEntity(TileEntityBridge.class, "grimpack_bridge");
-			GameRegistry.registerTileEntity(TileEntityBridgeGravity.class, "grimpack_gravity_bridge");
-			GameRegistry.registerTileEntity(TileEntityBridgeControl.class, "grimpack_bridge_control");
+			GameRegistry.registerTileEntity(TileEntityBridge.class, new ResourceLocation(GrimPack.modID, "grimpack_bridge"));
+			GameRegistry.registerTileEntity(TileEntityBridgeGravity.class, new ResourceLocation(GrimPack.modID, "grimpack_gravity_bridge"));
+			GameRegistry.registerTileEntity(TileEntityBridgeControl.class, new ResourceLocation(GrimPack.modID, "grimpack_bridge_control"));
 		}
 
 		if(IndustryConfig.subpartChunkLoader){
-			GameRegistry.registerTileEntity(TileEntityChunkLoader.class, "grimpack_chunk_loader");
+			GameRegistry.registerTileEntity(TileEntityChunkLoader.class, new ResourceLocation(GrimPack.modID, "grimpack_chunk_loader"));
 		}
 	}
 

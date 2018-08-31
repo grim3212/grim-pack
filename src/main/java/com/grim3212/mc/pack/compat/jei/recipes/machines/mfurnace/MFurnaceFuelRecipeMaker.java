@@ -1,6 +1,6 @@
 package com.grim3212.mc.pack.compat.jei.recipes.machines.mfurnace;
 
-import java.util.Collection;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -47,7 +47,7 @@ public final class MFurnaceFuelRecipeMaker {
 
 					oreDictNames.add(name);
 					List<ItemStack> oreDictFuels = OreDictionary.getOres(name);
-					Collection<ItemStack> oreDictFuelsSet = stackHelper.getAllSubtypes(oreDictFuels);
+					List<ItemStack> oreDictFuelsSet = stackHelper.getAllSubtypes(oreDictFuels);
 					removeNoBurnTime(oreDictFuelsSet);
 					if (oreDictFuels.isEmpty()) {
 						continue;
@@ -58,10 +58,12 @@ public final class MFurnaceFuelRecipeMaker {
 				}
 			} else {
 				List<ItemStack> fuels = stackHelper.getSubtypes(fuelStack);
-				removeNoBurnTime(fuels);
+				fuels = removeNoBurnTime(fuels);
+
 				if (fuels.isEmpty()) {
 					continue;
 				}
+
 				int burnTime = getBurnTime(fuels.get(0));
 				fuelRecipes.add(new MFurnaceFuelWrapper(guiHelper, fuels, burnTime));
 			}
@@ -69,8 +71,16 @@ public final class MFurnaceFuelRecipeMaker {
 		return fuelRecipes;
 	}
 
-	private static void removeNoBurnTime(Collection<ItemStack> itemStacks) {
-		itemStacks.removeIf(itemStack -> getBurnTime(itemStack) == 0);
+	private static List<ItemStack> removeNoBurnTime(List<ItemStack> itemStacks) {
+		List<ItemStack> newItemStacks = new ArrayList<ItemStack>();
+
+		for (ItemStack stack : itemStacks) {
+			if (getBurnTime(stack) != 0) {
+				newItemStacks.add(stack.copy());
+			}
+		}
+
+		return newItemStacks;
 	}
 
 	private static int getBurnTime(ItemStack itemStack) {

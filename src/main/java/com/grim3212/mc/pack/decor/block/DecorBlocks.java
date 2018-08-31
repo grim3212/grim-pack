@@ -1,5 +1,6 @@
 package com.grim3212.mc.pack.decor.block;
 
+import com.grim3212.mc.pack.GrimPack;
 import com.grim3212.mc.pack.core.item.ItemManualBlock;
 import com.grim3212.mc.pack.decor.block.colorizer.BlockColorizer;
 import com.grim3212.mc.pack.decor.block.colorizer.BlockColorizerChair;
@@ -46,6 +47,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemCloth;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
@@ -279,22 +281,22 @@ public class DecorBlocks {
 
 	private void initTileEntities() {
 		if (DecorConfig.subpartCalendar)
-			GameRegistry.registerTileEntity(TileEntityCalendar.class, "calendar");
+			GameRegistry.registerTileEntity(TileEntityCalendar.class, new ResourceLocation(GrimPack.modID, "calendar"));
 		if (DecorConfig.subpartAlarm)
-			GameRegistry.registerTileEntity(TileEntityAlarm.class, "alarm");
+			GameRegistry.registerTileEntity(TileEntityAlarm.class, new ResourceLocation(GrimPack.modID, "alarm"));
 		if (DecorConfig.subpartWallClock)
-			GameRegistry.registerTileEntity(TileEntityWallClock.class, "wall_clock");
+			GameRegistry.registerTileEntity(TileEntityWallClock.class, new ResourceLocation(GrimPack.modID, "wall_clock"));
 		if (DecorConfig.subpartColorizer) {
-			GameRegistry.registerTileEntity(TileEntityColorizer.class, "colorizer");
+			GameRegistry.registerTileEntity(TileEntityColorizer.class, new ResourceLocation(GrimPack.modID, "colorizer"));
 			if (DecorConfig.subpartFireplaces)
-				GameRegistry.registerTileEntity(TileEntityGrill.class, "grill");
+				GameRegistry.registerTileEntity(TileEntityGrill.class, new ResourceLocation(GrimPack.modID, "grill"));
 		}
 
 		if (DecorConfig.subpartCages)
-			GameRegistry.registerTileEntity(TileEntityCage.class, "cage");
+			GameRegistry.registerTileEntity(TileEntityCage.class, new ResourceLocation(GrimPack.modID, "cage"));
 
 		if (DecorConfig.subpartNeonSign)
-			GameRegistry.registerTileEntity(TileEntityNeonSign.class, "neon_sign");
+			GameRegistry.registerTileEntity(TileEntityNeonSign.class, new ResourceLocation(GrimPack.modID, "neon_sign"));
 	}
 
 	@SubscribeEvent

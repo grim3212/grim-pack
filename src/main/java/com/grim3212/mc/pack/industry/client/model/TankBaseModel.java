@@ -4,6 +4,7 @@ package com.grim3212.mc.pack.industry.client.model;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Predicate;
 
 import com.google.common.collect.Maps;
 import com.grim3212.mc.pack.industry.block.storage.BlockTank;
@@ -15,15 +16,17 @@ import net.minecraft.client.renderer.block.model.ItemCameraTransforms;
 import net.minecraft.client.renderer.block.model.ItemOverrideList;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.IResourceManager;
-import net.minecraft.client.resources.IResourceManagerReloadListener;
 import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.client.MinecraftForgeClient;
+import net.minecraftforge.client.resource.IResourceType;
+import net.minecraftforge.client.resource.ISelectiveResourceReloadListener;
+import net.minecraftforge.client.resource.VanillaResourceType;
 import net.minecraftforge.common.property.IExtendedBlockState;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 
-public class TankBaseModel implements IBakedModel, IResourceManagerReloadListener {
+public class TankBaseModel implements IBakedModel, ISelectiveResourceReloadListener {
 
 	private IBakedModel tankModel;
 	private static final float X[] = new float[] { 0.15f, 0.15f, 0.85f, 0.85f };
@@ -99,7 +102,9 @@ public class TankBaseModel implements IBakedModel, IResourceManagerReloadListene
 	}
 
 	@Override
-	public void onResourceManagerReload(IResourceManager resourceManager) {
-		this.cache.clear();
+	public void onResourceManagerReload(IResourceManager resourceManager, Predicate<IResourceType> resourcePredicate) {
+		if(resourcePredicate.test(VanillaResourceType.MODELS)) {
+			this.cache.clear();
+		}
 	}
 }

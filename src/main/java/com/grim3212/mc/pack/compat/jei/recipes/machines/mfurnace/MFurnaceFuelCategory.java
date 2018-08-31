@@ -24,8 +24,7 @@ public class MFurnaceFuelCategory extends ModernFurnaceRecipeCategory<MFurnaceFu
 	public MFurnaceFuelCategory(IGuiHelper guiHelper) {
 		super(guiHelper);
 
-		background = guiHelper.createDrawable(MachineRecipeMaker.MACHINE_LOCATION, 0, 46, 18, 34, 0, 5, 0, 80);
-
+		background = guiHelper.drawableBuilder(MachineRecipeMaker.MACHINE_LOCATION, 0, 46, 18, 34).addPadding(0, 5, 0, 80).build();
 		icon = new DrawableBlockUnderlay(MachineRecipeMaker.MACHINE_LOCATION, new ItemStack(IndustryBlocks.modern_furnace), 117, 0, 13, 13, -1, -1, 0, 0, 0, 0, 256, 256);
 		localizedName = I18n.format("grimpack.jei.mfurnace_fuel");
 	}

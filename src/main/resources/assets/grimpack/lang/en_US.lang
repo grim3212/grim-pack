@@ -1079,6 +1079,8 @@ grimpack.subtitle.parabuzzy_living=Parabuzzy
 grimpack.subtitle.parabuzzy_hurt=Parabuzzy hurt
 grimpack.subtitle.parabuzzy_dead=Parabuzzy died
 
+grimpack.jei.category.fuel.burnTime=Burn Time: %s
+
 grimpack.jer.dungeon.desert_level10=Level 10 Desert Well
 grimpack.jer.dungeon.desert_level15=Level 15 Desert Well
 grimpack.jer.dungeon.desert_level20=Level 20 Desert Well

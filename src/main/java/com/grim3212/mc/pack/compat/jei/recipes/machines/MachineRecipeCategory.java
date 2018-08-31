@@ -28,8 +28,8 @@ public class MachineRecipeCategory implements IRecipeCategory<MachineRecipeWrapp
 
 	public MachineRecipeCategory(IGuiHelper guiHelper, MachineType type) {
 		this.type = type;
-		background = guiHelper.createDrawable(MachineRecipeMaker.MACHINE_LOCATION, 0, 0, 82, 26, 0, 5, 0, 0);
-
+		
+		background = guiHelper.drawableBuilder(MachineRecipeMaker.MACHINE_LOCATION, 0, 0, 82, 26).addPadding(0, 5, 0, 0).build();
 		IDrawableStatic staticArrow = guiHelper.createDrawable(MachineRecipeMaker.MACHINE_LOCATION, 82, 14, 23, 16);
 		animatedArrow = guiHelper.createAnimatedDrawable(staticArrow, 200, IDrawableAnimated.StartDirection.LEFT, false);
 

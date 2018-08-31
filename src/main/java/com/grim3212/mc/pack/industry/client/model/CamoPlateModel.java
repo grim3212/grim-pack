@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Predicate;
 
 import javax.vecmath.Matrix4f;
 
@@ -34,7 +35,6 @@ import net.minecraft.client.renderer.block.model.ItemOverrideList;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.vertex.VertexFormat;
 import net.minecraft.client.resources.IResourceManager;
-import net.minecraft.client.resources.IResourceManagerReloadListener;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
@@ -46,6 +46,9 @@ import net.minecraftforge.client.model.IModel;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.client.model.ModelLoaderRegistry;
 import net.minecraftforge.client.model.PerspectiveMapWrapper;
+import net.minecraftforge.client.resource.IResourceType;
+import net.minecraftforge.client.resource.ISelectiveResourceReloadListener;
+import net.minecraftforge.client.resource.VanillaResourceType;
 import net.minecraftforge.common.model.IModelState;
 import net.minecraftforge.common.model.TRSRTransformation;
 import net.minecraftforge.common.property.IExtendedBlockState;
@@ -113,7 +116,7 @@ public class CamoPlateModel implements IModel {
 	}
 
 	@SuppressWarnings("deprecation")
-	public class BakedCamoPlateModel implements IBakedModel, IResourceManagerReloadListener {
+	public class BakedCamoPlateModel implements IBakedModel, ISelectiveResourceReloadListener {
 
 		protected final IModelState modelState;
 		protected final ImmutableList<ResourceLocation> modelLocation;
@@ -137,11 +140,6 @@ public class CamoPlateModel implements IModel {
 				builder.add(ModelLoaderRegistry.getModelOrLogError(this.modelLocation.get(i), "Model part not found " + this.modelLocation.get(i)));
 			}
 			this.modelParts = builder.build();
-		}
-
-		@Override
-		public void onResourceManagerReload(IResourceManager resourceManager) {
-			this.cache.clear();
 		}
 
 		@Override
@@ -265,6 +263,13 @@ public class CamoPlateModel implements IModel {
 		@Override
 		public Pair<? extends IBakedModel, Matrix4f> handlePerspective(TransformType cameraTransformType) {
 			return PerspectiveMapWrapper.handlePerspective(baseModel.bake(this.modelState, this.format, ModelLoader.defaultTextureGetter()), transforms, cameraTransformType);
+		}
+
+		@Override
+		public void onResourceManagerReload(IResourceManager resourceManager, Predicate<IResourceType> resourcePredicate) {
+			if(resourcePredicate.test(VanillaResourceType.MODELS)) {
+				this.cache.clear();
+			}
 		}
 	}
 

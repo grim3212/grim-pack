@@ -1,5 +1,6 @@
 package com.grim3212.mc.pack.tools.blocks;
 
+import com.grim3212.mc.pack.GrimPack;
 import com.grim3212.mc.pack.core.item.ItemManualBlock;
 import com.grim3212.mc.pack.tools.config.ToolsConfig;
 import com.grim3212.mc.pack.tools.items.ItemCrystal;
@@ -9,6 +10,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.item.Item;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
@@ -72,7 +74,7 @@ public class ToolsBlocks {
 
 	private void initTileEntities() {
 		if (ToolsConfig.subpartMagic) {
-			GameRegistry.registerTileEntity(TileEntityCrystal.class, "magic_crystal");
+			GameRegistry.registerTileEntity(TileEntityCrystal.class, new ResourceLocation(GrimPack.modID, "magic_crystal"));
 		}
 	}
 }
