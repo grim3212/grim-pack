@@ -30,7 +30,7 @@ public class JERGrimPack {
 	@JERPlugin
 	public static IJERAPI jerAPI;
 
-	public void register() {
+	public void registerMobs() {
 		if (CoreConfig.useWorld) {
 			GrimLog.debugInfo(GrimWorld.partName, "Registering JustEnoughResources compat");
 

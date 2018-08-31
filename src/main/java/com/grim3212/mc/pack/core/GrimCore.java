@@ -10,7 +10,6 @@ import com.grim3212.mc.pack.core.common.CommonWorldGen;
 import com.grim3212.mc.pack.core.config.CoreConfig;
 import com.grim3212.mc.pack.core.config.MessageSyncConfig;
 import com.grim3212.mc.pack.core.config.SyncConfigEvent;
-import com.grim3212.mc.pack.core.event.PostInitEvent;
 import com.grim3212.mc.pack.core.manual.IManualPart;
 import com.grim3212.mc.pack.core.manual.event.GiveManualEvent;
 import com.grim3212.mc.pack.core.network.MessageBetterExplosion;
@@ -21,12 +20,10 @@ import com.grim3212.mc.pack.core.util.CrashHandler;
 
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.FMLCommonHandler;
-import net.minecraftforge.fml.common.Optional;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -68,6 +65,7 @@ public class GrimCore extends GrimPart {
 	public void init(FMLInitializationEvent event) {
 		super.init(event);
 		
+		new JERGrimPack().registerMobs();
 		FMLCommonHandler.instance().registerCrashCallable(new CrashHandler());
 	}
 
@@ -77,14 +75,6 @@ public class GrimCore extends GrimPart {
 
 		// Register Syncing config
 		MinecraftForge.EVENT_BUS.register(new SyncConfigEvent());
-		MinecraftForge.EVENT_BUS.post(new PostInitEvent());
-	}
-
-	@SideOnly(Side.CLIENT)
-	@Optional.Method(modid = "jeresources")
-	@SubscribeEvent
-	public void JERInit(PostInitEvent evt) {
-		new JERGrimPack().register();
 	}
 
 	@Override
