@@ -3,7 +3,6 @@ package com.grim3212.mc.pack.core;
 import java.util.List;
 
 import com.google.common.collect.Lists;
-import com.grim3212.mc.pack.compat.jer.JERGrimPack;
 import com.grim3212.mc.pack.core.client.ManualCore;
 import com.grim3212.mc.pack.core.common.CommonItems;
 import com.grim3212.mc.pack.core.common.CommonWorldGen;
@@ -65,8 +64,9 @@ public class GrimCore extends GrimPart {
 	public void init(FMLInitializationEvent event) {
 		super.init(event);
 		
-		new JERGrimPack().registerMobs();
 		FMLCommonHandler.instance().registerCrashCallable(new CrashHandler());
+		
+		proxy.init();
 	}
 
 	@Override
