@@ -5,7 +5,8 @@
 		"model": "grimpack:cheese_maker",
 		"textures": {
 			"top": "grimpack:blocks/cheese_maker_top",
-			"side": "blocks/furnace_side"
+			"side": "blocks/furnace_side",
+			"particle": "grimpack:blocks/cheese_maker_top"
 		}
     },
 	"variants": {

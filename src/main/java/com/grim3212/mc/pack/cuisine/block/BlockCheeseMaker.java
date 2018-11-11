@@ -56,12 +56,12 @@ public class BlockCheeseMaker extends BlockManual {
 	protected BlockStateContainer createBlockState() {
 		return new BlockStateContainer(this, new IProperty[] { STAGE });
 	}
-	
+
 	@Override
 	public boolean isFullBlock(IBlockState state) {
 		return false;
 	}
-	
+
 	@Override
 	public boolean isOpaqueCube(IBlockState state) {
 		return false;
@@ -74,12 +74,17 @@ public class BlockCheeseMaker extends BlockManual {
 			int meta = worldIn.getBlockState(pos).getValue(STAGE);
 			if (meta == 0) {
 				worldIn.setBlockState(pos, state.withProperty(STAGE, 0), 2);
-			} else if (meta == 8) {
-				worldIn.setBlockState(pos, state.withProperty(STAGE, 9), 2);
+			} else if (meta == 9) {
+				worldIn.setBlockState(pos, state.withProperty(STAGE, 10), 2);
 			} else if (meta == 15) {
-				worldIn.setBlockState(pos, state.withProperty(STAGE, 15), 2);
+				// Do nothing
+				return;
 			} else {
-				worldIn.setBlockState(pos, state.withProperty(STAGE, meta + 1), 2);
+				if (meta + 8 > 15) {
+					worldIn.setBlockState(pos, state.withProperty(STAGE, 15), 2);
+				} else {
+					worldIn.setBlockState(pos, state.withProperty(STAGE, meta + 8), 2);
+				}
 			}
 		}
 	}
@@ -91,9 +96,11 @@ public class BlockCheeseMaker extends BlockManual {
 				worldIn.setBlockState(pos, this.getDefaultState());
 				float f = 0.7F;
 				double d = (double) (worldIn.rand.nextFloat() * f) + (double) (1.0F - f) * 0.5D;
-				double d1 = (double) (worldIn.rand.nextFloat() * f) + (double) (1.0F - f) * 0.20000000000000001D + 0.59999999999999998D;
+				double d1 = (double) (worldIn.rand.nextFloat() * f) + (double) (1.0F - f) * 0.20000000000000001D
+						+ 0.59999999999999998D;
 				double d2 = (double) (worldIn.rand.nextFloat() * f) + (double) (1.0F - f) * 0.5D;
-				EntityItem entityitem = new EntityItem(worldIn, (double) pos.getX() + d, (double) pos.getY() + d1, (double) pos.getZ() + d2, new ItemStack(CuisineBlocks.cheese_block));
+				EntityItem entityitem = new EntityItem(worldIn, (double) pos.getX() + d, (double) pos.getY() + d1,
+						(double) pos.getZ() + d2, new ItemStack(CuisineBlocks.cheese_block));
 				entityitem.setPickupDelay(10);
 				worldIn.spawnEntity(entityitem);
 			}
@@ -101,7 +108,8 @@ public class BlockCheeseMaker extends BlockManual {
 	}
 
 	@Override
-	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
+	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn,
+			EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
 		ItemStack heldItem = playerIn.getHeldItem(hand);
 
 		if (!heldItem.isEmpty()) {
