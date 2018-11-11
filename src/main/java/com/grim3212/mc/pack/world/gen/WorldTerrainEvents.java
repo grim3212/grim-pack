@@ -18,8 +18,12 @@ public class WorldTerrainEvents {
 			if (event.getRand().nextInt(WorldConfig.desertWellSpawnRate) == 0) {
 				int i = event.getRand().nextInt(16) + 8;
 				int j = event.getRand().nextInt(16) + 8;
-				BlockPos blockpos1 = event.getWorld().getHeight(event.getPlacementPos().add(i, 0, j)).up();
-				(new WorldGenBetterDesertWells()).generate(event.getWorld(), event.getRand(), blockpos1);
+				
+				//Make sure we aren't trying to place this at a null position
+				if(event.getPlacementPos()!= null) {
+					BlockPos blockpos1 = event.getWorld().getHeight(event.getPlacementPos().add(i, 0, j)).up();
+					(new WorldGenBetterDesertWells()).generate(event.getWorld(), event.getRand(), blockpos1);
+				}
 			}
 		}
 	}
