@@ -14,7 +14,8 @@
       "item": "minecraft:bread"
     },
     {
-      "item": "#TOOLCUTTINGBOARD"
+      "item": "grimpack:knife", 
+	  "data": 32767
     }
   ],
   "type": "forge:ore_shapeless"
