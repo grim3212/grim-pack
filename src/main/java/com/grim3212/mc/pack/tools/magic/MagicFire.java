@@ -14,7 +14,7 @@ public class MagicFire extends BaseMagic {
 	}
 
 	@Override
-	public int performMagic(World world, EntityPlayer playerIn, EnumHand hand, float range) {
+	public int performMagic(World world, EntityPlayer playerIn, EnumHand hand, int dmgLeft, float range) {
 		Vec3d vec3d = playerIn.getLook(1.0F);
 
 		double x = playerIn.posX + (double) (vec3d.x * 0.3F);

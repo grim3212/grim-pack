@@ -13,7 +13,7 @@ public class MagicHeal extends BaseMagic {
 	}
 
 	@Override
-	public int performMagic(World world, EntityPlayer playerIn, EnumHand hand, float range) {
+	public int performMagic(World world, EntityPlayer playerIn, EnumHand hand, int dmgLeft, float range) {
 		if (playerIn.getHealth() < playerIn.getMaxHealth()) {
 
 			float toHeal = MathHelper.clamp((playerIn.getMaxHealth() - playerIn.getHealth()), 0, 10);

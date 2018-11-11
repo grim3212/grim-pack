@@ -22,7 +22,7 @@ public class MagicPolymorph extends BaseMagic {
 	}
 
 	@Override
-	public int performMagic(World world, EntityPlayer playerIn, EnumHand hand, float range) {
+	public int performMagic(World world, EntityPlayer playerIn, EnumHand hand, int dmgLeft, float range) {
 		int i = MathHelper.floor(playerIn.posX - (double) range - 1.0D);
 		int j = MathHelper.floor(playerIn.posX + (double) range + 1.0D);
 		int k = MathHelper.floor(playerIn.posY - (double) range - 1.0D);
@@ -45,8 +45,9 @@ public class MagicPolymorph extends BaseMagic {
 			if (!(entity instanceof EntityMob) && !(entity instanceof EntityFlying)) {
 				continue;
 			}
-
-			if (this.convertEntity(world, playerIn, entity)) {
+			
+			//Make sure we have enough dmgLeft
+			if (count <= dmgLeft && this.convertEntity(world, playerIn, entity)) {
 				count++;
 			}
 		}

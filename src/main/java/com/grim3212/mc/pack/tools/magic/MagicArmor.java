@@ -15,7 +15,7 @@ public class MagicArmor extends BaseMagic {
 	}
 
 	@Override
-	public int performMagic(World world, EntityPlayer playerIn, EnumHand hand, float range) {
+	public int performMagic(World world, EntityPlayer playerIn, EnumHand hand, int dmgLeft, float range) {
 		Iterator<ItemStack> itr = playerIn.getArmorInventoryList().iterator();
 
 		int count = 0;
@@ -23,7 +23,7 @@ public class MagicArmor extends BaseMagic {
 		while (itr.hasNext()) {
 			ItemStack stack = itr.next();
 
-			if (!stack.isEmpty() && stack.getItem() instanceof ItemArmor && stack.getItemDamage() != 0) {
+			if (count <= dmgLeft && !stack.isEmpty() && stack.getItem() instanceof ItemArmor && stack.getItemDamage() != 0) {
 				int toRepair = stack.getMaxDamage() - stack.getItemDamage();
 
 				stack.damageItem(-toRepair, playerIn);

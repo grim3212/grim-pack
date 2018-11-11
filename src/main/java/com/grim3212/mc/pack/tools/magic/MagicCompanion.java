@@ -11,7 +11,7 @@ public class MagicCompanion extends BaseMagic {
 	}
 
 	@Override
-	public int performMagic(World world, EntityPlayer playerIn, EnumHand hand, float range) {
+	public int performMagic(World world, EntityPlayer playerIn, EnumHand hand, int dmgLeft, float range) {
 		return 0;
 	}
 

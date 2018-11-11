@@ -30,7 +30,7 @@ public abstract class BaseMagic {
 		this.name = name;
 	}
 
-	public abstract int performMagic(World world, EntityPlayer playerIn, EnumHand hand, float range);
+	public abstract int performMagic(World world, EntityPlayer playerIn, EnumHand hand, int dmgLeft, float range);
 
 	public String getMagicName() {
 		return this.name;

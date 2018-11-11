@@ -17,7 +17,7 @@ public class MagicHome extends BaseMagic {
 	}
 
 	@Override
-	public int performMagic(World world, EntityPlayer playerIn, EnumHand hand, float range) {
+	public int performMagic(World world, EntityPlayer playerIn, EnumHand hand, int dmgLeft, float range) {
 		float x = world.getSpawnPoint().getX();
 		float y = world.getSpawnPoint().getY();
 		float z = world.getSpawnPoint().getZ();

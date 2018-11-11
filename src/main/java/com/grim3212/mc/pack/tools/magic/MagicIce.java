@@ -16,7 +16,7 @@ public class MagicIce extends BaseMagic {
     }
 
     @Override
-    public int performMagic(World world, EntityPlayer playerIn, EnumHand hand, float rangeF) {
+    public int performMagic(World world, EntityPlayer playerIn, EnumHand hand, int dmgLeft, float rangeF) {
         BlockPos pos = playerIn.getPosition();
 
         int count = 0;
@@ -31,6 +31,9 @@ public class MagicIce extends BaseMagic {
 
                     BlockPos newPos = new BlockPos(x, y, z);
                     IBlockState state = world.getBlockState(newPos);
+                    
+                    if(!(count <= dmgLeft))
+                    	return count;
 
                     if (state.getBlock() == Blocks.WATER && state.getValue(BlockLiquid.LEVEL) == 0 || state.getBlock() == Blocks.FLOWING_WATER && state.getValue(BlockLiquid.LEVEL) == 0) {
                         world.setBlockState(newPos, Blocks.ICE.getDefaultState());

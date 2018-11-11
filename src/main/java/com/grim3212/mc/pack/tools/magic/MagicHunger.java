@@ -13,7 +13,7 @@ public class MagicHunger extends BaseMagic {
 	}
 
 	@Override
-	public int performMagic(World world, EntityPlayer playerIn, EnumHand hand, float range) {
+	public int performMagic(World world, EntityPlayer playerIn, EnumHand hand, int dmgLeft, float range) {
 		if (playerIn.getFoodStats().needFood()) {
 
 			int toEat = MathHelper.clamp((20 - playerIn.getFoodStats().getFoodLevel()), 0, 10);

@@ -71,7 +71,7 @@ public class ItemMagicWand extends ItemManual {
 	public int getMaxDamage(ItemStack stack) {
 		BaseMagic magic = MagicRegistry.getMagic(stack);
 
-		return magic != null ? magic.getMaxUses(): 1;
+		return magic != null ? magic.getMaxUses() : 1;
 	}
 
 	@Override
@@ -81,13 +81,13 @@ public class ItemMagicWand extends ItemManual {
 		BaseMagic magic = MagicRegistry.getMagic(stack);
 
 		if (magic != null) {
+			// Get the amount of damage left
+			int damageLeft = stack.getMaxDamage() - stack.getItemDamage();
 			// Possibly modify range later on
-			int damage = magic.performMagic(worldIn, playerIn, handIn, magic.getBaseRange());
+			int damage = magic.performMagic(worldIn, playerIn, handIn, damageLeft, magic.getBaseRange());
 
 			playerIn.swingArm(handIn);
 
-			// TODO: Check first if we can continue operating if damage exceeds
-			// 1
 			if (!playerIn.isCreative()) {
 				stack.damageItem(damage, playerIn);
 			}

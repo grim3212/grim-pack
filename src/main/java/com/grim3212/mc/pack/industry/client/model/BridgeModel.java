@@ -56,7 +56,7 @@ import net.minecraftforge.common.property.IExtendedBlockState;
 
 public class BridgeModel implements IModel {
 
-	public static final BridgeModel MODEL = new BridgeModel(ImmutableList.<ResourceLocation> of(), new ResourceLocation("grimpack:blocks/bridge"));
+	public static final BridgeModel MODEL = new BridgeModel(ImmutableList.<ResourceLocation>of(), new ResourceLocation("grimpack:blocks/bridge"));
 
 	private final ImmutableList<ResourceLocation> modelLocation;
 	private final ResourceLocation textureLocation;
@@ -145,7 +145,7 @@ public class BridgeModel implements IModel {
 
 		@Override
 		public void onResourceManagerReload(IResourceManager resourceManager, Predicate<IResourceType> resourcePredicate) {
-			if(resourcePredicate.test(VanillaResourceType.MODELS)) {
+			if (resourcePredicate.test(VanillaResourceType.MODELS)) {
 				this.cache.clear();
 			}
 		}
@@ -215,8 +215,8 @@ public class BridgeModel implements IModel {
 		}
 
 		/**
-		 * Generate the model defined in json that is a combination of all
-		 * models defined
+		 * Generate the model defined in json that is a combination of all models
+		 * defined
 		 * 
 		 * @param state
 		 * @param texture
@@ -232,8 +232,8 @@ public class BridgeModel implements IModel {
 		}
 
 		/**
-		 * Generates the model defined in the json and then also merges extra
-		 * models to it
+		 * Generates the model defined in the json and then also merges extra models to
+		 * it
 		 * 
 		 * @param state
 		 * @param texture
@@ -280,7 +280,7 @@ public class BridgeModel implements IModel {
 		}
 
 		// Not really needed since there isn't even an item form of bridges
-		private final ItemOverrideList itemHandler = new ItemOverrideList(Lists.<ItemOverride> newArrayList()) {
+		private final ItemOverrideList itemHandler = new ItemOverrideList(Lists.<ItemOverride>newArrayList()) {
 			@Override
 			public IBakedModel handleItemState(IBakedModel model, ItemStack stack, World world, EntityLivingBase entity) {
 				if (stack.hasTagCompound() && stack.getTagCompound().hasKey("registryName") && stack.getTagCompound().hasKey("meta")) {
@@ -310,7 +310,7 @@ public class BridgeModel implements IModel {
 		@Override
 		public IModel loadModel(ResourceLocation modelLocation) throws IOException {
 			if (modelLocation.getResourcePath().equals("models/block/dynamic_bridge")) {
-				return new BridgeModel(ImmutableList.<ResourceLocation> of(), new ResourceLocation("grimpack:blocks/bridge"));
+				return new BridgeModel(ImmutableList.<ResourceLocation>of(), new ResourceLocation("grimpack:blocks/bridge"));
 			}
 
 			return BridgeModel.MODEL;

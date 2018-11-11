@@ -12,7 +12,7 @@ public class MagicItem extends BaseMagic {
 	}
 
 	@Override
-	public int performMagic(World world, EntityPlayer playerIn, EnumHand hand, float range) {
+	public int performMagic(World world, EntityPlayer playerIn, EnumHand hand, int dmgLeft, float range) {
 		int count = 0;
 
 		for (int i = 0; i < 9; i++) {

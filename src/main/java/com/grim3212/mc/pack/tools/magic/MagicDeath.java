@@ -18,7 +18,7 @@ public class MagicDeath extends BaseMagic {
 	}
 
 	@Override
-	public int performMagic(World world, EntityPlayer playerIn, EnumHand hand, float range) {
+	public int performMagic(World world, EntityPlayer playerIn, EnumHand hand, int dmgLeft, float range) {
 		int i = MathHelper.floor(playerIn.posX - (double) range - 1.0D);
 		int j = MathHelper.floor(playerIn.posX + (double) range + 1.0D);
 		int k = MathHelper.floor(playerIn.posY - (double) range - 1.0D);
@@ -33,7 +33,7 @@ public class MagicDeath extends BaseMagic {
 
 		for (int k1 = 0; k1 < list.size(); k1++) {
 			Entity entity = (Entity) list.get(k1);
-			if (entity instanceof EntityLivingBase) {
+			if (count <= dmgLeft && entity instanceof EntityLivingBase) {
 				// Attack the entities
 				entity.attackEntityFrom(DamageSource.causePlayerDamage(playerIn), 20);
 

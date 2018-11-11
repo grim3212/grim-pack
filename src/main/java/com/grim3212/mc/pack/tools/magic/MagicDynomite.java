@@ -11,7 +11,7 @@ public class MagicDynomite extends BaseMagic {
 	}
 
 	@Override
-	public int performMagic(World world, EntityPlayer playerIn, EnumHand hand, float range) {
+	public int performMagic(World world, EntityPlayer playerIn, EnumHand hand, int dmgLeft, float range) {
 		if (!world.isRemote)
 			world.createExplosion(playerIn, playerIn.posX, playerIn.posY, playerIn.posZ, range, true);
 
