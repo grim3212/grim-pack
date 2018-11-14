@@ -1,8 +1,8 @@
 {
 	"homepage": "https://www.grim3212.com/grim-pack",
 	"promos": {
-		"1.12.2-latest": "6.0.0.5",
-		"1.12.2-recommended": "6.0.0.5",
+		"1.12.2-latest": "6.0.0.6",
+		"1.12.2-recommended": "6.0.0.6",
 		"1.12.1-latest": "5.1.3.43",
 		"1.12.1-recommended": "5.1.3.43",
 		"1.12-latest": "5.0.0.3",
@@ -92,6 +92,7 @@
 		"5.1.1.22": "Configurable Update. Lots of changes to make GrimPack more customizable like disabling subparts, customize tool and armor material values, and new JSON recipes for Grill, Machines, and Chisels.",
 	},
 	"1.12.2": {
+		"6.0.0.6": "Fix slingshots doing no damage. Cheese makers take less time. Fix knife recipe. Fix occasional Desert Well crash. Change some wands to check durability before they run.",
 		"6.0.0.5": "Cheese makers take less time. Fix knife recipe. Fix occasional Desert Well crash. Change some wands to check durability before they run.",
 		"6.0.0.1": "Fix JEI and JER integrations. Remove use of deprecated methods. Change TileEntity Registration. This will break a lot of TileEntities, mostly in Grim Industry. WIP Magic Wand Stuff",
 		"6.0.0.0": "Fix JEI and JER integrations. Remove use of deprecated methods. Change TileEntity Registration. This will break a lot of TileEntities, mostly in Grim Industry. WIP Magic Wand Stuff",
