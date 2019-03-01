@@ -2,71 +2,10 @@ package com.grim3212.mc.pack.core.client.gui;
 
 import java.util.List;
 
-import com.google.common.collect.Lists;
 import com.grim3212.mc.pack.core.manual.gui.GuiManualIndex;
-import com.grim3212.mc.pack.decor.client.gui.GuiAlarm;
-import com.grim3212.mc.pack.decor.client.gui.GuiCage;
-import com.grim3212.mc.pack.decor.client.gui.GuiEditNeonSign;
-import com.grim3212.mc.pack.decor.client.gui.GuiGrill;
-import com.grim3212.mc.pack.decor.inventory.ContainerCage;
-import com.grim3212.mc.pack.decor.inventory.ContainerGrill;
-import com.grim3212.mc.pack.decor.tile.TileEntityAlarm;
-import com.grim3212.mc.pack.decor.tile.TileEntityCage;
-import com.grim3212.mc.pack.decor.tile.TileEntityGrill;
-import com.grim3212.mc.pack.decor.tile.TileEntityNeonSign;
-import com.grim3212.mc.pack.industry.client.gui.GuiCraftingDiamond;
-import com.grim3212.mc.pack.industry.client.gui.GuiCraftingIron;
-import com.grim3212.mc.pack.industry.client.gui.GuiDerrick;
-import com.grim3212.mc.pack.industry.client.gui.GuiDiamondPortable;
-import com.grim3212.mc.pack.industry.client.gui.GuiExtruder;
-import com.grim3212.mc.pack.industry.client.gui.GuiFan;
-import com.grim3212.mc.pack.industry.client.gui.GuiGoldSafe;
-import com.grim3212.mc.pack.industry.client.gui.GuiIronPortable;
-import com.grim3212.mc.pack.industry.client.gui.GuiItemTower;
-import com.grim3212.mc.pack.industry.client.gui.GuiLocker;
-import com.grim3212.mc.pack.industry.client.gui.GuiLocksmithWorkbench;
-import com.grim3212.mc.pack.industry.client.gui.GuiMFurnace;
-import com.grim3212.mc.pack.industry.client.gui.GuiRefinery;
-import com.grim3212.mc.pack.industry.client.gui.GuiSpecificSensor;
-import com.grim3212.mc.pack.industry.entity.EntityExtruder;
-import com.grim3212.mc.pack.industry.inventory.ContainerDerrick;
-import com.grim3212.mc.pack.industry.inventory.ContainerDiamondWorkbench;
-import com.grim3212.mc.pack.industry.inventory.ContainerExtruder;
-import com.grim3212.mc.pack.industry.inventory.ContainerGoldSafe;
-import com.grim3212.mc.pack.industry.inventory.ContainerIronWorkbench;
-import com.grim3212.mc.pack.industry.inventory.ContainerItemTower;
-import com.grim3212.mc.pack.industry.inventory.ContainerLocker;
-import com.grim3212.mc.pack.industry.inventory.ContainerLocksmithWorkbench;
-import com.grim3212.mc.pack.industry.inventory.ContainerMFurnace;
-import com.grim3212.mc.pack.industry.inventory.ContainerRefinery;
-import com.grim3212.mc.pack.industry.inventory.ContainerSpecificSensor;
-import com.grim3212.mc.pack.industry.inventory.InventoryDualLocker;
-import com.grim3212.mc.pack.industry.inventory.InventoryItemTower;
-import com.grim3212.mc.pack.industry.tile.TileEntityFan;
-import com.grim3212.mc.pack.industry.tile.TileEntityItemTower;
-import com.grim3212.mc.pack.industry.tile.TileEntityMFurnace;
-import com.grim3212.mc.pack.industry.tile.TileEntityMachine;
-import com.grim3212.mc.pack.industry.tile.TileEntitySpecificSensor;
-import com.grim3212.mc.pack.industry.tile.TileEntityStorage;
-import com.grim3212.mc.pack.tools.client.gui.GuiBackpack;
-import com.grim3212.mc.pack.tools.client.gui.GuiPelletBag;
-import com.grim3212.mc.pack.tools.client.gui.GuiPortable;
-import com.grim3212.mc.pack.tools.inventory.BackpackInventory;
-import com.grim3212.mc.pack.tools.inventory.ContainerBackpack;
-import com.grim3212.mc.pack.tools.inventory.ContainerCustomWorkbench;
-import com.grim3212.mc.pack.tools.inventory.ContainerPelletBag;
-import com.grim3212.mc.pack.tools.inventory.PelletBagInventory;
-import com.grim3212.mc.pack.util.client.gui.GuiGrave;
-import com.grim3212.mc.pack.util.grave.ContainerGrave;
-import com.grim3212.mc.pack.util.grave.TileEntityGrave;
-import com.grim3212.mc.pack.world.entity.EntityTreasureMob;
 
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.gui.inventory.GuiChest;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.ContainerChest;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EntitySelectors;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
@@ -108,10 +47,10 @@ public class PackGuiHandler implements IGuiHandler {
 
 	@Override
 	public Object getServerGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
-		BlockPos pos = new BlockPos(x, y, z);
-		TileEntity tileentity = world.getTileEntity(pos);
+		//BlockPos pos = new BlockPos(x, y, z);
+		//TileEntity tileentity = world.getTileEntity(pos);
 
-		if ((ID == GRILL_GUI_ID) && ((tileentity instanceof TileEntityGrill))) {
+		/*if ((ID == GRILL_GUI_ID) && ((tileentity instanceof TileEntityGrill))) {
 			return new ContainerGrill(player.inventory, (TileEntityGrill) tileentity);
 		} else if (ID == IRON_GUI_ID) {
 			return new ContainerIronWorkbench(player, world, pos, false);
@@ -161,19 +100,19 @@ public class PackGuiHandler implements IGuiHandler {
 			return this.getItemTowerContainer(player, world, x, y, z);
 		} else if (ID == TREASURE_MOB_GUI_ID) {
 			return new ContainerChest(player.inventory, this.getEntityAt(world, x, y, z, EntityTreasureMob.class).getTreasureInventory(), player);
-		}
+		}*/
 
 		return null;
 	}
 
 	@Override
 	public Object getClientGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
-		BlockPos pos = new BlockPos(x, y, z);
-		TileEntity tileentity = world.getTileEntity(pos);
+		//BlockPos pos = new BlockPos(x, y, z);
+		//TileEntity tileentity = world.getTileEntity(pos);
 
 		if (ID == MANUAL_GUI_ID) {
 			return GuiManualIndex.activeManualPage;
-		} else if (ID == IRON_GUI_ID) {
+		} /*else if (ID == IRON_GUI_ID) {
 			return new GuiCraftingIron(player, world, pos);
 		} else if (ID == DIAMOND_GUI_ID) {
 			return new GuiCraftingDiamond(player, world, pos);
@@ -235,7 +174,7 @@ public class PackGuiHandler implements IGuiHandler {
 			return new GuiAlarm((TileEntityAlarm) tileentity, player);
 		} else if ((ID == NEON_SIGN_GUI_ID) && (tileentity instanceof TileEntityNeonSign)) {
 			return new GuiEditNeonSign((TileEntityNeonSign) tileentity);
-		}
+		}*/
 
 		return null;
 	}
@@ -251,7 +190,7 @@ public class PackGuiHandler implements IGuiHandler {
 		for (int i = 0; i < entityList.size(); ++i) {
 			T entity2 = entityList.get(i);
 
-			if (EntitySelectors.NOT_SPECTATING.apply(entity2)) {
+			if (EntitySelectors.NOT_SPECTATING.test(entity2)) {
 
 				double d1 = new BlockPos(x, y, z).distanceSq(entity2.posX, entity2.posY, entity2.posZ);
 
@@ -265,7 +204,7 @@ public class PackGuiHandler implements IGuiHandler {
 		return entity1;
 	}
 
-	private Object getItemTowerGui(EntityPlayer player, World world, int x, int y, int z) {
+	/*private Object getItemTowerGui(EntityPlayer player, World world, int x, int y, int z) {
 		BlockPos pos = new BlockPos(x, y, z);
 		IBlockState state = world.getBlockState(pos);
 		List<TileEntityItemTower> itemTowers = Lists.newArrayList();
@@ -304,5 +243,5 @@ public class PackGuiHandler implements IGuiHandler {
 		}
 
 		return new ContainerItemTower(player, new InventoryItemTower(itemTowers));
-	}
+	}*/
 }

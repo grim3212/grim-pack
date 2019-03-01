@@ -11,22 +11,22 @@ import com.grim3212.mc.pack.core.manual.IManualEntry.IManualEntity;
 import com.grim3212.mc.pack.core.manual.IManualEntry.IManualItem;
 
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.MainWindow;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
-import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
 import net.minecraftforge.fml.common.gameevent.TickEvent.RenderTickEvent;
 
 public class RenderManualEntryEvent {
 
 	private final ResourceLocation ICONS_LOCATION = new ResourceLocation(GrimPack.modID, "textures/gui/icons.png");
-	private Minecraft mc = Minecraft.getMinecraft();
+	private Minecraft mc = Minecraft.getInstance();
 
 	@SubscribeEvent
 	public void onEvent(RenderTickEvent event) {
@@ -40,18 +40,18 @@ public class RenderManualEntryEvent {
 
 				if (!player.getHeldItemMainhand().isEmpty() && player.getHeldItemMainhand().getItem() == CoreItems.instruction_manual) {
 					if (pos != null) {
-						switch (pos.typeOfHit) {
+						switch (pos.type) {
 						case BLOCK:
 							IBlockState state = world.getBlockState(pos.getBlockPos());
 							if (state.getBlock() instanceof IManualBlock)
 								flag = true;
 							break;
 						case ENTITY:
-							if (pos.entityHit != null) {
-								if (pos.entityHit instanceof IManualEntity) {
+							if (pos.entity != null) {
+								if (pos.entity instanceof IManualEntity) {
 									flag = true;
-								} else if (pos.entityHit instanceof EntityItem) {
-									EntityItem item = (EntityItem) pos.entityHit;
+								} else if (pos.entity instanceof EntityItem) {
+									EntityItem item = (EntityItem) pos.entity;
 									if (item.getItem().getItem() instanceof IManualItem) {
 										flag = true;
 									}
@@ -66,9 +66,9 @@ public class RenderManualEntryEvent {
 				}
 
 				if (flag && mc.currentScreen == null) {
-					ScaledResolution scaled = new ScaledResolution(mc);
+					MainWindow scaled = mc.mainWindow;
 					GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-					mc.renderEngine.bindTexture(ICONS_LOCATION);
+					mc.textureManager.bindTexture(ICONS_LOCATION);
 					Gui.drawScaledCustomSizeModalRect((scaled.getScaledWidth() / 2) + 8, (scaled.getScaledHeight() / 2) - 4, 0, 0, 8, 8, 8, 8, 128, 128);
 				}
 			}

@@ -9,12 +9,14 @@ import java.awt.image.FilteredImageSource;
 import java.awt.image.ImageFilter;
 import java.awt.image.ImageProducer;
 import java.awt.image.RGBImageFilter;
+import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.texture.NativeImage;
 import net.minecraft.util.ScreenShotHelper;
 
 public class ScreenshotRenderer {
@@ -32,10 +34,13 @@ public class ScreenshotRenderer {
 	}
 
 	public static void saveTrimmedScreenshot(File target, int x, int y, int width, int height, Color transparencyColor) {
-		Minecraft mc = Minecraft.getMinecraft();
+		Minecraft mc = Minecraft.getInstance();
+		NativeImage screenshot = ScreenShotHelper.createScreenshot(mc.mainWindow.getWidth(), mc.mainWindow.getHeight(), mc.getFramebuffer());
+		NativeImage copy = new NativeImage(width, height, false);
+		screenshot.resizeSubRectTo(x, y, width, height, copy);
 
 		// Get screenshot of desired size by getting a subimage
-		BufferedImage bufferedimage = ScreenShotHelper.createScreenshot(mc.displayWidth, mc.displayHeight, mc.getFramebuffer()).getSubimage(x, y, width, height);
+		
 		try {
 			// Make transparent
 			if (transparencyColor != null) {
@@ -49,7 +54,7 @@ public class ScreenshotRenderer {
 		}
 	}
 
-	private static BufferedImage makeColorTransparent(BufferedImage im, final Color color) {
+	private static BufferedImage makeColorTransparent(NativeImage im, final Color color) {
 		ImageFilter filter = new RGBImageFilter() {
 
 			// the color we are looking for... Alpha bits are set to opaque

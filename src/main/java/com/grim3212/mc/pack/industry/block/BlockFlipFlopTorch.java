@@ -119,7 +119,7 @@ public class BlockFlipFlopTorch extends BlockTorch implements IManualBlock, ITil
 	}
 
 	@Override
-	@SideOnly(Side.CLIENT)
+	@OnlyIn(Dist.CLIENT)
 	public void randomDisplayTick(IBlockState stateIn, World worldIn, BlockPos pos, Random rand) {
 		if (stateIn.getValue(ON)) {
 			double d0 = (double) pos.getX() + 0.5D + (rand.nextDouble() - 0.5D) * 0.2D;

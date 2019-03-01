@@ -73,7 +73,7 @@ public class GrimDecor extends GrimPart {
 	}
 
 	@Override
-	@SideOnly(Side.CLIENT)
+	@OnlyIn(Dist.CLIENT)
 	public IManualPart getManual() {
 		return ManualDecor.INSTANCE;
 	}

@@ -35,7 +35,7 @@ public class InventoryTreasureChest implements IInventory {
 		this.inventoryContents = NonNullList.<ItemStack>withSize(slotCount, ItemStack.EMPTY);
 	}
 
-	@SideOnly(Side.CLIENT)
+	@OnlyIn(Dist.CLIENT)
 	public InventoryTreasureChest(ITextComponent title, int slotCount) {
 		this(title.getUnformattedText(), true, slotCount);
 	}

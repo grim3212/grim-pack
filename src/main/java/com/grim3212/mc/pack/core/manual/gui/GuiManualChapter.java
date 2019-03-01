@@ -11,7 +11,6 @@ import com.grim3212.mc.pack.core.util.GrimLog;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.gui.GuiButton;
 
 public class GuiManualChapter extends GuiManualIndex {
 
@@ -63,31 +62,31 @@ public class GuiManualChapter extends GuiManualIndex {
 				}
 			}
 
-			FontRenderer renderer = Minecraft.getMinecraft().fontRenderer;
-			boolean unicode = renderer.getUnicodeFlag();
-			renderer.setUnicodeFlag(true);
+			FontRenderer renderer = Minecraft.getInstance().fontRenderer;
+			boolean unicode = renderer.getBidiFlag();
+			renderer.setBidiFlag(true);
 			if (numPages != 1)
-				renderer.drawString("(" + (this.getPage() + 1) + "/" + numPages + ")", this.x + 166, this.y + 216, 0, false);
-			renderer.setUnicodeFlag(unicode);
+				renderer.drawString("(" + (this.getPage() + 1) + "/" + numPages + ")", this.x + 166, this.y + 216, 0);
+			renderer.setBidiFlag(unicode);
 		}
 	}
 
 	@Override
 	protected void drawTitle() {
-		boolean unicode = fontRenderer.getUnicodeFlag();
-		fontRenderer.setUnicodeFlag(false);
+		boolean unicode = fontRenderer.getBidiFlag();
+		fontRenderer.setBidiFlag(false);
 		String title = part.getPartName();
-		fontRenderer.drawString(title, width / 2 - fontRenderer.getStringWidth(title) / 2, this.y + 14, 0x0026FF, false);
-		fontRenderer.setUnicodeFlag(unicode);
+		fontRenderer.drawString(title, width / 2 - fontRenderer.getStringWidth(title) / 2, this.y + 14, 0x0026FF);
+		fontRenderer.setBidiFlag(unicode);
 	}
 
 	@Override
 	protected void drawInfo() {
 		if (page == 0) {
-			boolean unicode = fontRenderer.getUnicodeFlag();
-			fontRenderer.setUnicodeFlag(true);
+			boolean unicode = fontRenderer.getBidiFlag();
+			fontRenderer.setBidiFlag(true);
 			fontRenderer.drawSplitString(this.part.getPartInfo(), x + 15, y + 28, 162, 0);
-			fontRenderer.setUnicodeFlag(unicode);
+			fontRenderer.setBidiFlag(unicode);
 		}
 	}
 
@@ -100,10 +99,37 @@ public class GuiManualChapter extends GuiManualIndex {
 
 	@Override
 	public void updateButtons() {
-		buttonList.clear();
-		buttonList.add(this.changeForward = new GuiButtonChangePage(0, x + manualWidth - 20, y + manualHeight - 12, true));
-		buttonList.add(this.changeBack = new GuiButtonChangePage(1, x + 2, y + manualHeight - 12, false));
-		buttonList.add(this.goHome = new GuiButtonHome(2, width / 2 - 9 / 2, y + manualHeight - 11));
+		buttons.clear();
+		buttons.add(this.changeForward = new GuiButtonChangePage(0, x + manualWidth - 20, y + manualHeight - 12, true) {
+			@Override
+			public void onClick(double mouseX, double mouseY) {
+				super.onClick(mouseX, mouseY);
+
+				page++;
+				GuiManualChapter.this.updateButtons();
+			}
+		});
+		buttons.add(this.changeBack = new GuiButtonChangePage(1, x + 2, y + manualHeight - 12, false) {
+			@Override
+			public void onClick(double mouseX, double mouseY) {
+				super.onClick(mouseX, mouseY);
+
+				if (page == 0) {
+					mc.displayGuiScreen(new GuiManualIndex(storedPage));
+				} else {
+					page--;
+					GuiManualChapter.this.updateButtons();
+				}
+			}
+		});
+		buttons.add(this.goHome = new GuiButtonHome(2, width / 2 - 9 / 2, y + manualHeight - 11) {
+			@Override
+			public void onClick(double mouseX, double mouseY) {
+				super.onClick(mouseX, mouseY);
+
+				mc.displayGuiScreen(new GuiManualIndex(0));
+			}
+		});
 
 		if (page == 0) {
 			changeForward.visible = chapters.size() > 12;
@@ -115,40 +141,28 @@ public class GuiManualChapter extends GuiManualIndex {
 
 		if (page == 0) {
 			for (int i = 0; i < chapters.size() && i < 12; i++) {
-				buttonList.add(new GuiButtonModSection(i + 3, x + 15, y + (58 + i * 14), 10, chapters.get(i).getName()));
+				buttons.add(new GuiButtonModSection(i + 3, x + 15, y + (58 + i * 14), 10, chapters.get(i).getName()) {
+					@Override
+					public void onClick(double mouseX, double mouseY) {
+						super.onClick(mouseX, mouseY);
+
+						mc.displayGuiScreen(new GuiManualPage(chapters.get(this.id - 3), GuiManualChapter.this));
+					}
+				});
 			}
 		} else {
 			for (int i = 0; i < 14; i++) {
 				if ((12 + ((page - 1) * 14 + i)) < chapters.size()) {
-					buttonList.add(new GuiButtonModSection(i + 3, x + 15, y + (30 + i * 14), 10, chapters.get(12 + ((page - 1) * 14 + i)).getName()));
+					buttons.add(new GuiButtonModSection(i + 3, x + 15, y + (30 + i * 14), 10, chapters.get(12 + ((page - 1) * 14 + i)).getName()) {
+						@Override
+						public void onClick(double mouseX, double mouseY) {
+							super.onClick(mouseX, mouseY);
+
+							mc.displayGuiScreen(new GuiManualPage(chapters.get(12 + ((page - 1) * 14 + (this.id - 3))), GuiManualChapter.this));
+						}
+					});
 				}
 			}
-		}
-	}
-
-	@Override
-	protected void actionPerformed(GuiButton button) {
-		switch (button.id) {
-		case 0:
-			page++;
-			this.updateButtons();
-			break;
-		case 1:
-			if (page == 0) {
-				mc.displayGuiScreen(new GuiManualIndex(this.storedPage));
-			} else {
-				page--;
-				this.updateButtons();
-			}
-			break;
-		case 2:
-			mc.displayGuiScreen(new GuiManualIndex(0));
-			break;
-		default:
-			if (page == 0)
-				mc.displayGuiScreen(new GuiManualPage(chapters.get(button.id - 3), this));
-			else
-				mc.displayGuiScreen(new GuiManualPage(chapters.get(12 + ((page - 1) * 14 + (button.id - 3))), this));
 		}
 	}
 

@@ -10,8 +10,8 @@ import net.minecraft.util.ResourceLocation;
 
 public abstract class ItemManual extends Item implements IManualItem {
 
-	public ItemManual(String name) {
-		this.setUnlocalizedName(name);
+	public ItemManual(String name, Item.Properties props) {
+		super(props);
 		this.setRegistryName(new ResourceLocation(GrimPack.modID, name));
 	}
 

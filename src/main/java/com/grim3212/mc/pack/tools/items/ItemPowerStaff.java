@@ -46,7 +46,7 @@ public class ItemPowerStaff extends ItemManual {
 	}
 
 	@Override
-	@SideOnly(Side.CLIENT)
+	@OnlyIn(Dist.CLIENT)
 	public boolean isFull3D() {
 		return true;
 	}

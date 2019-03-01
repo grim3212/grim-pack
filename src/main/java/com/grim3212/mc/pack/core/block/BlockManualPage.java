@@ -3,16 +3,15 @@ package com.grim3212.mc.pack.core.block;
 import com.grim3212.mc.pack.core.manual.ManualRegistry;
 import com.grim3212.mc.pack.core.manual.pages.Page;
 
-import net.minecraft.block.SoundType;
-import net.minecraft.block.material.Material;
+import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 
 public class BlockManualPage extends BlockManual {
 
 	private String page;
 
-	public BlockManualPage(String name, Material material, SoundType type, String page) {
-		super(name, material, type);
+	public BlockManualPage(String name, Block.Properties props, String page) {
+		super(name, props);
 		this.page = page;
 	}
 

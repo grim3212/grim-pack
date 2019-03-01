@@ -7,13 +7,12 @@ import com.google.gson.JsonParseException;
 import com.grim3212.mc.pack.core.config.CoreConfig;
 
 import net.minecraft.util.JsonUtils;
-import net.minecraftforge.common.crafting.IConditionFactory;
-import net.minecraftforge.common.crafting.JsonContext;
+import net.minecraftforge.common.crafting.IConditionSerializer;
 
-public class CoreConditionFactory implements IConditionFactory {
+public class CoreConditionFactory implements IConditionSerializer {
 
 	@Override
-	public BooleanSupplier parse(JsonContext context, JsonObject json) {
+	public BooleanSupplier parse(JsonObject json) {
 		String value = JsonUtils.getString(json, "subpart", "");
 
 		switch (value) {

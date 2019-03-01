@@ -17,7 +17,7 @@ import net.minecraftforge.fml.client.registry.IRenderFactory;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-@SideOnly(Side.CLIENT)
+@OnlyIn(Dist.CLIENT)
 public class RenderFrame extends Render<EntityFrame> {
 
 	private static final ResourceLocation framesTexture = new ResourceLocation(GrimPack.modID, "textures/entities/frames_texture.png");

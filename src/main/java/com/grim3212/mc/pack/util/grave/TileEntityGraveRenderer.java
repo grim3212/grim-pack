@@ -14,7 +14,7 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-@SideOnly(Side.CLIENT)
+@OnlyIn(Dist.CLIENT)
 public class TileEntityGraveRenderer extends TileEntitySpecialRenderer<TileEntityGrave> {
 
 	@Override

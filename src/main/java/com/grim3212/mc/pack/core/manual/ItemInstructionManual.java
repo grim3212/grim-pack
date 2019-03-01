@@ -27,8 +27,8 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.RayTraceResult.Type;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
 public class ItemInstructionManual extends ItemManual {
 
@@ -74,7 +74,7 @@ public class ItemInstructionManual extends ItemManual {
 		return EnumActionResult.PASS;
 	}
 
-	@SideOnly(Side.CLIENT)
+	@OnlyIn(Dist.CLIENT)
 	private void updatePage(@Nullable Page page) {
 		if (page != null)
 			GuiManualIndex.activeManualPage = page.getLink().copySelf();

@@ -94,7 +94,7 @@ public class EntitySlingPellet extends EntityThrowable {
 	}
 
 	@Override
-	@SideOnly(Side.CLIENT)
+	@OnlyIn(Dist.CLIENT)
 	public void handleStatusUpdate(byte id) {
 		if (id == 3) {
 			for (int i = 0; i < 8; ++i) {

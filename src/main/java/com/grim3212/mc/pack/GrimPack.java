@@ -18,6 +18,8 @@ import com.grim3212.mc.pack.util.GrimUtil;
 import com.grim3212.mc.pack.world.GrimWorld;
 
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.ExtensionPoint;
+import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
@@ -28,11 +30,13 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartedEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
+import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.minecraftforge.fml.event.lifecycle.FMLDedicatedServerSetupEvent;
+import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 
-@Mod(modid = GrimPack.modID, name = GrimPack.modName, version = "@MOD_VERSION@", acceptedMinecraftVersions = "[1.12,1.13)", guiFactory = "com.grim3212.mc.pack.core.config.ConfigGuiFactory", updateJSON = "https://raw.githubusercontent.com/grim3212/grim-pack/master/update.json")
+@Mod(value = GrimPack.modID)
 public class GrimPack {
 
-	@Instance(GrimPack.modID)
 	public static GrimPack INSTANCE;
 
 	public static final String modID = "grimpack";
@@ -40,17 +44,22 @@ public class GrimPack {
 
 	public static File configDir;
 
-	@EventHandler
-	public void preInit(FMLPreInitializationEvent event) {
-		LogTimer.start("PreInit");
+	public GrimPack() {
+		INSTANCE = this;
+		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
+		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::serverSetup);
+	}
 
-		configDir = event.getModConfigurationDirectory();
+	public void setup(final FMLCommonSetupEvent event) {
+		LogTimer.start("Setup");
+
+		//configDir = event.getModConfigurationDirectory();
 
 		// Init creative tabs that should be loaded
 		GrimCreativeTabs.initTabs();
 
 		PartRegistry.registerPart(GrimCore.INSTANCE);
-		if (CoreConfig.useCuisine)
+		/*if (CoreConfig.useCuisine)
 			PartRegistry.registerPart(GrimCuisine.INSTANCE);
 		if (CoreConfig.useDecor)
 			PartRegistry.registerPart(GrimDecor.INSTANCE);
@@ -61,12 +70,12 @@ public class GrimPack {
 		if (CoreConfig.useUtil)
 			PartRegistry.registerPart(GrimUtil.INSTANCE);
 		if (CoreConfig.useWorld)
-			PartRegistry.registerPart(GrimWorld.INSTANCE);
+			PartRegistry.registerPart(GrimWorld.INSTANCE);*/
 
 		// Register GUI handler for the Instruction Manual
 		NetworkRegistry.INSTANCE.registerGuiHandler(GrimPack.INSTANCE, new PackGuiHandler());
 
-		PartRegistry.preInit(event);
+		PartRegistry.setup(event);
 
 		// Only allow in debug environments
 		if (Loader.instance().activeModContainer().getVersion().equals("@MOD_VERSION@")) {
@@ -77,43 +86,15 @@ public class GrimPack {
 		LogTimer.stop();
 	}
 
-	@EventHandler
-	public void init(FMLInitializationEvent event) {
-		LogTimer.start("Init");
-
-		PartRegistry.init(event);
-
-		LogTimer.stop();
-	}
-
-	@EventHandler
-	public void postInit(FMLPostInitializationEvent event) {
-		LogTimer.start("PostInit");
-
-		PartRegistry.postInit(event);
-
-		LogTimer.stop();
-	}
-
-	@EventHandler
-	public void serverStarting(FMLServerStartingEvent event) {
-		LogTimer.start("Server Starting event");
+	public void serverSetup(final FMLDedicatedServerSetupEvent event) {
+		LogTimer.start("Server Setup event");
 
 		// Only allow in debug environments
 		if (Loader.instance().activeModContainer().getVersion().equals("@MOD_VERSION@")) {
 			event.registerServerCommand(new CommandGenerate());
 		}
 
-		PartRegistry.serverStarting(event);
-
-		LogTimer.stop();
-	}
-
-	@EventHandler
-	public void serverStarted(FMLServerStartedEvent event) {
-		LogTimer.start("Server Started event");
-
-		PartRegistry.serverStarted(event);
+		PartRegistry.serverSetup(event);
 
 		LogTimer.stop();
 	}

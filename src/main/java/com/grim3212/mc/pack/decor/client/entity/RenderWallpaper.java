@@ -20,7 +20,7 @@ import net.minecraftforge.fml.client.registry.IRenderFactory;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-@SideOnly(Side.CLIENT)
+@OnlyIn(Dist.CLIENT)
 public class RenderWallpaper extends Render<EntityWallpaper> {
 
 	private static final ResourceLocation wallpaperTexture = new ResourceLocation(GrimPack.modID, "textures/entities/wallpapers.png");

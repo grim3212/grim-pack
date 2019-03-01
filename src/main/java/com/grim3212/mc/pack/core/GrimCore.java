@@ -1,9 +1,11 @@
 package com.grim3212.mc.pack.core;
 
 import java.util.List;
+import java.util.Optional;
 
 import com.google.common.collect.Lists;
 import com.grim3212.mc.pack.compat.jer.JERGrimPack;
+import com.grim3212.mc.pack.core.client.CoreClientProxy;
 import com.grim3212.mc.pack.core.client.ManualCore;
 import com.grim3212.mc.pack.core.common.CommonItems;
 import com.grim3212.mc.pack.core.common.CommonWorldGen;
@@ -16,40 +18,36 @@ import com.grim3212.mc.pack.core.manual.event.GiveManualEvent;
 import com.grim3212.mc.pack.core.network.MessageBetterExplosion;
 import com.grim3212.mc.pack.core.network.PacketDispatcher;
 import com.grim3212.mc.pack.core.part.GrimPart;
-import com.grim3212.mc.pack.core.proxy.CommonProxy;
+import com.grim3212.mc.pack.core.proxy.ServerProxy;
 import com.grim3212.mc.pack.core.util.CrashHandler;
 
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.common.FMLCommonHandler;
-import net.minecraftforge.fml.common.Optional;
-import net.minecraftforge.fml.common.SidedProxy;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.CrashReportExtender;
+import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 
 public class GrimCore extends GrimPart {
 
 	public static GrimCore INSTANCE = new GrimCore();
-
-	@SidedProxy(clientSide = "com.grim3212.mc.pack.core.client.CoreClientProxy", serverSide = COMMON_PROXY)
-	public static CommonProxy proxy;
+	public static ServerProxy proxy = DistExecutor.runForDist(() -> CoreClientProxy::new, () -> ServerProxy::new);
 
 	public static final String partId = "core";
 	public static final String partName = "Grim Core";
 
 	// TODO: Remake all achievements into advancements
-
 	public GrimCore() {
 		super(GrimCore.partId, GrimCore.partName, new CoreConfig());
 	}
 
 	@Override
-	public void preInit(FMLPreInitializationEvent event) {
-		super.preInit(event);
+	public void setup(final FMLCommonSetupEvent event) {
+		super.setup(event);
 
 		MinecraftForge.EVENT_BUS.register(new CommonItems());
 
@@ -67,8 +65,8 @@ public class GrimCore extends GrimPart {
 	@Override
 	public void init(FMLInitializationEvent event) {
 		super.init(event);
-		
-		FMLCommonHandler.instance().registerCrashCallable(new CrashHandler());
+
+		CrashReportExtender.registerCrashCallable(new CrashHandler());
 		MinecraftForge.EVENT_BUS.post(new InitEvent());
 	}
 
@@ -79,8 +77,8 @@ public class GrimCore extends GrimPart {
 		// Register Syncing config
 		MinecraftForge.EVENT_BUS.register(new SyncConfigEvent());
 	}
-	
-	@SideOnly(Side.CLIENT)
+
+	@OnlyIn(Dist.CLIENT)
 	@Optional.Method(modid = "jeresources")
 	@SubscribeEvent
 	public void JERInit(InitEvent evt) {
@@ -88,7 +86,7 @@ public class GrimCore extends GrimPart {
 	}
 
 	@Override
-	@SideOnly(Side.CLIENT)
+	@OnlyIn(Dist.CLIENT)
 	public IManualPart getManual() {
 		return ManualCore.INSTANCE;
 	}

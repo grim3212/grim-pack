@@ -13,7 +13,7 @@ import net.minecraftforge.fml.client.registry.IRenderFactory;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-@SideOnly(Side.CLIENT)
+@OnlyIn(Dist.CLIENT)
 public class RenderExtruder extends Render<EntityExtruder> {
 
 	private static final ResourceLocation extruderTexture = new ResourceLocation(GrimPack.modID, "textures/entities/extruder.png");

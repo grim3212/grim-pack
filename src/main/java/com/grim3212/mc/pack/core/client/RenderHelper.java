@@ -1,24 +1,16 @@
 package com.grim3212.mc.pack.core.client;
 
-import com.grim3212.mc.pack.GrimPack;
-
-import net.minecraft.block.Block;
-import net.minecraft.client.renderer.block.model.ModelBakery;
-import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.client.renderer.vertex.VertexFormat;
-import net.minecraft.item.Item;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.client.model.ModelLoader;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
-@SideOnly(Side.CLIENT)
+@OnlyIn(Dist.CLIENT)
 public class RenderHelper {
 
 	public static final VertexFormat POSITION_TEX_COLOR_LIGHTMAP_NORMAL = (new VertexFormat()).addElement(DefaultVertexFormats.POSITION_3F).addElement(DefaultVertexFormats.TEX_2F).addElement(DefaultVertexFormats.COLOR_4UB).addElement(DefaultVertexFormats.TEX_2S).addElement(DefaultVertexFormats.NORMAL_3B).addElement(DefaultVertexFormats.PADDING_1B);
 
-	public static void renderBlockWithMetaInInventory(Block block, int meta) {
+	/**public static void renderBlockWithMetaInInventory(Block block, int meta) {
 		Item item = Item.getItemFromBlock(block);
 		for (int i = 0; i < meta; i++)
 			ModelLoader.setCustomModelResourceLocation(item, i, new ModelResourceLocation(item.getRegistryName(), "inventory"));
@@ -35,9 +27,8 @@ public class RenderHelper {
 	/**
 	 * Render an item without any metadata
 	 * 
-	 * @param item
-	 *            to render
-	 */
+	 * @param item to render
+	 *
 	public static void renderItem(Item item) {
 		ModelLoader.setCustomModelResourceLocation(item, 0, new ModelResourceLocation(item.getRegistryName(), "inventory"));
 	}
@@ -45,11 +36,9 @@ public class RenderHelper {
 	/**
 	 * Render an item without meta that all share the same model
 	 * 
-	 * @param item
-	 *            to render
-	 * @param meta
-	 *            number of meta values
-	 */
+	 * @param item to render
+	 * @param meta number of meta values
+	 *
 	public static void renderItem(Item item, int meta) {
 		for (int i = 0; i < meta; i++)
 			ModelLoader.setCustomModelResourceLocation(item, i, new ModelResourceLocation(item.getRegistryName(), "inventory"));
@@ -58,11 +47,9 @@ public class RenderHelper {
 	/**
 	 * Uses the forge single blockstate for variants
 	 * 
-	 * @param item
-	 *            With variants
-	 * @param variants
-	 *            The different variant names
-	 */
+	 * @param item     With variants
+	 * @param variants The different variant names
+	 *
 	public static void renderVariantForgeMeta(Item item, int meta, String... variants) {
 		for (int i = 0; i < variants.length; i++) {
 			ModelLoader.setCustomModelResourceLocation(item, meta, new ModelResourceLocation(item.getRegistryName(), variants[i]));
@@ -72,11 +59,9 @@ public class RenderHelper {
 	/**
 	 * Uses the forge single blockstate for variants
 	 * 
-	 * @param item
-	 *            With variants
-	 * @param variants
-	 *            The different variant names
-	 */
+	 * @param item     With variants
+	 * @param variants The different variant names
+	 *
 	public static void renderVariantForge(Item item, String... variants) {
 		for (int i = 0; i < variants.length; i++) {
 			ModelLoader.setCustomModelResourceLocation(item, i, new ModelResourceLocation(item.getRegistryName(), variants[i]));
@@ -86,11 +71,9 @@ public class RenderHelper {
 	/**
 	 * Uses the forge single blockstate for variants
 	 * 
-	 * @param item
-	 *            With variants
-	 * @param variants
-	 *            The different variant names
-	 */
+	 * @param item     With variants
+	 * @param variants The different variant names
+	 *
 	public static void renderVariantForgeMeta(Block item, int meta) {
 		for (int i = 0; i < meta; i++) {
 			ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(item), i, new ModelResourceLocation(item.getRegistryName(), "inventory_" + i));
@@ -100,11 +83,9 @@ public class RenderHelper {
 	/**
 	 * Uses the forge single blockstate for variants
 	 * 
-	 * @param item
-	 *            With variants
-	 * @param variants
-	 *            The different variant names
-	 */
+	 * @param item     With variants
+	 * @param variants The different variant names
+	 *
 	public static void renderVariantForge(Block item, String... variants) {
 		for (int i = 0; i < variants.length; i++) {
 			ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(item), i, new ModelResourceLocation(item.getRegistryName(), variants[i]));
@@ -114,11 +95,9 @@ public class RenderHelper {
 	/**
 	 * Uses the vanilla item states with one for each for each variant
 	 * 
-	 * @param item
-	 *            With variants
-	 * @param variants
-	 *            The different variant names
-	 */
+	 * @param item     With variants
+	 * @param variants The different variant names
+	 *
 	public static void renderVariantVanilla(Item item, String... variants) {
 		for (int i = 0; i < variants.length; i++) {
 			ModelLoader.setCustomModelResourceLocation(item, i, new ModelResourceLocation(item.getRegistryName() + "_" + variants[i], "inventory"));
@@ -140,5 +119,5 @@ public class RenderHelper {
 	public static void registerExtraModels(Item item, String... models) {
 		for (String model : models)
 			ModelBakery.registerItemVariants(item, new ResourceLocation(GrimPack.modID, model));
-	}
+	}*/
 }

@@ -9,19 +9,19 @@ import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
 public interface IManualEntry {
 
 	public interface IManualBlock extends IManualEntry {
 
-		@SideOnly(Side.CLIENT)
+		@OnlyIn(Dist.CLIENT)
 		default public Page getPage(IBlockState state) {
 			return null;
 		}
 
-		@SideOnly(Side.CLIENT)
+		@OnlyIn(Dist.CLIENT)
 		default public Page getPage(@Nullable World world, @Nullable BlockPos pos, IBlockState state) {
 			return getPage(state);
 		}
@@ -29,14 +29,14 @@ public interface IManualEntry {
 
 	public interface IManualItem extends IManualEntry {
 
-		@SideOnly(Side.CLIENT)
+		@OnlyIn(Dist.CLIENT)
 		public Page getPage(ItemStack stack);
 
 	}
 
 	public interface IManualEntity extends IManualEntry {
 
-		@SideOnly(Side.CLIENT)
+		@OnlyIn(Dist.CLIENT)
 		public Page getPage(Entity entity);
 
 	}

@@ -29,6 +29,7 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.Ingredient;
+import net.minecraft.util.text.ITextComponent;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.OreIngredient;
 
@@ -116,38 +117,38 @@ public abstract class Page {
 	}
 
 	public void drawTitle(GuiManualPage gui) {
-		FontRenderer renderer = Minecraft.getMinecraft().fontRenderer;
-		boolean unicode = renderer.getUnicodeFlag();
-		renderer.setUnicodeFlag(false);
+		FontRenderer renderer = Minecraft.getInstance().fontRenderer;
+		boolean unicode = renderer.getBidiFlag();
+		renderer.setBidiFlag(false);
 		String title = gui.getChapter().getName() + " - " + this.getTitle();
 		renderer.drawString(title, gui.width / 2 - renderer.getStringWidth(title) / 2, gui.getY() + 14, 0x0026FF, false);
-		renderer.setUnicodeFlag(unicode);
+		renderer.setBidiFlag(unicode);
 	}
 
 	public void drawFooter(GuiManualPage gui) {
-		FontRenderer renderer = Minecraft.getMinecraft().fontRenderer;
-		boolean unicode = renderer.getUnicodeFlag();
-		renderer.setUnicodeFlag(true);
+		FontRenderer renderer = Minecraft.getInstance().fontRenderer;
+		boolean unicode = renderer.getBidiFlag();
+		renderer.setBidiFlag(true);
 		if (gui.getChapter().getPages().size() != 1)
 			renderer.drawString("(" + (gui.getPage() + 1) + "/" + gui.getChapter().getPages().size() + ")", gui.getX() + 166, gui.getY() + 216, 0, false);
-		renderer.setUnicodeFlag(unicode);
+		renderer.setBidiFlag(unicode);
 	}
 
 	public void renderItem(GuiManualPage gui, ItemStack item, int x, int y) {
-		RenderItem render = Minecraft.getMinecraft().getRenderItem();
+		RenderItem render = Minecraft.getInstance().getRenderItem();
 
 		GlStateManager.pushMatrix();
 		GlStateManager.enableBlend();
 		GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 		RenderHelper.enableGUIStandardItemLighting();
 
-		GlStateManager.scale(1F, 1F, 0.75F);
+		GlStateManager.scalef(1F, 1F, 0.75F);
 
 		GlStateManager.enableRescaleNormal();
-		GlStateManager.enableDepth();
+		GlStateManager.enableDepthTest();
 
 		render.renderItemAndEffectIntoGUI(item, x, y);
-		render.renderItemOverlayIntoGUI(Minecraft.getMinecraft().fontRenderer, item, x, y, (String) null);
+		render.renderItemOverlayIntoGUI(Minecraft.getInstance().fontRenderer, item, x, y, (String) null);
 		RenderHelper.disableStandardItemLighting();
 		GlStateManager.popMatrix();
 
@@ -174,7 +175,7 @@ public abstract class Page {
 
 	}
 
-	public void handleMouseClick(int mouseX, int mouseY, int mouseButton) {
+	public void handleMouseClick(double mouseX, double mouseY, int mouseButton) {
 		if (mouseButton == 0) {
 			if (!tooltipItem.isEmpty()) {
 				if (tooltipItem.getItem() instanceof IManualItem) {
@@ -184,7 +185,7 @@ public abstract class Page {
 					// Caused hours of headaches!!
 					// It was so simple
 					tooltipItem = ItemStack.EMPTY;
-					Minecraft.getMinecraft().displayGuiScreen(page.getLink().copySelf());
+					Minecraft.getInstance().displayGuiScreen(page.getLink().copySelf());
 				}
 			}
 		}
@@ -258,7 +259,7 @@ public abstract class Page {
 		JsonObject item = new JsonObject();
 		item.addProperty("id", stack.getItem().getRegistryName().toString());
 		item.addProperty("unloc", stack.getUnlocalizedName());
-		item.addProperty("name", GeneratorUtil.nameToHtml(stack.getDisplayName()));
+		item.addProperty("name", GeneratorUtil.nameToHtml(stack.getDisplayName().getFormattedText()));
 		item.addProperty("amount", stack.getCount());
 		item.addProperty("meta", stack.getMetadata());
 
@@ -273,13 +274,13 @@ public abstract class Page {
 		}
 
 		// Get tooltip info
-		List<String> tts = stack.getTooltip(null, ITooltipFlag.TooltipFlags.NORMAL);
+		List<ITextComponent> tts = stack.getTooltip(null, ITooltipFlag.TooltipFlags.NORMAL);
 		if (!tts.isEmpty() && tts.size() > 1) {
 			JsonArray tooltips = new JsonArray();
 
-			for (String s : tts) {
+			for (ITextComponent s : tts) {
 				// Find reset characters and replace with just text
-				tooltips.add(GeneratorUtil.nameToHtml(s));
+				tooltips.add(GeneratorUtil.nameToHtml(s.getFormattedText()));
 			}
 
 			item.add("tooltip", tooltips);

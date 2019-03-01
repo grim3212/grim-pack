@@ -6,6 +6,7 @@ import com.grim3212.mc.pack.core.manual.gui.GuiManualIndex;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.renderer.GlStateManager;
 
 public class GuiButtonHome extends GuiButton {
 
@@ -14,11 +15,12 @@ public class GuiButtonHome extends GuiButton {
 	}
 
 	@Override
-	public void drawButton(Minecraft mc, int mouseX, int mouseY, float partialTicks) {
+	public void render(int mouseX, int mouseY, float partialTicks) {
 		if (this.visible) {
 			boolean flag = mouseX >= this.x && mouseY >= this.y && mouseX < this.x + this.width && mouseY < this.y + this.height;
+			GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
+			Minecraft.getInstance().textureManager.bindTexture(GuiManualIndex.texture);
 			GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-			mc.renderEngine.bindTexture(GuiManualIndex.texture);
 			int k = 247;
 			int l = 0;
 

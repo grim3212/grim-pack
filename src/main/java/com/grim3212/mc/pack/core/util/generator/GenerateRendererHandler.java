@@ -1,21 +1,20 @@
 package com.grim3212.mc.pack.core.util.generator;
 
-import org.lwjgl.input.Keyboard;
-
 import com.grim3212.mc.pack.GrimPack;
 import com.grim3212.mc.pack.core.util.generator.renderers.RendererHelper;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.KeyBinding;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.InputEvent.KeyInputEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
 
 public class GenerateRendererHandler {
 
-	private KeyBinding reset = new KeyBinding("keybind", Keyboard.KEY_MINUS, GrimPack.modName);
+	// Subtract key
+	private KeyBinding reset = new KeyBinding("keybind", 109, GrimPack.modName);
 
 	public GenerateRendererHandler() {
 		ClientRegistry.registerKeyBinding(reset);
@@ -34,7 +33,7 @@ public class GenerateRendererHandler {
 
 	@SubscribeEvent
 	public void tick(TickEvent.RenderTickEvent event) {
-		Minecraft mc = Minecraft.getMinecraft();
+		Minecraft mc = Minecraft.getInstance();
 
 		if (mc.world != null) {
 			tickNumber++;

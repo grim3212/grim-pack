@@ -7,7 +7,7 @@ import com.grim3212.mc.pack.core.util.NBTHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
 import net.minecraftforge.items.ItemHandlerHelper;
 
@@ -18,13 +18,13 @@ public class GiveManualEvent {
 	@SubscribeEvent
 	public void onPlayerLogin(PlayerLoggedInEvent event) {
 		if (CoreConfig.giveManualOnJoin) {
-			NBTTagCompound tag = event.player.getEntityData();
+			NBTTagCompound tag = event.getPlayer().getEntityData();
 			NBTTagCompound data = NBTHelper.getTagCompound(tag, EntityPlayer.PERSISTED_NBT_TAG);
 
 			if (!data.getBoolean(GAVE_MANUAL)) {
-				ItemHandlerHelper.giveItemToPlayer(event.player, new ItemStack(CoreItems.instruction_manual));
-				data.setBoolean(GAVE_MANUAL, true);
-				tag.setTag(EntityPlayer.PERSISTED_NBT_TAG, data);
+				ItemHandlerHelper.giveItemToPlayer(event.getPlayer(), new ItemStack(CoreItems.instruction_manual));
+				data.putBoolean(GAVE_MANUAL, true);
+				tag.put(EntityPlayer.PERSISTED_NBT_TAG, data);
 			}
 		}
 	}

@@ -2,21 +2,22 @@ package com.grim3212.mc.pack.core.util.generator.renderers;
 
 import javax.annotation.Nullable;
 
+import net.minecraft.client.MainWindow;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.RenderItem;
+import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.block.model.IBakedModel;
-import net.minecraft.client.renderer.block.model.ItemCameraTransforms;
+import net.minecraft.client.renderer.model.IBakedModel;
+import net.minecraft.client.renderer.model.ItemCameraTransforms;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.crash.CrashReport;
 import net.minecraft.crash.CrashReportCategory;
 import net.minecraft.crash.ICrashReportDetail;
+import net.minecraft.crash.ReportedException;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.ReportedException;
 import net.minecraft.world.World;
 import net.minecraftforge.client.ForgeHooksClient;
 import net.minecraftforge.fml.relauncher.ReflectionHelper;
@@ -36,14 +37,14 @@ public class RendererHelper {
 	}
 
 	public static void resizeWindow(int width, int height, boolean force) {
-		Minecraft mc = Minecraft.getMinecraft();
+		Minecraft mc = Minecraft.getInstance();
 
-		if (force || mc.displayWidth != width || mc.displayWidth != height) {
+		if (force || mc.mainWindow.getWidth() != width || mc.mainWindow.getHeight() != height) {
 			try {
-				mc.toggleFullscreen();
-				ReflectionHelper.setPrivateValue(Minecraft.class, mc, width, "tempDisplayWidth");
-				ReflectionHelper.setPrivateValue(Minecraft.class, mc, height, "tempDisplayHeight");
-				mc.toggleFullscreen();
+				mc.mainWindow.toggleFullscreen();
+				ReflectionHelper.setPrivateValue(MainWindow.class, mc.mainWindow, width, "tempDisplayWidth");
+				ReflectionHelper.setPrivateValue(MainWindow.class, mc.mainWindow, height, "tempDisplayHeight");
+				mc.mainWindow.toggleFullscreen();
 			} catch (Exception e) {
 				System.err.println(e);
 			}
@@ -51,24 +52,24 @@ public class RendererHelper {
 	}
 
 	public static void renderItemModel(ItemStack stack, int x, int y, IBakedModel bakedmodel, boolean blend) {
-		Minecraft mc = Minecraft.getMinecraft();
+		Minecraft mc = Minecraft.getInstance();
 
 		GlStateManager.pushMatrix();
 		mc.getTextureManager().bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
 		mc.getTextureManager().getTexture(TextureMap.LOCATION_BLOCKS_TEXTURE).setBlurMipmap(false, false);
 		GlStateManager.enableRescaleNormal();
-		GlStateManager.enableAlpha();
+		GlStateManager.enableAlphaTest();
 		GlStateManager.alphaFunc(516, 0.1F);
 		if (blend || stack.hasEffect())
 			GlStateManager.enableBlend();
 		else
 			GlStateManager.disableBlend();
 		GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
-		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-		setupGuiTransform(x, y, bakedmodel.isGui3d(), mc.getRenderItem().zLevel);
+		GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
+		setupGuiTransform(x, y, bakedmodel.isGui3d(), mc.getItemRenderer().zLevel);
 		bakedmodel = ForgeHooksClient.handleCameraTransforms(bakedmodel, ItemCameraTransforms.TransformType.GUI, false);
-		mc.getRenderItem().renderItem(stack, bakedmodel);
-		GlStateManager.disableAlpha();
+		mc.getItemRenderer().renderItem(stack, bakedmodel);
+		GlStateManager.disableAlphaTest();
 		GlStateManager.disableRescaleNormal();
 		GlStateManager.disableLighting();
 		GlStateManager.popMatrix();
@@ -77,10 +78,10 @@ public class RendererHelper {
 	}
 
 	private static void setupGuiTransform(int xPosition, int yPosition, boolean isGui3d, float zLevel) {
-		GlStateManager.translate((float) xPosition, (float) yPosition, 100.0F + zLevel);
-		GlStateManager.translate(8.0F, 8.0F, 0.0F);
-		GlStateManager.scale(1.0F, -1.0F, 1.0F);
-		GlStateManager.scale(16.0F, 16.0F, 16.0F);
+		GlStateManager.translatef((float) xPosition, (float) yPosition, 100.0F + zLevel);
+		GlStateManager.translatef(8.0F, 8.0F, 0.0F);
+		GlStateManager.scalef(1.0F, -1.0F, 1.0F);
+		GlStateManager.scalef(16.0F, 16.0F, 16.0F);
 
 		if (isGui3d) {
 			GlStateManager.enableLighting();
@@ -90,11 +91,11 @@ public class RendererHelper {
 	}
 
 	public static void renderItemAndEffectIntoGUI(ItemStack stack, int xPosition, int yPosition, boolean blend) {
-		renderItemAndEffectIntoGUI(Minecraft.getMinecraft().player, stack, xPosition, yPosition, blend);
+		renderItemAndEffectIntoGUI(Minecraft.getInstance().player, stack, xPosition, yPosition, blend);
 	}
 
 	public static void renderItemAndEffectIntoGUI(@Nullable EntityLivingBase p_184391_1_, final ItemStack p_184391_2_, int p_184391_3_, int p_184391_4_, boolean blend) {
-		RenderItem render = Minecraft.getMinecraft().getRenderItem();
+		ItemRenderer render = Minecraft.getInstance().getItemRenderer();
 
 		if (!p_184391_2_.isEmpty()) {
 			render.zLevel += 50.0F;

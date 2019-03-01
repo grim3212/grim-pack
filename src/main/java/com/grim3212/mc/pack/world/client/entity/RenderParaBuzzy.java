@@ -13,7 +13,7 @@ import net.minecraftforge.fml.client.registry.IRenderFactory;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-@SideOnly(Side.CLIENT)
+@OnlyIn(Dist.CLIENT)
 public class RenderParaBuzzy extends RenderLiving<EntityParaBuzzy> {
 
 	public static final ResourceLocation BLUE = new ResourceLocation(GrimPack.modID, "textures/entities/parabuzzy.png");

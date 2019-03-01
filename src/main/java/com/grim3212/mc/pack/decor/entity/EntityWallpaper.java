@@ -180,7 +180,7 @@ public class EntityWallpaper extends EntityHanging implements IEntityAdditionalS
 	}
 
 	@Override
-	@SideOnly(Side.CLIENT)
+	@OnlyIn(Dist.CLIENT)
 	public boolean canBeCollidedWith() {
 		EntityPlayer player = Minecraft.getMinecraft().player;
 

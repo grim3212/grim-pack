@@ -1,7 +1,7 @@
 package com.grim3212.mc.pack.core.util;
 
 import net.minecraft.block.material.Material;
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.state.pattern.BlockMaterialMatcher;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
@@ -13,12 +13,9 @@ public class WorldHelper {
 	 * This is a modified version of isAABBInMaterial from World to account for
 	 * other Materials besides fluids.
 	 * 
-	 * @param worldObj
-	 *            Reference to the world
-	 * @param boundingBox
-	 *            Bounding box that you are searching in
-	 * @param material
-	 *            Material you are checking for
+	 * @param worldObj    Reference to the world
+	 * @param boundingBox Bounding box that you are searching in
+	 * @param material    Material you are checking for
 	 * @return True if the Material is in the BoundingBox false otherwise
 	 */
 	public static boolean isAABBInMaterial(World worldObj, AxisAlignedBB boundingBox, Material material) {
@@ -29,29 +26,20 @@ public class WorldHelper {
 		int i1 = MathHelper.floor(boundingBox.minZ);
 		int j1 = MathHelper.floor(boundingBox.maxZ + 1.0D);
 
-		for (int k1 = i; k1 < j; ++k1) {
-			for (int l1 = k; l1 < l; ++l1) {
-				for (int i2 = i1; i2 < j1; ++i2) {
-					BlockPos blockpos = new BlockPos(k1, l1, i2);
-					IBlockState iblockstate = worldObj.getBlockState(blockpos);
+		BlockMaterialMatcher blockmaterialmatcher = BlockMaterialMatcher.forMaterial(material);
 
-					if (iblockstate.getMaterial() == material) {
-						int j2 = iblockstate.getBlock().getMetaFromState(iblockstate);
-						double d0 = (double) (l1 + 1);
-
-						if (j2 < 8) {
-							d0 = (double) (l1 + 1) - (double) j2 / 8.0D;
-						}
-
-						if (d0 >= boundingBox.minY) {
+		try (BlockPos.PooledMutableBlockPos pos = BlockPos.PooledMutableBlockPos.retain()) {
+			for (int k1 = i; k1 < j; ++k1) {
+				for (int l1 = k; l1 < l; ++l1) {
+					for (int i2 = i1; i2 < j1; ++i2) {
+						if (blockmaterialmatcher.test(worldObj.getBlockState(pos.setPos(k1, l1, i2)))) {
 							return true;
 						}
 					}
 				}
 			}
+			return false;
 		}
-
-		return false;
 	}
 
 }

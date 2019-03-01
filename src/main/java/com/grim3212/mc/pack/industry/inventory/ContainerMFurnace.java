@@ -79,7 +79,7 @@ public class ContainerMFurnace extends Container {
 	}
 
 	@Override
-	@SideOnly(Side.CLIENT)
+	@OnlyIn(Dist.CLIENT)
 	public void updateProgressBar(int id, int data) {
 		this.tileFurnace.setField(id, data);
 	}

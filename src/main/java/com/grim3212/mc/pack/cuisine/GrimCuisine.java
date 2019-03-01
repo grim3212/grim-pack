@@ -61,7 +61,7 @@ public class GrimCuisine extends GrimPart {
 	}
 
 	@Override
-	@SideOnly(Side.CLIENT)
+	@OnlyIn(Dist.CLIENT)
 	public IManualPart getManual() {
 		return ManualCuisine.INSTANCE;
 	}

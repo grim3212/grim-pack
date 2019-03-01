@@ -8,13 +8,18 @@ import com.grim3212.mc.pack.core.config.GrimConfig;
 import com.grim3212.mc.pack.core.manual.IManualPart;
 import com.grim3212.mc.pack.core.manual.ManualPart;
 
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.client.event.ConfigChangedEvent.OnConfigChangedEvent;
 import net.minecraftforge.fml.common.event.*;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.minecraftforge.fml.event.lifecycle.FMLDedicatedServerSetupEvent;
+import net.minecraftforge.fml.event.server.FMLServerStartedEvent;
+import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 public abstract class GrimPart {
 
@@ -46,7 +51,7 @@ public abstract class GrimPart {
 		this.config.syncSubparts();
 	}
 
-	@SideOnly(Side.CLIENT)
+	@OnlyIn(Dist.CLIENT)
 	public abstract IManualPart getManual();
 
 	public ManualPart setModSection(ManualPart manualPart) {
@@ -63,7 +68,7 @@ public abstract class GrimPart {
 	 * @param FMLPreInitializationEvent
 	 *            event
 	 */
-	public void preInit(FMLPreInitializationEvent event) {
+	public void setup(final FMLCommonSetupEvent  event) {
 		MinecraftForge.EVENT_BUS.register(this);
 
 		this.getGrimConfig().syncFirst();
@@ -86,7 +91,7 @@ public abstract class GrimPart {
 	 *            event
 	 */
 	public void postInit(FMLPostInitializationEvent event) {
-		if (event.getSide() == Side.CLIENT)
+		if (event.getSide() == Dist.CLIENT)
 			getManual().initPages();
 	}
 
@@ -121,11 +126,7 @@ public abstract class GrimPart {
 		return "";
 	}
 
-	public void serverStarting(FMLServerStartingEvent event){
-
-	}
-
-	public void serverStarted(FMLServerStartedEvent event){
+	public void serverSetup(final FMLDedicatedServerSetupEvent event){
 
 	}
 }

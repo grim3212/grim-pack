@@ -7,7 +7,6 @@ import com.grim3212.mc.pack.core.manual.gui.GuiManualPage;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.util.ResourceLocation;
 
 public class PageImageText extends Page {
@@ -32,7 +31,7 @@ public class PageImageText extends Page {
 
 		// Only add if there was no original images
 		if (this.getImageUrls().isEmpty()) {
-			this.addImageUrl("assets/grimpack/" + this.imageLocation.getResourcePath().substring(13));
+			this.addImageUrl("assets/grimpack/" + this.imageLocation.getPath().substring(13));
 		}
 	}
 
@@ -40,8 +39,7 @@ public class PageImageText extends Page {
 	public void drawScreen(GuiManualPage gui, int mouseX, int mouseY) {
 		super.drawScreen(gui, mouseX, mouseY);
 
-		TextureManager render = Minecraft.getMinecraft().renderEngine;
-		render.bindTexture(imageLocation);
+		Minecraft.getInstance().textureManager.bindTexture(imageLocation);
 
 		GL11.glColor4f(1F, 1F, 1F, alpha);
 		((GuiScreen) gui).drawTexturedModalRect(gui.getX(), gui.getY(), 0, 0, gui.getManualWidth(), gui.getManualHeight());

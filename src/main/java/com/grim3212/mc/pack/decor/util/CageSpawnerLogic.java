@@ -64,12 +64,12 @@ public class CageSpawnerLogic {
 
 	}
 
-	@SideOnly(Side.CLIENT)
+	@OnlyIn(Dist.CLIENT)
 	public double getMobRotation() {
 		return this.mobRotation;
 	}
 
-	@SideOnly(Side.CLIENT)
+	@OnlyIn(Dist.CLIENT)
 	public double getPrevMobRotation() {
 		return this.prevMobRotation;
 	}

@@ -1,12 +1,11 @@
 package com.grim3212.mc.pack.core.client.gui;
 
-import org.lwjgl.opengl.GL11;
-
 import com.grim3212.mc.pack.GrimPack;
 import com.grim3212.mc.pack.core.client.TooltipHelper;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
 
 public class GuiButtonIcon extends GuiButton {
@@ -29,12 +28,12 @@ public class GuiButtonIcon extends GuiButton {
 	}
 
 	@Override
-	public void drawButton(Minecraft mc, int mouseX, int mouseY, float partialTicks) {
-		super.drawButton(mc, mouseX, mouseY, partialTicks);
+	public void render(int mouseX, int mouseY, float partialTicks) {
+		super.render(mouseX, mouseY, partialTicks);
 
 		if (this.visible) {
-			GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-			mc.renderEngine.bindTexture(texture);
+			GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
+			Minecraft.getInstance().getTextureManager().bindTexture(texture);
 
 			this.drawTexturedModalRect(this.x + 2, this.y + 2, iconX, iconY, 16, 16);
 		}
@@ -43,7 +42,7 @@ public class GuiButtonIcon extends GuiButton {
 	@Override
 	public void drawButtonForegroundLayer(int mouseX, int mouseY) {
 		if (!tooltip.isEmpty())
-			TooltipHelper.drawHoveringText(tooltip, mouseX, mouseY, 120, Minecraft.getMinecraft().fontRenderer);
+			TooltipHelper.drawHoveringText(tooltip, mouseX, mouseY, 120, Minecraft.getInstance().fontRenderer);
 	}
 
 }

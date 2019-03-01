@@ -83,7 +83,7 @@ public class ContainerGrill extends Container {
 	}
 
 	@Override
-	@SideOnly(Side.CLIENT)
+	@OnlyIn(Dist.CLIENT)
 	public void updateProgressBar(int par1, int par2) {
 		if (par1 == 0) {
 			this.grill.grillCoal = par2;

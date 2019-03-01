@@ -16,25 +16,27 @@ import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
 
 public class TooltipHelper {
 
 	public static void renderToolTip(ItemStack itemstack, int x, int y) {
-		Minecraft mc = Minecraft.getMinecraft();
+		Minecraft mc = Minecraft.getInstance();
 
-		List<String> list = itemstack.getTooltip(mc.player, mc.gameSettings.advancedItemTooltips ? ITooltipFlag.TooltipFlags.ADVANCED : ITooltipFlag.TooltipFlags.NORMAL);
+		List<ITextComponent> list = itemstack.getTooltip(mc.player, mc.gameSettings.advancedItemTooltips ? ITooltipFlag.TooltipFlags.ADVANCED : ITooltipFlag.TooltipFlags.NORMAL);
 
 		if (NBTHelper.hasTag(itemstack, "customTooltip")) {
-			list.add("");
-			list.add(NBTHelper.getString(itemstack, "customTooltip"));
+			list.add(new TextComponentString(""));
+			list.add(new TextComponentString(NBTHelper.getString(itemstack, "customTooltip")));
 		}
 
 		for (int k = 0; k < list.size(); ++k) {
 			if (k == 0) {
-				list.set(k, itemstack.getRarity().rarityColor + (String) list.get(k));
+				list.set(k, new TextComponentString(itemstack.getRarity().color + list.get(k).getUnformattedComponentText()));
 			} else {
-				list.set(k, TextFormatting.GRAY + (String) list.get(k));
+				list.set(k, new TextComponentString(TextFormatting.GRAY + list.get(k).getUnformattedComponentText()));
 			}
 		}
 
@@ -104,18 +106,18 @@ public class TooltipHelper {
 		}
 	}
 
-	public static void drawHoveringText(List<String> list, int x, int y, FontRenderer font) {
+	public static void drawHoveringText(List<ITextComponent> list, int x, int y, FontRenderer font) {
 		if (!list.isEmpty()) {
 			GL11.glDisable(GL12.GL_RESCALE_NORMAL);
 			RenderHelper.disableStandardItemLighting();
 			GL11.glDisable(GL11.GL_LIGHTING);
 			GL11.glDisable(GL11.GL_DEPTH_TEST);
 			int k = 0;
-			Iterator<String> iterator = list.iterator();
+			Iterator<ITextComponent> iterator = list.iterator();
 
 			while (iterator.hasNext()) {
-				String s = (String) iterator.next();
-				int l = font.getStringWidth(s);
+				ITextComponent s = (ITextComponent) iterator.next();
+				int l = font.getStringWidth(s.getFormattedText());
 
 				if (l > k) {
 					k = l;
@@ -145,8 +147,8 @@ public class TooltipHelper {
 			drawGradientRect(j2 - 3, k2 + i1 + 2, j2 + k + 3, k2 + i1 + 3, l1, l1, zLevel);
 
 			for (int i2 = 0; i2 < list.size(); ++i2) {
-				String s1 = (String) list.get(i2);
-				font.drawStringWithShadow(s1, j2, k2, -1);
+				ITextComponent s1 = (ITextComponent) list.get(i2);
+				font.drawStringWithShadow(s1.getFormattedText(), j2, k2, -1);
 
 				if (i2 == 0) {
 					k2 += 2;
@@ -174,8 +176,8 @@ public class TooltipHelper {
 		float f7 = (float) (endColor & 255) / 255.0F;
 		GlStateManager.disableTexture2D();
 		GlStateManager.enableBlend();
-		GlStateManager.disableAlpha();
-		GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
+		GlStateManager.disableAlphaTest();
+		GlStateManager.blendFuncSeparate(770, 771, 1, 0);
 		GlStateManager.shadeModel(7425);
 		Tessellator tessellator = Tessellator.getInstance();
 		tessellator.getBuffer().begin(7, DefaultVertexFormats.POSITION_COLOR);
@@ -186,7 +188,7 @@ public class TooltipHelper {
 		tessellator.draw();
 		GlStateManager.shadeModel(7424);
 		GlStateManager.disableBlend();
-		GlStateManager.enableAlpha();
+		GlStateManager.enableAlphaTest();
 		GlStateManager.enableTexture2D();
 	}
 }

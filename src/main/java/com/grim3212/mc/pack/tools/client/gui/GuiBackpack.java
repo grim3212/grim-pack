@@ -12,7 +12,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-@SideOnly(Side.CLIENT)
+@OnlyIn(Dist.CLIENT)
 public class GuiBackpack extends GuiGrimContainer {
 
 	private static final ResourceLocation resourceLocation = new ResourceLocation(GrimPack.modID, "textures/gui/backpack_gui.png");

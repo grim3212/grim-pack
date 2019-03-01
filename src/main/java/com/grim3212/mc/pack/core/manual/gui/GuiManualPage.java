@@ -1,7 +1,5 @@
 package com.grim3212.mc.pack.core.manual.gui;
 
-import java.io.IOException;
-
 import com.grim3212.mc.pack.core.manual.ManualChapter;
 import com.grim3212.mc.pack.core.manual.button.GuiButtonChangePage;
 import com.grim3212.mc.pack.core.manual.button.GuiButtonHome;
@@ -9,8 +7,6 @@ import com.grim3212.mc.pack.core.manual.button.GuiButtonPause;
 import com.grim3212.mc.pack.core.manual.pages.Page;
 import com.grim3212.mc.pack.core.manual.pages.PageCrafting;
 import com.grim3212.mc.pack.core.manual.pages.PageFurnace;
-
-import net.minecraft.client.gui.GuiButton;
 
 public class GuiManualPage extends GuiManualIndex {
 
@@ -73,11 +69,55 @@ public class GuiManualPage extends GuiManualIndex {
 	}
 
 	public void updateButtons() {
-		buttonList.clear();
-		buttonList.add(changeForward = new GuiButtonChangePage(0, x + manualWidth - 20, y + manualHeight - 12, true));
-		buttonList.add(changeBack = new GuiButtonChangePage(1, x + 2, y + manualHeight - 12, false));
-		buttonList.add(goHome = new GuiButtonHome(2, width / 2 - 9 / 2, y + manualHeight - 11));
-		buttonList.add(pauseButton = new GuiButtonPause(3, 0, 0));
+		buttons.clear();
+		buttons.add(changeForward = new GuiButtonChangePage(0, x + manualWidth - 20, y + manualHeight - 12, true) {
+			@Override
+			public void onClick(double mouseX, double mouseY) {
+				super.onClick(mouseX, mouseY);
+
+				page++;
+				GuiManualPage.this.updateButtons();
+				isPaused = false;
+				pauseButton.setIsPaused(false);
+			}
+		});
+		buttons.add(changeBack = new GuiButtonChangePage(1, x + 2, y + manualHeight - 12, false) {
+			@Override
+			public void onClick(double mouseX, double mouseY) {
+				super.onClick(mouseX, mouseY);
+
+				if (page == 0) {
+					mc.displayGuiScreen(chapterGui);
+				} else {
+					page--;
+					GuiManualPage.this.updateButtons();
+					isPaused = false;
+					pauseButton.setIsPaused(false);
+				}
+			}
+		});
+		buttons.add(goHome = new GuiButtonHome(2, width / 2 - 9 / 2, y + manualHeight - 11) {
+			@Override
+			public void onClick(double mouseX, double mouseY) {
+				super.onClick(mouseX, mouseY);
+
+				mc.displayGuiScreen(new GuiManualIndex(0));
+			}
+		});
+		buttons.add(pauseButton = new GuiButtonPause(3, 0, 0) {
+			@Override
+			public void onClick(double mouseX, double mouseY) {
+				super.onClick(mouseX, mouseY);
+
+				if (!isPaused) {
+					isPaused = true;
+					pauseButton.setIsPaused(true);
+				} else {
+					isPaused = false;
+					pauseButton.setIsPaused(false);
+				}
+			}
+		});
 
 		changeForward.visible = chapter.getPages().size() > page + 1;
 		changeForward.enabled = chapter.getPages().size() > page + 1;
@@ -99,7 +139,7 @@ public class GuiManualPage extends GuiManualIndex {
 			pauseButton.enabled = page.isArray();
 		}
 
-		chapter.getPages().get(this.page).addButtons(this, buttonList);
+		chapter.getPages().get(this.page).addButtons(this, buttons);
 	}
 
 	@Override
@@ -119,7 +159,7 @@ public class GuiManualPage extends GuiManualIndex {
 	}
 
 	@Override
-	public void updateScreen() {
+	public void tick() {
 		if (!isPaused) {
 			Page page = chapter.getPages().get(this.page);
 			page.updateScreen();
@@ -127,47 +167,11 @@ public class GuiManualPage extends GuiManualIndex {
 	}
 
 	@Override
-	public void drawScreen(int i, int j, float f) {
-		super.drawScreen(i, j, f);
+	public void render(int mouseX, int mouseY, float partialTicks) {
+		super.render(mouseX, mouseY, partialTicks);
 
 		Page page = chapter.getPages().get(this.page);
-		page.drawScreen(this, i, j);
-	}
-
-	@Override
-	protected void actionPerformed(GuiButton button) {
-		switch (button.id) {
-		case 0:
-			page++;
-			this.updateButtons();
-			isPaused = false;
-			pauseButton.setIsPaused(false);
-			break;
-		case 1:
-			if (page == 0) {
-				mc.displayGuiScreen(chapterGui);
-			} else {
-				page--;
-				this.updateButtons();
-				isPaused = false;
-				pauseButton.setIsPaused(false);
-			}
-			break;
-		case 2:
-			mc.displayGuiScreen(new GuiManualIndex(0));
-			break;
-		case 3:
-			if (!isPaused) {
-				isPaused = true;
-				pauseButton.setIsPaused(true);
-			} else {
-				isPaused = false;
-				pauseButton.setIsPaused(false);
-			}
-			break;
-		default:
-			break;
-		}
+		page.drawScreen(this, mouseX, mouseY);
 	}
 
 	public int getPage() {
@@ -192,8 +196,8 @@ public class GuiManualPage extends GuiManualIndex {
 	}
 
 	@Override
-	protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
-		super.mouseClicked(mouseX, mouseY, mouseButton);
+	public boolean mouseClicked(double mouseX, double mouseY, int mouseButton) {
 		chapter.getPages().get(this.page).handleMouseClick(mouseX, mouseY, mouseButton);
+		return super.mouseClicked(mouseX, mouseY, mouseButton);
 	}
 }

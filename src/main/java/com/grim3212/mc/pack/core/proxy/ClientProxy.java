@@ -4,18 +4,20 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.IThreadListener;
-import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
+import net.minecraftforge.fml.LogicalSide;
+import net.minecraftforge.fml.network.NetworkDirection;
+import net.minecraftforge.fml.network.NetworkEvent;
 
-public abstract class ClientProxy extends CommonProxy {
+public abstract class ClientProxy extends ServerProxy {
 
 	@Override
-	public EntityPlayer getPlayerEntity(MessageContext ctx) {
-		return (ctx.side.isClient() ? Minecraft.getMinecraft().player : super.getPlayerEntity(ctx));
+	public EntityPlayer getPlayerEntity(NetworkEvent.Context ctx) {
+		return (ctx.getDirection() == NetworkDirection.PLAY_TO_CLIENT ? Minecraft.getInstance().player : super.getPlayerEntity(ctx));
 	}
 
 	@Override
-	public IThreadListener getThreadFromContext(MessageContext ctx) {
-		return (ctx.side.isClient() ? Minecraft.getMinecraft() : super.getThreadFromContext(ctx));
+	public IThreadListener getThreadFromContext(NetworkEvent.Context ctx) {
+		return (ctx.getDirection().getLogicalSide() == LogicalSide.CLIENT ? Minecraft.getInstance() : super.getThreadFromContext(ctx));
 	}
 
 	@Override
@@ -23,8 +25,8 @@ public abstract class ClientProxy extends CommonProxy {
 
 	@Override
 	public void displayDismountMessage(EntityPlayer player) {
-		if (player == Minecraft.getMinecraft().player) {
-			Minecraft.getMinecraft().ingameGUI.setOverlayMessage(I18n.format("mount.onboard", Minecraft.getMinecraft().gameSettings.keyBindSneak.getDisplayName()), false);
+		if (player == Minecraft.getInstance().player) {
+			Minecraft.getInstance().ingameGUI.setOverlayMessage(I18n.format("mount.onboard", Minecraft.getInstance().gameSettings.keyBindSneak.func_197978_k()), false);
 		}
 	}
 }

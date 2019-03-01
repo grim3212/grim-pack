@@ -1,13 +1,15 @@
 package com.grim3212.mc.pack.core.part;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.grim3212.mc.pack.GrimPack;
 import com.grim3212.mc.pack.core.manual.ManualPart;
 import com.grim3212.mc.pack.core.manual.ManualRegistry;
 import com.grim3212.mc.pack.core.util.GrimLog;
-import net.minecraftforge.fml.common.event.*;
 
-import java.util.ArrayList;
-import java.util.List;
+import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.minecraftforge.fml.event.lifecycle.FMLDedicatedServerSetupEvent;
 
 public class PartRegistry {
 
@@ -32,33 +34,15 @@ public class PartRegistry {
 		return null;
 	}
 
-	public static void preInit(FMLPreInitializationEvent event) {
+	public static void setup(final FMLCommonSetupEvent event) {
 		for (GrimPart part : partsToLoad) {
-			part.preInit(event);
+			part.setup(event);
 		}
 	}
 
-	public static void init(FMLInitializationEvent event) {
+	public static void serverSetup(final FMLDedicatedServerSetupEvent event) {
 		for (GrimPart part : partsToLoad) {
-			part.init(event);
-		}
-	}
-
-	public static void postInit(FMLPostInitializationEvent event) {
-		for (GrimPart part : partsToLoad) {
-			part.postInit(event);
-		}
-	}
-
-	public static void serverStarting(FMLServerStartingEvent event) {
-		for (GrimPart part : partsToLoad) {
-			part.serverStarting(event);
-		}
-	}
-
-	public static void serverStarted(FMLServerStartedEvent event) {
-		for (GrimPart part : partsToLoad) {
-			part.serverStarted(event);
+			part.serverSetup(event);
 		}
 	}
 }

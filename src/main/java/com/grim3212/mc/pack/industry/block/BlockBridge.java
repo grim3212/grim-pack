@@ -243,7 +243,7 @@ public class BlockBridge extends BlockManual {
 	}
 
 	@Override
-	@SideOnly(Side.CLIENT)
+	@OnlyIn(Dist.CLIENT)
 	public boolean addHitEffects(IBlockState state, World worldObj, RayTraceResult target, ParticleManager manager) {
 		TileEntity te = worldObj.getTileEntity(target.getBlockPos());
 
@@ -306,7 +306,7 @@ public class BlockBridge extends BlockManual {
 	}
 
 	@Override
-	@SideOnly(Side.CLIENT)
+	@OnlyIn(Dist.CLIENT)
 	public boolean addDestroyEffects(World world, BlockPos pos, ParticleManager manager) {
 		TileEntity te = world.getTileEntity(pos);
 		if (te != null && te instanceof TileEntityBridge) {

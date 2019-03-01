@@ -7,38 +7,38 @@ package com.grim3212.mc.pack.core.network;
 
 import java.io.IOException;
 
+import javax.xml.ws.handler.MessageContext;
+
 import com.grim3212.mc.pack.core.GrimCore;
 
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.network.PacketBuffer;
+import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
-import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
-import net.minecraftforge.fml.relauncher.Side;
 
 public abstract class AbstractMessage<T extends AbstractMessage<T>> implements IMessage, IMessageHandler<T, IMessage> {
 	/**
-	 * Some PacketBuffer methods throw IOException - default handling propagates
-	 * the exception. if an IOException is expected but should not be fatal,
-	 * handle it within this method.
+	 * Some PacketBuffer methods throw IOException - default handling propagates the
+	 * exception. if an IOException is expected but should not be fatal, handle it
+	 * within this method.
 	 */
 	protected abstract void read(PacketBuffer buffer) throws IOException;
 
 	/**
-	 * Some PacketBuffer methods throw IOException - default handling propagates
-	 * the exception. if an IOException is expected but should not be fatal,
-	 * handle it within this method.
+	 * Some PacketBuffer methods throw IOException - default handling propagates the
+	 * exception. if an IOException is expected but should not be fatal, handle it
+	 * within this method.
 	 */
 	protected abstract void write(PacketBuffer buffer) throws IOException;
 
 	/**
-	 * Called on whichever side the message is received; for bidirectional
-	 * packets, be sure to check side If {@link #requiresMainThread()} returns
-	 * true, this method is guaranteed to be called on the main Minecraft thread
-	 * for this side.
+	 * Called on whichever side the message is received; for bidirectional packets,
+	 * be sure to check side If {@link #requiresMainThread()} returns true, this
+	 * method is guaranteed to be called on the main Minecraft thread for this side.
 	 */
-	public abstract void process(EntityPlayer player, Side side);
+	public abstract void process(EntityPlayer player, Dist dist);
 
 	/**
 	 * If message is sent to the wrong side, an exception will be thrown during
@@ -46,7 +46,7 @@ public abstract class AbstractMessage<T extends AbstractMessage<T>> implements I
 	 * 
 	 * @return True if the message is allowed to be handled on the given side
 	 */
-	protected boolean isValidOnSide(Side side) {
+	protected boolean isValidOnSide(Dist dist) {
 		return true;
 	}
 
@@ -78,12 +78,11 @@ public abstract class AbstractMessage<T extends AbstractMessage<T>> implements I
 
 	// =====================================================================//
 	/*
-	 * Make the implementation final so child classes don't need to bother with
-	 * it, since the message class shouldn't have anything to do with the
-	 * handler. This is simply to avoid having to have:
+	 * Make the implementation final so child classes don't need to bother with it,
+	 * since the message class shouldn't have anything to do with the handler. This
+	 * is simply to avoid having to have:
 	 * 
-	 * public static class Handler extends GenericMessageHandler<OpenGuiMessage>
-	 * {}
+	 * public static class Handler extends GenericMessageHandler<OpenGuiMessage> {}
 	 * 
 	 * in every single message class for the sole purpose of registration.
 	 */
@@ -112,24 +111,24 @@ public abstract class AbstractMessage<T extends AbstractMessage<T>> implements I
 	}
 
 	/**
-	 * Messages that can only be sent from the server to the client should use
-	 * this class
+	 * Messages that can only be sent from the server to the client should use this
+	 * class
 	 */
 	public static abstract class AbstractClientMessage<T extends AbstractMessage<T>> extends AbstractMessage<T> {
 		@Override
-		protected final boolean isValidOnSide(Side side) {
-			return side.isClient();
+		protected final boolean isValidOnSide(Dist dist) {
+			return dist.isClient();
 		}
 	}
 
 	/**
-	 * Messages that can only be sent from the client to the server should use
-	 * this class
+	 * Messages that can only be sent from the client to the server should use this
+	 * class
 	 */
 	public static abstract class AbstractServerMessage<T extends AbstractMessage<T>> extends AbstractMessage<T> {
 		@Override
-		protected final boolean isValidOnSide(Side side) {
-			return side.isServer();
+		protected final boolean isValidOnSide(Dist dist) {
+			return dist.isDedicatedServer();
 		}
 	}
 }

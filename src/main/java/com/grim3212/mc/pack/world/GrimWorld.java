@@ -108,7 +108,7 @@ public class GrimWorld extends GrimPart {
 	}
 
 	@Override
-	@SideOnly(Side.CLIENT)
+	@OnlyIn(Dist.CLIENT)
 	public IManualPart getManual() {
 		return ManualWorld.INSTANCE;
 	}

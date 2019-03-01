@@ -25,17 +25,14 @@ public class PageInfo extends Page {
 	 * Draws text to the screen formatted and with color codes and line breaks
 	 * removed and changed
 	 * 
-	 * @param x
-	 *            X position
-	 * @param y
-	 *            Y position
-	 * @param pageInfo
-	 *            Where to find the info to localize and break up into colors
-	 *            and line breaks
-	 *            
-	 * Modified version of Botania PageText by Vazkii 
+	 * @param x        X position
+	 * @param y        Y position
+	 * @param pageInfo Where to find the info to localize and break up into colors
+	 *                 and line breaks
 	 * 
-	 * https://github.com/Vazkii/Botania/blob/master/src/main/java/vazkii/botania/common/lexicon/page/PageText.java 
+	 *                 Modified version of Botania PageText by Vazkii
+	 * 
+	 *                 https://github.com/Vazkii/Botania/blob/master/src/main/java/vazkii/botania/common/lexicon/page/PageText.java
 	 */
 	public static void drawText(int x, int y, String pageInfo) {
 		int width = 166;
@@ -43,9 +40,9 @@ public class PageInfo extends Page {
 		String pageText = I18n.format(pageInfo).replaceAll("<f>", "\u00a7");
 		String[] paragraphs = pageText.split("<br>");
 
-		FontRenderer renderer = Minecraft.getMinecraft().fontRenderer;
-		boolean unicode = renderer.getUnicodeFlag();
-		renderer.setUnicodeFlag(true);
+		FontRenderer renderer = Minecraft.getInstance().fontRenderer;
+		boolean unicode = renderer.getBidiFlag();
+		renderer.setBidiFlag(true);
 
 		List<List<String>> lines = new ArrayList<>();
 
@@ -86,7 +83,7 @@ public class PageInfo extends Page {
 			y += 10;
 		}
 
-		renderer.setUnicodeFlag(unicode);
+		renderer.setBidiFlag(unicode);
 	}
 
 	private static String getControlCodes(String s) {

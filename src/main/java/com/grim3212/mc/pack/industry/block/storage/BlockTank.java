@@ -99,7 +99,7 @@ public class BlockTank extends BlockManual implements ITileEntityProvider {
 		return super.getLightValue(state, world, pos);
 	}
 
-	@SideOnly(Side.CLIENT)
+	@OnlyIn(Dist.CLIENT)
 	@Override
 	public BlockRenderLayer getBlockLayer() {
 		return BlockRenderLayer.TRANSLUCENT;

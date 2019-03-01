@@ -73,7 +73,7 @@ public abstract class BlockStorage extends BlockManual implements ITileEntityPro
 	}
 
 	@Override
-	@SideOnly(Side.CLIENT)
+	@OnlyIn(Dist.CLIENT)
 	public boolean hasCustomBreakingProgress(IBlockState state) {
 		return true;
 	}
@@ -225,7 +225,7 @@ public abstract class BlockStorage extends BlockManual implements ITileEntityPro
 	}
 
 	@Override
-	@SideOnly(Side.CLIENT)
+	@OnlyIn(Dist.CLIENT)
 	public boolean addDestroyEffects(World world, BlockPos pos, ParticleManager manager) {
 		TileEntity te = world.getTileEntity(pos);
 		if (te != null && te instanceof TileEntityStorage) {
@@ -242,7 +242,7 @@ public abstract class BlockStorage extends BlockManual implements ITileEntityPro
 	}
 
 	@Override
-	@SideOnly(Side.CLIENT)
+	@OnlyIn(Dist.CLIENT)
 	public boolean addHitEffects(IBlockState state, World worldObj, RayTraceResult target, ParticleManager manager) {
 		TileEntity te = worldObj.getTileEntity(target.getBlockPos());
 

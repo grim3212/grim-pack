@@ -17,10 +17,11 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityTNTPrimed;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.fluid.IFluidState;
 import net.minecraft.init.Blocks;
+import net.minecraft.init.Particles;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
@@ -28,8 +29,8 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
 public class BetterExplosion extends Explosion {
 
@@ -50,12 +51,12 @@ public class BetterExplosion extends Explosion {
 	private final boolean destroyBlocks;
 	private final boolean hurtEntities;
 
-	@SideOnly(Side.CLIENT)
+	@OnlyIn(Dist.CLIENT)
 	public BetterExplosion(World worldIn, Entity entityIn, double x, double y, double z, float size, boolean destroyBlocks, List<BlockPos> affectedPositions) {
 		this(worldIn, entityIn, x, y, z, size, false, true, destroyBlocks, false, affectedPositions);
 	}
 
-	@SideOnly(Side.CLIENT)
+	@OnlyIn(Dist.CLIENT)
 	public BetterExplosion(World worldIn, Entity entityIn, double x, double y, double z, float size, boolean flaming, boolean smoking, boolean destroyBlocks, boolean hurtEntities, List<BlockPos> affectedPositions) {
 		this(worldIn, entityIn, x, y, z, size, flaming, smoking, destroyBlocks, hurtEntities);
 		this.affectedBlockPositions.addAll(affectedPositions);
@@ -102,9 +103,13 @@ public class BetterExplosion extends Explosion {
 						for (; f > 0.0F; f -= 0.22500001F) {
 							BlockPos blockpos = new BlockPos(d4, d6, d8);
 							IBlockState iblockstate = this.worldObj.getBlockState(blockpos);
+							IFluidState ifluidstate = this.worldObj.getFluidState(blockpos);
+							if (!iblockstate.isAir(worldObj, blockpos) || !ifluidstate.isEmpty()) {
+								float f2 = Math.max(iblockstate.getExplosionResistance(worldObj, blockpos, exploder, this), ifluidstate.getExplosionResistance(worldObj, blockpos, exploder, this));
+								if (this.exploder != null) {
+									f2 = this.exploder.getExplosionResistance(this, this.worldObj, blockpos, iblockstate, ifluidstate, f2);
+								}
 
-							if (iblockstate.getMaterial() != Material.AIR) {
-								float f2 = this.exploder != null ? this.exploder.getExplosionResistance(this, this.worldObj, blockpos, iblockstate) : iblockstate.getBlock().getExplosionResistance(worldObj, blockpos, (Entity) null, this);
 								f -= (f2 + 0.3F) * 0.3F;
 							}
 
@@ -151,7 +156,7 @@ public class BetterExplosion extends Explosion {
 							d5 = d5 / d13;
 							d7 = d7 / d13;
 							d9 = d9 / d13;
-							double d14 = (double) this.worldObj.getBlockDensity(vec3d, entity.getEntityBoundingBox());
+							double d14 = (double) this.worldObj.getBlockDensity(vec3d, entity.getBoundingBox());
 							double d10 = (1.0D - d12) * d14;
 							entity.attackEntityFrom(DamageSource.causeExplosionDamage(this), (float) ((int) ((d10 * d10 + d10) / 2.0D * 7.0D * (double) f3 + 1.0D)));
 							double d11 = 1.0D;
@@ -167,7 +172,7 @@ public class BetterExplosion extends Explosion {
 							if (entity instanceof EntityPlayer) {
 								EntityPlayer entityplayer = (EntityPlayer) entity;
 
-								if (!entityplayer.isSpectator() && (!entityplayer.isCreative() || !entityplayer.capabilities.isFlying)) {
+								if (!entityplayer.isSpectator() && (!entityplayer.isCreative() || !entityplayer.abilities.isFlying)) {
 									this.playerKnockbackMap.put(entityplayer, new Vec3d(d5 * d10, d7 * d10, d9 * d10));
 								}
 							}
@@ -183,9 +188,9 @@ public class BetterExplosion extends Explosion {
 		this.worldObj.playSound((EntityPlayer) null, this.explosionX, this.explosionY, this.explosionZ, SoundEvents.ENTITY_GENERIC_EXPLODE, SoundCategory.BLOCKS, 4.0F, (1.0F + (this.worldObj.rand.nextFloat() - this.worldObj.rand.nextFloat()) * 0.2F) * 0.7F);
 
 		if (this.explosionSize >= 2.0F && this.isSmoking) {
-			this.worldObj.spawnParticle(EnumParticleTypes.EXPLOSION_HUGE, this.explosionX, this.explosionY, this.explosionZ, 1.0D, 0.0D, 0.0D, new int[0]);
+			this.worldObj.addParticle(Particles.EXPLOSION_EMITTER, this.explosionX, this.explosionY, this.explosionZ, 1.0D, 0.0D, 0.0D);
 		} else {
-			this.worldObj.spawnParticle(EnumParticleTypes.EXPLOSION_LARGE, this.explosionX, this.explosionY, this.explosionZ, 1.0D, 0.0D, 0.0D, new int[0]);
+			this.worldObj.addParticle(Particles.EXPLOSION, this.explosionX, this.explosionY, this.explosionZ, 1.0D, 0.0D, 0.0D);
 		}
 
 		if (this.isSmoking) {
@@ -209,17 +214,17 @@ public class BetterExplosion extends Explosion {
 					d3 = d3 * d7;
 					d4 = d4 * d7;
 					d5 = d5 * d7;
-					this.worldObj.spawnParticle(EnumParticleTypes.EXPLOSION_NORMAL, (d0 + this.explosionX) / 2.0D, (d1 + this.explosionY) / 2.0D, (d2 + this.explosionZ) / 2.0D, d3, d4, d5, new int[0]);
-					this.worldObj.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, d0, d1, d2, d3, d4, d5, new int[0]);
+					this.worldObj.addParticle(Particles.POOF, (d0 + this.explosionX) / 2.0D, (d1 + this.explosionY) / 2.0D, (d2 + this.explosionZ) / 2.0D, d3, d4, d5);
+					this.worldObj.addParticle(Particles.SMOKE, d0, d1, d2, d3, d4, d5);
 				}
 
 				if (destroyBlocks) {
 					if (iblockstate.getMaterial() != Material.AIR) {
 						if (block.canDropFromExplosion(this)) {
-							block.dropBlockAsItemWithChance(this.worldObj, blockpos, this.worldObj.getBlockState(blockpos), 1.0F / this.explosionSize, 0);
+							iblockstate.dropBlockAsItemWithChance(this.worldObj, blockpos, 1.0F / this.explosionSize, 0);
 						}
 
-						block.onBlockExploded(this.worldObj, blockpos, this);
+						iblockstate.onBlockExploded(this.worldObj, blockpos, this);
 					}
 				}
 			}
@@ -227,7 +232,7 @@ public class BetterExplosion extends Explosion {
 
 		if (this.isFlaming) {
 			for (BlockPos blockpos1 : this.affectedBlockPositions) {
-				if (this.worldObj.getBlockState(blockpos1).getMaterial() == Material.AIR && this.worldObj.getBlockState(blockpos1.down()).isFullBlock() && this.explosionRNG.nextInt(3) == 0) {
+				if (this.worldObj.getBlockState(blockpos1).getMaterial() == Material.AIR && this.worldObj.getBlockState(blockpos1.down()).isOpaqueCube(this.worldObj, blockpos1.down()) && this.explosionRNG.nextInt(3) == 0) {
 					this.worldObj.setBlockState(blockpos1, Blocks.FIRE.getDefaultState());
 				}
 			}

@@ -6,30 +6,29 @@ import com.grim3212.mc.pack.core.manual.pages.Page;
 
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
-import net.minecraft.item.ItemBlockSpecial;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
-public class ItemManualBlockSpecial extends ItemBlockSpecial implements IManualItem {
+public class ItemManualBlockSpecial extends ItemBlock /* ItemBlockSpecial */ implements IManualItem {
 
 	private IManualBlock manual;
 
-	public ItemManualBlockSpecial(String name, Block block) {
-		super(block);
-		this.setUnlocalizedName(name);
+	public ItemManualBlockSpecial(String name, Block block, Item.Properties props) {
+		super(block, props);
 		this.setRegistryName(new ResourceLocation(GrimPack.modID, name));
 		if (block instanceof IManualBlock)
 			this.manual = (IManualBlock) block;
 	}
 
 	@Override
-	@SideOnly(Side.CLIENT)
-	@SuppressWarnings("deprecation")
+	@OnlyIn(Dist.CLIENT)
 	public Page getPage(ItemStack stack) {
 		if (manual != null)
-			return manual.getPage(Minecraft.getMinecraft().world, null, Block.getBlockFromItem(stack.getItem()).getStateFromMeta(stack.getMetadata()));
+			return manual.getPage(Minecraft.getInstance().world, null, Block.getBlockFromItem(stack.getItem()).getDefaultState());
 		else
 			return null;
 	}

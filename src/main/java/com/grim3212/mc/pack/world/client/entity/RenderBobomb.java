@@ -13,7 +13,7 @@ import net.minecraftforge.fml.client.registry.IRenderFactory;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-@SideOnly(Side.CLIENT)
+@OnlyIn(Dist.CLIENT)
 public class RenderBobomb extends RenderLiving<EntityBobomb> {
 
 	public static final ResourceLocation BOBOMB_NORMAL = new ResourceLocation(GrimPack.modID, "textures/entities/bobomb_normal.png");

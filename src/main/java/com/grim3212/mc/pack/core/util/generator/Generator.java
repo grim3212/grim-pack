@@ -35,7 +35,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.common.ForgeVersion;
+import net.minecraftforge.versions.forge.ForgeVersion;
 
 public class Generator {
 
@@ -56,17 +56,16 @@ public class Generator {
 	/**
 	 * Starts the generation of files for documenting from each of the subparts
 	 * 
-	 * If you want everything regenerated make sure all subparts are loaded as
-	 * this only pulls the data loaded into Minecraft
+	 * If you want everything regenerated make sure all subparts are loaded as this
+	 * only pulls the data loaded into Minecraft
 	 * 
-	 * Should only be called when loaded in a world after all the pages have
-	 * gotten properly setup
+	 * Should only be called when loaded in a world after all the pages have gotten
+	 * properly setup
 	 * 
-	 * @param saveLocation
-	 *            Folder where all of the files generated will be created
+	 * @param saveLocation Folder where all of the files generated will be created
 	 */
 	public static boolean document(String saveLocation) {
-		File file = new File(saveLocation, GrimPack.modName + "-" + Minecraft.getMinecraft().getVersion() + "-" + GRIMPACK_VERSION + "-" + Minecraft.getMinecraft().getLanguageManager().getCurrentLanguage().getLanguageCode() + ".json");
+		File file = new File(saveLocation, GrimPack.modName + "-" + Minecraft.getInstance().getVersion() + "-" + GRIMPACK_VERSION + "-" + Minecraft.getInstance().getLanguageManager().getCurrentLanguage().getLanguageCode() + ".json");
 
 		GrimLog.info(GENERATOR_NAME, "Starting documentation generation at " + file);
 
@@ -96,7 +95,7 @@ public class Generator {
 	}
 
 	public static void images(String saveLocation) {
-		Minecraft.getMinecraft().addScheduledTask(new Runnable() {
+		Minecraft.getInstance().addScheduledTask(new Runnable() {
 
 			@Override
 			public void run() {
@@ -118,7 +117,7 @@ public class Generator {
 	private static JsonObject createJson() {
 		setupExtras();
 
-		Minecraft mc = Minecraft.getMinecraft();
+		Minecraft mc = Minecraft.getInstance();
 
 		JsonObject json = new JsonObject();
 		json.addProperty("mcversion", mc.getVersion());

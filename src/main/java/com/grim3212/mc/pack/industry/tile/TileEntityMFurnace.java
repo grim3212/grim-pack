@@ -197,7 +197,7 @@ public class TileEntityMFurnace extends TileEntityLockable implements ITickable,
 		return this.furnaceBurnTime > 0;
 	}
 
-	@SideOnly(Side.CLIENT)
+	@OnlyIn(Dist.CLIENT)
 	public static boolean isBurning(IInventory inv) {
 		return inv.getField(0) > 0;
 	}

@@ -66,7 +66,7 @@ public abstract class ItemHandlerBase implements IItemHandlerModifiable {
 	public abstract String getUnlocalizedName();
 
 	public String getName() {
-		return this.hasCustomName() ? stack.getDisplayName() : getUnlocalizedName();
+		return this.hasCustomName() ? stack.getDisplayName().getString() : getUnlocalizedName();
 	}
 
 	public boolean hasCustomName() {

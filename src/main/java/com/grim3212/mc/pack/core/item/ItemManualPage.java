@@ -4,20 +4,25 @@ import com.grim3212.mc.pack.core.manual.IManualEntry.IManualItem;
 import com.grim3212.mc.pack.core.manual.ManualRegistry;
 import com.grim3212.mc.pack.core.manual.pages.Page;
 
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 
 public class ItemManualPage extends ItemManual implements IManualItem {
 
 	private String page;
 
-	public ItemManualPage(String name, String page, int stackSize) {
-		super(name);
+	public ItemManualPage(String name, String page, Item.Properties props) {
+		super(name, props);
 		this.page = page;
-		this.setMaxStackSize(stackSize);
 	}
 
 	public ItemManualPage(String name, String page) {
-		this(name, page, 64);
+		this(name, page, new Item.Properties());
+	}
+	
+	public ItemManualPage(String name, String page, ItemGroup group) {
+		this(name, page, new Item.Properties().group(group));
 	}
 
 	@Override

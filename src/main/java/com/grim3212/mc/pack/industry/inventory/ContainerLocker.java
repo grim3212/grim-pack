@@ -42,7 +42,7 @@ public class ContainerLocker extends Container {
 			setDisplayRow(0);
 	}
 
-	@SideOnly(Side.CLIENT)
+	@OnlyIn(Dist.CLIENT)
 	public void setDisplayRow(int row) {
 		int minSlot = row * 9;
 		int maxSlot = (row + 5) * 9;

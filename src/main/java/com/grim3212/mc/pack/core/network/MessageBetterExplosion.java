@@ -12,7 +12,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
-import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.api.distmarker.Dist;
 
 public class MessageBetterExplosion extends AbstractClientMessage<MessageBetterExplosion> {
 
@@ -92,7 +92,7 @@ public class MessageBetterExplosion extends AbstractClientMessage<MessageBetterE
 	}
 
 	@Override
-	public void process(EntityPlayer player, Side side) {
+	public void process(EntityPlayer player, Dist dist) {
 		BetterExplosion explosion = new BetterExplosion(player.world, (Entity) null, x, y, z, size, destroyBlocks, affectedBlockPositions);
 		explosion.doExplosionB(true);
 

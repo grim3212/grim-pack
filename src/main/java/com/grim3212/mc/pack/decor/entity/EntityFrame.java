@@ -250,7 +250,7 @@ public class EntityFrame extends EntityHanging implements IEntityAdditionalSpawn
 	 * Set the position and rotation values directly without any clamping.
 	 */
 	@Override
-	@SideOnly(Side.CLIENT)
+	@OnlyIn(Dist.CLIENT)
 	public void setPositionAndRotationDirect(double x, double y, double z, float yaw, float pitch, int posRotationIncrements, boolean teleport) {
 		BlockPos blockpos = this.hangingPosition.add(x - this.posX, y - this.posY, z - this.posZ);
 		this.setPosition((double) blockpos.getX(), (double) blockpos.getY(), (double) blockpos.getZ());
@@ -322,7 +322,7 @@ public class EntityFrame extends EntityHanging implements IEntityAdditionalSpawn
 	}
 
 	@Override
-	@SideOnly(Side.CLIENT)
+	@OnlyIn(Dist.CLIENT)
 	public boolean canBeCollidedWith() {
 		EntityPlayer player = Minecraft.getMinecraft().player;
 

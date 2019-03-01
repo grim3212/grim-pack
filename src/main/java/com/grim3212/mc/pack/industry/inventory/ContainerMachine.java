@@ -61,7 +61,7 @@ public abstract class ContainerMachine extends Container {
 	}
 
 	@Override
-	@SideOnly(Side.CLIENT)
+	@OnlyIn(Dist.CLIENT)
 	public void updateProgressBar(int id, int data) {
 		this.machine.setField(id, data);
 	}
