@@ -17,7 +17,7 @@ public class GiveManualEvent {
 
 	@SubscribeEvent
 	public void onPlayerLogin(PlayerLoggedInEvent event) {
-		if (CoreConfig.giveManualOnJoin) {
+		if (CoreConfig.giveManualOnJoin.get()) {
 			NBTTagCompound tag = event.getPlayer().getEntityData();
 			NBTTagCompound data = NBTHelper.getTagCompound(tag, EntityPlayer.PERSISTED_NBT_TAG);
 

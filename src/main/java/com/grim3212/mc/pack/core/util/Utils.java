@@ -8,8 +8,6 @@ import javax.annotation.Nullable;
 
 import com.google.common.base.Stopwatch;
 import com.grim3212.mc.pack.GrimPack;
-import com.grim3212.mc.pack.core.config.ConfigUtils.ArmorMaterialHolder;
-import com.grim3212.mc.pack.core.config.ConfigUtils.ToolMaterialHolder;
 import com.grim3212.mc.pack.core.network.MessageBetterExplosion;
 import com.grim3212.mc.pack.core.network.PacketDispatcher;
 
@@ -20,8 +18,6 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.item.ArmorMaterial;
-import net.minecraft.item.Item.ToolMaterial;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
@@ -32,7 +28,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
-import net.minecraftforge.common.util.EnumHelper;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidUtil;
@@ -41,6 +36,7 @@ import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.wrappers.BlockWrapper;
 import net.minecraftforge.fluids.capability.wrappers.FluidBlockWrapper;
+import net.minecraftforge.fml.network.PacketDistributor;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.IItemHandlerModifiable;
@@ -51,13 +47,18 @@ public class Utils {
 
 	public static final AxisAlignedBB NULL_AABB = new AxisAlignedBB(0f, 0f, 0f, 0f, 0f, 0f);
 
-	public static ToolMaterial addToolMaterial(ToolMaterialHolder material) {
-		return EnumHelper.addToolMaterial(material.getName(), material.getHarvestLevel(), material.getMaxUses(), material.getEfficiency(), material.getDamage(), material.getEnchantability());
-	}
-
-	public static ArmorMaterial addArmorMaterial(String textureName, SoundEvent sound, ArmorMaterialHolder material) {
-		return EnumHelper.addArmorMaterial(material.getName(), textureName, material.getDurability(), material.getReductionAmounts(), material.getEnchantability(), sound, material.getToughness());
-	}
+	/*
+	 * public static ToolMaterial addToolMaterial(ToolMaterialHolder material) {
+	 * return EnumHelper.addToolMaterial(material.getName(),
+	 * material.getHarvestLevel(), material.getMaxUses(), material.getEfficiency(),
+	 * material.getDamage(), material.getEnchantability()); }
+	 * 
+	 * public static ArmorMaterial addArmorMaterial(String textureName, SoundEvent
+	 * sound, ArmorMaterialHolder material) { return
+	 * EnumHelper.addArmorMaterial(material.getName(), textureName,
+	 * material.getDurability(), material.getReductionAmounts(),
+	 * material.getEnchantability(), sound, material.getToughness()); }
+	 */
 
 	public static SoundEvent createSound(String name) {
 		ResourceLocation location = new ResourceLocation(GrimPack.modID, name);
@@ -80,8 +81,8 @@ public class Utils {
 
 		// Vertical facing = main inventory
 		final EnumFacing mainInventoryFacing = EnumFacing.UP;
-		if (player.hasCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, mainInventoryFacing)) {
-			final IItemHandler mainInventory = player.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, mainInventoryFacing);
+		if (player.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, mainInventoryFacing).isPresent()) {
+			final IItemHandler mainInventory = (IItemHandler) player.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, mainInventoryFacing).cast();
 
 			if (checkStack.test(player.getHeldItemMainhand())) {
 				final int currentItem = player.inventory.currentItem;
@@ -168,17 +169,14 @@ public class Utils {
 	}
 
 	public static IItemHandler getItemHandler(ItemStack stack) {
-		if (stack.hasCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null)) {
-			return stack.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
+		if (stack.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null).isPresent()) {
+			return (IItemHandler) stack.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null).cast();
 		}
 		return null;
 	}
 
 	public static boolean hasItemHandler(ItemStack stack) {
-		if (stack.hasCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null)) {
-			return true;
-		}
-		return false;
+		return stack.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null).isPresent();
 	}
 
 	/**
@@ -190,7 +188,7 @@ public class Utils {
 	 */
 	public static IFluidHandler getFluidHandler(ItemStack stack) {
 		if (hasFluidHandler(stack)) {
-			return stack.getCapability(CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY, null);
+			return (IFluidHandler) stack.getCapability(CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY, null).cast();
 		}
 		return null;
 	}
@@ -203,10 +201,7 @@ public class Utils {
 	 * @return True if this has the capability
 	 */
 	public static boolean hasFluidHandler(ItemStack stack) {
-		if (stack.hasCapability(CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY, null)) {
-			return true;
-		}
-		return false;
+		return stack.getCapability(CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY, null).isPresent();
 	}
 
 	/**
@@ -218,7 +213,7 @@ public class Utils {
 	 */
 	public static IFluidHandler getFluidHandler(TileEntity te) {
 		if (hasFluidHandler(te)) {
-			return te.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, null);
+			return (IFluidHandler) te.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, null).cast();
 		}
 		return null;
 	}
@@ -231,10 +226,7 @@ public class Utils {
 	 * @return True if this has the capability
 	 */
 	public static boolean hasFluidHandler(TileEntity te) {
-		if (te.hasCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, null)) {
-			return true;
-		}
-		return false;
+		return te.getCapability(CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY, null).isPresent();
 	}
 
 	public static BetterExplosion createExplosion(World world, Entity entity, double x, double y, double z, float size, boolean smoking, boolean destroyBlocks, boolean hurtEntities) {
@@ -259,7 +251,7 @@ public class Utils {
 			EntityPlayer entityPlayer = (EntityPlayer) iterator.next();
 
 			if (entityPlayer.getDistanceSq(x, y, z) < 4096.0D) {
-				PacketDispatcher.sendTo(new MessageBetterExplosion(x, y, z, size, destroyBlocks, explosion.getAffectedBlockPositions(), (Vec3d) explosion.getPlayerKnockbackMap().get(entityPlayer)), (EntityPlayerMP) entityPlayer);
+				PacketDispatcher.send(PacketDistributor.PLAYER.with(() -> (EntityPlayerMP) entityPlayer), new MessageBetterExplosion(x, y, z, size, destroyBlocks, explosion.getAffectedBlockPositions(), (Vec3d) explosion.getPlayerKnockbackMap().get(entityPlayer)));
 			}
 		}
 

@@ -9,19 +9,13 @@ import com.google.gson.JsonSyntaxException;
 import com.grim3212.mc.pack.GrimPack;
 
 import net.minecraft.block.Block;
+import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
-import net.minecraft.item.crafting.Ingredient;
-import net.minecraft.item.crafting.ShapedRecipes;
-import net.minecraft.item.crafting.ShapelessRecipes;
 import net.minecraft.util.JsonUtils;
-import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.common.crafting.JsonContext;
-import net.minecraftforge.fml.common.registry.ForgeRegistries;
-import net.minecraftforge.oredict.OreDictionary;
-import net.minecraftforge.oredict.OreIngredient;
+import net.minecraftforge.registries.ForgeRegistries;
 
 public class RecipeHelper {
 
@@ -44,8 +38,9 @@ public class RecipeHelper {
 		}
 	}
 
-	public static BlockStack getBlockStack(JsonObject json, JsonContext context) {
-		String blockName = context.appendModId(JsonUtils.getString(json, "item"));
+	public static BlockStack getBlockStack(JsonObject json) {
+
+		String blockName = GrimPack.modID + ":" + JsonUtils.getString(json, "item");
 
 		Block block = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(blockName));
 
@@ -63,96 +58,68 @@ public class RecipeHelper {
 	}
 
 	/**
-	 * Compare item stack based on damage. Takes into account
-	 * OreDictionary.WILDCARD_VALUE
-	 * 
-	 * @param stack1
-	 * @param stack2
-	 * @return
-	 */
-	public static boolean compareItemStacks(ItemStack stack1, ItemStack stack2) {
-		return stack2.getItem() == stack1.getItem() && (stack2.getMetadata() == OreDictionary.WILDCARD_VALUE || stack2.getMetadata() == stack1.getMetadata());
-	}
-
-	/**
 	 * Gets an ore dictionary name for a List of itemstacks
 	 *
-	 * @param ores
-	 *            A list of itemstacks representing the complete contents of a
-	 *            ore dictionary entry
+	 * @param ores A list of itemstacks representing the complete contents of a ore
+	 *             dictionary entry
 	 * @return A string that represents this ore dictionary list
 	 */
-	public static String getOreDict(ItemStack[] ores) {
-		// List<Integer> oreIds = Lists.newArrayList();
-		//
-		// for (ItemStack stack : ores) {
-		// for (int id : OreDictionary.getOreIDs(stack)) {
-		// oreIds.add(id);
-		// }
-		// }
+	/*
+	 * public static String getOreDict(ItemStack[] ores) { // List<Integer> oreIds =
+	 * Lists.newArrayList(); // // for (ItemStack stack : ores) { // for (int id :
+	 * OreDictionary.getOreIDs(stack)) { // oreIds.add(id); // } // }
+	 * 
+	 * int[] oreNums = OreDictionary.getOreIDs(ores[0]);
+	 * 
+	 * for (int i = 0; i < oreNums.length; i++) { if (containsMatch(false, ores,
+	 * OreDictionary.getOres(OreDictionary.getOreName(oreNums[i])))) { return
+	 * OreDictionary.getOreName(oreNums[i]); } }
+	 * 
+	 * return "No Ore Dict Found!"; }
+	 */
 
-		int[] oreNums = OreDictionary.getOreIDs(ores[0]);
-
-		for (int i = 0; i < oreNums.length; i++) {
-			if (containsMatch(false, ores, OreDictionary.getOres(OreDictionary.getOreName(oreNums[i])))) {
-				return OreDictionary.getOreName(oreNums[i]);
-			}
-		}
-
-		return "No Ore Dict Found!";
-	}
-
-	public static String getOreDict(NonNullList<ItemStack> ores) {
-		int[] oreNums = OreDictionary.getOreIDs(ores.get(0));
-
-		for (int i = 0; i < oreNums.length; i++) {
-			if (containsMatch(false, ores, OreDictionary.getOres(OreDictionary.getOreName(oreNums[i])))) {
-				return OreDictionary.getOreName(oreNums[i]);
-			}
-		}
-
-		return "No Ore Dict Found!";
-	}
+	/*
+	 * public static String getOreDict(NonNullList<ItemStack> ores) { int[] oreNums
+	 * = OreDictionary.getOreIDs(ores.get(0));
+	 * 
+	 * for (int i = 0; i < oreNums.length; i++) { if (containsMatch(false, ores,
+	 * OreDictionary.getOres(OreDictionary.getOreName(oreNums[i])))) { return
+	 * OreDictionary.getOreName(oreNums[i]); } }
+	 * 
+	 * return "No Ore Dict Found!"; }
+	 */
 
 	/**
-	 * Reversed order from OreDictionary so I don't have to convert arrays to
-	 * lists and vice versa
+	 * Reversed order from OreDictionary so I don't have to convert arrays to lists
+	 * and vice versa
 	 * 
 	 * @param strict
 	 * @param inputs
 	 * @param targets
 	 * @return
 	 */
-	public static boolean containsMatch(boolean strict, ItemStack[] inputs, NonNullList<ItemStack> targets) {
-		for (ItemStack input : inputs) {
-			for (ItemStack target : targets) {
-				if (OreDictionary.itemMatches(target, input, strict)) {
-					return true;
-				}
-			}
-		}
-		return false;
-	}
+	/*
+	 * public static boolean containsMatch(boolean strict, ItemStack[] inputs,
+	 * NonNullList<ItemStack> targets) { for (ItemStack input : inputs) { for
+	 * (ItemStack target : targets) { if (OreDictionary.itemMatches(target, input,
+	 * strict)) { return true; } } } return false; }
+	 */
 
 	/**
-	 * Reversed order from OreDictionary so I don't have to convert arrays to
-	 * lists and vice versa
+	 * Reversed order from OreDictionary so I don't have to convert arrays to lists
+	 * and vice versa
 	 * 
 	 * @param strict
 	 * @param inputs
 	 * @param targets
 	 * @return
 	 */
-	public static boolean containsMatch(boolean strict, NonNullList<ItemStack> inputs, NonNullList<ItemStack> targets) {
-		for (ItemStack input : inputs) {
-			for (ItemStack target : targets) {
-				if (OreDictionary.itemMatches(target, input, strict)) {
-					return true;
-				}
-			}
-		}
-		return false;
-	}
+	/*
+	 * public static boolean containsMatch(boolean strict, NonNullList<ItemStack>
+	 * inputs, NonNullList<ItemStack> targets) { for (ItemStack input : inputs) {
+	 * for (ItemStack target : targets) { if (OreDictionary.itemMatches(target,
+	 * input, strict)) { return true; } } } return false; }
+	 */
 
 	public static ResourceLocation getRecipePath(String fullPath) {
 		return new ResourceLocation(fullPath);
@@ -171,13 +138,13 @@ public class RecipeHelper {
 	public static List<ResourceLocation> getAllPaths(String path) {
 		List<ResourceLocation> recipePaths = Lists.newArrayList();
 
-		Iterator<IRecipe> recipes = ForgeRegistries.RECIPES.iterator();
+		Iterator<IRecipe> recipes = Minecraft.getInstance().world.getRecipeManager().getRecipes().iterator();
 
 		while (recipes.hasNext()) {
 			IRecipe recipe = recipes.next();
 
-			if (recipe.getRegistryName().getResourcePath().startsWith(path)) {
-				recipePaths.add(recipe.getRegistryName());
+			if (recipe.getId().getPath().startsWith(path)) {
+				recipePaths.add(recipe.getId());
 			}
 		}
 
@@ -193,13 +160,13 @@ public class RecipeHelper {
 	public static List<ResourceLocation> getAllPathsEnd(String path) {
 		List<ResourceLocation> recipePaths = Lists.newArrayList();
 
-		Iterator<IRecipe> recipes = ForgeRegistries.RECIPES.iterator();
+		Iterator<IRecipe> recipes = Minecraft.getInstance().world.getRecipeManager().getRecipes().iterator();
 
 		while (recipes.hasNext()) {
 			IRecipe recipe = recipes.next();
 
-			if (recipe.getRegistryName().getResourcePath().endsWith(path)) {
-				recipePaths.add(recipe.getRegistryName());
+			if (recipe.getId().getPath().endsWith(path)) {
+				recipePaths.add(recipe.getId());
 			}
 		}
 
@@ -213,38 +180,28 @@ public class RecipeHelper {
 	 * @param oreName
 	 * @param recipeExclusions
 	 */
-	public static void replaceRecipes(ItemStack stackToFind, String oreName, NonNullList<ItemStack> recipeExclusions) {
-		int replaced = 0;
-		if (oreName == null || oreName.isEmpty()) {
-			GrimLog.error(GrimPack.modName, "Ore Name cannot be null!");
-		} else {
-			// Search vanilla recipes for recipes to replace
-			for (IRecipe obj : ForgeRegistries.RECIPES) {
-				if (obj.getClass() == ShapedRecipes.class || obj.getClass() == ShapelessRecipes.class) {
-					ItemStack output = obj.getRecipeOutput();
-					if (!output.isEmpty() && OreDictionary.containsMatch(false, recipeExclusions, output)) {
-						continue;
-					}
-
-					NonNullList<Ingredient> lst = obj.getIngredients();
-					for (int x = 0; x < lst.size(); x++) {
-						Ingredient ing = lst.get(x);
-
-						if (ing != Ingredient.EMPTY) {
-							ItemStack[] ingredients = ing.getMatchingStacks();
-
-							for (ItemStack stack : ingredients) {
-								if (OreDictionary.itemMatches(stackToFind, stack, true)) {
-									// Replace!
-									lst.set(x, new OreIngredient(oreName));
-									replaced++;
-								}
-							}
-						}
-					}
-				}
-			}
-		}
-		GrimLog.info(GrimPack.modName, "Replaced " + replaced + " ingredients with oredict " + oreName);
-	}
+	/*
+	 * public static void replaceRecipes(ItemStack stackToFind, String tagName,
+	 * NonNullList<ItemStack> recipeExclusions) { int replaced = 0; if (tagName ==
+	 * null || tagName.isEmpty()) { GrimLog.error(GrimPack.modName,
+	 * "Tag Name cannot be null!"); } else { // Search vanilla recipes for recipes
+	 * to replace for (IRecipe obj :
+	 * Minecraft.getInstance().world.getRecipeManager().getRecipes()) { if
+	 * (obj.getClass() == ShapedRecipe.class || obj.getClass() ==
+	 * ShapelessRecipe.class) { ItemStack output = obj.getRecipeOutput(); if
+	 * (!output.isEmpty() && OreDictionary.containsMatch(false, recipeExclusions,
+	 * output)) { continue; }
+	 * 
+	 * NonNullList<Ingredient> lst = obj.getIngredients(); for (int x = 0; x <
+	 * lst.size(); x++) { Ingredient ing = lst.get(x);
+	 * 
+	 * if (ing != Ingredient.EMPTY) { ItemStack[] ingredients =
+	 * ing.getMatchingStacks();
+	 * 
+	 * for (ItemStack stack : ingredients) { if
+	 * (OreDictionary.itemMatches(stackToFind, stack, true)) { // Replace!
+	 * lst.set(x, new OreIngredient(oreName)); replaced++; } } } } } } }
+	 * GrimLog.info(GrimPack.modName, "Replaced " + replaced +
+	 * " ingredients with oredict " + oreName); }
+	 */
 }

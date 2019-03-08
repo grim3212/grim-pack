@@ -17,17 +17,17 @@ public class PartConditionFactory implements IConditionSerializer {
 
 		switch (value) {
 		case "cuisine":
-			return () -> CoreConfig.useCuisine == true;
+			return () -> CoreConfig.useCuisine.get();
 		case "decor":
-			return () -> CoreConfig.useDecor == true;
+			return () -> CoreConfig.useDecor.get();
 		case "industry":
-			return () -> CoreConfig.useIndustry == true;
+			return () -> CoreConfig.useIndustry.get();
 		case "tools":
-			return () -> CoreConfig.useTools == true;
+			return () -> CoreConfig.useTools.get();
 		case "util":
-			return () -> CoreConfig.useTools == true;
+			return () -> CoreConfig.useTools.get();
 		case "world":
-			return () -> CoreConfig.useWorld == true;
+			return () -> CoreConfig.useWorld.get();
 		default:
 			throw new JsonParseException("Part '" + value + "' is either misspelled or doesn't exist!");
 		}

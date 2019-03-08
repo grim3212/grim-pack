@@ -16,8 +16,8 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.client.renderer.RenderHelper;
-import net.minecraft.client.renderer.RenderItem;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
@@ -58,7 +58,7 @@ public class PageItemStack extends Page {
 		int y = gui.getY() + 28;
 		PageInfo.drawText(x, y, this.getInfo());
 
-		TextureManager render = Minecraft.getMinecraft().renderEngine;
+		TextureManager render = Minecraft.getInstance().getTextureManager();
 		render.bindTexture(stackOverlay);
 
 		GL11.glColor4f(1F, 1F, 1F, 1F);
@@ -72,8 +72,8 @@ public class PageItemStack extends Page {
 		int yOffset = 142;
 		this.renderItem(gui, outstack, gui.getX() + xOffset, gui.getY() + yOffset);
 
-		FontRenderer renderer = Minecraft.getMinecraft().fontRenderer;
-		renderer.drawString(outstack.getDisplayName(), (gui.getManualWidth() / 2 - renderer.getStringWidth(outstack.getDisplayName()) / 2) + gui.getX(), gui.getY() + 210, Color.BLACK.getRGB(), false);
+		FontRenderer renderer = Minecraft.getInstance().fontRenderer;
+		renderer.drawString(outstack.getDisplayName().getFormattedText(), (gui.getManualWidth() / 2 - renderer.getStringWidth(outstack.getDisplayName().getFormattedText()) / 2) + gui.getX(), gui.getY() + 210, Color.BLACK.getRGB());
 
 		if (!tooltipItem.isEmpty()) {
 			TooltipHelper.renderToolTip(tooltipItem, mouseX, mouseY);
@@ -82,21 +82,21 @@ public class PageItemStack extends Page {
 
 	@Override
 	public void renderItem(GuiManualPage gui, ItemStack item, int x, int y) {
-		RenderItem render = Minecraft.getMinecraft().getRenderItem();
+		ItemRenderer render = Minecraft.getInstance().getItemRenderer();
 
 		GlStateManager.pushMatrix();
 		GlStateManager.enableBlend();
 		GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 		RenderHelper.enableGUIStandardItemLighting();
 
-		GlStateManager.translate(-x * 2f, -y * 2f, 0);
-		GlStateManager.scale(3F, 3F, 0.75F);
+		GlStateManager.translatef(-x * 2f, -y * 2f, 0);
+		GlStateManager.scalef(3F, 3F, 0.75F);
 
 		GlStateManager.enableRescaleNormal();
-		GlStateManager.enableDepth();
+		GlStateManager.enableDepthTest();
 
 		render.renderItemAndEffectIntoGUI(item, x, y);
-		render.renderItemOverlayIntoGUI(Minecraft.getMinecraft().fontRenderer, item, x, y, (String) null);
+		render.renderItemOverlayIntoGUI(Minecraft.getInstance().fontRenderer, item, x, y, (String) null);
 		RenderHelper.disableStandardItemLighting();
 		GlStateManager.popMatrix();
 

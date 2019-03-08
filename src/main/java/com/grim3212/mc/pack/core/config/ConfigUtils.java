@@ -5,29 +5,13 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
 
-import org.apache.commons.lang3.tuple.Pair;
-
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import com.grim3212.mc.pack.GrimPack;
 import com.grim3212.mc.pack.core.GrimCore;
 import com.grim3212.mc.pack.core.util.GrimLog;
-import com.grim3212.mc.pack.core.util.Utils;
-
-import net.minecraft.block.Block;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemBlock;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.NonNullList;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.oredict.OreDictionary;
 
 public class ConfigUtils {
 
@@ -48,7 +32,7 @@ public class ConfigUtils {
 	 * @param fromConfig
 	 *            Config entry to pull string away from
 	 */
-	public static List<Pair<ItemStack, Integer>> loadConfigurableFuel(String[] fromConfig) {
+	/*public static List<Pair<ItemStack, Integer>> loadConfigurableFuel(String[] fromConfig) {
 		List<Pair<ItemStack, Integer>> recipes = Lists.newArrayList();
 
 		if (fromConfig.length > 0) {
@@ -119,7 +103,7 @@ public class ConfigUtils {
 		}
 
 		return recipes;
-	}
+	}*/
 
 	/**
 	 * A list of recipes. Each sublist contains a valid recipe. If xp is true
@@ -131,7 +115,7 @@ public class ConfigUtils {
 	 *            Should xp be considered in this recipe
 	 * @return
 	 */
-	public static List<BasicRecipe> loadConfigurableRecipes(String[] fromConfig, boolean xp) {
+	/*public static List<BasicRecipe> loadConfigurableRecipes(String[] fromConfig, boolean xp) {
 		List<BasicRecipe> recipes = Lists.newArrayList();
 
 		if (fromConfig.length > 0) {
@@ -384,7 +368,7 @@ public class ConfigUtils {
 		}
 
 		return itemlist;
-	}
+	}*/
 
 	/**
 	 * Checks is a IBlockState is found within a map of states and if meta
@@ -394,7 +378,7 @@ public class ConfigUtils {
 	 * @param state
 	 * @return
 	 */
-	public static boolean isStateFound(Map<IBlockState, Boolean> map, IBlockState state) {
+	/*public static boolean isStateFound(Map<IBlockState, Boolean> map, IBlockState state) {
 		if (map != null && !map.isEmpty()) {
 			if (map.containsKey(state) || (map.containsKey(state.getBlock().getDefaultState()) && map.get(state.getBlock().getDefaultState()))) {
 				return true;
@@ -412,7 +396,7 @@ public class ConfigUtils {
 		}
 
 		map.putAll(loadConfigurableBlocks(config));
-	}
+	}*/
 
 	/**
 	 * Returns a map of blocks with a state and if the meta should be ignored
@@ -420,7 +404,7 @@ public class ConfigUtils {
 	 * @param fromConfig
 	 * @return
 	 */
-	@SuppressWarnings("deprecation")
+	/*@SuppressWarnings("deprecation")
 	public static Map<IBlockState, Boolean> loadConfigurableBlocks(String[] fromConfig) {
 		Map<IBlockState, Boolean> blocklist = Maps.newHashMap();
 
@@ -530,7 +514,7 @@ public class ConfigUtils {
 		}
 
 		return blocklist;
-	}
+	}*/
 
 	/**
 	 * Get an ItemStack or OreDictionary name from a string
@@ -538,7 +522,7 @@ public class ConfigUtils {
 	 * @param s
 	 * @return
 	 */
-	public static Object getItemStackFromString(String s) {
+	/*public static Object getItemStackFromString(String s) {
 		if (s.contains(":")) {
 			String[] split = s.split(":");
 
@@ -574,7 +558,7 @@ public class ConfigUtils {
 		}
 
 		return ItemStack.EMPTY;
-	}
+	}*/
 
 	public static class ToolMaterialHolder {
 		private final String name;

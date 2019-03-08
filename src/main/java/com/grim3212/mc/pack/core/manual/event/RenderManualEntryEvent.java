@@ -30,7 +30,7 @@ public class RenderManualEntryEvent {
 
 	@SubscribeEvent
 	public void onEvent(RenderTickEvent event) {
-		if (event.phase == Phase.END && CoreConfig.showCheckmark) {
+		if (event.phase == Phase.END && CoreConfig.showCheckmark.get()) {
 			if (mc.player != null && mc.world != null && !mc.isGamePaused()) {
 
 				boolean flag = false;

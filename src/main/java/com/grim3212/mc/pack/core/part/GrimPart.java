@@ -3,23 +3,18 @@ package com.grim3212.mc.pack.core.part;
 import java.util.List;
 
 import com.google.common.collect.Lists;
-import com.grim3212.mc.pack.GrimPack;
 import com.grim3212.mc.pack.core.config.GrimConfig;
 import com.grim3212.mc.pack.core.manual.IManualPart;
 import com.grim3212.mc.pack.core.manual.ManualPart;
+import com.grim3212.mc.pack.core.util.GrimLog;
 
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.client.event.ConfigChangedEvent.OnConfigChangedEvent;
-import net.minecraftforge.fml.common.event.*;
+import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLDedicatedServerSetupEvent;
-import net.minecraftforge.fml.event.server.FMLServerStartedEvent;
-import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
-import net.minecraftforge.fml.relauncher.Side;
 
 public abstract class GrimPart {
 
@@ -35,20 +30,16 @@ public abstract class GrimPart {
 	 * 
 	 * @param partId
 	 * @param partName
-	 * @param config
-	 *            The config to use
-	 * @param useCreativeTab
-	 *            If the part should have a creative tab
-	 * @param syncConfigInstantly
-	 *            If the config should be synced during creation. The only thing
-	 *            that uses this is GrimCore for determining which parts to load
+	 * @param config              The config to use
+	 * @param useCreativeTab      If the part should have a creative tab
+	 * @param syncConfigInstantly If the config should be synced during creation.
+	 *                            The only thing that uses this is GrimCore for
+	 *                            determining which parts to load
 	 */
 	public GrimPart(String partId, String partName, GrimConfig config) {
 		this.partId = partId;
 		this.partName = partName;
 		this.config = config;
-
-		this.config.syncSubparts();
 	}
 
 	@OnlyIn(Dist.CLIENT)
@@ -65,35 +56,22 @@ public abstract class GrimPart {
 	/**
 	 * Registers the config change event And iterates through items and entities
 	 * 
-	 * @param FMLPreInitializationEvent
-	 *            event
+	 * @param FMLPreInitializationEvent event
 	 */
-	public void setup(final FMLCommonSetupEvent  event) {
+	public void setup(final FMLCommonSetupEvent event) {
 		MinecraftForge.EVENT_BUS.register(this);
-
-		this.getGrimConfig().syncFirst();
+	}
+	
+	public void serverSetup(final FMLDedicatedServerSetupEvent event) {
 	}
 
 	/**
-	 * Initializes tile entities
-	 * 
-	 * @param FMLInitializationEvent
-	 *            event
+	 * @param FMLPostInitializationEvent event
 	 */
-	public void init(FMLInitializationEvent event) {
-		// Sync config after preinit so we make sure all blocks and items are
-		// loaded
-		this.getGrimConfig().syncConfig();
-	}
-
-	/**
-	 * @param FMLPostInitializationEvent
-	 *            event
-	 */
-	public void postInit(FMLPostInitializationEvent event) {
+	/*public void postInit(FMLPostInitializationEvent event) {
 		if (event.getSide() == Dist.CLIENT)
 			getManual().initPages();
-	}
+	}*/
 
 	public String getPartId() {
 		return partId;
@@ -103,19 +81,8 @@ public abstract class GrimPart {
 		return partName;
 	}
 
-	@SubscribeEvent
-	public void onConfigChanged(OnConfigChangedEvent event) {
-		if (event.getModID().equals(GrimPack.modID)) {
-			this.getGrimConfig().syncConfig();
-		}
-	}
-
 	public GrimConfig getGrimConfig() {
 		return this.config;
-	}
-
-	public Configuration getConfig() {
-		return this.getGrimConfig().config;
 	}
 
 	public List<String> getImageUrls() {
@@ -126,7 +93,14 @@ public abstract class GrimPart {
 		return "";
 	}
 
-	public void serverSetup(final FMLDedicatedServerSetupEvent event){
+	@SubscribeEvent
+	public void onLoad(final ModConfig.Loading configEvent) {
+		GrimLog.debug(getPartId(), "Loaded config file " + configEvent.getConfig().getFileName());
 
+	}
+
+	@SubscribeEvent
+	public void onFileChange(final ModConfig.ConfigReloading configEvent) {
+		GrimLog.fatal(getPartId(), "Config just got changed on the file system!");
 	}
 }

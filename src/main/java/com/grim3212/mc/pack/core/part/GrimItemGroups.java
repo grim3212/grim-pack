@@ -7,7 +7,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
-public class GrimCreativeTabs {
+public class GrimItemGroups {
 
 	public static ItemGroup GRIM_CORE;
 	public static ItemGroup GRIM_CUISINE;

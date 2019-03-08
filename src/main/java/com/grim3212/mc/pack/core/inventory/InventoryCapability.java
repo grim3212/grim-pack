@@ -1,7 +1,5 @@
 package com.grim3212.mc.pack.core.inventory;
 
-import javax.annotation.Nullable;
-
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.common.capabilities.Capability;
@@ -19,18 +17,10 @@ public class InventoryCapability implements ICapabilitySerializable<NBTTagCompou
 	}
 
 	@Override
-	public boolean hasCapability(Capability<?> capability, @Nullable EnumFacing facing) {
-		return capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY;
-	}
-	
-	@Override
 	public <T> LazyOptional<T> getCapability(Capability<T> cap, EnumFacing side) {
-		if (cap == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY)
-			return CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.cast(inv);
-		else
-			return null;
+		return CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.orEmpty(cap, LazyOptional.of(() -> inv));
 	}
-	
+
 	@Override
 	public NBTTagCompound serializeNBT() {
 		return (NBTTagCompound) CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.writeNBT(inv, null);
@@ -41,7 +31,4 @@ public class InventoryCapability implements ICapabilitySerializable<NBTTagCompou
 		CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.readNBT(inv, null, nbt);
 	}
 
-	
-
-	
 }

@@ -15,7 +15,6 @@ import com.grim3212.mc.pack.core.client.TooltipHelper;
 import com.grim3212.mc.pack.core.manual.gui.GuiManualPage;
 import com.grim3212.mc.pack.core.util.GrimLog;
 import com.grim3212.mc.pack.core.util.NBTHelper;
-import com.grim3212.mc.pack.core.util.RecipeHelper;
 import com.grim3212.mc.pack.core.util.generator.Generator;
 
 import net.minecraft.client.Minecraft;
@@ -28,14 +27,10 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.item.crafting.Ingredient;
-import net.minecraft.item.crafting.ShapedRecipes;
-import net.minecraft.item.crafting.ShapelessRecipes;
+import net.minecraft.item.crafting.ShapedRecipe;
+import net.minecraft.item.crafting.ShapelessRecipe;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.crafting.IShapedRecipe;
-import net.minecraftforge.fml.common.registry.ForgeRegistries;
-import net.minecraftforge.oredict.OreIngredient;
-import net.minecraftforge.oredict.ShapedOreRecipe;
-import net.minecraftforge.oredict.ShapelessOreRecipe;
 
 public class PageCrafting extends Page {
 
@@ -95,7 +90,7 @@ public class PageCrafting extends Page {
 		int y = gui.getY() + 28;
 		PageInfo.drawText(x, y, this.getInfo());
 
-		TextureManager render = Minecraft.getMinecraft().renderEngine;
+		TextureManager render = Minecraft.getInstance().getTextureManager();
 		render.bindTexture(craftingOverlay);
 
 		GL11.glColor4f(1F, 1F, 1F, 1F);
@@ -113,7 +108,7 @@ public class PageCrafting extends Page {
 	public void renderRecipe(GuiManualPage gui, List<ResourceLocation> output) {
 		ResourceLocation loc = output.get(recipeShown);
 
-		IRecipe recipe = ForgeRegistries.RECIPES.getValue(loc);
+		IRecipe recipe = Minecraft.getInstance().world.getRecipeManager().getRecipe(loc);
 
 		if (recipe != null) {
 			ItemStack outstack = recipe.getRecipeOutput();
@@ -124,7 +119,7 @@ public class PageCrafting extends Page {
 				if (isShapeless) {
 					GlStateManager.pushMatrix();
 					GlStateManager.enableBlend();
-					TextureManager render = Minecraft.getMinecraft().renderEngine;
+					TextureManager render = Minecraft.getInstance().getTextureManager();
 					render.bindTexture(craftingOverlay);
 
 					((GuiScreen) gui).drawTexturedModalRect(gui.getX() + 133, gui.getY() + 144, 0, 27, 36, 36);
@@ -136,29 +131,29 @@ public class PageCrafting extends Page {
 					NBTHelper.setString(outstack, "customTooltip", I18n.format("grimpack.manual.shapeless"));
 				this.renderItem(gui, outstack, gui.getX() + 143, gui.getY() + 154);
 
-				FontRenderer renderer = Minecraft.getMinecraft().fontRenderer;
-				renderer.drawString(outstack.getDisplayName(), (gui.getManualWidth() / 2 - renderer.getStringWidth(outstack.getDisplayName()) / 2) + gui.getX(), gui.getY() + 210, Color.BLACK.getRGB(), false);
+				FontRenderer renderer = Minecraft.getInstance().fontRenderer;
+				renderer.drawString(outstack.getDisplayName().getFormattedText(), (gui.getManualWidth() / 2 - renderer.getStringWidth(outstack.getDisplayName().getFormattedText()) / 2) + gui.getX(), gui.getY() + 210, Color.BLACK.getRGB());
 			} else {
 				String missing = I18n.format("grimpack.manual.missing");
 
-				FontRenderer renderer = Minecraft.getMinecraft().fontRenderer;
-				renderer.drawString(missing, (gui.getManualWidth() / 2 - renderer.getStringWidth(missing) / 2) + gui.getX(), gui.getY() + 204, Color.RED.getRGB(), false);
-				renderer.drawString("'" + loc.toString() + "'", (gui.getManualWidth() / 2 - renderer.getStringWidth(loc.toString()) / 2) + gui.getX(), gui.getY() + 215, Color.BLACK.getRGB(), false);
+				FontRenderer renderer = Minecraft.getInstance().fontRenderer;
+				renderer.drawString(missing, (gui.getManualWidth() / 2 - renderer.getStringWidth(missing) / 2) + gui.getX(), gui.getY() + 204, Color.RED.getRGB());
+				renderer.drawString("'" + loc.toString() + "'", (gui.getManualWidth() / 2 - renderer.getStringWidth(loc.toString()) / 2) + gui.getX(), gui.getY() + 215, Color.BLACK.getRGB());
 			}
 		} else {
 			String missing = I18n.format("grimpack.manual.missing");
 
-			FontRenderer renderer = Minecraft.getMinecraft().fontRenderer;
-			renderer.drawString(missing, (gui.getManualWidth() / 2 - renderer.getStringWidth(missing) / 2) + gui.getX(), gui.getY() + 204, Color.RED.getRGB(), false);
-			renderer.drawString("'" + loc.toString() + "'", (gui.getManualWidth() / 2 - renderer.getStringWidth(loc.toString()) / 2) + gui.getX(), gui.getY() + 215, Color.BLACK.getRGB(), false);
+			FontRenderer renderer = Minecraft.getInstance().fontRenderer;
+			renderer.drawString(missing, (gui.getManualWidth() / 2 - renderer.getStringWidth(missing) / 2) + gui.getX(), gui.getY() + 204, Color.RED.getRGB());
+			renderer.drawString("'" + loc.toString() + "'", (gui.getManualWidth() / 2 - renderer.getStringWidth(loc.toString()) / 2) + gui.getX(), gui.getY() + 215, Color.BLACK.getRGB());
 		}
 	}
 
-	public void drawOreDictionaryItem(GuiManualPage gui, Ingredient item, int x, int y) {
-		if (item instanceof OreIngredient) {
+	public void drawIngredient(GuiManualPage gui, Ingredient item, int x, int y) {
+		/*if (item instanceof OreIngredient) {
 			GlStateManager.pushMatrix();
 			GlStateManager.enableBlend();
-			TextureManager render = Minecraft.getMinecraft().renderEngine;
+			TextureManager render = Minecraft.getInstance().getTextureManager();
 			render.bindTexture(craftingOverlay);
 
 			((GuiScreen) gui).drawTexturedModalRect(x - 6, y - 6, 0, 0, 26, 26);
@@ -166,13 +161,13 @@ public class PageCrafting extends Page {
 			GlStateManager.popMatrix();
 
 			this.renderItemCutWild(gui, NBTHelper.setStringItemStack(item.getMatchingStacks()[0], "customTooltip", I18n.format("grimpack.manual.oredictionary") + " : " + RecipeHelper.getOreDict(item.getMatchingStacks())), x - 1, y - 1);
-		} else {
+		} else {*/
 			ItemStack[] stacks = item.getMatchingStacks();
 			if (stacks.length > 0)
 				this.renderItemCutWild(gui, stacks[0], x - 1, y - 1);
 			else
 				GrimLog.error(GrimPack.modName, "Failed rendering ingredient " + item + " at x:" + (x - 1) + ", y:" + (y - 1));
-		}
+		//}
 	}
 
 	@Override
@@ -188,7 +183,7 @@ public class PageCrafting extends Page {
 
 	public void drawIngredientList(GuiManualPage gui, IRecipe recipe) {
 		// shaped recipes
-		if (recipe instanceof ShapedRecipes || recipe instanceof ShapedOreRecipe) {
+		if (recipe instanceof ShapedRecipe) {
 			IShapedRecipe shaped = (IShapedRecipe) recipe;
 			int width = shaped.getRecipeWidth();
 			int height = shaped.getRecipeHeight();
@@ -197,22 +192,22 @@ public class PageCrafting extends Page {
 				for (int x = 0; x < width; x++) {
 					Ingredient item = shaped.getIngredients().get(x + y * width);
 					if (item != Ingredient.EMPTY) {
-						drawOreDictionaryItem(gui, item, gui.getX() + x * 29 + 30 - x * 2, gui.getY() + y * 27 + 128);
+						drawIngredient(gui, item, gui.getX() + x * 29 + 30 - x * 2, gui.getY() + y * 27 + 128);
 					}
 				}
 			}
 
 			isShapeless = false;
-		} else if (recipe instanceof ShapelessRecipes || recipe instanceof ShapelessOreRecipe) {
+		} else if (recipe instanceof ShapelessRecipe) {
 			IRecipe shapeless = (IRecipe) recipe;
 
 			for (int i = 0; i < shapeless.getIngredients().size(); i++) {
 				if (i < 3)
-					drawOreDictionaryItem(gui, shapeless.getIngredients().get(i), gui.getX() + i * 29 + 30 - i * 2, gui.getY() + 128);
+					drawIngredient(gui, shapeless.getIngredients().get(i), gui.getX() + i * 29 + 30 - i * 2, gui.getY() + 128);
 				else if (i < 6)
-					drawOreDictionaryItem(gui, shapeless.getIngredients().get(i), gui.getX() + (i - 3) * 29 + 30 - (i - 3) * 2, gui.getY() + 155);
+					drawIngredient(gui, shapeless.getIngredients().get(i), gui.getX() + (i - 3) * 29 + 30 - (i - 3) * 2, gui.getY() + 155);
 				else
-					drawOreDictionaryItem(gui, shapeless.getIngredients().get(i), gui.getX() + (i - 6) * 29 + 30 - (i - 6) * 2, gui.getY() + 182);
+					drawIngredient(gui, shapeless.getIngredients().get(i), gui.getX() + (i - 6) * 29 + 30 - (i - 6) * 2, gui.getY() + 182);
 			}
 
 			isShapeless = true;
@@ -225,7 +220,7 @@ public class PageCrafting extends Page {
 
 		JsonArray recipes = new JsonArray();
 		for (ResourceLocation r : outputRecipes) {
-			IRecipe recipe = ForgeRegistries.RECIPES.getValue(r);
+			IRecipe recipe = Minecraft.getInstance().world.getRecipeManager().getRecipe(r);
 			if (recipe == null) {
 				GrimLog.error(Generator.GENERATOR_NAME, "Error finding recipe " + r);
 				continue;
@@ -254,7 +249,7 @@ public class PageCrafting extends Page {
 			return null;
 		}
 
-		if (iRecipe instanceof ShapedRecipes || iRecipe instanceof ShapedOreRecipe) {
+		if (iRecipe instanceof ShapedRecipe) {
 			recipe.addProperty("recipeType", "crafting_shaped");
 			// Add output itemstack
 			recipe.add("output", this.deconstructItem(outstack));
@@ -275,7 +270,7 @@ public class PageCrafting extends Page {
 
 			recipe.add("inputs", inputs);
 
-		} else if (iRecipe instanceof ShapelessRecipes || iRecipe instanceof ShapelessOreRecipe) {
+		} else if (iRecipe instanceof ShapelessRecipe) {
 			recipe.addProperty("recipeType", "crafting_shapeless");
 			// Add output itemstack
 			recipe.add("output", this.deconstructItem(outstack));

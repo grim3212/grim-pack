@@ -15,7 +15,6 @@ import com.grim3212.mc.pack.core.manual.ManualChapter;
 import com.grim3212.mc.pack.core.manual.ManualRegistry;
 import com.grim3212.mc.pack.core.manual.gui.GuiManualPage;
 import com.grim3212.mc.pack.core.util.GrimLog;
-import com.grim3212.mc.pack.core.util.RecipeHelper;
 import com.grim3212.mc.pack.core.util.generator.Generator;
 import com.grim3212.mc.pack.core.util.generator.GeneratorUtil;
 
@@ -23,15 +22,13 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.client.renderer.RenderHelper;
-import net.minecraft.client.renderer.RenderItem;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.util.text.ITextComponent;
-import net.minecraftforge.oredict.OreDictionary;
-import net.minecraftforge.oredict.OreIngredient;
 
 public abstract class Page {
 
@@ -49,11 +46,10 @@ public abstract class Page {
 	/**
 	 * Basic Page constructor
 	 * 
-	 * @param unlocalizedName
-	 *            Page unlocalized string
-	 * @param setupMethod
-	 *            True if you need to use some fields above after they have been
-	 *            set. This includes partId, and unlocalizedPageName.
+	 * @param unlocalizedName Page unlocalized string
+	 * @param setupMethod     True if you need to use some fields above after they
+	 *                        have been set. This includes partId, and
+	 *                        unlocalizedPageName.
 	 */
 	public Page(String pageName, boolean setupMethod) {
 		this.pageName = pageName;
@@ -121,7 +117,7 @@ public abstract class Page {
 		boolean unicode = renderer.getBidiFlag();
 		renderer.setBidiFlag(false);
 		String title = gui.getChapter().getName() + " - " + this.getTitle();
-		renderer.drawString(title, gui.width / 2 - renderer.getStringWidth(title) / 2, gui.getY() + 14, 0x0026FF, false);
+		renderer.drawString(title, gui.width / 2 - renderer.getStringWidth(title) / 2, gui.getY() + 14, 0x0026FF);
 		renderer.setBidiFlag(unicode);
 	}
 
@@ -130,12 +126,12 @@ public abstract class Page {
 		boolean unicode = renderer.getBidiFlag();
 		renderer.setBidiFlag(true);
 		if (gui.getChapter().getPages().size() != 1)
-			renderer.drawString("(" + (gui.getPage() + 1) + "/" + gui.getChapter().getPages().size() + ")", gui.getX() + 166, gui.getY() + 216, 0, false);
+			renderer.drawString("(" + (gui.getPage() + 1) + "/" + gui.getChapter().getPages().size() + ")", gui.getX() + 166, gui.getY() + 216, 0);
 		renderer.setBidiFlag(unicode);
 	}
 
 	public void renderItem(GuiManualPage gui, ItemStack item, int x, int y) {
-		RenderItem render = Minecraft.getInstance().getRenderItem();
+		ItemRenderer render = Minecraft.getInstance().getItemRenderer();
 
 		GlStateManager.pushMatrix();
 		GlStateManager.enableBlend();
@@ -161,9 +157,6 @@ public abstract class Page {
 
 	public void renderItemCutWild(GuiManualPage gui, ItemStack item, int x, int y) {
 		if (!item.isEmpty()) {
-			if (item.getItemDamage() == OreDictionary.WILDCARD_VALUE)
-				item.setItemDamage(0);
-
 			this.renderItem(gui, item, x, y);
 		}
 	}
@@ -192,8 +185,8 @@ public abstract class Page {
 	}
 
 	/**
-	 * When documentation is being generated how will the page break down into
-	 * Json As well as what images will be saved etc...
+	 * When documentation is being generated how will the page break down into Json
+	 * As well as what images will be saved etc...
 	 * 
 	 * @return
 	 */
@@ -221,8 +214,8 @@ public abstract class Page {
 	/**
 	 * Used only for documenting.
 	 * 
-	 * The URL can be full 'https://i.imgur.com/oiqrWcM.png' Or relative to
-	 * domain 'assets/images/coolImg.png'
+	 * The URL can be full 'https://i.imgur.com/oiqrWcM.png' Or relative to domain
+	 * 'assets/images/coolImg.png'
 	 * 
 	 * @param urls
 	 */
@@ -258,17 +251,16 @@ public abstract class Page {
 	protected JsonObject deconstructItem(ItemStack stack, int locX, int locY) {
 		JsonObject item = new JsonObject();
 		item.addProperty("id", stack.getItem().getRegistryName().toString());
-		item.addProperty("unloc", stack.getUnlocalizedName());
+		item.addProperty("unloc", stack.getTranslationKey());
 		item.addProperty("name", GeneratorUtil.nameToHtml(stack.getDisplayName().getFormattedText()));
 		item.addProperty("amount", stack.getCount());
-		item.addProperty("meta", stack.getMetadata());
 
 		if (locX != -1 && locY != -1) {
 			item.addProperty("posX", locX);
 			item.addProperty("posY", locY);
 		}
 
-		if (stack.hasTagCompound()) {
+		if (stack.hasTag()) {
 			JsonObject nbt = (JsonObject) new JsonParser().parse(stack.serializeNBT().toString());
 			item.add("nbt", nbt);
 		}
@@ -312,12 +304,12 @@ public abstract class Page {
 			return empty;
 		}
 
-		if (item instanceof OreIngredient) {
+		/*if (item instanceof OreIngredient) {
 			String oreName = RecipeHelper.getOreDict(item.getMatchingStacks());
 			JsonObject itemObj = this.deconstructItem(item.getMatchingStacks()[0], locX, locY);
 			itemObj.addProperty("oreName", oreName);
 			return itemObj;
-		} else {
+		} else {*/
 			ItemStack[] stacks = item.getMatchingStacks();
 			if (stacks.length > 0) {
 				return this.deconstructItem(stacks[0], locX, locY);
@@ -325,6 +317,6 @@ public abstract class Page {
 				GrimLog.error(Generator.GENERATOR_NAME, "Ingredient did not have any matching stacks");
 				return null;
 			}
-		}
+		//}
 	}
 }

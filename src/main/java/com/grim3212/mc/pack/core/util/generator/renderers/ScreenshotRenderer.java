@@ -5,11 +5,11 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
+import java.awt.image.DataBufferInt;
 import java.awt.image.FilteredImageSource;
 import java.awt.image.ImageFilter;
 import java.awt.image.ImageProducer;
 import java.awt.image.RGBImageFilter;
-import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.IOException;
 
@@ -39,8 +39,14 @@ public class ScreenshotRenderer {
 		NativeImage copy = new NativeImage(width, height, false);
 		screenshot.resizeSubRectTo(x, y, width, height, copy);
 
+		int[] pixels = screenshot.makePixelArray();
+
+		BufferedImage bufferedimage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+		final int[] a = ((DataBufferInt) bufferedimage.getRaster().getDataBuffer()).getData();
+		System.arraycopy(pixels, 0, a, 0, pixels.length);
+
 		// Get screenshot of desired size by getting a subimage
-		
+
 		try {
 			// Make transparent
 			if (transparencyColor != null) {
@@ -54,7 +60,7 @@ public class ScreenshotRenderer {
 		}
 	}
 
-	private static BufferedImage makeColorTransparent(NativeImage im, final Color color) {
+	private static BufferedImage makeColorTransparent(BufferedImage im, final Color color) {
 		ImageFilter filter = new RGBImageFilter() {
 
 			// the color we are looking for... Alpha bits are set to opaque
@@ -70,6 +76,8 @@ public class ScreenshotRenderer {
 			}
 		};
 
+		//TODO: Possibly look for doing this all within a NATIVE IMAGE
+		
 		ImageProducer ip = new FilteredImageSource(im.getSource(), filter);
 		return imageToBufferedImage(Toolkit.getDefaultToolkit().createImage(ip));
 	}

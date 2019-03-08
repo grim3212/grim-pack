@@ -3,11 +3,8 @@ package com.grim3212.mc.pack.core.config;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.grim3212.mc.pack.core.GrimCore;
-
-import net.minecraft.network.PacketBuffer;
-import net.minecraftforge.common.config.ConfigElement;
-import net.minecraftforge.fml.client.config.DummyConfigElement.DummyCategoryElement;
+import net.minecraftforge.common.ForgeConfigSpec;
+import net.minecraftforge.common.ForgeConfigSpec.Builder;
 import net.minecraftforge.fml.client.config.IConfigElement;
 
 public class CoreConfig extends GrimConfig {
@@ -17,25 +14,25 @@ public class CoreConfig extends GrimConfig {
 	public static final String CONFIG_PARTS_NAME = "core.parts";
 	public static final String CONFIG_SUB_PARTS_NAME = "core.subparts";
 
-	public static boolean useCuisine;
-	public static boolean useDecor;
-	public static boolean useIndustry;
-	public static boolean useTools;
-	public static boolean useUtil;
-	public static boolean useWorld;
+	public static ForgeConfigSpec.BooleanValue useCuisine;
+	public static ForgeConfigSpec.BooleanValue useDecor;
+	public static ForgeConfigSpec.BooleanValue useIndustry;
+	public static ForgeConfigSpec.BooleanValue useTools;
+	public static ForgeConfigSpec.BooleanValue useUtil;
+	public static ForgeConfigSpec.BooleanValue useWorld;
 
-	public static boolean giveManualOnJoin;
-	public static boolean showDebugInfo;
-	public static boolean showCheckmark;
+	public static ForgeConfigSpec.BooleanValue giveManualOnJoin;
+	public static ForgeConfigSpec.BooleanValue showDebugInfo;
+	public static ForgeConfigSpec.BooleanValue showCheckmark;
 
-	public static boolean generateAluminum;
+	public static ForgeConfigSpec.BooleanValue generateAluminum;
 
-	public static boolean subpartAluminum;
-	public static boolean subpartCoal;
-	public static boolean subpartGraphite;
-	public static boolean subpartIron;
-	public static boolean subpartRubber;
-	public static boolean subpartSteel;
+	public static ForgeConfigSpec.BooleanValue subpartAluminum;
+	public static ForgeConfigSpec.BooleanValue subpartCoal;
+	public static ForgeConfigSpec.BooleanValue subpartGraphite;
+	public static ForgeConfigSpec.BooleanValue subpartIron;
+	public static ForgeConfigSpec.BooleanValue subpartRubber;
+	public static ForgeConfigSpec.BooleanValue subpartSteel;
 
 	@Override
 	public String name() {
@@ -43,81 +40,40 @@ public class CoreConfig extends GrimConfig {
 	}
 
 	@Override
-	public void syncFirst() {
-		showDebugInfo = config.get(CONFIG_GENERAL_NAME, "Show debug info in console", false, "grimpack.core.cfg.showDebugInfo").getBoolean();
-	}
+	public void init(Builder CLIENT_BUILDER, Builder SERVER_BUILDER) {
+		// Set names
+		CLIENT_BUILDER.comment(name());
+		SERVER_BUILDER.comment(name());
 
-	@Override
-	public void syncSubparts() {
-		useCuisine = config.get(CONFIG_PARTS_NAME, "Enable cuisine part", true).setRequiresMcRestart(true).getBoolean();
-		useDecor = config.get(CONFIG_PARTS_NAME, "Enable decor part", true).setRequiresMcRestart(true).getBoolean();
-		useIndustry = config.get(CONFIG_PARTS_NAME, "Enable industry part", true).setRequiresMcRestart(true).getBoolean();
-		useTools = config.get(CONFIG_PARTS_NAME, "Enable tools part", true).setRequiresMcRestart(true).getBoolean();
-		useUtil = config.get(CONFIG_PARTS_NAME, "Enable util part", true).setRequiresMcRestart(true).getBoolean();
-		useWorld = config.get(CONFIG_PARTS_NAME, "Enable world part", true).setRequiresMcRestart(true).getBoolean();
+		useCuisine = SERVER_BUILDER.comment("Enable cuisine part").worldRestart().define(CONFIG_PARTS_NAME + ".useCuisine", true);
+		useDecor = SERVER_BUILDER.comment("Enable decor part").worldRestart().define(CONFIG_PARTS_NAME + ".useDecor", true);
+		useIndustry = SERVER_BUILDER.comment("Enable industry part").worldRestart().define(CONFIG_PARTS_NAME + ".useIndustry", true);
+		useTools = SERVER_BUILDER.comment("Enable tools part").worldRestart().define(CONFIG_PARTS_NAME + ".useTools", true);
+		useUtil = SERVER_BUILDER.comment("Enable util part").worldRestart().define(CONFIG_PARTS_NAME + ".useUtil", true);
+		useWorld = SERVER_BUILDER.comment("Enable world part").worldRestart().define(CONFIG_PARTS_NAME + ".useWorld", true);
 
-		subpartAluminum = config.get(CONFIG_SUB_PARTS_NAME, "Enable aluminum subpart", true).setRequiresMcRestart(true).getBoolean();
-		subpartCoal = config.get(CONFIG_SUB_PARTS_NAME, "Enable coal subpart", true).setRequiresMcRestart(true).getBoolean();
-		subpartGraphite = config.get(CONFIG_SUB_PARTS_NAME, "Enable graphite subpart", true).setRequiresMcRestart(true).getBoolean();
-		subpartIron = config.get(CONFIG_SUB_PARTS_NAME, "Enable iron subpart", true).setRequiresMcRestart(true).getBoolean();
-		subpartRubber = config.get(CONFIG_SUB_PARTS_NAME, "Enable rubber subpart", true).setRequiresMcRestart(true).getBoolean();
-		subpartSteel = config.get(CONFIG_SUB_PARTS_NAME, "Enable steel subpart", true).setRequiresMcRestart(true).getBoolean();
-	}
+		subpartAluminum = SERVER_BUILDER.comment("Enable aluminum subpart").worldRestart().define(CONFIG_SUB_PARTS_NAME + ".subpartAluminum", true);
+		subpartCoal = SERVER_BUILDER.comment("Enable coal subpart").worldRestart().define(CONFIG_SUB_PARTS_NAME + ".subpartCoal", true);
+		subpartGraphite = SERVER_BUILDER.comment("Enable graphite subpart").worldRestart().define(CONFIG_SUB_PARTS_NAME + ".subpartGraphite", true);
+		subpartIron = SERVER_BUILDER.comment("Enable iron subpart").worldRestart().define(CONFIG_SUB_PARTS_NAME + ".subpartIron", true);
+		subpartRubber = SERVER_BUILDER.comment("Enable rubber subpart").worldRestart().define(CONFIG_SUB_PARTS_NAME + ".subpartRubber", true);
+		subpartSteel = SERVER_BUILDER.comment("Enable steel subpart").worldRestart().define(CONFIG_SUB_PARTS_NAME + ".subpartSteel", true);
 
-	@Override
-	public void syncConfig() {
-		syncSubparts();
-		syncFirst();
+		showDebugInfo = CLIENT_BUILDER.translation("grimpack.core.cfg.showDebugInfo").define(CONFIG_GENERAL_NAME + ".showDebugInfo", false);
+		showCheckmark = CLIENT_BUILDER.translation("grimpack.core.cfg.showCheckMark").define(CONFIG_GENERAL_NAME + ".showCheckmark", true);
 
-		giveManualOnJoin = config.get(CONFIG_GENERAL_NAME, "Give Instruction Manual on World Join", true, "grimpack.core.cfg.giveManual").getBoolean();
-		showCheckmark = config.get(CONFIG_GENERAL_NAME, "Show checkmark if available manual page", true, "grimpack.core.cfg.showCheckMark").getBoolean();
+		giveManualOnJoin = SERVER_BUILDER.translation("grimpack.core.cfg.giveManual").define(CONFIG_GENERAL_NAME + ".giveManualOnJoin", true);
 
-		if (CoreConfig.subpartAluminum)
-			generateAluminum = config.get(CONFIG_GENERAL_NAME, "Generate Aluminum", true).getBoolean();
-
-		super.syncConfig();
+		if (CoreConfig.subpartAluminum.get())
+			generateAluminum = SERVER_BUILDER.comment("Generate Aluminum").define(CONFIG_GENERAL_NAME + ".generateAluminum", true);
 	}
 
 	@Override
 	public List<IConfigElement> getConfigItems() {
 		List<IConfigElement> list = new ArrayList<IConfigElement>();
-		list.addAll(new ConfigElement(GrimCore.INSTANCE.getConfig().getCategory(CONFIG_GENERAL_NAME)).getChildElements());
-		list.add(new DummyCategoryElement("coreParts", "grimpack.core.cfg.parts", new ConfigElement(GrimCore.INSTANCE.getConfig().getCategory(CONFIG_PARTS_NAME)).getChildElements()));
-		list.add(new DummyCategoryElement("coreSubPartCfg", "grimpack.core.cfg.subparts", new ConfigElement(GrimCore.INSTANCE.getConfig().getCategory(CONFIG_SUB_PARTS_NAME)).getChildElements()));
+		//list.addAll(new ConfigElement(GrimCore.INSTANCE.getConfig().getCategory(CONFIG_GENERAL_NAME)).getChildElements());
+		//list.add(new DummyCategoryElement("coreParts", "grimpack.core.cfg.parts", new ConfigElement(GrimCore.INSTANCE.getConfig().getCategory(CONFIG_PARTS_NAME)).getChildElements()));
+		//list.add(new DummyCategoryElement("coreSubPartCfg", "grimpack.core.cfg.subparts", new ConfigElement(GrimCore.INSTANCE.getConfig().getCategory(CONFIG_SUB_PARTS_NAME)).getChildElements()));
 		return list;
-	}
-
-	@Override
-	public void readFromServer(PacketBuffer buffer) {
-		useCuisine = buffer.readBoolean();
-		useDecor = buffer.readBoolean();
-		useIndustry = buffer.readBoolean();
-		useTools = buffer.readBoolean();
-		useUtil = buffer.readBoolean();
-		useWorld = buffer.readBoolean();
-
-		subpartAluminum = buffer.readBoolean();
-		subpartCoal = buffer.readBoolean();
-		subpartGraphite = buffer.readBoolean();
-		subpartIron = buffer.readBoolean();
-		subpartRubber = buffer.readBoolean();
-		subpartSteel = buffer.readBoolean();
-	}
-
-	@Override
-	public void writeToClient(PacketBuffer buffer) {
-		buffer.writeBoolean(useCuisine);
-		buffer.writeBoolean(useDecor);
-		buffer.writeBoolean(useIndustry);
-		buffer.writeBoolean(useTools);
-		buffer.writeBoolean(useUtil);
-		buffer.writeBoolean(useWorld);
-
-		buffer.writeBoolean(subpartAluminum);
-		buffer.writeBoolean(subpartCoal);
-		buffer.writeBoolean(subpartGraphite);
-		buffer.writeBoolean(subpartIron);
-		buffer.writeBoolean(subpartRubber);
-		buffer.writeBoolean(subpartSteel);
 	}
 }

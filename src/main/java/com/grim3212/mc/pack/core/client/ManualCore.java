@@ -39,28 +39,28 @@ public class ManualCore implements IManualPart {
 		info_page = new PageInfo("howto");
 		instructionManual_page = new PageCrafting("instructionmanual", new ItemStack(CoreItems.instruction_manual));
 
-		if (CoreConfig.subpartIron)
+		if (CoreConfig.subpartIron.get())
 			ironStick_page = new PageCrafting("iron_stick", new ItemStack(CommonItems.iron_stick)).setExtraInfo("grimpack.doc.core.common.iron_stick");
 
-		if (CoreConfig.subpartAluminum) {
+		if (CoreConfig.subpartAluminum.get()) {
 			aluminum_page = new PageFurnace("aluminum", new ItemStack(CommonItems.aluminum_ore));
 			aluminumShaft_page = new PageCrafting("aluminum_shaft", new ItemStack(CommonItems.aluminum_shaft));
 			aluminumCan_page = new PageCrafting("aluminum_can", new ItemStack(CommonItems.aluminum_can));
 		}
 
-		if (CoreConfig.subpartRubber)
+		if (CoreConfig.subpartRubber.get())
 			rubber_page = new PageItemStack("rubber", new ItemStack(CommonItems.rubber));
 
-		if (CoreConfig.subpartIron)
+		if (CoreConfig.subpartIron.get())
 			coalDust_page = new PageCrafting("coal_dust", new ItemStack(CommonItems.coal_dust));
 
-		if (CoreConfig.subpartSteel) {
+		if (CoreConfig.subpartSteel.get()) {
 			steelIngot_page = new PageItemStack("steel_ingot", new ItemStack(CommonItems.steel_ingot));
 			steelShaft_page = new PageCrafting("steel_shaft", new ItemStack(CommonItems.steel_shaft));
 			steelBlock_page = new PageCrafting("steel_block", new ItemStack(CommonItems.steel_block));
 		}
 
-		if (CoreConfig.subpartGraphite) {
+		if (CoreConfig.subpartGraphite.get()) {
 			graphite_page = new PageFurnace("graphite", new ItemStack(Items.FLINT));
 			graphiteRod_page = new PageCrafting("graphite_rod", new ItemStack(CommonItems.graphite_rod));
 		}
@@ -70,13 +70,13 @@ public class ManualCore implements IManualPart {
 	public void registerChapters(ManualPart modSection) {
 		ManualRegistry.addChapter("im", modSection).addPages(info_page, instructionManual_page).addImageUrl("assets/grimpack/images/im.png");
 
-		if (CoreConfig.subpartCoal || CoreConfig.subpartIron || CoreConfig.subpartGraphite || CoreConfig.subpartRubber)
+		if (CoreConfig.subpartCoal.get() || CoreConfig.subpartIron.get() || CoreConfig.subpartGraphite.get() || CoreConfig.subpartRubber.get())
 			ManualRegistry.addChapter("common", modSection).addPages(ironStick_page, coalDust_page, graphite_page, graphiteRod_page, rubber_page).setExtraInfo("grimpack.doc.core.common");
 
-		if (CoreConfig.subpartAluminum)
+		if (CoreConfig.subpartAluminum.get())
 			ManualRegistry.addChapter("aluminum", modSection).addPages(aluminum_page, aluminumShaft_page, aluminumCan_page);
 
-		if (CoreConfig.subpartSteel)
+		if (CoreConfig.subpartSteel.get())
 			ManualRegistry.addChapter("steel", modSection).addPages(steelIngot_page, steelShaft_page, steelBlock_page);
 	}
 

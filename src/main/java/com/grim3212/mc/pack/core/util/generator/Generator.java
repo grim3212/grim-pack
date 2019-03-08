@@ -15,25 +15,17 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.grim3212.mc.pack.GrimPack;
-import com.grim3212.mc.pack.core.common.CommonItems;
-import com.grim3212.mc.pack.core.item.CoreItems;
 import com.grim3212.mc.pack.core.manual.ManualChapter;
 import com.grim3212.mc.pack.core.manual.ManualPart;
 import com.grim3212.mc.pack.core.manual.ManualRegistry;
 import com.grim3212.mc.pack.core.manual.pages.Page;
-import com.grim3212.mc.pack.core.manual.pages.PageCrafting;
-import com.grim3212.mc.pack.core.manual.pages.PageFurnace;
 import com.grim3212.mc.pack.core.manual.pages.PageInfo;
 import com.grim3212.mc.pack.core.part.PartRegistry;
 import com.grim3212.mc.pack.core.util.GrimLog;
 import com.grim3212.mc.pack.core.util.generator.renderers.IconRenderer;
-import com.grim3212.mc.pack.cuisine.item.CuisineItems;
-import com.grim3212.mc.pack.industry.client.pages.PageMachine;
-import com.grim3212.mc.pack.industry.util.MachineRecipes.MachineType;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
-import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.versions.forge.ForgeVersion;
 
@@ -237,7 +229,7 @@ public class Generator {
 
 		ManualPart info = new ManualPart("Information", "info").setExtra();
 		ManualRegistry.addChapter("intro", info).addPages(new PageInfo("info"), new PageInfo("download"), new PageInfo("wip"));
-		ManualRegistry.addChapter("recipes", info).addPages(new PageCrafting("crafting", 10, new ItemStack(CoreItems.instruction_manual), new ItemStack(CuisineItems.chocolate_bowl)), new PageFurnace("furnace", new ItemStack(CommonItems.aluminum_ore)), new PageMachine("other", new ItemStack(Items.ROTTEN_FLESH), MachineType.REFINERY));
+		//ManualRegistry.addChapter("recipes", info).addPages(new PageCrafting("crafting", 10, new ItemStack(CoreItems.instruction_manual), new ItemStack(CuisineItems.chocolate_bowl)), new PageFurnace("furnace", new ItemStack(CommonItems.aluminum_ore)), new PageMachine("other", new ItemStack(Items.ROTTEN_FLESH), MachineType.REFINERY));
 		ManualRegistry.addChapter("configuration", info).addPages(new PageInfo("parts"), new PageInfo("lists"), new PageInfo("tools"), new PageInfo("armor"), new PageInfo("other")).setExtraInfo("grimpack.manual.info.subsection.configuration.info");
 		ManualRegistry.addChapter("resourcepacks", info).addPages(new PageInfo("looks"), new PageInfo("recipes")).setExtraInfo("grimpack.manual.info.subsection.resourcepacks.info");
 		ManualRegistry.addChapter("faq", info).addPages(new PageInfo("about")).setExtraInfo("grimpack.manual.info.subsection.faq.info");

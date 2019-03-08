@@ -17,7 +17,7 @@ import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.fml.relauncher.ReflectionHelper;
+import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 
 public class IconRenderer {
 
@@ -34,7 +34,7 @@ public class IconRenderer {
 
 			for (ItemStack item : items) {
 				// Don't regenerate already done items
-				if (!new File(Generator.getIconDir() + "/" + item.getItem().getRegistryName().getNamespace() + "/" + item.getItem().getRegistryName().getPath() + "/" + item.getMetadata()).exists()) {
+				if (!new File(Generator.getIconDir() + "/" + item.getItem().getRegistryName().getNamespace() + "/" + item.getItem().getRegistryName().getPath()).exists()) {
 					try {
 						IconRenderer.renderItem(item, scale);
 					} catch (Exception e) {
@@ -54,7 +54,7 @@ public class IconRenderer {
 	private static final float COLOR_B = 1f / 255;
 
 	private static void renderItem(ItemStack stack, int scale) {
-		boolean isDrawing = ReflectionHelper.getPrivateValue(BufferBuilder.class, Tessellator.getInstance().getBuffer(), "isDrawing");
+		boolean isDrawing = ObfuscationReflectionHelper.getPrivateValue(BufferBuilder.class, Tessellator.getInstance().getBuffer(), "isDrawing");
 
 		if (isDrawing) {
 			Tessellator.getInstance().draw();
@@ -69,7 +69,7 @@ public class IconRenderer {
 		// Dir path in the form of
 		// '.../icons/domain_name/path_name/meta/'
 		// Ex: '.../icons/grimpack/steel_ingot/0/'
-		File dir = new File(Generator.getIconDir() + "/" + stack.getItem().getRegistryName().getNamespace() + "/" + stack.getItem().getRegistryName().getPath() + "/" + stack.getMetadata());
+		File dir = new File(Generator.getIconDir() + "/" + stack.getItem().getRegistryName().getNamespace() + "/" + stack.getItem().getRegistryName().getPath());
 
 		// Try and mkdirs
 		dir.mkdirs();
@@ -96,7 +96,7 @@ public class IconRenderer {
 		RenderHelper.enableGUIStandardItemLighting();
 		GlStateManager.lightfv(GL11.GL_LIGHT1, GL11.GL_AMBIENT, setColorBuffer(.1f, .1f, .1f, 1.0F));
 		GlStateManager.lightModelfv(GL11.GL_LIGHT_MODEL_AMBIENT, setColorBuffer(.5f, .5f, .5f, 1.0F));
-		OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, (float) 240 / 1.0F, (float) 240 / 1.0F);
+		OpenGlHelper.glMultiTexCoord2f(OpenGlHelper.GL_TEXTURE1, (float) 240 / 1.0F, (float) 240 / 1.0F);
 		GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
 		// Don't blend so that we forget alpha
 		RendererHelper.renderItemAndEffectIntoGUI(stack, x, y, false);

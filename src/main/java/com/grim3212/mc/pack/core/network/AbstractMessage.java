@@ -6,25 +6,24 @@ package com.grim3212.mc.pack.core.network;
  */
 
 import java.io.IOException;
-
-import javax.xml.ws.handler.MessageContext;
+import java.util.function.Supplier;
 
 import com.grim3212.mc.pack.core.GrimCore;
 
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.network.PacketBuffer;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
+import net.minecraftforge.fml.LogicalSide;
+import net.minecraftforge.fml.network.NetworkDirection;
+import net.minecraftforge.fml.network.NetworkEvent;
 
-public abstract class AbstractMessage<T extends AbstractMessage<T>> implements IMessage, IMessageHandler<T, IMessage> {
+public abstract class AbstractMessage<T extends AbstractMessage<T>> {
 	/**
 	 * Some PacketBuffer methods throw IOException - default handling propagates the
 	 * exception. if an IOException is expected but should not be fatal, handle it
 	 * within this method.
 	 */
-	protected abstract void read(PacketBuffer buffer) throws IOException;
+	protected abstract T read(PacketBuffer buffer) throws IOException;
 
 	/**
 	 * Some PacketBuffer methods throw IOException - default handling propagates the
@@ -38,7 +37,7 @@ public abstract class AbstractMessage<T extends AbstractMessage<T>> implements I
 	 * be sure to check side If {@link #requiresMainThread()} returns true, this
 	 * method is guaranteed to be called on the main Minecraft thread for this side.
 	 */
-	public abstract void process(EntityPlayer player, Dist dist);
+	public abstract void process(EntityPlayer player, Supplier<NetworkEvent.Context> ctx);
 
 	/**
 	 * If message is sent to the wrong side, an exception will be thrown during
@@ -46,7 +45,7 @@ public abstract class AbstractMessage<T extends AbstractMessage<T>> implements I
 	 * 
 	 * @return True if the message is allowed to be handled on the given side
 	 */
-	protected boolean isValidOnSide(Dist dist) {
+	protected boolean isValidOnSide(NetworkDirection dir) {
 		return true;
 	}
 
@@ -58,17 +57,15 @@ public abstract class AbstractMessage<T extends AbstractMessage<T>> implements I
 		return true;
 	}
 
-	@Override
-	public void fromBytes(ByteBuf buffer) {
+	public T fromBytes(ByteBuf buffer) {
 		try {
-			read(new PacketBuffer(buffer));
+			return read(new PacketBuffer(buffer));
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
 	}
 
-	@Override
-	public void toBytes(ByteBuf buffer) {
+	public void toBytes(T msg, ByteBuf buffer) {
 		try {
 			write(new PacketBuffer(buffer));
 		} catch (IOException e) {
@@ -86,28 +83,15 @@ public abstract class AbstractMessage<T extends AbstractMessage<T>> implements I
 	 * 
 	 * in every single message class for the sole purpose of registration.
 	 */
-	@Override
-	public final IMessage onMessage(T msg, MessageContext ctx) {
-		if (!msg.isValidOnSide(ctx.side)) {
-			throw new RuntimeException("Invalid side " + ctx.side.name() + " for " + msg.getClass().getSimpleName());
-		} else if (msg.requiresMainThread()) {
-			checkThreadAndEnqueue(msg, ctx);
+	public final void onMessage(AbstractMessage<T> msg, Supplier<NetworkEvent.Context> ctx) {
+		if (!isValidOnSide(ctx.get().getDirection())) {
+			throw new RuntimeException("Invalid side " + ctx.get().getDirection().name() + " for " + this.getClass().getSimpleName());
 		} else {
-			msg.process(GrimCore.proxy.getPlayerEntity(ctx), ctx.side);
+			ctx.get().enqueueWork(() -> {
+				this.process(GrimCore.proxy.getPlayerEntity(ctx.get()), ctx);
+			});
+			ctx.get().setPacketHandled(true);
 		}
-		return null;
-	}
-
-	/**
-	 * 1.8 ONLY: Ensures that the message is being handled on the main thread
-	 */
-	private static final <T extends AbstractMessage<T>> void checkThreadAndEnqueue(final AbstractMessage<T> msg, final MessageContext ctx) {
-		GrimCore.proxy.getThreadFromContext(ctx).addScheduledTask(new Runnable() {
-			@Override
-			public void run() {
-				msg.process(GrimCore.proxy.getPlayerEntity(ctx), ctx.side);
-			}
-		});
 	}
 
 	/**
@@ -116,8 +100,8 @@ public abstract class AbstractMessage<T extends AbstractMessage<T>> implements I
 	 */
 	public static abstract class AbstractClientMessage<T extends AbstractMessage<T>> extends AbstractMessage<T> {
 		@Override
-		protected final boolean isValidOnSide(Dist dist) {
-			return dist.isClient();
+		protected final boolean isValidOnSide(NetworkDirection dist) {
+			return dist.getReceptionSide() == LogicalSide.CLIENT;
 		}
 	}
 
@@ -127,8 +111,8 @@ public abstract class AbstractMessage<T extends AbstractMessage<T>> implements I
 	 */
 	public static abstract class AbstractServerMessage<T extends AbstractMessage<T>> extends AbstractMessage<T> {
 		@Override
-		protected final boolean isValidOnSide(Dist dist) {
-			return dist.isDedicatedServer();
+		protected final boolean isValidOnSide(NetworkDirection dist) {
+			return dist.getReceptionSide() == LogicalSide.SERVER;
 		}
 	}
 }

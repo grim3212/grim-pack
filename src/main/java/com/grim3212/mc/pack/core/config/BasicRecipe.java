@@ -1,12 +1,13 @@
 package com.grim3212.mc.pack.core.config;
 
-import net.minecraft.inventory.InventoryCrafting;
+import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
+import net.minecraft.item.crafting.IRecipeSerializer;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
-import net.minecraftforge.registries.IForgeRegistryEntry;
 
-public class BasicRecipe extends IForgeRegistryEntry.Impl<IRecipe> implements IRecipe {
+public class BasicRecipe implements IRecipe {
 
 	protected ItemStack input;
 	protected ItemStack output;
@@ -43,12 +44,12 @@ public class BasicRecipe extends IForgeRegistryEntry.Impl<IRecipe> implements IR
 	}
 
 	@Override
-	public boolean matches(InventoryCrafting inv, World worldIn) {
+	public boolean matches(IInventory inv, World worldIn) {
 		return false;
 	}
 
 	@Override
-	public ItemStack getCraftingResult(InventoryCrafting inv) {
+	public ItemStack getCraftingResult(IInventory inv) {
 		return ItemStack.EMPTY;
 	}
 
@@ -60,5 +61,15 @@ public class BasicRecipe extends IForgeRegistryEntry.Impl<IRecipe> implements IR
 	@Override
 	public ItemStack getRecipeOutput() {
 		return output;
+	}
+
+	@Override
+	public ResourceLocation getId() {
+		return null;
+	}
+
+	@Override
+	public IRecipeSerializer<?> getSerializer() {
+		return null;
 	}
 }

@@ -20,8 +20,9 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import net.minecraftforge.client.ForgeHooksClient;
-import net.minecraftforge.fml.relauncher.ReflectionHelper;
+import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 
+@SuppressWarnings("deprecation")
 public class RendererHelper {
 
 	public static void drawTexturedModalRect(int x, int y, int textureX, int textureY, int width, int height, double zLevel) {
@@ -42,8 +43,8 @@ public class RendererHelper {
 		if (force || mc.mainWindow.getWidth() != width || mc.mainWindow.getHeight() != height) {
 			try {
 				mc.mainWindow.toggleFullscreen();
-				ReflectionHelper.setPrivateValue(MainWindow.class, mc.mainWindow, width, "tempDisplayWidth");
-				ReflectionHelper.setPrivateValue(MainWindow.class, mc.mainWindow, height, "tempDisplayHeight");
+				ObfuscationReflectionHelper.setPrivateValue(MainWindow.class, mc.mainWindow, width, "tempDisplayWidth");
+				ObfuscationReflectionHelper.setPrivateValue(MainWindow.class, mc.mainWindow, height, "tempDisplayHeight");
 				mc.mainWindow.toggleFullscreen();
 			} catch (Exception e) {
 				System.err.println(e);
@@ -110,14 +111,9 @@ public class RendererHelper {
 						return String.valueOf((Object) p_184391_2_.getItem());
 					}
 				});
-				crashreportcategory.addDetail("Item Aux", new ICrashReportDetail<String>() {
-					public String call() throws Exception {
-						return String.valueOf(p_184391_2_.getMetadata());
-					}
-				});
 				crashreportcategory.addDetail("Item NBT", new ICrashReportDetail<String>() {
 					public String call() throws Exception {
-						return String.valueOf((Object) p_184391_2_.getTagCompound());
+						return String.valueOf((Object) p_184391_2_.getTag());
 					}
 				});
 				crashreportcategory.addDetail("Item Foil", new ICrashReportDetail<String>() {

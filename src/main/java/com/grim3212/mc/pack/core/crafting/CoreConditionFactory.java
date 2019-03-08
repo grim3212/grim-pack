@@ -17,17 +17,17 @@ public class CoreConditionFactory implements IConditionSerializer {
 
 		switch (value) {
 		case "aluminum":
-			return () -> CoreConfig.subpartAluminum;
+			return () -> CoreConfig.subpartAluminum.get();
 		case "coal":
-			return () -> CoreConfig.subpartCoal;
+			return () -> CoreConfig.subpartCoal.get();
 		case "graphite":
-			return () -> CoreConfig.subpartGraphite;
+			return () -> CoreConfig.subpartGraphite.get();
 		case "iron":
-			return () -> CoreConfig.subpartIron;
+			return () -> CoreConfig.subpartIron.get();
 		case "rubber":
-			return () -> CoreConfig.subpartRubber;
+			return () -> CoreConfig.subpartRubber.get();
 		case "steel":
-			return () -> CoreConfig.subpartSteel;
+			return () -> CoreConfig.subpartSteel.get();
 		default:
 			throw new JsonParseException("SubPart '" + value + "' is either misspelled or doesn't exist!");
 		}

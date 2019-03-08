@@ -24,8 +24,12 @@ public class GrimLog {
 		log.info("{" + modName + "}" + ": " + data);
 	}
 
+	public static void debug(String modName, String data) {
+		log.debug("{" + modName + "}" + ": " + data);
+	}
+
 	public static void debugInfo(String modName, String data) {
-		if (CoreConfig.showDebugInfo)
+		if (CoreConfig.showDebugInfo.get())
 			log.info("{" + modName + "}" + ": " + data);
 	}
 

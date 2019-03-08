@@ -1,32 +1,20 @@
 package com.grim3212.mc.pack.core.util.generator;
 
-import java.util.List;
+public class CommandGenerate {
+	
+	/*public static void register(CommandDispatcher<CommandSource> dispatcher) {
+	      LiteralArgumentBuilder<CommandSource> literalargumentbuilder = Commands.literal("gdg").requires((source) -> {
+	         return source.hasPermissionLevel(2);
+	      });
+	      
+	      literalargumentbuilder.then(Commands.literal(gametype.getName()).executes((p_198483_1_) -> {
+              return setGameMode(p_198483_1_, Collections.singleton(p_198483_1_.getSource().asPlayer()), gametype);
+           }).then(Commands.argument("target", EntityArgument.players()).executes((p_198486_1_) -> {
+              return setGameMode(p_198486_1_, EntityArgument.getPlayers(p_198486_1_, "target"), gametype);
+           })));
 
-import com.google.common.collect.Lists;
-
-import net.minecraft.command.CommandBase;
-import net.minecraft.command.CommandException;
-import net.minecraft.command.ICommandSender;
-import net.minecraft.server.MinecraftServer;
-import net.minecraft.tileentity.CommandBlockBaseLogic;
-import net.minecraft.util.text.TextComponentTranslation;
-
-public class CommandGenerate extends CommandBase {
-
-	@Override
-	public String getName() {
-		return "grim_documentation_generation";
-	}
-
-	@Override
-	public List<String> getAliases() {
-		return Lists.newArrayList("gdg");
-	}
-
-	@Override
-	public String getUsage(ICommandSender sender) {
-		return "commands.grim_documentation_generation.usage";
-	}
+	      dispatcher.register(literalargumentbuilder);
+	   }
 
 	@Override
 	public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {
@@ -44,6 +32,6 @@ public class CommandGenerate extends CommandBase {
 				sender.sendMessage(new TextComponentTranslation("commands.grim_documentation_generation.nofile"));
 			}
 		}
-	}
+	}*/
 
 }
