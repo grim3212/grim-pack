@@ -1,0 +1,20 @@
+modLoader="javafml"
+loaderVersion="[24,)"
+issueTrackerURL="https://github.com/grim3212/grim-pack/issues"
+
+[[mods]]
+    modId="grimpack"
+    namespace="grimpack"
+    version="${version}"
+    displayName="Grim Pack"
+    authors="grim3212"
+    description='''
+The cohesion of all of grims mods into one super pack.
+    '''
+    displayURL="https://www.grim3212.com/grim-pack"
+    [[dependencies.grimpack]]
+        modId="forge"
+        mandatory=true
+        versionRange="[${forge_version},)"
+        ordering="NONE"
+        side="BOTH"
