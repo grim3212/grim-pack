@@ -1,0 +1,15 @@
+{
+	"conditions": [
+		{
+			"type": "grimpack:cuisine_subpart_enabled",
+			"subpart": "chocolate"
+		}
+	],
+	"type": "smelting",
+	"ingredient": {
+		"item": "grimpack:cuisine/chocolate_bowl"
+	},
+	"result": "grimpack:cuisine/chocolate_bowl_hot",
+	"experience": 0.40,
+	"cookingtime": 200
+}

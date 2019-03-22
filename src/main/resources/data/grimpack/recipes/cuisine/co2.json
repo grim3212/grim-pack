@@ -1,0 +1,26 @@
+{
+"conditions": [
+    {
+      "type": "grimpack:cuisine_subpart_enabled",
+      "subpart": "soda"
+    }
+  ],
+  "result": {
+    "item": "grimpack:cuisine/co2",
+    "count": 4
+  },
+  "pattern": [
+    " X ",
+    "X0X",
+    " X "
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "0": {
+      "item": "minecraft:flint"
+    },
+    "X": {
+      "constant": "grimpack:iron"
+    }
+  }
+}

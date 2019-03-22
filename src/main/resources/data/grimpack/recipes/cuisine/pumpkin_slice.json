@@ -1,0 +1,21 @@
+{
+"conditions": [
+    {
+      "type": "grimpack:cuisine_subpart_enabled",
+      "subpart": "pie"
+    }
+  ],
+  "result": {
+    "item": "grimpack:cuisine/pumpkin_slice",
+    "count": 6
+  },
+  "ingredients": [
+    {
+      "item": "minecraft:pumpkin"
+    },
+    {
+      "constant": "grimpack:knife"
+    }
+  ],
+  "type": "minecraft:crafting_shapeless"
+}

@@ -24,7 +24,7 @@ public class GuiButtonChangePage extends GuiButton {
 			int k = 211;
 			int l = 0;
 
-			if (flag) {
+			if (flag && this.enabled) {
 				l += 10;
 			}
 

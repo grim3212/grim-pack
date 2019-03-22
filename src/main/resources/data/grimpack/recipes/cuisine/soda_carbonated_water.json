@@ -1,0 +1,28 @@
+{
+"conditions": [
+    {
+      "type": "grimpack:cuisine_subpart_enabled",
+      "subpart": "soda"
+    }
+  ],
+  "result": {
+    "item": "grimpack:cuisine/soda_carbonated_water"
+  },
+  "pattern": [
+    "X",
+    "Y",
+    "Z"
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "X": {
+      "item": "grimpack:cuisine/co2"
+    },
+    "Y": {
+      "item": "minecraft:water_bucket"
+    },
+    "Z": {
+      "item": "grimpack:cuisine/bottle"
+    }
+  }
+}

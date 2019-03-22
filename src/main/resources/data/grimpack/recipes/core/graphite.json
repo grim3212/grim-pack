@@ -1,0 +1,15 @@
+{
+	"conditions": [
+		{
+			"type": "grimpack:core_subpart_enabled",
+			"subpart": "graphite"
+		}
+	],
+	"type": "smelting",
+	"ingredient": {
+		"item": "minecraft:flint"
+	},
+	"result": "grimpack:core/graphite",
+	"experience": 0.35,
+	"cookingtime": 200
+}

@@ -1,0 +1,24 @@
+{
+"conditions": [
+    {
+      "type": "grimpack:cuisine_subpart_enabled",
+      "subpart": "health"
+    }
+  ],
+  "result": {
+    "item": "grimpack:cuisine/bandage",
+    "count": 2
+  },
+  "pattern": [
+    "P#P"
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "P": {
+      "constant": "grimpack:paper"
+    },
+    "#": {
+      "item": "minecraft:white_wool"
+    }
+  }
+}

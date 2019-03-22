@@ -1,6 +1,8 @@
 package com.grim3212.mc.pack.core.part;
 
-import com.grim3212.mc.pack.core.item.CoreItems;
+import com.grim3212.mc.pack.core.config.CoreConfig;
+import com.grim3212.mc.pack.core.init.CoreInit;
+import com.grim3212.mc.pack.cuisine.item.CuisineItems;
 
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
@@ -28,26 +30,26 @@ public class GrimItemGroups {
 			@Override
 			@OnlyIn(Dist.CLIENT)
 			public ItemStack createIcon() {
-				return new ItemStack(CoreItems.instruction_manual);
+				return new ItemStack(CoreInit.instruction_manual);
 			}
 		};
 
-		/*if (CoreConfig.useCuisine)
-			GRIM_CUISINE = new CreativeTabs(CreativeTabs.getNextID(), "cuisine") {
+		if (CoreConfig.useCuisine.get())
+			GRIM_CUISINE = new ItemGroup("cuisine") {
 
 				@Override
 				@OnlyIn(Dist.CLIENT)
-				public String getTranslatedTabLabel() {
+				public String getTranslationKey() {
 					return "grimpack.creative." + this.getTabLabel();
 				}
 
 				@Override
 				@OnlyIn(Dist.CLIENT)
-				public ItemStack getTabIconItem() {
+				public ItemStack createIcon() {
 					return new ItemStack(CuisineItems.cheese);
 				}
 			};
-
+/*
 		if (CoreConfig.useDecor)
 			GRIM_DECOR = new CreativeTabs(CreativeTabs.getNextID(), "decor") {
 

@@ -2,145 +2,186 @@ package com.grim3212.mc.pack.cuisine.item;
 
 import com.grim3212.mc.pack.core.item.ItemManualFood;
 import com.grim3212.mc.pack.core.item.ItemManualPage;
-import com.grim3212.mc.pack.core.part.GrimCreativeTabs;
+import com.grim3212.mc.pack.core.part.GrimItemGroups;
 import com.grim3212.mc.pack.cuisine.config.CuisineConfig;
+import com.grim3212.mc.pack.cuisine.init.CuisineNames;
+import com.grim3212.mc.pack.cuisine.item.ItemSodaBottle.SodaType;
 
 import net.minecraft.init.Items;
 import net.minecraft.init.MobEffects;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.potion.PotionEffect;
 import net.minecraftforge.event.RegistryEvent;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.registry.GameRegistry;
-import net.minecraftforge.oredict.OreDictionary;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.registries.IForgeRegistry;
+import net.minecraftforge.registries.ObjectHolder;
 
 public class CuisineItems {
 
-	// Items
-	public static final Item soda = new ItemSodaBottle();
-	public static final Item dragon_fruit = (new ItemManualFood("dragon_fruit", 4, 0.3F, false, "cuisine:dragonfruit")).setCreativeTab(GrimCreativeTabs.GRIM_CUISINE);
-	public static final Item healthpack = (new ItemHealthPack("healthpack", 5)).setMaxStackSize(4);
-	public static final Item healthpack_super = (new ItemHealthPack("healthpack_super", 12)).setMaxStackSize(4);
-	public static final Item bandage = (new ItemHealthPack("bandage", 3)).setMaxStackSize(16);
-	public static final Item sweets = (new ItemManualFood("sweets", 2, 0.1F, false, "cuisine:sugar.sweets")).setCreativeTab(GrimCreativeTabs.GRIM_CUISINE);
-	public static final Item powered_sugar = (new ItemManualPage("powered_sugar", "cuisine:sugar.sweets")).setCreativeTab(GrimCreativeTabs.GRIM_CUISINE);
-	public static final Item powered_sweets = (new ItemManualFood("powered_sweets", 6, 0.3F, false, "cuisine:sugar.sweets")).setCreativeTab(GrimCreativeTabs.GRIM_CUISINE);
-	public static final Item butter = (new ItemManualFood("butter", 2, 0.4F, false, "cuisine:dairy.butter")).setCreativeTab(GrimCreativeTabs.GRIM_CUISINE);
-	public static final Item cheese = (new ItemManualFood("cheese", 3, 0.6F, false, "cuisine:dairy.cheeseblock")).setCreativeTab(GrimCreativeTabs.GRIM_CUISINE);
-	public static final Item cocoa_fruit = new ItemCocoaFruit();
-	public static final Item cocoa_dust = (new ItemManualPage("cocoa_dust", "cuisine:cocoa.dye")).setCreativeTab(GrimCreativeTabs.GRIM_CUISINE);
-	public static final Item chocolate_bowl = new ItemBowlChocolate("chocolate_bowl", 16);
-	public static final Item chocolate_bowl_hot = (new ItemBowlChocolate("chocolate_bowl_hot", 1)).setContainerItem(Items.BOWL);
-	public static final Item chocolate_bar = (new ItemManualFood("chocolate_bar", 3, 0.8F, false, "cuisine:choco.bars")).setCreativeTab(GrimCreativeTabs.GRIM_CUISINE);
-	public static final Item chocolate_bar_wrapped = (new ItemManualFood("chocolate_bar_wrapped", 5, 0.8F, false, "cuisine:choco.candy")).setCreativeTab(GrimCreativeTabs.GRIM_CUISINE);
-	public static final Item chocolate_ball = (new ItemManualFood("chocolate_ball", 2, 0.2F, false, "cuisine:bowlchoc.chocBall")).setCreativeTab(GrimCreativeTabs.GRIM_CUISINE);
-	public static final Item wrapper = (new ItemManualPage("wrapper", "cuisine:choco.candy")).setCreativeTab(GrimCreativeTabs.GRIM_CUISINE);
-	public static final Item bread_slice = (new ItemManualFood("bread_slice", 2, 0.4F, false, "cuisine:food.sandwiches")).setCreativeTab(GrimCreativeTabs.GRIM_CUISINE);
-	public static final Item cheese_burger = (new ItemManualFood("cheese_burger", 12, 0.95F, false, "cuisine:food.sandwiches")).setCreativeTab(GrimCreativeTabs.GRIM_CUISINE);
-	public static final Item hot_cheese = (new ItemManualFood("hot_cheese", 8, 0.75F, false, "cuisine:food.sandwiches")).setCreativeTab(GrimCreativeTabs.GRIM_CUISINE);
-	public static final Item eggs_mixed = (new ItemManualFood("eggs_mixed", 4, 0.4F, false, "cuisine:food.eggs")).setPotionEffect(new PotionEffect(MobEffects.HUNGER, 600, 0), 0.3F).setCreativeTab(GrimCreativeTabs.GRIM_CUISINE);
-	public static final Item eggs_unmixed = (new ItemManualFood("eggs_unmixed", 2, 0.1F, false, "cuisine:food.eggs")).setPotionEffect(new PotionEffect(MobEffects.HUNGER, 600, 0), 0.3F).setCreativeTab(GrimCreativeTabs.GRIM_CUISINE);
-	public static final Item eggs_cooked = (new ItemManualFood("eggs_cooked", 10, 0.8F, false, "cuisine:food.cooked")).setCreativeTab(GrimCreativeTabs.GRIM_CUISINE);
-	public static final Item knife = new ItemDamage("knife", 63);
-	public static final Item mixer = new ItemDamage("mixer", 63);
-	public static final Item dough = (new ItemManualFood("dough", 1, 0.2f, false, "cuisine:food.extras")).setCreativeTab(GrimCreativeTabs.GRIM_CUISINE);
-	public static final Item pan = (new ItemManualPage("pan", "cuisine:food.utensils", 16)).setCreativeTab(GrimCreativeTabs.GRIM_CUISINE);
-	public static final Item pumpkin_slice = (new ItemManualFood("pumpkin_slice", 1, 0.2f, false, "cuisine:pie.craft")).setCreativeTab(GrimCreativeTabs.GRIM_CUISINE);
-	public static final Item raw_empty_pie = new ItemRawPie("raw_empty_pie");
-	public static final Item raw_apple_pie = new ItemRawPie("raw_apple_pie");
-	public static final Item raw_chocolate_pie = new ItemRawPie("raw_chocolate_pie");
-	public static final Item raw_pork_pie = new ItemRawPie("raw_pork_pie");
-	public static final Item raw_melon_pie = new ItemRawPie("raw_melon_pie");
-	public static final Item raw_pumpkin_pie = new ItemRawPie("raw_pumpkin_pie");
+	@ObjectHolder(CuisineNames.SODA_APPLE)
+	public static Item soda_apple;
+	@ObjectHolder(CuisineNames.SODA_SLURM)
+	public static Item soda_slurm;
+	@ObjectHolder(CuisineNames.SODA_COCOA)
+	public static Item soda_cocoa;
+	@ObjectHolder(CuisineNames.SODA_ORANGE)
+	public static Item soda_orange;
+	@ObjectHolder(CuisineNames.SODA_CREAM_ORANGE)
+	public static Item soda_cream_orange;
+	@ObjectHolder(CuisineNames.SODA_SPIKED_ORANGE)
+	public static Item soda_spiked_orange;
+	@ObjectHolder(CuisineNames.SODA_DIAMOND)
+	public static Item soda_diamond;
+	@ObjectHolder(CuisineNames.SODA_GOLDEN_APPLE)
+	public static Item soda_golden_apple;
+	@ObjectHolder(CuisineNames.SODA_ROOT_BEER)
+	public static Item soda_root_beer;
+	@ObjectHolder(CuisineNames.SODA_MUSHROOM)
+	public static Item soda_mushroom;
+	@ObjectHolder(CuisineNames.SODA_CARBONATED_WATER)
+	public static Item soda_carbonated_water;
+	@ObjectHolder(CuisineNames.CO2)
+	public static Item co2;
+	@ObjectHolder(CuisineNames.BOTTLE)
+	public static Item bottle;
+
+	@ObjectHolder(CuisineNames.DRAGON_FRUIT)
+	public static Item dragon_fruit;
+	@ObjectHolder(CuisineNames.HEALTHPACK)
+	public static Item healthpack;
+	@ObjectHolder(CuisineNames.HEALTHPACK_SUPER)
+	public static Item healthpack_super;
+	@ObjectHolder(CuisineNames.BANDAGE)
+	public static Item bandage;
+	@ObjectHolder(CuisineNames.SWEETS)
+	public static Item sweets;
+	@ObjectHolder(CuisineNames.POWERED_SUGAR)
+	public static Item powered_sugar;
+	@ObjectHolder(CuisineNames.POWERED_SWEETS)
+	public static Item powered_sweets;
+	@ObjectHolder(CuisineNames.BUTTER)
+	public static Item butter;
+	@ObjectHolder(CuisineNames.CHEESE)
+	public static Item cheese;
+	@ObjectHolder(CuisineNames.COCOA_FRUIT)
+	public static Item cocoa_fruit;
+	@ObjectHolder(CuisineNames.COCOA_DUST)
+	public static Item cocoa_dust;
+	@ObjectHolder(CuisineNames.CHOCOLATE_BOWL)
+	public static Item chocolate_bowl;
+	@ObjectHolder(CuisineNames.CHOCOLATE_BOWL_HOT)
+	public static Item chocolate_bowl_hot;
+	@ObjectHolder(CuisineNames.CHOCOLATE_BAR)
+	public static Item chocolate_bar;
+	@ObjectHolder(CuisineNames.CHOCOLATE_BAR_WRAPPED)
+	public static Item chocolate_bar_wrapped;
+	@ObjectHolder(CuisineNames.CHOCOLATE_BALL)
+	public static Item chocolate_ball;
+	@ObjectHolder(CuisineNames.WRAPPER)
+	public static Item wrapper;
+	@ObjectHolder(CuisineNames.BREAD_SLICE)
+	public static Item bread_slice;
+	@ObjectHolder(CuisineNames.CHEESE_BURGER)
+	public static Item cheese_burger;
+	@ObjectHolder(CuisineNames.HOT_CHEESE)
+	public static Item hot_cheese;
+	@ObjectHolder(CuisineNames.EGGS_MIXED)
+	public static Item eggs_mixed;
+	@ObjectHolder(CuisineNames.EGGS_UNMIXED)
+	public static Item eggs_unmixed;
+	@ObjectHolder(CuisineNames.EGGS_COOKED)
+	public static Item eggs_cooked;
+	@ObjectHolder(CuisineNames.KNIFE)
+	public static Item knife;
+	@ObjectHolder(CuisineNames.MIXER)
+	public static Item mixer;
+	@ObjectHolder(CuisineNames.DOUGH)
+	public static Item dough;
+	@ObjectHolder(CuisineNames.PAN)
+	public static Item pan;
+	@ObjectHolder(CuisineNames.PUMPKIN_SLICE)
+	public static Item pumpkin_slice;
+	@ObjectHolder(CuisineNames.RAW_EMPTY_PIE)
+	public static Item raw_empty_pie;
+	@ObjectHolder(CuisineNames.RAW_APPLE_PIE)
+	public static Item raw_apple_pie;
+	@ObjectHolder(CuisineNames.RAW_CHOCOLATE_PIE)
+	public static Item raw_chocolate_pie;
+	@ObjectHolder(CuisineNames.RAW_PORK_PIE)
+	public static Item raw_pork_pie;
+	@ObjectHolder(CuisineNames.RAW_MELON_PIE)
+	public static Item raw_melon_pie;
+	@ObjectHolder(CuisineNames.RAW_PUMPKIN_PIE)
+	public static Item raw_pumpkin_pie;
 
 	@SubscribeEvent
 	public void initItems(RegistryEvent.Register<Item> evt) {
 		IForgeRegistry<Item> r = evt.getRegistry();
 
-		if (CuisineConfig.subpartDairy || CuisineConfig.subpartPie)
-			r.register(knife);
+		if (CuisineConfig.subpartDairy.get() || CuisineConfig.subpartPie.get())
+			r.register(new ItemDamage(CuisineNames.KNIFE, 64));
 
-		if (CuisineConfig.subpartSoda)
-			r.register(soda);
-
-		if (CuisineConfig.subpartDragonFruit)
-			r.register(dragon_fruit);
-
-		if (CuisineConfig.subpartHealth) {
-			r.register(powered_sugar);
-			r.register(powered_sweets);
-			r.register(bandage);
-			r.register(healthpack);
-			r.register(sweets);
-			r.register(healthpack_super);
+		if (CuisineConfig.subpartSoda.get()) {
+			r.register(new ItemSodaBottle(SodaType.APPLE));
+			r.register(new ItemSodaBottle(SodaType.SLURM));
+			r.register(new ItemSodaBottle(SodaType.COCOA));
+			r.register(new ItemSodaBottle(SodaType.ORANGE));
+			r.register(new ItemSodaBottle(SodaType.CREAM_ORANGE));
+			r.register(new ItemSodaBottle(SodaType.SPIKED_ORANGE));
+			r.register(new ItemSodaBottle(SodaType.DIAMOND));
+			r.register(new ItemSodaBottle(SodaType.GOLDEN_APPLE));
+			r.register(new ItemSodaBottle(SodaType.ROOT_BEER));
+			r.register(new ItemSodaBottle(SodaType.MUSHROOM));
+			r.register(new ItemSodaBottle(SodaType.CARBONATED_WATER));
+			r.register(new ItemManualPage(CuisineNames.CO2, "cuisine:soda.carbon", new Item.Properties().group(GrimItemGroups.GRIM_CUISINE)));
+			r.register(new ItemManualPage(CuisineNames.BOTTLE, "cuisine:soda.carbon", new Item.Properties().group(GrimItemGroups.GRIM_CUISINE)));
 		}
 
-		if (CuisineConfig.subpartDairy) {
-			r.register(mixer);
-			r.register(butter);
-			r.register(cheese);
-			r.register(bread_slice);
-			r.register(cheese_burger);
-			r.register(hot_cheese);
-			r.register(eggs_mixed);
-			r.register(eggs_unmixed);
-			r.register(eggs_cooked);
+		if (CuisineConfig.subpartDragonFruit.get())
+			r.register(new ItemManualFood(CuisineNames.DRAGON_FRUIT, 4, 0.3F, false, "cuisine:dragonfruit", new Item.Properties().group(GrimItemGroups.GRIM_CUISINE)));
+
+		if (CuisineConfig.subpartHealth.get()) {
+			r.register(new ItemManualFood(CuisineNames.SWEETS, 2, 0.1F, false, "cuisine:sugar.sweets", new Item.Properties().group(GrimItemGroups.GRIM_CUISINE)));
+			r.register(new ItemManualFood(CuisineNames.POWERED_SWEETS, 6, 0.3F, false, "cuisine:sugar.sweets", new Item.Properties().group(GrimItemGroups.GRIM_CUISINE)));
+			r.register(new ItemManualPage(CuisineNames.POWERED_SUGAR, "cuisine:sugar.sweets", new Item.Properties().group(GrimItemGroups.GRIM_CUISINE)));
+			r.register(new ItemHealthPack(CuisineNames.BANDAGE, 3));
+			r.register(new ItemHealthPack(CuisineNames.HEALTHPACK, 5));
+			r.register(new ItemHealthPack(CuisineNames.HEALTHPACK_SUPER, 12));
 		}
 
-		if (CuisineConfig.subpartChocolate) {
-			r.register(cocoa_fruit);
-			r.register(cocoa_dust);
-			r.register(chocolate_ball);
-			r.register(wrapper);
-			r.register(chocolate_bowl);
-			r.register(chocolate_bar);
-			r.register(chocolate_bar_wrapped);
-			r.register(chocolate_bowl_hot);
+		if (CuisineConfig.subpartDairy.get()) {
+			r.register(new ItemDamage(CuisineNames.MIXER, 64));
+			r.register(new ItemManualFood(CuisineNames.BUTTER, 2, 0.4F, false, "cuisine:dairy.butter", new Item.Properties().group(GrimItemGroups.GRIM_CUISINE)));
+			r.register(new ItemManualFood(CuisineNames.CHEESE, 3, 0.6F, false, "cuisine:dairy.cheeseblock", new Item.Properties().group(GrimItemGroups.GRIM_CUISINE)));
+			r.register(new ItemManualFood(CuisineNames.BREAD_SLICE, 2, 0.4F, false, "cuisine:food.sandwiches", new Item.Properties().group(GrimItemGroups.GRIM_CUISINE)));
+			r.register(new ItemManualFood(CuisineNames.CHEESE_BURGER, 12, 0.95F, false, "cuisine:food.sandwiches", new Item.Properties().group(GrimItemGroups.GRIM_CUISINE)));
+			r.register(new ItemManualFood(CuisineNames.HOT_CHEESE, 8, 0.75F, false, "cuisine:food.sandwiches", new Item.Properties().group(GrimItemGroups.GRIM_CUISINE)));
+			r.register(new ItemManualFood(CuisineNames.EGGS_MIXED, 4, 0.4F, false, "cuisine:food.eggs", new Item.Properties().group(GrimItemGroups.GRIM_CUISINE)).setPotionEffect(new PotionEffect(MobEffects.HUNGER, 600, 0), 0.3F));
+			r.register(new ItemManualFood(CuisineNames.EGGS_UNMIXED, 2, 0.1F, false, "cuisine:food.eggs", new Item.Properties().group(GrimItemGroups.GRIM_CUISINE)).setPotionEffect(new PotionEffect(MobEffects.HUNGER, 600, 0), 0.3F));
+			r.register(new ItemManualFood(CuisineNames.EGGS_COOKED, 10, 0.8F, false, "cuisine:food.cooked", new Item.Properties().group(GrimItemGroups.GRIM_CUISINE)));
 		}
 
-		if (CuisineConfig.subpartPie) {
-			r.register(dough);
-			r.register(pan);
-			r.register(pumpkin_slice);
-			r.register(raw_empty_pie);
-			r.register(raw_chocolate_pie);
-			r.register(raw_apple_pie);
-			r.register(raw_melon_pie);
-			r.register(raw_pork_pie);
-			r.register(raw_pumpkin_pie);
+		if (CuisineConfig.subpartChocolate.get()) {
+			r.register(new ItemCocoaFruit());
+			r.register(new ItemManualPage(CuisineNames.COCOA_DUST, "cuisine:cocoa.dye", new Item.Properties().group(GrimItemGroups.GRIM_CUISINE)));
+			r.register(new ItemManualFood(CuisineNames.CHOCOLATE_BALL, 2, 0.2F, false, "cuisine:bowlchoc.chocBall", new Item.Properties().group(GrimItemGroups.GRIM_CUISINE)));
+			r.register(new ItemManualPage(CuisineNames.WRAPPER, "cuisine:choco.candy", new Item.Properties().group(GrimItemGroups.GRIM_CUISINE)));
+			r.register(new ItemBowlChocolate(CuisineNames.CHOCOLATE_BOWL, 16));
+			r.register(new ItemManualFood(CuisineNames.CHOCOLATE_BAR, 3, 0.8F, false, "cuisine:choco.bars", new Item.Properties().group(GrimItemGroups.GRIM_CUISINE)));
+			r.register(new ItemManualFood(CuisineNames.CHOCOLATE_BAR_WRAPPED, 5, 0.8F, false, "cuisine:choco.candy", new Item.Properties().group(GrimItemGroups.GRIM_CUISINE)));
+			r.register(new ItemBowlChocolate(CuisineNames.CHOCOLATE_BOWL_HOT, 1, Items.BOWL));
 		}
 
-		initOreDict();
-	}
-
-	private void initOreDict() {
-		if (CuisineConfig.subpartDairy) {
-			OreDictionary.registerOre("bread", bread_slice);
-			OreDictionary.registerOre("listAllbread", bread_slice);
-			OreDictionary.registerOre("foodCheese", cheese);
-			OreDictionary.registerOre("foodButter", butter);
-			OreDictionary.registerOre("foodScrambledegg", eggs_cooked);
-			OreDictionary.registerOre("toolJuicer", new ItemStack(mixer, 1, OreDictionary.WILDCARD_VALUE));
+		if (CuisineConfig.subpartPie.get()) {
+			r.register(new ItemManualFood(CuisineNames.DOUGH, 1, 0.2f, false, "cuisine:food.extras", new Item.Properties().group(GrimItemGroups.GRIM_CUISINE)));
+			r.register(new ItemManualPage(CuisineNames.PAN, "cuisine:food.utensils", new Item.Properties().group(GrimItemGroups.GRIM_CUISINE).maxStackSize(16)));
+			r.register(new ItemManualFood(CuisineNames.PUMPKIN_SLICE, 1, 0.2f, false, "cuisine:pie.craft", new Item.Properties().group(GrimItemGroups.GRIM_CUISINE)));
+			r.register(new ItemRawPie(CuisineNames.RAW_EMPTY_PIE));
+			r.register(new ItemRawPie(CuisineNames.RAW_APPLE_PIE));
+			r.register(new ItemRawPie(CuisineNames.RAW_CHOCOLATE_PIE));
+			r.register(new ItemRawPie(CuisineNames.RAW_PORK_PIE));
+			r.register(new ItemRawPie(CuisineNames.RAW_MELON_PIE));
+			r.register(new ItemRawPie(CuisineNames.RAW_PUMPKIN_PIE));
 		}
-
-		if (CuisineConfig.subpartPie)
-			OreDictionary.registerOre("foodDough", dough);
-
-		if (CuisineConfig.subpartDairy || CuisineConfig.subpartPie) {
-			OreDictionary.registerOre("toolCuttingboard", new ItemStack(knife, 1, OreDictionary.WILDCARD_VALUE));
-		}
-
-		OreDictionary.registerOre("bucketMilk", Items.MILK_BUCKET);
-	}
-
-	@SubscribeEvent
-	public void registerRecipes(RegistryEvent.Register<IRecipe> evt) {
-		if (CuisineConfig.subpartChocolate)
-			GameRegistry.addSmelting(chocolate_bowl, new ItemStack(chocolate_bowl_hot), 0.3F);
-		if (CuisineConfig.subpartDairy)
-			GameRegistry.addSmelting(eggs_mixed, new ItemStack(eggs_cooked), 0.35F);
 	}
 }

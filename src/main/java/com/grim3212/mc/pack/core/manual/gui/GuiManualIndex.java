@@ -8,7 +8,6 @@ import com.grim3212.mc.pack.core.manual.button.GuiButtonHistory;
 import com.grim3212.mc.pack.core.manual.button.GuiButtonHome;
 import com.grim3212.mc.pack.core.manual.button.GuiButtonModSection;
 
-import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.resources.I18n;
@@ -66,9 +65,15 @@ public class GuiManualIndex extends GuiScreen {
 		drawTexturedModalRect(x, y, 0, 0, manualWidth, manualHeight);
 
 		this.drawTitle();
+
+		GlStateManager.pushMatrix();
+		GlStateManager.scalef(0.8f, 0.8f, 1.0f);
+		GlStateManager.translatef(34f, 14f, 0f);
 		this.drawInfo();
 		this.drawImage();
 		this.drawFooter();
+		GlStateManager.popMatrix();
+
 		super.render(mouseX, mouseY, partialTicks);
 	}
 
@@ -79,28 +84,18 @@ public class GuiManualIndex extends GuiScreen {
 			numPages = (float) (((ManualRegistry.getLoadedParts().size() - 12.0) / 14.0) + 1.0);
 		}
 
-		FontRenderer renderer = mc.fontRenderer;
-		boolean unicode = renderer.getBidiFlag();
-		renderer.setBidiFlag(true);
 		if (numPages != 1)
-			renderer.drawString("(" + (this.getPage() + 1) + "/" + (int) Math.ceil(numPages) + ")", this.x + 166, this.y + 216, 0);
-		renderer.setBidiFlag(unicode);
+			fontRenderer.drawString("(" + (this.getPage() + 1) + "/" + (int) Math.ceil(numPages) + ")", this.x + 166, this.y + 216, 0);
 	}
 
 	protected void drawTitle() {
-		boolean unicode = fontRenderer.getBidiFlag();
-		fontRenderer.setBidiFlag(false);
 		String title = I18n.format("grimpack.manual.title");
 		fontRenderer.drawString(title, width / 2 - fontRenderer.getStringWidth(title) / 2, this.y + 14, 0x0026FF);
-		fontRenderer.setBidiFlag(unicode);
 	}
 
 	protected void drawInfo() {
 		if (page == 0) {
-			boolean unicode = fontRenderer.getBidiFlag();
-			fontRenderer.setBidiFlag(true);
-			fontRenderer.drawSplitString(I18n.format("grimpack.manual.header"), x + 15, y + 28, 162, 0);
-			fontRenderer.setBidiFlag(unicode);
+			fontRenderer.drawSplitString(I18n.format("grimpack.manual.header"), x + 15, y + 20, 210, 0);
 		}
 	}
 
@@ -111,8 +106,10 @@ public class GuiManualIndex extends GuiScreen {
 	 * Updates all buttons on page including forward, back, and mod buttons
 	 */
 	public void updateButtons() {
-		buttons.clear();
-		buttons.add(changeForward = new GuiButtonChangePage(0, x + manualWidth - 20, y + manualHeight - 12, true) {
+		this.buttons.clear();
+		this.children.clear();
+
+		this.addButton(changeForward = new GuiButtonChangePage(0, x + manualWidth - 20, y + manualHeight - 12, true) {
 			@Override
 			public void onClick(double mouseX, double mouseY) {
 				super.onClick(mouseX, mouseY);
@@ -121,7 +118,7 @@ public class GuiManualIndex extends GuiScreen {
 				GuiManualIndex.this.updateButtons();
 			}
 		});
-		buttons.add(changeBack = new GuiButtonChangePage(1, x + 2, y + manualHeight - 12, false) {
+		this.addButton(changeBack = new GuiButtonChangePage(1, x + 2, y + manualHeight - 12, false) {
 			@Override
 			public void onClick(double mouseX, double mouseY) {
 				super.onClick(mouseX, mouseY);
@@ -130,7 +127,7 @@ public class GuiManualIndex extends GuiScreen {
 				GuiManualIndex.this.updateButtons();
 			}
 		});
-		buttons.add(goHome = new GuiButtonHome(2, width / 2 - 9 / 2, y + manualHeight - 11) {
+		this.addButton(goHome = new GuiButtonHome(2, width / 2 - 9 / 2, y + manualHeight - 11) {
 			@Override
 			public void onClick(double mouseX, double mouseY) {
 				super.onClick(mouseX, mouseY);
@@ -155,7 +152,7 @@ public class GuiManualIndex extends GuiScreen {
 
 		if (page == 0) {
 			for (int i = 0; i < ManualRegistry.getLoadedParts().size() && i < 12; i++) {
-				buttons.add(new GuiButtonModSection(i + 3, x + 15, y + (58 + i * 14), 10, ManualRegistry.getLoadedParts().get(i).getPartName()) {
+				this.addButton(new GuiButtonModSection(i + 3, x + 15, y + (58 + i * 14), 10, ManualRegistry.getLoadedParts().get(i).getPartName()) {
 					@Override
 					public void onClick(double mouseX, double mouseY) {
 						super.onClick(mouseX, mouseY);
@@ -168,7 +165,7 @@ public class GuiManualIndex extends GuiScreen {
 		} else {
 			for (int i = 0; i < 14; i++) {
 				if ((12 + ((page - 1) * 14 + i)) < ManualRegistry.getLoadedParts().size())
-					buttons.add(new GuiButtonModSection(i + 3, x + 15, y + (30 + i * 14), 10, ManualRegistry.getLoadedParts().get(12 + ((page - 1) * 14 + i)).getPartName()) {
+					this.addButton(new GuiButtonModSection(i + 3, x + 15, y + (30 + i * 14), 10, ManualRegistry.getLoadedParts().get(12 + ((page - 1) * 14 + i)).getPartName()) {
 						@Override
 						public void onClick(double mouseX, double mouseY) {
 							super.onClick(mouseX, mouseY);

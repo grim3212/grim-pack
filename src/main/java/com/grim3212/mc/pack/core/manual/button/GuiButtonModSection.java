@@ -7,8 +7,8 @@ import net.minecraft.client.renderer.GlStateManager;
 
 public class GuiButtonModSection extends GuiButton {
 
-	public GuiButtonModSection(int id, int j, int k, int m, String s) {
-		super(id, j, k, Minecraft.getInstance().fontRenderer.getStringWidth(s) + 2, m, s);
+	public GuiButtonModSection(int id, int x, int y, int height, String s) {
+		super(id, x, y, Minecraft.getInstance().fontRenderer.getStringWidth(s) + 10, height, s);
 	}
 
 	@Override
@@ -18,9 +18,6 @@ public class GuiButtonModSection extends GuiButton {
 
 		FontRenderer font = Minecraft.getInstance().fontRenderer;
 
-		boolean unicode = font.getBidiFlag();
-		font.setBidiFlag(true);
-		font.drawString("\u00a7l* " + displayString, x, y, flag ? 0xb3b3b3 : 0x000000);
-		font.setBidiFlag(unicode);
+		font.drawString("* " + displayString, x, y, flag ? 0xb3b3b3 : 0x000000);
 	}
 }

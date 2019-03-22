@@ -1,0 +1,21 @@
+{
+"conditions": [
+    {
+      "type": "grimpack:cuisine_subpart_enabled",
+      "subpart": "health"
+    }
+  ],
+  "result": {
+    "item": "grimpack:cuisine/sweets",
+    "count": 8
+  },
+  "ingredients": [
+    {
+      "item": "minecraft:sugar"
+    },
+    {
+      "constant": "grimpack:paper"
+    }
+  ],
+  "type": "minecraft:crafting_shapeless"
+}

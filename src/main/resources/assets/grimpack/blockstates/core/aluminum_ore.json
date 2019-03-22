@@ -1,0 +1,5 @@
+{
+	"variants": {
+		"": { "model": "grimpack:block/core/aluminum_ore" }
+    }
+}

@@ -19,6 +19,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.NativeImage;
 import net.minecraft.util.ScreenShotHelper;
 
+@SuppressWarnings("deprecation")
 public class ScreenshotRenderer {
 
 	public static void saveTrimmedScreenshot(File target, int width, int height) {
@@ -76,8 +77,8 @@ public class ScreenshotRenderer {
 			}
 		};
 
-		//TODO: Possibly look for doing this all within a NATIVE IMAGE
-		
+		// TODO: Possibly look for doing this all within a NATIVE IMAGE
+
 		ImageProducer ip = new FilteredImageSource(im.getSource(), filter);
 		return imageToBufferedImage(Toolkit.getDefaultToolkit().createImage(ip));
 	}

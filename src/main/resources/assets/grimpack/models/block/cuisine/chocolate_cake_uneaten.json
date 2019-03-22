@@ -1,0 +1,21 @@
+{
+	"parent": "block/block",
+    "textures": {
+        "bottom": "grimpack:block/cuisine/chocolate_cake_bottom",
+		"top": "grimpack:block/cuisine/chocolate_cake_top",
+		"side": "grimpack:block/cuisine/chocolate_cake_side"
+    },
+    "elements": [
+        {   "from": [ 1, 0, 1 ],
+            "to": [ 15, 8, 15 ],
+            "faces": {
+                "down":  { "texture": "#bottom", "cullface": "down" },
+                "up":    { "texture": "#top" },
+                "north": { "texture": "#side" },
+                "south": { "texture": "#side" },
+                "west":  { "texture": "#side" },
+                "east":  { "texture": "#side" }
+            }
+        }
+    ]
+}

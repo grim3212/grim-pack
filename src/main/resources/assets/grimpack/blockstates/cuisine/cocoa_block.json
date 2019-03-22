@@ -1,0 +1,10 @@
+{
+	"forge_marker": 1,
+    "defaults": {
+		"transform": "forge:default-block",
+		"model": "grimpack:cuisine/cocoa_block"
+    },
+	"variants": {
+		"": [{}]
+	}
+}

@@ -1,0 +1,110 @@
+[
+	{
+		"name": "grimpack:iron",
+		"tag": "forge:ingots/iron"
+	},
+	{
+		"name": "grimpack:gold",
+		"tag": "forge:ingots/gold"
+	},
+	{
+		"name": "grimpack:steel",
+		"tag": "forge:ingots/steel"
+	},
+	{
+		"name": "grimpack:steel_block",
+		"tag": "forge:storage_blocks/steel"
+	},
+	{
+		"name": "grimpack:diamond",
+		"tag": "forge:gems/diamond"
+	},
+	{
+		"name": "grimpack:chest",
+		"tag": "forge:chests/wooden"
+	},
+	{
+		"name": "grimpack:stick",
+		"tag": "forge:rods/wooden"
+	},
+	{
+		"name": "grimpack:aluminum",
+		"tag": "forge:ingots/aluminum"
+	},
+	{
+		"name": "grimpack:graphite",
+		"tag": "forge:gems/graphite"
+	},
+	{
+		"name": "grimpack:dye_brown",
+		"tag": "forge:dyes/brown"
+	},
+	{
+		"name": "grimpack:dye_black",
+		"tag": "forge:dyes/black"
+	},
+	{
+		"name": "grimpack:dye_blue",
+		"tag": "forge:dyes/blue"
+	},
+	{
+		"name": "grimpack:paper",
+		"tag": "forge:paper"
+	},
+	{
+		"name": "grimpack:planks",
+		"tag": "minecraft:planks"
+	},
+	{
+		"name": "grimpack:cheese",
+		"tag": "forge:foods/cheese"
+	},
+	{
+		"name": "grimpack:butter",
+		"tag": "forge:foods/butter"
+	},
+	{
+		"name": "grimpack:bread",
+		"tag": "forge:foods/bread"
+	},
+	{
+		"name": "grimpack:bread_slice",
+		"tag": "forge:foods/bread_slice"
+	},
+	{
+		"name": "grimpack:dough",
+		"tag": "forge:foods/dough"
+	},
+	{
+		"name": "grimpack:cobblestone",
+		"tag": "forge:cobblestone"
+	},
+	{
+		"name": "grimpack:stone",
+		"tag": "forge:stone"
+	},
+	{
+		"name": "grimpack:bucket_milk",
+		"tag": "forge:buckets/milk"
+	},
+	{
+		"name": "grimpack:mixer",
+		"tag": "forge:tools/mixer"
+	},
+	{
+		"name": "grimpack:knife",
+		"tag": "forge:tools/knife"
+	},
+	{
+		"name": "grimpack:redstone",
+		"tag": "forge:dusts/redstone"
+	},
+	{
+		"name": "grimpack:pane_glass",
+		"tag": "forge:panes/glass"
+	},
+	{
+		"name": "grimpack:slime",
+		"tag": "forge:slime_ball"
+	}
+]

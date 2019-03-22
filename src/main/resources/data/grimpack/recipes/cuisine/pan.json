@@ -1,0 +1,21 @@
+{
+"conditions": [
+    {
+      "type": "grimpack:cuisine_subpart_enabled",
+      "subpart": "pie"
+    }
+  ],
+  "result": {
+    "item": "grimpack:cuisine/pan"
+  },
+  "pattern": [
+    "X X",
+    " X "
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "X": {
+      "constant": "grimpack:stone"
+    }
+  }
+}

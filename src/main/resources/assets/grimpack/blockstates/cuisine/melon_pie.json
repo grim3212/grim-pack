@@ -1,0 +1,22 @@
+{
+	"forge_marker": 1,
+    "defaults": {
+		"transform": "forge:default-block",
+		"model": "grimpack:cuisine/pie_uneaten",
+		"textures": {
+			"top": "grimpack:block/cuisine/melon_pie_top",
+			"inside": "grimpack:block/cuisine/melon_pie_cut"
+		}
+    },
+	"variants": {
+		"bites": {
+			"0": { },
+			"1": { "model": "grimpack:cuisine/pie_slice1" },
+			"2": { "model": "grimpack:cuisine/pie_slice2" },
+			"3": { "model": "grimpack:cuisine/pie_slice3" },
+			"4": { "model": "grimpack:cuisine/pie_slice4" },
+			"5": { "model": "grimpack:cuisine/pie_slice5" },
+			"6": { "model": "grimpack:cuisine/pie_slice6" }
+		}
+	}
+}

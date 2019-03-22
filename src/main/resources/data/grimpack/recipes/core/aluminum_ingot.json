@@ -1,0 +1,15 @@
+{
+	"conditions": [
+		{
+			"type": "grimpack:core_subpart_enabled",
+			"subpart": "aluminum"
+		}
+	],
+	"type": "smelting",
+	"ingredient": {
+		"tag": "forge:ores/aluminum"
+	},
+	"result": "grimpack:core/aluminum_ingot",
+	"experience": 0.95,
+	"cookingtime": 200
+}

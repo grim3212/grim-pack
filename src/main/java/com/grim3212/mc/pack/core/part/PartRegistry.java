@@ -8,6 +8,7 @@ import com.grim3212.mc.pack.core.manual.ManualPart;
 import com.grim3212.mc.pack.core.manual.ManualRegistry;
 import com.grim3212.mc.pack.core.util.GrimLog;
 
+import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLDedicatedServerSetupEvent;
 
@@ -37,6 +38,12 @@ public class PartRegistry {
 	public static void setup(final FMLCommonSetupEvent event) {
 		for (GrimPart part : partsToLoad) {
 			part.setup(event);
+		}
+	}
+
+	public static void clientSetup(final FMLClientSetupEvent event) {
+		for (GrimPart part : partsToLoad) {
+			part.clientSetup(event);
 		}
 	}
 

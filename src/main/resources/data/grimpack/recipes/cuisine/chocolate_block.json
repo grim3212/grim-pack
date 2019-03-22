@@ -1,0 +1,22 @@
+{
+"conditions": [
+    {
+      "type": "grimpack:cuisine_subpart_enabled",
+      "subpart": "chocolate"
+    }
+  ],
+  "result": {
+    "item": "grimpack:cuisine/chocolate_block"
+  },
+  "pattern": [
+    "XXX",
+    "XXX",
+    "XXX"
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "X": {
+      "item": "grimpack:cuisine/chocolate_bar"
+    }
+  }
+}

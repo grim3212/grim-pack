@@ -1,0 +1,27 @@
+{
+"conditions": [
+    {
+      "type": "grimpack:cuisine_subpart_enabled",
+      "subpart": "dairy"
+    }
+  ],
+  "result": {
+    "item": "grimpack:cuisine/eggs_unmixed"
+  },
+  "pattern": [
+    "XIX",
+    " M "
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "X": {
+      "item": "minecraft:egg"
+    },
+    "I": {
+      "constant": "grimpack:butter"
+    },
+    "M": {
+      "item": "minecraft:bowl"
+    }
+  }
+}

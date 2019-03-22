@@ -1,0 +1,25 @@
+{
+"conditions": [
+    {
+      "type": "grimpack:cuisine_subpart_enabled",
+      "subpart": "dairy"
+    }
+  ],
+  "result": {
+    "item": "grimpack:cuisine/cheese_maker"
+  },
+  "pattern": [
+    "X X",
+    "XIX",
+    "XXX"
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "X": {
+      "constant": "grimpack:cobblestone"
+    },
+    "I": {
+      "item": "minecraft:bucket"
+    }
+  }
+}

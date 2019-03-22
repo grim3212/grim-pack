@@ -1,15 +1,11 @@
 package com.grim3212.mc.pack.cuisine.config;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Optional;
 
 import com.grim3212.mc.pack.core.config.GrimConfig;
-import com.grim3212.mc.pack.cuisine.GrimCuisine;
 
-import net.minecraft.network.PacketBuffer;
-import net.minecraftforge.common.config.ConfigElement;
-import net.minecraftforge.fml.client.config.DummyConfigElement.DummyCategoryElement;
-import net.minecraftforge.fml.client.config.IConfigElement;
+import net.minecraftforge.common.ForgeConfigSpec;
+import net.minecraftforge.common.ForgeConfigSpec.Builder;
 
 public class CuisineConfig extends GrimConfig {
 
@@ -17,64 +13,32 @@ public class CuisineConfig extends GrimConfig {
 	public static final String CONFIG_GENERAL_NAME = "cuisine.general";
 	public static final String CONFIG_PARTS_NAME = "cuisine.subparts";
 
-	public static boolean generateCocoaTrees;
-	public static boolean subpartChocolate;
-	public static boolean subpartDairy;
-	public static boolean subpartDragonFruit;
-	public static boolean subpartHealth;
-	public static boolean subpartPie;
-	public static boolean subpartSoda;
+	public static ForgeConfigSpec.BooleanValue generateCocoaTrees;
+	public static ForgeConfigSpec.BooleanValue subpartChocolate;
+	public static ForgeConfigSpec.BooleanValue subpartDairy;
+	public static ForgeConfigSpec.BooleanValue subpartDragonFruit;
+	public static ForgeConfigSpec.BooleanValue subpartHealth;
+	public static ForgeConfigSpec.BooleanValue subpartPie;
+	public static ForgeConfigSpec.BooleanValue subpartSoda;
 
 	@Override
 	public String name() {
 		return CONFIG_NAME;
 	}
-
+	
 	@Override
-	public void syncSubparts() {
-		subpartChocolate = config.get(CONFIG_PARTS_NAME, "Enable SubPart chocolate", true).setRequiresMcRestart(true).getBoolean();
-		subpartDairy = config.get(CONFIG_PARTS_NAME, "Enable SubPart dairy", true).setRequiresMcRestart(true).getBoolean();
-		subpartDragonFruit = config.get(CONFIG_PARTS_NAME, "Enable SubPart dragon fruit", true).setRequiresMcRestart(true).getBoolean();
-		subpartHealth = config.get(CONFIG_PARTS_NAME, "Enable SubPart health", true).setRequiresMcRestart(true).getBoolean();
-		subpartPie = config.get(CONFIG_PARTS_NAME, "Enable SubPart pie", true).setRequiresMcRestart(true).getBoolean();
-		subpartSoda = config.get(CONFIG_PARTS_NAME, "Enable SubPart soda", true).setRequiresMcRestart(true).getBoolean();
-	}
-
-	@Override
-	public void syncConfig() {
-		syncSubparts();
-
-		if (subpartChocolate)
-			generateCocoaTrees = config.get(CONFIG_GENERAL_NAME, "Generate Cocoa Trees", true).getBoolean();
-		super.syncConfig();
-	}
-
-	@Override
-	public List<IConfigElement> getConfigItems() {
-		List<IConfigElement> list = new ArrayList<IConfigElement>();
-		if (subpartChocolate)
-			list.add(new DummyCategoryElement("cuisineGeneralCfg", "grimpack.cuisine.cfg.general", new ConfigElement(GrimCuisine.INSTANCE.getConfig().getCategory(CONFIG_GENERAL_NAME)).getChildElements()));
-		list.add(new DummyCategoryElement("cuisineSubPartCfg", "grimpack.cuisine.cfg.subparts", new ConfigElement(GrimCuisine.INSTANCE.getConfig().getCategory(CONFIG_PARTS_NAME)).getChildElements()));
-		return list;
-	}
-
-	@Override
-	public void readFromServer(PacketBuffer buffer) {
-		subpartChocolate = buffer.readBoolean();
-		subpartDairy = buffer.readBoolean();
-		subpartDragonFruit = buffer.readBoolean();
-		subpartHealth = buffer.readBoolean();
-		subpartPie = buffer.readBoolean();
-		subpartSoda = buffer.readBoolean();
-	}
-
-	@Override
-	public void writeToClient(PacketBuffer buffer) {
-		buffer.writeBoolean(subpartChocolate);
-		buffer.writeBoolean(subpartDairy);
-		buffer.writeBoolean(subpartDragonFruit);
-		buffer.writeBoolean(subpartHealth);
-		buffer.writeBoolean(subpartPie);
-		buffer.writeBoolean(subpartSoda);
+	public Optional<ForgeConfigSpec> initServer(Builder serverBuilder) {
+		serverBuilder.comment(name());
+		
+		subpartChocolate = serverBuilder.comment("Enable chocolate subpart").worldRestart().define(CONFIG_PARTS_NAME + ".subpartAluminum", true);
+		subpartDairy = serverBuilder.comment("Enable dairy subpart").worldRestart().define(CONFIG_PARTS_NAME + ".subpartCoal", true);
+		subpartDragonFruit = serverBuilder.comment("Enable dragon fruit subpart").worldRestart().define(CONFIG_PARTS_NAME + ".subpartGraphite", true);
+		subpartHealth = serverBuilder.comment("Enable health subpart").worldRestart().define(CONFIG_PARTS_NAME + ".subpartIron", true);
+		subpartPie = serverBuilder.comment("Enable pie subpart").worldRestart().define(CONFIG_PARTS_NAME + ".subpartRubber", true);
+		subpartSoda = serverBuilder.comment("Enable soda subpart").worldRestart().define(CONFIG_PARTS_NAME + ".subpartSteel", true);
+		
+		generateCocoaTrees = serverBuilder.comment("Generate Cocoa Trees").worldRestart().define(CONFIG_GENERAL_NAME + ".subpartSteel", true);
+		
+		return Optional.of(serverBuilder.build());
 	}
 }

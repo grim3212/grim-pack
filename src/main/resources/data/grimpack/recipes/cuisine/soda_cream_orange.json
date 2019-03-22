@@ -1,0 +1,24 @@
+{
+"conditions": [
+    {
+      "type": "grimpack:cuisine_subpart_enabled",
+      "subpart": "soda"
+    }
+  ],
+  "result": {
+    "item": "grimpack:cuisine/soda_cream_orange"
+  },
+  "pattern": [
+    "X",
+    "Y"
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "X": {
+      "constant": "grimpack:bucket_milk"
+    },
+    "Y": {
+      "item": "grimpack:cuisine/soda_orange"
+    }
+  }
+}

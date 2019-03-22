@@ -1,0 +1,21 @@
+{
+"conditions": [
+    {
+      "type": "grimpack:core_subpart_enabled",
+      "subpart": "steel"
+    }
+  ],
+  "result": {
+    "item": "grimpack:core/steel_ingot",
+    "count": 9
+  },
+  "pattern": [
+    "B"
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "B": {
+      "constant": "grimpack:steel_block"
+    }
+  }
+}

@@ -1,0 +1,10 @@
+{
+	"variants": {
+		"active=0": {
+			"model": "grimpack:block/cuisine/butter_churn"
+		},
+		"active=1": {
+			"model": "grimpack:block/cuisine/butter_churn"
+		}
+	}
+}

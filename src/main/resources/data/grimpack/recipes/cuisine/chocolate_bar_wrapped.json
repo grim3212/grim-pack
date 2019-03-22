@@ -1,0 +1,20 @@
+{
+"conditions": [
+    {
+      "type": "grimpack:cuisine_subpart_enabled",
+      "subpart": "chocolate"
+    }
+  ],
+  "result": {
+    "item": "grimpack:cuisine/chocolate_bar_wrapped"
+  },
+  "ingredients": [
+    {
+      "item": "grimpack:cuisine/chocolate_bar"
+    },
+    {
+      "item": "grimpack:cuisine/wrapper"
+    }
+  ],
+  "type": "minecraft:crafting_shapeless"
+}

@@ -1,0 +1,20 @@
+{
+"conditions": [
+    {
+      "type": "grimpack:cuisine_subpart_enabled",
+      "subpart": "chocolate"
+    }
+  ],
+  "result": {
+    "item": "grimpack:cuisine/wrapper"
+  },
+  "ingredients": [
+    {
+      "constant": "grimpack:paper"
+    },
+    {
+      "constant": "grimpack:dye_blue"
+    }
+  ],
+  "type": "minecraft:crafting_shapeless"
+}

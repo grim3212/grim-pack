@@ -16,12 +16,12 @@ public class TagConditionFactory implements IConditionSerializer {
 
 	@Override
 	public BooleanSupplier parse(JsonObject json) {
-		String value = JsonUtils.getString(json, "oreName", "");
+		String value = JsonUtils.getString(json, "tagName", "");
 
 		if (!Strings.isEmpty(value)) {
 			return () -> !ItemTags.getCollection().get(new ResourceLocation(value)).getAllElements().isEmpty();
 		} else {
-			throw new JsonParseException("'oreName' cannot be empty!");
+			throw new JsonParseException("'tagName' cannot be empty!");
 		}
 	}
 }

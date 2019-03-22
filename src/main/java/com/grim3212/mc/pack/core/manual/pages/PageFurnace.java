@@ -12,16 +12,20 @@ import com.grim3212.mc.pack.GrimPack;
 import com.grim3212.mc.pack.core.client.TooltipHelper;
 import com.grim3212.mc.pack.core.manual.gui.GuiManualPage;
 import com.grim3212.mc.pack.core.util.GrimLog;
+import com.grim3212.mc.pack.core.util.NBTHelper;
+import com.grim3212.mc.pack.core.util.RecipeHelper;
 import com.grim3212.mc.pack.core.util.generator.Generator;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipe;
 import net.minecraft.item.crafting.IRecipe;
+import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.util.ResourceLocation;
 
 public class PageFurnace extends Page {
@@ -45,11 +49,6 @@ public class PageFurnace extends Page {
 		this.updateTime = updateTime;
 		this.isArray = true;
 	}
-	
-	public PageFurnace(String pageName, ItemStack output) {
-		super(pageName, false);
-		this.recipes = ImmutableList.of(output.getItem().getRegistryName());
-	}
 
 	public boolean isArray() {
 		return this.isArray;
@@ -72,7 +71,7 @@ public class PageFurnace extends Page {
 		render.bindTexture(furnaceOverlay);
 
 		GL11.glColor4f(1F, 1F, 1F, 1F);
-		((GuiScreen) gui).drawTexturedModalRect(gui.getX(), gui.getY(), 0, 0, gui.getManualWidth(), gui.getManualHeight());
+		((GuiScreen) gui).drawTexturedModalRect(gui.getX() + 21, gui.getY() + 120, 21, 120, 147, 85);
 
 		tooltipItem = ItemStack.EMPTY;
 
@@ -89,12 +88,23 @@ public class PageFurnace extends Page {
 		IRecipe recipe = Minecraft.getInstance().world.getRecipeManager().getRecipe(loc);
 
 		if (recipe != null) {
-			// TODO: Probably fix
-			// Get the only input
-			ItemStack input = recipe.getIngredients().get(0).getMatchingStacks()[0];
+			Ingredient input = recipe.getIngredients().get(0);
+
+			// Check if Ingredient has a tag if so mark it
+			RecipeHelper.getTag(input).<Runnable>map(tag -> () -> {
+				GlStateManager.pushMatrix();
+				GlStateManager.enableBlend();
+				TextureManager render = Minecraft.getInstance().getTextureManager();
+				render.bindTexture(furnaceOverlay);
+
+				((GuiScreen) gui).drawTexturedModalRect(gui.getX() + 44, gui.getY() + 139, 0, 0, 26, 26);
+				GlStateManager.disableBlend();
+				GlStateManager.popMatrix();
+				this.renderItemCutWild(gui, NBTHelper.setStringItemStack(input.getMatchingStacks()[0], "customTooltip", I18n.format("grimpack.manual.tags") + " : " + tag), gui.getX() + 49, gui.getY() + 145);
+			}).orElse(() -> this.renderItemCutWild(gui, input.getMatchingStacks()[0], gui.getX() + 49, gui.getY() + 145)).run();
+
 			ItemStack outstack = recipe.getRecipeOutput();
-			if (input != ItemStack.EMPTY && outstack != ItemStack.EMPTY) {
-				this.renderItem(gui, input, gui.getX() + 49, gui.getY() + 145);
+			if (outstack != ItemStack.EMPTY) {
 				this.renderItem(gui, outstack, gui.getX() + 122, gui.getY() + 143);
 
 				FontRenderer renderer = Minecraft.getInstance().fontRenderer;
@@ -142,8 +152,6 @@ public class PageFurnace extends Page {
 
 			if (ir instanceof FurnaceRecipe) {
 				FurnaceRecipe fr = (FurnaceRecipe) ir;
-				// TODO: Probably fix
-				// Get the only input
 				ItemStack input = fr.getIngredients().get(0).getMatchingStacks()[0];
 				recipe.addProperty("id", input.getItem().getRegistryName().toString());
 				recipe.addProperty("recipeType", "furnace");

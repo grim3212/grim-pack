@@ -20,7 +20,6 @@ import com.grim3212.mc.pack.core.util.generator.GeneratorUtil;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.client.renderer.RenderHelper;
@@ -109,25 +108,23 @@ public abstract class Page {
 
 	public void drawScreen(GuiManualPage gui, int mouseX, int mouseY) {
 		this.drawTitle(gui);
+		
+		GlStateManager.pushMatrix();
+		GlStateManager.scalef(0.8f, 0.8f, 1.0f);
 		this.drawFooter(gui);
+		GlStateManager.popMatrix();
 	}
 
 	public void drawTitle(GuiManualPage gui) {
 		FontRenderer renderer = Minecraft.getInstance().fontRenderer;
-		boolean unicode = renderer.getBidiFlag();
-		renderer.setBidiFlag(false);
 		String title = gui.getChapter().getName() + " - " + this.getTitle();
 		renderer.drawString(title, gui.width / 2 - renderer.getStringWidth(title) / 2, gui.getY() + 14, 0x0026FF);
-		renderer.setBidiFlag(unicode);
 	}
 
 	public void drawFooter(GuiManualPage gui) {
 		FontRenderer renderer = Minecraft.getInstance().fontRenderer;
-		boolean unicode = renderer.getBidiFlag();
-		renderer.setBidiFlag(true);
 		if (gui.getChapter().getPages().size() != 1)
-			renderer.drawString("(" + (gui.getPage() + 1) + "/" + gui.getChapter().getPages().size() + ")", gui.getX() + 166, gui.getY() + 216, 0);
-		renderer.setBidiFlag(unicode);
+			renderer.drawString("(" + (gui.getPage() + 1) + "/" + gui.getChapter().getPages().size() + ")", gui.getX() + 230, gui.getY() + 272, 0);
 	}
 
 	public void renderItem(GuiManualPage gui, ItemStack item, int x, int y) {
@@ -164,7 +161,7 @@ public abstract class Page {
 	public void updateScreen() {
 	}
 
-	public void addButtons(GuiManualPage gui, List<GuiButton> buttonList) {
+	public void addButtons(GuiManualPage gui) {
 
 	}
 
@@ -304,19 +301,19 @@ public abstract class Page {
 			return empty;
 		}
 
-		/*if (item instanceof OreIngredient) {
-			String oreName = RecipeHelper.getOreDict(item.getMatchingStacks());
-			JsonObject itemObj = this.deconstructItem(item.getMatchingStacks()[0], locX, locY);
-			itemObj.addProperty("oreName", oreName);
-			return itemObj;
-		} else {*/
-			ItemStack[] stacks = item.getMatchingStacks();
-			if (stacks.length > 0) {
-				return this.deconstructItem(stacks[0], locX, locY);
-			} else {
-				GrimLog.error(Generator.GENERATOR_NAME, "Ingredient did not have any matching stacks");
-				return null;
-			}
-		//}
+		/*
+		 * if (item instanceof OreIngredient) { String oreName =
+		 * RecipeHelper.getOreDict(item.getMatchingStacks()); JsonObject itemObj =
+		 * this.deconstructItem(item.getMatchingStacks()[0], locX, locY);
+		 * itemObj.addProperty("oreName", oreName); return itemObj; } else {
+		 */
+		ItemStack[] stacks = item.getMatchingStacks();
+		if (stacks.length > 0) {
+			return this.deconstructItem(stacks[0], locX, locY);
+		} else {
+			GrimLog.error(Generator.GENERATOR_NAME, "Ingredient did not have any matching stacks");
+			return null;
+		}
+		// }
 	}
 }

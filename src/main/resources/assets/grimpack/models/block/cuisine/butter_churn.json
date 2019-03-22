@@ -1,0 +1,7 @@
+{
+	"parent": "block/cube_top",
+	"textures": {
+		"top": "grimpack:block/cuisine/butter_churn_top",
+		"side": "grimpack:block/cuisine/butter_churn_side"
+	}
+}

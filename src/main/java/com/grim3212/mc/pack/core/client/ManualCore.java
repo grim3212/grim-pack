@@ -1,8 +1,8 @@
 package com.grim3212.mc.pack.core.client;
 
-import com.grim3212.mc.pack.core.common.CommonItems;
 import com.grim3212.mc.pack.core.config.CoreConfig;
-import com.grim3212.mc.pack.core.item.CoreItems;
+import com.grim3212.mc.pack.core.init.CoreInit;
+import com.grim3212.mc.pack.core.init.CoreNames;
 import com.grim3212.mc.pack.core.manual.IManualPart;
 import com.grim3212.mc.pack.core.manual.ManualPart;
 import com.grim3212.mc.pack.core.manual.ManualRegistry;
@@ -11,8 +11,8 @@ import com.grim3212.mc.pack.core.manual.pages.PageCrafting;
 import com.grim3212.mc.pack.core.manual.pages.PageFurnace;
 import com.grim3212.mc.pack.core.manual.pages.PageInfo;
 import com.grim3212.mc.pack.core.manual.pages.PageItemStack;
+import com.grim3212.mc.pack.core.util.RecipeHelper;
 
-import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 
 public class ManualCore implements IManualPart {
@@ -37,32 +37,32 @@ public class ManualCore implements IManualPart {
 	@Override
 	public void initPages() {
 		info_page = new PageInfo("howto");
-		instructionManual_page = new PageCrafting("instructionmanual", new ItemStack(CoreItems.instruction_manual));
+		instructionManual_page = new PageCrafting("instructionmanual", RecipeHelper.getRecipePath(CoreNames.INSTRUCTION_MANUAL));
 
 		if (CoreConfig.subpartIron.get())
-			ironStick_page = new PageCrafting("iron_stick", new ItemStack(CommonItems.iron_stick)).setExtraInfo("grimpack.doc.core.common.iron_stick");
+			ironStick_page = new PageCrafting("iron_stick", RecipeHelper.getRecipePath(CoreNames.IRON_STICK)).setExtraInfo("grimpack.doc.core.common.iron_stick");
 
 		if (CoreConfig.subpartAluminum.get()) {
-			aluminum_page = new PageFurnace("aluminum", new ItemStack(CommonItems.aluminum_ore));
-			aluminumShaft_page = new PageCrafting("aluminum_shaft", new ItemStack(CommonItems.aluminum_shaft));
-			aluminumCan_page = new PageCrafting("aluminum_can", new ItemStack(CommonItems.aluminum_can));
+			aluminum_page = new PageFurnace("aluminum", RecipeHelper.getRecipePath(CoreNames.ALUMINUM_INGOT));
+			aluminumShaft_page = new PageCrafting("aluminum_shaft", RecipeHelper.getRecipePath(CoreNames.ALUMINUM_SHAFT));
+			aluminumCan_page = new PageCrafting("aluminum_can", RecipeHelper.getRecipePath(CoreNames.ALUMINUM_CAN));
 		}
 
 		if (CoreConfig.subpartRubber.get())
-			rubber_page = new PageItemStack("rubber", new ItemStack(CommonItems.rubber));
+			rubber_page = new PageItemStack("rubber", new ItemStack(CoreInit.rubber));
 
 		if (CoreConfig.subpartIron.get())
-			coalDust_page = new PageCrafting("coal_dust", new ItemStack(CommonItems.coal_dust));
+			coalDust_page = new PageCrafting("coal_dust", RecipeHelper.getRecipePath(CoreNames.COAL_DUST));
 
 		if (CoreConfig.subpartSteel.get()) {
-			steelIngot_page = new PageItemStack("steel_ingot", new ItemStack(CommonItems.steel_ingot));
-			steelShaft_page = new PageCrafting("steel_shaft", new ItemStack(CommonItems.steel_shaft));
-			steelBlock_page = new PageCrafting("steel_block", new ItemStack(CommonItems.steel_block));
+			steelIngot_page = new PageItemStack("steel_ingot", new ItemStack(CoreInit.steel_ingot));
+			steelShaft_page = new PageCrafting("steel_shaft", RecipeHelper.getRecipePath(CoreNames.STEEL_SHAFT));
+			steelBlock_page = new PageCrafting("steel_block", RecipeHelper.getRecipePath(CoreNames.STEEL_BLOCK));
 		}
 
 		if (CoreConfig.subpartGraphite.get()) {
-			graphite_page = new PageFurnace("graphite", new ItemStack(Items.FLINT));
-			graphiteRod_page = new PageCrafting("graphite_rod", new ItemStack(CommonItems.graphite_rod));
+			graphite_page = new PageFurnace("graphite", RecipeHelper.getRecipePath(CoreNames.GRAPHITE));
+			graphiteRod_page = new PageCrafting("graphite_rod", RecipeHelper.getRecipePath(CoreNames.GRAPHITE_ROD));
 		}
 	}
 

@@ -5,7 +5,7 @@ import org.lwjgl.opengl.GL11;
 import com.grim3212.mc.pack.GrimPack;
 import com.grim3212.mc.pack.core.client.ClientUtil;
 import com.grim3212.mc.pack.core.config.CoreConfig;
-import com.grim3212.mc.pack.core.item.CoreItems;
+import com.grim3212.mc.pack.core.init.CoreInit;
 import com.grim3212.mc.pack.core.manual.IManualEntry.IManualBlock;
 import com.grim3212.mc.pack.core.manual.IManualEntry.IManualEntity;
 import com.grim3212.mc.pack.core.manual.IManualEntry.IManualItem;
@@ -38,7 +38,7 @@ public class RenderManualEntryEvent {
 				World world = mc.player.world;
 				RayTraceResult pos = ClientUtil.getMouseOver();
 
-				if (!player.getHeldItemMainhand().isEmpty() && player.getHeldItemMainhand().getItem() == CoreItems.instruction_manual) {
+				if (!player.getHeldItemMainhand().isEmpty() && player.getHeldItemMainhand().getItem() == CoreInit.instruction_manual) {
 					if (pos != null) {
 						switch (pos.type) {
 						case BLOCK:

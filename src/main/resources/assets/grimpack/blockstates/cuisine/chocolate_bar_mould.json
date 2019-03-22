@@ -1,0 +1,52 @@
+{
+	"variants": {
+		"stage=0": {
+			"model": "grimpack:block/cuisine/chocolate_bar_mould_start"
+		},
+		"stage=1": {
+			"model": "grimpack:block/cuisine/chocolate_bar_mould_in_progress"
+		},
+		"stage=2": {
+			"model": "grimpack:block/cuisine/chocolate_bar_mould_in_progress"
+		},
+		"stage=3": {
+			"model": "grimpack:block/cuisine/chocolate_bar_mould_in_progress"
+		},
+		"stage=4": {
+			"model": "grimpack:block/cuisine/chocolate_bar_mould_in_progress"
+		},
+		"stage=5": {
+			"model": "grimpack:block/cuisine/chocolate_bar_mould_in_progress"
+		},
+		"stage=6": {
+			"model": "grimpack:block/cuisine/chocolate_bar_mould_in_progress"
+		},
+		"stage=7": {
+			"model": "grimpack:block/cuisine/chocolate_bar_mould_in_progress"
+		},
+		"stage=8": {
+			"model": "grimpack:block/cuisine/chocolate_bar_mould_in_progress"
+		},
+		"stage=9": {
+			"model": "grimpack:block/cuisine/chocolate_bar_mould_in_progress"
+		},
+		"stage=10": {
+			"model": "grimpack:block/cuisine/chocolate_bar_mould_in_progress"
+		},
+		"stage=11": {
+			"model": "grimpack:block/cuisine/chocolate_bar_mould_in_progress"
+		},
+		"stage=12": {
+			"model": "grimpack:block/cuisine/chocolate_bar_mould_in_progress"
+		},
+		"stage=13": {
+			"model": "grimpack:block/cuisine/chocolate_bar_mould_in_progress"
+		},
+		"stage=14": {
+			"model": "grimpack:block/cuisine/chocolate_bar_mould_in_progress"
+		},
+		"stage=15": {
+			"model": "grimpack:block/cuisine/chocolate_bar_mould_done"
+		}
+	}
+}

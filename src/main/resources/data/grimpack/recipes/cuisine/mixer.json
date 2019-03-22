@@ -1,0 +1,22 @@
+{
+"conditions": [
+    {
+      "type": "grimpack:cuisine_subpart_enabled",
+      "subpart": "dairy"
+    }
+  ],
+  "result": {
+    "item": "grimpack:cuisine/mixer"
+  },
+  "pattern": [
+    "X  ",
+    " XX",
+    " X "
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "X": {
+      "constant": "grimpack:iron"
+    }
+  }
+}

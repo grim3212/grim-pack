@@ -1,0 +1,6 @@
+{
+	"parent": "grimpack:block/cuisine/chocolate_bar_mould",
+	"textures": {
+		"top": "grimpack:block/cuisine/chocolate_bar_mould"
+	}
+}

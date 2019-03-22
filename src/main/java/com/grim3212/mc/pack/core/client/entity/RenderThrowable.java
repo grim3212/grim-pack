@@ -16,6 +16,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
 
 @OnlyIn(Dist.CLIENT)
+@SuppressWarnings("deprecation")
 public class RenderThrowable<T extends Entity> extends Render<T> {
 
 	protected final ItemStack item;

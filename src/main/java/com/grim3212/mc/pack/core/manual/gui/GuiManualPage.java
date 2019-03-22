@@ -69,19 +69,23 @@ public class GuiManualPage extends GuiManualIndex {
 	}
 
 	public void updateButtons() {
-		buttons.clear();
-		buttons.add(changeForward = new GuiButtonChangePage(0, x + manualWidth - 20, y + manualHeight - 12, true) {
-			@Override
-			public void onClick(double mouseX, double mouseY) {
-				super.onClick(mouseX, mouseY);
+		this.buttons.clear();
+		this.children.clear();
+		
+		if (chapter.getPages().size() > page + 1) {
+			this.addButton(changeForward = new GuiButtonChangePage(0, x + manualWidth - 20, y + manualHeight - 12, true) {
+				@Override
+				public void onClick(double mouseX, double mouseY) {
+					super.onClick(mouseX, mouseY);
 
-				page++;
-				GuiManualPage.this.updateButtons();
-				isPaused = false;
-				pauseButton.setIsPaused(false);
-			}
-		});
-		buttons.add(changeBack = new GuiButtonChangePage(1, x + 2, y + manualHeight - 12, false) {
+					page++;
+					GuiManualPage.this.updateButtons();
+					isPaused = false;
+					pauseButton.setIsPaused(false);
+				}
+			});
+		}
+		this.addButton(changeBack = new GuiButtonChangePage(1, x + 2, y + manualHeight - 12, false) {
 			@Override
 			public void onClick(double mouseX, double mouseY) {
 				super.onClick(mouseX, mouseY);
@@ -96,7 +100,7 @@ public class GuiManualPage extends GuiManualIndex {
 				}
 			}
 		});
-		buttons.add(goHome = new GuiButtonHome(2, width / 2 - 9 / 2, y + manualHeight - 11) {
+		this.addButton(goHome = new GuiButtonHome(2, width / 2 - 9 / 2, y + manualHeight - 11) {
 			@Override
 			public void onClick(double mouseX, double mouseY) {
 				super.onClick(mouseX, mouseY);
@@ -104,7 +108,7 @@ public class GuiManualPage extends GuiManualIndex {
 				mc.displayGuiScreen(new GuiManualIndex(0));
 			}
 		});
-		buttons.add(pauseButton = new GuiButtonPause(3, 0, 0) {
+		this.addButton(pauseButton = new GuiButtonPause(3, 0, 0) {
 			@Override
 			public void onClick(double mouseX, double mouseY) {
 				super.onClick(mouseX, mouseY);
@@ -118,9 +122,6 @@ public class GuiManualPage extends GuiManualIndex {
 				}
 			}
 		});
-
-		changeForward.visible = chapter.getPages().size() > page + 1;
-		changeForward.enabled = chapter.getPages().size() > page + 1;
 
 		pauseButton.visible = false;
 		pauseButton.enabled = false;
@@ -139,7 +140,7 @@ public class GuiManualPage extends GuiManualIndex {
 			pauseButton.enabled = page.isArray();
 		}
 
-		chapter.getPages().get(this.page).addButtons(this, buttons);
+		chapter.getPages().get(this.page).addButtons(this);
 	}
 
 	@Override

@@ -1,0 +1,7 @@
+{
+	"variants": {
+		"": {
+			"model": "grimpack:block/core/steel_block"
+		}
+	}
+}

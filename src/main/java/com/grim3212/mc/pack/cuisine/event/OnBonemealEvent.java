@@ -4,8 +4,8 @@ import com.grim3212.mc.pack.cuisine.block.BlockCocoaSapling;
 import com.grim3212.mc.pack.cuisine.block.CuisineBlocks;
 
 import net.minecraftforge.event.entity.player.BonemealEvent;
-import net.minecraftforge.fml.common.eventhandler.Event.Result;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.eventbus.api.Event.Result;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 public class OnBonemealEvent {
 

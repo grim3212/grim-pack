@@ -1,0 +1,25 @@
+{
+"conditions": [
+    {
+      "type": "grimpack:cuisine_subpart_enabled",
+      "subpart": "health"
+    }
+  ],
+  "result": {
+    "item": "grimpack:cuisine/healthpack"
+  },
+  "pattern": [
+    " # ",
+    "#S#",
+    " # "
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "#": {
+      "item": "minecraft:white_wool"
+    },
+    "S": {
+      "item": "minecraft:sugar"
+    }
+  }
+}

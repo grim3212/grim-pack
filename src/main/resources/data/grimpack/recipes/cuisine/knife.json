@@ -1,0 +1,34 @@
+{
+"conditions": [
+    {
+      "type": "forge:or",
+      "values": [
+      	{
+      		"type": "grimpack:cuisine_subpart_enabled",
+      		"subpart": "dairy"
+      	},
+      	{
+      		"type": "grimpack:cuisine_subpart_enabled",
+      		"subpart": "pie"
+      	}
+      ]
+    }
+  ],
+  "result": {
+    "item": "grimpack:cuisine/knife"
+  },
+  "pattern": [
+    "X  ",
+    " W ",
+    "  W"
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "W": {
+      "constant": "grimpack:iron"
+    },
+    "X": {
+      "constant": "grimpack:planks"
+    }
+  }
+}

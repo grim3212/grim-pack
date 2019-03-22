@@ -1,0 +1,22 @@
+{
+"conditions": [
+    {
+      "type": "grimpack:cuisine_subpart_enabled",
+      "subpart": "dairy"
+    }
+  ],
+  "result": {
+    "item": "grimpack:cuisine/cheese_block"
+  },
+  "pattern": [
+    "CCC",
+    "CCC",
+    "CCC"
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "C": {
+      "item": "grimpack:cuisine/cheese"
+    }
+  }
+}

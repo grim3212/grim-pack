@@ -1,0 +1,25 @@
+{
+"conditions": [
+    {
+      "type": "grimpack:cuisine_subpart_enabled",
+      "subpart": "health"
+    }
+  ],
+  "result": {
+    "item": "grimpack:cuisine/healthpack_super"
+  },
+  "pattern": [
+    " # ",
+    "#R#",
+    " # "
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "R": {
+      "item": "grimpack:cuisine/powered_sugar"
+    },
+    "#": {
+      "item": "minecraft:white_wool"
+    }
+  }
+}

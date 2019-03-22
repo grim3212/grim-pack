@@ -34,9 +34,9 @@ public class TooltipHelper {
 
 		for (int k = 0; k < list.size(); ++k) {
 			if (k == 0) {
-				list.set(k, new TextComponentString(itemstack.getRarity().color + list.get(k).getUnformattedComponentText()));
+				list.set(k, new TextComponentString(itemstack.getRarity().color + list.get(k).getFormattedText()));
 			} else {
-				list.set(k, new TextComponentString(TextFormatting.GRAY + list.get(k).getUnformattedComponentText()));
+				list.set(k, new TextComponentString(TextFormatting.GRAY + list.get(k).getFormattedText()));
 			}
 		}
 

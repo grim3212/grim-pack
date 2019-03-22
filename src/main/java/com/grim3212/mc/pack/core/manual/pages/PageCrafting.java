@@ -15,11 +15,11 @@ import com.grim3212.mc.pack.core.client.TooltipHelper;
 import com.grim3212.mc.pack.core.manual.gui.GuiManualPage;
 import com.grim3212.mc.pack.core.util.GrimLog;
 import com.grim3212.mc.pack.core.util.NBTHelper;
+import com.grim3212.mc.pack.core.util.RecipeHelper;
 import com.grim3212.mc.pack.core.util.generator.Generator;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.texture.TextureManager;
@@ -55,28 +55,12 @@ public class PageCrafting extends Page {
 		this.isArray = outputRecipes.size() > 1;
 	}
 
-	public PageCrafting(String pageName, ItemStack output) {
-		super(pageName, false);
-		this.outputRecipes = ImmutableList.of(output.getItem().getRegistryName());
-	}
-
-	public PageCrafting(String pageName, int updateTime, ItemStack... outputs) {
-		super(pageName, false);
-		ImmutableList.Builder<ResourceLocation> b = ImmutableList.builder();
-		for (ItemStack stack : outputs)
-			b.add(stack.getItem().getRegistryName());
-		this.outputRecipes = b.build();
-
-		this.updateTime = updateTime;
-		this.isArray = outputs.length > 1;
-	}
-
 	public boolean isArray() {
 		return isArray;
 	}
 
 	@Override
-	public void addButtons(GuiManualPage gui, List<GuiButton> buttonList) {
+	public void addButtons(GuiManualPage gui) {
 	}
 
 	@Override
@@ -150,24 +134,25 @@ public class PageCrafting extends Page {
 	}
 
 	public void drawIngredient(GuiManualPage gui, Ingredient item, int x, int y) {
-		/*if (item instanceof OreIngredient) {
-			GlStateManager.pushMatrix();
-			GlStateManager.enableBlend();
-			TextureManager render = Minecraft.getInstance().getTextureManager();
-			render.bindTexture(craftingOverlay);
+		ItemStack[] stacks = item.getMatchingStacks();
 
-			((GuiScreen) gui).drawTexturedModalRect(x - 6, y - 6, 0, 0, 26, 26);
-			GlStateManager.disableBlend();
-			GlStateManager.popMatrix();
+		if (stacks.length > 0) {
+			// Check if Ingredient has a tag if so mark it
+			RecipeHelper.getTag(item).<Runnable>map(loc -> () -> {
+				GlStateManager.pushMatrix();
+				GlStateManager.enableBlend();
+				TextureManager render = Minecraft.getInstance().getTextureManager();
+				render.bindTexture(craftingOverlay);
 
-			this.renderItemCutWild(gui, NBTHelper.setStringItemStack(item.getMatchingStacks()[0], "customTooltip", I18n.format("grimpack.manual.oredictionary") + " : " + RecipeHelper.getOreDict(item.getMatchingStacks())), x - 1, y - 1);
-		} else {*/
-			ItemStack[] stacks = item.getMatchingStacks();
-			if (stacks.length > 0)
-				this.renderItemCutWild(gui, stacks[0], x - 1, y - 1);
-			else
-				GrimLog.error(GrimPack.modName, "Failed rendering ingredient " + item + " at x:" + (x - 1) + ", y:" + (y - 1));
-		//}
+				((GuiScreen) gui).drawTexturedModalRect(x - 6, y - 6, 0, 0, 26, 26);
+				GlStateManager.disableBlend();
+				GlStateManager.popMatrix();
+				this.renderItemCutWild(gui, NBTHelper.setStringItemStack(stacks[0], "customTooltip", I18n.format("grimpack.manual.tags") + " : " + loc), x - 1, y - 1);
+			}).orElse(() -> this.renderItemCutWild(gui, stacks[0], x - 1, y - 1)).run();
+
+		} else {
+			GrimLog.error(GrimPack.modName, "Failed rendering ingredient " + item + " at x:" + (x - 1) + ", y:" + (y - 1));
+		}
 	}
 
 	@Override

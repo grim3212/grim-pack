@@ -1,0 +1,22 @@
+{
+"conditions": [
+    {
+      "type": "grimpack:core_subpart_enabled",
+      "subpart": "aluminum"
+    }
+  ],
+  "result": {
+    "item": "grimpack:core/aluminum_shaft",
+    "count": 4
+  },
+  "pattern": [
+    "a",
+    "a"
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "a": {
+      "constant": "grimpack:aluminum"
+    }
+  }
+}

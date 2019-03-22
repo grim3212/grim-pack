@@ -8,29 +8,28 @@ import com.grim3212.mc.pack.core.config.CoreConfig;
 import com.grim3212.mc.pack.cuisine.config.CuisineConfig;
 
 import net.minecraft.util.JsonUtils;
-import net.minecraftforge.common.crafting.IConditionFactory;
-import net.minecraftforge.common.crafting.JsonContext;
+import net.minecraftforge.common.crafting.IConditionSerializer;
 
-public class CuisineConditionFactory implements IConditionFactory {
+public class CuisineConditionFactory implements IConditionSerializer {
 
 	@Override
-	public BooleanSupplier parse(JsonContext context, JsonObject json) {
+	public BooleanSupplier parse(JsonObject json) {
 		String value = JsonUtils.getString(json, "subpart", "");
 
-		if (CoreConfig.useCuisine) {
+		if (CoreConfig.useCuisine.get()) {
 			switch (value) {
 			case "chocolate":
-				return () -> CuisineConfig.subpartChocolate;
+				return () -> CuisineConfig.subpartChocolate.get();
 			case "dairy":
-				return () -> CuisineConfig.subpartDairy;
+				return () -> CuisineConfig.subpartDairy.get();
 			case "dragonfruit":
-				return () -> CuisineConfig.subpartDragonFruit;
+				return () -> CuisineConfig.subpartDragonFruit.get();
 			case "health":
-				return () -> CuisineConfig.subpartHealth;
+				return () -> CuisineConfig.subpartHealth.get();
 			case "pie":
-				return () -> CuisineConfig.subpartPie;
+				return () -> CuisineConfig.subpartPie.get();
 			case "soda":
-				return () -> CuisineConfig.subpartSoda;
+				return () -> CuisineConfig.subpartSoda.get();
 			default:
 				throw new JsonParseException("SubPart '" + value + "' is either misspelled or doesn't exist!");
 			}

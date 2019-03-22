@@ -1,0 +1,7 @@
+{
+  "replace": false,
+  "values": [
+    "#forge:rods/graphite",
+    "#forge:rods/iron"
+  ]
+}

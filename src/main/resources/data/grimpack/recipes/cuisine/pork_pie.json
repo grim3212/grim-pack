@@ -1,0 +1,15 @@
+{
+	"conditions": [
+		{
+			"type": "grimpack:cuisine_subpart_enabled",
+			"subpart": "pie"
+		}
+	],
+	"type": "smelting",
+	"ingredient": {
+		"item": "grimpack:cuisine/raw_pork_pie"
+	},
+	"result": "grimpack:cuisine/pork_pie",
+	"experience": 0.45,
+	"cookingtime": 200
+}

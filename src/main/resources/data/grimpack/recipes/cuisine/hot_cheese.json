@@ -1,0 +1,25 @@
+{
+"conditions": [
+    {
+      "type": "grimpack:cuisine_subpart_enabled",
+      "subpart": "dairy"
+    }
+  ],
+  "result": {
+    "item": "grimpack:cuisine/hot_cheese"
+  },
+  "pattern": [
+    " C ",
+    "AAA",
+    " C "
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "A": {
+      "constant": "grimpack:cheese"
+    },
+    "C": {
+      "constant": "grimpack:bread_slice"
+    }
+  }
+}

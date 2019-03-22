@@ -1,0 +1,17 @@
+{
+  "result": {
+    "item": "grimpack:core/instruction_manual"
+  },
+  "ingredients": [
+    {
+      "item": "minecraft:book"
+    },
+    {
+      "constant": "grimpack:dye_black"
+    },
+    {
+      "constant": "grimpack:dye_brown"
+    }
+  ],
+  "type": "minecraft:crafting_shapeless"
+}

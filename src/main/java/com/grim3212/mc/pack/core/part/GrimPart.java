@@ -6,13 +6,11 @@ import com.google.common.collect.Lists;
 import com.grim3212.mc.pack.core.config.GrimConfig;
 import com.grim3212.mc.pack.core.manual.IManualPart;
 import com.grim3212.mc.pack.core.manual.ManualPart;
-import com.grim3212.mc.pack.core.util.GrimLog;
 
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.config.ModConfig;
+import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLDedicatedServerSetupEvent;
 
@@ -59,19 +57,23 @@ public abstract class GrimPart {
 	 * @param FMLPreInitializationEvent event
 	 */
 	public void setup(final FMLCommonSetupEvent event) {
-		MinecraftForge.EVENT_BUS.register(this);
+		MinecraftForge.EVENT_BUS.register(this.getGrimConfig());
 	}
-	
+
+	public void clientSetup(final FMLClientSetupEvent event) {
+		getManual().initPages();
+	}
+
 	public void serverSetup(final FMLDedicatedServerSetupEvent event) {
 	}
 
 	/**
 	 * @param FMLPostInitializationEvent event
 	 */
-	/*public void postInit(FMLPostInitializationEvent event) {
-		if (event.getSide() == Dist.CLIENT)
-			getManual().initPages();
-	}*/
+	/*
+	 * public void postInit(FMLPostInitializationEvent event) { if (event.getSide()
+	 * == Dist.CLIENT) getManual().initPages(); }
+	 */
 
 	public String getPartId() {
 		return partId;
@@ -91,16 +93,5 @@ public abstract class GrimPart {
 
 	public String getExtraInfo() {
 		return "";
-	}
-
-	@SubscribeEvent
-	public void onLoad(final ModConfig.Loading configEvent) {
-		GrimLog.debug(getPartId(), "Loaded config file " + configEvent.getConfig().getFileName());
-
-	}
-
-	@SubscribeEvent
-	public void onFileChange(final ModConfig.ConfigReloading configEvent) {
-		GrimLog.fatal(getPartId(), "Config just got changed on the file system!");
 	}
 }

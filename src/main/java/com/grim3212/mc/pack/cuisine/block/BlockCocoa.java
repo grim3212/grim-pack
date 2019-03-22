@@ -1,10 +1,9 @@
 package com.grim3212.mc.pack.cuisine.block;
 
-import java.util.Random;
-
 import com.grim3212.mc.pack.core.block.BlockManual;
 import com.grim3212.mc.pack.core.manual.pages.Page;
 import com.grim3212.mc.pack.cuisine.client.ManualCuisine;
+import com.grim3212.mc.pack.cuisine.init.CuisineNames;
 import com.grim3212.mc.pack.cuisine.item.CuisineItems;
 
 import net.minecraft.block.Block;
@@ -13,31 +12,36 @@ import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockRenderLayer;
-import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.IItemProvider;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.world.IBlockAccess;
+import net.minecraft.util.math.shapes.VoxelShape;
+import net.minecraft.world.IBlockReader;
+import net.minecraft.world.IWorldReaderBase;
 import net.minecraft.world.World;
 
 public class BlockCocoa extends BlockManual {
 
-	protected static final AxisAlignedBB COCOA_AABB = new AxisAlignedBB(0.28F, 0.25F, 0.28F, 0.72F, 1F, 0.72F);
+	protected static final VoxelShape COCOA_SHAPE = Block.makeCuboidShape(0.28F, 0.25F, 0.28F, 0.72F, 1F, 0.72F);
 
 	protected BlockCocoa() {
-		super("cocoa_block", Material.CIRCUITS, SoundType.CLOTH);
-		setHardness(1.0f);
+		super(CuisineNames.COCOA_BLOCK, Block.Properties.create(Material.CIRCUITS).sound(SoundType.CLOTH).hardnessAndResistance(1.0f));
 	}
 
 	@Override
-	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
-		return COCOA_AABB;
+	public VoxelShape getShape(IBlockState state, IBlockReader worldIn, BlockPos pos) {
+		return COCOA_SHAPE;
 	}
 
 	@Override
-	public BlockRenderLayer getBlockLayer() {
+	public VoxelShape getCollisionShape(IBlockState state, IBlockReader worldIn, BlockPos pos) {
+		return COCOA_SHAPE;
+	}
+
+	@Override
+	public BlockRenderLayer getRenderLayer() {
 		return BlockRenderLayer.CUTOUT;
 	}
 
@@ -47,22 +51,22 @@ public class BlockCocoa extends BlockManual {
 	}
 
 	@Override
-	public boolean isOpaqueCube(IBlockState state) {
+	public boolean isFullCube(IBlockState state) {
 		return false;
 	}
 
 	@Override
-	public ItemStack getPickBlock(IBlockState state, RayTraceResult target, World world, BlockPos pos, EntityPlayer player) {
+	public ItemStack getPickBlock(IBlockState state, RayTraceResult target, IBlockReader world, BlockPos pos, EntityPlayer player) {
 		return new ItemStack(CuisineItems.cocoa_fruit);
 	}
 
 	@Override
-	public Item getItemDropped(IBlockState state, Random rand, int fortune) {
+	public IItemProvider getItemDropped(IBlockState state, World worldIn, BlockPos pos, int fortune) {
 		return CuisineItems.cocoa_fruit;
 	}
 
 	@Override
-	public boolean canPlaceBlockAt(World worldIn, BlockPos pos) {
+	public boolean isValidPosition(IBlockState state, IWorldReaderBase worldIn, BlockPos pos) {
 		Block block = worldIn.getBlockState(pos.up()).getBlock();
 		return block instanceof BlockLeaves;
 	}
@@ -73,14 +77,9 @@ public class BlockCocoa extends BlockManual {
 	}
 
 	private void checkBlock(World world, BlockPos pos) {
-		if (!canBlockStay(world, pos)) {
-			dropBlockAsItem(world, pos, world.getBlockState(pos), 0);
-			world.setBlockToAir(pos);
+		if (!isValidPosition(world.getBlockState(pos), world, pos)) {
+			world.destroyBlock(pos, true);
 		}
-	}
-
-	public boolean canBlockStay(World world, BlockPos pos) {
-		return canPlaceBlockAt(world, pos);
 	}
 
 	@Override

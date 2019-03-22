@@ -1,0 +1,15 @@
+{
+	"conditions": [
+		{
+			"type": "grimpack:cuisine_subpart_enabled",
+			"subpart": "pie"
+		}
+	],
+	"type": "smelting",
+	"ingredient": {
+		"item": "grimpack:cuisine/raw_pumpkin_pie"
+	},
+	"result": "grimpack:cuisine/pumpkin_pie",
+	"experience": 0.45,
+	"cookingtime": 200
+}

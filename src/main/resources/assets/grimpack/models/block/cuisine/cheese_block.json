@@ -1,0 +1,21 @@
+{
+	"parent": "block/block",
+	"textures": {
+        "particle": "grimpack:block/cuisine/cheese_block",
+        "all": "grimpack:block/cuisine/cheese_block"
+    },
+	"elements": [ 
+		{
+	    "from": [  1, 0,  1 ],
+	    "to":   [ 15, 8, 15 ],
+	    "faces": {
+			"down":  { "uv": [ 1, 1, 15, 15 ], "texture": "#all", "cullface": "down" },
+			"up":    { "uv": [ 1, 1, 15, 15 ], "texture": "#all" },
+			"north": { "uv": [ 1, 8, 15, 16 ], "texture": "#all" },
+			"south": { "uv": [ 1, 8, 15, 16 ], "texture": "#all" },
+			"west":  { "uv": [ 1, 8, 15, 16 ], "texture": "#all" },
+			"east":  { "uv": [ 1, 8, 15, 16 ], "texture": "#all" }
+			}
+		}
+	]
+}

@@ -1,0 +1,22 @@
+{
+"conditions": [
+    {
+      "type": "grimpack:core_subpart_enabled",
+      "subpart": "steel"
+    }
+  ],
+  "result": {
+    "item": "grimpack:core/steel_block"
+  },
+  "pattern": [
+    "iii",
+    "iii",
+    "iii"
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "i": {
+      "constant": "grimpack:steel"
+    }
+  }
+}

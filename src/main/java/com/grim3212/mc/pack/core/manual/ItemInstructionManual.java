@@ -6,18 +6,18 @@ import javax.annotation.Nullable;
 
 import com.grim3212.mc.pack.core.client.ClientUtil;
 import com.grim3212.mc.pack.core.client.ManualCore;
+import com.grim3212.mc.pack.core.init.CoreNames;
 import com.grim3212.mc.pack.core.item.ItemManual;
 import com.grim3212.mc.pack.core.manual.gui.GuiManualIndex;
 import com.grim3212.mc.pack.core.manual.pages.Page;
 import com.grim3212.mc.pack.core.part.GrimItemGroups;
 
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.player.inventory.LocalBlockIntercommunication;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUseContext;
@@ -31,13 +31,11 @@ import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.common.util.FakePlayer;
-import net.minecraftforge.fml.network.NetworkHooks;
 
 public class ItemInstructionManual extends ItemManual {
 
 	public ItemInstructionManual() {
-		super("instruction_manual", new Item.Properties().maxStackSize(1).group(GrimItemGroups.GRIM_CORE));
+		super(CoreNames.INSTRUCTION_MANUAL, new Item.Properties().maxStackSize(1).group(GrimItemGroups.GRIM_CORE));
 	}
 
 	@Override
@@ -56,12 +54,10 @@ public class ItemInstructionManual extends ItemManual {
 					}
 				}
 			}
+
+			Minecraft.getInstance().displayGuiScreen(GuiManualIndex.activeManualPage);
 		}
 
-		if (playerIn instanceof EntityPlayerMP && !(playerIn instanceof FakePlayer)) {
-			EntityPlayerMP entityPlayerMP = (EntityPlayerMP) playerIn;
-			NetworkHooks.openGui(entityPlayerMP, new LocalBlockIntercommunication("grimpack:instruction_manual", new TextComponentString("Instruction Manual")));
-		}
 		return ActionResult.newResult(EnumActionResult.SUCCESS, playerIn.getHeldItem(hand));
 	}
 
@@ -69,16 +65,12 @@ public class ItemInstructionManual extends ItemManual {
 	public EnumActionResult onItemUseFirst(ItemStack stack, ItemUseContext context) {
 		IBlockState state = context.getWorld().getBlockState(context.getPos());
 		if (state.getBlock() instanceof IManualBlock) {
-			if (context.getWorld().isRemote)
+			if (context.getWorld().isRemote) {
 				updatePage(((IManualBlock) state.getBlock()).getPage(context.getWorld(), context.getPos(), state));
 
-			if (context.getPlayer() instanceof EntityPlayerMP && !(context.getPlayer() instanceof FakePlayer)) {
-				EntityPlayerMP entityPlayerMP = (EntityPlayerMP) context.getPlayer();
-				NetworkHooks.openGui(entityPlayerMP, new LocalBlockIntercommunication("grimpack:instruction_manual", new TextComponentString("Instruction Manual")));
+				Minecraft.getInstance().displayGuiScreen(GuiManualIndex.activeManualPage);
 			}
 
-			// player.openGui(GrimPack.INSTANCE, PackGuiHandler.MANUAL_GUI_ID,
-			// context.getWorld(), 0, 0, 0);
 			return EnumActionResult.SUCCESS;
 		}
 

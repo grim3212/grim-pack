@@ -1,0 +1,28 @@
+{
+"conditions": [
+    {
+      "type": "grimpack:cuisine_subpart_enabled",
+      "subpart": "chocolate"
+    }
+  ],
+  "result": {
+    "item": "grimpack:cuisine/chocolate_bowl"
+  },
+  "pattern": [
+    " X ",
+    "XAX",
+    " B "
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "A": {
+      "item": "minecraft:sugar"
+    },
+    "B": {
+      "constant": "grimpack:bucket_milk"
+    },
+    "X": {
+      "item": "grimpack:cuisine/cocoa_dust"
+    }
+  }
+}

@@ -1,0 +1,21 @@
+{
+"conditions": [
+    {
+      "type": "grimpack:cuisine_subpart_enabled",
+      "subpart": "dairy"
+    }
+  ],
+  "result": {
+    "item": "grimpack:cuisine/bread_slice",
+    "count": 2
+  },
+  "ingredients": [
+    {
+      "constant": "grimpack:bread"
+    },
+    {
+      "item": "grimpack:cuisine/knife"
+    }
+  ],
+  "type": "minecraft:crafting_shapeless"
+}

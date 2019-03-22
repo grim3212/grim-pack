@@ -1,0 +1,22 @@
+{
+"conditions": [
+    {
+      "type": "grimpack:core_subpart_enabled",
+      "subpart": "steel"
+    }
+  ],
+  "result": {
+    "item": "grimpack:core/steel_shaft",
+    "count": 4
+  },
+  "pattern": [
+    "i",
+    "i"
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "i": {
+      "constant": "grimpack:steel"
+    }
+  }
+}

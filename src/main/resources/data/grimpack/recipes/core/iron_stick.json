@@ -1,0 +1,26 @@
+{
+"conditions": [
+    {
+      "type": "grimpack:core_subpart_enabled",
+      "subpart": "iron"
+    }
+  ],
+  "result": {
+    "item": "grimpack:core/iron_stick",
+    "count": 4
+  },
+  "pattern": [
+    " i ",
+    "iSi",
+    " i "
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "S": {
+      "constant": "grimpack:stick"
+    },
+    "i": {
+      "constant": "grimpack:iron"
+    }
+  }
+}

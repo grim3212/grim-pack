@@ -1,0 +1,22 @@
+{
+"conditions": [
+    {
+      "type": "grimpack:core_subpart_enabled",
+      "subpart": "coal"
+    }
+  ],
+  "result": {
+    "item": "grimpack:core/coal_dust",
+    "count": 2
+  },
+  "pattern": [
+    "c"
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "c": {
+      "item": "minecraft:coal",
+      "data": 0
+    }
+  }
+}

@@ -1,0 +1,26 @@
+{
+"conditions": [
+    {
+      "type": "grimpack:core_subpart_enabled",
+      "subpart": "graphite"
+    },
+    {
+      "type": "grimpack:tag_exists",
+      "tagName": "forge:gems/graphite"
+    }
+  ],
+  "result": {
+    "item": "grimpack:core/graphite_rod"
+  },
+  "pattern": [
+    "GGG",
+    "GGG",
+    "GGG"
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "G": {
+      "constant": "grimpack:graphite"
+    }
+  }
+}

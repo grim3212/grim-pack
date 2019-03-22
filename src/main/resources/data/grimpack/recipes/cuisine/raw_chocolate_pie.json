@@ -1,0 +1,32 @@
+{
+"conditions": [
+    {
+      "type": "grimpack:cuisine_subpart_enabled",
+      "subpart": "pie"
+    },
+    {
+      "type": "grimpack:cuisine_subpart_enabled",
+      "subpart": "chocolate"
+    }
+  ],
+  "result": {
+    "item": "grimpack:cuisine/raw_chocolate_pie"
+  },
+  "pattern": [
+    " X ",
+    "MMM",
+    " Y "
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "X": {
+      "constant": "grimpack:dough"
+    },
+    "Y": {
+      "item": "grimpack:cuisine/raw_empty_pie"
+    },
+    "M": {
+      "item": "grimpack:cuisine/chocolate_ball"
+    }
+  }
+}

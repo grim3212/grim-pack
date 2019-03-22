@@ -1,0 +1,24 @@
+{
+"conditions": [
+    {
+      "type": "grimpack:cuisine_subpart_enabled",
+      "subpart": "pie"
+    }
+  ],
+  "result": {
+    "item": "grimpack:cuisine/raw_empty_pie"
+  },
+  "pattern": [
+    "X",
+    "M"
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "X": {
+      "constant": "grimpack:dough"
+    },
+    "M": {
+      "item": "grimpack:cuisine/pan"
+    }
+  }
+}

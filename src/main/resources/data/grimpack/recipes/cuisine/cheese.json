@@ -1,0 +1,18 @@
+{
+"conditions": [
+    {
+      "type": "grimpack:cuisine_subpart_enabled",
+      "subpart": "dairy"
+    }
+  ],
+  "result": {
+    "item": "grimpack:cuisine/cheese",
+    "count": 9
+  },
+  "ingredients": [
+    {
+      "item": "grimpack:cuisine/cheese_block"
+    }
+  ],
+  "type": "minecraft:crafting_shapeless"
+}

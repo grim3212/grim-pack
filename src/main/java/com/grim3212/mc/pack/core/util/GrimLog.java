@@ -12,32 +12,32 @@ public class GrimLog {
 
 	public static final Logger log = LogManager.getLogger(GrimPack.modID);
 
-	public static void error(String modName, String data) {
+	public static void error(String modName, Object data) {
 		log.error("{" + modName + "}" + ": " + data);
 	}
 
-	public static void fatal(String modName, String data) {
+	public static void fatal(String modName, Object data) {
 		log.fatal("{" + modName + "}" + ": " + data);
 	}
 
-	public static void info(String modName, String data) {
+	public static void info(String modName, Object data) {
 		log.info("{" + modName + "}" + ": " + data);
 	}
 
-	public static void debug(String modName, String data) {
+	public static void debug(String modName, Object data) {
 		log.debug("{" + modName + "}" + ": " + data);
 	}
 
-	public static void debugInfo(String modName, String data) {
+	public static void debugInfo(String modName, Object data) {
 		if (CoreConfig.showDebugInfo.get())
 			log.info("{" + modName + "}" + ": " + data);
 	}
 
-	public static void warn(String modName, String data) {
+	public static void warn(String modName, Object data) {
 		log.warn("{" + modName + "}" + ": " + data);
 	}
 
-	public static void log(Level level, String modName, String data) {
+	public static void log(Level level, String modName, Object data) {
 		log.log(level, "{" + modName + "}" + ": " + data);
 	}
 

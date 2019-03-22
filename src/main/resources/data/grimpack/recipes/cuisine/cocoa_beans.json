@@ -1,0 +1,21 @@
+{
+"conditions": [
+    {
+      "type": "grimpack:cuisine_subpart_enabled",
+      "subpart": "chocolate"
+    }
+  ],
+  "result": {
+    "item": "minecraft:cocoa_beans",
+    "count": 3
+  },
+  "ingredients": [
+    {
+      "item": "grimpack:cuisine/cocoa_dust"
+    },
+    {
+      "item": "grimpack:cuisine/cocoa_dust"
+    }
+  ],
+  "type": "minecraft:crafting_shapeless"
+}

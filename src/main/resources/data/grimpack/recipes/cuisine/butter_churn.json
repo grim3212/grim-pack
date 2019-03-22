@@ -1,0 +1,25 @@
+{
+"conditions": [
+    {
+      "type": "grimpack:cuisine_subpart_enabled",
+      "subpart": "dairy"
+    }
+  ],
+  "result": {
+    "item": "grimpack:cuisine/butter_churn"
+  },
+  "pattern": [
+    "XIX",
+    "XIX",
+    "XXX"
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "X": {
+      "constant": "grimpack:planks"
+    },
+    "I": {
+      "constant": "grimpack:stick"
+    }
+  }
+}

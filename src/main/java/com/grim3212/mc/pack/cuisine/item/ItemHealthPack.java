@@ -2,10 +2,11 @@ package com.grim3212.mc.pack.cuisine.item;
 
 import com.grim3212.mc.pack.core.item.ItemManual;
 import com.grim3212.mc.pack.core.manual.pages.Page;
-import com.grim3212.mc.pack.core.part.GrimCreativeTabs;
+import com.grim3212.mc.pack.core.part.GrimItemGroups;
 import com.grim3212.mc.pack.cuisine.client.ManualCuisine;
 
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
@@ -17,8 +18,7 @@ public class ItemHealthPack extends ItemManual {
 	private int healAmount;
 
 	public ItemHealthPack(String name, int healAmnt) {
-		super(name);
-		setCreativeTab(GrimCreativeTabs.GRIM_CUISINE);
+		super(name, new Item.Properties().group(GrimItemGroups.GRIM_CUISINE).maxStackSize(16));
 		healAmount = healAmnt;
 	}
 

@@ -1,0 +1,15 @@
+{
+	"conditions": [
+		{
+			"type": "grimpack:cuisine_subpart_enabled",
+			"subpart": "dairy"
+		}
+	],
+	"type": "smelting",
+	"ingredient": {
+		"item": "grimpack:cuisine/eggs_mixed"
+	},
+	"result": "grimpack:cuisine/eggs_cooked",
+	"experience": 0.35,
+	"cookingtime": 200
+}

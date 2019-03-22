@@ -1,0 +1,6 @@
+{
+	"parent": "grimpack:block/cuisine/cheese_maker",
+	"textures": {
+		"top": "grimpack:block/cuisine/cheese_maker_topmilk3"
+	}
+}

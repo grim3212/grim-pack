@@ -1,0 +1,20 @@
+{
+"conditions": [
+    {
+      "type": "grimpack:cuisine_subpart_enabled",
+      "subpart": "dairy"
+    }
+  ],
+  "result": {
+    "item": "grimpack:cuisine/eggs_mixed"
+  },
+  "ingredients": [
+    {
+      "item": "grimpack:cuisine/eggs_unmixed"
+    },
+    {
+      "constant": "grimpack:mixer"
+    }
+  ],
+  "type": "minecraft:crafting_shapeless"
+}
