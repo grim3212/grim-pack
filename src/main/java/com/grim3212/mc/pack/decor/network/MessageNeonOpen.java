@@ -1,6 +1,7 @@
 package com.grim3212.mc.pack.decor.network;
 
 import java.io.IOException;
+import java.util.function.Supplier;
 
 import com.grim3212.mc.pack.GrimPack;
 import com.grim3212.mc.pack.core.client.gui.PackGuiHandler;
@@ -11,7 +12,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
-import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.network.NetworkEvent.Context;
 
 public class MessageNeonOpen extends AbstractClientMessage<MessageNeonOpen> {
 
@@ -25,8 +26,8 @@ public class MessageNeonOpen extends AbstractClientMessage<MessageNeonOpen> {
 	}
 
 	@Override
-	protected void read(PacketBuffer buffer) throws IOException {
-		this.pos = buffer.readBlockPos();
+	protected MessageNeonOpen read(PacketBuffer buffer) throws IOException {
+		return new MessageNeonOpen(buffer.readBlockPos());
 	}
 
 	@Override
@@ -35,7 +36,7 @@ public class MessageNeonOpen extends AbstractClientMessage<MessageNeonOpen> {
 	}
 
 	@Override
-	public void process(EntityPlayer player, Side side) {
+	public void process(EntityPlayer player, Supplier<Context> ctx) {
 		TileEntity tileentity = player.getEntityWorld().getTileEntity(pos);
 
 		// Make sure TileEntity exists

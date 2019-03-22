@@ -76,12 +76,14 @@ public class ManualDecor implements IManualPart {
 
 	@Override
 	public void initPages() {
-		if (DecorConfig.subpartFluro) {
+		DecorRecipes.initRecipes();
+
+		if (DecorConfig.subpartFluro.get()) {
 			fluro_page = new PageCrafting("fluro", RecipeHelper.getAllPaths("fluro_"), 25);
 			illuminationTube_page = new PageCrafting("illumination_tube", RecipeHelper.getAllPaths("illumination_tube_"), 25);
 		}
 
-		if (DecorConfig.subpartDecorations) {
+		if (DecorConfig.subpartDecorations.get()) {
 			fancyPack_page = new PageInfo("fancy");
 			moss_page = new PageCrafting("moss", DecorRecipes.mossy);
 			fancyStone_page = new PageCrafting("stone", DecorRecipes.stone, 25);
@@ -90,45 +92,45 @@ public class ManualDecor implements IManualPart {
 			firing_page = new PageFurnace("firing", new ItemStack[] { new ItemStack(DecorItems.unfired_craft), new ItemStack(DecorItems.unfired_pot) }, 20);
 		}
 
-		if (DecorConfig.subpartAlarm)
+		if (DecorConfig.subpartAlarm.get())
 			alarm_page = new PageCrafting("alarm", new ItemStack(DecorBlocks.alarm));
 
-		if (DecorConfig.subpartFlatItemFrame)
+		if (DecorConfig.subpartFlatItemFrame.get())
 			flatItemFrame_page = new PageCrafting("flat_item_frame", new ItemStack(DecorItems.flat_item_frame)).appendImageUrl("flatitemframe.png");
 
-		if (DecorConfig.subpartCalendar)
+		if (DecorConfig.subpartCalendar.get())
 			calendar_page = new PageCrafting("calendar", new ItemStack(DecorBlocks.calendar));
 
-		if (DecorConfig.subpartWallClock)
+		if (DecorConfig.subpartWallClock.get())
 			clock_page = new PageCrafting("clock", DecorRecipes.clocks, 20);
 
-		if (DecorConfig.subpartWallpaper) {
+		if (DecorConfig.subpartWallpaper.get()) {
 			wallpaperInfo_page = new PageInfo("wallpaperinfo");
 			wallpaper_page = new PageCrafting("wallpaper", new ItemStack(DecorItems.wallpaper));
 		}
 
-		if (DecorConfig.subpartFrames) {
+		if (DecorConfig.subpartFrames.get()) {
 			framesInfo_page = new PageImageText("frameinfo", "frames_info_page.png", 0.85F);
 			frames_page = new PageCrafting("frames", DecorRecipes.frames, 25);
 		}
 
-		if (DecorConfig.subpartCages)
+		if (DecorConfig.subpartCages.get())
 			cage_page = new PageCrafting("cage", DecorRecipes.chains, 20).appendImageUrl("cage.png");
 
-		if (DecorConfig.subpartLanterns)
+		if (DecorConfig.subpartLanterns.get())
 			lantern_page = new PageCrafting("lantern", RecipeHelper.getAllPaths("lantern"), 20);
 
-		if (DecorConfig.subpartLightBulbs)
+		if (DecorConfig.subpartLightBulbs.get())
 			lights_page = new PageCrafting("lights", DecorRecipes.lights, 25);
 
-		if (DecorConfig.subpartNeonSign)
+		if (DecorConfig.subpartNeonSign.get())
 			neonSign_page = new PageCrafting("neon_sign", new ItemStack(DecorItems.neon_sign)).appendImageUrl("neon_signs.png");
 
-		if (DecorConfig.subpartColorizer) {
+		if (DecorConfig.subpartColorizer.get()) {
 			colorizer_page = new PageCrafting("colorizer", DecorRecipes.colorizers, 20);
 			brush_page = new PageCrafting("brush", new ItemStack(DecorItems.brush));
 
-			if (DecorConfig.subpartFurniture) {
+			if (DecorConfig.subpartFurniture.get()) {
 				table_page = new PageCrafting("table", new ItemStack(DecorBlocks.table));
 				chair_page = new PageCrafting("chair", new ItemStack(DecorBlocks.chair)).appendImageUrl("furniture.png");
 				stool_page = new PageCrafting("stool", new ItemStack(DecorBlocks.stool)).appendImageUrl("stools.png");
@@ -140,7 +142,7 @@ public class ManualDecor implements IManualPart {
 				decorTrapDoor_page = new PageCrafting("trap_door", new ItemStack(DecorBlocks.decor_trap_door));
 			}
 
-			if (DecorConfig.subpartFireplaces) {
+			if (DecorConfig.subpartFireplaces.get()) {
 				burningWood_page = new PageCrafting("burning_wood", new ItemStack(DecorBlocks.burning_wood));
 				fireplace_page = new PageCrafting("fireplace", new ItemStack(DecorBlocks.fireplace)).appendImageUrl("fireplaces.png");
 				chimney_page = new PageCrafting("chimney", new ItemStack(DecorBlocks.chimney));
@@ -150,10 +152,10 @@ public class ManualDecor implements IManualPart {
 				grill_page = new PageCrafting("grill", new ItemStack(DecorBlocks.grill)).appendImageUrl("grills.png");
 			}
 
-			if (DecorConfig.subpartLampPosts)
+			if (DecorConfig.subpartLampPosts.get())
 				lamps_page = new PageCrafting("recipes", new ItemStack(DecorItems.lamp_item));
 
-			if (DecorConfig.subpartSlopes) {
+			if (DecorConfig.subpartSlopes.get()) {
 				slopeInfo_page = new PageInfo("slope_info");
 				corner_page = new PageCrafting("corner", new ItemStack(DecorBlocks.corner));
 				slope_page = new PageCrafting("slope", new ItemStack(DecorBlocks.slope));
@@ -173,33 +175,33 @@ public class ManualDecor implements IManualPart {
 
 	@Override
 	public void registerChapters(ManualPart part) {
-		if (DecorConfig.subpartDecorations)
+		if (DecorConfig.subpartDecorations.get())
 			ManualRegistry.addChapter("intro", part).addPages(fancyPack_page, moss_page, fancyStone_page, road_page);
 
-		if (DecorConfig.subpartCalendar || DecorConfig.subpartWallClock || DecorConfig.subpartWallpaper || DecorConfig.subpartFrames || DecorConfig.subpartFlatItemFrame || DecorConfig.subpartNeonSign)
+		if (DecorConfig.subpartCalendar.get() || DecorConfig.subpartWallClock.get() || DecorConfig.subpartWallpaper.get() || DecorConfig.subpartFrames.get() || DecorConfig.subpartFlatItemFrame.get() || DecorConfig.subpartNeonSign.get())
 			ManualRegistry.addChapter("hanging", part).addPages(calendar_page, clock_page, wallpaperInfo_page, wallpaper_page, framesInfo_page, frames_page, flatItemFrame_page, neonSign_page);
 
-		if (DecorConfig.subpartCages || DecorConfig.subpartLanterns || DecorConfig.subpartDecorations || DecorConfig.subpartLightBulbs || DecorConfig.subpartFluro)
+		if (DecorConfig.subpartCages.get() || DecorConfig.subpartLanterns.get() || DecorConfig.subpartDecorations.get() || DecorConfig.subpartLightBulbs.get() || DecorConfig.subpartFluro.get())
 			ManualRegistry.addChapter("deco", part).addPages(cage_page, lantern_page, crafts_page, firing_page, lights_page, fluro_page, illuminationTube_page);
 
-		if (DecorConfig.subpartAlarm)
+		if (DecorConfig.subpartAlarm.get())
 			ManualRegistry.addChapter("alarm", part).addPages(alarm_page);
 
-		if (DecorConfig.subpartColorizer) {
-			if (DecorConfig.subpartFurniture) {
+		if (DecorConfig.subpartColorizer.get()) {
+			if (DecorConfig.subpartFurniture.get()) {
 				ManualRegistry.addChapter("furniture", part).addPages(colorizer_page, brush_page, table_page, chair_page, stool_page, counter_page, doors_page, decorTrapDoor_page);
 				ManualRegistry.addChapter("other", part).addPages(fence_page, fenceGate_page, wall_page);
 			}
 
-			if (DecorConfig.subpartFireplaces) {
+			if (DecorConfig.subpartFireplaces.get()) {
 				ManualRegistry.addChapter("fires", part).addPages(burningWood_page, fireplace_page, chimney_page, stove_page, firepit_page, firering_page);
 				ManualRegistry.addChapter("grill", part).addPages(grill_page);
 			}
 
-			if (DecorConfig.subpartLampPosts)
+			if (DecorConfig.subpartLampPosts.get())
 				ManualRegistry.addChapter("lamps", part).addPages(lamps_page);
 
-			if (DecorConfig.subpartSlopes)
+			if (DecorConfig.subpartSlopes.get())
 				ManualRegistry.addChapter("superslopes", part).addPages(slopeInfo_page, slope_page, slopedAngle_page, slantedCorner_page, corner_page, obliqueSlope_page, slopedIntersection_page, stairs_page, pyramid_page, fullPyramid_page, slopedPost_page, pillar_page, pruners_page).appendImageUrl("slope.png");
 		}
 	}

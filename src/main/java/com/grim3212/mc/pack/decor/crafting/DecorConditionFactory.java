@@ -8,16 +8,15 @@ import com.grim3212.mc.pack.core.config.CoreConfig;
 import com.grim3212.mc.pack.decor.config.DecorConfig;
 
 import net.minecraft.util.JsonUtils;
-import net.minecraftforge.common.crafting.IConditionFactory;
-import net.minecraftforge.common.crafting.JsonContext;
+import net.minecraftforge.common.crafting.IConditionSerializer;
 
-public class DecorConditionFactory implements IConditionFactory {
+public class DecorConditionFactory implements IConditionSerializer {
 
 	@Override
-	public BooleanSupplier parse(JsonContext context, JsonObject json) {
+	public BooleanSupplier parse(JsonObject json) {
 		String value = JsonUtils.getString(json, "subpart", "");
 
-		if (CoreConfig.useDecor) {
+		if (CoreConfig.useDecor.get()) {
 			switch (value) {
 			case "alarm":
 				return () -> DecorConfig.subpartAlarm;

@@ -1,6 +1,7 @@
 package com.grim3212.mc.pack.decor.network;
 
 import java.io.IOException;
+import java.util.function.Supplier;
 
 import com.grim3212.mc.pack.core.network.AbstractMessage.AbstractServerMessage;
 import com.grim3212.mc.pack.core.util.GrimLog;
@@ -14,7 +15,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
-import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.network.NetworkEvent.Context;
 
 public class MessageNeonUpdate extends AbstractServerMessage<MessageNeonUpdate> {
 
@@ -31,14 +32,19 @@ public class MessageNeonUpdate extends AbstractServerMessage<MessageNeonUpdate> 
 		this.lines = new String[] { linesIn[0].getFormattedText(), linesIn[1].getFormattedText(), linesIn[2].getFormattedText(), linesIn[3].getFormattedText() };
 	}
 
-	@Override
-	protected void read(PacketBuffer buffer) throws IOException {
-		this.pos = buffer.readBlockPos();
-		this.lines = new String[4];
+	public MessageNeonUpdate(BlockPos pos, String[] linesIn) {
+		this.pos = pos;
+		this.lines = linesIn;
+	}
 
+	@Override
+	protected MessageNeonUpdate read(PacketBuffer buffer) throws IOException {
+		String[] lines = new String[4];
 		for (int i = 0; i < 4; ++i) {
-			this.lines[i] = buffer.readString(384);
+			lines[i] = buffer.readString(384);
 		}
+
+		return new MessageNeonUpdate(buffer.readBlockPos(), lines);
 	}
 
 	@Override
@@ -51,7 +57,7 @@ public class MessageNeonUpdate extends AbstractServerMessage<MessageNeonUpdate> 
 	}
 
 	@Override
-	public void process(EntityPlayer player, Side side) {
+	public void process(EntityPlayer player, Supplier<Context> ctx) {
 		IBlockState state = player.world.getBlockState(pos);
 		TileEntity te = player.world.getTileEntity(pos);
 

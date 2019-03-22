@@ -10,8 +10,8 @@ import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IContainerListener;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
 public class ContainerGrill extends Container {
 
@@ -24,20 +24,20 @@ public class ContainerGrill extends Container {
 
 	public ContainerGrill(InventoryPlayer playerInv, TileEntityGrill grillTile) {
 		this.grill = grillTile;
-		addSlotToContainer(new SlotGrill(grillTile, 0, 71, 26, false));
-		addSlotToContainer(new SlotGrill(grillTile, 1, 89, 26, false));
-		addSlotToContainer(new SlotGrill(grillTile, 2, 71, 44, false));
-		addSlotToContainer(new SlotGrill(grillTile, 3, 89, 44, false));
-		addSlotToContainer(new SlotGrill(grillTile, 4, 135, 37, true));
+		addSlot(new SlotGrill(grillTile, 0, 71, 26, false));
+		addSlot(new SlotGrill(grillTile, 1, 89, 26, false));
+		addSlot(new SlotGrill(grillTile, 2, 71, 44, false));
+		addSlot(new SlotGrill(grillTile, 3, 89, 44, false));
+		addSlot(new SlotGrill(grillTile, 4, 135, 37, true));
 
 		for (int var3 = 0; var3 < 3; var3++) {
 			for (int var4 = 0; var4 < 9; var4++) {
-				addSlotToContainer(new Slot(playerInv, var4 + var3 * 9 + 9, 8 + var4 * 18, 84 + var3 * 18));
+				addSlot(new Slot(playerInv, var4 + var3 * 9 + 9, 8 + var4 * 18, 84 + var3 * 18));
 			}
 		}
 
 		for (int var3 = 0; var3 < 9; var3++) {
-			addSlotToContainer(new Slot(playerInv, var3, 8 + var3 * 18, 142));
+			addSlot(new Slot(playerInv, var3, 8 + var3 * 18, 142));
 		}
 	}
 
@@ -127,7 +127,7 @@ public class ContainerGrill extends Container {
 				if (GrillRecipeFactory.grillRecipesContain(realstack)) {
 					for (int i = 0; i < 4; i++) {
 						if (this.grill.getStackInSlot(i).isEmpty()) {
-							ItemStack newstack = new ItemStack(realstack.getItem(), 1, realstack.getMetadata());
+							ItemStack newstack = new ItemStack(realstack.getItem(), 1);
 
 							this.grill.setInventorySlotContents(i, newstack);
 
@@ -143,7 +143,7 @@ public class ContainerGrill extends Container {
 				}
 
 				if (realstack.getItem() == Items.COAL) {
-					if (!this.grill.getStackInSlot(4).isEmpty() && (this.grill.getStackInSlot(4).getItem() == Items.COAL) && (this.grill.getStackInSlot(4).getCount() < this.grill.getInventoryStackLimit()) && (this.grill.getStackInSlot(4).getItemDamage() == realstack.getItemDamage())) {
+					if (!this.grill.getStackInSlot(4).isEmpty() && (this.grill.getStackInSlot(4).getItem() == Items.COAL) && (this.grill.getStackInSlot(4).getCount() < this.grill.getInventoryStackLimit())) {
 						ItemStack fuel = this.grill.getStackInSlot(4);
 						int difference = this.grill.getInventoryStackLimit() - fuel.getCount();
 

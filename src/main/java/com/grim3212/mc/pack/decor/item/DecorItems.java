@@ -1,63 +1,80 @@
 package com.grim3212.mc.pack.decor.item;
 
 import com.grim3212.mc.pack.core.item.ItemManualPage;
-import com.grim3212.mc.pack.core.part.GrimCreativeTabs;
+import com.grim3212.mc.pack.core.part.GrimItemGroups;
 import com.grim3212.mc.pack.decor.block.DecorBlocks;
 import com.grim3212.mc.pack.decor.config.DecorConfig;
+import com.grim3212.mc.pack.decor.init.DecorNames;
+import com.grim3212.mc.pack.decor.item.ItemFrame.EnumFrameType;
 
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraftforge.event.RegistryEvent;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.registries.IForgeRegistry;
+import net.minecraftforge.registries.ObjectHolder;
 
 public class DecorItems {
 
-	public static final Item glass_shard = (new ItemManualPage("glass_shard", "decor:deco.lights")).setCreativeTab(GrimCreativeTabs.GRIM_DECOR);
-	public static final Item frame = new ItemFrame();
-	public static final Item wallpaper = new ItemWallpaper();
-	public static final Item unfired_craft = (new ItemManualPage("unfired_craft", "decor:deco.crafts")).setCreativeTab(GrimCreativeTabs.GRIM_DECOR);
-	public static final Item unfired_pot = (new ItemManualPage("unfired_pot", "decor:deco.crafts")).setCreativeTab(GrimCreativeTabs.GRIM_DECOR);
-	public static final Item lamp_item = new ItemLampPost();
-	public static final Item brush = new ItemBrush();
-	public static final Item pruners = new ItemPruners();
-	public static final Item flat_item_frame = new ItemFlatItemFrame();
-	public static final Item neon_sign = new ItemNeonSign();
+	@ObjectHolder(DecorNames.GLASS_SHARD)
+	public static Item glass_shard;
+	@ObjectHolder(DecorNames.FRAME_WOOD)
+	public static Item frame_wood;
+	@ObjectHolder(DecorNames.FRAME_IRON)
+	public static Item frame_iron;
+	@ObjectHolder(DecorNames.WALLPAPER)
+	public static Item wallpaper;
+	@ObjectHolder(DecorNames.UNFIRED_CRAFT)
+	public static Item unfired_craft;
+	@ObjectHolder(DecorNames.UNFIRED_POT)
+	public static Item unfired_pot;
+	@ObjectHolder(DecorNames.LAMP_ITEM)
+	public static Item lamp_item;
+	@ObjectHolder(DecorNames.BRUSH)
+	public static Item brush;
+	@ObjectHolder(DecorNames.PRUNERS)
+	public static Item pruners;
+	@ObjectHolder(DecorNames.FLAT_ITEM_FRAME)
+	public static Item flat_item_frame;
+	@ObjectHolder(DecorNames.NEON_SIGN)
+	public static Item neon_sign;
 
 	@SubscribeEvent
 	public void initItems(RegistryEvent.Register<Item> evt) {
 		IForgeRegistry<Item> r = evt.getRegistry();
 
-		if (DecorConfig.subpartNeonSign)
-			r.register(neon_sign);
+		if (DecorConfig.subpartNeonSign.get())
+			r.register(new ItemNeonSign());
 
-		if (DecorConfig.subpartLightBulbs)
-			r.register(glass_shard);
+		if (DecorConfig.subpartLightBulbs.get())
+			r.register(new ItemManualPage(DecorNames.GLASS_SHARD, "decor:deco.lights", new Item.Properties().group(GrimItemGroups.GRIM_DECOR)));
 
-		if (DecorConfig.subpartFrames)
-			r.register(frame);
-
-		if (DecorConfig.subpartWallpaper)
-			r.register(wallpaper);
-
-		if (DecorConfig.subpartDecorations) {
-			r.register(unfired_craft);
-			r.register(unfired_pot);
+		if (DecorConfig.subpartFrames.get()) {
+			r.register(new ItemFrame(EnumFrameType.WOOD));
+			r.register(new ItemFrame(EnumFrameType.IRON));
 		}
 
-		if (DecorConfig.subpartFlatItemFrame)
-			r.register(flat_item_frame);
+		if (DecorConfig.subpartWallpaper.get())
+			r.register(new ItemWallpaper());
 
-		if (DecorConfig.subpartColorizer) {
-			r.register(brush);
+		if (DecorConfig.subpartDecorations.get()) {
+			r.register(new ItemManualPage(DecorNames.UNFIRED_CRAFT, "decor:deco.crafts", new Item.Properties().group(GrimItemGroups.GRIM_DECOR)));
+			r.register(new ItemManualPage(DecorNames.UNFIRED_POT, "decor:deco.crafts", new Item.Properties().group(GrimItemGroups.GRIM_DECOR)));
+		}
 
-			if (DecorConfig.subpartLampPosts)
-				r.register(lamp_item);
+		if (DecorConfig.subpartFlatItemFrame.get())
+			r.register(new ItemFlatItemFrame());
 
-			if (DecorConfig.subpartSlopes)
-				r.register(pruners);
+		if (DecorConfig.subpartColorizer.get()) {
+			r.register(new ItemBrush());
+
+			if (DecorConfig.subpartLampPosts.get())
+				r.register(new ItemLampPost());
+
+			if (DecorConfig.subpartSlopes.get())
+				r.register(new ItemPruners());
 		}
 	}
 

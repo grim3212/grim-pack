@@ -1,6 +1,7 @@
 package com.grim3212.mc.pack.decor.network;
 
 import java.io.IOException;
+import java.util.function.Supplier;
 
 import com.grim3212.mc.pack.core.network.AbstractMessage.AbstractServerMessage;
 import com.grim3212.mc.pack.decor.tile.TileEntityAlarm;
@@ -9,7 +10,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
-import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.network.NetworkEvent.Context;
 
 public class MessageSaveAlarm extends AbstractServerMessage<MessageSaveAlarm> {
 
@@ -25,9 +26,8 @@ public class MessageSaveAlarm extends AbstractServerMessage<MessageSaveAlarm> {
 	}
 
 	@Override
-	protected void read(PacketBuffer buffer) throws IOException {
-		this.alarmType = buffer.readInt();
-		this.alarmPos = buffer.readBlockPos();
+	protected MessageSaveAlarm read(PacketBuffer buffer) throws IOException {
+		return new MessageSaveAlarm(buffer.readInt(), buffer.readBlockPos());
 	}
 
 	@Override
@@ -37,7 +37,7 @@ public class MessageSaveAlarm extends AbstractServerMessage<MessageSaveAlarm> {
 	}
 
 	@Override
-	public void process(EntityPlayer player, Side side) {
+	public void process(EntityPlayer player, Supplier<Context> ctx) {
 		TileEntity te = player.world.getTileEntity(alarmPos);
 
 		if (te instanceof TileEntityAlarm) {

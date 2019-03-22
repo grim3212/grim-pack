@@ -5,6 +5,7 @@ import org.lwjgl.opengl.GL11;
 import com.grim3212.mc.pack.GrimPack;
 import com.grim3212.mc.pack.core.client.RenderHelper;
 import com.grim3212.mc.pack.decor.entity.EntityFrame;
+import com.grim3212.mc.pack.decor.item.ItemFrame.EnumFrameType;
 import com.grim3212.mc.pack.decor.util.EnumFrame;
 import com.grim3212.mc.pack.decor.util.EnumFrameRender;
 
@@ -13,9 +14,9 @@ import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 @OnlyIn(Dist.CLIENT)
 public class RenderFrame extends Render<EntityFrame> {
@@ -29,8 +30,8 @@ public class RenderFrame extends Render<EntityFrame> {
 	@Override
 	public void doRender(EntityFrame frame, double x, double y, double z, float entityYaw, float partialTicks) {
 		GlStateManager.pushMatrix();
-		GlStateManager.translate(x, y, z);
-		GlStateManager.rotate(entityYaw, 0f, 1f, 0f);
+		GlStateManager.translated(x, y, z);
+		GlStateManager.rotatef(entityYaw, 0f, 1f, 0f);
 		GlStateManager.enableRescaleNormal();
 
 		this.bindEntityTexture(frame);
@@ -41,7 +42,7 @@ public class RenderFrame extends Render<EntityFrame> {
 	}
 
 	private void renderBeams(EntityFrame entity, EnumFrame frame) {
-		GlStateManager.scale(frame.sizeX / 256.0F + 0.001F, frame.sizeY / 256.0F + 0.001F, 0.0625F);
+		GlStateManager.scalef(frame.sizeX / 256.0F + 0.001F, frame.sizeY / 256.0F + 0.001F, 0.0625F);
 		float xPos = -8.0F;
 		float yPos = -8.0F;
 
@@ -56,12 +57,15 @@ public class RenderFrame extends Render<EntityFrame> {
 			int currentPlank = planks[i];
 			float zFront = renderFrames[currentPlank].zFront;
 			float zBack = renderFrames[currentPlank].zBack;
-			float u1 = 0.5F * entity.material;
-			float u2 = 0.5F * (entity.material + renderFrames[currentPlank].texSize);
-			float u3 = 0.5F * (entity.material + 0.5F);
+
+			int mod = entity.material == EnumFrameType.WOOD ? 0 : 1;
+
+			float u1 = 0.5F * mod;
+			float u2 = 0.5F * (mod + renderFrames[currentPlank].texSize);
+			float u3 = 0.5F * (mod + 0.5F);
 
 			if (!frame.isCollidable) {
-				u3 = 0.5F * (entity.material + 1.0F);
+				u3 = 0.5F * (mod + 1.0F);
 			}
 
 			float sizeX = frame.sizeX / 16.0F;

@@ -10,7 +10,7 @@ import net.minecraft.entity.Entity;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-@OnlyIn(Dist.CLIENT)
+@SideOnly(Side.CLIENT)
 public class TileEntityCageRenderer extends TileEntitySpecialRenderer<TileEntityCage> {
 
 	@Override

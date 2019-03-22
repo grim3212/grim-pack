@@ -15,7 +15,6 @@ import com.grim3212.mc.pack.core.util.GrimLog;
 
 public class ConfigUtils {
 
-	private static final String ORE_DICT = "oredict";
 	private static String currentPart = GrimCore.partName;
 
 	public static void setCurrentPart(String currentPart) {

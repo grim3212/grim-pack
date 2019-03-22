@@ -1,8 +1,7 @@
 package com.grim3212.mc.pack.decor.config;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import com.google.common.collect.Maps;
 import com.grim3212.mc.pack.core.config.ConfigUtils;
@@ -10,11 +9,8 @@ import com.grim3212.mc.pack.core.config.GrimConfig;
 import com.grim3212.mc.pack.decor.GrimDecor;
 
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.network.PacketBuffer;
-import net.minecraftforge.common.config.ConfigElement;
-import net.minecraftforge.fml.client.config.DummyConfigElement.DummyCategoryElement;
-import net.minecraftforge.fml.client.config.IConfigElement;
-import net.minecraftforge.fml.common.network.ByteBufUtils;
+import net.minecraftforge.common.ForgeConfigSpec;
+import net.minecraftforge.common.ForgeConfigSpec.Builder;
 
 public class DecorConfig extends GrimConfig {
 
@@ -24,43 +20,43 @@ public class DecorConfig extends GrimConfig {
 
 	public static Map<IBlockState, Boolean> decorBlocks = Maps.newHashMap();
 
-	public static boolean dyeFrames;
-	public static boolean burnFrames;
-	public static boolean dyeWallpaper;
-	public static boolean copyDye;
-	public static boolean burnWallpaper;
-	public static boolean infiniteGrillFuel;
+	public static ForgeConfigSpec.BooleanValue dyeFrames;
+	public static ForgeConfigSpec.BooleanValue burnFrames;
+	public static ForgeConfigSpec.BooleanValue dyeWallpaper;
+	public static ForgeConfigSpec.BooleanValue copyDye;
+	public static ForgeConfigSpec.BooleanValue burnWallpaper;
+	public static ForgeConfigSpec.BooleanValue infiniteGrillFuel;
 
 	// Sync to client
-	public static int numWallpapers;
-	public static boolean useAllBlocks;
-	public static String[] decorationBlocks;
-	public static boolean flipBlocks;
-	public static boolean consumeBlock;
+	public static ForgeConfigSpec.IntValue numWallpapers;
+	public static ForgeConfigSpec.BooleanValue useAllBlocks;
+	public static ForgeConfigSpec.ConfigValue<String[]> decorationBlocks;
+	public static ForgeConfigSpec.BooleanValue flipBlocks;
+	public static ForgeConfigSpec.BooleanValue consumeBlock;
+	public static ForgeConfigSpec.IntValue smoothness;
 
 	// Client only
-	public static float widthWallpaper;
-	public static boolean enableFirepitNet;
-	public static int smoothness;
+	public static ForgeConfigSpec.DoubleValue widthWallpaper;
+	public static ForgeConfigSpec.BooleanValue enableFirepitNet;
 
 	// Subparts
-	public static boolean subpartAlarm;
-	public static boolean subpartCages;
-	public static boolean subpartCalendar;
-	public static boolean subpartColorizer;
-	public static boolean subpartDecorations;
-	public static boolean subpartFireplaces;
-	public static boolean subpartFlatItemFrame;
-	public static boolean subpartFluro;
-	public static boolean subpartFrames;
-	public static boolean subpartFurniture;
-	public static boolean subpartLampPosts;
-	public static boolean subpartLanterns;
-	public static boolean subpartLightBulbs;
-	public static boolean subpartNeonSign;
-	public static boolean subpartSlopes;
-	public static boolean subpartWallClock;
-	public static boolean subpartWallpaper;
+	public static ForgeConfigSpec.BooleanValue subpartAlarm;
+	public static ForgeConfigSpec.BooleanValue subpartCages;
+	public static ForgeConfigSpec.BooleanValue subpartCalendar;
+	public static ForgeConfigSpec.BooleanValue subpartColorizer;
+	public static ForgeConfigSpec.BooleanValue subpartDecorations;
+	public static ForgeConfigSpec.BooleanValue subpartFireplaces;
+	public static ForgeConfigSpec.BooleanValue subpartFlatItemFrame;
+	public static ForgeConfigSpec.BooleanValue subpartFluro;
+	public static ForgeConfigSpec.BooleanValue subpartFrames;
+	public static ForgeConfigSpec.BooleanValue subpartFurniture;
+	public static ForgeConfigSpec.BooleanValue subpartLampPosts;
+	public static ForgeConfigSpec.BooleanValue subpartLanterns;
+	public static ForgeConfigSpec.BooleanValue subpartLightBulbs;
+	public static ForgeConfigSpec.BooleanValue subpartNeonSign;
+	public static ForgeConfigSpec.BooleanValue subpartSlopes;
+	public static ForgeConfigSpec.BooleanValue subpartWallClock;
+	public static ForgeConfigSpec.BooleanValue subpartWallpaper;
 
 	@Override
 	public String name() {
@@ -68,150 +64,79 @@ public class DecorConfig extends GrimConfig {
 	}
 
 	@Override
-	public void syncSubparts() {
-		config.addCustomCategoryComment(CONFIG_PARTS_NAME, "Subparts fireplaces, furniture, lamp posts, and slopes require Colorizer to also be active. If colorizer is disabled so are they.");
-
-		subpartAlarm = config.get(CONFIG_PARTS_NAME, "Enable SubPart alarm", true).setRequiresMcRestart(true).getBoolean();
-		subpartCages = config.get(CONFIG_PARTS_NAME, "Enable SubPart cages", true).setRequiresMcRestart(true).getBoolean();
-		subpartCalendar = config.get(CONFIG_PARTS_NAME, "Enable SubPart calendar", true).setRequiresMcRestart(true).getBoolean();
-		subpartColorizer = config.get(CONFIG_PARTS_NAME, "Enable SubPart colorizer", true).setRequiresMcRestart(true).getBoolean();
-		subpartDecorations = config.get(CONFIG_PARTS_NAME, "Enable SubPart decorations", true).setRequiresMcRestart(true).getBoolean();
-		subpartFireplaces = config.get(CONFIG_PARTS_NAME, "Enable SubPart fireplaces", true).setRequiresMcRestart(true).getBoolean();
-		subpartFlatItemFrame = config.get(CONFIG_PARTS_NAME, "Enable SubPart flat item frame", true).setRequiresMcRestart(true).getBoolean();
-		subpartFluro = config.get(CONFIG_PARTS_NAME, "Enable SubPart fluro", true).setRequiresMcRestart(true).getBoolean();
-		subpartFrames = config.get(CONFIG_PARTS_NAME, "Enable SubPart frames", true).setRequiresMcRestart(true).getBoolean();
-		subpartFurniture = config.get(CONFIG_PARTS_NAME, "Enable SubPart furniture", true).setRequiresMcRestart(true).getBoolean();
-		subpartLampPosts = config.get(CONFIG_PARTS_NAME, "Enable SubPart lamp posts", true).setRequiresMcRestart(true).getBoolean();
-		subpartLanterns = config.get(CONFIG_PARTS_NAME, "Enable SubPart lanterns", true).setRequiresMcRestart(true).getBoolean();
-		subpartLightBulbs = config.get(CONFIG_PARTS_NAME, "Enable SubPart lightbulbs", true).setRequiresMcRestart(true).getBoolean();
-		subpartNeonSign = config.get(CONFIG_PARTS_NAME, "Enable SubPart neon sign", true).setRequiresMcRestart(true).getBoolean();
-		subpartSlopes = config.get(CONFIG_PARTS_NAME, "Enable SubPart slopes", true).setRequiresMcRestart(true).getBoolean();
-		subpartWallClock = config.get(CONFIG_PARTS_NAME, "Enable SubPart wall clock", true).setRequiresMcRestart(true).getBoolean();
-		subpartWallpaper = config.get(CONFIG_PARTS_NAME, "Enable SubPart wallpaper", true).setRequiresMcRestart(true).getBoolean();
-	}
-
-	@Override
-	public void syncConfig() {
-		syncSubparts();
-
+	public Optional<ForgeConfigSpec> initServer(Builder serverBuilder) {
 		ConfigUtils.setCurrentPart(GrimDecor.partName);
+		serverBuilder.comment(name());
 
-		if (subpartFrames) {
-			dyeFrames = config.get(CONFIG_GENERAL_NAME, "DyeFrames", true).getBoolean();
-			burnFrames = config.get(CONFIG_GENERAL_NAME, "BurnFrames", true).getBoolean();
+		subpartAlarm = serverBuilder.comment("Enable alarm subpart").worldRestart().define(CONFIG_PARTS_NAME + ".subpartAlarm", true);
+		subpartCages = serverBuilder.comment("Enable cages subpart").worldRestart().define(CONFIG_PARTS_NAME + ".subpartCages", true);
+		subpartCalendar = serverBuilder.comment("Enable calendar subpart").worldRestart().define(CONFIG_PARTS_NAME + ".subpartCalendar", true);
+		subpartColorizer = serverBuilder.comment("Enable colorizer subpart").worldRestart().define(CONFIG_PARTS_NAME + ".subpartColorizer", true);
+		subpartDecorations = serverBuilder.comment("Enable decorations subpart").worldRestart().define(CONFIG_PARTS_NAME + ".subpartDecorations", true);
+		subpartFireplaces = serverBuilder.comment("Enable fireplaces subpart").comment("Requires Colorizer part to be active!").worldRestart().define(CONFIG_PARTS_NAME + ".subpartFireplaces", true);
+		subpartFlatItemFrame = serverBuilder.comment("Enable flat item frame subpart").worldRestart().define(CONFIG_PARTS_NAME + ".subpartFlatItemFrame", true);
+		subpartFluro = serverBuilder.comment("Enable fluro subpart").worldRestart().define(CONFIG_PARTS_NAME + ".subpartFluro", true);
+		subpartFrames = serverBuilder.comment("Enable frames subpart").worldRestart().define(CONFIG_PARTS_NAME + ".subpartFrames", true);
+		subpartFurniture = serverBuilder.comment("Enable furniture subpart").comment("Requires Colorizer part to be active!").worldRestart().define(CONFIG_PARTS_NAME + ".subpartFurniture", true);
+		subpartLampPosts = serverBuilder.comment("Enable lamp posts subpart").comment("Requires Colorizer part to be active!").worldRestart().define(CONFIG_PARTS_NAME + ".subpartLampPosts", true);
+		subpartLanterns = serverBuilder.comment("Enable lanterns subpart").worldRestart().define(CONFIG_PARTS_NAME + ".subpartLanterns", true);
+		subpartLightBulbs = serverBuilder.comment("Enable lightbulbs subpart").worldRestart().define(CONFIG_PARTS_NAME + ".subpartLightBulbs", true);
+		subpartNeonSign = serverBuilder.comment("Enable neon sign subpart").worldRestart().define(CONFIG_PARTS_NAME + ".subpartNeonSign", true);
+		subpartSlopes = serverBuilder.comment("Enable slopes subpart").comment("Requires Colorizer part to be active!").worldRestart().define(CONFIG_PARTS_NAME + ".subpartSlopes", true);
+		subpartWallClock = serverBuilder.comment("Enable wall clock subpart").worldRestart().define(CONFIG_PARTS_NAME + ".subpartWallClock", true);
+		subpartWallpaper = serverBuilder.comment("Enable wallpaper subpart").worldRestart().define(CONFIG_PARTS_NAME + ".subpartWallpaper", true);
+
+		if (subpartFrames.get()) {
+			dyeFrames = serverBuilder.comment("DyeFrames").define(CONFIG_GENERAL_NAME + ".dyeFrames", true);
+			burnFrames = serverBuilder.comment("BurnFrames").define(CONFIG_GENERAL_NAME + ".burnFrames", true);
 		}
 
-		if (subpartWallpaper) {
-			dyeWallpaper = config.get(CONFIG_GENERAL_NAME, "DyeWallpaper", true).getBoolean();
-			copyDye = config.get(CONFIG_GENERAL_NAME, "CopyDye", true).getBoolean();
-			burnWallpaper = config.get(CONFIG_GENERAL_NAME, "BurnWallpaper", true).getBoolean();
-			numWallpapers = config.get(CONFIG_GENERAL_NAME, "NumWallpapers", 24).getInt();
-			widthWallpaper = (float) config.get(CONFIG_GENERAL_NAME, "WallpaperWidth", 1.0D).getDouble();
+		if (subpartWallpaper.get()) {
+			dyeWallpaper = serverBuilder.comment("DyeWallpaper").define(CONFIG_GENERAL_NAME + ".dyeWallpaper", true);
+			copyDye = serverBuilder.comment("CopyDye").define(CONFIG_GENERAL_NAME + ".copyDye", true);
+			burnWallpaper = serverBuilder.comment("BurnWallpaper").define(CONFIG_GENERAL_NAME + ".burnWallpaper", true);
+			numWallpapers = serverBuilder.comment("NumWallpapers").defineInRange(CONFIG_GENERAL_NAME + ".numWallpapers", 24, 1, 256);
 		}
 
-		if (subpartFlatItemFrame) {
-			flipBlocks = config.get(CONFIG_GENERAL_NAME, "Flip Blocks in Flat Item Frames", true).getBoolean();
+		if (subpartFlatItemFrame.get()) {
+			flipBlocks = serverBuilder.comment("Flip Blocks in Flat Item Frames").define(CONFIG_GENERAL_NAME + ".flipBlocks", true);
 		}
 
-		if (subpartColorizer) {
-			useAllBlocks = config.get(CONFIG_GENERAL_NAME, "UseAllBlocks", true).getBoolean();
+		if (subpartColorizer.get()) {
+			useAllBlocks = serverBuilder.comment("UseAllBlocks").define(CONFIG_GENERAL_NAME + ".useAllBlocks", true);
 
 			decorationBlocks = config.get(CONFIG_GENERAL_NAME, "DecorationBlocks", new String[] { "mossy_cobblestone", "diamond_ore" }).getStringList();
 
-			if (!useAllBlocks)
+			if (!useAllBlocks.get())
 				// Don't waste time if we don't have to
 				ConfigUtils.loadBlocksOntoMap(decorationBlocks, decorBlocks);
 
-			consumeBlock = config.get(CONFIG_GENERAL_NAME, "Colorizers Consume Block", false).getBoolean();
+			consumeBlock = serverBuilder.comment("Colorizers Consume Block").define(CONFIG_GENERAL_NAME + ".consumeBlock", false);
 
-			if (subpartSlopes) {
-				smoothness = config.get(CONFIG_GENERAL_NAME, "SlopeSmoothness", 2).getInt();
+			if (subpartSlopes.get()) {
+				smoothness = serverBuilder.comment("SlopeSmoothness").defineInRange(CONFIG_GENERAL_NAME + ".smoothness", 2, 1, 10);
 			}
 
-			if (subpartFireplaces) {
-				infiniteGrillFuel = config.get(CONFIG_GENERAL_NAME, "grimpack.decor.cfg.InfiniteGrillFuel", false).getBoolean();
-				enableFirepitNet = config.get(CONFIG_GENERAL_NAME, "grimpack.decor.cfg.EnableFirepitNet", true).getBoolean();
+			if (subpartFireplaces.get()) {
+				infiniteGrillFuel = serverBuilder.translation("grimpack.decor.cfg.InfiniteGrillFuel").define(CONFIG_GENERAL_NAME + ".infiniteGrillFuel", false);
 			}
 		}
 
-		super.syncConfig();
+		return Optional.of(serverBuilder.build());
 	}
 
 	@Override
-	public List<IConfigElement> getConfigItems() {
-		List<IConfigElement> list = new ArrayList<IConfigElement>();
-		if (subpartColorizer || subpartFrames || subpartFlatItemFrame || subpartWallpaper)
-			list.add(new DummyCategoryElement("decorGeneralCfg", "grimpack.decor.cfg.general", new ConfigElement(GrimDecor.INSTANCE.getConfig().getCategory(CONFIG_GENERAL_NAME)).getChildElements()));
-		list.add(new DummyCategoryElement("decorSubPartCfg", "grimpack.decor.cfg.subparts", new ConfigElement(GrimDecor.INSTANCE.getConfig().getCategory(CONFIG_PARTS_NAME)).getChildElements()));
-		return list;
-	}
+	public Optional<ForgeConfigSpec> initClient(Builder clientBuilder) {
+		clientBuilder.comment(name());
 
-	@Override
-	public void readFromServer(PacketBuffer buffer) {
-		subpartAlarm = buffer.readBoolean();
-		subpartCages = buffer.readBoolean();
-		subpartCalendar = buffer.readBoolean();
-		subpartColorizer = buffer.readBoolean();
-		subpartDecorations = buffer.readBoolean();
-		subpartFireplaces = buffer.readBoolean();
-		subpartFlatItemFrame = buffer.readBoolean();
-		subpartFluro = buffer.readBoolean();
-		subpartFrames = buffer.readBoolean();
-		subpartFurniture = buffer.readBoolean();
-		subpartLampPosts = buffer.readBoolean();
-		subpartLanterns = buffer.readBoolean();
-		subpartLightBulbs = buffer.readBoolean();
-		subpartNeonSign = buffer.readBoolean();
-		subpartSlopes = buffer.readBoolean();
-		subpartWallClock = buffer.readBoolean();
-		subpartWallpaper = buffer.readBoolean();
-
-		if (subpartWallpaper)
-			numWallpapers = buffer.readInt();
-
-		if (subpartFlatItemFrame)
-			flipBlocks = buffer.readBoolean();
-
-		if (subpartColorizer) {
-			useAllBlocks = buffer.readBoolean();
-			consumeBlock = buffer.readBoolean();
-			decorationBlocks = ByteBufUtils.readUTF8String(buffer).split(",");
+		if (subpartWallpaper.get()) {
+			widthWallpaper = clientBuilder.comment("WallpaperWidth").defineInRange(CONFIG_GENERAL_NAME + ".widthWallpaper", 1.0D, 0.1D, 5.0D);
 		}
-	}
 
-	@Override
-	public void writeToClient(PacketBuffer buffer) {
-		buffer.writeBoolean(subpartAlarm);
-		buffer.writeBoolean(subpartCages);
-		buffer.writeBoolean(subpartCalendar);
-		buffer.writeBoolean(subpartColorizer);
-		buffer.writeBoolean(subpartDecorations);
-		buffer.writeBoolean(subpartFireplaces);
-		buffer.writeBoolean(subpartFlatItemFrame);
-		buffer.writeBoolean(subpartFluro);
-		buffer.writeBoolean(subpartFrames);
-		buffer.writeBoolean(subpartFurniture);
-		buffer.writeBoolean(subpartLampPosts);
-		buffer.writeBoolean(subpartLanterns);
-		buffer.writeBoolean(subpartLightBulbs);
-		buffer.writeBoolean(subpartNeonSign);
-		buffer.writeBoolean(subpartSlopes);
-		buffer.writeBoolean(subpartWallClock);
-		buffer.writeBoolean(subpartWallpaper);
-
-		if (subpartWallpaper)
-			buffer.writeInt(numWallpapers);
-
-		if (subpartFlatItemFrame)
-			buffer.writeBoolean(flipBlocks);
-
-		if (subpartColorizer) {
-			buffer.writeBoolean(useAllBlocks);
-			buffer.writeBoolean(consumeBlock);
-			StringBuilder builder = new StringBuilder();
-			for (String block : decorationBlocks)
-				builder.append(block + ",");
-			buffer.writeString(builder.toString());
+		if (subpartFireplaces.get()) {
+			enableFirepitNet = clientBuilder.translation("grimpack.decor.cfg.EnableFirepitNet").define(CONFIG_GENERAL_NAME + ".enableFirepitNet", true);
 		}
+
+		return Optional.of(clientBuilder.build());
 	}
 }

@@ -135,7 +135,7 @@ public class TileEntityNeonSign extends TileEntityGrim {
 		return this.isEditable;
 	}
 
-	@OnlyIn(Dist.CLIENT)
+	@SideOnly(Side.CLIENT)
 	public void setEditable(boolean isEditableIn) {
 		this.isEditable = isEditableIn;
 

@@ -6,8 +6,8 @@ import com.grim3212.mc.pack.decor.tile.TileEntityCage;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
 public class CageSpawnerLogic {
 
@@ -41,8 +41,8 @@ public class CageSpawnerLogic {
 	}
 
 	/**
-	 * Returns true if there's a player close enough to this mob spawner to
-	 * activate it.
+	 * Returns true if there's a player close enough to this mob spawner to activate
+	 * it.
 	 */
 	private boolean isActivated() {
 		BlockPos blockpos = this.getSpawnerPosition();
@@ -54,7 +54,7 @@ public class CageSpawnerLogic {
 			this.prevMobRotation = this.mobRotation;
 		} else {
 			if (this.getEntity() != null)
-				this.getEntity().onUpdate();
+				this.getEntity().tick();
 
 			if (this.getSpawnerWorld().isRemote) {
 				this.prevMobRotation = this.mobRotation;

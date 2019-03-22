@@ -3,9 +3,10 @@ package com.grim3212.mc.pack.decor.item;
 import com.grim3212.mc.pack.core.item.ItemManual;
 import com.grim3212.mc.pack.core.manual.pages.Page;
 import com.grim3212.mc.pack.core.network.PacketDispatcher;
-import com.grim3212.mc.pack.core.part.GrimCreativeTabs;
+import com.grim3212.mc.pack.core.part.GrimItemGroups;
 import com.grim3212.mc.pack.decor.block.DecorBlocks;
 import com.grim3212.mc.pack.decor.client.ManualDecor;
+import com.grim3212.mc.pack.decor.init.DecorNames;
 import com.grim3212.mc.pack.decor.network.MessageNeonOpen;
 import com.grim3212.mc.pack.decor.tile.TileEntityNeonSign;
 
@@ -15,6 +16,7 @@ import net.minecraft.block.BlockWallSign;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -28,9 +30,7 @@ import net.minecraft.world.World;
 public class ItemNeonSign extends ItemManual {
 
 	public ItemNeonSign() {
-		super("neon_sign");
-		this.maxStackSize = 16;
-		this.setCreativeTab(GrimCreativeTabs.GRIM_DECOR);
+		super(DecorNames.NEON_SIGN, new Item.Properties().maxStackSize(16).group(GrimItemGroups.GRIM_DECOR));
 	}
 
 	@Override

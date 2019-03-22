@@ -1,13 +1,13 @@
-package com.grim3212.mc.pack.decor.client;
+package com.grim3212.mc.pack.decor.proxy;
 
 import java.util.List;
 
 import com.google.common.collect.Lists;
 import com.grim3212.mc.pack.core.util.NBTHelper;
-import com.grim3212.mc.pack.decor.DecorCommonProxy;
 import com.grim3212.mc.pack.decor.block.BlockFluro;
 import com.grim3212.mc.pack.decor.block.DecorBlocks;
 import com.grim3212.mc.pack.decor.block.colorizer.BlockColorizer;
+import com.grim3212.mc.pack.decor.client.DecorModelHandler;
 import com.grim3212.mc.pack.decor.client.entity.RenderFlatItemFrame.FlatItemFrameFactory;
 import com.grim3212.mc.pack.decor.client.entity.RenderFrame.FrameFactory;
 import com.grim3212.mc.pack.decor.client.entity.RenderWallpaper.WallpaperFactory;
@@ -42,7 +42,7 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 
-public class DecorClientProxy extends DecorCommonProxy {
+public class DecorClientProxy extends DecorServerProxy {
 
 	@Override
 	public void produceSmoke(World world, BlockPos pos, double xMod, double yMod, double zMod, int amount, boolean makelarge) {

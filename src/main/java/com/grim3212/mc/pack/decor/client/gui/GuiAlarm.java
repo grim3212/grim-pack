@@ -13,7 +13,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-@OnlyIn(Dist.CLIENT)
+@SideOnly(Side.CLIENT)
 public final class GuiAlarm extends GuiScreen {
 
 	private static final ResourceLocation LOCATION = new ResourceLocation(GrimPack.modID, "textures/gui/alarm_gui.png");

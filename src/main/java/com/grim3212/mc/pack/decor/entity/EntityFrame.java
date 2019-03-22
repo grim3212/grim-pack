@@ -10,6 +10,7 @@ import com.grim3212.mc.pack.core.util.WorldHelper;
 import com.grim3212.mc.pack.decor.client.ManualDecor;
 import com.grim3212.mc.pack.decor.config.DecorConfig;
 import com.grim3212.mc.pack.decor.item.DecorItems;
+import com.grim3212.mc.pack.decor.item.ItemFrame.EnumFrameType;
 import com.grim3212.mc.pack.decor.util.EnumFrame;
 
 import io.netty.buffer.ByteBuf;
@@ -45,7 +46,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class EntityFrame extends EntityHanging implements IEntityAdditionalSpawnData, IManualEntity {
 
-	public int material = 0;
+	public EnumFrameType material;
 	public float resistance = 0.0F;
 	public AxisAlignedBB fireboundingBox = new AxisAlignedBB(0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D);
 	public static final int[] colorValues = { 1973019, 11743532, 3887386, 5320730, 2437522, 8073150, 2651799, 8816262, 4408131, 14188952, 4312372, 14602026, 6719955, 12801229, 15435844, 16777215 };
@@ -60,9 +61,9 @@ public class EntityFrame extends EntityHanging implements IEntityAdditionalSpawn
 		super(world);
 	}
 
-	public EntityFrame(World world, BlockPos pos, EnumFacing direction, int material) {
+	public EntityFrame(World world, BlockPos pos, EnumFacing direction, EnumFrameType type) {
 		super(world, pos);
-		this.material = material;
+		this.material = type;
 
 		for (int i = 0; i < EnumFrame.VALUES.length; i++) {
 			EnumFrame tryFrame = EnumFrame.VALUES[i];
@@ -174,12 +175,12 @@ public class EntityFrame extends EntityHanging implements IEntityAdditionalSpawn
 		return dyeFrame(color, false);
 	}
 
-	public void setResistance(int material) {
+	public void setResistance(EnumFrameType material) {
 		switch (material) {
-		case 0:
+		case WOOD:
 			this.resistance = 9.0F;
 			break;
-		case 1:
+		case IRON:
 			this.resistance = 18.0F;
 		}
 	}
@@ -250,7 +251,7 @@ public class EntityFrame extends EntityHanging implements IEntityAdditionalSpawn
 	 * Set the position and rotation values directly without any clamping.
 	 */
 	@Override
-	@OnlyIn(Dist.CLIENT)
+	@SideOnly(Side.CLIENT)
 	public void setPositionAndRotationDirect(double x, double y, double z, float yaw, float pitch, int posRotationIncrements, boolean teleport) {
 		BlockPos blockpos = this.hangingPosition.add(x - this.posX, y - this.posY, z - this.posZ);
 		this.setPosition((double) blockpos.getX(), (double) blockpos.getY(), (double) blockpos.getZ());
@@ -322,7 +323,7 @@ public class EntityFrame extends EntityHanging implements IEntityAdditionalSpawn
 	}
 
 	@Override
-	@OnlyIn(Dist.CLIENT)
+	@SideOnly(Side.CLIENT)
 	public boolean canBeCollidedWith() {
 		EntityPlayer player = Minecraft.getMinecraft().player;
 

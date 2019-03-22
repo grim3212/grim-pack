@@ -23,7 +23,7 @@ import net.minecraft.util.text.TextComponentString;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-@OnlyIn(Dist.CLIENT)
+@SideOnly(Side.CLIENT)
 public class GuiEditNeonSign extends GuiScreen {
 	/** Reference to the sign object. */
 	private final TileEntityNeonSign tileSign;

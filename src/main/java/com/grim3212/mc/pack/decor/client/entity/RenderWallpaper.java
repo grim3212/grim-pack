@@ -16,9 +16,9 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 @OnlyIn(Dist.CLIENT)
 public class RenderWallpaper extends Render<EntityWallpaper> {
@@ -55,8 +55,8 @@ public class RenderWallpaper extends Render<EntityWallpaper> {
 
 	public void initWallpaper(EntityWallpaper entitywallpaper, double x, double y, double z, float angle) {
 		GlStateManager.pushMatrix();
-		GlStateManager.translate((float) x, (float) y, (float) z);
-		GlStateManager.rotate(angle, 0.0F, 1.0F, 0.0F);
+		GlStateManager.translated(x, y, z);
+		GlStateManager.rotatef(angle, 0.0F, 1.0F, 0.0F);
 		GlStateManager.enableRescaleNormal();
 		GlStateManager.shadeModel(7425);
 		GlStateManager.disableLighting();
@@ -74,7 +74,7 @@ public class RenderWallpaper extends Render<EntityWallpaper> {
 
 	private void renderWallpaper(EntityWallpaper entitywallpaper) {
 		Tessellator tessellator = Tessellator.getInstance();
-		GlStateManager.scale(0.03125F, 0.03125F, 0.03125F);
+		GlStateManager.scalef(0.03125F, 0.03125F, 0.03125F);
 
 		int x = MathHelper.floor(entitywallpaper.getHangingPosition().getX());
 		int y = MathHelper.floor(entitywallpaper.getHangingPosition().getY());
@@ -86,7 +86,7 @@ public class RenderWallpaper extends Render<EntityWallpaper> {
 
 		float maxX = 16.0F;
 		float maxY = 16.0F;
-		float maxZ = DecorConfig.widthWallpaper;
+		float maxZ = DecorConfig.widthWallpaper.get().floatValue();
 
 		float minU = entitywallpaper.getWallpaperID() / 16 / 16.0F;
 		float minV = entitywallpaper.getWallpaperID() % 16 / 16.0F;
@@ -234,7 +234,7 @@ public class RenderWallpaper extends Render<EntityWallpaper> {
 			int combinedLight = getMixedBrightnessForBlock(pos);
 			int blockLight = combinedLight >> 16 & 65535;
 			int skyLight = combinedLight & 65535;
-			float lightBrightness = this.renderManager.world.getLightBrightness(pos);
+			float lightBrightness = this.renderManager.world.getBrightness(pos);
 
 			tessellator.getBuffer().pos(minX, minY, minZ).tex(minU + maxUV, minV + maxUV).color(lightBrightness * red, lightBrightness * green, lightBrightness * blue, 1.0f).lightmap(blockLight, skyLight).normal(0.0F, 0.0F, -1.0F).endVertex();
 			tessellator.getBuffer().pos(minX, maxY, minZ).tex(minU + maxUV, minV).color(lightBrightness * red, lightBrightness * green, lightBrightness * blue, 1.0f).lightmap(blockLight, skyLight).normal(0.0F, 0.0F, -1.0F).endVertex();
@@ -540,7 +540,7 @@ public class RenderWallpaper extends Render<EntityWallpaper> {
 	}
 
 	public float getAmbientOcclusionLightValue(BlockPos pos) {
-		return Minecraft.getMinecraft().world.getBlockState(pos).isNormalCube() ? 0.2F : 1.0F;
+		return Minecraft.getInstance().world.getBlockState(pos).isNormalCube() ? 0.2F : 1.0F;
 	}
 
 	public int getMixedBrightnessForBlock(BlockPos pos) {
