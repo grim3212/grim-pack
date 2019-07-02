@@ -2,17 +2,13 @@ package com.grim3212.mc.pack.decor.item;
 
 import com.grim3212.mc.pack.core.item.ItemManualPage;
 import com.grim3212.mc.pack.core.part.GrimItemGroups;
-import com.grim3212.mc.pack.decor.block.DecorBlocks;
 import com.grim3212.mc.pack.decor.config.DecorConfig;
 import com.grim3212.mc.pack.decor.init.DecorNames;
 import com.grim3212.mc.pack.decor.item.ItemFrame.EnumFrameType;
 
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.IRecipe;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.ObjectHolder;
 
@@ -36,8 +32,6 @@ public class DecorItems {
 	public static Item brush;
 	@ObjectHolder(DecorNames.PRUNERS)
 	public static Item pruners;
-	@ObjectHolder(DecorNames.FLAT_ITEM_FRAME)
-	public static Item flat_item_frame;
 	@ObjectHolder(DecorNames.NEON_SIGN)
 	public static Item neon_sign;
 
@@ -64,9 +58,6 @@ public class DecorItems {
 			r.register(new ItemManualPage(DecorNames.UNFIRED_POT, "decor:deco.crafts", new Item.Properties().group(GrimItemGroups.GRIM_DECOR)));
 		}
 
-		if (DecorConfig.subpartFlatItemFrame.get())
-			r.register(new ItemFlatItemFrame());
-
 		if (DecorConfig.subpartColorizer.get()) {
 			r.register(new ItemBrush());
 
@@ -78,11 +69,11 @@ public class DecorItems {
 		}
 	}
 
-	@SubscribeEvent
-	public void registerRecipes(RegistryEvent.Register<IRecipe> evt) {
-		if (DecorConfig.subpartDecorations) {
-			GameRegistry.addSmelting(unfired_craft, new ItemStack(DecorBlocks.craft_clay, 1), 0.35F);
-			GameRegistry.addSmelting(unfired_pot, new ItemStack(DecorBlocks.pot, 1), 0.35F);
-		}
-	}
+	/*
+	 * @SubscribeEvent public void registerRecipes(RegistryEvent.Register<IRecipe>
+	 * evt) { if (DecorConfig.subpartDecorations) {
+	 * GameRegistry.addSmelting(unfired_craft, new ItemStack(DecorBlocks.craft_clay,
+	 * 1), 0.35F); GameRegistry.addSmelting(unfired_pot, new
+	 * ItemStack(DecorBlocks.pot, 1), 0.35F); } }
+	 */
 }

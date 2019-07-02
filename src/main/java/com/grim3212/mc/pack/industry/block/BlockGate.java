@@ -7,22 +7,24 @@ import com.grim3212.mc.pack.core.util.Utils;
 import com.grim3212.mc.pack.industry.client.ManualIndustry;
 import com.grim3212.mc.pack.industry.item.IndustryItems;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.SoundType;
-import net.minecraft.block.material.EnumPushReaction;
+import net.minecraft.block.*;
+import net.minecraft.block.material.PushReaction;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.properties.PropertyDirection;
 import net.minecraft.block.state.BlockStateContainer;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
+import net.minecraft.block.BlockState;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.block.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.util.BlockRenderLayer;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumHand;
+import net.minecraft.util.Direction;
+import net.minecraft.util.Direction;
+import net.minecraft.util.Hand;
+import net.minecraft.util.Hand;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.Explosion;
@@ -40,7 +42,7 @@ public class BlockGate extends BlockManual {
 	private static final AxisAlignedBB TOP_NORTH_AABB = new AxisAlignedBB(0.0F, 0.44F, WIDTH, 1.0F, 1.0F, 2.0F * WIDTH);
 	private static final AxisAlignedBB TOP_WEST_AABB = new AxisAlignedBB(WIDTH, 0.44F, 0.0F, 2.0F * WIDTH, 1.0F, 1.0F);
 	private static final AxisAlignedBB TOP_SOUTH_AABB = new AxisAlignedBB(0.0F, 0.44F, 1.0F - 2.0F * WIDTH, 1.0F, 1.0F, 1.0F - WIDTH);
-	public static final PropertyDirection FACING = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
+	public static final PropertyDirection FACING = PropertyDirection.create("facing", Direction.Plane.HORIZONTAL);
 	public static final PropertyBool ACTIVE = PropertyBool.create("active");
 	public static final PropertyBool TOP = PropertyBool.create("top");
 
@@ -52,17 +54,17 @@ public class BlockGate extends BlockManual {
 	}
 
 	@Override
-	protected IBlockState getState() {
-		return this.blockState.getBaseState().withProperty(FACING, EnumFacing.SOUTH).withProperty(ACTIVE, false).withProperty(TOP, false);
+	protected BlockState getState() {
+		return this.blockState.getBaseState().withProperty(FACING, Direction.SOUTH).withProperty(ACTIVE, false).withProperty(TOP, false);
 	}
 
 	@Override
-	public IBlockState getStateFromMeta(int meta) {
-		return this.getDefaultState().withProperty(FACING, EnumFacing.getHorizontal(meta & 7)).withProperty(ACTIVE, (meta & 8) > 0);
+	public BlockState getStateFromMeta(int meta) {
+		return this.getDefaultState().withProperty(FACING, Direction.getHorizontal(meta & 7)).withProperty(ACTIVE, (meta & 8) > 0);
 	}
 
 	@Override
-	public int getMetaFromState(IBlockState state) {
+	public int getMetaFromState(BlockState state) {
 		byte b0 = 0;
 		int i = b0 | state.getValue(FACING).getHorizontalIndex();
 
@@ -74,7 +76,7 @@ public class BlockGate extends BlockManual {
 	}
 
 	@Override
-	public IBlockState getActualState(IBlockState state, IBlockAccess worldIn, BlockPos pos) {
+	public BlockState getActualState(BlockState state, IBlockAccess worldIn, BlockPos pos) {
 		if ((worldIn.getBlockState(pos.up()).getBlock() != this && worldIn.getBlockState(pos.up()).getBlock() != Blocks.AIR) && worldIn.getBlockState(pos.down()).getBlock() == this) {
 			return state.withProperty(TOP, true);
 		} else {
@@ -88,12 +90,12 @@ public class BlockGate extends BlockManual {
 	}
 
 	@Override
-	public boolean isOpaqueCube(IBlockState state) {
+	public boolean isOpaqueCube(BlockState state) {
 		return false;
 	}
 
 	@Override
-	public boolean isFullCube(IBlockState state) {
+	public boolean isFullCube(BlockState state) {
 		return false;
 	}
 
@@ -104,10 +106,10 @@ public class BlockGate extends BlockManual {
 
 	@Override
 	@SuppressWarnings("incomplete-switch")
-	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
+	public AxisAlignedBB getBoundingBox(BlockState state, IBlockAccess source, BlockPos pos) {
 		if (state.getBlock() == this) {
 			if (state.getValue(ACTIVE)) {
-				EnumFacing facing = state.getValue(FACING);
+				Direction facing = state.getValue(FACING);
 
 				if (getActualState(state, source, pos).getValue(TOP)) {
 					switch (facing) {
@@ -122,7 +124,7 @@ public class BlockGate extends BlockManual {
 					}
 				}
 			} else {
-				EnumFacing facing = state.getValue(FACING);
+				Direction facing = state.getValue(FACING);
 
 				switch (facing) {
 				case NORTH:
@@ -141,7 +143,7 @@ public class BlockGate extends BlockManual {
 	}
 
 	@Override
-	public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer, EnumHand hand) {
+	public BlockState getStateForPlacement(World world, BlockPos pos, Direction facing, float hitX, float hitY, float hitZ, int meta, LivingEntity placer, Hand hand) {
 		for (int j = pos.getY(); world.getBlockState(pos.down()).getBlock() == Blocks.AIR; --j) {
 			pos = new BlockPos(pos.getX(), j - 1, pos.getZ());
 			world.setBlockState(pos, getDefaultState().withProperty(FACING, placer.getHorizontalFacing().getOpposite()).withProperty(ACTIVE, false), 2);
@@ -150,7 +152,7 @@ public class BlockGate extends BlockManual {
 		return getActualState(getDefaultState().withProperty(FACING, placer.getHorizontalFacing().getOpposite()).withProperty(ACTIVE, false), world, pos);
 	}
 
-	public void updateNeighbors(World worldIn, BlockPos pos, EntityPlayer player, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
+	public void updateNeighbors(World worldIn, BlockPos pos, PlayerEntity player, Hand hand, Direction side, float hitX, float hitY, float hitZ) {
 		boolean active = (Boolean) worldIn.getBlockState(pos).getValue(ACTIVE);
 
 		if ((worldIn.getBlockState(pos.west()).getBlock() == this && worldIn.getBlockState(pos.west()).getValue(FACING) == worldIn.getBlockState(pos).getValue(FACING)) && (((Boolean) worldIn.getBlockState(pos.west()).getValue(ACTIVE)) != active)) {
@@ -171,7 +173,7 @@ public class BlockGate extends BlockManual {
 	}
 
 	@Override
-	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
+	public boolean onBlockActivated(World worldIn, BlockPos pos, BlockState state, PlayerEntity playerIn, Hand hand, Direction side, float hitX, float hitY, float hitZ) {
 		Item activator = null;
 		if (state.getBlock() == IndustryBlocks.garage) {
 			activator = IndustryItems.garage_remote;
@@ -214,7 +216,7 @@ public class BlockGate extends BlockManual {
 				}
 
 				this.updateNeighbors(worldIn, pos, playerIn, hand, side, hitX, hitY, hitZ);
-				worldIn.playEvent((EntityPlayer) null, 1006, pos, 0);
+				worldIn.playEvent((PlayerEntity) null, 1006, pos, 0);
 				return true;
 			}
 		}
@@ -253,13 +255,13 @@ public class BlockGate extends BlockManual {
 					this.openGate(worldIn, pos.south(), flag);
 				}
 
-				worldIn.playEvent((EntityPlayer) null, 1006, pos, 0);
+				worldIn.playEvent((PlayerEntity) null, 1006, pos, 0);
 			}
 		}
 	}
 
 	@Override
-	public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos) {
+	public void neighborChanged(BlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos) {
 		boolean flag = false;
 
 		if (!getActualState(state, worldIn, pos).getValue(TOP)) {
@@ -307,7 +309,7 @@ public class BlockGate extends BlockManual {
 	}
 
 	@Override
-	public void onBlockDestroyedByPlayer(World worldIn, BlockPos pos, IBlockState state) {
+	public void onBlockDestroyedByPlayer(World worldIn, BlockPos pos, BlockState state) {
 		this.removeGate(worldIn, pos);
 	}
 
@@ -321,12 +323,12 @@ public class BlockGate extends BlockManual {
 	}
 
 	@Override
-	public EnumPushReaction getMobilityFlag(IBlockState state) {
-		return EnumPushReaction.BLOCK;
+	public PushReaction getMobilityFlag(BlockState state) {
+		return PushReaction.BLOCK;
 	}
 
 	@Override
-	public Page getPage(IBlockState state) {
+	public Page getPage(BlockState state) {
 		if (state.getBlock() == IndustryBlocks.garage)
 			return ManualIndustry.garage_page;
 

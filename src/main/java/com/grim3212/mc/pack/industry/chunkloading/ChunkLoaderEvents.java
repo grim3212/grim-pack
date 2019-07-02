@@ -2,9 +2,10 @@ package com.grim3212.mc.pack.industry.chunkloading;
 
 import com.grim3212.mc.pack.industry.config.IndustryConfig;
 import com.grim3212.mc.pack.industry.tile.TileEntityChunkLoader;
-import net.minecraft.entity.player.EntityPlayer;
+
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 
@@ -12,14 +13,14 @@ public class ChunkLoaderEvents {
 
 	@SubscribeEvent
 	public void onPlayerLoggedInEvent(PlayerEvent.PlayerLoggedInEvent event) {
-		if (!event.player.world.isRemote) {
-			ChunkLoaderStorage storage = ChunkLoaderStorage.getStorage(event.player.world);
+		if (!event.getPlayer().world.isRemote) {
+			ChunkLoaderStorage storage = ChunkLoaderStorage.getStorage(event.getPlayer().world);
 			if (storage != null) {
-				storage.updateLoginTime(event.player.getUniqueID().toString(), System.currentTimeMillis());
+				storage.updateLoginTime(event.getPlayer().getUniqueID().toString(), System.currentTimeMillis());
 
 				// Enable all of the chunk loaders this player owns
 				for (ChunkLoaderData loaderPos : storage.getChunkLoaders()) {
-					TileEntityChunkLoader tileEntity = (TileEntityChunkLoader) event.player.world.getTileEntity(loaderPos.pos);
+					TileEntityChunkLoader tileEntity = (TileEntityChunkLoader) event.getPlayer().world.getTileEntity(loaderPos.pos);
 					if (tileEntity != null) {
 						tileEntity.enableChunkLoader();
 					}
@@ -30,10 +31,10 @@ public class ChunkLoaderEvents {
 
 	@SubscribeEvent
 	public void onPlayerLoggedOutEvent(PlayerEvent.PlayerLoggedOutEvent event) {
-		if (!event.player.world.isRemote) {
-			ChunkLoaderStorage storage = ChunkLoaderStorage.getStorage(event.player.world);
+		if (!event.getPlayer().world.isRemote) {
+			ChunkLoaderStorage storage = ChunkLoaderStorage.getStorage(event.getPlayer().world);
 			if (storage != null) {
-				storage.updateLoginTime(event.player.getUniqueID().toString(), System.currentTimeMillis());
+				storage.updateLoginTime(event.getPlayer().getUniqueID().toString(), System.currentTimeMillis());
 			}
 		}
 	}
@@ -47,7 +48,7 @@ public class ChunkLoaderEvents {
 		// Base off of hours
 		timeout = timeout * 60 * 60 * 1000;
 
-		if (!event.world.isRemote && event.world.getTotalWorldTime() % 1200 == 0) {
+		if (!event.world.isRemote && event.world.getWorldInfo().getGameTime() % 1200 == 0) {
 			ChunkLoaderStorage storage = ChunkLoaderStorage.getStorage(event.world);
 
 			if (storage != null) {
@@ -64,7 +65,7 @@ public class ChunkLoaderEvents {
 	}
 
 	public boolean isPlayerOnline(World world, String ownerId) {
-		for (EntityPlayer playerEntity : world.playerEntities) {
+		for (PlayerEntity playerEntity : world.getPlayers()) {
 			if (playerEntity.getUniqueID().toString().equals(ownerId)) {
 				return true;
 			}

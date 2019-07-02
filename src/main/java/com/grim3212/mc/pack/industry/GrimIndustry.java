@@ -1,63 +1,76 @@
 package com.grim3212.mc.pack.industry;
 
+import java.util.List;
+
 import com.google.common.collect.Lists;
 import com.grim3212.mc.pack.GrimPack;
 import com.grim3212.mc.pack.core.manual.IManualPart;
 import com.grim3212.mc.pack.core.network.PacketDispatcher;
 import com.grim3212.mc.pack.core.part.GrimPart;
 import com.grim3212.mc.pack.industry.block.IndustryBlocks;
-import com.grim3212.mc.pack.industry.chunkloading.*;
+import com.grim3212.mc.pack.industry.chunkloading.ChunkLoaderCallback;
+import com.grim3212.mc.pack.industry.chunkloading.ChunkLoaderCommand;
+import com.grim3212.mc.pack.industry.chunkloading.ChunkLoaderData;
+import com.grim3212.mc.pack.industry.chunkloading.ChunkLoaderEvents;
+import com.grim3212.mc.pack.industry.chunkloading.ChunkLoaderStorage;
 import com.grim3212.mc.pack.industry.client.ManualIndustry;
 import com.grim3212.mc.pack.industry.config.IndustryConfig;
-import com.grim3212.mc.pack.industry.entity.IndustryEntities;
-import com.grim3212.mc.pack.industry.init.IndustryRecipes;
 import com.grim3212.mc.pack.industry.init.IndustrySounds;
 import com.grim3212.mc.pack.industry.item.IndustryItems;
-import com.grim3212.mc.pack.industry.network.*;
+import com.grim3212.mc.pack.industry.network.MessageExtruderDirection;
+import com.grim3212.mc.pack.industry.network.MessageSaveFan;
+import com.grim3212.mc.pack.industry.network.MessageSensorChangeMode;
+import com.grim3212.mc.pack.industry.network.MessageSensorSetBox;
+import com.grim3212.mc.pack.industry.network.MessageSensorSetEntity;
+import com.grim3212.mc.pack.industry.network.MessageSensorSetItem;
+import com.grim3212.mc.pack.industry.network.MessageSensorSetPlayer;
+import com.grim3212.mc.pack.industry.network.MessageSensorSetPos;
+import com.grim3212.mc.pack.industry.network.MessageSensorSetRender;
+import com.grim3212.mc.pack.industry.network.MessageSetLock;
+import com.grim3212.mc.pack.industry.proxy.IndustryClientProxy;
+import com.grim3212.mc.pack.industry.proxy.IndustryServerProxy;
 import com.grim3212.mc.pack.industry.tile.TileEntityChunkLoader;
-import com.grim3212.mc.pack.industry.world.IndustryGenerate;
-import net.minecraft.world.DimensionType;
+
 import net.minecraft.world.World;
+import net.minecraft.world.dimension.DimensionType;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.common.ForgeChunkManager;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.common.SidedProxy;
-import net.minecraftforge.fml.common.event.FMLInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLServerStartedEvent;
-import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
-import net.minecraftforge.fml.common.registry.GameRegistry;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
-
-import java.util.List;
+import net.minecraftforge.fml.DistExecutor;
+import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
+import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.minecraftforge.fml.event.lifecycle.FMLDedicatedServerSetupEvent;
+import net.minecraftforge.fml.event.server.FMLServerStartedEvent;
+import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
+import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 
 public class GrimIndustry extends GrimPart {
 
 	public static GrimIndustry INSTANCE = new GrimIndustry();
 
-	@SidedProxy(clientSide = "com.grim3212.mc.pack.industry.client.IndustryClientProxy", serverSide = "com.grim3212.mc.pack.industry.IndustryCommonProxy")
-	public static IndustryCommonProxy proxy;
+	public static IndustryServerProxy proxy = DistExecutor.runForDist(() -> IndustryClientProxy::new, () -> IndustryServerProxy::new);
 
 	public static final String partId = "industry";
 	public static final String partName = "Grim Industry";
 
 	public GrimIndustry() {
 		super(GrimIndustry.partId, GrimIndustry.partName, new IndustryConfig());
+
+		FMLJavaModLoadingContext.get().getModEventBus().register(new IndustryBlocks());
+		FMLJavaModLoadingContext.get().getModEventBus().register(new IndustryItems());
+		FMLJavaModLoadingContext.get().getModEventBus().register(new IndustrySounds());
 	}
 
 	@Override
-	public void preInit(FMLPreInitializationEvent event) {
-		super.preInit(event);
+	public void setup(FMLCommonSetupEvent event) {
+		super.setup(event);
 
-		MinecraftForge.EVENT_BUS.register(new IndustryBlocks());
-		MinecraftForge.EVENT_BUS.register(new IndustryItems());
-		MinecraftForge.EVENT_BUS.register(new IndustrySounds());
-
-		if (IndustryConfig.subpartStorage)
+		if (IndustryConfig.subpartStorage.get())
 			PacketDispatcher.registerMessage(MessageSetLock.class);
 
-		if (IndustryConfig.subpartSensors) {
+		if (IndustryConfig.subpartSensors.get()) {
 			PacketDispatcher.registerMessage(MessageSensorChangeMode.class);
 			PacketDispatcher.registerMessage(MessageSensorSetEntity.class);
 			PacketDispatcher.registerMessage(MessageSensorSetItem.class);
@@ -67,29 +80,36 @@ public class GrimIndustry extends GrimPart {
 			PacketDispatcher.registerMessage(MessageSensorSetBox.class);
 		}
 
-		if (IndustryConfig.subpartFans)
+		if (IndustryConfig.subpartFans.get())
 			PacketDispatcher.registerMessage(MessageSaveFan.class);
 
-		if (IndustryConfig.subpartExtruder)
+		if (IndustryConfig.subpartExtruder.get())
 			PacketDispatcher.registerMessage(MessageExtruderDirection.class);
 
-		if (IndustryConfig.subpartChunkLoader) {
+		if (IndustryConfig.subpartChunkLoader.get()) {
 			ForgeChunkManager.setForcedChunkLoadingCallback(GrimPack.INSTANCE, new ChunkLoaderCallback());
 
 			MinecraftForge.EVENT_BUS.register(new ChunkLoaderEvents());
 		}
 
-		GameRegistry.registerWorldGenerator(new IndustryGenerate(), 10);
-		IndustryEntities.initEntities();
+		// GameRegistry.registerWorldGenerator(new IndustryGenerate(), 10);
 		proxy.preInit();
 	}
 
 	@Override
-	public void init(FMLInitializationEvent event) {
-		super.init(event);
-		proxy.initColors();
+	public void clientSetup(FMLClientSetupEvent event) {
+		super.clientSetup(event);
 
-		IndustryRecipes.initRecipes();
+		proxy.initColors();
+	}
+	
+	@Override
+	public void serverSetup(FMLDedicatedServerSetupEvent event) {
+		super.serverSetup(event);
+		
+		if (IndustryConfig.subpartChunkLoader.get()) {
+			event.registerServerCommand(new ChunkLoaderCommand());
+		}
 	}
 
 	@Override
@@ -104,32 +124,25 @@ public class GrimIndustry extends GrimPart {
 	}
 
 	@Override
-	public void serverStarting(FMLServerStartingEvent event) {
-		if(IndustryConfig.subpartChunkLoader){
-			event.registerServerCommand(new ChunkLoaderCommand());
-		}
-	}
-
-	@Override
 	public void serverStarted(FMLServerStartedEvent event) {
-	    if(IndustryConfig.subpartChunkLoader) {
+		if (IndustryConfig.subpartChunkLoader.get()) {
 
-            World world = DimensionManager.getWorld(DimensionType.OVERWORLD.getId());
-            ChunkLoaderStorage storage = ChunkLoaderStorage.getStorage(world);
-            List<ChunkLoaderData> chunkLoaderData = storage.getChunkLoaders();
+			World world = DimensionManager.getWorld(DimensionType.field_223227_a_.getId());
+			ChunkLoaderStorage storage = ChunkLoaderStorage.getStorage(world);
+			List<ChunkLoaderData> chunkLoaderData = storage.getChunkLoaders();
 
-            for (ChunkLoaderData data : chunkLoaderData) {
-                world = DimensionManager.getWorld(data.dimension);
-                if (world != null && !world.isRemote) {
-                    TileEntityChunkLoader chunkLoader = (TileEntityChunkLoader) world.getTileEntity(data.pos);
-                    if (chunkLoader != null && chunkLoader.getEnabled()) {
-                        chunkLoader.setWorld(world);
-                        chunkLoader.validate();
-                    } else {
-                        storage.removeChunkLoader(data);
-                    }
-                }
-            }
-        }
+			for (ChunkLoaderData data : chunkLoaderData) {
+				world = DimensionManager.getWorld(data.dimension);
+				if (world != null && !world.isRemote) {
+					TileEntityChunkLoader chunkLoader = (TileEntityChunkLoader) world.getTileEntity(data.pos);
+					if (chunkLoader != null && chunkLoader.getEnabled()) {
+						chunkLoader.setWorld(world);
+						chunkLoader.validate();
+					} else {
+						storage.removeChunkLoader(data);
+					}
+				}
+			}
+		}
 	}
 }

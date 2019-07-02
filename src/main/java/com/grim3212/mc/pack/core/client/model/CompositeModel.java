@@ -5,18 +5,18 @@ import java.util.Random;
 
 import javax.vecmath.Matrix4f;
 
+import net.minecraft.block.BlockState;
 import org.apache.commons.lang3.tuple.Pair;
 
 import com.google.common.collect.ImmutableList;
 
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.model.BakedQuad;
 import net.minecraft.client.renderer.model.IBakedModel;
 import net.minecraft.client.renderer.model.ItemCameraTransforms;
 import net.minecraft.client.renderer.model.ItemCameraTransforms.TransformType;
 import net.minecraft.client.renderer.model.ItemOverrideList;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.util.Direction;
 import net.minecraftforge.common.model.TRSRTransformation;
 
 @SuppressWarnings("deprecation")
@@ -29,7 +29,7 @@ public class CompositeModel implements IBakedModel {
 	}
 
 	@Override
-	public List<BakedQuad> getQuads(IBlockState state, EnumFacing side, Random rand) {
+	public List<BakedQuad> getQuads(BlockState state, Direction side, Random rand) {
 		ImmutableList.Builder<BakedQuad> builder = ImmutableList.builder();
 
 		for (IBakedModel model : models) {

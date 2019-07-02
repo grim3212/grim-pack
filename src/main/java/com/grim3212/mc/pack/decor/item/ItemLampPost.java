@@ -1,80 +1,52 @@
 package com.grim3212.mc.pack.decor.item;
 
-import com.grim3212.mc.pack.core.item.ItemManual;
+import com.grim3212.mc.pack.core.item.ItemManualBlock;
 import com.grim3212.mc.pack.core.manual.pages.Page;
-import com.grim3212.mc.pack.core.part.GrimCreativeTabs;
+import com.grim3212.mc.pack.core.part.GrimItemGroups;
 import com.grim3212.mc.pack.core.util.NBTHelper;
 import com.grim3212.mc.pack.decor.block.DecorBlocks;
 import com.grim3212.mc.pack.decor.client.ManualDecor;
+import com.grim3212.mc.pack.decor.init.DecorNames;
+import com.grim3212.mc.pack.decor.tile.TileEntityColorizer;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockSnow;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
+import net.minecraft.block.BlockState;
+import net.minecraft.item.BlockItemUseContext;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumActionResult;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumHand;
-import net.minecraft.util.NonNullList;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.item.ItemUseContext;
+import net.minecraft.nbt.NBTUtil;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ActionResultType;
 
-@SuppressWarnings("deprecation")
-public class ItemLampPost extends ItemManual {
+public class ItemLampPost extends ItemManualBlock {
 
 	public ItemLampPost() {
-		super("lamp_item");
-		this.setHasSubtypes(true);
-		this.setMaxDamage(0);
-		setCreativeTab(GrimCreativeTabs.GRIM_DECOR);
+		super(DecorBlocks.lamp_post_bottom, new Item.Properties().group(GrimItemGroups.GRIM_DECOR));
+		setRegistryName(DecorNames.LAMP_ITEM);
 	}
 
 	@Override
-	public EnumActionResult onItemUse(EntityPlayer playerIn, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
-		IBlockState iblockstate = worldIn.getBlockState(pos);
-		Block block = iblockstate.getBlock();
+	public ActionResultType onItemUse(ItemUseContext context) {
+		ActionResultType result = super.onItemUse(context);
 
-		if (block == Blocks.SNOW_LAYER && ((Integer) iblockstate.getValue(BlockSnow.LAYERS)).intValue() < 1) {
-			facing = EnumFacing.UP;
-		} else if (!block.isReplaceable(worldIn, pos)) {
-			pos = pos.offset(facing);
-		}
+		TileEntity tileentityUp = context.getWorld().getTileEntity(context.getPos().up());
+		if (tileentityUp instanceof TileEntityColorizer)
+			((TileEntityColorizer) tileentityUp).setStoredBlockState(NBTUtil.readBlockState(NBTHelper.getTagCompound(context.getItem(), "stored_state")));
+		TileEntity tileentityUpUp = context.getWorld().getTileEntity(context.getPos().up(2));
+		if (tileentityUpUp instanceof TileEntityColorizer)
+			((TileEntityColorizer) tileentityUpUp).setStoredBlockState(NBTUtil.readBlockState(NBTHelper.getTagCompound(context.getItem(), "stored_state")));
 
-		ItemStack stack = playerIn.getHeldItem(hand);
-		if (stack.getCount() == 0) {
-			return EnumActionResult.FAIL;
-		} else if (!playerIn.canPlayerEdit(pos, facing, stack)) {
-			return EnumActionResult.FAIL;
-		} else if (pos.getY() == 255 && DecorBlocks.lamp_post_bottom.getDefaultState().getMaterial().isSolid()) {
-			return EnumActionResult.FAIL;
-		} else if (worldIn.mayPlace(DecorBlocks.lamp_post_bottom, pos, false, facing, (Entity) null) && worldIn.mayPlace(DecorBlocks.lamp_post_middle, pos.up(), false, facing, (Entity) null) && worldIn.mayPlace(DecorBlocks.lamp_post_top, pos.up(2), false, facing, (Entity) null)) {
-
-			worldIn.setBlockState(pos, DecorBlocks.lamp_post_bottom.getDefaultState());
-			worldIn.setBlockState(pos.up(), DecorBlocks.lamp_post_middle.getDefaultState());
-			worldIn.setBlockState(pos.up(2), DecorBlocks.lamp_post_top.getDefaultState());
-
-			stack.shrink(1);
-
-			worldIn.playSound(playerIn, pos, DecorBlocks.lamp_post_bottom.getSoundType().getPlaceSound(), SoundCategory.BLOCKS, (DecorBlocks.lamp_post_bottom.getSoundType().getVolume() + 1.0F) / 2.0F, DecorBlocks.lamp_post_bottom.getSoundType().getPitch() * 0.8F);
-
-			return EnumActionResult.SUCCESS;
-		} else {
-			return EnumActionResult.FAIL;
-		}
+		return result;
 	}
 
 	@Override
-	public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> subItems) {
-		if (isInCreativeTab(tab)) {
-			ItemStack itemstack = new ItemStack(this);
-			NBTHelper.setString(itemstack, "registryName", Block.REGISTRY.getNameForObject(Blocks.AIR).toString());
-			NBTHelper.setInteger(itemstack, "meta", 0);
-			subItems.add(itemstack);
+	protected boolean placeBlock(BlockItemUseContext context, BlockState state) {
+		if (context.getWorld().isAirBlock(context.getPos().up()) && context.getWorld().isAirBlock(context.getPos().up(2))) {
+			context.getWorld().setBlockState(context.getPos().up(), DecorBlocks.lamp_post_middle.getDefaultState(), 11);
+			context.getWorld().setBlockState(context.getPos().up(2), DecorBlocks.lamp_post_top.getDefaultState(), 11);
+			return super.placeBlock(context, state);
 		}
+		return false;
 	}
 
 	@Override

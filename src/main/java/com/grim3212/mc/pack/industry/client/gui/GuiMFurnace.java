@@ -6,7 +6,8 @@ import com.grim3212.mc.pack.industry.inventory.ContainerMFurnace;
 import com.grim3212.mc.pack.industry.tile.TileEntityMFurnace;
 
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.util.ResourceLocation;
 
@@ -15,10 +16,10 @@ public class GuiMFurnace extends GuiGrimContainer {
 	private ResourceLocation gui = new ResourceLocation(GrimPack.modID, "textures/gui/gui_modern_furnace.png");
 
 	/** The player inventory bound to this GUI. */
-	private final InventoryPlayer playerInventory;
+	private final PlayerInventory playerInventory;
 	private IInventory tileFurnace;
 
-	public GuiMFurnace(InventoryPlayer playerInv, IInventory furnaceInv) {
+	public GuiMFurnace(PlayerInventory playerInv, IInventory furnaceInv) {
 		super(new ContainerMFurnace(playerInv, furnaceInv));
 		this.playerInventory = playerInv;
 		this.tileFurnace = furnaceInv;

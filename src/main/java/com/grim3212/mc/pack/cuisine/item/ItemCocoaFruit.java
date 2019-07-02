@@ -7,11 +7,11 @@ import com.grim3212.mc.pack.cuisine.block.CuisineBlocks;
 import com.grim3212.mc.pack.cuisine.client.ManualCuisine;
 import com.grim3212.mc.pack.cuisine.init.CuisineNames;
 
+import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 
-public class ItemCocoaFruit extends ItemBlock implements IManualItem {
+public class ItemCocoaFruit extends BlockItem implements IManualItem {
 
 	public ItemCocoaFruit() {
 		super(CuisineBlocks.cocoa_tree_sapling, new Item.Properties().maxStackSize(16).group(GrimItemGroups.GRIM_CUISINE));

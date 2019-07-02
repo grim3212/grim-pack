@@ -15,7 +15,7 @@
   "type": "minecraft:crafting_shaped",
   "key": {
     "X": {
-      "constant": "grimpack:bucket_milk"
+      "tag": "forge:buckets/milk"
     },
     "Y": {
       "item": "grimpack:cuisine/soda_orange"

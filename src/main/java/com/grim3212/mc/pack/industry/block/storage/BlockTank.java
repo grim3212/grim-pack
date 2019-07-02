@@ -8,18 +8,21 @@ import com.grim3212.mc.pack.core.util.Utils;
 import com.grim3212.mc.pack.industry.client.ManualIndustry;
 import com.grim3212.mc.pack.industry.tile.TileEntityTank;
 
+import net.minecraft.block.BlockState;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.state.BlockStateContainer;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.block.BlockState;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockRenderLayer;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumHand;
+import net.minecraft.util.Direction;
+import net.minecraft.util.Direction;
+import net.minecraft.util.Hand;
+import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
@@ -48,7 +51,7 @@ public class BlockTank extends BlockManual implements ITileEntityProvider {
 	}
 
 	@Override
-	public IBlockState getExtendedState(IBlockState state, IBlockAccess world, BlockPos pos) {
+	public BlockState getExtendedState(BlockState state, IBlockAccess world, BlockPos pos) {
 		TileEntity te = world.getTileEntity(pos);
 		if (te instanceof TileEntityTank && state instanceof IExtendedBlockState) {
 			TileEntityTank tef = (TileEntityTank) te;
@@ -58,7 +61,7 @@ public class BlockTank extends BlockManual implements ITileEntityProvider {
 	}
 
 	@Override
-	public void breakBlock(World worldIn, BlockPos pos, IBlockState state) {
+	public void breakBlock(World worldIn, BlockPos pos, BlockState state) {
 		TileEntity te = worldIn.getTileEntity(pos);
 		if (te instanceof TileEntityTank) {
 			TileEntityTank tef = (TileEntityTank) te;
@@ -74,22 +77,22 @@ public class BlockTank extends BlockManual implements ITileEntityProvider {
 	}
 
 	@Override
-	public Page getPage(IBlockState state) {
+	public Page getPage(BlockState state) {
 		return ManualIndustry.tank_page;
 	}
 
 	@Override
-	public boolean isOpaqueCube(IBlockState state) {
+	public boolean isOpaqueCube(BlockState state) {
 		return false;
 	}
 
 	@Override
-	public boolean isFullCube(IBlockState state) {
+	public boolean isFullCube(BlockState state) {
 		return false;
 	}
 
 	@Override
-	public int getLightValue(IBlockState state, IBlockAccess world, BlockPos pos) {
+	public int getLightValue(BlockState state, IBlockAccess world, BlockPos pos) {
 		TileEntity te = world.getTileEntity(pos);
 		if (te instanceof TileEntityTank) {
 			TileEntityTank tef = (TileEntityTank) te;
@@ -99,19 +102,19 @@ public class BlockTank extends BlockManual implements ITileEntityProvider {
 		return super.getLightValue(state, world, pos);
 	}
 
-	@OnlyIn(Dist.CLIENT)
+	@SideOnly(Side.CLIENT)
 	@Override
 	public BlockRenderLayer getBlockLayer() {
 		return BlockRenderLayer.TRANSLUCENT;
 	}
 
 	@Override
-	public boolean canRenderInLayer(IBlockState state, BlockRenderLayer layer) {
+	public boolean canRenderInLayer(BlockState state, BlockRenderLayer layer) {
 		return (layer == BlockRenderLayer.CUTOUT_MIPPED || layer == BlockRenderLayer.TRANSLUCENT);
 	}
 
 	@Override
-	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
+	public boolean onBlockActivated(World world, BlockPos pos, BlockState state, PlayerEntity player, Hand hand, Direction side, float hitX, float hitY, float hitZ) {
 		ItemStack heldItem = player.getHeldItem(hand);
 		if (heldItem == null) {
 			return super.onBlockActivated(world, pos, state, player, hand, side, hitX, hitY, hitZ);

@@ -10,10 +10,10 @@
   },
   "ingredients": [
     {
-      "constant": "grimpack:paper"
+      "tag": "forge:paper"
     },
     {
-      "constant": "grimpack:dye_blue"
+      "tag": "forge:dyes/blue"
     }
   ],
   "type": "minecraft:crafting_shapeless"

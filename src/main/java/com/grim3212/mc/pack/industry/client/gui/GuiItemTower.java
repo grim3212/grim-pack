@@ -2,6 +2,7 @@ package com.grim3212.mc.pack.industry.client.gui;
 
 import java.io.IOException;
 
+import net.minecraft.entity.player.PlayerEntity;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 
@@ -11,8 +12,8 @@ import com.grim3212.mc.pack.industry.inventory.ContainerItemTower;
 import com.grim3212.mc.pack.industry.inventory.InventoryItemTower;
 
 import net.minecraft.client.resources.I18n;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.SoundEvents;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.util.SoundEvents;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.util.ResourceLocation;
 
@@ -23,7 +24,7 @@ public class GuiItemTower extends GuiGrimContainer {
 	private int rowID = 0;
 	private static final ResourceLocation GUITower = new ResourceLocation(GrimPack.modID, "textures/gui/gui_tower.png");
 
-	public GuiItemTower(EntityPlayer player, IInventory itemTowers) {
+	public GuiItemTower(PlayerEntity player, IInventory itemTowers) {
 		super(new ContainerItemTower(player, itemTowers));
 		this.containerItemTower = ((ContainerItemTower) this.inventorySlots);
 		this.itemTowers = ((InventoryItemTower) itemTowers);

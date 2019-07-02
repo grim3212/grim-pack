@@ -10,25 +10,30 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.enchantment.EnchantmentProtection;
+import net.minecraft.enchantment.ProtectionEnchantment;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.item.EntityTNTPrimed;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.item.TNTEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.fluid.IFluidState;
-import net.minecraft.init.Blocks;
-import net.minecraft.init.Particles;
-import net.minecraft.init.SoundEvents;
+import net.minecraft.item.ItemStack;
+import net.minecraft.particles.ParticleTypes;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.SoundCategory;
+import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.Explosion;
+import net.minecraft.world.ServerWorld;
 import net.minecraft.world.World;
+import net.minecraft.world.storage.loot.LootContext;
+import net.minecraft.world.storage.loot.LootParameters;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -36,8 +41,6 @@ public class BetterExplosion extends Explosion {
 
 	/** whether or not the explosion sets fire to blocks around it */
 	private final boolean isFlaming;
-	/** whether or not this explosion spawns smoke particles */
-	private final boolean isSmoking;
 	private final Random explosionRNG;
 	private final World worldObj;
 	private final double explosionX;
@@ -46,27 +49,27 @@ public class BetterExplosion extends Explosion {
 	private final Entity exploder;
 	private final float explosionSize;
 	private final List<BlockPos> affectedBlockPositions;
-	private final Map<EntityPlayer, Vec3d> playerKnockbackMap;
+	private final Map<PlayerEntity, Vec3d> playerKnockbackMap;
 	private final Vec3d position;
-	private final boolean destroyBlocks;
+	private final Explosion.Mode destroyBlocks;
 	private final boolean hurtEntities;
 
 	@OnlyIn(Dist.CLIENT)
-	public BetterExplosion(World worldIn, Entity entityIn, double x, double y, double z, float size, boolean destroyBlocks, List<BlockPos> affectedPositions) {
-		this(worldIn, entityIn, x, y, z, size, false, true, destroyBlocks, false, affectedPositions);
+	public BetterExplosion(World worldIn, Entity entityIn, double x, double y, double z, float size, Explosion.Mode destroyBlocks, List<BlockPos> affectedPositions) {
+		this(worldIn, entityIn, x, y, z, size, false, destroyBlocks, false, affectedPositions);
 	}
 
 	@OnlyIn(Dist.CLIENT)
-	public BetterExplosion(World worldIn, Entity entityIn, double x, double y, double z, float size, boolean flaming, boolean smoking, boolean destroyBlocks, boolean hurtEntities, List<BlockPos> affectedPositions) {
-		this(worldIn, entityIn, x, y, z, size, flaming, smoking, destroyBlocks, hurtEntities);
+	public BetterExplosion(World worldIn, Entity entityIn, double x, double y, double z, float size, boolean flaming, Explosion.Mode destroyBlocks, boolean hurtEntities, List<BlockPos> affectedPositions) {
+		this(worldIn, entityIn, x, y, z, size, flaming, destroyBlocks, hurtEntities);
 		this.affectedBlockPositions.addAll(affectedPositions);
 	}
 
-	public BetterExplosion(World worldIn, Entity entityIn, double x, double y, double z, float size, boolean flaming, boolean smoking, boolean destroyBlocks, boolean hurtEntities) {
-		super(worldIn, entityIn, x, y, z, size, flaming, smoking);
+	public BetterExplosion(World worldIn, Entity entityIn, double x, double y, double z, float size, boolean flaming, Explosion.Mode destroyBlocks, boolean hurtEntities) {
+		super(worldIn, entityIn, x, y, z, size, flaming, destroyBlocks);
 		this.explosionRNG = new Random();
 		this.affectedBlockPositions = Lists.<BlockPos>newArrayList();
-		this.playerKnockbackMap = Maps.<EntityPlayer, Vec3d>newHashMap();
+		this.playerKnockbackMap = Maps.<PlayerEntity, Vec3d>newHashMap();
 		this.worldObj = worldIn;
 		this.exploder = entityIn;
 		this.explosionSize = size;
@@ -74,7 +77,6 @@ public class BetterExplosion extends Explosion {
 		this.explosionY = y;
 		this.explosionZ = z;
 		this.isFlaming = flaming;
-		this.isSmoking = smoking;
 		this.position = new Vec3d(explosionX, explosionY, explosionZ);
 		this.destroyBlocks = destroyBlocks;
 		this.hurtEntities = hurtEntities;
@@ -102,7 +104,7 @@ public class BetterExplosion extends Explosion {
 
 						for (; f > 0.0F; f -= 0.22500001F) {
 							BlockPos blockpos = new BlockPos(d4, d6, d8);
-							IBlockState iblockstate = this.worldObj.getBlockState(blockpos);
+							BlockState iblockstate = this.worldObj.getBlockState(blockpos);
 							IFluidState ifluidstate = this.worldObj.getFluidState(blockpos);
 							if (!iblockstate.isAir(worldObj, blockpos) || !ifluidstate.isEmpty()) {
 								float f2 = Math.max(iblockstate.getExplosionResistance(worldObj, blockpos, exploder, this), ifluidstate.getExplosionResistance(worldObj, blockpos, exploder, this));
@@ -144,7 +146,7 @@ public class BetterExplosion extends Explosion {
 				Entity entity = (Entity) list.get(k2);
 
 				if (!entity.isImmuneToExplosions()) {
-					double d12 = entity.getDistance(this.explosionX, this.explosionY, this.explosionZ) / (double) f3;
+					double d12 = (double) (MathHelper.sqrt(entity.getDistanceSq(new Vec3d(this.explosionX, this.explosionY, this.explosionZ))) / f3);
 
 					if (d12 <= 1.0D) {
 						double d5 = entity.posX - this.explosionX;
@@ -156,21 +158,19 @@ public class BetterExplosion extends Explosion {
 							d5 = d5 / d13;
 							d7 = d7 / d13;
 							d9 = d9 / d13;
-							double d14 = (double) this.worldObj.getBlockDensity(vec3d, entity.getBoundingBox());
+							double d14 = (double) func_222259_a(vec3d, entity);
 							double d10 = (1.0D - d12) * d14;
 							entity.attackEntityFrom(DamageSource.causeExplosionDamage(this), (float) ((int) ((d10 * d10 + d10) / 2.0D * 7.0D * (double) f3 + 1.0D)));
 							double d11 = 1.0D;
 
-							if (entity instanceof EntityLivingBase) {
-								d11 = EnchantmentProtection.getBlastDamageReduction((EntityLivingBase) entity, d10);
+							if (entity instanceof LivingEntity) {
+								d11 = ProtectionEnchantment.getBlastDamageReduction((LivingEntity) entity, d10);
 							}
 
-							entity.motionX += d5 * d11;
-							entity.motionY += d7 * d11;
-							entity.motionZ += d9 * d11;
+							entity.setMotion(entity.getMotion().add(d5 * d11, d7 * d11, d9 * d11));
 
-							if (entity instanceof EntityPlayer) {
-								EntityPlayer entityplayer = (EntityPlayer) entity;
+							if (entity instanceof PlayerEntity) {
+								PlayerEntity entityplayer = (PlayerEntity) entity;
 
 								if (!entityplayer.isSpectator() && (!entityplayer.isCreative() || !entityplayer.abilities.isFlying)) {
 									this.playerKnockbackMap.put(entityplayer, new Vec3d(d5 * d10, d7 * d10, d9 * d10));
@@ -185,17 +185,18 @@ public class BetterExplosion extends Explosion {
 
 	@Override
 	public void doExplosionB(boolean spawnParticles) {
-		this.worldObj.playSound((EntityPlayer) null, this.explosionX, this.explosionY, this.explosionZ, SoundEvents.ENTITY_GENERIC_EXPLODE, SoundCategory.BLOCKS, 4.0F, (1.0F + (this.worldObj.rand.nextFloat() - this.worldObj.rand.nextFloat()) * 0.2F) * 0.7F);
+		this.worldObj.playSound((PlayerEntity) null, this.explosionX, this.explosionY, this.explosionZ, SoundEvents.ENTITY_GENERIC_EXPLODE, SoundCategory.BLOCKS, 4.0F, (1.0F + (this.worldObj.rand.nextFloat() - this.worldObj.rand.nextFloat()) * 0.2F) * 0.7F);
 
-		if (this.explosionSize >= 2.0F && this.isSmoking) {
-			this.worldObj.addParticle(Particles.EXPLOSION_EMITTER, this.explosionX, this.explosionY, this.explosionZ, 1.0D, 0.0D, 0.0D);
+		boolean flag = this.destroyBlocks != Explosion.Mode.NONE;
+		if (this.explosionSize >= 2.0F && flag) {
+			this.worldObj.addParticle(ParticleTypes.EXPLOSION_EMITTER, this.explosionX, this.explosionY, this.explosionZ, 1.0D, 0.0D, 0.0D);
 		} else {
-			this.worldObj.addParticle(Particles.EXPLOSION, this.explosionX, this.explosionY, this.explosionZ, 1.0D, 0.0D, 0.0D);
+			this.worldObj.addParticle(ParticleTypes.EXPLOSION, this.explosionX, this.explosionY, this.explosionZ, 1.0D, 0.0D, 0.0D);
 		}
 
-		if (this.isSmoking) {
+		if (flag) {
 			for (BlockPos blockpos : this.affectedBlockPositions) {
-				IBlockState iblockstate = this.worldObj.getBlockState(blockpos);
+				BlockState iblockstate = this.worldObj.getBlockState(blockpos);
 				Block block = iblockstate.getBlock();
 
 				if (spawnParticles) {
@@ -214,18 +215,23 @@ public class BetterExplosion extends Explosion {
 					d3 = d3 * d7;
 					d4 = d4 * d7;
 					d5 = d5 * d7;
-					this.worldObj.addParticle(Particles.POOF, (d0 + this.explosionX) / 2.0D, (d1 + this.explosionY) / 2.0D, (d2 + this.explosionZ) / 2.0D, d3, d4, d5);
-					this.worldObj.addParticle(Particles.SMOKE, d0, d1, d2, d3, d4, d5);
+					this.worldObj.addParticle(ParticleTypes.POOF, (d0 + this.explosionX) / 2.0D, (d1 + this.explosionY) / 2.0D, (d2 + this.explosionZ) / 2.0D, d3, d4, d5);
+					this.worldObj.addParticle(ParticleTypes.SMOKE, d0, d1, d2, d3, d4, d5);
 				}
 
-				if (destroyBlocks) {
-					if (iblockstate.getMaterial() != Material.AIR) {
-						if (block.canDropFromExplosion(this)) {
-							iblockstate.dropBlockAsItemWithChance(this.worldObj, blockpos, 1.0F / this.explosionSize, 0);
+				if (!iblockstate.isAir(this.worldObj, blockpos)) {
+					if (this.worldObj instanceof ServerWorld && iblockstate.canDropFromExplosion(this.worldObj, blockpos, this)) {
+						TileEntity tileentity = iblockstate.hasTileEntity() ? this.worldObj.getTileEntity(blockpos) : null;
+						LootContext.Builder lootcontext$builder = (new LootContext.Builder((ServerWorld) this.worldObj)).withRandom(this.worldObj.rand).withParameter(LootParameters.POSITION, blockpos).withParameter(LootParameters.TOOL, ItemStack.EMPTY).withNullableParameter(LootParameters.BLOCK_ENTITY, tileentity);
+						if (this.destroyBlocks == Explosion.Mode.DESTROY) {
+							lootcontext$builder.withParameter(LootParameters.EXPLOSION_RADIUS, this.explosionSize);
 						}
 
-						iblockstate.onBlockExploded(this.worldObj, blockpos, this);
+						Block.spawnDrops(iblockstate, lootcontext$builder);
 					}
+
+					this.worldObj.setBlockState(blockpos, Blocks.AIR.getDefaultState(), 3);
+					block.onExplosionDestroy(this.worldObj, blockpos, this);
 				}
 			}
 		}
@@ -240,13 +246,13 @@ public class BetterExplosion extends Explosion {
 	}
 
 	@Override
-	public Map<EntityPlayer, Vec3d> getPlayerKnockbackMap() {
+	public Map<PlayerEntity, Vec3d> getPlayerKnockbackMap() {
 		return this.playerKnockbackMap;
 	}
 
 	@Override
-	public EntityLivingBase getExplosivePlacedBy() {
-		return this.exploder == null ? null : (this.exploder instanceof EntityTNTPrimed ? ((EntityTNTPrimed) this.exploder).getTntPlacedBy() : (this.exploder instanceof EntityLivingBase ? (EntityLivingBase) this.exploder : null));
+	public LivingEntity getExplosivePlacedBy() {
+		return this.exploder == null ? null : (this.exploder instanceof TNTEntity ? ((TNTEntity) this.exploder).getTntPlacedBy() : (this.exploder instanceof LivingEntity ? (LivingEntity) this.exploder : null));
 	}
 
 	@Override

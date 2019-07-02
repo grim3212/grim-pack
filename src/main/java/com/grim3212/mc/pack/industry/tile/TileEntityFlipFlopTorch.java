@@ -2,8 +2,9 @@ package com.grim3212.mc.pack.industry.tile;
 
 import com.grim3212.mc.pack.core.tile.TileEntityGrim;
 
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.BlockState;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
@@ -15,12 +16,12 @@ public class TileEntityFlipFlopTorch extends TileEntityGrim {
 	}
 
 	@Override
-	public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newState) {
+	public boolean shouldRefresh(World world, BlockPos pos, BlockState oldState, BlockState newState) {
 		return oldState.getBlock() != newState.getBlock();
 	}
 
 	@Override
-	public void readFromNBT(NBTTagCompound compound) {
+	public void readFromNBT(CompoundNBT compound) {
 		super.readFromNBT(compound);
 
 		if (compound.hasKey("PrevState")) {
@@ -29,7 +30,7 @@ public class TileEntityFlipFlopTorch extends TileEntityGrim {
 	}
 
 	@Override
-	public NBTTagCompound writeToNBT(NBTTagCompound compound) {
+	public CompoundNBT writeToNBT(CompoundNBT compound) {
 		super.writeToNBT(compound);
 		compound.setBoolean("PrevState", this.prevState);
 		return compound;

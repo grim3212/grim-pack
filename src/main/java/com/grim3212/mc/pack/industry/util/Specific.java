@@ -3,7 +3,7 @@ package com.grim3212.mc.pack.industry.util;
 import com.grim3212.mc.pack.industry.tile.TileEntitySpecificSensor.SensorMode;
 
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.CompoundNBT;
 
 public class Specific {
 
@@ -38,34 +38,34 @@ public class Specific {
 		return entityName;
 	}
 
-	public void writeToNBT(NBTTagCompound compound) {
-		NBTTagCompound specificTag = new NBTTagCompound();
+	public void writeToNBT(CompoundNBT compound) {
+		CompoundNBT specificTag = new CompoundNBT();
 
 		if (stack != null) {
-			NBTTagCompound itemTag = new NBTTagCompound();
-			this.stack.writeToNBT(itemTag);
-			specificTag.setTag("Specific_Item", itemTag);
+			CompoundNBT itemTag = new CompoundNBT();
+			this.stack.write(itemTag);
+			specificTag.put("Specific_Item", itemTag);
 		}
 		if (!playerName.isEmpty()) {
-			specificTag.setString("Specific_Player", playerName);
+			specificTag.putString("Specific_Player", playerName);
 		}
 		if (!entityName.isEmpty()) {
-			specificTag.setString("Specific_Entity", entityName);
+			specificTag.putString("Specific_Entity", entityName);
 		}
 
-		compound.setTag("Specific", specificTag);
+		compound.put("Specific", specificTag);
 	}
 
-	public void readFromNBT(NBTTagCompound compound) {
-		NBTTagCompound specificTag = compound.getCompoundTag("Specific");
+	public void readFromNBT(CompoundNBT compound) {
+		CompoundNBT specificTag = compound.getCompound("Specific");
 
-		if (specificTag.hasKey("Specific_Item")) {
-			this.stack = new ItemStack(specificTag.getCompoundTag("Specific_Item"));
+		if (specificTag.contains("Specific_Item")) {
+			this.stack = ItemStack.read(specificTag.getCompound("Specific_Item"));
 		}
-		if (specificTag.hasKey("Specific_Player")) {
+		if (specificTag.contains("Specific_Player")) {
 			this.playerName = specificTag.getString("Specific_Player");
 		}
-		if (specificTag.hasKey("Specific_Entity")) {
+		if (specificTag.contains("Specific_Entity")) {
 			this.entityName = specificTag.getString("Specific_Entity");
 		}
 	}

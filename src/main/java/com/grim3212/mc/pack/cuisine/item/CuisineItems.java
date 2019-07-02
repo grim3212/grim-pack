@@ -7,10 +7,8 @@ import com.grim3212.mc.pack.cuisine.config.CuisineConfig;
 import com.grim3212.mc.pack.cuisine.init.CuisineNames;
 import com.grim3212.mc.pack.cuisine.item.ItemSodaBottle.SodaType;
 
-import net.minecraft.init.Items;
-import net.minecraft.init.MobEffects;
 import net.minecraft.item.Item;
-import net.minecraft.potion.PotionEffect;
+import net.minecraft.item.Items;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.registries.IForgeRegistry;
@@ -138,11 +136,11 @@ public class CuisineItems {
 		}
 
 		if (CuisineConfig.subpartDragonFruit.get())
-			r.register(new ItemManualFood(CuisineNames.DRAGON_FRUIT, 4, 0.3F, false, "cuisine:dragonfruit", new Item.Properties().group(GrimItemGroups.GRIM_CUISINE)));
+			r.register(new ItemManualFood(CuisineNames.DRAGON_FRUIT, "cuisine:dragonfruit", new Item.Properties().group(GrimItemGroups.GRIM_CUISINE).food(CuisineFoods.DRAGON_FRUIT)));
 
 		if (CuisineConfig.subpartHealth.get()) {
-			r.register(new ItemManualFood(CuisineNames.SWEETS, 2, 0.1F, false, "cuisine:sugar.sweets", new Item.Properties().group(GrimItemGroups.GRIM_CUISINE)));
-			r.register(new ItemManualFood(CuisineNames.POWERED_SWEETS, 6, 0.3F, false, "cuisine:sugar.sweets", new Item.Properties().group(GrimItemGroups.GRIM_CUISINE)));
+			r.register(new ItemManualFood(CuisineNames.SWEETS, "cuisine:sugar.sweets", new Item.Properties().group(GrimItemGroups.GRIM_CUISINE).food(CuisineFoods.SWEETS)));
+			r.register(new ItemManualFood(CuisineNames.POWERED_SWEETS, "cuisine:sugar.sweets", new Item.Properties().group(GrimItemGroups.GRIM_CUISINE).food(CuisineFoods.POWERED_SWEETS)));
 			r.register(new ItemManualPage(CuisineNames.POWERED_SUGAR, "cuisine:sugar.sweets", new Item.Properties().group(GrimItemGroups.GRIM_CUISINE)));
 			r.register(new ItemHealthPack(CuisineNames.BANDAGE, 3));
 			r.register(new ItemHealthPack(CuisineNames.HEALTHPACK, 5));
@@ -151,31 +149,31 @@ public class CuisineItems {
 
 		if (CuisineConfig.subpartDairy.get()) {
 			r.register(new ItemDamage(CuisineNames.MIXER, 64));
-			r.register(new ItemManualFood(CuisineNames.BUTTER, 2, 0.4F, false, "cuisine:dairy.butter", new Item.Properties().group(GrimItemGroups.GRIM_CUISINE)));
-			r.register(new ItemManualFood(CuisineNames.CHEESE, 3, 0.6F, false, "cuisine:dairy.cheeseblock", new Item.Properties().group(GrimItemGroups.GRIM_CUISINE)));
-			r.register(new ItemManualFood(CuisineNames.BREAD_SLICE, 2, 0.4F, false, "cuisine:food.sandwiches", new Item.Properties().group(GrimItemGroups.GRIM_CUISINE)));
-			r.register(new ItemManualFood(CuisineNames.CHEESE_BURGER, 12, 0.95F, false, "cuisine:food.sandwiches", new Item.Properties().group(GrimItemGroups.GRIM_CUISINE)));
-			r.register(new ItemManualFood(CuisineNames.HOT_CHEESE, 8, 0.75F, false, "cuisine:food.sandwiches", new Item.Properties().group(GrimItemGroups.GRIM_CUISINE)));
-			r.register(new ItemManualFood(CuisineNames.EGGS_MIXED, 4, 0.4F, false, "cuisine:food.eggs", new Item.Properties().group(GrimItemGroups.GRIM_CUISINE)).setPotionEffect(new PotionEffect(MobEffects.HUNGER, 600, 0), 0.3F));
-			r.register(new ItemManualFood(CuisineNames.EGGS_UNMIXED, 2, 0.1F, false, "cuisine:food.eggs", new Item.Properties().group(GrimItemGroups.GRIM_CUISINE)).setPotionEffect(new PotionEffect(MobEffects.HUNGER, 600, 0), 0.3F));
-			r.register(new ItemManualFood(CuisineNames.EGGS_COOKED, 10, 0.8F, false, "cuisine:food.cooked", new Item.Properties().group(GrimItemGroups.GRIM_CUISINE)));
+			r.register(new ItemManualPage(CuisineNames.BUTTER, "cuisine:dairy.butter", new Item.Properties().group(GrimItemGroups.GRIM_CUISINE).food(CuisineFoods.BUTTER)));
+			r.register(new ItemManualPage(CuisineNames.CHEESE, "cuisine:dairy.cheeseblock", new Item.Properties().group(GrimItemGroups.GRIM_CUISINE).food(CuisineFoods.CHEESE)));
+			r.register(new ItemManualPage(CuisineNames.BREAD_SLICE, "cuisine:food.sandwiches", new Item.Properties().group(GrimItemGroups.GRIM_CUISINE).food(CuisineFoods.BREAD_SLICE)));
+			r.register(new ItemManualPage(CuisineNames.CHEESE_BURGER, "cuisine:food.sandwiches", new Item.Properties().group(GrimItemGroups.GRIM_CUISINE).food(CuisineFoods.CHEESE_BURGER)));
+			r.register(new ItemManualPage(CuisineNames.HOT_CHEESE, "cuisine:food.sandwiches", new Item.Properties().group(GrimItemGroups.GRIM_CUISINE).food(CuisineFoods.HOT_CHEESE)));
+			r.register(new ItemManualPage(CuisineNames.EGGS_MIXED, "cuisine:food.eggs", new Item.Properties().group(GrimItemGroups.GRIM_CUISINE).food(CuisineFoods.EGGS_MIXED)));
+			r.register(new ItemManualPage(CuisineNames.EGGS_UNMIXED, "cuisine:food.eggs", new Item.Properties().group(GrimItemGroups.GRIM_CUISINE).food(CuisineFoods.EGGS_UNMIXED)));
+			r.register(new ItemManualPage(CuisineNames.EGGS_COOKED, "cuisine:food.cooked", new Item.Properties().group(GrimItemGroups.GRIM_CUISINE).food(CuisineFoods.EGGS_COOKED)));
 		}
 
 		if (CuisineConfig.subpartChocolate.get()) {
 			r.register(new ItemCocoaFruit());
 			r.register(new ItemManualPage(CuisineNames.COCOA_DUST, "cuisine:cocoa.dye", new Item.Properties().group(GrimItemGroups.GRIM_CUISINE)));
-			r.register(new ItemManualFood(CuisineNames.CHOCOLATE_BALL, 2, 0.2F, false, "cuisine:bowlchoc.chocBall", new Item.Properties().group(GrimItemGroups.GRIM_CUISINE)));
+			r.register(new ItemManualPage(CuisineNames.CHOCOLATE_BALL, "cuisine:bowlchoc.chocBall", new Item.Properties().group(GrimItemGroups.GRIM_CUISINE).food(CuisineFoods.CHOCOLATE_BALL)));
 			r.register(new ItemManualPage(CuisineNames.WRAPPER, "cuisine:choco.candy", new Item.Properties().group(GrimItemGroups.GRIM_CUISINE)));
 			r.register(new ItemBowlChocolate(CuisineNames.CHOCOLATE_BOWL, 16));
-			r.register(new ItemManualFood(CuisineNames.CHOCOLATE_BAR, 3, 0.8F, false, "cuisine:choco.bars", new Item.Properties().group(GrimItemGroups.GRIM_CUISINE)));
-			r.register(new ItemManualFood(CuisineNames.CHOCOLATE_BAR_WRAPPED, 5, 0.8F, false, "cuisine:choco.candy", new Item.Properties().group(GrimItemGroups.GRIM_CUISINE)));
+			r.register(new ItemManualPage(CuisineNames.CHOCOLATE_BAR, "cuisine:choco.bars", new Item.Properties().group(GrimItemGroups.GRIM_CUISINE).food(CuisineFoods.CHOCOLATE_BAR)));
+			r.register(new ItemManualPage(CuisineNames.CHOCOLATE_BAR_WRAPPED, "cuisine:choco.candy", new Item.Properties().group(GrimItemGroups.GRIM_CUISINE).food(CuisineFoods.CHOCOLATE_BAR_WRAPPED)));
 			r.register(new ItemBowlChocolate(CuisineNames.CHOCOLATE_BOWL_HOT, 1, Items.BOWL));
 		}
 
 		if (CuisineConfig.subpartPie.get()) {
-			r.register(new ItemManualFood(CuisineNames.DOUGH, 1, 0.2f, false, "cuisine:food.extras", new Item.Properties().group(GrimItemGroups.GRIM_CUISINE)));
+			r.register(new ItemManualPage(CuisineNames.DOUGH, "cuisine:food.extras", new Item.Properties().group(GrimItemGroups.GRIM_CUISINE).food(CuisineFoods.DOUGH)));
 			r.register(new ItemManualPage(CuisineNames.PAN, "cuisine:food.utensils", new Item.Properties().group(GrimItemGroups.GRIM_CUISINE).maxStackSize(16)));
-			r.register(new ItemManualFood(CuisineNames.PUMPKIN_SLICE, 1, 0.2f, false, "cuisine:pie.craft", new Item.Properties().group(GrimItemGroups.GRIM_CUISINE)));
+			r.register(new ItemManualFood(CuisineNames.PUMPKIN_SLICE, "cuisine:pie.craft", new Item.Properties().group(GrimItemGroups.GRIM_CUISINE).food(CuisineFoods.PUMPKIN_SLICE)));
 			r.register(new ItemRawPie(CuisineNames.RAW_EMPTY_PIE));
 			r.register(new ItemRawPie(CuisineNames.RAW_APPLE_PIE));
 			r.register(new ItemRawPie(CuisineNames.RAW_CHOCOLATE_PIE));

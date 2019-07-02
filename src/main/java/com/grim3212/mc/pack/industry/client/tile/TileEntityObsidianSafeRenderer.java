@@ -5,13 +5,13 @@ import com.grim3212.mc.pack.industry.client.model.ModelGenericSafe;
 import com.grim3212.mc.pack.industry.tile.TileEntityObsidianSafe;
 
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
+import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-@OnlyIn(Dist.CLIENT)
-public class TileEntityObsidianSafeRenderer extends TileEntitySpecialRenderer<TileEntityObsidianSafe> {
+@SideOnly(Side.CLIENT)
+public class TileEntityObsidianSafeRenderer extends TileEntityRenderer<TileEntityObsidianSafe> {
 
 	private ModelGenericSafe model;
 	private static final ResourceLocation RESOURCE_LOCATION = new ResourceLocation(GrimPack.modID, "textures/models/safe.png");

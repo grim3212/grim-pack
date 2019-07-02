@@ -11,11 +11,11 @@ import com.google.gson.JsonObject;
 import com.grim3212.mc.pack.GrimPack;
 import com.grim3212.mc.pack.core.client.TooltipHelper;
 import com.grim3212.mc.pack.core.manual.gui.GuiManualPage;
+import com.mojang.blaze3d.platform.GlStateManager;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.texture.TextureManager;
@@ -62,7 +62,7 @@ public class PageItemStack extends Page {
 		render.bindTexture(stackOverlay);
 
 		GL11.glColor4f(1F, 1F, 1F, 1F);
-		((GuiScreen) gui).drawTexturedModalRect(gui.getX() + 21, gui.getY() + 120, 21, 120, 147, 85);
+		((Screen) gui).blit(gui.getX() + 21, gui.getY() + 120, 21, 120, 147, 85);
 
 		tooltipItem = ItemStack.EMPTY;
 

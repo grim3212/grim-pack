@@ -2,101 +2,87 @@ package com.grim3212.mc.pack.industry.block;
 
 import com.grim3212.mc.pack.core.block.BlockManual;
 import com.grim3212.mc.pack.core.manual.pages.Page;
-import com.grim3212.mc.pack.core.part.GrimCreativeTabs;
 import com.grim3212.mc.pack.industry.client.ManualIndustry;
+import com.grim3212.mc.pack.industry.init.IndustryNames;
 
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.properties.IProperty;
-import net.minecraft.block.properties.PropertyBool;
-import net.minecraft.block.state.BlockStateContainer;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.SoundEvents;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.state.BooleanProperty;
+import net.minecraft.state.StateContainer.Builder;
 import net.minecraft.util.BlockRenderLayer;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumHand;
+import net.minecraft.util.Direction;
+import net.minecraft.util.Hand;
 import net.minecraft.util.SoundCategory;
-import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockAccess;
+import net.minecraft.util.math.BlockRayTraceResult;
+import net.minecraft.util.math.shapes.ISelectionContext;
+import net.minecraft.util.math.shapes.VoxelShape;
+import net.minecraft.util.math.shapes.VoxelShapes;
+import net.minecraft.world.IBlockReader;
+import net.minecraft.world.IEnviromentBlockReader;
 import net.minecraft.world.World;
 
 public class BlockRwayManhole extends BlockManual {
 
-	public static final PropertyBool ACTIVE = PropertyBool.create("active");
+	public static final BooleanProperty ACTIVE = BooleanProperty.create("active");
 
 	public BlockRwayManhole() {
-		super("rway_manhole", Material.ROCK, SoundType.STONE);
-		setHardness(1.0F);
-		setResistance(10.0F);
-		setCreativeTab(GrimCreativeTabs.GRIM_INDUSTRY);
+		super(IndustryNames.RWAY_MANHOLE, Block.Properties.create(Material.ROCK).sound(SoundType.STONE).hardnessAndResistance(1.0f, 10.0f));
 	}
 
 	@Override
-	protected IBlockState getState() {
-		return this.blockState.getBaseState().withProperty(ACTIVE, false);
+	protected BlockState getState() {
+		return super.getState().with(ACTIVE, false);
 	}
 
 	@Override
-	public IBlockState getStateFromMeta(int meta) {
-		return this.getDefaultState().withProperty(ACTIVE, meta == 0 ? false : true);
+	protected void fillStateContainer(Builder<Block, BlockState> builder) {
+		builder.add(ACTIVE);
 	}
 
 	@Override
-	public int getMetaFromState(IBlockState state) {
-		return state.getValue(ACTIVE) ? 1 : 0;
+	public VoxelShape getCollisionShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
+		return state.get(ACTIVE) ? VoxelShapes.empty() : VoxelShapes.fullCube();
 	}
 
 	@Override
-	protected BlockStateContainer createBlockState() {
-		return new BlockStateContainer(this, new IProperty[] { ACTIVE });
-	}
-
-	@Override
-	public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, IBlockAccess worldIn, BlockPos pos) {
-		return blockState.getValue(ACTIVE) ? NULL_AABB : FULL_BLOCK_AABB;
-	}
-
-	@Override
-	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
+	public boolean onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
 		if (worldIn.isRemote) {
 			return true;
 		}
 
-		if (!state.getValue(ACTIVE)) {
-			worldIn.playSound((EntityPlayer) null, pos, SoundEvents.BLOCK_IRON_TRAPDOOR_OPEN, SoundCategory.BLOCKS, 0.3F, 0.6F);
+		if (!state.get(ACTIVE)) {
+			worldIn.playSound((PlayerEntity) null, pos, SoundEvents.BLOCK_IRON_TRAPDOOR_OPEN, SoundCategory.BLOCKS, 0.3F, 0.6F);
 		} else {
-			worldIn.playSound((EntityPlayer) null, pos, SoundEvents.BLOCK_IRON_TRAPDOOR_CLOSE, SoundCategory.BLOCKS, 0.3F, 0.6F);
+			worldIn.playSound((PlayerEntity) null, pos, SoundEvents.BLOCK_IRON_TRAPDOOR_CLOSE, SoundCategory.BLOCKS, 0.3F, 0.6F);
 		}
 
-		worldIn.setBlockState(pos, state.cycleProperty(ACTIVE));
+		worldIn.setBlockState(pos, state.cycle(ACTIVE));
 
 		return true;
 	}
 
 	@Override
-	public BlockRenderLayer getBlockLayer() {
+	public BlockRenderLayer getRenderLayer() {
 		return BlockRenderLayer.CUTOUT;
 	}
 
 	@Override
-	public boolean isOpaqueCube(IBlockState state) {
-		return !state.getValue(ACTIVE);
+	public boolean isNormalCube(BlockState state, IBlockReader worldIn, BlockPos pos) {
+		return !state.get(ACTIVE);
 	}
 
 	@Override
-	public boolean isFullCube(IBlockState state) {
-		return state.getValue(ACTIVE);
-	}
-
-	@Override
-	public boolean shouldSideBeRendered(IBlockState blockState, IBlockAccess blockAccess, BlockPos pos, EnumFacing side) {
+	public boolean doesSideBlockRendering(BlockState state, IEnviromentBlockReader world, BlockPos pos, Direction face) {
 		return true;
 	}
 
 	@Override
-	public Page getPage(IBlockState state) {
+	public Page getPage(BlockState state) {
 		return ManualIndustry.rways_page;
 	}
 }

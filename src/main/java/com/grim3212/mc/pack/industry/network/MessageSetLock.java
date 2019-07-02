@@ -1,13 +1,13 @@
 package com.grim3212.mc.pack.industry.network;
 
 import java.io.IOException;
+import java.util.function.Supplier;
 
 import com.grim3212.mc.pack.core.network.AbstractMessage.AbstractServerMessage;
 import com.grim3212.mc.pack.industry.inventory.ContainerLocksmithWorkbench;
 
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.network.PacketBuffer;
-import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.network.NetworkEvent.Context;
 
 public class MessageSetLock extends AbstractServerMessage<MessageSetLock> {
 
@@ -21,20 +21,19 @@ public class MessageSetLock extends AbstractServerMessage<MessageSetLock> {
 	}
 
 	@Override
-	protected void read(PacketBuffer buffer) throws IOException {
-		this.lock = buffer.readString(11);
+	protected MessageSetLock read(PacketBuffer buffer) throws IOException {
+		return new MessageSetLock(buffer.readString(11));
 	}
 
 	@Override
-	protected void write(PacketBuffer buffer) throws IOException {
-		buffer.writeString(this.lock);
+	protected void write(MessageSetLock msg, PacketBuffer buffer) throws IOException {
+		buffer.writeString(msg.lock, 11);
 	}
 
 	@Override
-	public void process(EntityPlayer player, Side side) {
-
-		if (player.openContainer instanceof ContainerLocksmithWorkbench) {
-			((ContainerLocksmithWorkbench) player.openContainer).updateLock(lock);
+	public void process(MessageSetLock msg, Supplier<Context> ctx) {
+		if (ctx.get().getSender().openContainer instanceof ContainerLocksmithWorkbench) {
+			((ContainerLocksmithWorkbench) ctx.get().getSender().openContainer).updateLock(msg.lock);
 		}
 	}
 

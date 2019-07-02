@@ -1,16 +1,18 @@
 package com.grim3212.mc.pack.industry.inventory;
 
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.Container;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.Slot;
+import net.minecraft.inventory.container.Slot;
+import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.ItemStack;
 
 public class ContainerGoldSafe extends Container {
 	private IInventory safeInventory;
 	private int numRows;
 
-	public ContainerGoldSafe(EntityPlayer player, IInventory safeInventory) {
+	public ContainerGoldSafe(PlayerEntity player, IInventory safeInventory) {
 		this.safeInventory = safeInventory;
 		this.numRows = (safeInventory.getSizeInventory() / 9);
 		safeInventory.openInventory(player);
@@ -34,12 +36,12 @@ public class ContainerGoldSafe extends Container {
 	}
 
 	@Override
-	public boolean canInteractWith(EntityPlayer player) {
+	public boolean canInteractWith(PlayerEntity player) {
 		return this.safeInventory.isUsableByPlayer(player);
 	}
 
 	@Override
-	public ItemStack transferStackInSlot(EntityPlayer player, int index) {
+	public ItemStack transferStackInSlot(PlayerEntity player, int index) {
 		ItemStack itemstack = ItemStack.EMPTY;
 		Slot slot = (Slot) this.inventorySlots.get(index);
 
@@ -66,7 +68,7 @@ public class ContainerGoldSafe extends Container {
 	}
 
 	@Override
-	public void onContainerClosed(EntityPlayer player) {
+	public void onContainerClosed(PlayerEntity player) {
 		super.onContainerClosed(player);
 		this.safeInventory.closeInventory(player);
 	}

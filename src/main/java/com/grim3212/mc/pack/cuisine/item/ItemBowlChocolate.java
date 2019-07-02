@@ -5,15 +5,15 @@ import com.grim3212.mc.pack.core.manual.pages.Page;
 import com.grim3212.mc.pack.core.part.GrimItemGroups;
 import com.grim3212.mc.pack.cuisine.client.ManualCuisine;
 
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Items;
-import net.minecraft.item.EnumAction;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
+import net.minecraft.item.UseAction;
 import net.minecraft.util.ActionResult;
-import net.minecraft.util.EnumActionResult;
-import net.minecraft.util.EnumHand;
+import net.minecraft.util.ActionResultType;
+import net.minecraft.util.Hand;
 import net.minecraft.world.World;
 
 public class ItemBowlChocolate extends ItemManual {
@@ -27,8 +27,8 @@ public class ItemBowlChocolate extends ItemManual {
 	}
 
 	@Override
-	public ItemStack onItemUseFinish(ItemStack stack, World worldIn, EntityLivingBase entity) {
-		if (entity instanceof EntityPlayer && !((EntityPlayer) entity).abilities.isCreativeMode) {
+	public ItemStack onItemUseFinish(ItemStack stack, World worldIn, LivingEntity entity) {
+		if (entity instanceof PlayerEntity && !((PlayerEntity) entity).abilities.isCreativeMode) {
 			stack.shrink(1);
 		}
 
@@ -40,9 +40,9 @@ public class ItemBowlChocolate extends ItemManual {
 	}
 
 	@Override
-	public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand hand) {
+	public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity playerIn, Hand hand) {
 		playerIn.setActiveHand(hand);
-		return ActionResult.newResult(EnumActionResult.SUCCESS, playerIn.getHeldItem(hand));
+		return ActionResult.newResult(ActionResultType.SUCCESS, playerIn.getHeldItem(hand));
 	}
 
 	@Override
@@ -51,8 +51,8 @@ public class ItemBowlChocolate extends ItemManual {
 	}
 
 	@Override
-	public EnumAction getUseAction(ItemStack par1ItemStack) {
-		return EnumAction.DRINK;
+	public UseAction getUseAction(ItemStack par1ItemStack) {
+		return UseAction.DRINK;
 	}
 
 	@Override

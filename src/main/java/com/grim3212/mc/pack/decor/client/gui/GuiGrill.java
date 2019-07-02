@@ -1,113 +1,116 @@
 package com.grim3212.mc.pack.decor.client.gui;
 
 import org.lwjgl.opengl.GL11;
-import org.lwjgl.util.glu.GLU;
 
 import com.grim3212.mc.pack.GrimPack;
-import com.grim3212.mc.pack.core.client.gui.GuiGrimContainer;
 import com.grim3212.mc.pack.decor.block.DecorBlocks;
 import com.grim3212.mc.pack.decor.inventory.ContainerGrill;
 import com.grim3212.mc.pack.decor.tile.TileEntityGrill;
 import com.grim3212.mc.pack.decor.util.DecorUtil;
+import com.mojang.blaze3d.platform.GlStateManager;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.ScaledResolution;
-import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.gui.screen.inventory.ContainerScreen;
+import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.client.renderer.RenderHelper;
-import net.minecraft.client.renderer.RenderItem;
-import net.minecraft.client.renderer.block.model.ItemCameraTransforms.TransformType;
+import net.minecraft.client.renderer.model.ItemCameraTransforms.TransformType;
 import net.minecraft.client.resources.I18n;
-import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.inventory.IInventory;
+import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
-@SideOnly(Side.CLIENT)
-public class GuiGrill extends GuiGrimContainer {
+@SuppressWarnings("deprecation")
+@OnlyIn(Dist.CLIENT)
+public class GuiGrill extends ContainerScreen<ContainerGrill> {
 
-	private TileEntityGrill grillInventory;
-	private IInventory playerInv;
-	private RenderItem renderItems = Minecraft.getMinecraft().getRenderItem();
+	private TileEntityGrill grill;
+	private ItemRenderer renderItems = Minecraft.getInstance().getItemRenderer();
 	private static ResourceLocation GrillGUI = new ResourceLocation(GrimPack.modID, "textures/gui/grill.png");
 
-	public GuiGrill(InventoryPlayer inventoryPlayer, TileEntityGrill grillTE) {
-		super(new ContainerGrill(inventoryPlayer, grillTE));
-		this.playerInv = inventoryPlayer;
-		this.grillInventory = grillTE;
+	public GuiGrill(ContainerGrill container, PlayerInventory inventoryPlayer, ITextComponent name) {
+		super(container, inventoryPlayer, name);
+
+		TileEntity te = this.minecraft.world.getTileEntity(this.container.getPos());
+
+		if (te instanceof TileEntityGrill) {
+			this.grill = (TileEntityGrill) te;
+		}
 	}
 
 	@Override
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
-		this.fontRenderer.drawString(this.grillInventory.getName(), this.xSize / 2 - this.fontRenderer.getStringWidth(grillInventory.getName()) / 2, 6, 4210752);
-		this.fontRenderer.drawString(I18n.format("container.grill.tier") + " " + grillInventory.getTier(), 73, 14, 4210752);
-		this.fontRenderer.drawString(this.playerInv.getDisplayName().getUnformattedText(), 8, this.ySize - 96 + 2, 4210752);
+		this.font.drawString(this.getTitle().getFormattedText(), this.xSize / 2 - this.font.getStringWidth(this.getTitle().getFormattedText()) / 2, 6, 4210752);
+		this.font.drawString(I18n.format("container.grill.tier") + " " + this.container.getTier(), 73, 14, 4210752);
+		this.font.drawString(this.playerInventory.getDisplayName().getFormattedText(), 8, this.ySize - 96 + 2, 4210752);
 	}
 
 	@Override
 	protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
-		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-		this.mc.renderEngine.bindTexture(GrillGUI);
+		GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
+		this.minecraft.textureManager.bindTexture(GrillGUI);
 		int x = (this.width - this.xSize) / 2;
 		int y = (this.height - this.ySize) / 2;
-		drawTexturedModalRect(x, y, 0, 0, this.xSize, this.ySize);
+		blit(x, y, 0, 0, this.xSize, this.ySize);
 
-		if (this.grillInventory.isGrillBurning()) {
-			drawTexturedModalRect(x + 141, y + 24, 176, 2, 4, 8);
+		if (this.grill != null && this.grill.isGrillBurning()) {
+			blit(x + 141, y + 24, 176, 2, 4, 8);
 		}
 
-		int metersize = (int) (this.grillInventory.grillCoal / 4000.0F * 16.0F);
-		if (this.grillInventory.grillCoal != 0.0F)
-			drawTexturedModalRect(x + 135, y + 34, 176, 10, metersize + 1, 2);
+		int metersize = (int) (this.container.getGrillCoal() / 4000.0F * 16.0F);
+		if (this.container.getGrillCoal() != 0.0F)
+			blit(x + 135, y + 34, 176, 10, metersize + 1, 2);
 
-		this.zLevel = 199.0F;
+		this.blitOffset = 199;
 
-		metersize = (int) (this.grillInventory.cookTimes[0] / this.grillInventory.getTierTime() * 16.0F);
-		if (this.grillInventory.cookTimes[0] != 0)
-			drawTexturedModalRect(x + 71, y + 24, 176, 0, metersize + 1, 2);
+		metersize = (int) (this.container.getCookTime(1) / TileEntityGrill.getTierTime(this.container.getTier()) * 16.0F);
+		if (this.container.getCookTime(1) != 0)
+			blit(x + 71, y + 24, 176, 0, metersize + 1, 2);
 
-		metersize = (int) (this.grillInventory.cookTimes[1] / this.grillInventory.getTierTime() * 16.0F);
-		if (this.grillInventory.cookTimes[1] != 0)
-			drawTexturedModalRect(x + 89, y + 24, 176, 0, metersize + 1, 2);
+		metersize = (int) (this.container.getCookTime(2) / TileEntityGrill.getTierTime(this.container.getTier()) * 16.0F);
+		if (this.container.getCookTime(2) != 0)
+			blit(x + 89, y + 24, 176, 0, metersize + 1, 2);
 
-		metersize = (int) (this.grillInventory.cookTimes[2] / this.grillInventory.getTierTime() * 16.0F);
-		if (this.grillInventory.cookTimes[2] != 0)
-			drawTexturedModalRect(x + 71, y + 60, 176, 0, metersize + 1, 2);
+		metersize = (int) (this.container.getCookTime(3) / TileEntityGrill.getTierTime(this.container.getTier()) * 16.0F);
+		if (this.container.getCookTime(3) != 0)
+			blit(x + 71, y + 60, 176, 0, metersize + 1, 2);
 
-		metersize = (int) (this.grillInventory.cookTimes[3] / this.grillInventory.getTierTime() * 16.0F);
-		if (this.grillInventory.cookTimes[3] != 0)
-			drawTexturedModalRect(x + 89, y + 60, 176, 0, metersize + 1, 2);
+		metersize = (int) (this.container.getCookTime(4) / TileEntityGrill.getTierTime(this.container.getTier()) * 16.0F);
+		if (this.container.getCookTime(4) != 0)
+			blit(x + 89, y + 60, 176, 0, metersize + 1, 2);
 
-		this.zLevel = 0.0F;
+		this.blitOffset = 0;
 
 		GlStateManager.pushMatrix();
 		GlStateManager.matrixMode(GL11.GL_PROJECTION);
 		GlStateManager.pushMatrix();
 		GlStateManager.loadIdentity();
-		ScaledResolution var7 = new ScaledResolution(this.mc);
-		GlStateManager.viewport((var7.getScaledWidth() - 320) / 2 * var7.getScaleFactor(), (var7.getScaledHeight() - 240) / 2 * var7.getScaleFactor(), 320 * var7.getScaleFactor(), 240 * var7.getScaleFactor());
-		GLU.gluPerspective(90.0F, 1.333333F, 9.0F, 80.0F);
+
+		GlStateManager.viewport((this.minecraft.mainWindow.getScaledWidth() - 320) / 2 * (int) this.minecraft.mainWindow.getGuiScaleFactor(), (this.minecraft.mainWindow.getScaledHeight() - 240) / 2 * (int) this.minecraft.mainWindow.getGuiScaleFactor(), 320 * (int) this.minecraft.mainWindow.getGuiScaleFactor(), 240 * (int) this.minecraft.mainWindow.getGuiScaleFactor());
+		// GLU.gluPerspective(90.0F, 1.333333F, 9.0F, 80.0F);
 		GlStateManager.matrixMode(GL11.GL_MODELVIEW);
 		GlStateManager.loadIdentity();
 		RenderHelper.enableStandardItemLighting();
-		GlStateManager.translate(0.0F, 5.0F, -16.0F);
-		GlStateManager.scale(10.0F, 10.0F, 2.5F);
-		GlStateManager.rotate(180.0F, 0.0F, 0.0F, 1.0F);
-		GlStateManager.rotate(90.0F, 1.0F, 0.0F, 0.0F);
+		GlStateManager.translatef(0.0F, 5.0F, -16.0F);
+		GlStateManager.scalef(10.0F, 10.0F, 2.5F);
+		GlStateManager.rotatef(180.0F, 0.0F, 0.0F, 1.0F);
+		GlStateManager.rotatef(90.0F, 1.0F, 0.0F, 0.0F);
 		GlStateManager.enableRescaleNormal();
 
-		if (this.grillInventory != null) {
-			renderItems.renderItem(DecorUtil.createFurnitureWithState(DecorBlocks.grill, grillInventory.getBlockState()), TransformType.FIXED);
+		if (this.grill != null) {
+			renderItems.renderItem(DecorUtil.createFurnitureWithState(DecorBlocks.grill, grill.getStoredBlockState()), TransformType.FIXED);
 		}
 
 		GlStateManager.disableRescaleNormal();
 		RenderHelper.disableStandardItemLighting();
 		GlStateManager.matrixMode(GL11.GL_PROJECTION);
-		GlStateManager.viewport(0, 0, this.mc.displayWidth, this.mc.displayHeight);
+		GlStateManager.viewport(0, 0, this.minecraft.mainWindow.getWidth(), this.minecraft.mainWindow.getHeight());
 		GlStateManager.popMatrix();
 		GlStateManager.matrixMode(GL11.GL_MODELVIEW);
 		GlStateManager.popMatrix();
 		RenderHelper.disableStandardItemLighting();
-		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+		GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
 	}
 }

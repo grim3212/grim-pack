@@ -1,7 +1,7 @@
 package com.grim3212.mc.pack.core.inventory;
 
 import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.Slot;
+import net.minecraft.inventory.container.Slot;
 
 public class SlotGrim extends Slot {
 

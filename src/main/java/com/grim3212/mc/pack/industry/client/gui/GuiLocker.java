@@ -2,6 +2,7 @@ package com.grim3212.mc.pack.industry.client.gui;
 
 import java.io.IOException;
 
+import net.minecraft.util.SoundEvents;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 
@@ -10,11 +11,11 @@ import com.grim3212.mc.pack.core.client.gui.GuiGrimContainer;
 import com.grim3212.mc.pack.industry.inventory.ContainerLocker;
 
 import net.minecraft.client.resources.I18n;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.SoundEvents;
-import net.minecraft.inventory.ClickType;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.util.SoundEvents;
+import net.minecraft.inventory.container.ClickType;
 import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.Slot;
+import net.minecraft.inventory.container.Slot;
 import net.minecraft.util.ResourceLocation;
 
 public class GuiLocker extends GuiGrimContainer {
@@ -24,7 +25,7 @@ public class GuiLocker extends GuiGrimContainer {
 	private ContainerLocker containerLocker;
 	private int rowID = 0;
 
-	public GuiLocker(EntityPlayer player, IInventory lockerInventory) {
+	public GuiLocker(PlayerEntity player, IInventory lockerInventory) {
 		super(new ContainerLocker(player, lockerInventory));
 		this.containerLocker = ((ContainerLocker) this.inventorySlots);
 		this.lockerInventory = lockerInventory;

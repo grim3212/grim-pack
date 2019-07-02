@@ -15,7 +15,7 @@
   "type": "minecraft:crafting_shaped",
   "key": {
     "X": {
-      "constant": "grimpack:dough"
+      "tag": "forge:foods/dough"
     },
     "M": {
       "item": "grimpack:cuisine/pan"

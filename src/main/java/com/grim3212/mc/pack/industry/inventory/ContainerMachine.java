@@ -3,11 +3,13 @@ package com.grim3212.mc.pack.industry.inventory;
 import com.grim3212.mc.pack.industry.tile.TileEntityMachine;
 import com.grim3212.mc.pack.industry.util.MachineRecipes;
 
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.inventory.Container;
-import net.minecraft.inventory.IContainerListener;
-import net.minecraft.inventory.Slot;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.inventory.container.*;
+import net.minecraft.inventory.container.Slot;
+import net.minecraft.inventory.container.Container;
+import net.minecraft.inventory.container.IContainerListener;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -18,7 +20,7 @@ public abstract class ContainerMachine extends Container {
 	private int runTime = 0;
 	private int totalRunTime = 0;
 
-	public ContainerMachine(InventoryPlayer var1, TileEntityMachine machine) {
+	public ContainerMachine(PlayerInventory var1, TileEntityMachine machine) {
 		this.machine = machine;
 		this.addSlotToContainer(new Slot(machine, 0, 56, 35));
 		this.addSlotToContainer(new SlotMachineOutput(var1.player, machine, 1, 116, 35, machine.getMachineType()));
@@ -61,18 +63,18 @@ public abstract class ContainerMachine extends Container {
 	}
 
 	@Override
-	@OnlyIn(Dist.CLIENT)
+	@SideOnly(Side.CLIENT)
 	public void updateProgressBar(int id, int data) {
 		this.machine.setField(id, data);
 	}
 
 	@Override
-	public boolean canInteractWith(EntityPlayer player) {
+	public boolean canInteractWith(PlayerEntity player) {
 		return this.machine.isUsableByPlayer(player);
 	}
 
 	@Override
-	public ItemStack transferStackInSlot(EntityPlayer player, int index) {
+	public ItemStack transferStackInSlot(PlayerEntity player, int index) {
 		ItemStack itemstack = ItemStack.EMPTY;
 		Slot slot = (Slot) this.inventorySlots.get(index);
 

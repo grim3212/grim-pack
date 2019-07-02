@@ -19,7 +19,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.NativeImage;
 import net.minecraft.util.ScreenShotHelper;
 
-@SuppressWarnings("deprecation")
 public class ScreenshotRenderer {
 
 	public static void saveTrimmedScreenshot(File target, int width, int height) {
@@ -34,6 +33,7 @@ public class ScreenshotRenderer {
 		saveTrimmedScreenshot(target, x, y, width, height, null);
 	}
 
+	@SuppressWarnings("deprecation")
 	public static void saveTrimmedScreenshot(File target, int x, int y, int width, int height, Color transparencyColor) {
 		Minecraft mc = Minecraft.getInstance();
 		NativeImage screenshot = ScreenShotHelper.createScreenshot(mc.mainWindow.getWidth(), mc.mainWindow.getHeight(), mc.getFramebuffer());

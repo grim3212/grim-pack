@@ -16,7 +16,7 @@
   "type": "minecraft:crafting_shaped",
   "key": {
     "X": {
-      "constant": "grimpack:pane_glass"
+      "tag": "forge:panes/glass"
     }
   }
 }

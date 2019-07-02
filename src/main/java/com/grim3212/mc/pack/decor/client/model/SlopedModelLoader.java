@@ -1,9 +1,10 @@
 package com.grim3212.mc.pack.decor.client.model;
 
-import java.io.IOException;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
+import java.util.function.Function;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
@@ -13,14 +14,15 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.grim3212.mc.pack.GrimPack;
 
-import net.minecraft.client.renderer.block.model.IBakedModel;
+import net.minecraft.client.renderer.model.IBakedModel;
+import net.minecraft.client.renderer.model.IUnbakedModel;
+import net.minecraft.client.renderer.model.ModelBakery;
+import net.minecraft.client.renderer.texture.ISprite;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.vertex.VertexFormat;
-import net.minecraft.client.resources.IResourceManager;
+import net.minecraft.resources.IResourceManager;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.ICustomModelLoader;
-import net.minecraftforge.client.model.IModel;
-import net.minecraftforge.client.model.PerspectiveMapWrapper;
 import net.minecraftforge.common.model.IModelState;
 import net.minecraftforge.common.model.TRSRTransformation;
 
@@ -29,23 +31,23 @@ public enum SlopedModelLoader implements ICustomModelLoader {
 
 	@Override
 	public boolean accepts(ResourceLocation modelLocation) {
-		return modelLocation.getResourceDomain().equals(GrimPack.modID) && modelLocation.getResourcePath().equals("models/block/decor_slope");
-	}
-
-	@Override
-	public IModel loadModel(ResourceLocation modelLocation) throws IOException {
-		if (modelLocation.getResourcePath().equals("models/block/decor_slope")) {
-			return new SlopedModel(ImmutableList.<ModelData>of(), new ResourceLocation("grimpack:blocks/colorizer"));
-		}
-
-		return SlopedModel.MODEL;
+		return modelLocation.getNamespace().equals(GrimPack.modID) && modelLocation.getPath().equals("models/block/decor_slope");
 	}
 
 	@Override
 	public void onResourceManagerReload(IResourceManager resourceManager) {
 	}
 
-	public static class SlopedModel implements IModel {
+	@Override
+	public IUnbakedModel loadModel(ResourceLocation modelLocation) throws Exception {
+		if (modelLocation.getPath().equals("models/block/decor_slope")) {
+			return new SlopedModel(ImmutableList.<ModelData>of(), new ResourceLocation("grimpack:blocks/colorizer"));
+		}
+
+		return SlopedModel.MODEL;
+	}
+
+	public static class SlopedModel implements IUnbakedModel {
 
 		public static final SlopedModel MODEL = new SlopedModel(ImmutableList.<ModelData>of(), new ResourceLocation("grimpack:blocks/colorizer"));
 
@@ -63,7 +65,7 @@ public enum SlopedModelLoader implements ICustomModelLoader {
 		}
 
 		@Override
-		public Collection<ResourceLocation> getTextures() {
+		public Collection<ResourceLocation> getTextures(Function<ResourceLocation, IUnbakedModel> modelGetter, Set<String> missingTextureErrors) {
 			ImmutableSet.Builder<ResourceLocation> builder = ImmutableSet.builder();
 			if (textureLocation != null)
 				builder.add(textureLocation);
@@ -77,7 +79,7 @@ public enum SlopedModelLoader implements ICustomModelLoader {
 		}
 
 		@Override
-		public IModel retexture(ImmutableMap<String, String> textures) {
+		public IUnbakedModel retexture(ImmutableMap<String, String> textures) {
 			ResourceLocation base = textureLocation;
 
 			if (textures.containsKey("texture"))
@@ -87,7 +89,7 @@ public enum SlopedModelLoader implements ICustomModelLoader {
 		}
 
 		@Override
-		public IModel process(ImmutableMap<String, String> customData) {
+		public IUnbakedModel process(ImmutableMap<String, String> customData) {
 			ImmutableList.Builder<ModelData> models = ImmutableList.builder();
 
 			if (!customData.containsKey("models"))
@@ -121,8 +123,8 @@ public enum SlopedModelLoader implements ICustomModelLoader {
 		}
 
 		@Override
-		public IBakedModel bake(IModelState state, VertexFormat format, java.util.function.Function<ResourceLocation, TextureAtlasSprite> bakedTextureGetter) {
-			return new BakedColorizerOBJModel(state, modelData, textureLocation, format, PerspectiveMapWrapper.getTransforms(state));
+		public IBakedModel bake(ModelBakery bakery, Function<ResourceLocation, TextureAtlasSprite> spriteGetter, ISprite sprite, VertexFormat format) {
+			return new BakedColorizerOBJModel(bakery, sprite, modelData, textureLocation, format);
 		}
 	}
 }

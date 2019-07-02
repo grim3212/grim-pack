@@ -1,36 +1,36 @@
 package com.grim3212.mc.pack.industry.client.model;
 
-import net.minecraft.client.model.ModelBase;
-import net.minecraft.client.model.ModelRenderer;
+import net.minecraft.client.renderer.entity.model.RendererModel;
+import net.minecraft.client.renderer.model.Model;
 import net.minecraft.entity.Entity;
 
-public class ModelGenericSafe extends ModelBase {
+public class ModelGenericSafe extends Model {
 	public float doorAngle = 0.0F;
 	public boolean renderHandle = false;
-	public ModelRenderer safeMain;
-	public ModelRenderer safeDoor;
-	public ModelRenderer safeHandle;
-	public ModelRenderer safeLock;
-	public ModelRenderer safeLeg1;
-	public ModelRenderer safeLeg2;
-	public ModelRenderer safeLeg3;
-	public ModelRenderer safeLeg4;
-	public ModelRenderer[] safeInt = new ModelRenderer[5];
+	public RendererModel safeMain;
+	public RendererModel safeDoor;
+	public RendererModel safeHandle;
+	public RendererModel safeLock;
+	public RendererModel safeLeg1;
+	public RendererModel safeLeg2;
+	public RendererModel safeLeg3;
+	public RendererModel safeLeg4;
+	public RendererModel[] safeInt = new RendererModel[5];
 
 	public ModelGenericSafe() {
-		this.safeMain = new ModelRenderer(this, 0, 0).setTextureSize(64, 128);
-		this.safeDoor = new ModelRenderer(this, 0, 32).setTextureSize(64, 128);
-		this.safeHandle = new ModelRenderer(this, 48, 0).setTextureSize(64, 128);
-		this.safeLock = new ModelRenderer(this, 0, 48).setTextureSize(64, 128);
-		this.safeLeg1 = new ModelRenderer(this, 0, 0).setTextureSize(64, 128);
-		this.safeLeg2 = new ModelRenderer(this, 0, 0).setTextureSize(64, 128);
-		this.safeLeg3 = new ModelRenderer(this, 0, 0).setTextureSize(64, 128);
-		this.safeLeg4 = new ModelRenderer(this, 0, 0).setTextureSize(64, 128);
-		this.safeInt[0] = new ModelRenderer(this, 15, 63).setTextureSize(64, 128);
-		this.safeInt[1] = new ModelRenderer(this, 16, 48).setTextureSize(64, 128);
-		this.safeInt[2] = new ModelRenderer(this, 33, 48).setTextureSize(64, 128);
-		this.safeInt[3] = new ModelRenderer(this, 0, 80).setTextureSize(64, 128);
-		this.safeInt[4] = new ModelRenderer(this, 16, 80).setTextureSize(64, 128);
+		this.safeMain = new RendererModel(this, 0, 0).setTextureSize(64, 128);
+		this.safeDoor = new RendererModel(this, 0, 32).setTextureSize(64, 128);
+		this.safeHandle = new RendererModel(this, 48, 0).setTextureSize(64, 128);
+		this.safeLock = new RendererModel(this, 0, 48).setTextureSize(64, 128);
+		this.safeLeg1 = new RendererModel(this, 0, 0).setTextureSize(64, 128);
+		this.safeLeg2 = new RendererModel(this, 0, 0).setTextureSize(64, 128);
+		this.safeLeg3 = new RendererModel(this, 0, 0).setTextureSize(64, 128);
+		this.safeLeg4 = new RendererModel(this, 0, 0).setTextureSize(64, 128);
+		this.safeInt[0] = new RendererModel(this, 15, 63).setTextureSize(64, 128);
+		this.safeInt[1] = new RendererModel(this, 16, 48).setTextureSize(64, 128);
+		this.safeInt[2] = new RendererModel(this, 33, 48).setTextureSize(64, 128);
+		this.safeInt[3] = new RendererModel(this, 0, 80).setTextureSize(64, 128);
+		this.safeInt[4] = new RendererModel(this, 16, 80).setTextureSize(64, 128);
 
 		this.safeMain.addBox(0.0F, 3.0F, 0.0F, 16, 13, 16);
 
@@ -56,8 +56,8 @@ public class ModelGenericSafe extends ModelBase {
 	}
 
 	public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) {
-		super.render(entity, f, f1, f2, f3, f4, f5);
-		setRotationAngles(f, f1, f2, f3, f4, f5, entity);
+		// super.render(entity, f, f1, f2, f3, f4, f5);
+		// setRotationAngles(f, f1, f2, f3, f4, f5, entity);
 
 		callRender(f5);
 	}
@@ -81,7 +81,7 @@ public class ModelGenericSafe extends ModelBase {
 		this.safeLeg3.render(f1);
 		this.safeLeg4.render(f1);
 
-		for (ModelRenderer model : this.safeInt) {
+		for (RendererModel model : this.safeInt) {
 			model.render(f1);
 		}
 	}

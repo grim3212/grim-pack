@@ -9,12 +9,14 @@ import com.grim3212.mc.pack.industry.block.BlockSiding.EnumSidingColor;
 import com.grim3212.mc.pack.industry.block.IndustryBlocks;
 import com.grim3212.mc.pack.industry.client.ManualIndustry;
 
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.block.BlockState;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumActionResult;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumHand;
+import net.minecraft.util.ActionResultType;
+import net.minecraft.util.ActionResultType;
+import net.minecraft.util.Direction;
+import net.minecraft.util.Hand;
+import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
@@ -36,13 +38,13 @@ public class ItemPaintRollerColor extends ItemManual {
 	}
 
 	@Override
-	public EnumActionResult onItemUse(EntityPlayer playerIn, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
+	public ActionResultType onItemUse(PlayerEntity playerIn, World worldIn, BlockPos pos, Hand hand, Direction facing, float hitX, float hitY, float hitZ) {
 		if (worldIn.isRemote) {
-			return EnumActionResult.SUCCESS;
+			return ActionResultType.SUCCESS;
 		}
 
 		ItemStack stack = playerIn.getHeldItem(hand);
-		IBlockState state = worldIn.getBlockState(pos);
+		BlockState state = worldIn.getBlockState(pos);
 		if (state.getBlock() instanceof BlockSiding) {
 			if (state.getValue(BlockSiding.COLOR) != this.paintcolor) {
 				worldIn.setBlockState(pos, state.withProperty(BlockSiding.COLOR, paintcolor));
@@ -63,7 +65,7 @@ public class ItemPaintRollerColor extends ItemManual {
 			stack.damageItem(1, playerIn);
 		}
 
-		return EnumActionResult.SUCCESS;
+		return ActionResultType.SUCCESS;
 	}
 
 	@Override

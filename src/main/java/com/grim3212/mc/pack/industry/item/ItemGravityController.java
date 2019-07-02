@@ -8,13 +8,17 @@ import com.grim3212.mc.pack.core.part.GrimCreativeTabs;
 import com.grim3212.mc.pack.industry.client.ManualIndustry;
 
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.item.EntityItem;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.item.ItemEntity;
+import net.minecraft.entity.item.ItemEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
-import net.minecraft.util.EnumActionResult;
-import net.minecraft.util.EnumHand;
+import net.minecraft.util.ActionResultType;
+import net.minecraft.util.ActionResultType;
+import net.minecraft.util.Hand;
+import net.minecraft.util.Hand;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.world.World;
 
@@ -31,13 +35,13 @@ public class ItemGravityController extends ItemManual {
 	}
 
 	@Override
-	public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand hand) {
+	public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity playerIn, Hand hand) {
 		if (this.tickCount > 10) {
 			this.On = (!this.On);
 			this.tickCount = 0;
 		}
 
-		return ActionResult.newResult(EnumActionResult.SUCCESS, playerIn.getHeldItem(hand));
+		return ActionResult.newResult(ActionResultType.SUCCESS, playerIn.getHeldItem(hand));
 	}
 
 	@Override
@@ -53,11 +57,11 @@ public class ItemGravityController extends ItemManual {
 			for (int i = 0; i < entityList.size(); i++) {
 				Entity entity = (Entity) entityList.get(i);
 				if (((Entity) entityList.get(i)).motionY < 2.0D)
-					if ((entity instanceof EntityPlayer)) {
-						if (!((EntityPlayer) entity).inventory.hasItemStack(new ItemStack(IndustryItems.gravity_boots)))
+					if ((entity instanceof PlayerEntity)) {
+						if (!((PlayerEntity) entity).inventory.hasItemStack(new ItemStack(IndustryItems.gravity_boots)))
 							entity.motionY += this.upInc;
-					} else if ((entity instanceof EntityItem)) {
-						Item id = ((EntityItem) entity).getItem().getItem();
+					} else if ((entity instanceof ItemEntity)) {
+						Item id = ((ItemEntity) entity).getItem().getItem();
 						if ((id != IndustryItems.gravity_boots) && (id != IndustryItems.gravity_controller))
 							entity.motionY += this.upInc;
 					} else {
@@ -70,7 +74,7 @@ public class ItemGravityController extends ItemManual {
 	}
 
 	@Override
-	public boolean onDroppedByPlayer(ItemStack item, EntityPlayer player) {
+	public boolean onDroppedByPlayer(ItemStack item, PlayerEntity player) {
 		this.On = false;
 		return true;
 	}

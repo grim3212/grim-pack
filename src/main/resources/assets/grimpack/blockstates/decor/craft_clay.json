@@ -1,0 +1,28 @@
+{
+	"variants": {
+		"cycle=0": {
+			"model": "grimpack:block/decor/craft_clay_0"
+		},
+		"cycle=1": {
+			"model": "grimpack:block/decor/craft_clay_1"
+		},
+		"cycle=2": {
+			"model": "grimpack:block/decor/craft_clay_2"
+		},
+		"cycle=3": {
+			"model": "grimpack:block/decor/craft_clay_3"
+		},
+		"cycle=4": {
+			"model": "grimpack:block/decor/craft_clay_4"
+		},
+		"cycle=5": {
+			"model": "grimpack:block/decor/craft_clay_5"
+		},
+		"cycle=6": {
+			"model": "grimpack:block/decor/craft_clay_6"
+		},
+		"cycle=7": {
+			"model": "grimpack:block/decor/craft_clay_7"
+		}
+	}
+}

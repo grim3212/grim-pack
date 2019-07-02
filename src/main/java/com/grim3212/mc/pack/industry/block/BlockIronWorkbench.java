@@ -4,38 +4,36 @@ import com.grim3212.mc.pack.GrimPack;
 import com.grim3212.mc.pack.core.block.BlockManual;
 import com.grim3212.mc.pack.core.client.gui.PackGuiHandler;
 import com.grim3212.mc.pack.core.manual.pages.Page;
-import com.grim3212.mc.pack.core.part.GrimCreativeTabs;
 import com.grim3212.mc.pack.industry.client.ManualIndustry;
+import com.grim3212.mc.pack.industry.init.IndustryNames;
 
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumHand;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.world.World;
 
 public class BlockIronWorkbench extends BlockManual {
 
 	protected BlockIronWorkbench() {
-		super("iron_workbench", Material.IRON, SoundType.METAL);
-		setHardness(3F);
-		setResistance(5F);
-		setCreativeTab(GrimCreativeTabs.GRIM_INDUSTRY);
+		super(IndustryNames.IRON_WORKBENCH, Block.Properties.create(Material.IRON).sound(SoundType.METAL).hardnessAndResistance(3.0f, 5.0f));
 	}
 
 	@Override
-	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
+	public boolean onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
 		if (worldIn.isRemote)
 			return true;
 
-		playerIn.openGui(GrimPack.INSTANCE, PackGuiHandler.IRON_GUI_ID, worldIn, pos.getX(), pos.getY(), pos.getZ());
+		player.openGui(GrimPack.INSTANCE, PackGuiHandler.IRON_GUI_ID, worldIn, pos.getX(), pos.getY(), pos.getZ());
 		return true;
 	}
 
 	@Override
-	public Page getPage(IBlockState state) {
+	public Page getPage(BlockState state) {
 		return ManualIndustry.workbench_page;
 	}
 }

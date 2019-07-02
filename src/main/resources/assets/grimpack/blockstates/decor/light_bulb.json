@@ -1,0 +1,10 @@
+{
+	"variants": {
+		"active=true": {
+			"model": "grimpack:block/decor/light_bulb_lit"
+		},
+		"active=false": {
+			"model": "grimpack:block/decor/light_bulb_unlit"
+		}
+	}
+}

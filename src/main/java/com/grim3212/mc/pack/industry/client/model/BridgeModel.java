@@ -9,6 +9,10 @@ import java.util.function.Predicate;
 
 import javax.vecmath.Matrix4f;
 
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.util.Direction;
 import org.apache.commons.lang3.tuple.Pair;
 
 import com.google.common.collect.ImmutableList;
@@ -24,7 +28,7 @@ import com.grim3212.mc.pack.industry.util.EnumBridgeType;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockDirt;
 import net.minecraft.block.BlockDirt.DirtType;
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.BlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BlockModelShapes;
 import net.minecraft.client.renderer.block.model.BakedQuad;
@@ -36,10 +40,10 @@ import net.minecraft.client.renderer.block.model.ItemOverrideList;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.vertex.VertexFormat;
 import net.minecraft.client.resources.IResourceManager;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.init.Blocks;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.block.Blocks;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.client.model.ICustomModelLoader;
@@ -151,25 +155,25 @@ public class BridgeModel implements IModel {
 		}
 
 		@Override
-		public List<BakedQuad> getQuads(IBlockState state, EnumFacing side, long rand) {
+		public List<BakedQuad> getQuads(BlockState state, Direction side, long rand) {
 			if (state instanceof IExtendedBlockState) {
 				IExtendedBlockState exState = (IExtendedBlockState) state;
 				if (exState.getValue(BlockBridge.BLOCK_STATE) != null) {
-					IBlockState blockState = exState.getValue(BlockBridge.BLOCK_STATE);
+					BlockState blockState = exState.getValue(BlockBridge.BLOCK_STATE);
 					return this.getCachedModel(blockState, state.getValue(BlockBridge.TYPE)).getQuads(state, side, rand);
 				}
 			}
 			return ImmutableList.of();
 		}
 
-		private final Map<IBlockState, IBakedModel> cache = new HashMap<IBlockState, IBakedModel>();
+		private final Map<BlockState, IBakedModel> cache = new HashMap<BlockState, IBakedModel>();
 		// Base Model if there isn't a Block State set
 		private IBakedModel BASE = null;
 
 		// Base Model if there isn't a Block State set for Grav Lift
 		private IBakedModel BASE_GRAVITY = null;
 
-		public IBakedModel getCachedModel(IBlockState blockState, EnumBridgeType type) {
+		public IBakedModel getCachedModel(BlockState blockState, EnumBridgeType type) {
 			if (blockState == Blocks.AIR.getDefaultState()) {
 				if (type == EnumBridgeType.GRAVITY) {
 					if (BASE_GRAVITY == null) {
@@ -282,10 +286,10 @@ public class BridgeModel implements IModel {
 		// Not really needed since there isn't even an item form of bridges
 		private final ItemOverrideList itemHandler = new ItemOverrideList(Lists.<ItemOverride>newArrayList()) {
 			@Override
-			public IBakedModel handleItemState(IBakedModel model, ItemStack stack, World world, EntityLivingBase entity) {
+			public IBakedModel handleItemState(IBakedModel model, ItemStack stack, World world, LivingEntity entity) {
 				if (stack.hasTagCompound() && stack.getTagCompound().hasKey("registryName") && stack.getTagCompound().hasKey("meta")) {
 					Block block = Block.REGISTRY.getObject(new ResourceLocation(NBTHelper.getString(stack, "registryName")));
-					IBlockState state = block.getStateFromMeta(NBTHelper.getInt(stack, "meta"));
+					BlockState state = block.getStateFromMeta(NBTHelper.getInt(stack, "meta"));
 					return BakedBridgeModel.this.getCachedModel(state, EnumBridgeType.values[stack.getMetadata()]);
 				}
 

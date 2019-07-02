@@ -6,7 +6,8 @@ import com.grim3212.mc.pack.core.util.GrimLog;
 import com.grim3212.mc.pack.industry.GrimIndustry;
 import com.grim3212.mc.pack.industry.tile.TileEntityItemTower;
 
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.ITextComponent;
@@ -58,7 +59,7 @@ public class InventoryItemTower implements IInventory {
 	}
 
 	@Override
-	public boolean isUsableByPlayer(EntityPlayer entityplayer) {
+	public boolean isUsableByPlayer(PlayerEntity entityplayer) {
 		for (IInventory inventory : this.itemTowers) {
 			if (!inventory.isUsableByPlayer(entityplayer))
 				return false;
@@ -68,13 +69,13 @@ public class InventoryItemTower implements IInventory {
 	}
 
 	@Override
-	public void openInventory(EntityPlayer entityplayer) {
+	public void openInventory(PlayerEntity entityplayer) {
 		for (IInventory inventory : this.itemTowers)
 			inventory.openInventory(entityplayer);
 	}
 
 	@Override
-	public void closeInventory(EntityPlayer entityplayer) {
+	public void closeInventory(PlayerEntity entityplayer) {
 		for (IInventory inventory : this.itemTowers)
 			inventory.closeInventory(entityplayer);
 	}

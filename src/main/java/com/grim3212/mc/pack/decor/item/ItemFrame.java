@@ -7,12 +7,12 @@ import com.grim3212.mc.pack.decor.client.ManualDecor;
 import com.grim3212.mc.pack.decor.entity.EntityFrame;
 import com.grim3212.mc.pack.decor.init.DecorNames;
 
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUseContext;
-import net.minecraft.util.EnumActionResult;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.util.ActionResultType;
+import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
@@ -21,32 +21,32 @@ public class ItemFrame extends ItemManual {
 	private final EnumFrameType type;
 
 	public ItemFrame(EnumFrameType type) {
-		super(type.getRegistryName(), new Item.Properties().group(GrimItemGroups.GRIM_CUISINE));
+		super(type.getRegistryName(), new Item.Properties().group(GrimItemGroups.GRIM_DECOR));
 		this.type = type;
 	}
 
 	@Override
-	public EnumActionResult onItemUse(ItemUseContext context) {
-		EnumFacing facing = context.getFace();
-		EntityPlayer playerIn = context.getPlayer();
+	public ActionResultType onItemUse(ItemUseContext context) {
+		Direction facing = context.getFace();
+		PlayerEntity playerIn = context.getPlayer();
 		World worldIn = context.getWorld();
 		BlockPos pos = context.getPos();
 
-		if (facing != EnumFacing.DOWN && facing != EnumFacing.UP && playerIn.canPlayerEdit(pos.offset(facing), facing, context.getItem())) {
+		if (facing != Direction.DOWN && facing != Direction.UP && playerIn.canPlayerEdit(pos.offset(facing), facing, context.getItem())) {
 			EntityFrame frame = new EntityFrame(worldIn, pos.offset(facing), facing, this.type);
 
 			if (frame != null && frame.onValidSurface()) {
 				if (!worldIn.isRemote) {
 					frame.playPlaceSound();
-					worldIn.spawnEntity(frame);
+					worldIn.addEntity(frame);
 				}
 
 				context.getItem().shrink(1);
 			}
 
-			return EnumActionResult.SUCCESS;
+			return ActionResultType.SUCCESS;
 		} else {
-			return EnumActionResult.FAIL;
+			return ActionResultType.FAIL;
 		}
 	}
 
@@ -65,5 +65,13 @@ public class ItemFrame extends ItemManual {
 
 			return DecorNames.FRAME_IRON;
 		}
+		
+		public static EnumFrameType[] getValues() {
+			return values;
+		}
+
+		public static final EnumFrameType values[] = values();
+		
+		
 	}
 }

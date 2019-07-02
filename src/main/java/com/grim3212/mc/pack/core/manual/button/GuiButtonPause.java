@@ -1,17 +1,17 @@
 package com.grim3212.mc.pack.core.manual.button;
 
 import com.grim3212.mc.pack.core.manual.gui.GuiManualIndex;
+import com.mojang.blaze3d.platform.GlStateManager;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.gui.widget.button.Button;
 
-public class GuiButtonPause extends GuiButton {
+public class GuiButtonPause extends Button {
 
 	private boolean isPaused = false;
 
-	public GuiButtonPause(int id, int j, int k) {
-		super(id, j, k, 9, 10, "");
+	public GuiButtonPause(int j, int k, IPressable pressable) {
+		super(j, k, 9, 10, "", pressable);
 	}
 
 	@Override
@@ -27,7 +27,7 @@ public class GuiButtonPause extends GuiButton {
 				l += 10;
 			}
 
-			this.drawTexturedModalRect(this.x, this.y, k, l, 9, 10);
+			this.blit(this.x, this.y, k, l, 9, 10);
 		}
 	}
 

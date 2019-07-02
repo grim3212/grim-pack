@@ -8,14 +8,15 @@ import com.grim3212.mc.pack.core.manual.pages.Page;
 import com.grim3212.mc.pack.core.part.GrimCreativeTabs;
 import com.grim3212.mc.pack.industry.client.ManualIndustry;
 
-import net.minecraft.block.BlockTorch;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.TorchBlock;
 import net.minecraft.block.SoundType;
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.BlockState;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class BlockHTorch extends BlockTorch implements IManualBlock {
+public class BlockHTorch extends TorchBlock implements IManualBlock {
 
 	public BlockHTorch() {
 		super();
@@ -30,11 +31,11 @@ public class BlockHTorch extends BlockTorch implements IManualBlock {
 	}
 
 	@Override
-	public void randomDisplayTick(IBlockState stateIn, World worldIn, BlockPos pos, Random rand) {
+	public void randomDisplayTick(BlockState stateIn, World worldIn, BlockPos pos, Random rand) {
 	}
 
 	@Override
-	public Page getPage(IBlockState state) {
+	public Page getPage(BlockState state) {
 		return ManualIndustry.hTorch_page;
 	}
 }

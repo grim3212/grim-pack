@@ -15,21 +15,20 @@ import com.grim3212.mc.pack.core.part.GrimCreativeTabs;
 import com.grim3212.mc.pack.core.util.Utils;
 import com.grim3212.mc.pack.industry.block.BlockSiding.EnumSidingColor;
 import com.grim3212.mc.pack.industry.config.IndustryConfig;
+import com.grim3212.mc.pack.industry.init.IndustryNames;
 
-import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
-import net.minecraft.init.SoundEvents;
-import net.minecraft.inventory.EntityEquipmentSlot;
+import net.minecraft.block.Blocks;
+import net.minecraft.inventory.EquipmentSlotType;
+import net.minecraft.item.ArmorMaterial;
 import net.minecraft.item.Item;
 import net.minecraft.item.Item.ToolMaterial;
-import net.minecraft.item.ItemArmor.ArmorMaterial;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.IRecipe;
+import net.minecraft.item.Items;
+import net.minecraft.util.SoundEvents;
 import net.minecraftforge.event.RegistryEvent;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.registry.GameRegistry;
-import net.minecraftforge.oredict.OreDictionary;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.registries.IForgeRegistry;
+import net.minecraftforge.registries.ObjectHolder;
 
 public class IndustryItems {
 
@@ -37,163 +36,176 @@ public class IndustryItems {
 	public static final ArmorMaterial antiRadiation = Utils.addArmorMaterial(GrimPack.modID + ":radiation", SoundEvents.BLOCK_CLOTH_PLACE, IndustryConfig.antiRadiationArmorMaterial);
 	public static final ArmorMaterial gravboots = Utils.addArmorMaterial(GrimPack.modID + ":gravity", SoundEvents.ITEM_ARMOR_EQUIP_IRON, IndustryConfig.gravityArmorMaterial);
 
-	public static final Item gravity_boots = (new ItemManualArmor("gravity_boots", gravboots, 4, EntityEquipmentSlot.FEET, "industry:refining.armor")).setCreativeTab(GrimCreativeTabs.GRIM_INDUSTRY);
-	public static final Item uranium_ingot = (new ItemManualPage("uranium_ingot", "industry:refining.uranium_smelt")).setCreativeTab(GrimCreativeTabs.GRIM_INDUSTRY);
-	public static final Item refined_uranium = (new ItemManualPage("refined_uranium", "industry:refining.refined_uranium")).setCreativeTab(GrimCreativeTabs.GRIM_INDUSTRY);
-	public static final Item plutonium_ingot = (new ItemManualPage("plutonium_ingot", "industry:refining.plutonium")).setCreativeTab(GrimCreativeTabs.GRIM_INDUSTRY);
-	public static final Item refined_plutonium = (new ItemManualPage("refined_plutonium", "industry:refining.refined_plutonium")).setCreativeTab(GrimCreativeTabs.GRIM_INDUSTRY);
-	public static final Item reactor_core = (new ItemManualPage("reactor_core", "industry:reactor.reactor")).setCreativeTab(GrimCreativeTabs.GRIM_INDUSTRY);
-	public static final Item reactor_core_case = (new ItemManualPage("reactor_core_case", "industry:reactor.reactor_case")).setCreativeTab(GrimCreativeTabs.GRIM_INDUSTRY);
-	public static final Item iron_parts = (new ItemManualPage("iron_parts", "industry:reactor.iron_parts")).setCreativeTab(GrimCreativeTabs.GRIM_INDUSTRY);
-	public static final Item low_gravity_controller = new ItemLowGravityController();
-	public static final Item gravity_controller = new ItemGravityController();
-	public static final Item mob_repulsor = new ItemMobRepulsor();
-	public static final Item anti_radiation_helmet = (new ItemManualArmor("anti_radiation_helmet", antiRadiation, 3, EntityEquipmentSlot.HEAD, "industry:refining.armor")).setCreativeTab(GrimCreativeTabs.GRIM_INDUSTRY);
-	public static final Item anti_radiation_chest = (new ItemManualArmor("anti_radiation_chest", antiRadiation, 3, EntityEquipmentSlot.CHEST, "industry:refining.armor")).setCreativeTab(GrimCreativeTabs.GRIM_INDUSTRY);
-	public static final Item anti_radiation_legs = (new ItemManualArmor("anti_radiation_legs", antiRadiation, 3, EntityEquipmentSlot.LEGS, "industry:refining.armor")).setCreativeTab(GrimCreativeTabs.GRIM_INDUSTRY);
-	public static final Item anti_radiation_boots = (new ItemManualArmor("anti_radiation_boots", antiRadiation, 3, EntityEquipmentSlot.FEET, "industry:refining.armor")).setCreativeTab(GrimCreativeTabs.GRIM_INDUSTRY);
-	public static final Item gate_grating = (new ItemManualPage("gate_grating", "industry:gates.gate")).setCreativeTab(GrimCreativeTabs.GRIM_INDUSTRY);
-	public static final Item gate_trumpet = new ItemActivator("gate_trumpet");
-	public static final Item garage_panel = (new ItemManualPage("garage_panel", "industry:gates.garage")).setCreativeTab(GrimCreativeTabs.GRIM_INDUSTRY);
-	public static final Item garage_remote = new ItemActivator("garage_remote");
-	public static final Item paint_roller = (new ItemManualPage("paint_roller", "industry:rways.paint")).setCreativeTab(GrimCreativeTabs.GRIM_INDUSTRY).setMaxStackSize(1).setFull3D();
-	public static final Item tarball = (new ItemManualPage("tarball", "industry:tarball.paint")).setCreativeTab(GrimCreativeTabs.GRIM_INDUSTRY);
-	public static final Item asphalt = new ItemAsphalt();
-	public static final Item paint_roller_white = new ItemPaintRollerColor(EnumSidingColor.white);
-	public static final Item paint_roller_red = new ItemPaintRollerColor(EnumSidingColor.red);
-	public static final Item paint_roller_green = new ItemPaintRollerColor(EnumSidingColor.green);
-	public static final Item paint_roller_blue = new ItemPaintRollerColor(EnumSidingColor.blue);
-	public static final Item coal_iron_ingot = (new ItemManualPage("coal_iron_ingot", "industry:metalworks.coaliron")).setCreativeTab(GrimCreativeTabs.GRIM_INDUSTRY);
-	public static final Item crude_oil = (new ItemManualPage("crude_oil", "industry:machines.refinery_recipes")).setCreativeTab(GrimCreativeTabs.GRIM_INDUSTRY);
-	public static final Item fuel = (new ItemManualPage("fuel", "industry:machines.refinery_recipes")).setCreativeTab(GrimCreativeTabs.GRIM_INDUSTRY);
-	public static final Item oily_chunk = (new ItemManualPage("oily_chunk", "industry:metalworks.fuel")).setCreativeTab(GrimCreativeTabs.GRIM_INDUSTRY);
-	public static final Item steel_axe = (new ItemManualAxe("steel_axe", steel, 8.0f, -3.1f, "industry:metalworks.steeltools")).setCreativeTab(GrimCreativeTabs.GRIM_INDUSTRY);
-	public static final Item steel_hoe = (new ItemManualHoe("steel_hoe", steel, "industry:metalworks.steeltools")).setCreativeTab(GrimCreativeTabs.GRIM_INDUSTRY);
-	public static final Item steel_pickaxe = (new ItemManualPickaxe("steel_pickaxe", steel, "industry:metalworks.steeltools")).setCreativeTab(GrimCreativeTabs.GRIM_INDUSTRY);
-	public static final Item steel_shovel = (new ItemManualSpade("steel_shovel", steel, "industry:metalworks.steeltools")).setCreativeTab(GrimCreativeTabs.GRIM_INDUSTRY);
-	public static final Item steel_sword = (new ItemManualSword("steel_sword", steel, "industry:metalworks.steeltools")).setCreativeTab(GrimCreativeTabs.GRIM_INDUSTRY);
-	public static final Item super_crude_oil = (new ItemManualPage("super_crude_oil", "industry:machines.refinery_recipes")).setCreativeTab(GrimCreativeTabs.GRIM_INDUSTRY);
-	public static final Item drill_head_item = (new ItemManualPage("drill_head_item", "industry:machines.drill")).setCreativeTab(GrimCreativeTabs.GRIM_INDUSTRY);
-	public static final Item extruder = new ItemExtruder();
-	public static final Item portable_diamond_workbench = new ItemUpgradedPortableWorkbench(PackGuiHandler.PORTABLE_DIAMOND_MAIN_GUI_ID, PackGuiHandler.PORTABLE_DIAMOND_OFF_GUI_ID);
-	public static final Item portable_iron_workbench = new ItemUpgradedPortableWorkbench(PackGuiHandler.PORTABLE_IRON_MAIN_GUI_ID, PackGuiHandler.PORTABLE_IRON_OFF_GUI_ID);
-	public static final Item position_finder = new ItemPositionFinder();
-	public static final Item locksmith_lock = new ItemCombination("locksmith_lock");
-	public static final Item locksmith_key = new ItemCombination("locksmith_key");
+	@ObjectHolder(IndustryNames.GRAVITY_BOOTS)
+	public static Item gravity_boots;
+	@ObjectHolder(IndustryNames.URANIUM_INGOT)
+	public static Item uranium_ingot;
+	@ObjectHolder(IndustryNames.REFINED_URANIUM)
+	public static Item refined_uranium;
+	@ObjectHolder(IndustryNames.PLUTONIUM_INGOT)
+	public static Item plutonium_ingot;
+	@ObjectHolder(IndustryNames.REFINED_PLUTONIUM)
+	public static Item refined_plutonium;
+	@ObjectHolder(IndustryNames.REACTOR_CORE)
+	public static Item reactor_core;
+	@ObjectHolder(IndustryNames.REACTOR_CORE_CASE)
+	public static Item reactor_core_case;
+	@ObjectHolder(IndustryNames.IRON_PARTS)
+	public static Item iron_parts;
+	@ObjectHolder(IndustryNames.LOW_GRAVITY_CONTROLLER)
+	public static Item low_gravity_controller;
+	@ObjectHolder(IndustryNames.GRAVITY_CONTROLLER)
+	public static Item gravity_controller;
+	@ObjectHolder(IndustryNames.MOB_REPULSOR)
+	public static Item mob_repulsor;
+	@ObjectHolder(IndustryNames.ANTI_RADIATION_HELMET)
+	public static Item anti_radiation_helmet;
+	@ObjectHolder(IndustryNames.ANTI_RADIATION_CHEST)
+	public static Item anti_radiation_chest;
+	@ObjectHolder(IndustryNames.ANTI_RADIATION_LEGS)
+	public static Item anti_radiation_legs;
+	@ObjectHolder(IndustryNames.ANTI_RADIATION_BOOTS)
+	public static Item anti_radiation_boots;
+	@ObjectHolder(IndustryNames.GATE_GRATING)
+	public static Item gate_grating;
+	@ObjectHolder(IndustryNames.GATE_TRUMPET)
+	public static Item gate_trumpet;
+	@ObjectHolder(IndustryNames.GARAGE_PANEL)
+	public static Item garage_panel;
+	@ObjectHolder(IndustryNames.GARAGE_REMOTE)
+	public static Item garage_remote;
+	@ObjectHolder(IndustryNames.PAINT_ROLLER)
+	public static Item paint_roller;
+	@ObjectHolder(IndustryNames.TARBALL)
+	public static Item tarball;
+	@ObjectHolder(IndustryNames.ASPHALT)
+	public static Item asphalt;
+	@ObjectHolder(IndustryNames.PAINT_ROLLER_WHITE)
+	public static Item paint_roller_white;
+	@ObjectHolder(IndustryNames.PAINT_ROLLER_RED)
+	public static Item paint_roller_red;
+	@ObjectHolder(IndustryNames.PAINT_ROLLER_GREEN)
+	public static Item paint_roller_green;
+	@ObjectHolder(IndustryNames.PAINT_ROLLER_BLUE)
+	public static Item paint_roller_blue;
+	@ObjectHolder(IndustryNames.COAL_IRON_INGOT)
+	public static Item coal_iron_ingot;
+	@ObjectHolder(IndustryNames.CRUDE_OIL)
+	public static Item crude_oil;
+	@ObjectHolder(IndustryNames.FUEL)
+	public static Item fuel;
+	@ObjectHolder(IndustryNames.OILY_CHUNK)
+	public static Item oily_chunk;
+	@ObjectHolder(IndustryNames.STEEL_AXE)
+	public static Item steel_axe;
+	@ObjectHolder(IndustryNames.STEEL_HOE)
+	public static Item steel_hoe;
+	@ObjectHolder(IndustryNames.STEEL_PICKAXE)
+	public static Item steel_pickaxe;
+	@ObjectHolder(IndustryNames.STEEL_SHOVEL)
+	public static Item steel_shovel;
+	@ObjectHolder(IndustryNames.STEEL_SWORD)
+	public static Item steel_sword;
+	@ObjectHolder(IndustryNames.SUPER_CRUDE_OIL)
+	public static Item super_crude_oil;
+	@ObjectHolder(IndustryNames.DRILL_HEAD_ITEM)
+	public static Item drill_head_item;
+	@ObjectHolder(IndustryNames.EXTRUDER)
+	public static Item extruder;
+	@ObjectHolder(IndustryNames.PORTABLE_DIAMOND_WORKBENCH)
+	public static Item portable_diamond_workbench;
+	@ObjectHolder(IndustryNames.PORTABLE_IRON_WORKBENCH)
+	public static Item portable_iron_workbench;
+	@ObjectHolder(IndustryNames.POSITION_FINDER)
+	public static Item position_finder;
+	@ObjectHolder(IndustryNames.LOCKSMITH_LOCK)
+	public static Item locksmith_lock;
+	@ObjectHolder(IndustryNames.LOCKSMITH_KEY)
+	public static Item locksmith_key;
 
 	@SubscribeEvent
 	public void initItems(RegistryEvent.Register<Item> evt) {
 		IForgeRegistry<Item> r = evt.getRegistry();
 
-		if (IndustryConfig.subpartStorage) {
-			r.register(locksmith_lock);
-			r.register(locksmith_key);
+		if (IndustryConfig.subpartStorage.get()) {
+			r.register(new ItemCombination(IndustryNames.LOCKSMITH_LOCK));
+			r.register(new ItemCombination(IndustryNames.LOCKSMITH_KEY));
 		}
 
-		if (IndustryConfig.subpartMachines) {
-			r.register(crude_oil);
-			r.register(super_crude_oil);
-			r.register(fuel);
-			r.register(oily_chunk);
-			r.register(drill_head_item);
+		if (IndustryConfig.subpartMachines.get()) {
+			r.register((new ItemManualPage(IndustryNames.CRUDE_OIL, "industry:machines.refinery_recipes")).setCreativeTab(GrimCreativeTabs.GRIM_INDUSTRY));
+			r.register((new ItemManualPage(IndustryNames.SUPER_CRUDE_OIL, "industry:machines.refinery_recipes")).setCreativeTab(GrimCreativeTabs.GRIM_INDUSTRY));
+			r.register((new ItemManualPage(IndustryNames.FUEL, "industry:machines.refinery_recipes")).setCreativeTab(GrimCreativeTabs.GRIM_INDUSTRY));
+			r.register((new ItemManualPage(IndustryNames.OILY_CHUNK, "industry:metalworks.fuel")).setCreativeTab(GrimCreativeTabs.GRIM_INDUSTRY));
+			r.register((new ItemManualPage(IndustryNames.DRILL_HEAD_ITEM, "industry:machines.drill")).setCreativeTab(GrimCreativeTabs.GRIM_INDUSTRY));
 		}
 
-		if (IndustryConfig.subpartGates) {
-			r.register(gate_grating);
-			r.register(gate_trumpet);
-			r.register(garage_panel);
-			r.register(garage_remote);
+		if (IndustryConfig.subpartGates.get()) {
+			r.register((new ItemManualPage(IndustryNames.GATE_GRATING, "industry:gates.gate")).setCreativeTab(GrimCreativeTabs.GRIM_INDUSTRY));
+			r.register(new ItemActivator(IndustryNames.GATE_TRUMPET));
+			r.register((new ItemManualPage(IndustryNames.GARAGE_PANEL, "industry:gates.garage")).setCreativeTab(GrimCreativeTabs.GRIM_INDUSTRY));
+			r.register(new ItemActivator(IndustryNames.GARAGE_REMOTE));
 		}
 
-		if (IndustryConfig.subpartRWays) {
-			r.register(tarball);
-			r.register(asphalt);
+		if (IndustryConfig.subpartRWays.get()) {
+			r.register((new ItemManualPage(IndustryNames.TARBALL, "industry:tarball.paint")).setCreativeTab(GrimCreativeTabs.GRIM_INDUSTRY));
+			r.register(new ItemAsphalt());
 		}
 
-		if (IndustryConfig.subpartDecoration) {
-			r.register(paint_roller);
-			r.register(paint_roller_white);
-			r.register(paint_roller_blue);
-			r.register(paint_roller_green);
-			r.register(paint_roller_red);
+		if (IndustryConfig.subpartDecoration.get()) {
+			r.register((new ItemManualPage(IndustryNames.PAINT_ROLLER, "industry:rways.paint")).setCreativeTab(GrimCreativeTabs.GRIM_INDUSTRY).setMaxStackSize(1).setFull3D());
+			r.register(new ItemPaintRollerColor(EnumSidingColor.white));
+			r.register(new ItemPaintRollerColor(EnumSidingColor.red));
+			r.register(new ItemPaintRollerColor(EnumSidingColor.green));
+			r.register(new ItemPaintRollerColor(EnumSidingColor.blue));
 		}
 
-		if (IndustryConfig.subpartExtruder)
-			r.register(extruder);
+		if (IndustryConfig.subpartExtruder.get())
+			r.register(new ItemExtruder());
 
-		if (IndustryConfig.subpartWorkbenchUpgrades) {
-			r.register(portable_diamond_workbench);
-			r.register(portable_iron_workbench);
+		if (IndustryConfig.subpartWorkbenchUpgrades.get()) {
+			r.register(new ItemUpgradedPortableWorkbench(PackGuiHandler.PORTABLE_DIAMOND_MAIN_GUI_ID, PackGuiHandler.PORTABLE_DIAMOND_OFF_GUI_ID));
+			r.register(new ItemUpgradedPortableWorkbench(PackGuiHandler.PORTABLE_IRON_MAIN_GUI_ID, PackGuiHandler.PORTABLE_IRON_OFF_GUI_ID));
 		}
 
-		if (IndustryConfig.subpartSensors)
-			r.register(position_finder);
+		if (IndustryConfig.subpartSensors.get())
+			r.register(new ItemPositionFinder());
 
-		if (IndustryConfig.subpartSteel) {
-			r.register(steel_axe);
-			r.register(steel_hoe);
-			r.register(steel_pickaxe);
-			r.register(steel_shovel);
-			r.register(steel_sword);
-			r.register(coal_iron_ingot);
+		if (IndustryConfig.subpartSteel.get()) {
+			r.register((new ItemManualAxe(IndustryNames.STEEL_AXE, steel, 8.0f, -3.1f, "industry:metalworks.steeltools")).setCreativeTab(GrimCreativeTabs.GRIM_INDUSTRY));
+			r.register((new ItemManualHoe(IndustryNames.STEEL_HOE, steel, "industry:metalworks.steeltools")).setCreativeTab(GrimCreativeTabs.GRIM_INDUSTRY));
+			r.register((new ItemManualPickaxe(IndustryNames.STEEL_PICKAXE, steel, "industry:metalworks.steeltools")).setCreativeTab(GrimCreativeTabs.GRIM_INDUSTRY));
+			r.register((new ItemManualSpade(IndustryNames.STEEL_SHOVEL, steel, "industry:metalworks.steeltools")).setCreativeTab(GrimCreativeTabs.GRIM_INDUSTRY));
+			r.register((new ItemManualSword(IndustryNames.STEEL_SWORD, steel, "industry:metalworks.steeltools")).setCreativeTab(GrimCreativeTabs.GRIM_INDUSTRY));
+			r.register((new ItemManualPage(IndustryNames.COAL_IRON_INGOT, "industry:metalworks.coaliron")).setCreativeTab(GrimCreativeTabs.GRIM_INDUSTRY));
 
-			if (CoreConfig.subpartSteel)
+			if (CoreConfig.subpartSteel.get())
 				steel.setRepairItem(new ItemStack(CommonItems.steel_ingot));
 		}
 
-		if (IndustryConfig.subpartNuclear) {
-			r.register(anti_radiation_boots);
-			r.register(anti_radiation_chest);
-			r.register(anti_radiation_helmet);
-			r.register(anti_radiation_legs);
-			r.register(iron_parts);
-			r.register(reactor_core_case);
-			r.register(reactor_core);
-			r.register(refined_plutonium);
-			r.register(plutonium_ingot);
-			r.register(refined_uranium);
-			r.register(uranium_ingot);
+		if (IndustryConfig.subpartNuclear.get()) {
+			r.register((new ItemManualArmor(IndustryNames.ANTI_RADIATION_BOOTS, antiRadiation, 3, EquipmentSlotType.FEET, "industry:refining.armor")).setCreativeTab(GrimCreativeTabs.GRIM_INDUSTRY));
+			r.register((new ItemManualArmor(IndustryNames.ANTI_RADIATION_CHEST, antiRadiation, 3, EquipmentSlotType.CHEST, "industry:refining.armor")).setCreativeTab(GrimCreativeTabs.GRIM_INDUSTRY));
+			r.register((new ItemManualArmor(IndustryNames.ANTI_RADIATION_HELMET, antiRadiation, 3, EquipmentSlotType.HEAD, "industry:refining.armor")).setCreativeTab(GrimCreativeTabs.GRIM_INDUSTRY));
+			r.register((new ItemManualArmor(IndustryNames.ANTI_RADIATION_LEGS, antiRadiation, 3, EquipmentSlotType.LEGS, "industry:refining.armor")).setCreativeTab(GrimCreativeTabs.GRIM_INDUSTRY));
+			r.register((new ItemManualPage(IndustryNames.IRON_PARTS, "industry:reactor.iron_parts")).setCreativeTab(GrimCreativeTabs.GRIM_INDUSTRY));
+			r.register((new ItemManualPage(IndustryNames.REACTOR_CORE_CASE, "industry:reactor.reactor_case")).setCreativeTab(GrimCreativeTabs.GRIM_INDUSTRY));
+			r.register((new ItemManualPage(IndustryNames.REACTOR_CORE, "industry:reactor.reactor")).setCreativeTab(GrimCreativeTabs.GRIM_INDUSTRY));
+			r.register((new ItemManualPage(IndustryNames.REFINED_PLUTONIUM, "industry:refining.refined_plutonium")).setCreativeTab(GrimCreativeTabs.GRIM_INDUSTRY));
+			r.register((new ItemManualPage(IndustryNames.PLUTONIUM_INGOT, "industry:refining.plutonium")).setCreativeTab(GrimCreativeTabs.GRIM_INDUSTRY));
+			r.register((new ItemManualPage(IndustryNames.REFINED_URANIUM, "industry:refining.refined_uranium")).setCreativeTab(GrimCreativeTabs.GRIM_INDUSTRY));
+			r.register((new ItemManualPage(IndustryNames.URANIUM_INGOT, "industry:refining.uranium_smelt")).setCreativeTab(GrimCreativeTabs.GRIM_INDUSTRY));
 
 			antiRadiation.setRepairItem(new ItemStack(Blocks.WOOL));
 		}
 
-		if (IndustryConfig.subpartGravity) {
-			r.register(gravity_boots);
-			r.register(gravity_controller);
-			r.register(low_gravity_controller);
-			r.register(mob_repulsor);
+		if (IndustryConfig.subpartGravity.get()) {
+			r.register((new ItemManualArmor(IndustryNames.GRAVITY_BOOTS, gravboots, 4, EquipmentSlotType.FEET, "industry:refining.armor")).setCreativeTab(GrimCreativeTabs.GRIM_INDUSTRY));
+			r.register(new ItemGravityController());
+			r.register(new ItemLowGravityController());
+			r.register(new ItemMobRepulsor());
 
 			gravboots.setRepairItem(new ItemStack(Items.IRON_INGOT));
 		}
-
-		initOreDict();
-	}
-
-	private void initOreDict() {
-		if (IndustryConfig.subpartNuclear) {
-			OreDictionary.registerOre("ingotUranium", uranium_ingot);
-			OreDictionary.registerOre("ingotRefinedUranium", refined_uranium);
-			OreDictionary.registerOre("ingotPlutonium", plutonium_ingot);
-			OreDictionary.registerOre("ingotRefinedPlutonium", refined_plutonium);
-		}
-
-		if (IndustryConfig.subpartMachines) {
-			OreDictionary.registerOre("canOil", crude_oil);
-			OreDictionary.registerOre("canCrudeOil", super_crude_oil);
-			OreDictionary.registerOre("canFuel", fuel);
-		}
-
-		if (IndustryConfig.subpartRWays)
-			OreDictionary.registerOre("tar", tarball);
-	}
-
-	@SubscribeEvent
-	public void registerRecipes(RegistryEvent.Register<IRecipe> evt) {
-		if (IndustryConfig.subpartRWays)
-			GameRegistry.addSmelting(tarball, new ItemStack(asphalt, 1), 0.35F);
-
-		if (IndustryConfig.subpartSteel)
-			if (CoreConfig.subpartSteel)
-				GameRegistry.addSmelting(coal_iron_ingot, new ItemStack(CommonItems.steel_ingot, 1), 0.5F);
 	}
 }

@@ -19,7 +19,7 @@
       "item": "minecraft:sugar"
     },
     "B": {
-      "constant": "grimpack:bucket_milk"
+      "tag": "forge:buckets/milk"
     },
     "X": {
       "item": "grimpack:cuisine/cocoa_dust"

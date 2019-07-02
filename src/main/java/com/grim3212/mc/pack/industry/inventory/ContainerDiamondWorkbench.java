@@ -6,25 +6,27 @@ import com.grim3212.mc.pack.core.util.RecipeHelper;
 import com.grim3212.mc.pack.industry.block.IndustryBlocks;
 import com.grim3212.mc.pack.industry.config.IndustryConfig;
 
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.inventory.ContainerWorkbench;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.inventory.container.WorkbenchContainer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.CraftingManager;
 import net.minecraft.item.crafting.IRecipe;
-import net.minecraft.network.play.server.SPacketSetSlot;
+import net.minecraft.network.play.server.SSetSlotPacket;
+import net.minecraft.network.play.server.SSetSlotPacket;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class ContainerDiamondWorkbench extends ContainerWorkbench {
+public class ContainerDiamondWorkbench extends WorkbenchContainer {
 
-	private EntityPlayer player;
+	private PlayerEntity player;
 	private World worldObj;
 	private BlockPos pos;
 	private boolean isPortable;
 
-	public ContainerDiamondWorkbench(EntityPlayer player, World world, BlockPos pos, boolean isPortable) {
+	public ContainerDiamondWorkbench(PlayerEntity player, World world, BlockPos pos, boolean isPortable) {
 		super(player.inventory, world, pos);
 		this.player = player;
 		this.worldObj = world;
@@ -37,7 +39,7 @@ public class ContainerDiamondWorkbench extends ContainerWorkbench {
 		if (!worldObj.isRemote) {
 
 			ItemStack recipeStack = ItemStack.EMPTY;
-			EntityPlayerMP entityplayermp = (EntityPlayerMP) player;
+			ServerPlayerEntity entityplayermp = (ServerPlayerEntity) player;
 			IRecipe found = CraftingManager.findMatchingRecipe(this.craftMatrix, this.worldObj);
 
 			if (found != null && (found.isDynamic() || !this.worldObj.getGameRules().getBoolean("doLimitedCrafting") || entityplayermp.getRecipeBook().isUnlocked(found))) {
@@ -47,7 +49,7 @@ public class ContainerDiamondWorkbench extends ContainerWorkbench {
 
 			// Reset slot contents so that weird issues stop occuring
 			this.craftResult.setInventorySlotContents(0, ItemStack.EMPTY);
-			entityplayermp.connection.sendPacket(new SPacketSetSlot(this.windowId, 0, ItemStack.EMPTY));
+			entityplayermp.connection.sendPacket(new SSetSlotPacket(this.windowId, 0, ItemStack.EMPTY));
 
 			if (IndustryConfig.useWhitelist) {
 				Iterator<ItemStack> itr = IndustryConfig.workbenchUpgradeList.iterator();
@@ -57,7 +59,7 @@ public class ContainerDiamondWorkbench extends ContainerWorkbench {
 
 					if (RecipeHelper.compareItemStacks(recipeStack, stack)) {
 						this.craftResult.setInventorySlotContents(0, recipeStack);
-						entityplayermp.connection.sendPacket(new SPacketSetSlot(this.windowId, 0, recipeStack));
+						entityplayermp.connection.sendPacket(new SSetSlotPacket(this.windowId, 0, recipeStack));
 						break;
 					}
 				}
@@ -77,7 +79,7 @@ public class ContainerDiamondWorkbench extends ContainerWorkbench {
 
 				if (!blacklisted) {
 					this.craftResult.setInventorySlotContents(0, recipeStack);
-					entityplayermp.connection.sendPacket(new SPacketSetSlot(this.windowId, 0, recipeStack));
+					entityplayermp.connection.sendPacket(new SSetSlotPacket(this.windowId, 0, recipeStack));
 				}
 			}
 
@@ -99,7 +101,7 @@ public class ContainerDiamondWorkbench extends ContainerWorkbench {
 	}
 
 	@Override
-	public boolean canInteractWith(EntityPlayer playerIn) {
+	public boolean canInteractWith(PlayerEntity playerIn) {
 		return isPortable ? true : this.worldObj.getBlockState(this.pos).getBlock() != IndustryBlocks.diamond_workbench ? false : playerIn.getDistanceSq((double) this.pos.getX() + 0.5D, (double) this.pos.getY() + 0.5D, (double) this.pos.getZ() + 0.5D) <= 64.0D;
 	}
 }

@@ -17,7 +17,7 @@
   "type": "minecraft:crafting_shaped",
   "key": {
     "a": {
-      "constant": "grimpack:aluminum"
+      "tag": "forge:ingots/aluminum"
     }
   }
 }

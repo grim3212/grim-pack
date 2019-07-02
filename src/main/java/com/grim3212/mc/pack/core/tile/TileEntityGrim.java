@@ -1,8 +1,8 @@
 package com.grim3212.mc.pack.core.tile;
 
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.NetworkManager;
-import net.minecraft.network.play.server.SPacketUpdateTileEntity;
+import net.minecraft.network.play.server.SUpdateTileEntityPacket;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
 
@@ -13,24 +13,24 @@ public class TileEntityGrim extends TileEntity {
 	}
 
 	@Override
-	public NBTTagCompound getUpdateTag() {
-		return write(new NBTTagCompound());
+	public CompoundNBT getUpdateTag() {
+		return write(new CompoundNBT());
 	}
 
 	@Override
-	public void handleUpdateTag(NBTTagCompound tag) {
+	public void handleUpdateTag(CompoundNBT tag) {
 		read(tag);
 	}
 
 	@Override
-	public SPacketUpdateTileEntity getUpdatePacket() {
-		NBTTagCompound nbtTagCompound = new NBTTagCompound();
+	public SUpdateTileEntityPacket getUpdatePacket() {
+		CompoundNBT nbtTagCompound = new CompoundNBT();
 		write(nbtTagCompound);
-		return new SPacketUpdateTileEntity(this.pos, 1, nbtTagCompound);
+		return new SUpdateTileEntityPacket(this.pos, 1, nbtTagCompound);
 	}
 
 	@Override
-	public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity pkt) {
+	public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt) {
 		read(pkt.getNbtCompound());
 	}
 }

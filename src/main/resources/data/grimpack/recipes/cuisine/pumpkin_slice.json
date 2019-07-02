@@ -14,7 +14,7 @@
       "item": "minecraft:pumpkin"
     },
     {
-      "constant": "grimpack:knife"
+      "tag": "forge:tools/knife"
     }
   ],
   "type": "minecraft:crafting_shapeless"

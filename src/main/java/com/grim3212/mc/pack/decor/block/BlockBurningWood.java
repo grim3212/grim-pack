@@ -2,32 +2,30 @@ package com.grim3212.mc.pack.decor.block;
 
 import com.grim3212.mc.pack.core.block.BlockManual;
 import com.grim3212.mc.pack.core.manual.pages.Page;
-import com.grim3212.mc.pack.core.part.GrimCreativeTabs;
 import com.grim3212.mc.pack.decor.client.ManualDecor;
+import com.grim3212.mc.pack.decor.init.DecorNames;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.block.BlockState;
+import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.world.IBlockReader;
 
 public class BlockBurningWood extends BlockManual {
 
 	public BlockBurningWood() {
-		super("burning_wood", Material.ROCK, SoundType.STONE);
-		setHardness(0.8F);
-		setResistance(5F);
-		setCreativeTab(GrimCreativeTabs.GRIM_DECOR);
+		super(DecorNames.BURNING_WOOD, Block.Properties.create(Material.ROCK).sound(SoundType.STONE).hardnessAndResistance(0.8f, 5f));
 	}
 
 	@Override
-	public boolean isFireSource(World world, BlockPos pos, EnumFacing side) {
-		return side == EnumFacing.UP;
+	public boolean isFireSource(BlockState state, IBlockReader world, BlockPos pos, Direction side) {
+		return side == Direction.UP;
 	}
 
 	@Override
-	public Page getPage(IBlockState state) {
+	public Page getPage(BlockState state) {
 		return ManualDecor.burningWood_page;
 	}
 }

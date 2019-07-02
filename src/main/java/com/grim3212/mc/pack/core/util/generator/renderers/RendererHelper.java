@@ -2,21 +2,22 @@ package com.grim3212.mc.pack.core.util.generator.renderers;
 
 import javax.annotation.Nullable;
 
+import com.mojang.blaze3d.platform.GlStateManager;
+
 import net.minecraft.client.MainWindow;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BufferBuilder;
-import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.model.IBakedModel;
 import net.minecraft.client.renderer.model.ItemCameraTransforms;
-import net.minecraft.client.renderer.texture.TextureMap;
+import net.minecraft.client.renderer.texture.AtlasTexture;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.crash.CrashReport;
 import net.minecraft.crash.CrashReportCategory;
 import net.minecraft.crash.ICrashReportDetail;
 import net.minecraft.crash.ReportedException;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import net.minecraftforge.client.ForgeHooksClient;
@@ -56,8 +57,8 @@ public class RendererHelper {
 		Minecraft mc = Minecraft.getInstance();
 
 		GlStateManager.pushMatrix();
-		mc.getTextureManager().bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
-		mc.getTextureManager().getTexture(TextureMap.LOCATION_BLOCKS_TEXTURE).setBlurMipmap(false, false);
+		mc.getTextureManager().bindTexture(AtlasTexture.LOCATION_BLOCKS_TEXTURE);
+		mc.getTextureManager().getTexture(AtlasTexture.LOCATION_BLOCKS_TEXTURE).setBlurMipmap(false, false);
 		GlStateManager.enableRescaleNormal();
 		GlStateManager.enableAlphaTest();
 		GlStateManager.alphaFunc(516, 0.1F);
@@ -74,8 +75,8 @@ public class RendererHelper {
 		GlStateManager.disableRescaleNormal();
 		GlStateManager.disableLighting();
 		GlStateManager.popMatrix();
-		mc.getTextureManager().bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
-		mc.getTextureManager().getTexture(TextureMap.LOCATION_BLOCKS_TEXTURE).restoreLastBlurMipmap();
+		mc.getTextureManager().bindTexture(AtlasTexture.LOCATION_BLOCKS_TEXTURE);
+		mc.getTextureManager().getTexture(AtlasTexture.LOCATION_BLOCKS_TEXTURE).restoreLastBlurMipmap();
 	}
 
 	private static void setupGuiTransform(int xPosition, int yPosition, boolean isGui3d, float zLevel) {
@@ -95,7 +96,7 @@ public class RendererHelper {
 		renderItemAndEffectIntoGUI(Minecraft.getInstance().player, stack, xPosition, yPosition, blend);
 	}
 
-	public static void renderItemAndEffectIntoGUI(@Nullable EntityLivingBase p_184391_1_, final ItemStack p_184391_2_, int p_184391_3_, int p_184391_4_, boolean blend) {
+	public static void renderItemAndEffectIntoGUI(@Nullable LivingEntity p_184391_1_, final ItemStack p_184391_2_, int p_184391_3_, int p_184391_4_, boolean blend) {
 		ItemRenderer render = Minecraft.getInstance().getItemRenderer();
 
 		if (!p_184391_2_.isEmpty()) {

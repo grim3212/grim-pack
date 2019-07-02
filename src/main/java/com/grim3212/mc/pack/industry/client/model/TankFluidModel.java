@@ -6,7 +6,7 @@ import java.util.List;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Maps;
 
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.BlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.block.model.IBakedModel;
@@ -15,7 +15,8 @@ import net.minecraft.client.renderer.block.model.ItemOverrideList;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.client.renderer.vertex.VertexFormat;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.util.Direction;
+import net.minecraft.util.Direction;
 import net.minecraftforge.client.model.pipeline.UnpackedBakedQuad;
 import net.minecraftforge.fluids.Fluid;
 
@@ -36,7 +37,7 @@ public class TankFluidModel implements IBakedModel {
 	 */
 	private Fluid fluid;
 	private VertexFormat format;
-	private EnumMap<EnumFacing, List<BakedQuad>> faceQuads;
+	private EnumMap<Direction, List<BakedQuad>> faceQuads;
 
 	/**
 	 * Constructor for a TankFluidModel that fills a whole block
@@ -63,9 +64,9 @@ public class TankFluidModel implements IBakedModel {
 		this.fluid = fluid;
 
 		format = DefaultVertexFormats.ITEM;
-		faceQuads = Maps.newEnumMap(EnumFacing.class);
+		faceQuads = Maps.newEnumMap(Direction.class);
 
-		for (EnumFacing side : EnumFacing.values()) {
+		for (Direction side : Direction.values()) {
 			faceQuads.put(side, ImmutableList.<BakedQuad>of());
 		}
 
@@ -80,7 +81,7 @@ public class TankFluidModel implements IBakedModel {
 		// top
 
 		UnpackedBakedQuad.Builder quadBuilder;
-		EnumFacing side = EnumFacing.UP;
+		Direction side = Direction.UP;
 
 		quadBuilder = new UnpackedBakedQuad.Builder(format);
 		quadBuilder.setQuadOrientation(side);
@@ -98,7 +99,7 @@ public class TankFluidModel implements IBakedModel {
 
 		// bottom
 
-		side = EnumFacing.DOWN;
+		side = Direction.DOWN;
 		quadBuilder = new UnpackedBakedQuad.Builder(format);
 		quadBuilder.setQuadOrientation(side);
 		quadBuilder.setTexture(texture);
@@ -116,7 +117,7 @@ public class TankFluidModel implements IBakedModel {
 
 		// east
 
-		side = EnumFacing.EAST;
+		side = Direction.EAST;
 
 		quadBuilder = new UnpackedBakedQuad.Builder(format);
 		quadBuilder.setQuadOrientation(side);
@@ -131,7 +132,7 @@ public class TankFluidModel implements IBakedModel {
 
 		// west
 
-		side = EnumFacing.WEST;
+		side = Direction.WEST;
 
 		quadBuilder = new UnpackedBakedQuad.Builder(format);
 		quadBuilder.setQuadOrientation(side);
@@ -146,7 +147,7 @@ public class TankFluidModel implements IBakedModel {
 
 		// south
 
-		side = EnumFacing.SOUTH;
+		side = Direction.SOUTH;
 
 		quadBuilder = new UnpackedBakedQuad.Builder(format);
 		quadBuilder.setQuadOrientation(side);
@@ -161,7 +162,7 @@ public class TankFluidModel implements IBakedModel {
 
 		// north
 
-		side = EnumFacing.NORTH;
+		side = Direction.NORTH;
 
 		quadBuilder = new UnpackedBakedQuad.Builder(format);
 		quadBuilder.setQuadOrientation(side);
@@ -176,11 +177,11 @@ public class TankFluidModel implements IBakedModel {
 	}
 
 	@Override
-	public List<BakedQuad> getQuads(IBlockState state, EnumFacing side, long rand) {
+	public List<BakedQuad> getQuads(BlockState state, Direction side, long rand) {
 		if (side != null)
 			return faceQuads.get(side);
 
-		return faceQuads.get(EnumFacing.UP);
+		return faceQuads.get(Direction.UP);
 	}
 
 	@Override
@@ -213,7 +214,7 @@ public class TankFluidModel implements IBakedModel {
 		return ItemOverrideList.NONE;
 	}
 
-	private void putVertex(UnpackedBakedQuad.Builder builder, EnumFacing side, float x, float y, float z, float u, float v) {
+	private void putVertex(UnpackedBakedQuad.Builder builder, Direction side, float x, float y, float z, float u, float v) {
 		for (int e = 0; e < format.getElementCount(); e++) {
 			switch (format.getElement(e).getUsage()) {
 			case POSITION:

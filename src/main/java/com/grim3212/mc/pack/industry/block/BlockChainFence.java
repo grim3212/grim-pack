@@ -1,31 +1,25 @@
 package com.grim3212.mc.pack.industry.block;
 
-import com.grim3212.mc.pack.GrimPack;
 import com.grim3212.mc.pack.core.manual.IManualEntry.IManualBlock;
 import com.grim3212.mc.pack.core.manual.pages.Page;
-import com.grim3212.mc.pack.core.part.GrimCreativeTabs;
 import com.grim3212.mc.pack.industry.client.ManualIndustry;
+import com.grim3212.mc.pack.industry.init.IndustryNames;
 
-import net.minecraft.block.BlockPane;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.PaneBlock;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.util.ResourceLocation;
 
-public class BlockChainFence extends BlockPane implements IManualBlock {
+public class BlockChainFence extends PaneBlock implements IManualBlock {
 
-	public BlockChainFence(Material materialIn) {
-		super(materialIn, true);
-		setSoundType(SoundType.METAL);
-		setHardness(0.5F);
-		setResistance(5.0F);
-		setUnlocalizedName("chain_fence");
-		setRegistryName(new ResourceLocation(GrimPack.modID, "chain_fence"));
-		setCreativeTab(GrimCreativeTabs.GRIM_INDUSTRY);
+	public BlockChainFence() {
+		super(Block.Properties.create(Material.MISCELLANEOUS).sound(SoundType.METAL).hardnessAndResistance(0.5f, 5.0f));
+		setRegistryName(IndustryNames.CHAIN_FENCE);
 	}
 
 	@Override
-	public Page getPage(IBlockState state) {
+	public Page getPage(BlockState state) {
 		return ManualIndustry.others_page;
 	}
 }

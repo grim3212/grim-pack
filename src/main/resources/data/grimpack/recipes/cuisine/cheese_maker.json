@@ -16,7 +16,7 @@
   "type": "minecraft:crafting_shaped",
   "key": {
     "X": {
-      "constant": "grimpack:cobblestone"
+      "tag": "forge:cobblestone"
     },
     "I": {
       "item": "minecraft:bucket"

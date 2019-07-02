@@ -16,7 +16,7 @@ import com.grim3212.mc.pack.industry.util.MachineRecipes.MachineType;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
@@ -80,7 +80,7 @@ public class PageMachine extends Page {
 			render.bindTexture(refineryOverlay);
 
 		GL11.glColor4f(1F, 1F, 1F, 1F);
-		((GuiScreen) gui).drawTexturedModalRect(gui.getX(), gui.getY(), 0, 0, gui.getManualWidth(), gui.getManualHeight());
+		((Screen) gui).drawTexturedModalRect(gui.getX(), gui.getY(), 0, 0, gui.getManualWidth(), gui.getManualHeight());
 
 		tooltipItem = ItemStack.EMPTY;
 

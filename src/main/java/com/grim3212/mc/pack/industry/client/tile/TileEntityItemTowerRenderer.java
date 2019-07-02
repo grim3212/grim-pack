@@ -5,13 +5,13 @@ import com.grim3212.mc.pack.industry.client.model.ModelItemTower;
 import com.grim3212.mc.pack.industry.tile.TileEntityItemTower;
 
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
+import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-@OnlyIn(Dist.CLIENT)
-public class TileEntityItemTowerRenderer extends TileEntitySpecialRenderer<TileEntityItemTower> {
+@SideOnly(Side.CLIENT)
+public class TileEntityItemTowerRenderer extends TileEntityRenderer<TileEntityItemTower> {
 
 	public ModelItemTower ITEM_MODEL;
 	private static final ResourceLocation RESOURCE_LOCATION = new ResourceLocation(GrimPack.modID, "textures/models/tower.png");

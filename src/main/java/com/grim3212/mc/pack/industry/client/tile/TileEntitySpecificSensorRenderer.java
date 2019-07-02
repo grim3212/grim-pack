@@ -5,13 +5,13 @@ import com.grim3212.mc.pack.util.client.event.RenderBoundingBoxEvent;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-@OnlyIn(Dist.CLIENT)
-public class TileEntitySpecificSensorRenderer extends TileEntitySpecialRenderer<TileEntitySpecificSensor> {
+@SideOnly(Side.CLIENT)
+public class TileEntitySpecificSensorRenderer extends TileEntityRenderer<TileEntitySpecificSensor> {
 
 	@Override
 	public void render(TileEntitySpecificSensor te, double x, double y, double z, float partialTicks, int destroyStage, float alpha) {
@@ -27,7 +27,7 @@ public class TileEntitySpecificSensorRenderer extends TileEntitySpecialRenderer<
 
 			if (te.getSensorPos() != null && te.getWorld().getWorldBorder().contains(te.getSensorPos())) {
 				Minecraft mc = Minecraft.getMinecraft();
-				EntityPlayer player = mc.player;
+				PlayerEntity player = mc.player;
 
 				double d0 = player.lastTickPosX + (player.posX - player.lastTickPosX) * (double) partialTicks;
 				double d1 = player.lastTickPosY + (player.posY - player.lastTickPosY) * (double) partialTicks;

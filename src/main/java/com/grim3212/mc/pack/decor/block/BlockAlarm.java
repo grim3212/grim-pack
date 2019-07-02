@@ -1,68 +1,78 @@
 package com.grim3212.mc.pack.decor.block;
 
-import com.grim3212.mc.pack.GrimPack;
 import com.grim3212.mc.pack.core.block.BlockManual;
-import com.grim3212.mc.pack.core.client.gui.PackGuiHandler;
 import com.grim3212.mc.pack.core.manual.pages.Page;
-import com.grim3212.mc.pack.core.part.GrimCreativeTabs;
 import com.grim3212.mc.pack.decor.client.ManualDecor;
+import com.grim3212.mc.pack.decor.client.gui.GuiAlarm;
+import com.grim3212.mc.pack.decor.init.DecorNames;
 import com.grim3212.mc.pack.decor.tile.TileEntityAlarm;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.ITileEntityProvider;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.properties.IProperty;
-import net.minecraft.block.properties.PropertyBool;
-import net.minecraft.block.properties.PropertyEnum;
-import net.minecraft.block.state.BlockStateContainer;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.client.Minecraft;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.ItemStack;
+import net.minecraft.state.BooleanProperty;
+import net.minecraft.state.DirectionProperty;
+import net.minecraft.state.StateContainer.Builder;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockRenderLayer;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumHand;
+import net.minecraft.util.Direction;
+import net.minecraft.util.Hand;
 import net.minecraft.util.SoundCategory;
-import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockAccess;
+import net.minecraft.util.math.BlockRayTraceResult;
+import net.minecraft.util.math.shapes.ISelectionContext;
+import net.minecraft.util.math.shapes.VoxelShape;
+import net.minecraft.util.math.shapes.VoxelShapes;
+import net.minecraft.world.Explosion;
+import net.minecraft.world.IBlockReader;
+import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
 
-public class BlockAlarm extends BlockManual implements ITileEntityProvider {
+public class BlockAlarm extends BlockManual {
 
-	public static final PropertyBool POWERED = PropertyBool.create("powered");
-	public static final PropertyEnum<EnumFacing> FACING = PropertyEnum.create("facing", EnumFacing.class);
+	public static final BooleanProperty POWERED = BooleanProperty.create("powered");
+	public static final DirectionProperty FACING = DirectionProperty.create("facing", Direction.values());
 
-	private static final AxisAlignedBB UP_BOUNDS = new AxisAlignedBB(0.1875f, 0.0f, 0.1875f, 0.8125f, 0.25f, 0.8125f);
-	private static final AxisAlignedBB DOWN_BOUNDS = new AxisAlignedBB(0.1875f, 0.75f, 0.1875f, 0.8125f, 1.0f, 0.8125f);
-	private static final AxisAlignedBB NORTH_BOUNDS = new AxisAlignedBB(0.1875f, 0.1875f, 0.75f, 0.8125f, 0.8125f, 1.0f);
-	private static final AxisAlignedBB SOUTH_BOUNDS = new AxisAlignedBB(0.1875f, 0.1875f, 0.0f, 0.8125f, 0.8125f, 0.25f);
-	private static final AxisAlignedBB WEST_BOUNDS = new AxisAlignedBB(0.75f, 0.1875f, 0.1875f, 1.0f, 0.8125f, 0.8125f);
-	private static final AxisAlignedBB EAST_BOUNDS = new AxisAlignedBB(0.0f, 0.1875f, 0.1875f, 0.25f, 0.8125f, 0.8125f);
+	private static final VoxelShape UP_BOUNDS = Block.makeCuboidShape(3f, 0f, 3f, 13f, 4f, 13f);
+	private static final VoxelShape DOWN_BOUNDS = Block.makeCuboidShape(3F, 12f, 3F, 13f, 16f, 13f);
+	private static final VoxelShape NORTH_BOUNDS = Block.makeCuboidShape(3F, 3F, 12f, 13f, 13f, 16f);
+	private static final VoxelShape SOUTH_BOUNDS = Block.makeCuboidShape(3F, 3F, 0f, 13f, 13f, 4f);
+	private static final VoxelShape WEST_BOUNDS = Block.makeCuboidShape(12f, 3f, 3f, 16f, 13f, 13f);
+	private static final VoxelShape EAST_BOUNDS = Block.makeCuboidShape(0f, 3f, 3f, 4f, 13f, 13f);
 
 	public BlockAlarm() {
-		super("alarm", Material.IRON, SoundType.METAL);
-		setLightLevel(0.2f);
-		setCreativeTab(GrimCreativeTabs.GRIM_DECOR);
-		setHardness(2F);
-		setResistance(1.0F);
+		super(DecorNames.ALARM, Block.Properties.create(Material.IRON).sound(SoundType.METAL).lightValue(3).hardnessAndResistance(2f, 1f));
 	}
 
 	@Override
-	protected IBlockState getState() {
-		return super.getState().withProperty(POWERED, false).withProperty(FACING, EnumFacing.NORTH);
+	public boolean hasTileEntity(BlockState state) {
+		return true;
 	}
 
 	@Override
-	public BlockRenderLayer getBlockLayer() {
+	public TileEntity createTileEntity(BlockState state, IBlockReader world) {
+		return new TileEntityAlarm();
+	}
+
+	@Override
+	protected BlockState getState() {
+		return super.getState().with(POWERED, false).with(FACING, Direction.NORTH);
+	}
+
+	@Override
+	public BlockRenderLayer getRenderLayer() {
 		return BlockRenderLayer.CUTOUT;
 	}
 
 	@Override
-	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
-		switch (state.getValue(FACING)) {
+	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
+		switch (state.get(FACING)) {
 		case DOWN:
 			return DOWN_BOUNDS;
 		case EAST:
@@ -77,41 +87,36 @@ public class BlockAlarm extends BlockManual implements ITileEntityProvider {
 			return WEST_BOUNDS;
 		}
 
-		return FULL_BLOCK_AABB;
+		return VoxelShapes.fullCube();
 	}
 
 	@Override
-	public boolean isFullCube(IBlockState state) {
-		return false;
-	}
-
-	@Override
-	public boolean isOpaqueCube(IBlockState state) {
-		return false;
-	}
-
-	@Override
-	public Page getPage(IBlockState state) {
+	public Page getPage(BlockState state) {
 		return ManualDecor.alarm_page;
 	}
 
 	@Override
-	public boolean canPlaceBlockAt(World worldIn, BlockPos pos) {
-		return worldIn.getBlockState(pos.west()).isOpaqueCube() ? true : (worldIn.getBlockState(pos.east()).isOpaqueCube() ? true : (worldIn.getBlockState(pos.north()).isOpaqueCube() ? true : (worldIn.getBlockState(pos.south()).isOpaqueCube() ? true : (worldIn.getBlockState(pos.up()).isOpaqueCube() ? true : worldIn.getBlockState(pos.down()).isOpaqueCube()))));
+	public boolean isValidPosition(BlockState state, IWorldReader worldIn, BlockPos pos) {
+		return worldIn.getBlockState(pos.west()).isOpaqueCube(worldIn, pos) ? true : (worldIn.getBlockState(pos.east()).isOpaqueCube(worldIn, pos) ? true : (worldIn.getBlockState(pos.north()).isOpaqueCube(worldIn, pos) ? true : (worldIn.getBlockState(pos.south()).isOpaqueCube(worldIn, pos) ? true : (worldIn.getBlockState(pos.up()).isOpaqueCube(worldIn, pos) ? true : worldIn.getBlockState(pos.down()).isOpaqueCube(worldIn, pos)))));
 	}
 
 	@Override
-	public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer, EnumHand hand) {
-		return world.isSideSolid(pos.offset(facing.getOpposite()), facing, true) ? this.getDefaultState().withProperty(FACING, facing) : this.getDefaultState().withProperty(FACING, EnumFacing.DOWN);
+	public BlockState getStateForPlacement(BlockItemUseContext context) {
+		World world = context.getWorld();
+		BlockPos pos = context.getPos();
+		Direction facing = context.getFace();
+		BlockState state = world.getBlockState(pos.offset(facing.getOpposite()));
+
+		return Block.hasSolidSide(state, world, pos.offset(facing.getOpposite()), facing) ? this.getDefaultState().with(FACING, facing) : this.getDefaultState().with(FACING, Direction.DOWN);
 	}
 
 	@Override
-	public void onBlockPlacedBy(World worldIn, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack) {
+	public void onBlockPlacedBy(World worldIn, BlockPos pos, BlockState state, LivingEntity placer, ItemStack stack) {
 		this.tryDropAlarm(worldIn, pos);
 	}
 
 	@Override
-	public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos) {
+	public void neighborChanged(BlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos, boolean flag) {
 		// Drop block if it has no base
 		if (tryDropAlarm(worldIn, pos)) {
 			return;
@@ -120,72 +125,47 @@ public class BlockAlarm extends BlockManual implements ITileEntityProvider {
 		TileEntity te = worldIn.getTileEntity(pos);
 
 		if (te instanceof TileEntityAlarm) {
-			if (worldIn.isBlockPowered(pos) && !state.getValue(POWERED)) {
-				worldIn.setBlockState(pos, state.withProperty(POWERED, true));
+			if (worldIn.isBlockPowered(pos) && !state.get(POWERED)) {
+				worldIn.setBlockState(pos, state.with(POWERED, true));
 
 				if (((TileEntityAlarm) te).alarmType == 26) {
 					// Explode
-					worldIn.setBlockToAir(pos);
-					worldIn.createExplosion(null, pos.getX(), pos.getY(), pos.getZ(), 10F, true);
+					worldIn.destroyBlock(pos, false);
+					worldIn.createExplosion(null, pos.getX(), pos.getY(), pos.getZ(), 10F, Explosion.Mode.BREAK);
 				} else {
 
 					// Play the current sound set when activated
-					worldIn.playSound((EntityPlayer) null, pos, ((TileEntityAlarm) te).getSound(), SoundCategory.BLOCKS, 1f, 1f);
+					worldIn.playSound((PlayerEntity) null, pos, ((TileEntityAlarm) te).getSound(), SoundCategory.BLOCKS, 1f, 1f);
 				}
-			} else if (!worldIn.isBlockPowered(pos) && state.getValue(POWERED)) {
-				worldIn.setBlockState(pos, state.withProperty(POWERED, false));
+			} else if (!worldIn.isBlockPowered(pos) && state.get(POWERED)) {
+				worldIn.setBlockState(pos, state.with(POWERED, false));
 			}
 		}
 	}
 
 	@Override
-	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
+	public boolean onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult traceResult) {
 		TileEntity tile = worldIn.getTileEntity(pos);
 		if (tile instanceof TileEntityAlarm) {
-			playerIn.openGui(GrimPack.INSTANCE, PackGuiHandler.ALARM_GUI_ID, worldIn, pos.getX(), pos.getY(), pos.getZ());
-
+			if (worldIn.isRemote) {
+				Minecraft.getInstance().displayGuiScreen(new GuiAlarm((TileEntityAlarm) tile, player));
+			}
+			
 			// Play the current sound set
-			worldIn.playSound(playerIn, pos, ((TileEntityAlarm) tile).getSound(), SoundCategory.BLOCKS, 1f, 1f);
+			worldIn.playSound((PlayerEntity) null, pos, ((TileEntityAlarm) tile).getSound(), SoundCategory.BLOCKS, 1f, 1f);
 		}
 
 		return true;
 	}
 
 	@Override
-	public TileEntity createNewTileEntity(World worldIn, int meta) {
-		return new TileEntityAlarm();
-	}
-
-	public static EnumFacing getFacing(int meta) {
-		return EnumFacing.getFront(meta & 7);
-	}
-
-	@Override
-	public IBlockState getStateFromMeta(int meta) {
-		return this.getDefaultState().withProperty(FACING, getFacing(meta)).withProperty(POWERED, (meta & 8) > 0);
-	}
-
-	@Override
-	public int getMetaFromState(IBlockState state) {
-		byte b0 = 0;
-		int i = b0 | state.getValue(FACING).getIndex();
-
-		if (state.getValue(POWERED)) {
-			i |= 8;
-		}
-
-		return i;
-	}
-
-	@Override
-	protected BlockStateContainer createBlockState() {
-		return new BlockStateContainer(this, new IProperty[] { FACING, POWERED });
+	protected void fillStateContainer(Builder<Block, BlockState> builder) {
+		builder.add(FACING).add(POWERED);
 	}
 
 	private boolean tryDropAlarm(World worldIn, BlockPos pos) {
-		if (!canPlaceBlockAt(worldIn, pos)) {
-			this.dropBlockAsItem(worldIn, pos, worldIn.getBlockState(pos), 0);
-			worldIn.setBlockToAir(pos);
+		if (!isValidPosition(worldIn.getBlockState(pos), worldIn, pos)) {
+			worldIn.destroyBlock(pos, true);
 			return true;
 		}
 

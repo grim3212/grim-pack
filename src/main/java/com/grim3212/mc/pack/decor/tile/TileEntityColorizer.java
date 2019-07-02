@@ -1,83 +1,80 @@
 package com.grim3212.mc.pack.decor.tile;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.init.Blocks;
-import net.minecraft.nbt.NBTTagCompound;
+import com.grim3212.mc.pack.core.tile.TileEntityGrim;
+
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.NBTUtil;
 import net.minecraft.network.NetworkManager;
-import net.minecraft.network.play.server.SPacketUpdateTileEntity;
-import net.minecraft.tileentity.TileEntity;
+import net.minecraft.network.play.server.SUpdateTileEntityPacket;
+import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraftforge.client.model.ModelDataManager;
+import net.minecraftforge.client.model.data.IModelData;
+import net.minecraftforge.client.model.data.ModelDataMap;
+import net.minecraftforge.client.model.data.ModelProperty;
+import net.minecraftforge.registries.ForgeRegistries;
 
-public class TileEntityColorizer extends TileEntity {
+public class TileEntityColorizer extends TileEntityGrim {
 
-	protected IBlockState blockState = Blocks.AIR.getDefaultState();
+	public static final ModelProperty<BlockState> BLOCK_STATE = new ModelProperty<BlockState>();
+	protected BlockState blockState = Blocks.AIR.getDefaultState();
+
+	public TileEntityColorizer(TileEntityType<?> type) {
+		super(type);
+	}
 
 	public TileEntityColorizer() {
+		super(DecorTileEntities.COLORIZER);
 	}
 
 	@Override
-	public NBTTagCompound getUpdateTag() {
-		return writeToNBT(new NBTTagCompound());
-	}
-
-	@Override
-	public void handleUpdateTag(NBTTagCompound tag) {
-		readFromNBT(tag);
-	}
-
-	@Override
-	public NBTTagCompound writeToNBT(NBTTagCompound compound) {
-		super.writeToNBT(compound);
+	public CompoundNBT write(CompoundNBT compound) {
+		super.write(compound);
 		if (this.blockState.getBlock().getRegistryName() != null)
-			compound.setString("registryName", this.blockState.getBlock().getRegistryName().toString());
+			compound.put("stored_state", NBTUtil.writeBlockState(this.blockState));
 		else
-			compound.setString("registryName", Blocks.AIR.getDefaultState().getBlock().getRegistryName().toString());
-		compound.setInteger("meta", this.blockState.getBlock().getMetaFromState(blockState));
+			compound.put("stored_state", NBTUtil.writeBlockState(Blocks.AIR.getDefaultState()));
 
 		return compound;
 	}
 
 	@Override
-	@SuppressWarnings("deprecation")
-	public void readFromNBT(NBTTagCompound compound) {
-		super.readFromNBT(compound);
-		Block block = Block.REGISTRY.getObject(new ResourceLocation(compound.getString("registryName")));
-		this.blockState = block.getStateFromMeta(compound.getInteger("meta"));
+	public void read(CompoundNBT compound) {
+		super.read(compound);
+		this.blockState = NBTUtil.readBlockState(compound.getCompound("stored_state"));
 	}
 
 	@Override
-	public SPacketUpdateTileEntity getUpdatePacket() {
-		NBTTagCompound nbtTagCompound = new NBTTagCompound();
-		writeToNBT(nbtTagCompound);
-		int metadata = getBlockMetadata();
-		return new SPacketUpdateTileEntity(this.pos, metadata, nbtTagCompound);
+	public SUpdateTileEntityPacket getUpdatePacket() {
+		CompoundNBT nbtTagCompound = new CompoundNBT();
+		write(nbtTagCompound);
+		return new SUpdateTileEntityPacket(this.pos, 1, nbtTagCompound);
 	}
 
 	@Override
-	public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity pkt) {
-		readFromNBT(pkt.getNbtCompound());
-		world.markBlockRangeForRenderUpdate(pos, pos);
-		world.notifyNeighborsOfStateChange(pos, blockType, false);
+	public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt) {
+		read(pkt.getNbtCompound());
+		ModelDataManager.requestModelDataRefresh(this);
+		world.markForRerender(pos);
+		world.notifyNeighborsOfStateChange(pos, getBlockState().getBlock());
 	}
-
+	
 	@Override
-	public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newSate) {
-		return oldState.getBlock() != newSate.getBlock();
+	public IModelData getModelData() {
+		return new ModelDataMap.Builder().withInitial(BLOCK_STATE, blockState).build();
 	}
 
-	public IBlockState getBlockState() {
+	public BlockState getStoredBlockState() {
 		return blockState;
 	}
 
-	public void setBlockState(IBlockState blockState) {
+	public void setStoredBlockState(BlockState blockState) {
 		this.blockState = blockState;
 	}
 
-	@SuppressWarnings("deprecation")
-	public void setBlockState(String registryName, int meta) {
-		this.blockState = Block.REGISTRY.getObject(new ResourceLocation(registryName)).getStateFromMeta(meta);
+	public void setStoredBlockState(String registryName) {
+		this.blockState = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(registryName)).getDefaultState();
 	}
 }

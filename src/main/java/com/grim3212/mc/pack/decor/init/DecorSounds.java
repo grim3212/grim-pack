@@ -5,45 +5,60 @@ import com.grim3212.mc.pack.decor.config.DecorConfig;
 
 import net.minecraft.util.SoundEvent;
 import net.minecraftforge.event.RegistryEvent;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.registries.IForgeRegistry;
+import net.minecraftforge.registries.ObjectHolder;
 
 public class DecorSounds {
 
-	public static final SoundEvent carlock = Utils.createSound("carlock");
-	public static final SoundEvent alarm_a = Utils.createSound("alarm_a");
-	public static final SoundEvent alarm_b = Utils.createSound("alarm_b");
-	public static final SoundEvent alarm_c = Utils.createSound("alarm_c");
-	public static final SoundEvent alarm_d = Utils.createSound("alarm_d");
-	public static final SoundEvent alarm_e = Utils.createSound("alarm_e");
-	public static final SoundEvent alarm_f = Utils.createSound("alarm_f");
-	public static final SoundEvent alarm_g = Utils.createSound("alarm_g");
-	public static final SoundEvent alarm_h = Utils.createSound("alarm_h");
-	public static final SoundEvent alarm_i = Utils.createSound("alarm_i");
-	public static final SoundEvent alarm_j = Utils.createSound("alarm_j");
-	public static final SoundEvent alarm_k = Utils.createSound("alarm_k");
-	public static final SoundEvent alarm_l = Utils.createSound("alarm_l");
-	public static final SoundEvent alarm_m = Utils.createSound("alarm_m");
+	@ObjectHolder(DecorNames.SOUND_CARLOCK)
+	public static SoundEvent carlock;
+	@ObjectHolder(DecorNames.SOUND_ALARM_A)
+	public static SoundEvent alarm_a;
+	@ObjectHolder(DecorNames.SOUND_ALARM_B)
+	public static SoundEvent alarm_b;
+	@ObjectHolder(DecorNames.SOUND_ALARM_C)
+	public static SoundEvent alarm_c;
+	@ObjectHolder(DecorNames.SOUND_ALARM_D)
+	public static SoundEvent alarm_d;
+	@ObjectHolder(DecorNames.SOUND_ALARM_E)
+	public static SoundEvent alarm_e;
+	@ObjectHolder(DecorNames.SOUND_ALARM_F)
+	public static SoundEvent alarm_f;
+	@ObjectHolder(DecorNames.SOUND_ALARM_G)
+	public static SoundEvent alarm_g;
+	@ObjectHolder(DecorNames.SOUND_ALARM_H)
+	public static SoundEvent alarm_h;
+	@ObjectHolder(DecorNames.SOUND_ALARM_I)
+	public static SoundEvent alarm_i;
+	@ObjectHolder(DecorNames.SOUND_ALARM_J)
+	public static SoundEvent alarm_j;
+	@ObjectHolder(DecorNames.SOUND_ALARM_K)
+	public static SoundEvent alarm_k;
+	@ObjectHolder(DecorNames.SOUND_ALARM_L)
+	public static SoundEvent alarm_l;
+	@ObjectHolder(DecorNames.SOUND_ALARM_M)
+	public static SoundEvent alarm_m;
 
 	@SubscribeEvent
 	public void registerSounds(RegistryEvent.Register<SoundEvent> evt) {
 		IForgeRegistry<SoundEvent> reg = evt.getRegistry();
 
-		if (DecorConfig.subpartAlarm) {
-			reg.register(carlock);
-			reg.register(alarm_a);
-			reg.register(alarm_b);
-			reg.register(alarm_c);
-			reg.register(alarm_d);
-			reg.register(alarm_e);
-			reg.register(alarm_f);
-			reg.register(alarm_g);
-			reg.register(alarm_h);
-			reg.register(alarm_i);
-			reg.register(alarm_j);
-			reg.register(alarm_k);
-			reg.register(alarm_l);
-			reg.register(alarm_m);
+		if (DecorConfig.subpartAlarm.get()) {
+			reg.register(Utils.createSound(DecorNames.SOUND_CARLOCK));
+			reg.register(Utils.createSound(DecorNames.SOUND_ALARM_A));
+			reg.register(Utils.createSound(DecorNames.SOUND_ALARM_B));
+			reg.register(Utils.createSound(DecorNames.SOUND_ALARM_C));
+			reg.register(Utils.createSound(DecorNames.SOUND_ALARM_D));
+			reg.register(Utils.createSound(DecorNames.SOUND_ALARM_E));
+			reg.register(Utils.createSound(DecorNames.SOUND_ALARM_F));
+			reg.register(Utils.createSound(DecorNames.SOUND_ALARM_G));
+			reg.register(Utils.createSound(DecorNames.SOUND_ALARM_H));
+			reg.register(Utils.createSound(DecorNames.SOUND_ALARM_I));
+			reg.register(Utils.createSound(DecorNames.SOUND_ALARM_J));
+			reg.register(Utils.createSound(DecorNames.SOUND_ALARM_K));
+			reg.register(Utils.createSound(DecorNames.SOUND_ALARM_L));
+			reg.register(Utils.createSound(DecorNames.SOUND_ALARM_M));
 		}
 	}
 

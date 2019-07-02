@@ -12,7 +12,8 @@ import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.ChunkPos;
-import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.common.ForgeChunkManager;
@@ -41,7 +42,7 @@ public class ChunkLoaderCommand extends CommandBase {
 			World world = DimensionManager.getWorld(id);
 			int chunkCount = getChunkCount(ForgeChunkManager.getPersistentChunksFor(world));
 
-			sender.sendMessage(new TextComponentTranslation("commands.grim_cl_stats.output", chunkCount, id));
+			sender.sendMessage(new TranslationTextComponent("commands.grim_cl_stats.output", chunkCount, id));
 		}
 	}
 

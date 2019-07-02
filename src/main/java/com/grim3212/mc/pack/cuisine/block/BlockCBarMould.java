@@ -9,23 +9,23 @@ import com.grim3212.mc.pack.cuisine.init.CuisineNames;
 import com.grim3212.mc.pack.cuisine.item.CuisineItems;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.state.BlockFaceShape;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.item.EntityItem;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
+import net.minecraft.entity.item.ItemEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.state.IntegerProperty;
 import net.minecraft.state.StateContainer.Builder;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumHand;
+import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.BlockRayTraceResult;
+import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.world.IBlockReader;
-import net.minecraft.world.IWorldReaderBase;
+import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
 
 @SuppressWarnings("deprecation")
@@ -39,33 +39,33 @@ public class BlockCBarMould extends BlockManual {
 	}
 
 	@Override
-	protected void fillStateContainer(Builder<Block, IBlockState> builder) {
+	protected void fillStateContainer(Builder<Block, BlockState> builder) {
 		builder.add(STAGE);
 	}
 
 	@Override
-	protected IBlockState getState() {
+	protected BlockState getState() {
 		return this.stateContainer.getBaseState().with(STAGE, 0);
 	}
 
 	@Override
-	public boolean isValidPosition(IBlockState state, IWorldReaderBase worldIn, BlockPos pos) {
+	public boolean isValidPosition(BlockState state, IWorldReader worldIn, BlockPos pos) {
 		return super.isValidPosition(state, worldIn, pos) ? this.canBlockStay(worldIn, pos) : false;
 	}
 
 	@Override
-	public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos) {
+	public void neighborChanged(BlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos, boolean flag) {
 		if (!this.canBlockStay(worldIn, pos)) {
 			worldIn.destroyBlock(pos, true);
 		}
 	}
 
-	private boolean canBlockStay(IWorldReaderBase worldIn, BlockPos pos) {
+	private boolean canBlockStay(IWorldReader worldIn, BlockPos pos) {
 		return worldIn.getBlockState(pos.down()).getMaterial().isSolid();
 	}
 
 	@Override
-	public void tick(IBlockState state, World worldIn, BlockPos pos, Random random) {
+	public void tick(BlockState state, World worldIn, BlockPos pos, Random random) {
 		super.tick(state, worldIn, pos, random);
 		int current_stage = 2;
 		if (worldIn.getBlockState(pos.down()).getBlock() == Blocks.ICE || worldIn.getBlockState(pos.down()).getBlock() == Blocks.SNOW || worldIn.getBlockState(pos.down()).getBlock() == Blocks.PACKED_ICE) {
@@ -86,7 +86,7 @@ public class BlockCBarMould extends BlockManual {
 	}
 
 	@Override
-	public void onBlockClicked(IBlockState state, World worldIn, BlockPos pos, EntityPlayer playerIn) {
+	public void onBlockClicked(BlockState state, World worldIn, BlockPos pos, PlayerEntity playerIn) {
 		if (state.get(STAGE) == 15) {
 			if (!worldIn.isRemote) {
 				worldIn.setBlockState(pos, CuisineBlocks.chocolate_bar_mould.getDefaultState(), 3);
@@ -94,15 +94,15 @@ public class BlockCBarMould extends BlockManual {
 				double d = (double) (worldIn.rand.nextFloat() * f) + (double) (1.0F - f) * 0.5D;
 				double d1 = (double) (worldIn.rand.nextFloat() * f) + (double) (1.0F - f) * 0.20000000000000001D + 0.59999999999999998D;
 				double d2 = (double) (worldIn.rand.nextFloat() * f) + (double) (1.0F - f) * 0.5D;
-				EntityItem entityitem = new EntityItem(worldIn, (double) pos.getX() + d, (double) pos.getY() + d1, (double) pos.getZ() + d2, new ItemStack(CuisineItems.chocolate_bar, 2));
+				ItemEntity entityitem = new ItemEntity(worldIn, (double) pos.getX() + d, (double) pos.getY() + d1, (double) pos.getZ() + d2, new ItemStack(CuisineItems.chocolate_bar, 2));
 				entityitem.setPickupDelay(10);
-				worldIn.spawnEntity(entityitem);
+				worldIn.addEntity(entityitem);
 			}
 		}
 	}
 
 	@Override
-	public boolean onBlockActivated(IBlockState state, World worldIn, BlockPos pos, EntityPlayer player, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
+	public boolean onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult traceResult) {
 		ItemStack heldItem = player.getHeldItem(hand);
 
 		if (!heldItem.isEmpty() && heldItem.getItem() == CuisineItems.chocolate_bowl_hot) {
@@ -120,22 +120,12 @@ public class BlockCBarMould extends BlockManual {
 	}
 
 	@Override
-	public VoxelShape getShape(IBlockState state, IBlockReader worldIn, BlockPos pos) {
+	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
 		return MOULD_SHAPE;
 	}
 
 	@Override
-	public BlockFaceShape getBlockFaceShape(IBlockReader worldIn, IBlockState state, BlockPos pos, EnumFacing face) {
-		return BlockFaceShape.UNDEFINED;
-	}
-
-	@Override
-	public boolean isNormalCube(IBlockState state) {
-		return false;
-	}
-
-	@Override
-	public Page getPage(IBlockState state) {
+	public Page getPage(BlockState state) {
 		return ManualCuisine.chocolateMould_page;
 	}
 }

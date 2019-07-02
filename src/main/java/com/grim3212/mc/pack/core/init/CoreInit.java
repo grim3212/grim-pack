@@ -55,7 +55,7 @@ public class CoreInit {
 			r.register(new BlockManualPage(CoreNames.ALUMINUM_ORE, Properties.create(Material.ROCK).sound(SoundType.STONE).hardnessAndResistance(1.0F, 5.0F), "core:aluminum.aluminum"));
 
 		if (CoreConfig.subpartSteel.get())
-			r.register(new BlockManualPage(CoreNames.STEEL_BLOCK, Properties.create(Material.IRON).sound(SoundType.METAL).hardnessAndResistance(1.0F, 20.0F), "core:steel.steel_block"));
+			r.register(new BlockManualPage(CoreNames.STEEL_BLOCK, Properties.create(Material.IRON).sound(SoundType.METAL).hardnessAndResistance(2.0F, 20.0F), "core:steel.steel_block"));
 	}
 
 	@SubscribeEvent

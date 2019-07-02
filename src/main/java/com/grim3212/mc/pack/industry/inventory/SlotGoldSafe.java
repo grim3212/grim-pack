@@ -3,8 +3,7 @@ package com.grim3212.mc.pack.industry.inventory;
 import com.grim3212.mc.pack.industry.block.IndustryBlocks;
 
 import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.Slot;
-import net.minecraft.item.Item;
+import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.ItemStack;
 
 public class SlotGoldSafe extends Slot {
@@ -15,6 +14,6 @@ public class SlotGoldSafe extends Slot {
 
 	@Override
 	public boolean isItemValid(ItemStack itemstack) {
-		return itemstack.getItem() != Item.getItemFromBlock(IndustryBlocks.gold_safe);
+		return itemstack.isItemEqual(new ItemStack(IndustryBlocks.gold_safe));
 	}
 }

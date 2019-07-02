@@ -15,7 +15,6 @@ import com.grim3212.mc.pack.core.init.CoreInit;
 import com.grim3212.mc.pack.core.manual.IManualPart;
 import com.grim3212.mc.pack.core.manual.SyncManualEvent;
 import com.grim3212.mc.pack.core.manual.event.GiveManualEvent;
-import com.grim3212.mc.pack.core.manual.gui.GuiManualIndex;
 import com.grim3212.mc.pack.core.network.MessageBetterExplosion;
 import com.grim3212.mc.pack.core.network.MessageSyncManual;
 import com.grim3212.mc.pack.core.network.PacketDispatcher;
@@ -31,8 +30,6 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.crafting.CraftingHelper;
 import net.minecraftforge.fml.CrashReportExtender;
 import net.minecraftforge.fml.DistExecutor;
-import net.minecraftforge.fml.ExtensionPoint;
-import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 
@@ -52,16 +49,6 @@ public class GrimCore extends GrimPart {
 
 		// Initialize registry events
 		FMLJavaModLoadingContext.get().getModEventBus().register(new CoreInit());
-
-		ModLoadingContext.get().registerExtensionPoint(ExtensionPoint.GUIFACTORY, () -> {
-			return (openContainer) -> {
-				if (openContainer.getId().equals(new ResourceLocation("grimpack:instruction_manual"))) {
-					return GuiManualIndex.activeManualPage;
-				}
-
-				return null;
-			};
-		});
 	}
 
 	@Override

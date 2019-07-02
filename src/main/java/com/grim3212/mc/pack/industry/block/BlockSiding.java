@@ -5,17 +5,17 @@ import com.grim3212.mc.pack.core.manual.pages.Page;
 import com.grim3212.mc.pack.core.part.GrimCreativeTabs;
 import com.grim3212.mc.pack.industry.client.ManualIndustry;
 
+import net.minecraft.block.BlockState;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.properties.IProperty;
-import net.minecraft.block.properties.PropertyEnum;
-import net.minecraft.block.state.BlockStateContainer;
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.state.EnumProperty;
+import net.minecraft.state.IProperty;
 import net.minecraft.util.IStringSerializable;
+import net.minecraft.world.chunk.BlockStateContainer;
 
 public class BlockSiding extends BlockManual {
 
-	public static final PropertyEnum<EnumSidingColor> COLOR = PropertyEnum.<EnumSidingColor>create("color", EnumSidingColor.class);
+	public static final EnumProperty<EnumSidingColor> COLOR = EnumProperty.<EnumSidingColor>create("color", EnumSidingColor.class);
 
 	public BlockSiding(String name) {
 		super(name, Material.IRON, SoundType.STONE);
@@ -25,7 +25,7 @@ public class BlockSiding extends BlockManual {
 	}
 
 	@Override
-	protected IBlockState getState() {
+	protected BlockState getState() {
 		return this.blockState.getBaseState().withProperty(COLOR, EnumSidingColor.white);
 	}
 
@@ -35,12 +35,12 @@ public class BlockSiding extends BlockManual {
 	}
 
 	@Override
-	public int getMetaFromState(IBlockState state) {
+	public int getMetaFromState(BlockState state) {
 		return state.getValue(COLOR).ordinal();
 	}
 
 	@Override
-	public IBlockState getStateFromMeta(int meta) {
+	public BlockState getStateFromMeta(int meta) {
 		return this.getDefaultState().withProperty(COLOR, EnumSidingColor.values[meta]);
 	}
 
@@ -73,7 +73,7 @@ public class BlockSiding extends BlockManual {
 	}
 
 	@Override
-	public Page getPage(IBlockState state) {
+	public Page getPage(BlockState state) {
 		return ManualIndustry.decoration_page;
 	}
 }

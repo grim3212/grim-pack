@@ -7,9 +7,10 @@ import com.grim3212.mc.pack.industry.block.IndustryBlocks;
 import com.grim3212.mc.pack.industry.config.IndustryConfig;
 
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.DimensionType;
+import net.minecraft.world.dimension.DimensionType;
 import net.minecraft.world.World;
-import net.minecraft.world.gen.feature.WorldGenMinable;
+import net.minecraft.world.gen.feature.OreFeature;
+import net.minecraft.world.gen.feature.OreFeature;
 
 public class IndustryGenerate extends GrimWorldGen {
 
@@ -20,7 +21,7 @@ public class IndustryGenerate extends GrimWorldGen {
 				int l = i + random.nextInt(16);
 				int i1 = random.nextInt(22);
 				int j1 = j + random.nextInt(16);
-				(new WorldGenMinable(IndustryBlocks.uranium_ore.getDefaultState(), 5)).generate(world, random, new BlockPos(l, i1, j1));
+				(new OreFeature(IndustryBlocks.uranium_ore.getDefaultState(), 5)).generate(world, random, new BlockPos(l, i1, j1));
 			}
 		}
 
@@ -29,7 +30,7 @@ public class IndustryGenerate extends GrimWorldGen {
 				int x = i + random.nextInt(16);
 				int y = random.nextInt(32);
 				int z = j + random.nextInt(16);
-				(new WorldGenMinable(IndustryBlocks.oil_ore.getDefaultState(), 4)).generate(world, random, new BlockPos(x, y, z));
+				(new OreFeature(IndustryBlocks.oil_ore.getDefaultState(), 4)).generate(world, random, new BlockPos(x, y, z));
 			}
 		}
 	}

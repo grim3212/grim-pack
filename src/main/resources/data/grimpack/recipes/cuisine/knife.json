@@ -25,10 +25,10 @@
   "type": "minecraft:crafting_shaped",
   "key": {
     "W": {
-      "constant": "grimpack:iron"
+      "tag": "forge:ingots/iron"
     },
     "X": {
-      "constant": "grimpack:planks"
+      "tag": "minecraft:planks"
     }
   }
 }

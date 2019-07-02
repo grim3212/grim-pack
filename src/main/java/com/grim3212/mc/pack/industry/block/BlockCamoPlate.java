@@ -13,28 +13,29 @@ import com.grim3212.mc.pack.core.util.NBTHelper;
 import com.grim3212.mc.pack.industry.client.ManualIndustry;
 import com.grim3212.mc.pack.industry.tile.TileEntityCamo;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockHugeMushroom;
-import net.minecraft.block.BlockPressurePlate;
-import net.minecraft.block.BlockSilverfish;
-import net.minecraft.block.BlockSlab;
-import net.minecraft.block.ITileEntityProvider;
-import net.minecraft.block.SoundType;
+import net.minecraft.block.*;
+import net.minecraft.block.PressurePlateBlock;
+import net.minecraft.block.SilverfishBlock;
+import net.minecraft.block.SlabBlock;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.state.BlockStateContainer;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.particle.ParticleDigging;
+import net.minecraft.block.BlockState;
+import net.minecraft.client.particle.DiggingParticle;
+import net.minecraft.client.particle.DiggingParticle;
 import net.minecraft.client.particle.ParticleManager;
-import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemGroup;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.block.Blocks;
 import net.minecraft.item.ItemStack;
-import net.minecraft.stats.StatList;
+import net.minecraft.stats.Stats;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumBlockRenderType;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.block.BlockRenderType;
+import net.minecraft.util.Direction;
+import net.minecraft.util.Direction;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
@@ -42,15 +43,16 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.ServerWorld;
 import net.minecraft.world.World;
-import net.minecraft.world.WorldServer;
+import net.minecraft.world.ServerWorld;
 import net.minecraftforge.common.property.ExtendedBlockState;
 import net.minecraftforge.common.property.IExtendedBlockState;
 import net.minecraftforge.common.property.IUnlistedProperty;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class BlockCamoPlate extends BlockPressurePlate implements ITileEntityProvider, IManualBlock {
+public class BlockCamoPlate extends PressurePlateBlock implements ITileEntityProvider, IManualBlock {
 
 	public static final UnlistedPropertyBlockState BLOCK_STATE = UnlistedPropertyBlockState.create("blockstate");
 
@@ -70,14 +72,14 @@ public class BlockCamoPlate extends BlockPressurePlate implements ITileEntityPro
 	}
 
 	@Override
-	public void onBlockPlacedBy(World worldIn, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack) {
+	public void onBlockPlacedBy(World worldIn, BlockPos pos, BlockState state, LivingEntity placer, ItemStack stack) {
 		TileEntity te = worldIn.getTileEntity(pos);
 		if (te instanceof TileEntityCamo) {
 			TileEntityCamo tef = (TileEntityCamo) te;
 
-			IBlockState belowState = worldIn.getBlockState(pos.down());
+			BlockState belowState = worldIn.getBlockState(pos.down());
 
-			if (belowState.getBlock() == null || belowState.getBlock() == Blocks.AIR || belowState.getBlock() instanceof BlockSlab || belowState.getBlock() instanceof BlockSilverfish || belowState.getBlock().hasTileEntity(belowState.getBlock().getDefaultState()) || !belowState.isNormalCube() || !belowState.isOpaqueCube() || belowState.getBlock() instanceof BlockHugeMushroom)
+			if (belowState.getBlock() == null || belowState.getBlock() == Blocks.AIR || belowState.getBlock() instanceof SlabBlock || belowState.getBlock() instanceof SilverfishBlock || belowState.getBlock().hasTileEntity(belowState.getBlock().getDefaultState()) || !belowState.isNormalCube() || !belowState.isOpaqueCube() || belowState.getBlock() instanceof HugeMushroomBlock)
 				return;
 
 			tef.setBlockState(belowState);
@@ -85,7 +87,7 @@ public class BlockCamoPlate extends BlockPressurePlate implements ITileEntityPro
 	}
 
 	@Override
-	public IBlockState getExtendedState(IBlockState state, IBlockAccess world, BlockPos pos) {
+	public BlockState getExtendedState(BlockState state, IBlockAccess world, BlockPos pos) {
 		TileEntity te = world.getTileEntity(pos);
 		if (te instanceof TileEntityCamo && state instanceof IExtendedBlockState) {
 			IExtendedBlockState blockState = (IExtendedBlockState) state;
@@ -96,7 +98,7 @@ public class BlockCamoPlate extends BlockPressurePlate implements ITileEntityPro
 	}
 
 	@Override
-	public List<ItemStack> getDrops(IBlockAccess world, BlockPos pos, IBlockState state, int fortune) {
+	public List<ItemStack> getDrops(IBlockAccess world, BlockPos pos, BlockState state, int fortune) {
 		TileEntity te = world.getTileEntity(pos);
 
 		List<ItemStack> ret = new ArrayList<ItemStack>();
@@ -112,9 +114,9 @@ public class BlockCamoPlate extends BlockPressurePlate implements ITileEntityPro
 	}
 
 	@Override
-	public void harvestBlock(World worldIn, EntityPlayer player, BlockPos pos, IBlockState state, TileEntity te, ItemStack stack) {
+	public void harvestBlock(World worldIn, PlayerEntity player, BlockPos pos, BlockState state, TileEntity te, ItemStack stack) {
 		if (te instanceof TileEntityCamo) {
-			player.addStat(StatList.getBlockStats(this));
+			player.addStat(Stats.getBlockStats(this));
 			player.addExhaustion(0.025F);
 
 			harvesters.set(player);
@@ -134,7 +136,7 @@ public class BlockCamoPlate extends BlockPressurePlate implements ITileEntityPro
 	}
 
 	@Override
-	public ItemStack getPickBlock(IBlockState state, RayTraceResult target, World world, BlockPos pos, EntityPlayer player) {
+	public ItemStack getPickBlock(BlockState state, RayTraceResult target, World world, BlockPos pos, PlayerEntity player) {
 		ItemStack itemstack = new ItemStack(this);
 		NBTHelper.setString(itemstack, "registryName", Block.REGISTRY.getNameForObject(Blocks.AIR).toString());
 		NBTHelper.setInteger(itemstack, "meta", 0);
@@ -142,7 +144,7 @@ public class BlockCamoPlate extends BlockPressurePlate implements ITileEntityPro
 	}
 
 	@Override
-	public void getSubBlocks(CreativeTabs itemIn, NonNullList<ItemStack> items) {
+	public void getSubBlocks(ItemGroup itemIn, NonNullList<ItemStack> items) {
 		ItemStack itemstack = new ItemStack(this);
 		NBTHelper.setString(itemstack, "registryName", Block.REGISTRY.getNameForObject(Blocks.AIR).toString());
 		NBTHelper.setInteger(itemstack, "meta", 0);
@@ -150,17 +152,17 @@ public class BlockCamoPlate extends BlockPressurePlate implements ITileEntityPro
 	}
 
 	@Override
-	@OnlyIn(Dist.CLIENT)
-	public boolean addHitEffects(IBlockState state, World worldObj, RayTraceResult target, ParticleManager manager) {
+	@SideOnly(Side.CLIENT)
+	public boolean addHitEffects(BlockState state, World worldObj, RayTraceResult target, ParticleManager manager) {
 		TileEntity te = worldObj.getTileEntity(target.getBlockPos());
 
 		BlockPos pos = target.getBlockPos();
 
 		if (te instanceof TileEntityCamo) {
 			TileEntityCamo tileentity = (TileEntityCamo) te;
-			IBlockState iblockstate = tileentity.getBlockState();
+			BlockState iblockstate = tileentity.getBlockState();
 
-			if (iblockstate.getRenderType() != EnumBlockRenderType.INVISIBLE) {
+			if (iblockstate.getRenderType() != BlockRenderType.INVISIBLE) {
 				int i = pos.getX();
 				int j = pos.getY();
 				int k = pos.getZ();
@@ -170,36 +172,36 @@ public class BlockCamoPlate extends BlockPressurePlate implements ITileEntityPro
 				double d1 = (double) j + RANDOM.nextDouble() * (axisalignedbb.maxY - axisalignedbb.minY - (double) (f * 2.0F)) + (double) f + axisalignedbb.minY;
 				double d2 = (double) k + RANDOM.nextDouble() * (axisalignedbb.maxZ - axisalignedbb.minZ - (double) (f * 2.0F)) + (double) f + axisalignedbb.minZ;
 
-				EnumFacing side = target.sideHit;
+				Direction side = target.sideHit;
 
-				if (side == EnumFacing.DOWN) {
+				if (side == Direction.DOWN) {
 					d1 = (double) j + axisalignedbb.minY - (double) f;
 				}
 
-				if (side == EnumFacing.UP) {
+				if (side == Direction.UP) {
 					d1 = (double) j + axisalignedbb.maxY + (double) f;
 				}
 
-				if (side == EnumFacing.NORTH) {
+				if (side == Direction.NORTH) {
 					d2 = (double) k + axisalignedbb.minZ - (double) f;
 				}
 
-				if (side == EnumFacing.SOUTH) {
+				if (side == Direction.SOUTH) {
 					d2 = (double) k + axisalignedbb.maxZ + (double) f;
 				}
 
-				if (side == EnumFacing.WEST) {
+				if (side == Direction.WEST) {
 					d0 = (double) i + axisalignedbb.minX - (double) f;
 				}
 
-				if (side == EnumFacing.EAST) {
+				if (side == Direction.EAST) {
 					d0 = (double) i + axisalignedbb.maxX + (double) f;
 				}
 
 				try {
-					Constructor<ParticleDigging> constructor = ParticleDigging.class.getDeclaredConstructor(World.class, double.class, double.class, double.class, double.class, double.class, double.class, IBlockState.class);
+					Constructor<DiggingParticle> constructor = DiggingParticle.class.getDeclaredConstructor(World.class, double.class, double.class, double.class, double.class, double.class, double.class, BlockState.class);
 					constructor.setAccessible(true);
-					ParticleDigging digging = constructor.newInstance(worldObj, d0, d1, d2, 0.0D, 0.0D, 0.0D, iblockstate);
+					DiggingParticle digging = constructor.newInstance(worldObj, d0, d1, d2, 0.0D, 0.0D, 0.0D, iblockstate);
 					digging.setBlockPos(target.getBlockPos()).multiplyVelocity(0.2f).multipleParticleScaleBy(0.6f);
 					manager.addEffect(digging);
 					return true;
@@ -213,7 +215,7 @@ public class BlockCamoPlate extends BlockPressurePlate implements ITileEntityPro
 	}
 
 	@Override
-	@OnlyIn(Dist.CLIENT)
+	@SideOnly(Side.CLIENT)
 	public boolean addDestroyEffects(World world, BlockPos pos, ParticleManager manager) {
 		TileEntity te = world.getTileEntity(pos);
 		if (te != null && te instanceof TileEntityCamo) {
@@ -230,7 +232,7 @@ public class BlockCamoPlate extends BlockPressurePlate implements ITileEntityPro
 	}
 
 	@Override
-	public boolean addLandingEffects(IBlockState state, WorldServer worldObj, BlockPos blockPosition, IBlockState iblockstate, EntityLivingBase entity, int numberOfParticles) {
+	public boolean addLandingEffects(BlockState state, ServerWorld worldObj, BlockPos blockPosition, BlockState iblockstate, LivingEntity entity, int numberOfParticles) {
 		TileEntity tileentity = (TileEntity) worldObj.getTileEntity(blockPosition);
 		if (tileentity instanceof TileEntityCamo) {
 			TileEntityCamo te = (TileEntityCamo) tileentity;
@@ -244,7 +246,7 @@ public class BlockCamoPlate extends BlockPressurePlate implements ITileEntityPro
 	}
 
 	@Override
-	public Page getPage(IBlockState state) {
+	public Page getPage(BlockState state) {
 		return ManualIndustry.others_page;
 	}
 }

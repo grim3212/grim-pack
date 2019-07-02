@@ -1,20 +1,22 @@
 package com.grim3212.mc.pack.decor.tile;
 
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntity;
+import com.grim3212.mc.pack.core.tile.TileEntityGrim;
 
-public class TileEntityCalendar extends TileEntity {
+import net.minecraft.nbt.CompoundNBT;
+
+public class TileEntityCalendar extends TileEntityGrim {
 
 	public TileEntityCalendar() {
+		super(DecorTileEntities.CALENDAR);
 	}
 
 	@Override
-	public NBTTagCompound writeToNBT(NBTTagCompound compound) {
-		return super.writeToNBT(compound);
+	public CompoundNBT write(CompoundNBT compound) {
+		return super.write(compound);
 	}
 
 	@Override
-	public void readFromNBT(NBTTagCompound compound) {
-		super.readFromNBT(compound);
+	public void read(CompoundNBT compound) {
+		super.read(compound);
 	}
 }

@@ -6,13 +6,13 @@ import com.grim3212.mc.pack.core.client.gui.GuiGrimContainer;
 import com.grim3212.mc.pack.industry.inventory.ContainerGoldSafe;
 
 import net.minecraft.client.resources.I18n;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-@OnlyIn(Dist.CLIENT)
+@SideOnly(Side.CLIENT)
 public class GuiGoldSafe extends GuiGrimContainer {
 
 	private IInventory playerInventory;
@@ -21,7 +21,7 @@ public class GuiGoldSafe extends GuiGrimContainer {
 
 	private static final ResourceLocation GUIGoldSafe = new ResourceLocation("textures/gui/container/generic_54.png");
 
-	public GuiGoldSafe(EntityPlayer player, IInventory safeInventory) {
+	public GuiGoldSafe(PlayerEntity player, IInventory safeInventory) {
 		super(new ContainerGoldSafe(player, safeInventory));
 		this.playerInventory = player.inventory;
 		this.safeInventory = safeInventory;

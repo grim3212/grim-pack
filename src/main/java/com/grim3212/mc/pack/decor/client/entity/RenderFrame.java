@@ -8,22 +8,21 @@ import com.grim3212.mc.pack.decor.entity.EntityFrame;
 import com.grim3212.mc.pack.decor.item.ItemFrame.EnumFrameType;
 import com.grim3212.mc.pack.decor.util.EnumFrame;
 import com.grim3212.mc.pack.decor.util.EnumFrameRender;
+import com.mojang.blaze3d.platform.GlStateManager;
 
-import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.entity.Render;
-import net.minecraft.client.renderer.entity.RenderManager;
+import net.minecraft.client.renderer.entity.EntityRenderer;
+import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.fml.client.registry.IRenderFactory;
 
 @OnlyIn(Dist.CLIENT)
-public class RenderFrame extends Render<EntityFrame> {
+public class RenderFrame extends EntityRenderer<EntityFrame> {
 
-	private static final ResourceLocation framesTexture = new ResourceLocation(GrimPack.modID, "textures/entities/frames_texture.png");
+	private static final ResourceLocation framesTexture = new ResourceLocation(GrimPack.modID, "textures/entity/decor/frames_texture.png");
 
-	public RenderFrame(RenderManager renderManager) {
+	public RenderFrame(EntityRendererManager renderManager) {
 		super(renderManager);
 	}
 
@@ -116,12 +115,4 @@ public class RenderFrame extends Render<EntityFrame> {
 	protected ResourceLocation getEntityTexture(EntityFrame entity) {
 		return framesTexture;
 	}
-
-	public static class FrameFactory implements IRenderFactory<EntityFrame> {
-		@Override
-		public Render<? super EntityFrame> createRenderFor(RenderManager manager) {
-			return new RenderFrame(manager);
-		}
-	}
-
 }

@@ -7,51 +7,49 @@ import com.google.gson.JsonParseException;
 import com.grim3212.mc.pack.core.config.CoreConfig;
 import com.grim3212.mc.pack.decor.config.DecorConfig;
 
-import net.minecraft.util.JsonUtils;
+import net.minecraft.util.JSONUtils;
 import net.minecraftforge.common.crafting.IConditionSerializer;
 
 public class DecorConditionFactory implements IConditionSerializer {
 
 	@Override
 	public BooleanSupplier parse(JsonObject json) {
-		String value = JsonUtils.getString(json, "subpart", "");
+		String value = JSONUtils.getString(json, "subpart", "");
 
 		if (CoreConfig.useDecor.get()) {
 			switch (value) {
 			case "alarm":
-				return () -> DecorConfig.subpartAlarm;
+				return () -> DecorConfig.subpartAlarm.get();
 			case "cages":
-				return () -> DecorConfig.subpartCages;
+				return () -> DecorConfig.subpartCages.get();
 			case "calendar":
-				return () -> DecorConfig.subpartCalendar;
+				return () -> DecorConfig.subpartCalendar.get();
 			case "colorizer":
-				return () -> DecorConfig.subpartColorizer;
+				return () -> DecorConfig.subpartColorizer.get();
 			case "decorations":
-				return () -> DecorConfig.subpartDecorations;
+				return () -> DecorConfig.subpartDecorations.get();
 			case "fireplaces":
-				return () -> DecorConfig.subpartColorizer && DecorConfig.subpartFireplaces;
-			case "flatitemframe":
-				return () -> DecorConfig.subpartFlatItemFrame;
+				return () -> DecorConfig.subpartColorizer.get() && DecorConfig.subpartFireplaces.get();
 			case "fluro":
-				return () -> DecorConfig.subpartFluro;
+				return () -> DecorConfig.subpartFluro.get();
 			case "frames":
-				return () -> DecorConfig.subpartFrames;
+				return () -> DecorConfig.subpartFrames.get();
 			case "furniture":
-				return () -> DecorConfig.subpartColorizer && DecorConfig.subpartFurniture;
+				return () -> DecorConfig.subpartColorizer.get() && DecorConfig.subpartFurniture.get();
 			case "lampposts":
-				return () -> DecorConfig.subpartColorizer && DecorConfig.subpartLampPosts;
+				return () -> DecorConfig.subpartColorizer.get() && DecorConfig.subpartLampPosts.get();
 			case "lanterns":
-				return () -> DecorConfig.subpartLanterns;
+				return () -> DecorConfig.subpartLanterns.get();
 			case "lightbulbs":
-				return () -> DecorConfig.subpartLightBulbs;
+				return () -> DecorConfig.subpartLightBulbs.get();
 			case "neonsign":
-				return () -> DecorConfig.subpartNeonSign;
+				return () -> DecorConfig.subpartNeonSign.get();
 			case "slopes":
-				return () -> DecorConfig.subpartColorizer && DecorConfig.subpartSlopes;
+				return () -> DecorConfig.subpartColorizer.get() && DecorConfig.subpartSlopes.get();
 			case "wallclock":
-				return () -> DecorConfig.subpartWallClock;
+				return () -> DecorConfig.subpartWallClock.get();
 			case "wallpaper":
-				return () -> DecorConfig.subpartWallpaper;
+				return () -> DecorConfig.subpartWallpaper.get();
 			default:
 				throw new JsonParseException("SubPart '" + value + "' is either misspelled or doesn't exist!");
 			}

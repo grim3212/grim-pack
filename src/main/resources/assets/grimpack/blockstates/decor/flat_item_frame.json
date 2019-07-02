@@ -1,0 +1,16 @@
+{
+	"forge_marker": 1,
+    "defaults": {
+    },
+    "variants": {
+        "base": [{
+			"model": "grimpack:flat_item_frame_base"
+		}],
+		"map": [{
+			"model": "grimpack:flat_item_frame_map"
+		}],
+		"held": [{
+			"model": "grimpack:flat_item_frame_held"
+		}]
+    }
+}

@@ -12,7 +12,7 @@ import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 
 public class ItemBrush extends ItemManual {
@@ -23,7 +23,7 @@ public class ItemBrush extends ItemManual {
 
 	@Override
 	public void addInformation(ItemStack stack, World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
-		tooltip.add(new TextComponentTranslation("grimpack.decor.brush_info"));
+		tooltip.add(new TranslationTextComponent("grimpack.decor.brush_info"));
 	}
 
 	@Override

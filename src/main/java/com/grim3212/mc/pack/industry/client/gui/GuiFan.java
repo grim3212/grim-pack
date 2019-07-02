@@ -8,11 +8,11 @@ import com.grim3212.mc.pack.industry.tile.TileEntityFan;
 import com.grim3212.mc.pack.industry.tile.TileEntityFan.FanMode;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.gui.widget.button.Button;
+import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.resources.I18n;
 
-public class GuiFan extends GuiScreen {
+public class GuiFan extends Screen {
 
 	private final Minecraft mc;
 	private final TileEntityFan tileentity;
@@ -34,19 +34,19 @@ public class GuiFan extends GuiScreen {
 	@Override
 	public void initGui() {
 		buttonList.clear();
-		buttonList.add(new GuiButton(0, width / 2 - 80, height / 4 + 120, 70, 20, I18n.format("grimpack.gui.ok")));
-		buttonList.add(new GuiButton(1, width / 2 + 10, height / 4 + 120, 70, 20, I18n.format("grimpack.gui.cancel")));
-		buttonList.add(new GuiButton(2, width / 2 - 50, height / 4 + 10, 100, 20, I18n.format("grimpack.industry.fan." + this.mode.name())));
-		buttonList.add(new GuiButton(3, width / 2 + 20, height / 4 + 65, 40, 20, I18n.format("grimpack.industry.fan.addOne")));
-		buttonList.add(new GuiButton(4, width / 2 + 65, height / 4 + 65, 40, 20, I18n.format("grimpack.industry.fan.addFive")));
-		buttonList.add(new GuiButton(5, width / 2 + 110, height / 4 + 65, 40, 20, I18n.format("grimpack.gui.max")));
-		buttonList.add(new GuiButton(6, width / 2 - 60, height / 4 + 65, 40, 20, I18n.format("grimpack.industry.fan.minusOne")));
-		buttonList.add(new GuiButton(7, width / 2 - 105, height / 4 + 65, 40, 20, I18n.format("grimpack.industry.fan.minusFive")));
-		buttonList.add(new GuiButton(8, width / 2 - 150, height / 4 + 65, 40, 20, I18n.format("grimpack.gui.min")));
+		buttonList.add(new Button(0, width / 2 - 80, height / 4 + 120, 70, 20, I18n.format("grimpack.gui.ok")));
+		buttonList.add(new Button(1, width / 2 + 10, height / 4 + 120, 70, 20, I18n.format("grimpack.gui.cancel")));
+		buttonList.add(new Button(2, width / 2 - 50, height / 4 + 10, 100, 20, I18n.format("grimpack.industry.fan." + this.mode.name())));
+		buttonList.add(new Button(3, width / 2 + 20, height / 4 + 65, 40, 20, I18n.format("grimpack.industry.fan.addOne")));
+		buttonList.add(new Button(4, width / 2 + 65, height / 4 + 65, 40, 20, I18n.format("grimpack.industry.fan.addFive")));
+		buttonList.add(new Button(5, width / 2 + 110, height / 4 + 65, 40, 20, I18n.format("grimpack.gui.max")));
+		buttonList.add(new Button(6, width / 2 - 60, height / 4 + 65, 40, 20, I18n.format("grimpack.industry.fan.minusOne")));
+		buttonList.add(new Button(7, width / 2 - 105, height / 4 + 65, 40, 20, I18n.format("grimpack.industry.fan.minusFive")));
+		buttonList.add(new Button(8, width / 2 - 150, height / 4 + 65, 40, 20, I18n.format("grimpack.gui.min")));
 	}
 
 	@Override
-	protected void actionPerformed(GuiButton button) throws IOException {
+	protected void actionPerformed(Button button) throws IOException {
 		switch (button.id) {
 		case 0:
 			if (this.tileentity.getMode() != FanMode.OFF)
@@ -56,11 +56,11 @@ public class GuiFan extends GuiScreen {
 			tileentity.getWorld().markBlockRangeForRenderUpdate(tileentity.getPos(), tileentity.getPos());
 			PacketDispatcher.sendToServer(new MessageSaveFan(range, mode, tileentity.getPos()));
 
-			mc.displayGuiScreen((GuiScreen) null);
+			mc.displayGuiScreen((Screen) null);
 			mc.setIngameFocus();
 			break;
 		case 1:
-			mc.displayGuiScreen((GuiScreen) null);
+			mc.displayGuiScreen((Screen) null);
 			mc.setIngameFocus();
 			break;
 		case 2:

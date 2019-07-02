@@ -1,39 +1,23 @@
 package com.grim3212.mc.pack.industry.block;
 
-import java.util.Random;
-
 import com.grim3212.mc.pack.core.block.BlockManual;
 import com.grim3212.mc.pack.core.manual.pages.Page;
-import com.grim3212.mc.pack.core.part.GrimCreativeTabs;
 import com.grim3212.mc.pack.industry.client.ManualIndustry;
-import com.grim3212.mc.pack.industry.item.IndustryItems;
+import com.grim3212.mc.pack.industry.init.IndustryNames;
 
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.item.Item;
 
 public class BlockOilOre extends BlockManual {
 
 	protected BlockOilOre() {
-		super("oil_ore", Material.ROCK, SoundType.STONE);
-		setHardness(1.0F);
-		setResistance(5.0F);
-		setCreativeTab(GrimCreativeTabs.GRIM_INDUSTRY);
+		super(IndustryNames.OIL_ORE, Block.Properties.create(Material.ROCK).sound(SoundType.STONE).hardnessAndResistance(1.0f, 5.0f));
 	}
 
 	@Override
-	public Item getItemDropped(IBlockState state, Random rand, int fortune) {
-		return IndustryItems.oily_chunk;
-	}
-
-	@Override
-	public int quantityDropped(IBlockState state, int fortune, Random random) {
-		return 2 + random.nextInt(2);
-	}
-
-	@Override
-	public Page getPage(IBlockState state) {
+	public Page getPage(BlockState state) {
 		return ManualIndustry.derrick_page;
 	}
 }

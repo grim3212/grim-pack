@@ -1,0 +1,6 @@
+{
+	"parent": "block/cross",
+	"textures": {
+		"cross": "grimpack:block/decor/lantern_paper"
+	}
+}

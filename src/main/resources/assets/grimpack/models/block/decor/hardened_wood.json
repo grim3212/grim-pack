@@ -1,0 +1,6 @@
+{
+	"parent": "block/cube_all",
+	"textures": {
+		"all": "grimpack:block/decor/hardened_wood"
+	}
+}

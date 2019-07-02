@@ -46,7 +46,7 @@ public class CageSpawnerLogic {
 	 */
 	private boolean isActivated() {
 		BlockPos blockpos = this.getSpawnerPosition();
-		return this.getSpawnerWorld().isAnyPlayerWithinRangeAt((double) blockpos.getX() + 0.5D, (double) blockpos.getY() + 0.5D, (double) blockpos.getZ() + 0.5D, (double) this.activatingRangeFromPlayer);
+		return this.getSpawnerWorld().isPlayerWithin((double) blockpos.getX() + 0.5D, (double) blockpos.getY() + 0.5D, (double) blockpos.getZ() + 0.5D, (double) this.activatingRangeFromPlayer);
 	}
 
 	public void updateSpawner() {

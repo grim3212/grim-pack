@@ -3,23 +3,23 @@ package com.grim3212.mc.pack.core.client.entity;
 import org.lwjgl.opengl.GL11;
 
 import com.grim3212.mc.pack.core.entity.EntityProjectile;
+import com.mojang.blaze3d.platform.GlStateManager;
 
-import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.entity.Render;
-import net.minecraft.client.renderer.entity.RenderManager;
+import net.minecraft.client.renderer.entity.EntityRenderer;
+import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
 
-public class RenderProjectile<T extends EntityProjectile> extends Render<T> {
+public class RenderProjectile<T extends EntityProjectile> extends EntityRenderer<T> {
 
 	private final ResourceLocation textureLocation;
 	private final boolean doFlip;
 	private float pitch = 40.0F;
 
-	public RenderProjectile(RenderManager renderManager, ResourceLocation textureLocation, boolean doFlip) {
+	public RenderProjectile(EntityRendererManager renderManager, ResourceLocation textureLocation, boolean doFlip) {
 		super(renderManager);
 		this.textureLocation = textureLocation;
 		this.doFlip = doFlip;
@@ -131,7 +131,7 @@ public class RenderProjectile<T extends EntityProjectile> extends Render<T> {
 		}
 
 		@Override
-		public Render<? super EntityProjectile> createRenderFor(RenderManager manager) {
+		public EntityRenderer<? super EntityProjectile> createRenderFor(EntityRendererManager manager) {
 			return new RenderProjectile<EntityProjectile>(manager, resource, useFlip);
 		}
 

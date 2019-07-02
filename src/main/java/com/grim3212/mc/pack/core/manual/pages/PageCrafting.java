@@ -2,6 +2,7 @@ package com.grim3212.mc.pack.core.manual.pages;
 
 import java.awt.Color;
 import java.util.List;
+import java.util.Optional;
 
 import javax.annotation.Nullable;
 
@@ -17,11 +18,11 @@ import com.grim3212.mc.pack.core.util.GrimLog;
 import com.grim3212.mc.pack.core.util.NBTHelper;
 import com.grim3212.mc.pack.core.util.RecipeHelper;
 import com.grim3212.mc.pack.core.util.generator.Generator;
+import com.mojang.blaze3d.platform.GlStateManager;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemStack;
@@ -30,7 +31,6 @@ import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.item.crafting.ShapedRecipe;
 import net.minecraft.item.crafting.ShapelessRecipe;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.common.crafting.IShapedRecipe;
 
 public class PageCrafting extends Page {
 
@@ -78,7 +78,7 @@ public class PageCrafting extends Page {
 		render.bindTexture(craftingOverlay);
 
 		GL11.glColor4f(1F, 1F, 1F, 1F);
-		((GuiScreen) gui).drawTexturedModalRect(gui.getX() + 21, gui.getY() + 120, 21, 120, 147, 85);
+		((Screen) gui).blit(gui.getX() + 21, gui.getY() + 120, 21, 120, 147, 85);
 
 		tooltipItem = ItemStack.EMPTY;
 
@@ -92,13 +92,13 @@ public class PageCrafting extends Page {
 	public void renderRecipe(GuiManualPage gui, List<ResourceLocation> output) {
 		ResourceLocation loc = output.get(recipeShown);
 
-		IRecipe recipe = Minecraft.getInstance().world.getRecipeManager().getRecipe(loc);
+		Optional<? extends IRecipe<?>> recipe = Minecraft.getInstance().world.getRecipeManager().getRecipe(loc);
 
-		if (recipe != null) {
-			ItemStack outstack = recipe.getRecipeOutput();
+		if (recipe != null && recipe.isPresent()) {
+			ItemStack outstack = recipe.get().getRecipeOutput();
 
 			if (outstack != ItemStack.EMPTY && outstack != null) {
-				this.drawIngredientList(gui, recipe);
+				this.drawIngredientList(gui, recipe.get());
 
 				if (isShapeless) {
 					GlStateManager.pushMatrix();
@@ -106,7 +106,7 @@ public class PageCrafting extends Page {
 					TextureManager render = Minecraft.getInstance().getTextureManager();
 					render.bindTexture(craftingOverlay);
 
-					((GuiScreen) gui).drawTexturedModalRect(gui.getX() + 133, gui.getY() + 144, 0, 27, 36, 36);
+					((Screen) gui).blit(gui.getX() + 133, gui.getY() + 144, 0, 27, 36, 36);
 					GlStateManager.disableBlend();
 					GlStateManager.popMatrix();
 				}
@@ -144,7 +144,7 @@ public class PageCrafting extends Page {
 				TextureManager render = Minecraft.getInstance().getTextureManager();
 				render.bindTexture(craftingOverlay);
 
-				((GuiScreen) gui).drawTexturedModalRect(x - 6, y - 6, 0, 0, 26, 26);
+				((Screen) gui).blit(x - 6, y - 6, 0, 0, 26, 26);
 				GlStateManager.disableBlend();
 				GlStateManager.popMatrix();
 				this.renderItemCutWild(gui, NBTHelper.setStringItemStack(stacks[0], "customTooltip", I18n.format("grimpack.manual.tags") + " : " + loc), x - 1, y - 1);
@@ -166,10 +166,10 @@ public class PageCrafting extends Page {
 		++update;
 	}
 
-	public void drawIngredientList(GuiManualPage gui, IRecipe recipe) {
+	public void drawIngredientList(GuiManualPage gui, IRecipe<?> recipe) {
 		// shaped recipes
 		if (recipe instanceof ShapedRecipe) {
-			IShapedRecipe shaped = (IShapedRecipe) recipe;
+			ShapedRecipe shaped = (ShapedRecipe) recipe;
 			int width = shaped.getRecipeWidth();
 			int height = shaped.getRecipeHeight();
 
@@ -184,7 +184,7 @@ public class PageCrafting extends Page {
 
 			isShapeless = false;
 		} else if (recipe instanceof ShapelessRecipe) {
-			IRecipe shapeless = (IRecipe) recipe;
+			ShapelessRecipe shapeless = (ShapelessRecipe) recipe;
 
 			for (int i = 0; i < shapeless.getIngredients().size(); i++) {
 				if (i < 3)
@@ -205,13 +205,13 @@ public class PageCrafting extends Page {
 
 		JsonArray recipes = new JsonArray();
 		for (ResourceLocation r : outputRecipes) {
-			IRecipe recipe = Minecraft.getInstance().world.getRecipeManager().getRecipe(r);
-			if (recipe == null) {
+			Optional<? extends IRecipe<?>> recipe = Minecraft.getInstance().world.getRecipeManager().getRecipe(r);
+			if (recipe == null || !recipe.isPresent()) {
 				GrimLog.error(Generator.GENERATOR_NAME, "Error finding recipe " + r);
 				continue;
 			}
 
-			JsonObject recipeOBj = this.deconstructRecipe(r.toString(), recipe);
+			JsonObject recipeOBj = this.deconstructRecipe(r.toString(), recipe.get());
 
 			if (recipeOBj != null)
 				recipes.add(recipeOBj);
@@ -224,7 +224,7 @@ public class PageCrafting extends Page {
 	}
 
 	@Nullable
-	private JsonObject deconstructRecipe(String id, IRecipe iRecipe) {
+	private JsonObject deconstructRecipe(String id, IRecipe<?> iRecipe) {
 		JsonObject recipe = new JsonObject();
 		recipe.addProperty("id", id);
 
@@ -241,14 +241,14 @@ public class PageCrafting extends Page {
 
 			JsonArray inputs = new JsonArray();
 
-			IShapedRecipe shaped = (IShapedRecipe) iRecipe;
+			ShapedRecipe shaped = (ShapedRecipe) iRecipe;
 			// Get shaped items
 			int width = shaped.getRecipeWidth();
 			int height = shaped.getRecipeHeight();
 
 			for (int y = 0; y < height; y++) {
 				for (int x = 0; x < width; x++) {
-					Ingredient item = iRecipe.getIngredients().get(x + y * width);
+					Ingredient item = shaped.getIngredients().get(x + y * width);
 					inputs.add(this.deconstructItem(item, x, y));
 				}
 			}
@@ -256,14 +256,16 @@ public class PageCrafting extends Page {
 			recipe.add("inputs", inputs);
 
 		} else if (iRecipe instanceof ShapelessRecipe) {
+			ShapelessRecipe shapeless = (ShapelessRecipe) iRecipe;
+
 			recipe.addProperty("recipeType", "crafting_shapeless");
 			// Add output itemstack
 			recipe.add("output", this.deconstructItem(outstack));
 
 			JsonArray inputs = new JsonArray();
 			// Get shapeless items
-			for (int i = 0; i < iRecipe.getIngredients().size(); i++)
-				inputs.add(this.deconstructItem(iRecipe.getIngredients().get(i), i < 3 ? i : i < 6 ? i - 3 : i - 6, i < 3 ? 0 : i < 6 ? 1 : 2));
+			for (int i = 0; i < shapeless.getIngredients().size(); i++)
+				inputs.add(this.deconstructItem(shapeless.getIngredients().get(i), i < 3 ? i : i < 6 ? i - 3 : i - 6, i < 3 ? 0 : i < 6 ? 1 : 2));
 
 			recipe.add("inputs", inputs);
 

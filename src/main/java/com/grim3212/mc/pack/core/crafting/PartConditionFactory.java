@@ -6,14 +6,14 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.grim3212.mc.pack.core.config.CoreConfig;
 
-import net.minecraft.util.JsonUtils;
+import net.minecraft.util.JSONUtils;
 import net.minecraftforge.common.crafting.IConditionSerializer;
 
 public class PartConditionFactory implements IConditionSerializer {
 
 	@Override
 	public BooleanSupplier parse(JsonObject json) {
-		String value = JsonUtils.getString(json, "part", "core");
+		String value = JSONUtils.getString(json, "part", "core");
 
 		switch (value) {
 		case "cuisine":

@@ -2,7 +2,7 @@ package com.grim3212.mc.pack.cuisine.event;
 
 import com.grim3212.mc.pack.cuisine.item.CuisineItems;
 
-import net.minecraft.init.Blocks;
+import net.minecraft.block.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.event.world.BlockEvent.HarvestDropsEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;

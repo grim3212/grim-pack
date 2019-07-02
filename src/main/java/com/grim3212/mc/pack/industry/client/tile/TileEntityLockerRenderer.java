@@ -6,14 +6,14 @@ import com.grim3212.mc.pack.industry.client.model.ModelLocker;
 import com.grim3212.mc.pack.industry.tile.TileEntityLocker;
 
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
+import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-@OnlyIn(Dist.CLIENT)
-public class TileEntityLockerRenderer extends TileEntitySpecialRenderer<TileEntityLocker> {
+@SideOnly(Side.CLIENT)
+public class TileEntityLockerRenderer extends TileEntityRenderer<TileEntityLocker> {
 
 	private ModelLocker model;
 	private ModelDualLocker dualmodel;

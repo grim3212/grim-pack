@@ -12,9 +12,9 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.state.BlockStateContainer;
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.BlockState;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
@@ -31,7 +31,7 @@ public class BlockFireSensor extends BlockManual implements ITileEntityProvider 
 	}
 
 	@Override
-	protected IBlockState getState() {
+	protected BlockState getState() {
 		return this.getBlockState().getBaseState().withProperty(POWERED, false);
 	}
 
@@ -41,27 +41,27 @@ public class BlockFireSensor extends BlockManual implements ITileEntityProvider 
 	}
 
 	@Override
-	public int getWeakPower(IBlockState blockState, IBlockAccess blockAccess, BlockPos pos, EnumFacing side) {
+	public int getWeakPower(BlockState blockState, IBlockAccess blockAccess, BlockPos pos, Direction side) {
 		return blockState.getValue(POWERED) ? 15 : 0;
 	}
 
 	@Override
-	public int getStrongPower(IBlockState blockState, IBlockAccess blockAccess, BlockPos pos, EnumFacing side) {
+	public int getStrongPower(BlockState blockState, IBlockAccess blockAccess, BlockPos pos, Direction side) {
 		return blockState.getValue(POWERED) ? 15 : 0;
 	}
 
 	@Override
-	public boolean canProvidePower(IBlockState state) {
+	public boolean canProvidePower(BlockState state) {
 		return state.getValue(POWERED);
 	}
 
 	@Override
-	public int getMetaFromState(IBlockState state) {
+	public int getMetaFromState(BlockState state) {
 		return state.getValue(POWERED) ? 1 : 0;
 	}
 
 	@Override
-	public IBlockState getStateFromMeta(int meta) {
+	public BlockState getStateFromMeta(int meta) {
 		return this.getDefaultState().withProperty(POWERED, meta == 1);
 	}
 
@@ -71,7 +71,7 @@ public class BlockFireSensor extends BlockManual implements ITileEntityProvider 
 	}
 
 	@Override
-	public Page getPage(IBlockState state) {
+	public Page getPage(BlockState state) {
 		return ManualIndustry.fireSensor_page;
 	}
 

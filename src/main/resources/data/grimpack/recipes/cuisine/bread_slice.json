@@ -11,7 +11,7 @@
   },
   "ingredients": [
     {
-      "constant": "grimpack:bread"
+      "tag": "forge:foods/bread"
     },
     {
       "item": "grimpack:cuisine/knife"

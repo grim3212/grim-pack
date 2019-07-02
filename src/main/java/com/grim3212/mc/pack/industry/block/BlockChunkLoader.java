@@ -4,12 +4,15 @@ import com.grim3212.mc.pack.core.block.BlockManual;
 import com.grim3212.mc.pack.core.part.GrimCreativeTabs;
 import com.grim3212.mc.pack.industry.tile.TileEntityChunkLoader;
 
+import net.minecraft.block.BlockState;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.block.BlockState;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
@@ -31,7 +34,7 @@ public class BlockChunkLoader extends BlockManual implements ITileEntityProvider
 	}
 
     @Override
-	public void onBlockPlacedBy(World worldIn, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack) {
+	public void onBlockPlacedBy(World worldIn, BlockPos pos, BlockState state, LivingEntity placer, ItemStack stack) {
 		if(!worldIn.isRemote)
 		{
 			TileEntityChunkLoader tileEntity = (TileEntityChunkLoader)worldIn.getTileEntity(pos);
@@ -58,7 +61,7 @@ public class BlockChunkLoader extends BlockManual implements ITileEntityProvider
 	}
 
 	@Override
-	public void onBlockDestroyedByPlayer(World worldIn, BlockPos pos, IBlockState state) {
+	public void onBlockDestroyedByPlayer(World worldIn, BlockPos pos, BlockState state) {
 		if(!worldIn.isRemote)
 		{
             TileEntityChunkLoader tileEntity = (TileEntityChunkLoader)worldIn.getTileEntity(pos);
@@ -71,7 +74,7 @@ public class BlockChunkLoader extends BlockManual implements ITileEntityProvider
 	}
 
     @Override
-    public void onBlockHarvested(World worldIn, BlockPos pos, IBlockState state, EntityPlayer player) {
+    public void onBlockHarvested(World worldIn, BlockPos pos, BlockState state, PlayerEntity player) {
         if(!worldIn.isRemote)
         {
             TileEntityChunkLoader tileEntity = (TileEntityChunkLoader)worldIn.getTileEntity(pos);

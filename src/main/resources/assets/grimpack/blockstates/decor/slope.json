@@ -1,0 +1,29 @@
+{
+	"forge_marker": 1,
+    "defaults": {
+		"transform": "forge:default-block",
+        "model": "grimpack:decor_slope",
+		"textures": {
+		  "#None": "grimpack:blocks/colorizer"
+		},
+		"custom": {
+			"models": { 
+				"corner": {
+					"model": "grimpack:block/slope.obj",
+					"custom": { "flip-v": true }
+				}
+			}
+		}
+    },
+    "variants": {
+		"facing=north,half=bottom":  [{ }],
+        "facing=south,half=bottom":  [{ "y": 180, "uvlock": true }],
+        "facing=east,half=bottom": [{ "y": 90, "uvlock": true }],
+        "facing=west,half=bottom": [{ "y": 270, "uvlock": true }],
+        "facing=east,half=top":  [{ "x": 180, "y": 270, "uvlock": true }],
+		"facing=west,half=top":  [{ "x": 180, "y": 90, "uvlock": true }],
+		"facing=south,half=top":  [{ "x": 180, "uvlock": true }],
+		"facing=north,half=top":  [{ "x": 180, "y": 180, "uvlock": true }],
+		"inventory": [{}]
+    }
+}

@@ -7,11 +7,11 @@ import com.grim3212.mc.pack.core.manual.pages.Page;
 
 import net.minecraft.item.IItemTier;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemSpade;
+import net.minecraft.item.ShovelItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 
-public class ItemManualSpade extends ItemSpade implements IManualItem {
+public class ItemManualSpade extends ShovelItem implements IManualItem {
 
 	private String link;
 

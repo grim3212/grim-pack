@@ -15,7 +15,7 @@
   "type": "minecraft:crafting_shaped",
   "key": {
     "X": {
-      "constant": "grimpack:dye_brown"
+      "tag": "forge:dyes/brown"
     },
     "Y": {
       "item": "grimpack:cuisine/soda_carbonated_water"

@@ -3,7 +3,7 @@ package com.grim3212.mc.pack.core.block;
 import com.grim3212.mc.pack.core.manual.IManualEntry.IManualBlock;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.BlockState;
 
 public abstract class BlockManual extends Block implements IManualBlock {
 
@@ -16,7 +16,7 @@ public abstract class BlockManual extends Block implements IManualBlock {
 	/*
 	 * Return the default state for the block
 	 */
-	protected IBlockState getState() {
+	protected BlockState getState() {
 		return stateContainer.getBaseState();
 	}
 }

@@ -6,7 +6,7 @@ import com.grim3212.mc.pack.industry.item.IndustryItems;
 
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.resources.I18n;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
@@ -19,7 +19,7 @@ public class GuiIronPortable extends GuiGrimContainer {
 	private IInventory playerInv;
 	private ItemStack portableStack;
 
-	public GuiIronPortable(EntityPlayer player, World world, BlockPos pos, ItemStack stack) {
+	public GuiIronPortable(PlayerEntity player, World world, BlockPos pos, ItemStack stack) {
 		super(new ContainerIronWorkbench(player, world, pos, true));
 		this.playerInv = player.inventory;
 

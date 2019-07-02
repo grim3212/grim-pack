@@ -11,11 +11,11 @@ import com.grim3212.mc.pack.industry.tile.TileEntityGoldSafe;
 
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.BlockState;
 import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.inventory.ItemStackHelper;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -37,14 +37,14 @@ public class BlockGoldSafe extends BlockStorage {
 	}
 
 	@Override
-	public void breakBlock(World worldIn, BlockPos pos, IBlockState state) {
+	public void breakBlock(World worldIn, BlockPos pos, BlockState state) {
 		TileEntity te = worldIn.getTileEntity(pos);
 
 		if ((te != null) && ((te instanceof TileEntityGoldSafe))) {
 			TileEntityGoldSafe storage = (TileEntityGoldSafe) te;
 			ItemStack item = new ItemStack(IndustryBlocks.gold_safe);
 
-			NBTTagCompound compound = new NBTTagCompound();
+			CompoundNBT compound = new CompoundNBT();
 			if (storage.isLocked()) {
 				compound.setString("Lock", storage.getLockCode().getLock());
 				storage.clearLock();
@@ -63,12 +63,12 @@ public class BlockGoldSafe extends BlockStorage {
 	}
 
 	@Override
-	public int quantityDropped(IBlockState state, int fortune, Random random) {
+	public int quantityDropped(BlockState state, int fortune, Random random) {
 		return 0;
 	}
 
 	@Override
-	public Page getPage(IBlockState state) {
+	public Page getPage(BlockState state) {
 		return ManualIndustry.safes_page;
 	}
 

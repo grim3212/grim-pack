@@ -7,11 +7,11 @@ import com.grim3212.mc.pack.core.manual.pages.Page;
 
 import net.minecraft.item.IItemTier;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemAxe;
+import net.minecraft.item.AxeItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 
-public class ItemManualAxe extends ItemAxe implements IManualItem {
+public class ItemManualAxe extends AxeItem implements IManualItem {
 
 	private String page;
 

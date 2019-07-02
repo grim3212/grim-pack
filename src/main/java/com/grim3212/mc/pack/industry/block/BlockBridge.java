@@ -13,34 +13,34 @@ import com.grim3212.mc.pack.industry.tile.TileEntityBridgeGravity;
 import com.grim3212.mc.pack.industry.util.EnumBridgeType;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockRenderType;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.properties.IProperty;
-import net.minecraft.block.properties.PropertyEnum;
-import net.minecraft.block.state.BlockStateContainer;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.particle.ParticleDigging;
+import net.minecraft.client.particle.DiggingParticle;
 import net.minecraft.client.particle.ParticleManager;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.boss.EntityDragon;
-import net.minecraft.entity.boss.EntityWither;
-import net.minecraft.entity.projectile.EntityWitherSkull;
-import net.minecraft.init.Blocks;
-import net.minecraft.potion.Potion;
-import net.minecraft.potion.PotionEffect;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.boss.WitherEntity;
+import net.minecraft.entity.boss.dragon.EnderDragonEntity;
+import net.minecraft.entity.projectile.WitherSkullEntity;
+import net.minecraft.potion.Effect;
+import net.minecraft.potion.EffectInstance;
+import net.minecraft.state.EnumProperty;
+import net.minecraft.state.IProperty;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.EnumBlockRenderType;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.util.Direction;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.ServerWorld;
 import net.minecraft.world.World;
-import net.minecraft.world.WorldServer;
+import net.minecraft.world.chunk.BlockStateContainer;
 import net.minecraftforge.common.property.ExtendedBlockState;
 import net.minecraftforge.common.property.IExtendedBlockState;
 import net.minecraftforge.common.property.IUnlistedProperty;
@@ -50,7 +50,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class BlockBridge extends BlockManual {
 
 	public static final UnlistedPropertyBlockState BLOCK_STATE = UnlistedPropertyBlockState.create("blockstate");
-	public static PropertyEnum<EnumBridgeType> TYPE = PropertyEnum.create("type", EnumBridgeType.class);
+	public static EnumProperty<EnumBridgeType> TYPE = EnumProperty.create("type", EnumBridgeType.class);
 	public static List<Block> laserBreakeables = Lists.newArrayList(Blocks.WATER, Blocks.FLOWING_WATER, Blocks.LAVA, Blocks.FLOWING_LAVA, Blocks.ICE, Blocks.REEDS, Blocks.SNOW_LAYER, Blocks.WHEAT, Blocks.POTATOES, Blocks.CARROTS, Blocks.BEETROOTS);
 
 	public BlockBridge() {
@@ -62,25 +62,25 @@ public class BlockBridge extends BlockManual {
 	}
 
 	@Override
-	public Page getPage(IBlockState state) {
+	public Page getPage(BlockState state) {
 		return state.getValue(TYPE).getPage();
 	}
 
 	@Override
-	protected IBlockState getState() {
+	protected BlockState getState() {
 		return super.getState().withProperty(TYPE, EnumBridgeType.LASER);
 	}
 
 	@Override
-	public boolean canEntityDestroy(IBlockState state, IBlockAccess world, BlockPos pos, Entity entity) {
-		if (entity instanceof EntityDragon || entity instanceof EntityWither || entity instanceof EntityWitherSkull)
+	public boolean canEntityDestroy(BlockState state, IBlockAccess world, BlockPos pos, Entity entity) {
+		if (entity instanceof EnderDragonEntity || entity instanceof WitherEntity || entity instanceof WitherSkullEntity)
 			return false;
 
 		return true;
 	}
 
 	@Override
-	public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, IBlockAccess worldIn, BlockPos pos) {
+	public AxisAlignedBB getCollisionBoundingBox(BlockState blockState, IBlockAccess worldIn, BlockPos pos) {
 		if (!blockState.getValue(TYPE).isSolid()) {
 			return NULL_AABB;
 		}
@@ -89,17 +89,17 @@ public class BlockBridge extends BlockManual {
 	}
 
 	@Override
-	public boolean causesSuffocation(IBlockState state) {
+	public boolean causesSuffocation(BlockState state) {
 		return state.getValue(TYPE).isSolid();
 	}
 
 	@Override
-	public boolean isFullCube(IBlockState state) {
+	public boolean isFullCube(BlockState state) {
 		return state.getValue(TYPE).isSolid();
 	}
 
 	@Override
-	public boolean isOpaqueCube(IBlockState state) {
+	public boolean isOpaqueCube(BlockState state) {
 		return false;
 	}
 
@@ -110,22 +110,22 @@ public class BlockBridge extends BlockManual {
 
 	@Override
 	public void onEntityWalk(World worldIn, BlockPos pos, Entity entityIn) {
-		if (worldIn.getBlockState(pos).getValue(TYPE) == EnumBridgeType.ACCEL && entityIn instanceof EntityLivingBase) {
-			EntityLivingBase living = (EntityLivingBase) entityIn;
-			living.addPotionEffect(new PotionEffect(Potion.getPotionFromResourceLocation("speed"), 10, 2));
+		if (worldIn.getBlockState(pos).getValue(TYPE) == EnumBridgeType.ACCEL && entityIn instanceof LivingEntity) {
+			LivingEntity living = (LivingEntity) entityIn;
+			living.addPotionEffect(new EffectInstance(Effect.getPotionFromResourceLocation("speed"), 10, 2));
 		}
 	}
 
 	@Override
-	public void onEntityCollidedWithBlock(World worldIn, BlockPos pos, IBlockState state, Entity entityIn) {
+	public void onEntityCollidedWithBlock(World worldIn, BlockPos pos, BlockState state, Entity entityIn) {
 		EnumBridgeType type = worldIn.getBlockState(pos).getValue(TYPE);
 
 		if (type == EnumBridgeType.DEATH) {
 			entityIn.attackEntityFrom(DamageSource.MAGIC, 4);
 		} else if (type == EnumBridgeType.GRAVITY) {
 
-			if (entityIn instanceof EntityLivingBase) {
-				EntityLivingBase living = (EntityLivingBase) entityIn;
+			if (entityIn instanceof LivingEntity) {
+				LivingEntity living = (LivingEntity) entityIn;
 
 				living.getArmorInventoryList().forEach(stack -> {
 					// Don't apply lift if wearing gravity boots
@@ -143,10 +143,10 @@ public class BlockBridge extends BlockManual {
 				// Vector3f vector3f =
 				// Node_TileEntityBridgeControl.getProjectionVector(i1);
 				double d = 0.40000000000000002D;
-				EnumFacing facing = grav.getGravFacing();
+				Direction facing = grav.getGravFacing();
 				int offset = facing.getAxisDirection().getOffset();
 
-				if (facing.getAxis() == EnumFacing.Axis.X) {
+				if (facing.getAxis() == Direction.Axis.X) {
 					entityIn.motionX += (double) offset * d;
 					if (offset > 0.0F && entityIn.motionX > 1.0D) {
 						entityIn.motionX = 1.0D;
@@ -160,7 +160,7 @@ public class BlockBridge extends BlockManual {
 						entityIn.motionY *= 0.5D;
 					}
 					entityIn.motionZ *= 0.5D;
-				} else if (facing.getAxis() == EnumFacing.Axis.Y) {
+				} else if (facing.getAxis() == Direction.Axis.Y) {
 					entityIn.motionY += (double) facing.getAxisDirection().getOffset() * d;
 					if (offset > 0.0F && entityIn.motionY > 1.0D) {
 						entityIn.motionY = 1.0D;
@@ -170,7 +170,7 @@ public class BlockBridge extends BlockManual {
 					}
 					entityIn.motionX *= 0.5D;
 					entityIn.motionZ *= 0.5D;
-				} else if (facing.getAxis() == EnumFacing.Axis.Z) {
+				} else if (facing.getAxis() == Direction.Axis.Z) {
 					entityIn.motionZ += (double) facing.getAxisDirection().getOffset() * d;
 					if (offset > 0.0F && entityIn.motionZ > 1.0D) {
 						entityIn.motionZ = 1.0D;
@@ -204,12 +204,12 @@ public class BlockBridge extends BlockManual {
 	}
 
 	@Override
-	public IBlockState getStateFromMeta(int meta) {
+	public BlockState getStateFromMeta(int meta) {
 		return getDefaultState().withProperty(TYPE, EnumBridgeType.values[meta]);
 	}
 
 	@Override
-	public int getMetaFromState(IBlockState state) {
+	public int getMetaFromState(BlockState state) {
 		return state.getValue(TYPE).ordinal();
 	}
 
@@ -219,7 +219,7 @@ public class BlockBridge extends BlockManual {
 	}
 
 	@Override
-	public IBlockState getExtendedState(IBlockState state, IBlockAccess world, BlockPos pos) {
+	public BlockState getExtendedState(BlockState state, IBlockAccess world, BlockPos pos) {
 		TileEntity te = world.getTileEntity(pos);
 		if (te instanceof TileEntityBridge && state instanceof IExtendedBlockState) {
 			IExtendedBlockState blockState = (IExtendedBlockState) state;
@@ -230,12 +230,12 @@ public class BlockBridge extends BlockManual {
 	}
 
 	@Override
-	public boolean hasTileEntity(IBlockState state) {
+	public boolean hasTileEntity(BlockState state) {
 		return true;
 	}
 
 	@Override
-	public TileEntity createTileEntity(World world, IBlockState state) {
+	public TileEntity createTileEntity(World world, BlockState state) {
 		if (state.getValue(TYPE) == EnumBridgeType.GRAVITY)
 			return new TileEntityBridgeGravity();
 
@@ -243,17 +243,17 @@ public class BlockBridge extends BlockManual {
 	}
 
 	@Override
-	@OnlyIn(Dist.CLIENT)
-	public boolean addHitEffects(IBlockState state, World worldObj, RayTraceResult target, ParticleManager manager) {
+	@SideOnly(Side.CLIENT)
+	public boolean addHitEffects(BlockState state, World worldObj, RayTraceResult target, ParticleManager manager) {
 		TileEntity te = worldObj.getTileEntity(target.getBlockPos());
 
 		BlockPos pos = target.getBlockPos();
 
 		if (te instanceof TileEntityBridge) {
 			TileEntityBridge tileentity = (TileEntityBridge) te;
-			IBlockState iblockstate = tileentity.getBlockState();
+			BlockState iblockstate = tileentity.getBlockState();
 
-			if (iblockstate.getRenderType() != EnumBlockRenderType.INVISIBLE) {
+			if (iblockstate.getRenderType() != BlockRenderType.INVISIBLE) {
 				int i = pos.getX();
 				int j = pos.getY();
 				int k = pos.getZ();
@@ -263,36 +263,36 @@ public class BlockBridge extends BlockManual {
 				double d1 = (double) j + RANDOM.nextDouble() * (axisalignedbb.maxY - axisalignedbb.minY - (double) (f * 2.0F)) + (double) f + axisalignedbb.minY;
 				double d2 = (double) k + RANDOM.nextDouble() * (axisalignedbb.maxZ - axisalignedbb.minZ - (double) (f * 2.0F)) + (double) f + axisalignedbb.minZ;
 
-				EnumFacing side = target.sideHit;
+				Direction side = target.sideHit;
 
-				if (side == EnumFacing.DOWN) {
+				if (side == Direction.DOWN) {
 					d1 = (double) j + axisalignedbb.minY - (double) f;
 				}
 
-				if (side == EnumFacing.UP) {
+				if (side == Direction.UP) {
 					d1 = (double) j + axisalignedbb.maxY + (double) f;
 				}
 
-				if (side == EnumFacing.NORTH) {
+				if (side == Direction.NORTH) {
 					d2 = (double) k + axisalignedbb.minZ - (double) f;
 				}
 
-				if (side == EnumFacing.SOUTH) {
+				if (side == Direction.SOUTH) {
 					d2 = (double) k + axisalignedbb.maxZ + (double) f;
 				}
 
-				if (side == EnumFacing.WEST) {
+				if (side == Direction.WEST) {
 					d0 = (double) i + axisalignedbb.minX - (double) f;
 				}
 
-				if (side == EnumFacing.EAST) {
+				if (side == Direction.EAST) {
 					d0 = (double) i + axisalignedbb.maxX + (double) f;
 				}
 
 				try {
-					Constructor<ParticleDigging> constructor = ParticleDigging.class.getDeclaredConstructor(World.class, double.class, double.class, double.class, double.class, double.class, double.class, IBlockState.class);
+					Constructor<DiggingParticle> constructor = DiggingParticle.class.getDeclaredConstructor(World.class, double.class, double.class, double.class, double.class, double.class, double.class, BlockState.class);
 					constructor.setAccessible(true);
-					ParticleDigging digging = constructor.newInstance(worldObj, d0, d1, d2, 0.0D, 0.0D, 0.0D, iblockstate);
+					DiggingParticle digging = constructor.newInstance(worldObj, d0, d1, d2, 0.0D, 0.0D, 0.0D, iblockstate);
 					digging.setBlockPos(target.getBlockPos()).multiplyVelocity(0.2f).multipleParticleScaleBy(0.6f);
 					manager.addEffect(digging);
 					return true;
@@ -306,7 +306,7 @@ public class BlockBridge extends BlockManual {
 	}
 
 	@Override
-	@OnlyIn(Dist.CLIENT)
+	@SideOnly(Side.CLIENT)
 	public boolean addDestroyEffects(World world, BlockPos pos, ParticleManager manager) {
 		TileEntity te = world.getTileEntity(pos);
 		if (te != null && te instanceof TileEntityBridge) {
@@ -323,7 +323,7 @@ public class BlockBridge extends BlockManual {
 	}
 
 	@Override
-	public boolean addLandingEffects(IBlockState state, WorldServer worldObj, BlockPos blockPosition, IBlockState iblockstate, EntityLivingBase entity, int numberOfParticles) {
+	public boolean addLandingEffects(BlockState state, ServerWorld worldObj, BlockPos blockPosition, BlockState iblockstate, LivingEntity entity, int numberOfParticles) {
 		TileEntity tileentity = (TileEntity) worldObj.getTileEntity(blockPosition);
 		if (tileentity instanceof TileEntityBridge) {
 			TileEntityBridge te = (TileEntityBridge) tileentity;

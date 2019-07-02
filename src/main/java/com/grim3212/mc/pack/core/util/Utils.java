@@ -12,21 +12,23 @@ import com.grim3212.mc.pack.core.network.MessageBetterExplosion;
 import com.grim3212.mc.pack.core.network.PacketDispatcher;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockFlowingFluid;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.FlowingFluidBlock;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.item.BucketItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.Explosion.Mode;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
@@ -61,7 +63,7 @@ public class Utils {
 	 */
 
 	public static SoundEvent createSound(String name) {
-		ResourceLocation location = new ResourceLocation(GrimPack.modID, name);
+		ResourceLocation location = new ResourceLocation(name);
 		return new SoundEvent(location).setRegistryName(location);
 	}
 
@@ -74,13 +76,13 @@ public class Utils {
 	 * @param checkStack
 	 * @return The handler for the itemstack
 	 */
-	public static IItemHandler findItemStackSlot(EntityPlayer player, Predicate<ItemStack> checkStack) {
+	public static IItemHandler findItemStackSlot(PlayerEntity player, Predicate<ItemStack> checkStack) {
 		if (checkStack.test(player.getHeldItemOffhand())) {
 			return new PlayerOffhandInvWrapper(player.inventory);
 		}
 
 		// Vertical facing = main inventory
-		final EnumFacing mainInventoryFacing = EnumFacing.UP;
+		final Direction mainInventoryFacing = Direction.UP;
 		if (player.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, mainInventoryFacing).isPresent()) {
 			final IItemHandler mainInventory = (IItemHandler) player.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, mainInventoryFacing).cast();
 
@@ -114,7 +116,7 @@ public class Utils {
 	}
 
 	@Nullable
-	public static ItemStack consumePlayerItem(EntityPlayer player, final ItemStack item, int amount, boolean simulate) {
+	public static ItemStack consumePlayerItem(PlayerEntity player, final ItemStack item, int amount, boolean simulate) {
 		IItemHandler handler = findItemStackSlot(player, new Predicate<ItemStack>() {
 			@Override
 			public boolean test(ItemStack t) {
@@ -134,7 +136,7 @@ public class Utils {
 	}
 
 	@Nullable
-	public static ItemStack consumePlayerItem(EntityPlayer player, final ItemStack item) {
+	public static ItemStack consumePlayerItem(PlayerEntity player, final ItemStack item) {
 		return Utils.consumePlayerItem(player, item, 1, false);
 	}
 
@@ -229,29 +231,25 @@ public class Utils {
 		return te.getCapability(CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY, null).isPresent();
 	}
 
-	public static BetterExplosion createExplosion(World world, Entity entity, double x, double y, double z, float size, boolean smoking, boolean destroyBlocks, boolean hurtEntities) {
-		return newExplosion(world, entity, x, y, z, size, false, smoking, destroyBlocks, hurtEntities);
+	public static BetterExplosion createExplosion(World world, Entity entity, double x, double y, double z, float size, Mode destroyBlocks, boolean hurtEntities) {
+		return newExplosion(world, entity, x, y, z, size, false, destroyBlocks, hurtEntities);
 	}
 
-	public static BetterExplosion newExplosion(World world, Entity entity, double x, double y, double z, float size, boolean flaming, boolean smoking, boolean destroyBlocks, boolean hurtEntities) {
-		BetterExplosion explosion = new BetterExplosion(world, entity, x, y, z, size, flaming, smoking, destroyBlocks, hurtEntities);
+	public static BetterExplosion newExplosion(World world, Entity entity, double x, double y, double z, float size, boolean flaming, Mode destroyBlocks, boolean hurtEntities) {
+		BetterExplosion explosion = new BetterExplosion(world, entity, x, y, z, size, flaming, destroyBlocks, hurtEntities);
 		if (net.minecraftforge.event.ForgeEventFactory.onExplosionStart(world, explosion)) {
 			return explosion;
 		}
 		explosion.doExplosionA();
 		explosion.doExplosionB(true);
 
-		if (!smoking) {
-			explosion.clearAffectedBlockPositions();
-		}
-
-		Iterator<EntityPlayer> iterator = world.playerEntities.iterator();
+		Iterator<? extends PlayerEntity> iterator = world.getPlayers().iterator();
 
 		while (iterator.hasNext()) {
-			EntityPlayer entityPlayer = (EntityPlayer) iterator.next();
+			PlayerEntity entityPlayer = (PlayerEntity) iterator.next();
 
 			if (entityPlayer.getDistanceSq(x, y, z) < 4096.0D) {
-				PacketDispatcher.send(PacketDistributor.PLAYER.with(() -> (EntityPlayerMP) entityPlayer), new MessageBetterExplosion(x, y, z, size, destroyBlocks, explosion.getAffectedBlockPositions(), (Vec3d) explosion.getPlayerKnockbackMap().get(entityPlayer)));
+				PacketDispatcher.send(PacketDistributor.PLAYER.with(() -> (ServerPlayerEntity) entityPlayer), new MessageBetterExplosion(x, y, z, size, destroyBlocks, explosion.getAffectedBlockPositions(), (Vec3d) explosion.getPlayerKnockbackMap().get(entityPlayer)));
 			}
 		}
 
@@ -298,7 +296,7 @@ public class Utils {
 	 * like in the nether.
 	 * <p>
 	 * Modeled after
-	 * {@link net.minecraft.item.ItemBucket#tryPlaceContainedLiquid(EntityPlayer, World, BlockPos)}
+	 * {@link BucketItem#tryPlaceContainedLiquid(PlayerEntity, World, BlockPos)}
 	 *
 	 * @param player   Player who places the fluid. May be null for blocks like
 	 *                 dispensers.
@@ -309,7 +307,7 @@ public class Utils {
 	 *         placement was successful, null otherwise
 	 */
 	@Nonnull
-	public static void tryPlaceFluid(@Nullable EntityPlayer player, World world, BlockPos pos, IFluidHandler fluidHandler, FluidStack resource) {
+	public static void tryPlaceFluid(@Nullable PlayerEntity player, World world, BlockPos pos, IFluidHandler fluidHandler, FluidStack resource) {
 		if (world == null || resource == null || pos == null) {
 			return;
 		}
@@ -320,7 +318,7 @@ public class Utils {
 		}
 
 		// check that we can place the fluid at the destination
-		IBlockState destBlockState = world.getBlockState(pos);
+		BlockState destBlockState = world.getBlockState(pos);
 		Material destMaterial = destBlockState.getMaterial();
 		boolean isDestNonSolid = !destMaterial.isSolid();
 		boolean isDestReplaceable = destMaterial.isReplaceable();
@@ -344,7 +342,7 @@ public class Utils {
 			IFluidHandler handler;
 			if (block instanceof IFluidBlock) {
 				handler = new FluidBlockWrapper((IFluidBlock) block, world, pos);
-			} else if (block instanceof BlockFlowingFluid) {
+			} else if (block instanceof FlowingFluidBlock) {
 				// handler = new BlockLiquidWrapper((BlockLiquid) block, world,
 				// pos);
 				world.setBlockState(pos, block.getDefaultState(), 11);

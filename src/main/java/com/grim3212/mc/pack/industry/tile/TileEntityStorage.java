@@ -2,27 +2,31 @@ package com.grim3212.mc.pack.industry.tile;
 
 import com.grim3212.mc.pack.industry.block.storage.BlockStorage;
 
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.init.SoundEvents;
-import net.minecraft.inventory.Container;
-import net.minecraft.inventory.ContainerChest;
+import net.minecraft.block.BlockState;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.inventory.container.ChestContainer;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.tileentity.LockableTileEntity;
+import net.minecraft.util.SoundEvents;
+import net.minecraft.inventory.container.Container;
+import net.minecraft.inventory.container.ChestContainer;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.inventory.ItemStackHelper;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.NetworkManager;
-import net.minecraft.network.play.server.SPacketUpdateTileEntity;
-import net.minecraft.tileentity.TileEntityLockable;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.network.play.server.SUpdateTileEntityPacket;
+import net.minecraft.tileentity.LockableTileEntity;
+import net.minecraft.util.Direction;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.world.LockCode;
 
-public abstract class TileEntityStorage extends TileEntityLockable implements ITickable, ISidedInventory {
+public abstract class TileEntityStorage extends LockableTileEntity implements ITickable, ISidedInventory {
 
 	private final int[] slots;
 	private String customName;
@@ -68,7 +72,7 @@ public abstract class TileEntityStorage extends TileEntityLockable implements IT
 
 	protected abstract String getStorageName();
 
-	public abstract IBlockState getBreakTextureState();
+	public abstract BlockState getBreakTextureState();
 
 	@Override
 	public boolean canRenderBreaking() {
@@ -81,8 +85,8 @@ public abstract class TileEntityStorage extends TileEntityLockable implements IT
 	}
 
 	@Override
-	public Container createContainer(InventoryPlayer playerInventory, EntityPlayer playerIn) {
-		return new ContainerChest(playerInventory, this, playerIn);
+	public Container createContainer(PlayerInventory playerInventory, PlayerEntity playerIn) {
+		return new ChestContainer(playerInventory, this, playerIn);
 	}
 
 	@Override
@@ -91,17 +95,17 @@ public abstract class TileEntityStorage extends TileEntityLockable implements IT
 	}
 
 	@Override
-	public int[] getSlotsForFace(EnumFacing side) {
+	public int[] getSlotsForFace(Direction side) {
 		return this.slots;
 	}
 
 	@Override
-	public boolean canInsertItem(int index, ItemStack itemStackIn, EnumFacing direction) {
+	public boolean canInsertItem(int index, ItemStack itemStackIn, Direction direction) {
 		return true;
 	}
 
 	@Override
-	public boolean canExtractItem(int index, ItemStack stack, EnumFacing direction) {
+	public boolean canExtractItem(int index, ItemStack stack, Direction direction) {
 		return !this.isLocked();
 	}
 
@@ -127,7 +131,7 @@ public abstract class TileEntityStorage extends TileEntityLockable implements IT
 		this.direction = (this.numPlayersUsing > 0);
 
 		if ((!prevdirection) && (this.direction) && getOpenSound() != null)
-			this.world.playSound((EntityPlayer) null, pos.getX(), (double) pos.getY() + 0.5D, pos.getZ(), getOpenSound(), SoundCategory.BLOCKS, 0.5F, this.world.rand.nextFloat() * 0.1F + 0.9F);
+			this.world.playSound((PlayerEntity) null, pos.getX(), (double) pos.getY() + 0.5D, pos.getZ(), getOpenSound(), SoundCategory.BLOCKS, 0.5F, this.world.rand.nextFloat() * 0.1F + 0.9F);
 
 		int prevrotation = this.rotation;
 		int addspeed = (int) (Math.abs(90 - this.rotation) / 10.0F);
@@ -146,7 +150,7 @@ public abstract class TileEntityStorage extends TileEntityLockable implements IT
 			this.rotation = 90;
 
 		if ((prevrotation > this.rotation) && (this.rotation == 0) && getCloseSound() != null)
-			this.world.playSound((EntityPlayer) null, pos.getX(), (double) pos.getY() + 0.5D, pos.getZ(), getCloseSound(), SoundCategory.BLOCKS, 0.5F, this.world.rand.nextFloat() * 0.1F + 0.9F);
+			this.world.playSound((PlayerEntity) null, pos.getX(), (double) pos.getY() + 0.5D, pos.getZ(), getCloseSound(), SoundCategory.BLOCKS, 0.5F, this.world.rand.nextFloat() * 0.1F + 0.9F);
 
 		/**
 		 * if (this.numPlayersUsing > 0 && !this.isOpen) {
@@ -246,12 +250,12 @@ public abstract class TileEntityStorage extends TileEntityLockable implements IT
 	}
 
 	@Override
-	public boolean isUsableByPlayer(EntityPlayer player) {
+	public boolean isUsableByPlayer(PlayerEntity player) {
 		return this.world.getTileEntity(this.pos) != this ? false : player.getDistanceSq((double) this.pos.getX() + 0.5D, (double) this.pos.getY() + 0.5D, (double) this.pos.getZ() + 0.5D) <= 64.0D;
 	}
 
 	@Override
-	public void openInventory(EntityPlayer player) {
+	public void openInventory(PlayerEntity player) {
 		if (!player.isSpectator()) {
 			if (this.numPlayersUsing < 0) {
 				this.numPlayersUsing = 0;
@@ -265,7 +269,7 @@ public abstract class TileEntityStorage extends TileEntityLockable implements IT
 	}
 
 	@Override
-	public void closeInventory(EntityPlayer player) {
+	public void closeInventory(PlayerEntity player) {
 		if (!player.isSpectator() && this.getBlockType() instanceof BlockStorage) {
 			--this.numPlayersUsing;
 			this.world.addBlockEvent(this.pos, this.getBlockType(), 1, this.numPlayersUsing);
@@ -317,7 +321,7 @@ public abstract class TileEntityStorage extends TileEntityLockable implements IT
 	}
 
 	@Override
-	public void readFromNBT(NBTTagCompound compound) {
+	public void readFromNBT(CompoundNBT compound) {
 		super.readFromNBT(compound);
 		ItemStackHelper.loadAllItems(compound, itemstacks);
 
@@ -327,7 +331,7 @@ public abstract class TileEntityStorage extends TileEntityLockable implements IT
 	}
 
 	@Override
-	public NBTTagCompound writeToNBT(NBTTagCompound compound) {
+	public CompoundNBT writeToNBT(CompoundNBT compound) {
 		super.writeToNBT(compound);
 		ItemStackHelper.saveAllItems(compound, itemstacks);
 
@@ -353,25 +357,25 @@ public abstract class TileEntityStorage extends TileEntityLockable implements IT
 	}
 
 	@Override
-	public SPacketUpdateTileEntity getUpdatePacket() {
-		NBTTagCompound nbtTagCompound = new NBTTagCompound();
+	public SUpdateTileEntityPacket getUpdatePacket() {
+		CompoundNBT nbtTagCompound = new CompoundNBT();
 		writeToNBT(nbtTagCompound);
 		int metadata = getBlockMetadata();
-		return new SPacketUpdateTileEntity(this.pos, metadata, nbtTagCompound);
+		return new SUpdateTileEntityPacket(this.pos, metadata, nbtTagCompound);
 	}
 
 	@Override
-	public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity pkt) {
+	public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt) {
 		readFromNBT(pkt.getNbtCompound());
 	}
 
 	@Override
-	public NBTTagCompound getUpdateTag() {
-		return writeToNBT(new NBTTagCompound());
+	public CompoundNBT getUpdateTag() {
+		return writeToNBT(new CompoundNBT());
 	}
 
 	@Override
-	public void handleUpdateTag(NBTTagCompound tag) {
+	public void handleUpdateTag(CompoundNBT tag) {
 		readFromNBT(tag);
 	}
 

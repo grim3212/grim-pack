@@ -7,64 +7,63 @@ import com.google.gson.JsonParseException;
 import com.grim3212.mc.pack.core.config.CoreConfig;
 import com.grim3212.mc.pack.industry.config.IndustryConfig;
 
-import net.minecraft.util.JsonUtils;
-import net.minecraftforge.common.crafting.IConditionFactory;
-import net.minecraftforge.common.crafting.JsonContext;
+import net.minecraft.util.JSONUtils;
+import net.minecraftforge.common.crafting.IConditionSerializer;
 
-public class IndustryConditionFactory implements IConditionFactory {
+public class IndustryConditionFactory implements IConditionSerializer {
 
 	@Override
-	public BooleanSupplier parse(JsonContext context, JsonObject json) {
-		String value = JsonUtils.getString(json, "subpart", "");
+	public BooleanSupplier parse(JsonObject json) {
+		String value = JSONUtils.getString(json, "subpart", "");
 
-		if (CoreConfig.useIndustry) {
+		if (CoreConfig.useIndustry.get()) {
 			switch (value) {
 			case "bridges":
-				return () -> IndustryConfig.subpartBridges;
+				return () -> IndustryConfig.subpartBridges.get();
 			case "chunkloader":
-				return () -> IndustryConfig.subpartConveyor;
+				return () -> IndustryConfig.subpartConveyor.get();
 			case "conveyor":
-				return () -> IndustryConfig.subpartConveyor;
+				return () -> IndustryConfig.subpartConveyor.get();
 			case "decoration":
-				return () -> IndustryConfig.subpartDecoration;
+				return () -> IndustryConfig.subpartDecoration.get();
 			case "doors":
-				return () -> IndustryConfig.subpartDoors;
+				return () -> IndustryConfig.subpartDoors.get();
 			case "elemental":
-				return () -> IndustryConfig.subpartElementalBlocks;
+				return () -> IndustryConfig.subpartElementalBlocks.get();
 			case "extruder":
-				return () -> IndustryConfig.subpartExtruder;
+				return () -> IndustryConfig.subpartExtruder.get();
 			case "icemaker":
-				return () -> IndustryConfig.subpartIceMaker;
+				return () -> IndustryConfig.subpartIceMaker.get();
 			case "fans":
-				return () -> IndustryConfig.subpartFans;
+				return () -> IndustryConfig.subpartFans.get();
 			case "gates":
-				return () -> IndustryConfig.subpartGates;
+				return () -> IndustryConfig.subpartGates.get();
 			case "gravity":
-				return () -> IndustryConfig.subpartGravity;
+				return () -> IndustryConfig.subpartGravity.get();
 			case "hlights":
-				return () -> IndustryConfig.subpartHLights;
+				return () -> IndustryConfig.subpartHLights.get();
 			case "machines":
-				return () -> IndustryConfig.subpartMachines;
+				return () -> IndustryConfig.subpartMachines.get();
 			case "metalworks":
-				return () -> IndustryConfig.subpartMetalWorks;
+				return () -> IndustryConfig.subpartMetalWorks.get();
 			case "nuclear":
-				return () -> IndustryConfig.subpartNuclear;
+				return () -> IndustryConfig.subpartNuclear.get();
 			case "rways":
-				return () -> IndustryConfig.subpartRWays;
+				return () -> IndustryConfig.subpartRWays.get();
 			case "sensors":
-				return () -> IndustryConfig.subpartSensors;
+				return () -> IndustryConfig.subpartSensors.get();
 			case "shapedcharges":
-				return () -> IndustryConfig.subpartShapedCharges;
+				return () -> IndustryConfig.subpartShapedCharges.get();
 			case "spikes":
-				return () -> IndustryConfig.subpartSpikes;
+				return () -> IndustryConfig.subpartSpikes.get();
 			case "steel":
-				return () -> IndustryConfig.subpartSteel;
+				return () -> IndustryConfig.subpartSteel.get();
 			case "storage":
-				return () -> IndustryConfig.subpartStorage;
+				return () -> IndustryConfig.subpartStorage.get();
 			case "torches":
-				return () -> IndustryConfig.subpartTorches;
+				return () -> IndustryConfig.subpartTorches.get();
 			case "workbench":
-				return () -> IndustryConfig.subpartWorkbenchUpgrades;
+				return () -> IndustryConfig.subpartWorkbenchUpgrades.get();
 			default:
 				throw new JsonParseException("SubPart '" + value + "' is either misspelled or doesn't exist!");
 			}

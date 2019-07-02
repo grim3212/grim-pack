@@ -1,9 +1,11 @@
 package com.grim3212.mc.pack.industry.inventory;
 
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.Container;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.Slot;
+import net.minecraft.inventory.container.Slot;
+import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -13,7 +15,7 @@ public class ContainerItemTower extends Container {
 	private IInventory itemTowers;
 	private int numRows;
 
-	public ContainerItemTower(EntityPlayer player, IInventory itemTowers) {
+	public ContainerItemTower(PlayerEntity player, IInventory itemTowers) {
 		this.itemTowers = itemTowers;
 		this.numRows = (itemTowers.getSizeInventory() / 9);
 
@@ -41,7 +43,7 @@ public class ContainerItemTower extends Container {
 			setDisplayRow(0);
 	}
 
-	@OnlyIn(Dist.CLIENT)
+	@SideOnly(Side.CLIENT)
 	public void setDisplayRow(int row) {
 		int minSlot = row * 9;
 		int maxSlot = (row + 1) * 9;
@@ -58,12 +60,12 @@ public class ContainerItemTower extends Container {
 	}
 
 	@Override
-	public boolean canInteractWith(EntityPlayer par1EntityPlayer) {
+	public boolean canInteractWith(PlayerEntity par1EntityPlayer) {
 		return this.itemTowers.isUsableByPlayer(par1EntityPlayer);
 	}
 
 	@Override
-	public ItemStack transferStackInSlot(EntityPlayer par1EntityPlayer, int slotID) {
+	public ItemStack transferStackInSlot(PlayerEntity par1EntityPlayer, int slotID) {
 		ItemStack itemstack = ItemStack.EMPTY;
 		Slot slot = (Slot) this.inventorySlots.get(slotID);
 
@@ -90,7 +92,7 @@ public class ContainerItemTower extends Container {
 	}
 
 	@Override
-	public void onContainerClosed(EntityPlayer par1EntityPlayer) {
+	public void onContainerClosed(PlayerEntity par1EntityPlayer) {
 		super.onContainerClosed(par1EntityPlayer);
 		this.itemTowers.closeInventory(par1EntityPlayer);
 	}

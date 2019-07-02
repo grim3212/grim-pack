@@ -5,16 +5,16 @@ import com.grim3212.mc.pack.core.manual.pages.Page;
 
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
+import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
-public class ItemManualBlock extends ItemBlock implements IManualItem {
+public class ItemManualBlock extends BlockItem implements IManualItem {
 
 	private IManualBlock manual;
-	
+
 	public ItemManualBlock(Block block) {
 		this(block, new Item.Properties());
 	}

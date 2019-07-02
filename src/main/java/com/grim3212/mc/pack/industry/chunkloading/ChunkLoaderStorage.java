@@ -2,8 +2,9 @@ package com.grim3212.mc.pack.industry.chunkloading;
 
 import com.grim3212.mc.pack.core.util.NBTHelper;
 import com.grim3212.mc.pack.industry.GrimIndustry;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.ListNBT;
+import net.minecraft.nbt.ListNBT;
 import net.minecraft.world.World;
 import net.minecraft.world.storage.WorldSavedData;
 import net.minecraftforge.common.util.Constants.NBT;
@@ -26,16 +27,16 @@ public class ChunkLoaderStorage extends WorldSavedData {
 	}
 
 	@Override
-	public void readFromNBT(NBTTagCompound nbt) {
+	public void readFromNBT(CompoundNBT nbt) {
 		if (nbt.hasKey("ChunkLoaders")) {
-			NBTTagList cls = nbt.getTagList("ChunkLoader", NBT.TAG_COMPOUND);
+			ListNBT cls = nbt.getTagList("ChunkLoader", NBT.TAG_COMPOUND);
 
 			// Make sure we at least have some tags
 			if (!cls.hasNoTags()) {
 				List<ChunkLoaderData> loaded = new ArrayList<ChunkLoaderData>();
 
 				for (int i = 0; i < cls.tagCount(); i++) {
-					NBTTagCompound data = cls.getCompoundTagAt(i);
+					CompoundNBT data = cls.getCompoundTagAt(i);
 
 					loaded.add(new ChunkLoaderData(data.getString("Owner"), data.getInteger("Dimension"), NBTHelper.getBlockPos(data, "Pos"), data.getLong("LastLogin")));
 				}
@@ -46,11 +47,11 @@ public class ChunkLoaderStorage extends WorldSavedData {
 	}
 
 	@Override
-	public NBTTagCompound writeToNBT(NBTTagCompound compound) {
-		NBTTagList cls = new NBTTagList();
+	public CompoundNBT writeToNBT(CompoundNBT compound) {
+		ListNBT cls = new ListNBT();
 
 		for (ChunkLoaderData data : chunkLoaders) {
-			NBTTagCompound chunkLoader = new NBTTagCompound();
+			CompoundNBT chunkLoader = new CompoundNBT();
 
 			NBTHelper.setBlockPos(chunkLoader, "Pos", data.pos);
 			chunkLoader.setInteger("Dimension", data.dimension);

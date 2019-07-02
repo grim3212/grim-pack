@@ -6,7 +6,6 @@ import java.util.function.Supplier;
 import com.grim3212.mc.pack.core.network.AbstractMessage.AbstractServerMessage;
 import com.grim3212.mc.pack.decor.tile.TileEntityNeonSign;
 
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
@@ -31,17 +30,17 @@ public class MessageNeonChangeMode extends AbstractServerMessage<MessageNeonChan
 	}
 
 	@Override
-	protected void write(PacketBuffer buffer) throws IOException {
-		buffer.writeInt(mode);
-		buffer.writeBlockPos(pos);
+	protected void write(MessageNeonChangeMode msg, PacketBuffer buffer) throws IOException {
+		buffer.writeInt(msg.mode);
+		buffer.writeBlockPos(msg.pos);
 	}
 
 	@Override
-	public void process(EntityPlayer player, Supplier<Context> ctx) {
-		TileEntity te = player.world.getTileEntity(pos);
+	public void process(MessageNeonChangeMode msg, Supplier<Context> ctx) {
+		TileEntity te = ctx.get().getSender().getEntityWorld().getTileEntity(msg.pos);
 
 		if (te instanceof TileEntityNeonSign) {
-			((TileEntityNeonSign) te).mode = this.mode;
+			((TileEntityNeonSign) te).mode = msg.mode;
 		}
 	}
 }

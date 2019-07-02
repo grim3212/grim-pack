@@ -8,16 +8,20 @@ import com.grim3212.mc.pack.core.part.GrimCreativeTabs;
 import com.grim3212.mc.pack.industry.client.ManualIndustry;
 
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.item.EntityItem;
-import net.minecraft.entity.monster.EntityMob;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.item.ItemEntity;
+import net.minecraft.entity.item.ItemEntity;
+import net.minecraft.entity.monster.MonsterEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemArrow;
+import net.minecraft.item.ArrowItem;
 import net.minecraft.item.ItemFireball;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
-import net.minecraft.util.EnumActionResult;
-import net.minecraft.util.EnumHand;
+import net.minecraft.util.ActionResultType;
+import net.minecraft.util.ActionResultType;
+import net.minecraft.util.Hand;
+import net.minecraft.util.Hand;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
@@ -35,13 +39,13 @@ public class ItemMobRepulsor extends ItemManual {
 	}
 
 	@Override
-	public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand hand) {
+	public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity playerIn, Hand hand) {
 		if (this.tickCount > 10) {
 			this.On = (!this.On);
 			this.tickCount = 0;
 		}
 
-		return ActionResult.newResult(EnumActionResult.SUCCESS, playerIn.getHeldItem(hand));
+		return ActionResult.newResult(ActionResultType.SUCCESS, playerIn.getHeldItem(hand));
 	}
 
 	@Override
@@ -56,7 +60,7 @@ public class ItemMobRepulsor extends ItemManual {
 
 			for (int i = 0; i < entityList.size(); i++) {
 				Entity entity = (Entity) entityList.get(i);
-				if ((entity instanceof EntityMob)) {
+				if ((entity instanceof MonsterEntity)) {
 					// entity.setFire(4);
 					// entity.setGlowing(true);
 					// copied from applyEntityCollision removed code affecting
@@ -90,9 +94,9 @@ public class ItemMobRepulsor extends ItemManual {
 							}
 						}
 					}
-				} else if ((entity instanceof EntityItem)) {
-					Item id = ((EntityItem) entity).getItem().getItem();
-					if (id instanceof ItemArrow || id instanceof ItemFireball) {
+				} else if ((entity instanceof ItemEntity)) {
+					Item id = ((ItemEntity) entity).getItem().getItem();
+					if (id instanceof ArrowItem || id instanceof ItemFireball) {
 						entity.motionX -= this.upInc / 2;
 						entity.motionY += this.upInc / 1000;
 						entity.motionZ -= this.upInc / 2;
@@ -104,7 +108,7 @@ public class ItemMobRepulsor extends ItemManual {
 	}
 
 	@Override
-	public boolean onDroppedByPlayer(ItemStack item, EntityPlayer player) {
+	public boolean onDroppedByPlayer(ItemStack item, PlayerEntity player) {
 		this.On = false;
 		return true;
 	}

@@ -1,16 +1,17 @@
 package com.grim3212.mc.pack.industry.client.gui;
 
+import net.minecraft.client.gui.widget.button.Button;
 import org.lwjgl.opengl.GL11;
 
 import com.grim3212.mc.pack.GrimPack;
 import com.grim3212.mc.pack.core.client.TooltipHelper;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.util.ResourceLocation;
 
-public class GuiButtonSensorMore extends GuiButton {
+public class GuiButtonSensorMore extends Button {
 
 	private final ResourceLocation texture = new ResourceLocation(GrimPack.modID + ":" + "textures/gui/icons.png");
 

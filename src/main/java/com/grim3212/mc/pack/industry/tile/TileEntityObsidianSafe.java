@@ -1,7 +1,7 @@
 package com.grim3212.mc.pack.industry.tile;
 
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.init.Blocks;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 
 public class TileEntityObsidianSafe extends TileEntityStorage {
 
@@ -11,7 +11,7 @@ public class TileEntityObsidianSafe extends TileEntityStorage {
 	}
 
 	@Override
-	public IBlockState getBreakTextureState() {
+	public BlockState getBreakTextureState() {
 		return Blocks.OBSIDIAN.getDefaultState();
 	}
 

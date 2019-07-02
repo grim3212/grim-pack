@@ -1,16 +1,16 @@
 package com.grim3212.mc.pack.industry.network;
 
 import java.io.IOException;
+import java.util.function.Supplier;
 
 import com.grim3212.mc.pack.core.network.AbstractMessage.AbstractServerMessage;
 import com.grim3212.mc.pack.industry.tile.TileEntitySpecificSensor;
 
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
-import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.network.NetworkEvent.Context;
 
 public class MessageSensorSetBox extends AbstractServerMessage<MessageSensorSetBox> {
 
@@ -36,33 +36,27 @@ public class MessageSensorSetBox extends AbstractServerMessage<MessageSensorSetB
 	}
 
 	@Override
-	protected void read(PacketBuffer buffer) throws IOException {
-		this.pos = buffer.readBlockPos();
-		this.minX = buffer.readDouble();
-		this.minY = buffer.readDouble();
-		this.minZ = buffer.readDouble();
-		this.maxX = buffer.readDouble();
-		this.maxY = buffer.readDouble();
-		this.maxZ = buffer.readDouble();
+	protected MessageSensorSetBox read(PacketBuffer buffer) throws IOException {
+		return new MessageSensorSetBox(buffer.readBlockPos(), buffer.readDouble(), buffer.readDouble(), buffer.readDouble(), buffer.readDouble(), buffer.readDouble(), buffer.readDouble());
 	}
 
 	@Override
-	protected void write(PacketBuffer buffer) throws IOException {
-		buffer.writeBlockPos(pos);
-		buffer.writeDouble(minX);
-		buffer.writeDouble(minY);
-		buffer.writeDouble(minZ);
-		buffer.writeDouble(maxX);
-		buffer.writeDouble(maxY);
-		buffer.writeDouble(maxZ);
+	protected void write(MessageSensorSetBox msg, PacketBuffer buffer) throws IOException {
+		buffer.writeBlockPos(msg.pos);
+		buffer.writeDouble(msg.minX);
+		buffer.writeDouble(msg.minY);
+		buffer.writeDouble(msg.minZ);
+		buffer.writeDouble(msg.maxX);
+		buffer.writeDouble(msg.maxY);
+		buffer.writeDouble(msg.maxZ);
 	}
 
 	@Override
-	public void process(EntityPlayer player, Side side) {
-		TileEntity te = player.world.getTileEntity(pos);
+	public void process(MessageSensorSetBox msg, Supplier<Context> ctx) {
+		TileEntity te = ctx.get().getSender().world.getTileEntity(msg.pos);
 
 		if (te instanceof TileEntitySpecificSensor) {
-			((TileEntitySpecificSensor) te).setSenseBox(new AxisAlignedBB(this.minX, this.minY, this.minZ, this.maxX, this.maxY, this.maxZ));
+			((TileEntitySpecificSensor) te).setSenseBox(new AxisAlignedBB(msg.minX, msg.minY, msg.minZ, msg.maxX, msg.maxY, msg.maxZ));
 		}
 	}
 

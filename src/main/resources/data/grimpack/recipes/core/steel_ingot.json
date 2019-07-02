@@ -15,7 +15,7 @@
   "type": "minecraft:crafting_shaped",
   "key": {
     "B": {
-      "constant": "grimpack:steel_block"
+      "tag": "forge:storage_blocks/steel"
     }
   }
 }

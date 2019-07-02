@@ -4,7 +4,7 @@ import com.grim3212.mc.pack.core.manual.ManualRegistry;
 import com.grim3212.mc.pack.core.manual.pages.Page;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.BlockState;
 
 public class BlockManualPage extends BlockManual {
 
@@ -16,7 +16,7 @@ public class BlockManualPage extends BlockManual {
 	}
 
 	@Override
-	public Page getPage(IBlockState state) {
+	public Page getPage(BlockState state) {
 		return ManualRegistry.getPageFromString(this.page);
 	}
 

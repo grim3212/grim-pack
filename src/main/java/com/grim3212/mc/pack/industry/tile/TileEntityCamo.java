@@ -1,11 +1,14 @@
 package com.grim3212.mc.pack.industry.tile;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.init.Blocks;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.NetworkManager;
-import net.minecraft.network.play.server.SPacketUpdateTileEntity;
+import net.minecraft.network.play.server.SUpdateTileEntityPacket;
+import net.minecraft.network.play.server.SUpdateTileEntityPacket;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
@@ -13,13 +16,13 @@ import net.minecraft.world.World;
 
 public class TileEntityCamo extends TileEntity {
 
-	protected IBlockState blockState = Blocks.AIR.getDefaultState();
+	protected BlockState blockState = Blocks.AIR.getDefaultState();
 
 	public TileEntityCamo() {
 	}
 
 	@Override
-	public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newState) {
+	public boolean shouldRefresh(World world, BlockPos pos, BlockState oldState, BlockState newState) {
 		if (oldState.getBlock() == newState.getBlock()) {
 			return false;
 		} else {
@@ -28,25 +31,25 @@ public class TileEntityCamo extends TileEntity {
 	}
 
 	@Override
-	public NBTTagCompound getUpdateTag() {
-		return writeToNBT(new NBTTagCompound());
+	public CompoundNBT getUpdateTag() {
+		return writeToNBT(new CompoundNBT());
 	}
 
 	@Override
-	public void handleUpdateTag(NBTTagCompound tag) {
+	public void handleUpdateTag(CompoundNBT tag) {
 		readFromNBT(tag);
 	}
 
 	@Override
 	@SuppressWarnings("deprecation")
-	public void readFromNBT(NBTTagCompound nbt) {
+	public void readFromNBT(CompoundNBT nbt) {
 		super.readFromNBT(nbt);
 		Block block = Block.REGISTRY.getObject(new ResourceLocation(nbt.getString("registryName")));
 		this.blockState = block.getStateFromMeta(nbt.getInteger("meta"));
 	}
 
 	@Override
-	public NBTTagCompound writeToNBT(NBTTagCompound nbt) {
+	public CompoundNBT writeToNBT(CompoundNBT nbt) {
 		super.writeToNBT(nbt);
 		nbt.setString("registryName", this.blockState.getBlock().getRegistryName().toString());
 		nbt.setInteger("meta", this.blockState.getBlock().getMetaFromState(blockState));
@@ -54,23 +57,23 @@ public class TileEntityCamo extends TileEntity {
 	}
 
 	@Override
-	public SPacketUpdateTileEntity getUpdatePacket() {
-		NBTTagCompound nbtTagCompound = new NBTTagCompound();
+	public SUpdateTileEntityPacket getUpdatePacket() {
+		CompoundNBT nbtTagCompound = new CompoundNBT();
 		writeToNBT(nbtTagCompound);
 		int metadata = getBlockMetadata();
-		return new SPacketUpdateTileEntity(this.pos, metadata, nbtTagCompound);
+		return new SUpdateTileEntityPacket(this.pos, metadata, nbtTagCompound);
 	}
 
 	@Override
-	public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity pkt) {
+	public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt) {
 		readFromNBT(pkt.getNbtCompound());
 	}
 
-	public IBlockState getBlockState() {
+	public BlockState getBlockState() {
 		return blockState;
 	}
 
-	public void setBlockState(IBlockState blockState) {
+	public void setBlockState(BlockState blockState) {
 		this.blockState = blockState;
 	}
 

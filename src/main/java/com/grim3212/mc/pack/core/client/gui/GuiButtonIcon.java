@@ -2,13 +2,13 @@ package com.grim3212.mc.pack.core.client.gui;
 
 import com.grim3212.mc.pack.GrimPack;
 import com.grim3212.mc.pack.core.client.TooltipHelper;
+import com.mojang.blaze3d.platform.GlStateManager;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.util.ResourceLocation;
 
-public class GuiButtonIcon extends GuiButton {
+public class GuiButtonIcon extends Button {
 
 	private final ResourceLocation texture = new ResourceLocation(GrimPack.modID + ":" + "textures/gui/icons.png");
 
@@ -16,14 +16,14 @@ public class GuiButtonIcon extends GuiButton {
 	private int iconY;
 	private String tooltip = "";
 
-	public GuiButtonIcon(int id, int x, int y, int iconX, int iconY) {
-		super(id, x, y, 20, 20, "");
+	public GuiButtonIcon(int x, int y, int iconX, int iconY, IPressable pressable) {
+		super(x, y, 20, 20, "", pressable);
 		this.iconX = iconX;
 		this.iconY = iconY;
 	}
 
-	public GuiButtonIcon(int id, int x, int y, int iconX, int iconY, String tooltip) {
-		this(id, x, y, iconX, iconY);
+	public GuiButtonIcon(int x, int y, int iconX, int iconY, String tooltip, IPressable pressable) {
+		this(x, y, iconX, iconY, pressable);
 		this.tooltip = tooltip;
 	}
 
@@ -35,12 +35,12 @@ public class GuiButtonIcon extends GuiButton {
 			GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
 			Minecraft.getInstance().getTextureManager().bindTexture(texture);
 
-			this.drawTexturedModalRect(this.x + 2, this.y + 2, iconX, iconY, 16, 16);
+			this.blit(this.x + 2, this.y + 2, iconX, iconY, 16, 16);
 		}
 	}
 
 	@Override
-	public void drawButtonForegroundLayer(int mouseX, int mouseY) {
+	public void renderToolTip(int mouseX, int mouseY) {
 		if (!tooltip.isEmpty())
 			TooltipHelper.drawHoveringText(tooltip, mouseX, mouseY, 120, Minecraft.getInstance().fontRenderer);
 	}

@@ -6,15 +6,15 @@ import com.grim3212.mc.pack.cuisine.client.ManualCuisine;
 import com.grim3212.mc.pack.cuisine.init.CuisineNames;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockCake;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.CakeBlock;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockReader;
 
-public class BlockChocolateCake extends BlockCake implements IManualBlock {
+public class BlockChocolateCake extends CakeBlock implements IManualBlock {
 
 	protected BlockChocolateCake() {
 		super(Block.Properties.create(Material.CAKE).sound(SoundType.CLOTH).hardnessAndResistance(0.5f));
@@ -22,12 +22,12 @@ public class BlockChocolateCake extends BlockCake implements IManualBlock {
 	}
 
 	@Override
-	public ItemStack getItem(IBlockReader worldIn, BlockPos pos, IBlockState state) {
+	public ItemStack getItem(IBlockReader worldIn, BlockPos pos, BlockState state) {
 		return new ItemStack(CuisineBlocks.chocolate_cake);
 	}
 
 	@Override
-	public Page getPage(IBlockState state) {
+	public Page getPage(BlockState state) {
 		return ManualCuisine.chocolateCake_page;
 	}
 }

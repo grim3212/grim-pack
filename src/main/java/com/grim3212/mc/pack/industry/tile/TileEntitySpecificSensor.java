@@ -9,19 +9,25 @@ import com.grim3212.mc.pack.industry.block.IndustryBlocks;
 import com.grim3212.mc.pack.industry.inventory.ContainerSpecificSensor;
 import com.grim3212.mc.pack.industry.util.Specific;
 
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.item.EntityItem;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.inventory.Container;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.item.ItemEntity;
+import net.minecraft.entity.item.ItemEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.inventory.container.Container;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.NetworkManager;
-import net.minecraft.network.play.server.SPacketUpdateTileEntity;
-import net.minecraft.tileentity.TileEntityLockable;
+import net.minecraft.network.play.server.SUpdateTileEntityPacket;
+import net.minecraft.network.play.server.SUpdateTileEntityPacket;
+import net.minecraft.tileentity.LockableTileEntity;
+import net.minecraft.tileentity.LockableTileEntity;
 import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.ResourceLocation;
@@ -29,7 +35,7 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class TileEntitySpecificSensor extends TileEntityLockable implements ITickable {
+public class TileEntitySpecificSensor extends LockableTileEntity implements ITickable {
 
 	private BlockPos sensorPos;
 	private SensorMode mode;
@@ -58,8 +64,8 @@ public class TileEntitySpecificSensor extends TileEntityLockable implements ITic
 		if (sensorPos == null)
 			return;
 
-		IBlockState state = this.getWorld().getBlockState(sensorPos);
-		IBlockState self = this.getWorld().getBlockState(pos);
+		BlockState state = this.getWorld().getBlockState(sensorPos);
+		BlockState self = this.getWorld().getBlockState(pos);
 
 		// Make sure that the position is not occupied by a block entities can't
 		// enter. So full cubes or opaque cubes
@@ -112,12 +118,12 @@ public class TileEntitySpecificSensor extends TileEntityLockable implements ITic
 
 	private boolean checkPlayer(List<Entity> list) {
 		Iterator<Entity> itr = list.iterator();
-		List<EntityPlayer> compatibleEntities = new ArrayList<EntityPlayer>();
+		List<PlayerEntity> compatibleEntities = new ArrayList<PlayerEntity>();
 
 		while (itr.hasNext()) {
 			Entity e = itr.next();
-			if (e instanceof EntityPlayer) {
-				compatibleEntities.add((EntityPlayer) e);
+			if (e instanceof PlayerEntity) {
+				compatibleEntities.add((PlayerEntity) e);
 			}
 		}
 
@@ -139,12 +145,12 @@ public class TileEntitySpecificSensor extends TileEntityLockable implements ITic
 
 	private boolean checkMobs(List<Entity> list) {
 		Iterator<Entity> itr = list.iterator();
-		List<EntityLivingBase> compatibleEntities = new ArrayList<EntityLivingBase>();
+		List<LivingEntity> compatibleEntities = new ArrayList<LivingEntity>();
 
 		while (itr.hasNext()) {
 			Entity e = itr.next();
-			if (e instanceof EntityLivingBase) {
-				compatibleEntities.add((EntityLivingBase) e);
+			if (e instanceof LivingEntity) {
+				compatibleEntities.add((LivingEntity) e);
 			}
 		}
 
@@ -164,12 +170,12 @@ public class TileEntitySpecificSensor extends TileEntityLockable implements ITic
 
 	private boolean checkItems(List<Entity> list) {
 		Iterator<Entity> itr = list.iterator();
-		List<EntityItem> compatibleEntities = new ArrayList<EntityItem>();
+		List<ItemEntity> compatibleEntities = new ArrayList<ItemEntity>();
 
 		while (itr.hasNext()) {
 			Entity e = itr.next();
-			if (e instanceof EntityItem) {
-				compatibleEntities.add((EntityItem) e);
+			if (e instanceof ItemEntity) {
+				compatibleEntities.add((ItemEntity) e);
 			}
 		}
 
@@ -189,7 +195,7 @@ public class TileEntitySpecificSensor extends TileEntityLockable implements ITic
 	}
 
 	@Override
-	public void readFromNBT(NBTTagCompound compound) {
+	public void readFromNBT(CompoundNBT compound) {
 		super.readFromNBT(compound);
 
 		sensorPos = new BlockPos(compound.getInteger("SensorPosX"), compound.getInteger("SensorPosY"), compound.getInteger("SensorPosZ"));
@@ -202,12 +208,12 @@ public class TileEntitySpecificSensor extends TileEntityLockable implements ITic
 			this.customName = compound.getString("CustomName");
 		}
 
-		NBTTagCompound boundingBox = compound.getCompoundTag("SenseBox");
+		CompoundNBT boundingBox = compound.getCompoundTag("SenseBox");
 		this.senseBox = new AxisAlignedBB(boundingBox.getDouble("MinX"), boundingBox.getDouble("MinY"), boundingBox.getDouble("MinZ"), boundingBox.getDouble("MaxX"), boundingBox.getDouble("MaxY"), boundingBox.getDouble("MaxZ"));
 	}
 
 	@Override
-	public NBTTagCompound writeToNBT(NBTTagCompound compound) {
+	public CompoundNBT writeToNBT(CompoundNBT compound) {
 		super.writeToNBT(compound);
 
 		if (sensorPos == null) {
@@ -228,7 +234,7 @@ public class TileEntitySpecificSensor extends TileEntityLockable implements ITic
 			compound.setString("CustomName", this.customName);
 		}
 
-		NBTTagCompound boundingBox = new NBTTagCompound();
+		CompoundNBT boundingBox = new CompoundNBT();
 		boundingBox.setDouble("MinX", this.senseBox.minX);
 		boundingBox.setDouble("MinY", this.senseBox.minY);
 		boundingBox.setDouble("MinZ", this.senseBox.minZ);
@@ -300,7 +306,7 @@ public class TileEntitySpecificSensor extends TileEntityLockable implements ITic
 	}
 
 	@Override
-	public Container createContainer(InventoryPlayer playerInventory, EntityPlayer playerIn) {
+	public Container createContainer(PlayerInventory playerInventory, PlayerEntity playerIn) {
 		return new ContainerSpecificSensor(this.getPos(), playerInventory);
 	}
 
@@ -353,16 +359,16 @@ public class TileEntitySpecificSensor extends TileEntityLockable implements ITic
 	}
 
 	@Override
-	public boolean isUsableByPlayer(EntityPlayer player) {
+	public boolean isUsableByPlayer(PlayerEntity player) {
 		return this.world.getTileEntity(this.pos) != this ? false : player.getDistanceSq((double) this.pos.getX() + 0.5D, (double) this.pos.getY() + 0.5D, (double) this.pos.getZ() + 0.5D) <= 64.0D;
 	}
 
 	@Override
-	public void openInventory(EntityPlayer player) {
+	public void openInventory(PlayerEntity player) {
 	}
 
 	@Override
-	public void closeInventory(EntityPlayer player) {
+	public void closeInventory(PlayerEntity player) {
 	}
 
 	@Override
@@ -389,30 +395,30 @@ public class TileEntitySpecificSensor extends TileEntityLockable implements ITic
 	}
 
 	@Override
-	public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newSate) {
+	public boolean shouldRefresh(World world, BlockPos pos, BlockState oldState, BlockState newSate) {
 		return oldState.getBlock() != newSate.getBlock();
 	}
 
 	@Override
-	public SPacketUpdateTileEntity getUpdatePacket() {
-		NBTTagCompound nbtTagCompound = new NBTTagCompound();
+	public SUpdateTileEntityPacket getUpdatePacket() {
+		CompoundNBT nbtTagCompound = new CompoundNBT();
 		writeToNBT(nbtTagCompound);
 		int metadata = getBlockMetadata();
-		return new SPacketUpdateTileEntity(this.pos, metadata, nbtTagCompound);
+		return new SUpdateTileEntityPacket(this.pos, metadata, nbtTagCompound);
 	}
 
 	@Override
-	public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity pkt) {
+	public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt) {
 		readFromNBT(pkt.getNbtCompound());
 	}
 
 	@Override
-	public NBTTagCompound getUpdateTag() {
-		return writeToNBT(new NBTTagCompound());
+	public CompoundNBT getUpdateTag() {
+		return writeToNBT(new CompoundNBT());
 	}
 
 	@Override
-	public void handleUpdateTag(NBTTagCompound tag) {
+	public void handleUpdateTag(CompoundNBT tag) {
 		readFromNBT(tag);
 	}
 

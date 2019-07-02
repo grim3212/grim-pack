@@ -7,14 +7,16 @@ import com.grim3212.mc.pack.industry.client.ManualIndustry;
 import com.grim3212.mc.pack.industry.tile.TileEntityGravity;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.state.BlockStateContainer;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.block.BlockState;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
@@ -34,17 +36,17 @@ public class BlockGravity extends BlockManual implements ITileEntityProvider {
 	}
 
 	@Override
-	protected IBlockState getState() {
+	protected BlockState getState() {
 		return this.blockState.getBaseState().withProperty(POWERED, false);
 	}
 
 	@Override
-	public IBlockState getStateFromMeta(int meta) {
+	public BlockState getStateFromMeta(int meta) {
 		return this.getDefaultState().withProperty(POWERED, meta == 1 ? true : false);
 	}
 
 	@Override
-	public int getMetaFromState(IBlockState state) {
+	public int getMetaFromState(BlockState state) {
 		return state.getValue(POWERED) ? 1 : 0;
 	}
 
@@ -54,17 +56,17 @@ public class BlockGravity extends BlockManual implements ITileEntityProvider {
 	}
 
 	@Override
-	public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos) {
+	public void neighborChanged(BlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos) {
 		updateGravitor(worldIn, pos);
 	}
 
 	@Override
-	public void onBlockPlacedBy(World worldIn, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack) {
+	public void onBlockPlacedBy(World worldIn, BlockPos pos, BlockState state, LivingEntity placer, ItemStack stack) {
 		updateGravitor(worldIn, pos);
 	}
 
 	public void updateGravitor(World worldIn, BlockPos pos) {
-		IBlockState state = worldIn.getBlockState(pos);
+		BlockState state = worldIn.getBlockState(pos);
 		TileEntity te = worldIn.getTileEntity(pos);
 
 		int powerLevel = worldIn.isBlockIndirectlyGettingPowered(pos);
@@ -82,7 +84,7 @@ public class BlockGravity extends BlockManual implements ITileEntityProvider {
 	}
 
 	@Override
-	public Page getPage(IBlockState state) {
+	public Page getPage(BlockState state) {
 		if (state.getBlock() == IndustryBlocks.gravitor) {
 			return ManualIndustry.gravitor_page;
 		} else if (state.getBlock() == IndustryBlocks.attractor) {

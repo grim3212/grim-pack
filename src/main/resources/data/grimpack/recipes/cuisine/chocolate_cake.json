@@ -28,7 +28,7 @@
       "item": "minecraft:wheat"
     },
     "X": {
-      "constant": "grimpack:bucket_milk"
+      "tag": "forge:buckets/milk"
     }
   }
 }

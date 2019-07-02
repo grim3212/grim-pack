@@ -4,7 +4,7 @@ import javax.annotation.Nullable;
 
 import com.grim3212.mc.pack.core.manual.pages.Page;
 
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
@@ -17,12 +17,12 @@ public interface IManualEntry {
 	public interface IManualBlock extends IManualEntry {
 
 		@OnlyIn(Dist.CLIENT)
-		default public Page getPage(IBlockState state) {
+		default public Page getPage(BlockState state) {
 			return null;
 		}
 
 		@OnlyIn(Dist.CLIENT)
-		default public Page getPage(@Nullable World world, @Nullable BlockPos pos, IBlockState state) {
+		default public Page getPage(@Nullable World world, @Nullable BlockPos pos, BlockState state) {
 			return getPage(state);
 		}
 	}

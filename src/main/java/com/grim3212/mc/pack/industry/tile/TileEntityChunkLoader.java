@@ -8,7 +8,8 @@ import com.grim3212.mc.pack.industry.GrimIndustry;
 import com.grim3212.mc.pack.industry.chunkloading.ChunkLoaderData;
 import com.grim3212.mc.pack.industry.chunkloading.ChunkLoaderStorage;
 import com.grim3212.mc.pack.industry.config.IndustryConfig;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraftforge.common.ForgeChunkManager;
 
@@ -31,7 +32,7 @@ public class TileEntityChunkLoader extends TileEntityGrim {
     }
 
     @Override
-    public void readFromNBT(NBTTagCompound compound)
+    public void readFromNBT(CompoundNBT compound)
     {
         super.readFromNBT(compound);
 
@@ -41,9 +42,9 @@ public class TileEntityChunkLoader extends TileEntityGrim {
 
     @Nonnull
     @Override
-    public NBTTagCompound writeToNBT(NBTTagCompound compound)
+    public CompoundNBT writeToNBT(CompoundNBT compound)
     {
-        NBTTagCompound tag = super.writeToNBT(compound);
+        CompoundNBT tag = super.writeToNBT(compound);
         tag.setUniqueId("Owner", owner);
         tag.setBoolean("Enabled", enabled);
 

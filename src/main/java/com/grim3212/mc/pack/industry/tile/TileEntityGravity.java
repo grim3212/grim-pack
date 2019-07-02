@@ -6,12 +6,14 @@ import com.grim3212.mc.pack.industry.item.IndustryItems;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.effect.EntityWeatherEffect;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.NetworkManager;
-import net.minecraft.network.play.server.SPacketUpdateTileEntity;
+import net.minecraft.network.play.server.SUpdateTileEntityPacket;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -50,10 +52,10 @@ public class TileEntityGravity extends TileEntity implements ITickable {
 				Item gravBoots = IndustryItems.gravity_boots;
 				Entity entity = entityList.get(i);
 				if (!(entity instanceof EntityWeatherEffect)) {
-					if (entity instanceof EntityPlayer) {
+					if (entity instanceof PlayerEntity) {
 						// Check for GravityBoots
-						ItemStack armorStack = ((EntityPlayer) entity).inventory.armorInventory.get(0);
-						ItemStack heldStack = ((EntityPlayer) entity).inventory.getCurrentItem();
+						ItemStack armorStack = ((PlayerEntity) entity).inventory.armorInventory.get(0);
+						ItemStack heldStack = ((PlayerEntity) entity).inventory.getCurrentItem();
 						if (armorStack != null) {
 							if (armorStack.getItem() == gravBoots) {
 								continue;
@@ -128,25 +130,25 @@ public class TileEntityGravity extends TileEntity implements ITickable {
 	}
 
 	@Override
-	public SPacketUpdateTileEntity getUpdatePacket() {
-		NBTTagCompound nbtTagCompound = new NBTTagCompound();
+	public SUpdateTileEntityPacket getUpdatePacket() {
+		CompoundNBT nbtTagCompound = new CompoundNBT();
 		writeToNBT(nbtTagCompound);
 		int metadata = getBlockMetadata();
-		return new SPacketUpdateTileEntity(this.pos, metadata, nbtTagCompound);
+		return new SUpdateTileEntityPacket(this.pos, metadata, nbtTagCompound);
 	}
 
 	@Override
-	public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity pkt) {
+	public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt) {
 		readFromNBT(pkt.getNbtCompound());
 	}
 
 	@Override
-	public NBTTagCompound getUpdateTag() {
-		return writeToNBT(new NBTTagCompound());
+	public CompoundNBT getUpdateTag() {
+		return writeToNBT(new CompoundNBT());
 	}
 
 	@Override
-	public void handleUpdateTag(NBTTagCompound tag) {
+	public void handleUpdateTag(CompoundNBT tag) {
 		readFromNBT(tag);
 	}
 }

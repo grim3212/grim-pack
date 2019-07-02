@@ -12,18 +12,21 @@ import com.grim3212.mc.pack.industry.tile.TileEntitySpecificSensor;
 
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.SoundType;
-import net.minecraft.block.material.EnumPushReaction;
+import net.minecraft.block.material.PushReaction;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.state.BlockStateContainer;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.block.BlockState;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumHand;
+import net.minecraft.util.Direction;
+import net.minecraft.util.Direction;
+import net.minecraft.util.Hand;
+import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
@@ -45,12 +48,12 @@ public class BlockSpecificSensor extends BlockManual implements ITileEntityProvi
 	}
 
 	@Override
-	protected IBlockState getState() {
+	protected BlockState getState() {
 		return this.blockState.getBaseState().withProperty(ACTIVE, false);
 	}
 
 	@Override
-	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
+	public boolean onBlockActivated(World worldIn, BlockPos pos, BlockState state, PlayerEntity playerIn, Hand hand, Direction side, float hitX, float hitY, float hitZ) {
 		TileEntity te = worldIn.getTileEntity(pos);
 		if (te instanceof TileEntitySpecificSensor) {
 			TileEntitySpecificSensor teSpecific = (TileEntitySpecificSensor) te;
@@ -73,7 +76,7 @@ public class BlockSpecificSensor extends BlockManual implements ITileEntityProvi
 	}
 
 	@Override
-	public void onBlockPlacedBy(World worldIn, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack) {
+	public void onBlockPlacedBy(World worldIn, BlockPos pos, BlockState state, LivingEntity placer, ItemStack stack) {
 		if (stack.hasDisplayName()) {
 			TileEntity tileentity = worldIn.getTileEntity(pos);
 
@@ -89,7 +92,7 @@ public class BlockSpecificSensor extends BlockManual implements ITileEntityProvi
 	}
 
 	@Override
-	public Page getPage(IBlockState state) {
+	public Page getPage(BlockState state) {
 		if (this == IndustryBlocks.specific_sensor)
 			return ManualIndustry.specificSensor_page;
 		else
@@ -97,12 +100,12 @@ public class BlockSpecificSensor extends BlockManual implements ITileEntityProvi
 	}
 
 	@Override
-	public IBlockState getStateFromMeta(int meta) {
+	public BlockState getStateFromMeta(int meta) {
 		return this.getDefaultState().withProperty(ACTIVE, meta == 1 ? true : false);
 	}
 
 	@Override
-	public int getMetaFromState(IBlockState state) {
+	public int getMetaFromState(BlockState state) {
 		return state.getValue(ACTIVE) ? 1 : 0;
 	}
 
@@ -112,26 +115,26 @@ public class BlockSpecificSensor extends BlockManual implements ITileEntityProvi
 	}
 
 	@Override
-	public int getWeakPower(IBlockState blockState, IBlockAccess blockAccess, BlockPos pos, EnumFacing side) {
+	public int getWeakPower(BlockState blockState, IBlockAccess blockAccess, BlockPos pos, Direction side) {
 		if (blockState.getValue(ACTIVE))
 			return 15;
 		return 0;
 	}
 
 	@Override
-	public int getStrongPower(IBlockState blockState, IBlockAccess blockAccess, BlockPos pos, EnumFacing side) {
+	public int getStrongPower(BlockState blockState, IBlockAccess blockAccess, BlockPos pos, Direction side) {
 		if (blockState.getValue(ACTIVE))
 			return 15;
 		return 0;
 	}
 
 	@Override
-	public boolean canProvidePower(IBlockState state) {
+	public boolean canProvidePower(BlockState state) {
 		return true;
 	}
 
 	@Override
-	public EnumPushReaction getMobilityFlag(IBlockState state) {
-		return EnumPushReaction.BLOCK;
+	public PushReaction getMobilityFlag(BlockState state) {
+		return PushReaction.BLOCK;
 	}
 }

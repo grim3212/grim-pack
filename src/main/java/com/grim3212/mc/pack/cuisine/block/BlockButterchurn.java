@@ -8,22 +8,22 @@ import com.grim3212.mc.pack.cuisine.init.CuisineNames;
 import com.grim3212.mc.pack.cuisine.item.CuisineItems;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.item.EntityItem;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Items;
+import net.minecraft.entity.item.ItemEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.state.IntegerProperty;
 import net.minecraft.state.StateContainer.Builder;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.Tag;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumHand;
+import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.capability.IFluidHandler;
@@ -37,12 +37,12 @@ public class BlockButterchurn extends BlockManual {
 	}
 
 	@Override
-	protected IBlockState getState() {
+	protected BlockState getState() {
 		return this.stateContainer.getBaseState().with(ACTIVE, 0);
 	}
 
 	@Override
-	public boolean onBlockActivated(IBlockState state, World worldIn, BlockPos pos, EntityPlayer player, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
+	public boolean onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult traceResult) {
 		ItemStack heldItem = player.getHeldItem(hand);
 
 		if (!heldItem.isEmpty()) {
@@ -55,8 +55,8 @@ public class BlockButterchurn extends BlockManual {
 						player.inventory.addItemStackToInventory(new ItemStack(Items.BUCKET));
 					}
 				}
-			} else if (!ItemTags.getCollection().getRegisteredTags().contains(new ResourceLocation("forge:bucketMilk"))) {
-				Tag<Item> milkTag = ItemTags.getCollection().get(new ResourceLocation("forge:bucketMilk"));
+			} else if (!ItemTags.getCollection().getRegisteredTags().contains(new ResourceLocation("forge:buckets/milk"))) {
+				Tag<Item> milkTag = ItemTags.getCollection().get(new ResourceLocation("forge:buckets/milk"));
 				if (milkTag.contains(heldItem.getItem())) {
 					if (state.get(ACTIVE) == 0) {
 
@@ -74,7 +74,7 @@ public class BlockButterchurn extends BlockManual {
 	}
 
 	@Override
-	public void onBlockClicked(IBlockState state, World worldIn, BlockPos pos, EntityPlayer player) {
+	public void onBlockClicked(BlockState state, World worldIn, BlockPos pos, PlayerEntity player) {
 		if (!worldIn.isRemote) {
 			if (state.get(ACTIVE) == 1) {
 				worldIn.setBlockState(pos, this.getDefaultState());
@@ -88,20 +88,20 @@ public class BlockButterchurn extends BlockManual {
 					amount = 1;
 				}
 
-				EntityItem entityitem = new EntityItem(worldIn, (double) pos.getX() + d, (double) pos.getY() + d1, (double) pos.getZ() + d2, new ItemStack(CuisineItems.butter, amount));
+				ItemEntity entityitem = new ItemEntity(worldIn, (double) pos.getX() + d, (double) pos.getY() + d1, (double) pos.getZ() + d2, new ItemStack(CuisineItems.butter, amount));
 				entityitem.setPickupDelay(10);
-				worldIn.spawnEntity(entityitem);
+				worldIn.addEntity(entityitem);
 			}
 		}
 	}
 
 	@Override
-	protected void fillStateContainer(Builder<Block, IBlockState> builder) {
+	protected void fillStateContainer(Builder<Block, BlockState> builder) {
 		builder.add(ACTIVE);
 	}
 
 	@Override
-	public Page getPage(IBlockState state) {
+	public Page getPage(BlockState state) {
 		return ManualCuisine.butterChurn_page;
 	}
 }

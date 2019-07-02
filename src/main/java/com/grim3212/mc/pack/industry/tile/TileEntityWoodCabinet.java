@@ -1,7 +1,9 @@
 package com.grim3212.mc.pack.industry.tile;
 
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.init.Blocks;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
+import net.minecraft.block.Blocks;
 
 public class TileEntityWoodCabinet extends TileEntityStorage {
 
@@ -11,7 +13,7 @@ public class TileEntityWoodCabinet extends TileEntityStorage {
 	}
 
 	@Override
-	public IBlockState getBreakTextureState() {
+	public BlockState getBreakTextureState() {
 		return Blocks.LOG.getDefaultState();
 	}
 }

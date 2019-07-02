@@ -6,9 +6,12 @@ import com.grim3212.mc.pack.industry.block.IndustryBlocks;
 import com.grim3212.mc.pack.industry.config.IndustryConfig;
 import com.grim3212.mc.pack.industry.util.EnumBridgeType;
 
-import net.minecraft.block.BlockDirectional;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.DirectionalBlock;
+import net.minecraft.block.DirectionalBlock;
+import net.minecraft.block.BlockState;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.math.BlockPos;
@@ -29,8 +32,8 @@ public class TileEntityBridgeControl extends TileEntityBridge implements ITickab
 	}
 
 	@Override
-	public NBTTagCompound writeToNBT(NBTTagCompound compound) {
-		NBTTagCompound tag = super.writeToNBT(compound);
+	public CompoundNBT writeToNBT(CompoundNBT compound) {
+		CompoundNBT tag = super.writeToNBT(compound);
 		tag.setString("Type", this.type.name());
 		tag.setInteger("Length", this.length);
 
@@ -38,7 +41,7 @@ public class TileEntityBridgeControl extends TileEntityBridge implements ITickab
 	}
 
 	@Override
-	public void readFromNBT(NBTTagCompound compound) {
+	public void readFromNBT(CompoundNBT compound) {
 		super.readFromNBT(compound);
 		this.type = EnumBridgeType.valueOf(compound.getString("Type"));
 		this.length = compound.getInteger("Length");
@@ -50,7 +53,7 @@ public class TileEntityBridgeControl extends TileEntityBridge implements ITickab
 			return;
 		}
 
-		IBlockState state = this.world.getBlockState(this.pos);
+		BlockState state = this.world.getBlockState(this.pos);
 		if (state.getValue(BlockBridgeControl.ACTIVE)) {
 			createBridge(state);
 			removed = false;
@@ -61,7 +64,7 @@ public class TileEntityBridgeControl extends TileEntityBridge implements ITickab
 		}
 	}
 
-	public void createBridge(IBlockState state) {
+	public void createBridge(BlockState state) {
 		if (length < IndustryConfig.bridgeMaxLength) {
 			tryBuild(state);
 		}
@@ -76,9 +79,9 @@ public class TileEntityBridgeControl extends TileEntityBridge implements ITickab
 		}
 	}
 
-	private void fillGaps(IBlockState state) {
+	private void fillGaps(BlockState state) {
 		for (int i = 1; i <= length; i++) {
-			BlockPos newPos = pos.offset(state.getValue(BlockDirectional.FACING), i);
+			BlockPos newPos = pos.offset(state.getValue(DirectionalBlock.FACING), i);
 
 			if (world.getBlockState(newPos) == IndustryBlocks.bridge.getDefaultState().withProperty(BlockBridge.TYPE, this.getType())) {
 				continue;
@@ -92,7 +95,7 @@ public class TileEntityBridgeControl extends TileEntityBridge implements ITickab
 					((TileEntityBridge) te).setBlockState(getBlockState());
 
 					if (te instanceof TileEntityBridgeGravity) {
-						((TileEntityBridgeGravity) te).setGravFacing(state.getValue(BlockDirectional.FACING));
+						((TileEntityBridgeGravity) te).setGravFacing(state.getValue(DirectionalBlock.FACING));
 					}
 				}
 			} else {
@@ -102,8 +105,8 @@ public class TileEntityBridgeControl extends TileEntityBridge implements ITickab
 		}
 	}
 
-	private void tryBuild(IBlockState state) {
-		BlockPos newPos = pos.offset(state.getValue(BlockDirectional.FACING), length + 1);
+	private void tryBuild(BlockState state) {
+		BlockPos newPos = pos.offset(state.getValue(DirectionalBlock.FACING), length + 1);
 
 		if (BlockBridge.canLaserBreak(world, newPos, world.getBlockState(newPos).getBlock()) || world.getBlockState(newPos) == IndustryBlocks.bridge.getDefaultState().withProperty(BlockBridge.TYPE, this.getType())) {
 
@@ -119,7 +122,7 @@ public class TileEntityBridgeControl extends TileEntityBridge implements ITickab
 				TileEntity te = world.getTileEntity(newPos);
 
 				if (te instanceof TileEntityBridgeGravity) {
-					if (((TileEntityBridgeGravity) te).getGravFacing() != state.getValue(BlockDirectional.FACING)) {
+					if (((TileEntityBridgeGravity) te).getGravFacing() != state.getValue(DirectionalBlock.FACING)) {
 						// Stop going if we meet a different gravity bridge
 						return;
 					}
@@ -129,7 +132,7 @@ public class TileEntityBridgeControl extends TileEntityBridge implements ITickab
 			if (this.getType() == EnumBridgeType.GRAVITY) {
 				TileEntity te = world.getTileEntity(newPos);
 				if (te instanceof TileEntityBridgeGravity) {
-					((TileEntityBridgeGravity) te).setGravFacing(state.getValue(BlockDirectional.FACING));
+					((TileEntityBridgeGravity) te).setGravFacing(state.getValue(DirectionalBlock.FACING));
 				}
 			}
 
@@ -138,14 +141,14 @@ public class TileEntityBridgeControl extends TileEntityBridge implements ITickab
 		}
 	}
 
-	public void deleteBridge(IBlockState state) {
+	public void deleteBridge(BlockState state) {
 		if (length == 0) {
 			removed = true;
 			return;
 		}
 
 		for (int i = 1; i <= length; i++) {
-			BlockPos newPos = pos.offset(state.getValue(BlockDirectional.FACING), i);
+			BlockPos newPos = pos.offset(state.getValue(DirectionalBlock.FACING), i);
 			if (world.getBlockState(newPos) == IndustryBlocks.bridge.getDefaultState().withProperty(BlockBridge.TYPE, this.getType()) || world.isAirBlock(newPos)) {
 				world.setBlockToAir(newPos);
 			}

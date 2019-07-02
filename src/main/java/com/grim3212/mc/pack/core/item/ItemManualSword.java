@@ -8,10 +8,10 @@ import com.grim3212.mc.pack.core.manual.pages.Page;
 import net.minecraft.item.IItemTier;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemSword;
+import net.minecraft.item.SwordItem;
 import net.minecraft.util.ResourceLocation;
 
-public class ItemManualSword extends ItemSword implements IManualItem {
+public class ItemManualSword extends SwordItem implements IManualItem {
 
 	private String link;
 

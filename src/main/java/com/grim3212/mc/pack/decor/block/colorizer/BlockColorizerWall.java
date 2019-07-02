@@ -1,149 +1,108 @@
 package com.grim3212.mc.pack.decor.block.colorizer;
 
-import java.util.List;
-
-import javax.annotation.Nullable;
-
 import com.grim3212.mc.pack.core.manual.pages.Page;
 import com.grim3212.mc.pack.decor.client.ManualDecor;
+import com.grim3212.mc.pack.decor.init.DecorNames;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.material.Material;
-import net.minecraft.block.properties.IProperty;
-import net.minecraft.block.properties.PropertyBool;
-import net.minecraft.block.state.BlockStateContainer;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.Entity;
-import net.minecraft.init.Blocks;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.FenceGateBlock;
+import net.minecraft.fluid.Fluids;
+import net.minecraft.fluid.IFluidState;
+import net.minecraft.item.BlockItemUseContext;
+import net.minecraft.state.BooleanProperty;
+import net.minecraft.state.StateContainer.Builder;
+import net.minecraft.tags.BlockTags;
+import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockAccess;
-import net.minecraft.world.World;
-import net.minecraftforge.common.property.ExtendedBlockState;
-import net.minecraftforge.common.property.IUnlistedProperty;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraft.util.math.shapes.ISelectionContext;
+import net.minecraft.util.math.shapes.VoxelShape;
+import net.minecraft.world.IBlockReader;
+import net.minecraft.world.IWorld;
+import net.minecraft.world.IWorldReader;
 
-public class BlockColorizerWall extends BlockColorizer {
+public class BlockColorizerWall extends BlockColorizerFourWay {
 
-	public static final PropertyBool UP = PropertyBool.create("up");
-	public static final PropertyBool NORTH = PropertyBool.create("north");
-	public static final PropertyBool EAST = PropertyBool.create("east");
-	public static final PropertyBool SOUTH = PropertyBool.create("south");
-	public static final PropertyBool WEST = PropertyBool.create("west");
-	protected static final AxisAlignedBB[] AABB_BY_INDEX = new AxisAlignedBB[] { new AxisAlignedBB(0.25D, 0.0D, 0.25D, 0.75D, 1.0D, 0.75D), new AxisAlignedBB(0.25D, 0.0D, 0.25D, 0.75D, 1.0D, 1.0D), new AxisAlignedBB(0.0D, 0.0D, 0.25D, 0.75D, 1.0D, 0.75D), new AxisAlignedBB(0.0D, 0.0D, 0.25D, 0.75D, 1.0D, 1.0D), new AxisAlignedBB(0.25D, 0.0D, 0.0D, 0.75D, 1.0D, 0.75D), new AxisAlignedBB(0.3125D, 0.0D, 0.0D, 0.6875D, 0.875D, 1.0D), new AxisAlignedBB(0.0D, 0.0D, 0.0D, 0.75D, 1.0D, 0.75D), new AxisAlignedBB(0.0D, 0.0D, 0.0D, 0.75D, 1.0D, 1.0D),
-			new AxisAlignedBB(0.25D, 0.0D, 0.25D, 1.0D, 1.0D, 0.75D), new AxisAlignedBB(0.25D, 0.0D, 0.25D, 1.0D, 1.0D, 1.0D), new AxisAlignedBB(0.0D, 0.0D, 0.3125D, 1.0D, 0.875D, 0.6875D), new AxisAlignedBB(0.0D, 0.0D, 0.25D, 1.0D, 1.0D, 1.0D), new AxisAlignedBB(0.25D, 0.0D, 0.0D, 1.0D, 1.0D, 0.75D), new AxisAlignedBB(0.25D, 0.0D, 0.0D, 1.0D, 1.0D, 1.0D), new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 1.0D, 0.75D), new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 1.0D, 1.0D) };
-	protected static final AxisAlignedBB[] CLIP_AABB_BY_INDEX = new AxisAlignedBB[] { AABB_BY_INDEX[0].setMaxY(1.5D), AABB_BY_INDEX[1].setMaxY(1.5D), AABB_BY_INDEX[2].setMaxY(1.5D), AABB_BY_INDEX[3].setMaxY(1.5D), AABB_BY_INDEX[4].setMaxY(1.5D), AABB_BY_INDEX[5].setMaxY(1.5D), AABB_BY_INDEX[6].setMaxY(1.5D), AABB_BY_INDEX[7].setMaxY(1.5D), AABB_BY_INDEX[8].setMaxY(1.5D), AABB_BY_INDEX[9].setMaxY(1.5D), AABB_BY_INDEX[10].setMaxY(1.5D), AABB_BY_INDEX[11].setMaxY(1.5D), AABB_BY_INDEX[12].setMaxY(1.5D), AABB_BY_INDEX[13].setMaxY(1.5D), AABB_BY_INDEX[14].setMaxY(1.5D),
-			AABB_BY_INDEX[15].setMaxY(1.5D) };
+	public static final BooleanProperty UP = BooleanProperty.create("up");
+	private final VoxelShape[] wallShapes;
+	private final VoxelShape[] wallCollisionShapes;
 
 	public BlockColorizerWall() {
-		super("wall");
+		super(DecorNames.WALL, 0.0F, 3.0F, 0.0F, 14.0F, 24.0F);
+
+		this.wallShapes = this.makeShapes(4.0F, 3.0F, 16.0F, 0.0F, 14.0F);
+		this.wallCollisionShapes = this.makeShapes(4.0F, 3.0F, 24.0F, 0.0F, 24.0F);
 	}
 
 	@Override
-	protected IBlockState getState() {
-		return this.blockState.getBaseState().withProperty(UP, false).withProperty(NORTH, false).withProperty(EAST, false).withProperty(SOUTH, false).withProperty(WEST, false);
+	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
+		return state.get(UP) ? this.wallShapes[this.getIndex(state)] : super.getShape(state, worldIn, pos, context);
 	}
 
 	@Override
-	public int getMetaFromState(IBlockState state) {
-		return 0;
+	public VoxelShape getCollisionShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
+		return state.get(UP) ? this.wallCollisionShapes[this.getIndex(state)] : super.getCollisionShape(state, worldIn, pos, context);
 	}
 
 	@Override
-	public IBlockState getStateFromMeta(int meta) {
-		return this.getDefaultState();
+	protected BlockState getState() {
+		return super.getState().with(UP, false).with(NORTH, false).with(EAST, false).with(SOUTH, false).with(WEST, false);
 	}
 
 	@Override
-	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
-		state = this.getActualState(state, source, pos);
-		return AABB_BY_INDEX[getAABBIndex(state)];
+	protected void fillStateContainer(Builder<Block, BlockState> builder) {
+		builder.add(UP, NORTH, EAST, SOUTH, WEST, WATERLOGGED);
 	}
 
 	@Override
-	public void addCollisionBoxToList(IBlockState state, World worldIn, BlockPos pos, AxisAlignedBB entityBox, List<AxisAlignedBB> collidingBoxes, @Nullable Entity entityIn, boolean p_185477_7_) {
-		if (!p_185477_7_) {
-			state = this.getActualState(state, worldIn, pos);
-		}
-
-		addCollisionBoxToList(pos, entityBox, collidingBoxes, CLIP_AABB_BY_INDEX[getAABBIndex(state)]);
-	}
-
-	@Nullable
-	public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, IBlockAccess worldIn, BlockPos pos) {
-		blockState = this.getActualState(blockState, worldIn, pos);
-		return CLIP_AABB_BY_INDEX[getAABBIndex(blockState)];
-	}
-
-	private static int getAABBIndex(IBlockState state) {
-		int i = 0;
-
-		if (state.getValue(NORTH)) {
-			i |= 1 << EnumFacing.NORTH.getHorizontalIndex();
-		}
-
-		if (state.getValue(EAST)) {
-			i |= 1 << EnumFacing.EAST.getHorizontalIndex();
-		}
-
-		if (state.getValue(SOUTH)) {
-			i |= 1 << EnumFacing.SOUTH.getHorizontalIndex();
-		}
-
-		if (state.getValue(WEST)) {
-			i |= 1 << EnumFacing.WEST.getHorizontalIndex();
-		}
-
-		return i;
-	}
-
-	@Override
-	public boolean isPassable(IBlockAccess worldIn, BlockPos pos) {
-		return false;
-	}
-
-	private boolean canConnectTo(IBlockAccess worldIn, BlockPos pos) {
-		IBlockState iblockstate = worldIn.getBlockState(pos);
-		Block block = iblockstate.getBlock();
-		return block == Blocks.BARRIER ? false : (block != this && !(block instanceof BlockColorizerFenceGate) ? (iblockstate.getMaterial().isOpaque() && iblockstate.isFullCube() ? iblockstate.getMaterial() != Material.GOURD : false) : true);
-	}
-
-	@Override
-	@SideOnly(Side.CLIENT)
-	public boolean shouldSideBeRendered(IBlockState blockState, IBlockAccess blockAccess, BlockPos pos, EnumFacing side) {
-		return side == EnumFacing.DOWN ? super.shouldSideBeRendered(blockState, blockAccess, pos, side) : true;
-	}
-
-	@Override
-	protected BlockStateContainer createBlockState() {
-		return new ExtendedBlockState(this, new IProperty[] { UP, NORTH, SOUTH, WEST, EAST }, new IUnlistedProperty[] { BLOCK_STATE });
-	}
-
-	@Override
-	public IBlockState getActualState(IBlockState state, IBlockAccess worldIn, BlockPos pos) {
-		boolean flag = canWallConnectTo(worldIn, pos, EnumFacing.NORTH);
-		boolean flag1 = canWallConnectTo(worldIn, pos, EnumFacing.EAST);
-		boolean flag2 = canWallConnectTo(worldIn, pos, EnumFacing.SOUTH);
-		boolean flag3 = canWallConnectTo(worldIn, pos, EnumFacing.WEST);
-		boolean flag4 = flag && !flag1 && flag2 && !flag3 || !flag && flag1 && !flag2 && flag3;
-		return state.withProperty(UP, !flag4 || !worldIn.isAirBlock(pos.up())).withProperty(NORTH, flag).withProperty(EAST, flag1).withProperty(SOUTH, flag2).withProperty(WEST, flag3);
-	}
-
-	@Override
-	public boolean canBeConnectedTo(IBlockAccess world, BlockPos pos, EnumFacing facing) {
-		Block connector = world.getBlockState(pos.offset(facing)).getBlock();
-		return connector instanceof BlockColorizerWall || connector instanceof BlockColorizerFenceGate;
-	}
-
-	private boolean canWallConnectTo(IBlockAccess world, BlockPos pos, EnumFacing facing) {
-		Block block = world.getBlockState(pos.offset(facing)).getBlock();
-		return block.canBeConnectedTo(world, pos.offset(facing), facing.getOpposite()) || canConnectTo(world, pos.offset(facing));
-	}
-
-	@Override
-	public Page getPage(IBlockState state) {
+	public Page getPage(BlockState state) {
 		return ManualDecor.wall_page;
+	}
+
+	private boolean canAttach(BlockState state, boolean solid, Direction face) {
+		Block block = state.getBlock();
+		boolean flag = block.isIn(BlockTags.WALLS) || block instanceof FenceGateBlock && FenceGateBlock.isParallel(state, face);
+		return !cannotAttach(block) && solid || flag;
+	}
+
+	@Override
+	public BlockState getStateForPlacement(BlockItemUseContext context) {
+		IWorldReader iworldreader = context.getWorld();
+		BlockPos blockpos = context.getPos();
+		IFluidState ifluidstate = iworldreader.getFluidState(blockpos);
+		BlockPos blockpos1 = blockpos.north();
+		BlockPos blockpos2 = blockpos.east();
+		BlockPos blockpos3 = blockpos.south();
+		BlockPos blockpos4 = blockpos.west();
+		BlockState blockstate = iworldreader.getBlockState(blockpos1);
+		BlockState blockstate1 = iworldreader.getBlockState(blockpos2);
+		BlockState blockstate2 = iworldreader.getBlockState(blockpos3);
+		BlockState blockstate3 = iworldreader.getBlockState(blockpos4);
+		boolean flag = this.canAttach(blockstate, Block.hasSolidSide(blockstate, iworldreader, blockpos1, Direction.SOUTH), Direction.SOUTH);
+		boolean flag1 = this.canAttach(blockstate1, Block.hasSolidSide(blockstate1, iworldreader, blockpos2, Direction.WEST), Direction.WEST);
+		boolean flag2 = this.canAttach(blockstate2, Block.hasSolidSide(blockstate2, iworldreader, blockpos3, Direction.NORTH), Direction.NORTH);
+		boolean flag3 = this.canAttach(blockstate3, Block.hasSolidSide(blockstate3, iworldreader, blockpos4, Direction.EAST), Direction.EAST);
+		boolean flag4 = (!flag || flag1 || !flag2 || flag3) && (flag || !flag1 || flag2 || !flag3);
+		return this.getDefaultState().with(UP, flag4 || !iworldreader.isAirBlock(blockpos.up())).with(NORTH, flag).with(EAST, flag1).with(SOUTH, flag2).with(WEST, flag3).with(WATERLOGGED, ifluidstate.getFluid() == Fluids.WATER);
+	}
+
+	@Override
+	@SuppressWarnings("deprecation")
+	public BlockState updatePostPlacement(BlockState stateIn, Direction facing, BlockState facingState, IWorld worldIn, BlockPos currentPos, BlockPos facingPos) {
+		if (stateIn.get(WATERLOGGED)) {
+			worldIn.getPendingFluidTicks().scheduleTick(currentPos, Fluids.WATER, Fluids.WATER.getTickRate(worldIn));
+		}
+
+		if (facing == Direction.DOWN) {
+			return super.updatePostPlacement(stateIn, facing, facingState, worldIn, currentPos, facingPos);
+		} else {
+			Direction direction = facing.getOpposite();
+			boolean flag = facing == Direction.NORTH ? this.canAttach(facingState, Block.hasSolidSide(facingState, worldIn, facingPos, direction), direction) : stateIn.get(NORTH);
+			boolean flag1 = facing == Direction.EAST ? this.canAttach(facingState, Block.hasSolidSide(facingState, worldIn, facingPos, direction), direction) : stateIn.get(EAST);
+			boolean flag2 = facing == Direction.SOUTH ? this.canAttach(facingState, Block.hasSolidSide(facingState, worldIn, facingPos, direction), direction) : stateIn.get(SOUTH);
+			boolean flag3 = facing == Direction.WEST ? this.canAttach(facingState, Block.hasSolidSide(facingState, worldIn, facingPos, direction), direction) : stateIn.get(WEST);
+			boolean flag4 = (!flag || flag1 || !flag2 || flag3) && (flag || !flag1 || flag2 || !flag3);
+			return stateIn.with(UP, flag4 || !worldIn.isAirBlock(currentPos.up())).with(NORTH, flag).with(EAST, flag1).with(SOUTH, flag2).with(WEST, flag3);
+		}
 	}
 }

@@ -4,9 +4,10 @@ import com.grim3212.mc.pack.core.manual.pages.Page;
 import com.grim3212.mc.pack.industry.client.ManualIndustry;
 import com.grim3212.mc.pack.industry.tile.TileEntityWarehouseCrate;
 
+import net.minecraft.block.BlockState;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.BlockState;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -25,12 +26,12 @@ public class BlockWarehouseCrate extends BlockStorage {
 	}
 
 	@Override
-	public Page getPage(IBlockState state) {
+	public Page getPage(BlockState state) {
 		return ManualIndustry.warehouseCrate_page;
 	}
 
 	@Override
-	public boolean isDoorBlocked(World world, BlockPos pos, IBlockState state) {
+	public boolean isDoorBlocked(World world, BlockPos pos, BlockState state) {
 		return isInvalidBlock(world, pos.up());
 	}
 }

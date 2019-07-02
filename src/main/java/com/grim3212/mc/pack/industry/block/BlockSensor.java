@@ -6,19 +6,23 @@ import com.grim3212.mc.pack.core.part.GrimCreativeTabs;
 import com.grim3212.mc.pack.industry.client.ManualIndustry;
 import com.grim3212.mc.pack.industry.tile.TileEntitySensor;
 
+import net.minecraft.block.BlockState;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.SoundType;
-import net.minecraft.block.material.EnumPushReaction;
+import net.minecraft.block.material.PushReaction;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.material.PushReaction;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockStateContainer;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.block.BlockState;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.util.Direction;
+import net.minecraft.util.Direction;
 import net.minecraft.util.Mirror;
 import net.minecraft.util.Rotation;
 import net.minecraft.util.math.BlockPos;
@@ -28,7 +32,7 @@ import net.minecraft.world.World;
 public class BlockSensor extends BlockManual implements ITileEntityProvider {
 
 	public static final PropertyBool ACTIVE = PropertyBool.create("active");
-	public static final PropertyEnum<EnumFacing> FACING = PropertyEnum.create("facing", EnumFacing.class);
+	public static final PropertyEnum<Direction> FACING = PropertyEnum.create("facing", Direction.class);
 	private int triggerType;
 
 	public BlockSensor(String name, int triggerType) {
@@ -50,21 +54,21 @@ public class BlockSensor extends BlockManual implements ITileEntityProvider {
 	}
 
 	@Override
-	protected IBlockState getState() {
-		return this.blockState.getBaseState().withProperty(ACTIVE, false).withProperty(FACING, EnumFacing.NORTH);
+	protected BlockState getState() {
+		return this.blockState.getBaseState().withProperty(ACTIVE, false).withProperty(FACING, Direction.NORTH);
 	}
 
-	public static EnumFacing getFacing(int meta) {
-		return EnumFacing.getFront(meta & 7);
+	public static Direction getFacing(int meta) {
+		return Direction.getFront(meta & 7);
 	}
 
 	@Override
-	public IBlockState getStateFromMeta(int meta) {
+	public BlockState getStateFromMeta(int meta) {
 		return this.getDefaultState().withProperty(FACING, getFacing(meta)).withProperty(ACTIVE, (meta & 8) > 0);
 	}
 
 	@Override
-	public int getMetaFromState(IBlockState state) {
+	public int getMetaFromState(BlockState state) {
 		byte b0 = 0;
 		int i = b0 | state.getValue(FACING).getIndex();
 
@@ -81,34 +85,34 @@ public class BlockSensor extends BlockManual implements ITileEntityProvider {
 	}
 
 	@Override
-	public void onBlockPlacedBy(World worldIn, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack) {
-		worldIn.setBlockState(pos, state.withProperty(FACING, EnumFacing.getDirectionFromEntityLiving(pos, placer)), 2);
+	public void onBlockPlacedBy(World worldIn, BlockPos pos, BlockState state, LivingEntity placer, ItemStack stack) {
+		worldIn.setBlockState(pos, state.withProperty(FACING, Direction.getDirectionFromEntityLiving(pos, placer)), 2);
 	}
 
 	@Override
-	public void onBlockAdded(World worldIn, BlockPos pos, IBlockState state) {
+	public void onBlockAdded(World worldIn, BlockPos pos, BlockState state) {
 		super.onBlockAdded(worldIn, pos, state);
 		this.setDefaultDirection(worldIn, pos, state);
 	}
 
-	private void setDefaultDirection(World worldIn, BlockPos pos, IBlockState state) {
+	private void setDefaultDirection(World worldIn, BlockPos pos, BlockState state) {
 		if (!worldIn.isRemote) {
-			EnumFacing enumfacing = state.getValue(FACING);
+			Direction enumfacing = state.getValue(FACING);
 			boolean flag = worldIn.getBlockState(pos.north()).isFullBlock();
 			boolean flag1 = worldIn.getBlockState(pos.south()).isFullBlock();
 
-			if (enumfacing == EnumFacing.NORTH && flag && !flag1) {
-				enumfacing = EnumFacing.SOUTH;
-			} else if (enumfacing == EnumFacing.SOUTH && flag1 && !flag) {
-				enumfacing = EnumFacing.NORTH;
+			if (enumfacing == Direction.NORTH && flag && !flag1) {
+				enumfacing = Direction.SOUTH;
+			} else if (enumfacing == Direction.SOUTH && flag1 && !flag) {
+				enumfacing = Direction.NORTH;
 			} else {
 				boolean flag2 = worldIn.getBlockState(pos.west()).isFullBlock();
 				boolean flag3 = worldIn.getBlockState(pos.east()).isFullBlock();
 
-				if (enumfacing == EnumFacing.WEST && flag2 && !flag3) {
-					enumfacing = EnumFacing.EAST;
-				} else if (enumfacing == EnumFacing.EAST && flag3 && !flag2) {
-					enumfacing = EnumFacing.WEST;
+				if (enumfacing == Direction.WEST && flag2 && !flag3) {
+					enumfacing = Direction.EAST;
+				} else if (enumfacing == Direction.EAST && flag3 && !flag2) {
+					enumfacing = Direction.WEST;
 				}
 			}
 
@@ -117,7 +121,7 @@ public class BlockSensor extends BlockManual implements ITileEntityProvider {
 	}
 
 	@Override
-	public int getWeakPower(IBlockState blockState, IBlockAccess blockAccess, BlockPos pos, EnumFacing side) {
+	public int getWeakPower(BlockState blockState, IBlockAccess blockAccess, BlockPos pos, Direction side) {
 		if (blockState.getValue(ACTIVE))
 			return 15;
 
@@ -125,18 +129,18 @@ public class BlockSensor extends BlockManual implements ITileEntityProvider {
 	}
 
 	@Override
-	public int getStrongPower(IBlockState blockState, IBlockAccess blockAccess, BlockPos pos, EnumFacing side) {
+	public int getStrongPower(BlockState blockState, IBlockAccess blockAccess, BlockPos pos, Direction side) {
 		return 0;
 	}
 
 	@Override
-	public boolean canProvidePower(IBlockState state) {
+	public boolean canProvidePower(BlockState state) {
 		return true;
 	}
 
 	@Override
-	public EnumPushReaction getMobilityFlag(IBlockState state) {
-		return EnumPushReaction.BLOCK;
+	public PushReaction getMobilityFlag(BlockState state) {
+		return PushReaction.BLOCK;
 	}
 
 	@Override
@@ -145,17 +149,17 @@ public class BlockSensor extends BlockManual implements ITileEntityProvider {
 	}
 
 	@Override
-	public IBlockState withRotation(IBlockState state, Rotation rot) {
+	public BlockState withRotation(BlockState state, Rotation rot) {
 		return state.withProperty(FACING, rot.rotate(state.getValue(FACING)));
 	}
 
 	@Override
-	public IBlockState withMirror(IBlockState state, Mirror mirrorIn) {
+	public BlockState withMirror(BlockState state, Mirror mirrorIn) {
 		return state.withRotation(mirrorIn.toRotation(state.getValue(FACING)));
 	}
 
 	@Override
-	public Page getPage(IBlockState state) {
+	public Page getPage(BlockState state) {
 		return ManualIndustry.sensor_page;
 	}
 }

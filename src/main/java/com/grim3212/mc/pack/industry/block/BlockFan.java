@@ -9,22 +9,23 @@ import com.grim3212.mc.pack.industry.client.ManualIndustry;
 import com.grim3212.mc.pack.industry.tile.TileEntityFan;
 import com.grim3212.mc.pack.industry.tile.TileEntityFan.FanMode;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockDirectional;
-import net.minecraft.block.ITileEntityProvider;
-import net.minecraft.block.SoundType;
+import net.minecraft.block.*;
+import net.minecraft.block.DirectionalBlock;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyDirection;
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockStateContainer;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.block.BlockState;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumHand;
+import net.minecraft.util.Direction;
+import net.minecraft.util.Direction;
+import net.minecraft.util.Hand;
 import net.minecraft.util.Mirror;
 import net.minecraft.util.Rotation;
 import net.minecraft.util.math.BlockPos;
@@ -33,7 +34,7 @@ import net.minecraft.world.World;
 
 public class BlockFan extends BlockManual implements ITileEntityProvider {
 
-	public static final PropertyDirection FACING = BlockDirectional.FACING;
+	public static final PropertyDirection FACING = DirectionalBlock.FACING;
 	public static final PropertyEnum<FanMode> MODE = PropertyEnum.create("mode", FanMode.class);
 
 	public BlockFan() {
@@ -44,44 +45,44 @@ public class BlockFan extends BlockManual implements ITileEntityProvider {
 	}
 
 	@Override
-	protected IBlockState getState() {
-		return this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH);
+	protected BlockState getState() {
+		return this.blockState.getBaseState().withProperty(FACING, Direction.NORTH);
 	}
 
 	@Override
-	public void onBlockAdded(World worldIn, BlockPos pos, IBlockState state) {
+	public void onBlockAdded(World worldIn, BlockPos pos, BlockState state) {
 		super.onBlockAdded(worldIn, pos, state);
 		this.setDefaultDirection(worldIn, pos, state);
 	}
 
 	@Override
-	public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer, EnumHand hand) {
-		return this.getDefaultState().withProperty(FACING, EnumFacing.getDirectionFromEntityLiving(pos, placer));
+	public BlockState getStateForPlacement(World world, BlockPos pos, Direction facing, float hitX, float hitY, float hitZ, int meta, LivingEntity placer, Hand hand) {
+		return this.getDefaultState().withProperty(FACING, Direction.getDirectionFromEntityLiving(pos, placer));
 	}
 
 	@Override
-	public void onBlockPlacedBy(World worldIn, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack) {
-		worldIn.setBlockState(pos, state.withProperty(FACING, EnumFacing.getDirectionFromEntityLiving(pos, placer)), 2);
+	public void onBlockPlacedBy(World worldIn, BlockPos pos, BlockState state, LivingEntity placer, ItemStack stack) {
+		worldIn.setBlockState(pos, state.withProperty(FACING, Direction.getDirectionFromEntityLiving(pos, placer)), 2);
 	}
 
-	private void setDefaultDirection(World worldIn, BlockPos pos, IBlockState state) {
+	private void setDefaultDirection(World worldIn, BlockPos pos, BlockState state) {
 		if (!worldIn.isRemote) {
-			EnumFacing enumfacing = (EnumFacing) state.getValue(FACING);
+			Direction enumfacing = (Direction) state.getValue(FACING);
 			boolean flag = worldIn.getBlockState(pos.north()).isFullBlock();
 			boolean flag1 = worldIn.getBlockState(pos.south()).isFullBlock();
 
-			if (enumfacing == EnumFacing.NORTH && flag && !flag1) {
-				enumfacing = EnumFacing.SOUTH;
-			} else if (enumfacing == EnumFacing.SOUTH && flag1 && !flag) {
-				enumfacing = EnumFacing.NORTH;
+			if (enumfacing == Direction.NORTH && flag && !flag1) {
+				enumfacing = Direction.SOUTH;
+			} else if (enumfacing == Direction.SOUTH && flag1 && !flag) {
+				enumfacing = Direction.NORTH;
 			} else {
 				boolean flag2 = worldIn.getBlockState(pos.west()).isFullBlock();
 				boolean flag3 = worldIn.getBlockState(pos.east()).isFullBlock();
 
-				if (enumfacing == EnumFacing.WEST && flag2 && !flag3) {
-					enumfacing = EnumFacing.EAST;
-				} else if (enumfacing == EnumFacing.EAST && flag3 && !flag2) {
-					enumfacing = EnumFacing.WEST;
+				if (enumfacing == Direction.WEST && flag2 && !flag3) {
+					enumfacing = Direction.EAST;
+				} else if (enumfacing == Direction.EAST && flag3 && !flag2) {
+					enumfacing = Direction.WEST;
 				}
 			}
 
@@ -90,7 +91,7 @@ public class BlockFan extends BlockManual implements ITileEntityProvider {
 	}
 
 	@Override
-	public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos) {
+	public void neighborChanged(BlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos) {
 		boolean powered = worldIn.isBlockPowered(pos) || worldIn.isBlockPowered(pos.up());
 		TileEntity te = worldIn.getTileEntity(pos);
 
@@ -112,7 +113,7 @@ public class BlockFan extends BlockManual implements ITileEntityProvider {
 	}
 
 	@Override
-	public IBlockState getActualState(IBlockState state, IBlockAccess worldIn, BlockPos pos) {
+	public BlockState getActualState(BlockState state, IBlockAccess worldIn, BlockPos pos) {
 		TileEntity te = worldIn.getTileEntity(pos);
 
 		if (te instanceof TileEntityFan)
@@ -122,22 +123,22 @@ public class BlockFan extends BlockManual implements ITileEntityProvider {
 	}
 
 	@Override
-	public IBlockState getStateFromMeta(int meta) {
-		return this.getDefaultState().withProperty(FACING, EnumFacing.getFront(meta));
+	public BlockState getStateFromMeta(int meta) {
+		return this.getDefaultState().withProperty(FACING, Direction.getFront(meta));
 	}
 
 	@Override
-	public int getMetaFromState(IBlockState state) {
+	public int getMetaFromState(BlockState state) {
 		return state.getValue(FACING).getIndex();
 	}
 
 	@Override
-	public IBlockState withRotation(IBlockState state, Rotation rot) {
+	public BlockState withRotation(BlockState state, Rotation rot) {
 		return state.withProperty(FACING, rot.rotate(state.getValue(FACING)));
 	}
 
 	@Override
-	public IBlockState withMirror(IBlockState state, Mirror mirrorIn) {
+	public BlockState withMirror(BlockState state, Mirror mirrorIn) {
 		return state.withRotation(mirrorIn.toRotation(state.getValue(FACING)));
 	}
 
@@ -147,7 +148,7 @@ public class BlockFan extends BlockManual implements ITileEntityProvider {
 	}
 
 	@Override
-	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
+	public boolean onBlockActivated(World worldIn, BlockPos pos, BlockState state, PlayerEntity playerIn, Hand hand, Direction side, float hitX, float hitY, float hitZ) {
 		playerIn.openGui(GrimPack.INSTANCE, PackGuiHandler.FAN_GUI_ID, worldIn, pos.getX(), pos.getY(), pos.getZ());
 
 		return true;
@@ -159,7 +160,7 @@ public class BlockFan extends BlockManual implements ITileEntityProvider {
 	}
 
 	@Override
-	public Page getPage(IBlockState state) {
+	public Page getPage(BlockState state) {
 		return ManualIndustry.fan_page;
 	}
 

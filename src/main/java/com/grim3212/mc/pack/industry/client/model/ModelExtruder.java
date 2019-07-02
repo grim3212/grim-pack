@@ -1,26 +1,26 @@
 package com.grim3212.mc.pack.industry.client.model;
 
-import net.minecraft.client.model.ModelBase;
-import net.minecraft.client.model.ModelRenderer;
+import net.minecraft.client.renderer.entity.model.RendererModel;
+import net.minecraft.client.renderer.model.Model;
 import net.minecraft.entity.Entity;
 
-public class ModelExtruder extends ModelBase {
-	public ModelRenderer base;
-	public ModelRenderer drill1;
-	public ModelRenderer drill2;
+public class ModelExtruder extends Model {
+	public RendererModel base;
+	public RendererModel drill1;
+	public RendererModel drill2;
 	private float drillX;
 
 	public ModelExtruder() {
-		base = new ModelRenderer(this, 0, 0);
+		base = new RendererModel(this, 0, 0);
 		base.setTextureSize(64, 64);
 		base.mirror = true;
 		base.addBox(-7F, -8F, -7F, 13, 15, 14);
-		drill1 = new ModelRenderer(this, 0, 29);
+		drill1 = new RendererModel(this, 0, 29);
 		drill1.setTextureSize(64, 64);
 		drill1.mirror = true;
 		drill1.addBox(0.0F, -8F, 0.0F, 3, 12, 12);
 		drill1.setRotationPoint(5F, 2.0F, -6F);
-		drill2 = new ModelRenderer(this, 30, 41);
+		drill2 = new RendererModel(this, 30, 41);
 		drill2.mirror = true;
 		drill2.setTextureSize(64, 64);
 		drill2.addBox(0.0F, -8F, 0.0F, 8, 6, 6);

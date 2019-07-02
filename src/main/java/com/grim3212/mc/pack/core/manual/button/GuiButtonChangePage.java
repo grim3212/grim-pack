@@ -1,17 +1,17 @@
 package com.grim3212.mc.pack.core.manual.button;
 
 import com.grim3212.mc.pack.core.manual.gui.GuiManualIndex;
+import com.mojang.blaze3d.platform.GlStateManager;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.gui.widget.button.Button;
 
-public class GuiButtonChangePage extends GuiButton {
+public class GuiButtonChangePage extends Button {
 
 	private boolean isRight;
 
-	public GuiButtonChangePage(int id, int j, int k, boolean isRight) {
-		super(id, j, k, 18, 10, "");
+	public GuiButtonChangePage(int j, int k, boolean isRight, IPressable pressable) {
+		super(j, k, 18, 10, "", pressable);
 		this.isRight = isRight;
 	}
 
@@ -24,7 +24,7 @@ public class GuiButtonChangePage extends GuiButton {
 			int k = 211;
 			int l = 0;
 
-			if (flag && this.enabled) {
+			if (flag && this.active) {
 				l += 10;
 			}
 
@@ -32,7 +32,7 @@ public class GuiButtonChangePage extends GuiButton {
 				k += 18;
 			}
 
-			this.drawTexturedModalRect(this.x, this.y, k, l, 18, 10);
+			this.blit(this.x, this.y, k, l, 18, 10);
 		}
 	}
 }

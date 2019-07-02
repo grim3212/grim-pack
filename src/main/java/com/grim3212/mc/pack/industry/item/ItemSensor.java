@@ -5,11 +5,11 @@ import java.util.List;
 import net.minecraft.block.Block;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.item.ItemBlock;
+import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
-public class ItemSensor extends ItemBlock {
+public class ItemSensor extends BlockItem {
 
 	public ItemSensor(Block block) {
 		super(block);

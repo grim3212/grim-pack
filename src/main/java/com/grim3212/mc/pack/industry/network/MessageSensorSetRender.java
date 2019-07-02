@@ -1,15 +1,15 @@
 package com.grim3212.mc.pack.industry.network;
 
 import java.io.IOException;
+import java.util.function.Supplier;
 
 import com.grim3212.mc.pack.core.network.AbstractMessage.AbstractServerMessage;
 import com.grim3212.mc.pack.industry.tile.TileEntitySpecificSensor;
 
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
-import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.network.NetworkEvent.Context;
 
 public class MessageSensorSetRender extends AbstractServerMessage<MessageSensorSetRender> {
 
@@ -25,24 +25,22 @@ public class MessageSensorSetRender extends AbstractServerMessage<MessageSensorS
 	}
 
 	@Override
-	protected void read(PacketBuffer buffer) throws IOException {
-		this.pos = buffer.readBlockPos();
-		this.shouldRender = buffer.readBoolean();
+	protected MessageSensorSetRender read(PacketBuffer buffer) throws IOException {
+		return new MessageSensorSetRender(buffer.readBlockPos(), buffer.readBoolean());
 	}
 
 	@Override
-	protected void write(PacketBuffer buffer) throws IOException {
-		buffer.writeBlockPos(pos);
-		buffer.writeBoolean(shouldRender);
+	protected void write(MessageSensorSetRender msg, PacketBuffer buffer) throws IOException {
+		buffer.writeBlockPos(msg.pos);
+		buffer.writeBoolean(msg.shouldRender);
 	}
 
 	@Override
-	public void process(EntityPlayer player, Side side) {
-		TileEntity te = player.world.getTileEntity(pos);
+	public void process(MessageSensorSetRender msg, Supplier<Context> ctx) {
+		TileEntity te = ctx.get().getSender().world.getTileEntity(msg.pos);
 
 		if (te instanceof TileEntitySpecificSensor) {
-			((TileEntitySpecificSensor) te).setRenderSensorPos(shouldRender);
+			((TileEntitySpecificSensor) te).setRenderSensorPos(msg.shouldRender);
 		}
 	}
-
 }

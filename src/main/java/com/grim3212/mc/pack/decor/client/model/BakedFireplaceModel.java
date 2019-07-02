@@ -7,75 +7,59 @@ import java.util.Map;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.Lists;
 import com.grim3212.mc.pack.core.util.NBTHelper;
 import com.grim3212.mc.pack.decor.block.DecorBlocks;
-import com.grim3212.mc.pack.decor.block.colorizer.BlockColorizer;
 import com.grim3212.mc.pack.decor.config.DecorConfig;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockDirt;
-import net.minecraft.block.BlockDirt.DirtType;
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BlockModelShapes;
-import net.minecraft.client.renderer.block.model.BakedQuad;
-import net.minecraft.client.renderer.block.model.IBakedModel;
-import net.minecraft.client.renderer.block.model.ItemCameraTransforms.TransformType;
-import net.minecraft.client.renderer.block.model.ItemOverride;
-import net.minecraft.client.renderer.block.model.ItemOverrideList;
+import net.minecraft.client.renderer.model.IBakedModel;
+import net.minecraft.client.renderer.model.ItemOverrideList;
+import net.minecraft.client.renderer.model.ModelBakery;
+import net.minecraft.client.renderer.texture.ISprite;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.vertex.VertexFormat;
-import net.minecraft.client.resources.IResourceManager;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.init.Blocks;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.nbt.NBTUtil;
+import net.minecraft.resources.IResourceManager;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.client.model.ModelLoaderRegistry;
-import net.minecraftforge.common.model.IModelState;
-import net.minecraftforge.common.model.TRSRTransformation;
-import net.minecraftforge.common.property.IExtendedBlockState;
 
-@SuppressWarnings("deprecation")
 public class BakedFireplaceModel extends BakedColorizerModel {
 
-	public BakedFireplaceModel(IModelState modelState, ImmutableList<ResourceLocation> modelLocation, ResourceLocation textureLocation, VertexFormat fmt, ImmutableMap<TransformType, TRSRTransformation> transforms) {
-		super(modelState, modelLocation, textureLocation, fmt, transforms);
+	public BakedFireplaceModel(ModelBakery bakery, ISprite sprite, ImmutableList<ResourceLocation> modelLocation, ResourceLocation textureLocation, VertexFormat fmt) {
+		super(bakery, sprite, modelLocation, textureLocation, fmt);
 	}
 
 	@Override
 	public ItemOverrideList getOverrides() {
-		return itemHandler;
+		return FireplaceItemOverrideHandler.INSTANCE;
 	}
 
-	private final ItemOverrideList itemHandler = new ItemOverrideList(Lists.<ItemOverride> newArrayList()) {
+	private static final class FireplaceItemOverrideHandler extends ItemOverrideList {
+		public static final FireplaceItemOverrideHandler INSTANCE = new FireplaceItemOverrideHandler();
+
+		private FireplaceItemOverrideHandler() {
+		}
+
 		@Override
-		public IBakedModel handleItemState(IBakedModel model, ItemStack stack, World world, EntityLivingBase entity) {
-			if (stack.hasTagCompound() && stack.getTagCompound().hasKey("registryName") && stack.getTagCompound().hasKey("meta")) {
-				Block block = Block.REGISTRY.getObject(new ResourceLocation(NBTHelper.getString(stack, "registryName")));
-				IBlockState state = block.getStateFromMeta(NBTHelper.getInt(stack, "meta"));
-				return BakedFireplaceModel.this.getCachedModel(Block.getBlockFromItem(stack.getItem()).getDefaultState(), state);
+		public IBakedModel getModelWithOverrides(IBakedModel model, ItemStack stack, World worldIn, LivingEntity entityIn) {
+			BakedFireplaceModel fireplaceModel = (BakedFireplaceModel) model;
+
+			if (stack.hasTag() && stack.getTag().contains("stored_state")) {
+				return fireplaceModel.getCachedModel(Block.getBlockFromItem(stack.getItem()).getDefaultState(), NBTUtil.readBlockState(NBTHelper.getTagCompound(stack, "stored_state")));
 			}
 
-			return BakedFireplaceModel.this.getCachedModel(Block.getBlockFromItem(stack.getItem()).getDefaultState(), Blocks.AIR.getDefaultState());
+			return fireplaceModel.getCachedModel(Block.getBlockFromItem(stack.getItem()).getDefaultState(), Blocks.AIR.getDefaultState());
 		}
-	};
-
-	public List<BakedQuad> getQuads(IBlockState state, EnumFacing side, long rand) {
-		if (state instanceof IExtendedBlockState) {
-			IExtendedBlockState exState = (IExtendedBlockState) state;
-			if (exState.getValue(BlockColorizer.BLOCK_STATE) != null) {
-				IBlockState blockState = exState.getValue(BlockColorizer.BLOCK_STATE);
-				return this.getCachedModel(state, blockState).getQuads(state, side, rand);
-			}
-		}
-
-		return ImmutableList.of();
 	}
 
-	private final Map<IBlockState, IBakedModel> cache = new HashMap<IBlockState, IBakedModel>();
+	private final Map<BlockState, IBakedModel> cache = new HashMap<BlockState, IBakedModel>();
 	private final Map<List<Object>, IBakedModel> firepitCache = new HashMap<List<Object>, IBakedModel>();
 	private static final ResourceLocation FIREPIT_COVERED = new ResourceLocation("grimpack:block/firepit_covered");
 
@@ -85,8 +69,8 @@ public class BakedFireplaceModel extends BakedColorizerModel {
 		firepitCache.clear();
 	}
 
-	public IBakedModel getCachedModel(IBlockState state, IBlockState blockState) {
-		List<Object> firepitKey = Arrays.asList(blockState, DecorConfig.enableFirepitNet ? 1 : 0);
+	public IBakedModel getCachedModel(BlockState state, BlockState blockState) {
+		List<Object> firepitKey = Arrays.asList(blockState, DecorConfig.enableFirepitNet.get() ? 1 : 0);
 		ImmutableMap.Builder<String, String> newTexture = ImmutableMap.builder();
 
 		if (state.getBlock() == DecorBlocks.firepit) {
@@ -95,18 +79,18 @@ public class BakedFireplaceModel extends BakedColorizerModel {
 					newTexture.put("texture", "grimpack:blocks/colorizer");
 				} else if (blockState.getBlock() == Blocks.GRASS) {
 					newTexture.put("texture", "minecraft:blocks/grass_top");
-				} else if (blockState.getBlock() == Blocks.DIRT && blockState.getValue(BlockDirt.VARIANT) == DirtType.PODZOL) {
+				} else if (blockState.getBlock() == Blocks.PODZOL) {
 					newTexture.put("texture", "minecraft:blocks/dirt_podzol_top");
 				} else if (blockState.getBlock() == Blocks.MYCELIUM) {
 					newTexture.put("texture", "minecraft:blocks/mycelium_top");
 				} else {
-					BlockModelShapes blockModel = Minecraft.getMinecraft().getBlockRendererDispatcher().getBlockModelShapes();
+					BlockModelShapes blockModel = Minecraft.getInstance().getBlockRendererDispatcher().getBlockModelShapes();
 					TextureAtlasSprite blockTexture = blockModel.getTexture(blockState);
 
-					newTexture.put("texture", blockTexture.getIconName());
+					newTexture.put("texture", blockTexture.getName().toString());
 				}
 
-				if (DecorConfig.enableFirepitNet) {
+				if (DecorConfig.enableFirepitNet.get()) {
 					this.firepitCache.put(firepitKey, generateModel(newTexture.build(), ModelLoaderRegistry.getModelOrLogError(FIREPIT_COVERED, "Model part not found " + FIREPIT_COVERED)));
 				} else {
 					this.firepitCache.put(firepitKey, generateModel(newTexture.build()));
@@ -121,15 +105,15 @@ public class BakedFireplaceModel extends BakedColorizerModel {
 				newTexture.put("texture", "grimpack:blocks/colorizer");
 			} else if (blockState.getBlock() == Blocks.GRASS) {
 				newTexture.put("texture", "minecraft:blocks/grass_top");
-			} else if (blockState.getBlock() == Blocks.DIRT && blockState.getValue(BlockDirt.VARIANT) == DirtType.PODZOL) {
+			} else if (blockState.getBlock() == Blocks.PODZOL) {
 				newTexture.put("texture", "minecraft:blocks/dirt_podzol_top");
 			} else if (blockState.getBlock() == Blocks.MYCELIUM) {
 				newTexture.put("texture", "minecraft:blocks/mycelium_top");
 			} else {
-				BlockModelShapes blockModel = Minecraft.getMinecraft().getBlockRendererDispatcher().getBlockModelShapes();
+				BlockModelShapes blockModel = Minecraft.getInstance().getBlockRendererDispatcher().getBlockModelShapes();
 				TextureAtlasSprite blockTexture = blockModel.getTexture(blockState);
 
-				newTexture.put("texture", blockTexture.getIconName());
+				newTexture.put("texture", blockTexture.getName().toString());
 			}
 
 			this.cache.put(blockState, generateModel(newTexture.build()));

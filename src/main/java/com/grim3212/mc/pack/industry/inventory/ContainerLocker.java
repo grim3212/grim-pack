@@ -1,9 +1,11 @@
 package com.grim3212.mc.pack.industry.inventory;
 
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.Container;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.Slot;
+import net.minecraft.inventory.container.Slot;
+import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -13,7 +15,7 @@ public class ContainerLocker extends Container {
 	private IInventory lockerInventory;
 	private int numRows;
 
-	public ContainerLocker(EntityPlayer player, IInventory lockerInventory) {
+	public ContainerLocker(PlayerEntity player, IInventory lockerInventory) {
 		this.lockerInventory = lockerInventory;
 		this.numRows = 10;
 
@@ -42,7 +44,7 @@ public class ContainerLocker extends Container {
 			setDisplayRow(0);
 	}
 
-	@OnlyIn(Dist.CLIENT)
+	@SideOnly(Side.CLIENT)
 	public void setDisplayRow(int row) {
 		int minSlot = row * 9;
 		int maxSlot = (row + 5) * 9;
@@ -59,12 +61,12 @@ public class ContainerLocker extends Container {
 	}
 
 	@Override
-	public boolean canInteractWith(EntityPlayer par1EntityPlayer) {
+	public boolean canInteractWith(PlayerEntity par1EntityPlayer) {
 		return this.lockerInventory.isUsableByPlayer(par1EntityPlayer);
 	}
 
 	@Override
-	public ItemStack transferStackInSlot(EntityPlayer par1EntityPlayer, int slotID) {
+	public ItemStack transferStackInSlot(PlayerEntity par1EntityPlayer, int slotID) {
 		ItemStack itemstack = ItemStack.EMPTY;
 		Slot slot = (Slot) this.inventorySlots.get(slotID);
 
@@ -91,7 +93,7 @@ public class ContainerLocker extends Container {
 	}
 
 	@Override
-	public void onContainerClosed(EntityPlayer par1EntityPlayer) {
+	public void onContainerClosed(PlayerEntity par1EntityPlayer) {
 		super.onContainerClosed(par1EntityPlayer);
 		this.lockerInventory.closeInventory(par1EntityPlayer);
 	}

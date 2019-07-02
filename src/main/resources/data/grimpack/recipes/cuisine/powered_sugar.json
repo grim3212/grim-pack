@@ -10,7 +10,7 @@
   },
   "ingredients": [
     {
-      "constant": "grimpack:redstone"
+      "tag": "forge:dusts/redstone"
     },
     {
       "item": "minecraft:sugar"

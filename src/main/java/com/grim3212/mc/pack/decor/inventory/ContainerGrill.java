@@ -1,34 +1,41 @@
 package com.grim3212.mc.pack.decor.inventory;
 
-import com.grim3212.mc.pack.decor.crafting.GrillRecipeFactory;
-import com.grim3212.mc.pack.decor.tile.TileEntityGrill;
+import com.grim3212.mc.pack.decor.crafting.GrillRecipeSerializer;
 
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.init.Items;
-import net.minecraft.inventory.Container;
-import net.minecraft.inventory.IContainerListener;
-import net.minecraft.inventory.Slot;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.Inventory;
+import net.minecraft.inventory.container.Container;
+import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
+import net.minecraft.util.IIntArray;
+import net.minecraft.util.IntArray;
+import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 public class ContainerGrill extends Container {
 
-	private TileEntityGrill grill;
-	private int lastCoalTime = 0;
-	private int lastCookTimes0;
-	private int lastCookTimes1;
-	private int lastCookTimes2;
-	private int lastCookTimes3 = 0;
+	private BlockPos pos;
+	private IInventory grillInv;
+	private final IIntArray progress;
 
-	public ContainerGrill(InventoryPlayer playerInv, TileEntityGrill grillTile) {
-		this.grill = grillTile;
-		addSlot(new SlotGrill(grillTile, 0, 71, 26, false));
-		addSlot(new SlotGrill(grillTile, 1, 89, 26, false));
-		addSlot(new SlotGrill(grillTile, 2, 71, 44, false));
-		addSlot(new SlotGrill(grillTile, 3, 89, 44, false));
-		addSlot(new SlotGrill(grillTile, 4, 135, 37, true));
+	public ContainerGrill(int id, PlayerInventory playerInv) {
+		this(id, playerInv, new Inventory(5), new IntArray(6), BlockPos.ZERO);
+	}
+
+	public ContainerGrill(int id, PlayerInventory playerInv, IInventory grillInv, IIntArray progress, BlockPos pos) {
+		super(DecorContainers.GRILL_TYPE, id);
+		this.progress = progress;
+		this.grillInv = grillInv;
+		this.pos = pos;
+		addSlot(new SlotGrill(grillInv, 0, 71, 26, false));
+		addSlot(new SlotGrill(grillInv, 1, 89, 26, false));
+		addSlot(new SlotGrill(grillInv, 2, 71, 44, false));
+		addSlot(new SlotGrill(grillInv, 3, 89, 44, false));
+		addSlot(new SlotGrill(grillInv, 4, 135, 37, true));
 
 		for (int var3 = 0; var3 < 3; var3++) {
 			for (int var4 = 0; var4 < 9; var4++) {
@@ -41,95 +48,50 @@ public class ContainerGrill extends Container {
 		}
 	}
 
-	@Override
-	public void addListener(IContainerListener crafting) {
-		super.addListener(crafting);
-		crafting.sendAllWindowProperties(this, grill);
-	}
-
-	@Override
-	public void detectAndSendChanges() {
-		super.detectAndSendChanges();
-
-		for (int var1 = 0; var1 < this.listeners.size(); var1++) {
-			IContainerListener listener = (IContainerListener) this.listeners.get(var1);
-
-			if (this.lastCoalTime != this.grill.grillCoal) {
-				listener.sendWindowProperty(this, 0, this.grill.grillCoal);
-			}
-
-			if (this.lastCookTimes0 != this.grill.cookTimes[0]) {
-				listener.sendWindowProperty(this, 1, this.grill.cookTimes[0]);
-			}
-
-			if (this.lastCookTimes1 != this.grill.cookTimes[1]) {
-				listener.sendWindowProperty(this, 2, this.grill.cookTimes[1]);
-			}
-
-			if (this.lastCookTimes2 != this.grill.cookTimes[2]) {
-				listener.sendWindowProperty(this, 3, this.grill.cookTimes[2]);
-			}
-
-			if (this.lastCookTimes3 != this.grill.cookTimes[3]) {
-				listener.sendWindowProperty(this, 4, this.grill.cookTimes[3]);
-			}
-		}
-
-		this.lastCoalTime = this.grill.grillCoal;
-		this.lastCookTimes0 = this.grill.cookTimes[0];
-		this.lastCookTimes1 = this.grill.cookTimes[1];
-		this.lastCookTimes2 = this.grill.cookTimes[2];
-		this.lastCookTimes3 = this.grill.cookTimes[3];
-	}
-
-	@Override
 	@OnlyIn(Dist.CLIENT)
-	public void updateProgressBar(int par1, int par2) {
-		if (par1 == 0) {
-			this.grill.grillCoal = par2;
-		}
+	public int getGrillCoal() {
+		return this.progress.get(0);
+	}
 
-		if (par1 == 1) {
-			this.grill.cookTimes[0] = par2;
-		}
+	@OnlyIn(Dist.CLIENT)
+	public int getCookTime(int pos) {
+		return this.progress.get(pos);
+	}
 
-		if (par1 == 2) {
-			this.grill.cookTimes[1] = par2;
-		}
+	@OnlyIn(Dist.CLIENT)
+	public int getTier() {
+		return this.progress.get(5);
+	}
 
-		if (par1 == 3) {
-			this.grill.cookTimes[2] = par2;
-		}
-
-		if (par1 == 4) {
-			this.grill.cookTimes[3] = par2;
-		}
+	@OnlyIn(Dist.CLIENT)
+	public BlockPos getPos() {
+		return this.pos;
 	}
 
 	@Override
-	public boolean canInteractWith(EntityPlayer par1EntityPlayer) {
-		return this.grill.isUsableByPlayer(par1EntityPlayer);
+	public boolean canInteractWith(PlayerEntity par1EntityPlayer) {
+		return this.grillInv.isUsableByPlayer(par1EntityPlayer);
 	}
 
 	@Override
-	public ItemStack transferStackInSlot(EntityPlayer player, int index) {
+	public ItemStack transferStackInSlot(PlayerEntity player, int index) {
 		Slot slot = (Slot) this.inventorySlots.get(index);
 
 		if ((slot != null) && (slot.getHasStack())) {
 			ItemStack realstack = slot.getStack();
 
-			if (index < this.grill.getSizeInventory()) {
-				if (!mergeItemStack(realstack, this.grill.getSizeInventory() - 1, this.inventorySlots.size(), true)) {
+			if (index < this.grillInv.getSizeInventory()) {
+				if (!mergeItemStack(realstack, this.grillInv.getSizeInventory() - 1, this.inventorySlots.size(), true)) {
 					return ItemStack.EMPTY;
 				}
 
 			} else {
-				if (GrillRecipeFactory.grillRecipesContain(realstack)) {
+				if (GrillRecipeSerializer.grillRecipesContain(realstack)) {
 					for (int i = 0; i < 4; i++) {
-						if (this.grill.getStackInSlot(i).isEmpty()) {
+						if (this.grillInv.getStackInSlot(i).isEmpty()) {
 							ItemStack newstack = new ItemStack(realstack.getItem(), 1);
 
-							this.grill.setInventorySlotContents(i, newstack);
+							this.grillInv.setInventorySlotContents(i, newstack);
 
 							if (realstack.getCount() > 1) {
 								realstack.shrink(1);
@@ -143,9 +105,9 @@ public class ContainerGrill extends Container {
 				}
 
 				if (realstack.getItem() == Items.COAL) {
-					if (!this.grill.getStackInSlot(4).isEmpty() && (this.grill.getStackInSlot(4).getItem() == Items.COAL) && (this.grill.getStackInSlot(4).getCount() < this.grill.getInventoryStackLimit())) {
-						ItemStack fuel = this.grill.getStackInSlot(4);
-						int difference = this.grill.getInventoryStackLimit() - fuel.getCount();
+					if (!this.grillInv.getStackInSlot(4).isEmpty() && (this.grillInv.getStackInSlot(4).getItem() == Items.COAL) && (this.grillInv.getStackInSlot(4).getCount() < this.grillInv.getInventoryStackLimit())) {
+						ItemStack fuel = this.grillInv.getStackInSlot(4);
+						int difference = this.grillInv.getInventoryStackLimit() - fuel.getCount();
 
 						if (realstack.getCount() > difference) {
 							realstack.shrink(difference);
@@ -156,8 +118,8 @@ public class ContainerGrill extends Container {
 						}
 					}
 
-					if (this.grill.getStackInSlot(4).isEmpty()) {
-						this.grill.setInventorySlotContents(4, realstack);
+					if (this.grillInv.getStackInSlot(4).isEmpty()) {
+						this.grillInv.setInventorySlotContents(4, realstack);
 						slot.putStack(ItemStack.EMPTY);
 					}
 				}

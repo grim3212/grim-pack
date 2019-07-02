@@ -1,27 +1,24 @@
 package com.grim3212.mc.pack.core.client;
 
-import java.util.List;
-import java.util.function.Predicate;
-
-import javax.annotation.Nullable;
-
 import org.lwjgl.opengl.GL11;
 
-import net.minecraft.block.state.IBlockState;
+import com.mojang.blaze3d.platform.GlStateManager;
+
+import net.minecraft.block.BlockState;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.texture.TextureMap;
+import net.minecraft.client.renderer.texture.AtlasTexture;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.item.EntityItem;
-import net.minecraft.util.EntitySelectors;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.entity.projectile.ProjectileHelper;
+import net.minecraft.util.Direction;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.RayTraceFluidMode;
+import net.minecraft.util.math.BlockRayTraceResult;
+import net.minecraft.util.math.EntityRayTraceResult;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -41,19 +38,19 @@ public class ClientUtil {
 	}
 
 	public static RayTraceResult getMouseOver() {
-		Entity entity = Minecraft.getInstance().getRenderViewEntity();
-		Entity pointedEntity = null;
-		float partialTicks = Minecraft.getInstance().getRenderPartialTicks();
+		Minecraft mc = Minecraft.getInstance();
+		Entity entity = mc.getRenderViewEntity();
+		float partialTicks = mc.getRenderPartialTicks();
+		World world = mc.world;
 
 		if (entity != null) {
-			if (Minecraft.getInstance().world != null) {
-				double d0 = (double) Minecraft.getInstance().playerController.getBlockReachDistance();
-				RayTraceResult objectMouseOver = entity.rayTrace(d0, partialTicks, RayTraceFluidMode.ALWAYS);
+			if (world != null) {
+				double d0 = (double) mc.playerController.getBlockReachDistance();
+				RayTraceResult objectMouseOver = entity.func_213324_a(d0, partialTicks, false);
 				Vec3d vec3d = entity.getEyePosition(partialTicks);
 				boolean flag = false;
 				double d1 = d0;
-
-				if (Minecraft.getInstance().playerController.extendedReach()) {
+				if (mc.playerController.extendedReach()) {
 					d1 = 6.0D;
 					d0 = d1;
 				} else {
@@ -62,63 +59,25 @@ public class ClientUtil {
 					}
 				}
 
+				d1 = d1 * d1;
 				if (objectMouseOver != null) {
-					d1 = objectMouseOver.hitVec.distanceTo(vec3d);
+					d1 = objectMouseOver.getHitVec().squareDistanceTo(vec3d);
 				}
 
-				Vec3d vec3d1 = entity.getLook(partialTicks);
+				Vec3d vec3d1 = entity.getLook(1.0F);
 				Vec3d vec3d2 = vec3d.add(vec3d1.x * d0, vec3d1.y * d0, vec3d1.z * d0);
-				pointedEntity = null;
-				Vec3d vec3d3 = null;
-				List<Entity> list = Minecraft.getInstance().world.getEntitiesInAABBexcluding(entity, entity.getBoundingBox().expand(vec3d1.x * d0, vec3d1.y * d0, vec3d1.z * d0).expand(1.0D, 1.0D, 1.0D), EntitySelectors.NOT_SPECTATING.and(new Predicate<Entity>() {
-					@Override
-					public boolean test(@Nullable Entity input) {
-						return input != null;
+				AxisAlignedBB axisalignedbb = entity.getBoundingBox().expand(vec3d1.scale(d0)).grow(1.0D, 1.0D, 1.0D);
+				EntityRayTraceResult entityraytraceresult = ProjectileHelper.func_221273_a(entity, vec3d, vec3d2, axisalignedbb, (p_215312_0_) -> {
+					return !p_215312_0_.isSpectator();
+				}, d1);
+				if (entityraytraceresult != null) {
+					Vec3d vec3d3 = entityraytraceresult.getHitVec();
+					double d2 = vec3d.squareDistanceTo(vec3d3);
+					if (flag && d2 > 9.0D) {
+						return new BlockRayTraceResult(vec3d3, Direction.getFacingFromVector(vec3d1.x, vec3d1.y, vec3d1.z), new BlockPos(vec3d3), false);
+					} else if (d2 < d1 || objectMouseOver == null) {
+						return entityraytraceresult;
 					}
-				}));
-				double d2 = d1;
-
-				for (int j = 0; j < list.size(); ++j) {
-					Entity entity1 = (Entity) list.get(j);
-
-					double collision = (double) entity1.getCollisionBorderSize();
-					if (entity1 instanceof EntityItem)
-						collision = 0.2D;
-
-					AxisAlignedBB axisalignedbb = entity1.getBoundingBox().grow(collision);
-					RayTraceResult raytraceresult = axisalignedbb.calculateIntercept(vec3d, vec3d2);
-
-					if (axisalignedbb.contains(vec3d)) {
-						if (d2 >= 0.0D) {
-							pointedEntity = entity1;
-							vec3d3 = raytraceresult == null ? vec3d : raytraceresult.hitVec;
-							d2 = 0.0D;
-						}
-					} else if (raytraceresult != null) {
-						double d3 = vec3d.distanceTo(raytraceresult.hitVec);
-
-						if (d3 < d2 || d2 == 0.0D) {
-							if (entity1.getLowestRidingEntity() == entity.getLowestRidingEntity() && !entity.canRiderInteract()) {
-								if (d2 == 0.0D) {
-									pointedEntity = entity1;
-									vec3d3 = raytraceresult.hitVec;
-								}
-							} else {
-								pointedEntity = entity1;
-								vec3d3 = raytraceresult.hitVec;
-								d2 = d3;
-							}
-						}
-					}
-				}
-
-				if (pointedEntity != null && flag && vec3d.distanceTo(vec3d3) > 3.0D) {
-					pointedEntity = null;
-					objectMouseOver = new RayTraceResult(RayTraceResult.Type.MISS, vec3d3, (EnumFacing) null, new BlockPos(vec3d3));
-				}
-
-				if (pointedEntity != null && (d2 < d1 || objectMouseOver == null)) {
-					objectMouseOver = new RayTraceResult(pointedEntity, vec3d3);
 				}
 				return objectMouseOver;
 			}
@@ -126,7 +85,7 @@ public class ClientUtil {
 		return null;
 	}
 
-	public static void renderBlock(IBlockState block, float x, float y, float z, float rotate, float scale) {
+	public static void renderBlock(BlockState block, float x, float y, float z, float rotate, float scale) {
 		Minecraft mc = Minecraft.getInstance();
 		GlStateManager.enableRescaleNormal();
 		GlStateManager.pushMatrix();
@@ -141,7 +100,7 @@ public class ClientUtil {
 		GlStateManager.translatef(0.5F, 0.5F, 0.5F);
 		GlStateManager.rotatef(rotate, 0.0F, 1.0F, 0.0F);
 		GlStateManager.translatef(-0.5F, -0.5F, -0.5F);
-		mc.getTextureManager().bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
+		mc.getTextureManager().bindTexture(AtlasTexture.LOCATION_BLOCKS_TEXTURE);
 		mc.getBlockRendererDispatcher().renderBlockBrightness(block, 1.0F);
 		GlStateManager.popMatrix();
 		net.minecraft.client.renderer.RenderHelper.disableStandardItemLighting();

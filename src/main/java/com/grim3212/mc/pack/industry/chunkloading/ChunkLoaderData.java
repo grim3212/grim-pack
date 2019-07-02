@@ -11,7 +11,7 @@ public class ChunkLoaderData implements Serializable {
 	public String ownerId = "";
 	public long ownerLastLogin = 0;
 	public int dimension = 0;
-	public BlockPos pos = BlockPos.ORIGIN;
+	public BlockPos pos = BlockPos.ZERO;
 
 	public ChunkLoaderData(String ownerId, int dimension, BlockPos pos, long ownerLastLogin) {
 		this.ownerId = ownerId;

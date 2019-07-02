@@ -1,0 +1,6 @@
+{
+	"parent": "grimpack:block/decor/color_cube_all",
+	"textures": {
+		"all": "grimpack:block/decor/fluro"
+	}
+}

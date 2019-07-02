@@ -3,29 +3,30 @@ package com.grim3212.mc.pack.core.config;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
-import net.minecraft.item.crafting.IRecipeSerializer;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.item.crafting.IRecipeType;
+import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.world.World;
 
-public class BasicRecipe implements IRecipe {
+public abstract class BasicRecipe implements IRecipe<IInventory> {
 
-	protected ItemStack input;
+	protected IRecipeType<?> typeIn;
+	protected Ingredient input;
 	protected ItemStack output;
 	protected float experience;
 
 	public BasicRecipe() {
-		this.input = ItemStack.EMPTY;
+		this.input = Ingredient.EMPTY;
 		this.output = ItemStack.EMPTY;
 		this.experience = 0.0F;
 	}
 
-	public BasicRecipe(ItemStack input, ItemStack output, float experience) {
+	public BasicRecipe(IRecipeType<?> typeIn, Ingredient input, ItemStack output, float experience) {
 		this.input = input;
 		this.output = output;
 		this.experience = experience;
 	}
 
-	public ItemStack getInput() {
+	public Ingredient getInput() {
 		return input;
 	}
 
@@ -64,12 +65,7 @@ public class BasicRecipe implements IRecipe {
 	}
 
 	@Override
-	public ResourceLocation getId() {
-		return null;
-	}
-
-	@Override
-	public IRecipeSerializer<?> getSerializer() {
-		return null;
+	public IRecipeType<?> getType() {
+		return this.typeIn;
 	}
 }

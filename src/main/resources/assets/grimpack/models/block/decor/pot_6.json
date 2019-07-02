@@ -1,0 +1,8 @@
+{
+	"parent": "block/cube_top",
+	"textures": {
+		"side": "grimpack:block/decor/pot",
+		"top": "block/soul_sand",
+		"particle": "grimpack:block/decor/pot"
+	}
+}

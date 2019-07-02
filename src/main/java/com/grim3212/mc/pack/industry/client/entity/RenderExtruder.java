@@ -3,23 +3,23 @@ package com.grim3212.mc.pack.industry.client.entity;
 import com.grim3212.mc.pack.GrimPack;
 import com.grim3212.mc.pack.industry.client.model.ModelExtruder;
 import com.grim3212.mc.pack.industry.entity.EntityExtruder;
+import com.mojang.blaze3d.platform.GlStateManager;
 
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.entity.Render;
-import net.minecraft.client.renderer.entity.RenderManager;
+import net.minecraft.client.renderer.entity.EntityRenderer;
+import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 @OnlyIn(Dist.CLIENT)
-public class RenderExtruder extends Render<EntityExtruder> {
+public class RenderExtruder extends EntityRenderer<EntityExtruder> {
 
 	private static final ResourceLocation extruderTexture = new ResourceLocation(GrimPack.modID, "textures/entities/extruder.png");
 	private static final ModelExtruder extruderModel = new ModelExtruder();
 
-	protected RenderExtruder(RenderManager renderManager) {
+	protected RenderExtruder(EntityRendererManager renderManager) {
 		super(renderManager);
 	}
 
@@ -28,9 +28,9 @@ public class RenderExtruder extends Render<EntityExtruder> {
 		super.doRender(entity, x, y, z, entityYaw, partialTicks);
 
 		GlStateManager.pushMatrix();
-		GlStateManager.translate(x, y + entity.height / 2, z);
-		GlStateManager.rotate(180f + entityYaw, 0.0F, 1.0F, 0.0F);
-		GlStateManager.rotate(entity.rotationPitch, 0.0F, 0.0F, 1.0F);
+		GlStateManager.translated(x, y + entity.getHeight() / 2, z);
+		GlStateManager.rotatef(180f + entityYaw, 0.0F, 1.0F, 0.0F);
+		GlStateManager.rotatef(entity.rotationPitch, 0.0F, 0.0F, 1.0F);
 
 		float damageTaken = entity.getDamageTaken() - partialTicks;
 		float timeSinceHit = entity.getTimeSinceHit() - partialTicks;
@@ -39,14 +39,14 @@ public class RenderExtruder extends Render<EntityExtruder> {
 			damageTaken = 0.0F;
 		}
 		if (timeSinceHit > 0.0F) {
-			GlStateManager.rotate(((MathHelper.sin(timeSinceHit) * timeSinceHit * damageTaken) / 10F) * entity.getForwardDirection(), 1.0F, 0.0F, 0.0F);
+			GlStateManager.rotatef(((MathHelper.sin(timeSinceHit) * timeSinceHit * damageTaken) / 10F) * entity.getForwardDirection(), 1.0F, 0.0F, 0.0F);
 		}
 
 		float scale = 0.75F;
-		GlStateManager.scale(scale, scale, scale);
-		GlStateManager.scale(1.0F / scale, 1.0F / scale, 1.0F / scale);
+		GlStateManager.scalef(scale, scale, scale);
+		GlStateManager.scalef(1.0F / scale, 1.0F / scale, 1.0F / scale);
 		this.bindEntityTexture(entity);
-		GlStateManager.scale(-1F, -1F, 1.0F);
+		GlStateManager.scalef(-1F, -1F, 1.0F);
 		extruderModel.render(entity, 0.0F, 0.0F, -0.1F, 0.0F, entity.getExtrusionWave(), 0.0625F);
 		GlStateManager.popMatrix();
 	}
@@ -58,7 +58,7 @@ public class RenderExtruder extends Render<EntityExtruder> {
 
 	public static class ExtruderFactory implements IRenderFactory<EntityExtruder> {
 		@Override
-		public Render<? super EntityExtruder> createRenderFor(RenderManager manager) {
+		public EntityRenderer<? super EntityExtruder> createRenderFor(EntityRendererManager manager) {
 			return new RenderExtruder(manager);
 		}
 	}

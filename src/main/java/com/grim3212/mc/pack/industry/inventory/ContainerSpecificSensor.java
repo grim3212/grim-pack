@@ -1,16 +1,18 @@
 package com.grim3212.mc.pack.industry.inventory;
 
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.inventory.Container;
-import net.minecraft.inventory.Slot;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.inventory.container.Container;
+import net.minecraft.inventory.container.Slot;
+import net.minecraft.inventory.container.Slot;
 import net.minecraft.util.math.BlockPos;
 
 public class ContainerSpecificSensor extends Container {
 
 	private BlockPos pos;
 
-	public ContainerSpecificSensor(BlockPos pos, InventoryPlayer playerInventory) {
+	public ContainerSpecificSensor(BlockPos pos, PlayerInventory playerInventory) {
 		this.pos = pos;
 
 		for (int i = 0; i < 3; ++i) {
@@ -25,7 +27,7 @@ public class ContainerSpecificSensor extends Container {
 	}
 
 	@Override
-	public boolean canInteractWith(EntityPlayer playerIn) {
+	public boolean canInteractWith(PlayerEntity playerIn) {
 		return playerIn.getDistanceSq((double) this.pos.getX() + 0.5D, (double) this.pos.getY() + 0.5D, (double) this.pos.getZ() + 0.5D) <= 64.0D;
 	}
 

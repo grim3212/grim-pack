@@ -1,14 +1,22 @@
 package com.grim3212.mc.pack.core.manual.button;
 
+import com.mojang.blaze3d.platform.GlStateManager;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.gui.widget.button.Button;
 
-public class GuiButtonModSection extends GuiButton {
+public class GuiButtonModSection extends Button {
 
-	public GuiButtonModSection(int id, int x, int y, int height, String s) {
-		super(id, x, y, Minecraft.getInstance().fontRenderer.getStringWidth(s) + 10, height, s);
+	private final int chapterId;
+	
+	public GuiButtonModSection(int chapterId, int x, int y, int height, String s, IPressable pressable) {
+		super(x, y, Minecraft.getInstance().fontRenderer.getStringWidth(s) + 10, height, s, pressable);
+		this.chapterId = chapterId;
+	}
+	
+	public int getChapterId() {
+		return chapterId;
 	}
 
 	@Override
@@ -18,6 +26,6 @@ public class GuiButtonModSection extends GuiButton {
 
 		FontRenderer font = Minecraft.getInstance().fontRenderer;
 
-		font.drawString("* " + displayString, x, y, flag ? 0xb3b3b3 : 0x000000);
+		font.drawString("* " + this.getMessage(), x, y, flag ? 0xb3b3b3 : 0x000000);
 	}
 }

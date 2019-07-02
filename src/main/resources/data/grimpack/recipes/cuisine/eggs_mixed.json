@@ -13,7 +13,7 @@
       "item": "grimpack:cuisine/eggs_unmixed"
     },
     {
-      "constant": "grimpack:mixer"
+      "tag": "forge:tools/mixer"
     }
   ],
   "type": "minecraft:crafting_shapeless"

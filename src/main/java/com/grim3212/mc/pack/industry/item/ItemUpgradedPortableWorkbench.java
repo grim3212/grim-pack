@@ -7,11 +7,13 @@ import com.grim3212.mc.pack.core.part.GrimCreativeTabs;
 import com.grim3212.mc.pack.industry.client.ManualIndustry;
 import com.grim3212.mc.pack.tools.items.ItemPortableWorkbench;
 
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
-import net.minecraft.util.EnumActionResult;
-import net.minecraft.util.EnumHand;
+import net.minecraft.util.ActionResultType;
+import net.minecraft.util.ActionResultType;
+import net.minecraft.util.Hand;
+import net.minecraft.util.Hand;
 import net.minecraft.world.World;
 
 public class ItemUpgradedPortableWorkbench extends ItemPortableWorkbench {
@@ -27,15 +29,15 @@ public class ItemUpgradedPortableWorkbench extends ItemPortableWorkbench {
 	}
 
 	@Override
-	public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand hand) {
+	public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity playerIn, Hand hand) {
 		if (!worldIn.isRemote) {
-			if (hand == EnumHand.MAIN_HAND)
+			if (hand == Hand.MAIN_HAND)
 				playerIn.openGui(GrimPack.INSTANCE, MAIN_GUI_ID, worldIn, (int) playerIn.posX, (int) playerIn.posY, (int) playerIn.posZ);
 			else
 				playerIn.openGui(GrimPack.INSTANCE, OFF_GUI_ID, worldIn, (int) playerIn.posX, (int) playerIn.posY, (int) playerIn.posZ);
 		}
 
-		return ActionResult.newResult(EnumActionResult.SUCCESS, playerIn.getHeldItem(hand));
+		return ActionResult.newResult(ActionResultType.SUCCESS, playerIn.getHeldItem(hand));
 	}
 
 	@Override

@@ -1,7 +1,5 @@
 package com.grim3212.mc.pack.core.manual.event;
 
-import org.lwjgl.opengl.GL11;
-
 import com.grim3212.mc.pack.GrimPack;
 import com.grim3212.mc.pack.core.client.ClientUtil;
 import com.grim3212.mc.pack.core.config.CoreConfig;
@@ -9,14 +7,17 @@ import com.grim3212.mc.pack.core.init.CoreInit;
 import com.grim3212.mc.pack.core.manual.IManualEntry.IManualBlock;
 import com.grim3212.mc.pack.core.manual.IManualEntry.IManualEntity;
 import com.grim3212.mc.pack.core.manual.IManualEntry.IManualItem;
+import com.mojang.blaze3d.platform.GlStateManager;
 
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.BlockState;
 import net.minecraft.client.MainWindow;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Gui;
-import net.minecraft.entity.item.EntityItem;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.client.gui.AbstractGui;
+import net.minecraft.entity.item.ItemEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.BlockRayTraceResult;
+import net.minecraft.util.math.EntityRayTraceResult;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -34,24 +35,28 @@ public class RenderManualEntryEvent {
 			if (mc.player != null && mc.world != null && !mc.isGamePaused()) {
 
 				boolean flag = false;
-				EntityPlayer player = mc.player;
+				PlayerEntity player = mc.player;
 				World world = mc.player.world;
 				RayTraceResult pos = ClientUtil.getMouseOver();
 
 				if (!player.getHeldItemMainhand().isEmpty() && player.getHeldItemMainhand().getItem() == CoreInit.instruction_manual) {
 					if (pos != null) {
-						switch (pos.type) {
+						switch (pos.getType()) {
 						case BLOCK:
-							IBlockState state = world.getBlockState(pos.getBlockPos());
+							BlockRayTraceResult blockTrace = (BlockRayTraceResult) pos;
+							BlockState state = world.getBlockState(blockTrace.getPos());
+
 							if (state.getBlock() instanceof IManualBlock)
 								flag = true;
 							break;
 						case ENTITY:
-							if (pos.entity != null) {
-								if (pos.entity instanceof IManualEntity) {
+							EntityRayTraceResult entTrace = (EntityRayTraceResult) pos;
+
+							if (entTrace.getEntity() != null) {
+								if (entTrace.getEntity() instanceof IManualEntity) {
 									flag = true;
-								} else if (pos.entity instanceof EntityItem) {
-									EntityItem item = (EntityItem) pos.entity;
+								} else if (entTrace.getEntity() instanceof ItemEntity) {
+									ItemEntity item = (ItemEntity) entTrace.getEntity();
 									if (item.getItem().getItem() instanceof IManualItem) {
 										flag = true;
 									}
@@ -67,9 +72,9 @@ public class RenderManualEntryEvent {
 
 				if (flag && mc.currentScreen == null) {
 					MainWindow scaled = mc.mainWindow;
-					GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-					mc.textureManager.bindTexture(ICONS_LOCATION);
-					Gui.drawScaledCustomSizeModalRect((scaled.getScaledWidth() / 2) + 8, (scaled.getScaledHeight() / 2) - 4, 0, 0, 8, 8, 8, 8, 128, 128);
+					mc.getTextureManager().bindTexture(ICONS_LOCATION);
+					GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
+					AbstractGui.blit((scaled.getScaledWidth() / 2) + 8, (scaled.getScaledHeight() / 2) - 4, 8, 8, 256, 256, 8, 8, 128, 128);
 				}
 			}
 		}

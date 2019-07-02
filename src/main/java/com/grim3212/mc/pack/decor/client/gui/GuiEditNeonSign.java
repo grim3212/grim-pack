@@ -1,89 +1,136 @@
 package com.grim3212.mc.pack.decor.client.gui;
 
-import java.io.IOException;
-
-import org.lwjgl.input.Keyboard;
-
 import com.grim3212.mc.pack.GrimPack;
 import com.grim3212.mc.pack.core.network.PacketDispatcher;
 import com.grim3212.mc.pack.decor.block.DecorBlocks;
 import com.grim3212.mc.pack.decor.network.MessageNeonChangeMode;
 import com.grim3212.mc.pack.decor.network.MessageNeonUpdate;
 import com.grim3212.mc.pack.decor.tile.TileEntityNeonSign;
+import com.mojang.blaze3d.platform.GlStateManager;
 
-import net.minecraft.block.Block;
-import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.StandingSignBlock;
+import net.minecraft.block.WallSignBlock;
+import net.minecraft.client.gui.fonts.TextInputUtil;
+import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.client.resources.I18n;
-import net.minecraft.util.ChatAllowedCharacters;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.TextComponentString;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.fml.network.PacketDistributor;
 
-@SideOnly(Side.CLIENT)
-public class GuiEditNeonSign extends GuiScreen {
+@OnlyIn(Dist.CLIENT)
+public class GuiEditNeonSign extends Screen {
 	/** Reference to the sign object. */
 	private final TileEntityNeonSign tileSign;
 	/** Counts the number of screen updates. */
 	private int updateCounter;
 	/** The index of the line that is being edited. */
 	private int editLine;
-	/** "Done" button for the GUI. */
-	private GuiButton doneBtn;
 
 	private final int bgWidth = 176;
 	private final int bgHeight = 208;
+	private TextInputUtil textInputUtil;
 
 	public static final ResourceLocation NEON_SIGN_GUI_TEXTURE = new ResourceLocation(GrimPack.modID, "textures/gui/gui_neon_sign.png");
 
 	public GuiEditNeonSign(TileEntityNeonSign teSign) {
+		super(new TranslationTextComponent("sign.edit"));
 		this.tileSign = teSign;
 	}
 
 	@Override
-	public void initGui() {
+	public void init() {
 		int x = (width - bgWidth) / 2;
 		int y = (height - bgHeight) / 2;
 
-		this.buttonList.clear();
-		Keyboard.enableRepeatEvents(true);
-		this.doneBtn = this.addButton(new GuiButton(0, x + (bgWidth - 154) / 2, y + 179, 154, 20, I18n.format("gui.done")));
+		this.buttons.clear();
+		this.children.clear();
+
+		this.textInputUtil = new TextInputUtil(this.minecraft, () -> {
+			return this.tileSign.getText(this.editLine).getString();
+		}, (s) -> {
+			this.tileSign.setText(this.editLine, new StringTextComponent(s));
+		}, 90);
+
+		this.minecraft.keyboardListener.enableRepeatEvents(true);
+		this.addButton(new Button(x + (bgWidth - 154) / 2, y + 179, 154, 20, I18n.format("gui.done"), btn -> {
+			this.onClose();
+		}));
 
 		for (int l = 0; l < 11; l++) {
-			this.addButton(new GuiButtonNeon(l + 1, x + 11 + 14 * l, y + 136, "", 176, l * 14));
+			final int id = l + 1;
+			this.addButton(new GuiButtonNeon(x + 11 + 14 * l, y + 136, "", 176, l * 14, btn -> {
+				addSignText(id);
+			}));
 		}
 
 		for (int i1 = 11; i1 < 16; i1++) {
-			this.addButton(new GuiButtonNeon(i1 + 1, x + 11 + 14 * (i1 - 11), y + 150, "", 176, i1 * 14));
+			final int id = i1 + 1;
+			this.addButton(new GuiButtonNeon(x + 11 + 14 * (i1 - 11), y + 150, "", 176, i1 * 14, btn -> {
+				addSignText(id);
+			}));
 		}
 
-		this.addButton(new GuiButtonNeon(17, x + 11 + 70, y + 150, I18n.format("grimpack.decor.neon.bold"), 204, 0));
-		this.addButton(new GuiButtonNeon(18, x + 11 + 84, y + 150, I18n.format("grimpack.decor.neon.italic"), 204, 14));
-		this.addButton(new GuiButtonNeon(19, x + 11 + 98, y + 150, I18n.format("grimpack.decor.neon.underline"), 204, 28));
-		this.addButton(new GuiButtonNeon(20, x + 11 + 112, y + 150, I18n.format("grimpack.decor.neon.strikethrough"), 204, 42));
-		this.addButton(new GuiButtonNeon(21, x + 11 + 126, y + 150, I18n.format("grimpack.decor.neon.random"), 204, 56));
-		this.addButton(new GuiButtonNeon(22, x + 11 + 140, y + 150, I18n.format("grimpack.decor.neon.reset"), 204, 70));
-		this.addButton(new GuiButtonNeon(23, x + 11, y + 164, "", 0, 208, 51, true));
-		this.addButton(new GuiButtonNeon(24, x + 11 + 51, y + 164, "", 51, 208, 52, true));
-		this.addButton(new GuiButtonNeon(25, x + 11 + 103, y + 164, "", 103, 208, 51, true));
-		this.tileSign.setEditable(false);
+		this.addButton(new GuiButtonNeon(x + 11 + 70, y + 150, I18n.format("grimpack.decor.neon.bold"), 204, 0, btn -> {
+			addSignText(17);
+		}));
+		this.addButton(new GuiButtonNeon(x + 11 + 84, y + 150, I18n.format("grimpack.decor.neon.italic"), 204, 14, btn -> {
+			addSignText(18);
+		}));
+		this.addButton(new GuiButtonNeon(x + 11 + 98, y + 150, I18n.format("grimpack.decor.neon.underline"), 204, 28, btn -> {
+			addSignText(19);
+		}));
+		this.addButton(new GuiButtonNeon(x + 11 + 112, y + 150, I18n.format("grimpack.decor.neon.strikethrough"), 204, 42, btn -> {
+			addSignText(20);
+		}));
+		this.addButton(new GuiButtonNeon(x + 11 + 126, y + 150, I18n.format("grimpack.decor.neon.random"), 204, 56, btn -> {
+			addSignText(21);
+		}));
+		this.addButton(new GuiButtonNeon(x + 11 + 140, y + 150, I18n.format("grimpack.decor.neon.reset"), 204, 70, btn -> {
+			addSignText(22);
+		}));
+		this.addButton(new GuiButtonNeon(x + 11, y + 164, "", 0, 208, 51, true, btn -> {
+			GuiEditNeonSign.this.tileSign.mode = 0;
+			PacketDispatcher.send(PacketDistributor.SERVER.noArg(), new MessageNeonChangeMode(0, GuiEditNeonSign.this.tileSign.getPos()));
+		}));
+		this.addButton(new GuiButtonNeon(x + 11 + 51, y + 164, "", 51, 208, 52, true, btn -> {
+			GuiEditNeonSign.this.tileSign.mode = 1;
+			PacketDispatcher.send(PacketDistributor.SERVER.noArg(), new MessageNeonChangeMode(1, GuiEditNeonSign.this.tileSign.getPos()));
+		}));
+		this.addButton(new GuiButtonNeon(x + 11 + 103, y + 164, "", 103, 208, 51, true, btn -> {
+			GuiEditNeonSign.this.tileSign.mode = 2;
+			PacketDispatcher.send(PacketDistributor.SERVER.noArg(), new MessageNeonChangeMode(2, GuiEditNeonSign.this.tileSign.getPos()));
+		}));
+	}
+
+	private void addSignText(int id) {
+		String s = this.tileSign.signText[this.editLine].getString();
+		s = s + "§" + getColorCode(id);
+		this.tileSign.signText[this.editLine] = new StringTextComponent(s);
+		this.textInputUtil.func_216899_b();
 	}
 
 	@Override
-	public void onGuiClosed() {
-		Keyboard.enableRepeatEvents(false);
+	public void removed() {
+		this.minecraft.keyboardListener.enableRepeatEvents(false);
 
 		// Update lines on server side
-		PacketDispatcher.sendToServer(new MessageNeonUpdate(this.tileSign.getPos(), this.tileSign.signText));
-
-		this.tileSign.setEditable(true);
+		PacketDispatcher.send(PacketDistributor.SERVER.noArg(), new MessageNeonUpdate(this.tileSign.getPos(), this.tileSign.signText));
 	}
 
 	@Override
-	public void updateScreen() {
+	public void onClose() {
+		this.tileSign.markDirty();
+		this.minecraft.displayGuiScreen((Screen) null);
+	}
+
+	@Override
+	public void tick() {
 		++this.updateCounter;
 	}
 
@@ -118,118 +165,59 @@ public class GuiEditNeonSign extends GuiScreen {
 	}
 
 	@Override
-	protected void actionPerformed(GuiButton button) throws IOException {
-		if (button.enabled) {
-
-			switch (button.id) {
-			case 0:
-				this.tileSign.markDirty();
-				this.mc.displayGuiScreen((GuiScreen) null);
-				break;
-			case 23:
-				this.tileSign.mode = 0;
-				PacketDispatcher.sendToServer(new MessageNeonChangeMode(0, this.tileSign.getPos()));
-				break;
-			case 24:
-				this.tileSign.mode = 1;
-				PacketDispatcher.sendToServer(new MessageNeonChangeMode(1, this.tileSign.getPos()));
-				break;
-			case 25:
-				this.tileSign.mode = 2;
-				PacketDispatcher.sendToServer(new MessageNeonChangeMode(2, this.tileSign.getPos()));
-				break;
-			default:
-				String s = this.tileSign.signText[this.editLine].getUnformattedText();
-				s = s + "§" + getColorCode(button.id);
-				this.tileSign.signText[this.editLine] = new TextComponentString(s);
-				break;
-			}
-		}
+	public boolean charTyped(char p_charTyped_1_, int p_charTyped_2_) {
+		this.textInputUtil.func_216894_a(p_charTyped_1_);
+		return true;
 	}
 
 	@Override
-	protected void keyTyped(char typedChar, int keyCode) throws IOException {
-		if (keyCode == 200) {
+	public boolean keyPressed(int p_keyPressed_1_, int p_keyPressed_2_, int p_keyPressed_3_) {
+		if (p_keyPressed_1_ == 265) {
 			this.editLine = this.editLine - 1 & 3;
-		}
-
-		if (keyCode == 208 || keyCode == 28 || keyCode == 156) {
+			this.textInputUtil.func_216899_b();
+			return true;
+		} else if (p_keyPressed_1_ != 264 && p_keyPressed_1_ != 257 && p_keyPressed_1_ != 335) {
+			return this.textInputUtil.func_216897_a(p_keyPressed_1_) ? true : super.keyPressed(p_keyPressed_1_, p_keyPressed_2_, p_keyPressed_3_);
+		} else {
 			this.editLine = this.editLine + 1 & 3;
-		}
-
-		String s = this.tileSign.signText[this.editLine].getUnformattedText();
-
-		if (keyCode == 14 && !s.isEmpty()) {
-			s = s.substring(0, s.length() - 1);
-		}
-
-		if (ChatAllowedCharacters.isAllowedCharacter(typedChar) && this.fontRenderer.getStringWidth(s + typedChar) <= 90) {
-			s = s + typedChar;
-		}
-
-		this.tileSign.signText[this.editLine] = new TextComponentString(s);
-
-		if (keyCode == 1) {
-			this.actionPerformed(this.doneBtn);
+			this.textInputUtil.func_216899_b();
+			return true;
 		}
 	}
 
 	@Override
-	public void drawScreen(int mouseX, int mouseY, float partialTicks) {
-		this.drawDefaultBackground();
+	public void render(int mouseX, int mouseY, float partialTicks) {
+		this.renderBackground();
 
 		// Draw GUI
-		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-		this.mc.renderEngine.bindTexture(NEON_SIGN_GUI_TEXTURE);
+		GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
+		this.minecraft.textureManager.bindTexture(NEON_SIGN_GUI_TEXTURE);
 		int j = (width - bgWidth) / 2;
 		int k = (height - bgHeight) / 2;
-		drawTexturedModalRect(j, k, 0, 0, bgWidth, bgHeight);
+		blit(j, k, 0, 0, bgWidth, bgHeight);
 
-		this.drawCenteredString(this.fontRenderer, I18n.format("sign.edit"), this.width / 2, k + 5, 16777215);
-		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+		this.drawCenteredString(this.font, I18n.format("sign.edit"), this.width / 2, k + 5, 16777215);
+		GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
 		GlStateManager.pushMatrix();
-		GlStateManager.translate((float) (this.width / 2), (float) k - 50F, 50.0F);
+		GlStateManager.translatef((float) (this.width / 2), (float) k - 50F, 50.0F);
 		float f = 93.75F;
-		GlStateManager.scale(-f, -f, -f);
-		GlStateManager.rotate(180.0F, 0.0F, 1.0F, 0.0F);
-		Block block = this.tileSign.getBlockType();
+		GlStateManager.scalef(-f, -f, -f);
+		GlStateManager.rotatef(180.0F, 0.0F, 1.0F, 0.0F);
+		BlockState iblockstate = this.tileSign.getBlockState();
 
-		if (block == DecorBlocks.neon_sign_standing) {
-			float f1 = (float) (this.tileSign.getBlockMetadata() * 360) / 16.0F;
-			GlStateManager.rotate(f1, 0.0F, 1.0F, 0.0F);
-			GlStateManager.translate(0.0F, -1.0625F, 0.0F);
+		float f1;
+		if (iblockstate.getBlock() == DecorBlocks.neon_sign_standing) {
+			f1 = (float) (iblockstate.get(StandingSignBlock.ROTATION) * 360) / 16.0F;
 		} else {
-			int i = this.tileSign.getBlockMetadata();
-			float f2 = 0.0F;
-
-			if (i == 2) {
-				f2 = 180.0F;
-			}
-
-			if (i == 4) {
-				f2 = 90.0F;
-			}
-
-			if (i == 5) {
-				f2 = -90.0F;
-			}
-
-			GlStateManager.rotate(f2, 0.0F, 1.0F, 0.0F);
-			GlStateManager.translate(0.0F, -1.0625F, 0.0F);
+			f1 = iblockstate.get(WallSignBlock.FACING).getHorizontalAngle();
 		}
+		GlStateManager.rotatef(f1, 0.0F, 1.0F, 0.0F);
+		GlStateManager.translatef(0.0F, -1.0625F, 0.0F);
 
-		if (this.updateCounter / 6 % 2 == 0) {
-			this.tileSign.lineBeingEdited = this.editLine;
-		}
-
+		this.tileSign.fromScreen(this.editLine, this.textInputUtil.func_216896_c(), this.textInputUtil.func_216898_d(), this.updateCounter / 6 % 2 == 0);
 		TileEntityRendererDispatcher.instance.render(this.tileSign, -0.5D, -0.75D, -0.5D, 0.0F);
-		this.tileSign.lineBeingEdited = -1;
+		this.tileSign.reset();
 		GlStateManager.popMatrix();
-		super.drawScreen(mouseX, mouseY, partialTicks);
-
-		// Renders all tooltips if available
-		for (GuiButton b : this.buttonList) {
-			b.drawButtonForegroundLayer(mouseX, mouseY);
-		}
+		super.render(mouseX, mouseY, partialTicks);
 	}
 }

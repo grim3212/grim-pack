@@ -2,19 +2,17 @@ package com.grim3212.mc.pack.industry.config;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import com.grim3212.mc.pack.core.config.ConfigUtils;
 import com.grim3212.mc.pack.core.config.ConfigUtils.ArmorMaterialHolder;
 import com.grim3212.mc.pack.core.config.ConfigUtils.ToolMaterialHolder;
 import com.grim3212.mc.pack.core.config.GrimConfig;
-import com.grim3212.mc.pack.industry.GrimIndustry;
-import com.grim3212.mc.pack.industry.util.MachineRecipes;
+import com.grim3212.mc.pack.decor.GrimDecor;
 
 import net.minecraft.item.ItemStack;
-import net.minecraft.network.PacketBuffer;
-import net.minecraftforge.common.config.ConfigElement;
-import net.minecraftforge.fml.client.config.DummyConfigElement.DummyCategoryElement;
-import net.minecraftforge.fml.client.config.IConfigElement;
+import net.minecraftforge.common.ForgeConfigSpec;
+import net.minecraftforge.common.ForgeConfigSpec.Builder;
 
 public class IndustryConfig extends GrimConfig {
 
@@ -28,66 +26,66 @@ public class IndustryConfig extends GrimConfig {
 	public static ToolMaterialHolder steelToolMaterial = new ToolMaterialHolder("steel", 3, 1200, 7.5F, 2.5F, 12);
 	public static ArmorMaterialHolder antiRadiationArmorMaterial = new ArmorMaterialHolder("anti_radiation", 5, new int[] { 2, 5, 3, 1 }, 15, 0.0F);
 	public static ArmorMaterialHolder gravityArmorMaterial = new ArmorMaterialHolder("gravity", 15, new int[] { 2, 6, 5, 2 }, 9, 0.0F);
-	public static boolean generateUranium;
-	public static boolean generateOilOre;
+	public static ForgeConfigSpec.BooleanValue generateUranium;
+	public static ForgeConfigSpec.BooleanValue generateOilOre;
 
-	//Chunk Loader
-	public static int chunkLoaderSize;
-	public static int chunkLoaderTimeout;
+	// Chunk Loader
+	public static ForgeConfigSpec.IntValue chunkLoaderSize;
+	public static ForgeConfigSpec.IntValue chunkLoaderTimeout;
 
 	// Workbench Upgrades
 	public static String[] workbenchList;
-	public static boolean useWorkbenchUpgrades;
-	public static boolean useWhitelist;
-	public static boolean returnDefaultIfListed;
+	public static ForgeConfigSpec.BooleanValue useWorkbenchUpgrades;
+	public static ForgeConfigSpec.BooleanValue useWhitelist;
+	public static ForgeConfigSpec.BooleanValue returnDefaultIfListed;
 
 	// Extruder settings
-	public static int fuelPerMinedBlock;
-	public static int fuelPerExtrudedBlock;
-	public static float moveSpeed;
-	public static int fuelPerStick;
-	public static int fuelPerCoal;
-	public static int fuelPerRedstone;
-	public static int fuelPerLava;
-	public static int fuelPerBlazerod;
-	public static int fuelPerMagmaCream;
-	public static float speedModifierStick;
-	public static float speedModifierCoal;
-	public static float speedModifierRedstone;
-	public static float speedModifierMagmaCream;
+	public static ForgeConfigSpec.IntValue fuelPerMinedBlock;
+	public static ForgeConfigSpec.IntValue fuelPerExtrudedBlock;
+	public static ForgeConfigSpec.DoubleValue moveSpeed;
+	public static ForgeConfigSpec.IntValue fuelPerStick;
+	public static ForgeConfigSpec.IntValue fuelPerCoal;
+	public static ForgeConfigSpec.IntValue fuelPerRedstone;
+	public static ForgeConfigSpec.IntValue fuelPerLava;
+	public static ForgeConfigSpec.IntValue fuelPerBlazerod;
+	public static ForgeConfigSpec.IntValue fuelPerMagmaCream;
+	public static ForgeConfigSpec.DoubleValue speedModifierStick;
+	public static ForgeConfigSpec.DoubleValue speedModifierCoal;
+	public static ForgeConfigSpec.DoubleValue speedModifierRedstone;
+	public static ForgeConfigSpec.DoubleValue speedModifierMagmaCream;
 
 	// Uranium Damage - add by SH
-	public static float uraniumDamage;
+	public static ForgeConfigSpec.IntValue uraniumDamage;
 
-	public static int bridgeMaxLength;
+	public static ForgeConfigSpec.IntValue bridgeMaxLength;
 
 	// Client Only Settings
-	public static boolean showFanParticles;
+	public static ForgeConfigSpec.BooleanValue showFanParticles;
 
 	// Subparts
-	public static boolean subpartBridges;
-	public static boolean subpartChunkLoader;
-	public static boolean subpartConveyor;
-	public static boolean subpartDecoration;
-	public static boolean subpartDoors;
-	public static boolean subpartElementalBlocks;
-	public static boolean subpartExtruder;
-	public static boolean subpartIceMaker;
-	public static boolean subpartFans;
-	public static boolean subpartGates;
-	public static boolean subpartGravity;
-	public static boolean subpartHLights;
-	public static boolean subpartMachines;
-	public static boolean subpartMetalWorks;
-	public static boolean subpartNuclear;
-	public static boolean subpartRWays;
-	public static boolean subpartSensors;
-	public static boolean subpartShapedCharges;
-	public static boolean subpartSpikes;
-	public static boolean subpartSteel;
-	public static boolean subpartStorage;
-	public static boolean subpartTorches;
-	public static boolean subpartWorkbenchUpgrades;
+	public static ForgeConfigSpec.BooleanValue subpartBridges;
+	public static ForgeConfigSpec.BooleanValue subpartChunkLoader;
+	public static ForgeConfigSpec.BooleanValue subpartConveyor;
+	public static ForgeConfigSpec.BooleanValue subpartDecoration;
+	public static ForgeConfigSpec.BooleanValue subpartDoors;
+	public static ForgeConfigSpec.BooleanValue subpartElementalBlocks;
+	public static ForgeConfigSpec.BooleanValue subpartExtruder;
+	public static ForgeConfigSpec.BooleanValue subpartIceMaker;
+	public static ForgeConfigSpec.BooleanValue subpartFans;
+	public static ForgeConfigSpec.BooleanValue subpartGates;
+	public static ForgeConfigSpec.BooleanValue subpartGravity;
+	public static ForgeConfigSpec.BooleanValue subpartHLights;
+	public static ForgeConfigSpec.BooleanValue subpartMachines;
+	public static ForgeConfigSpec.BooleanValue subpartMetalWorks;
+	public static ForgeConfigSpec.BooleanValue subpartNuclear;
+	public static ForgeConfigSpec.BooleanValue subpartRWays;
+	public static ForgeConfigSpec.BooleanValue subpartSensors;
+	public static ForgeConfigSpec.BooleanValue subpartShapedCharges;
+	public static ForgeConfigSpec.BooleanValue subpartSpikes;
+	public static ForgeConfigSpec.BooleanValue subpartSteel;
+	public static ForgeConfigSpec.BooleanValue subpartStorage;
+	public static ForgeConfigSpec.BooleanValue subpartTorches;
+	public static ForgeConfigSpec.BooleanValue subpartWorkbenchUpgrades;
 
 	@Override
 	public String name() {
@@ -95,168 +93,72 @@ public class IndustryConfig extends GrimConfig {
 	}
 
 	@Override
-	public void syncFirst() {
-		ConfigUtils.setCurrentPart(GrimIndustry.partName);
-		if (subpartSteel)
-			steelToolMaterial.load();
-		if (subpartGravity)
-			gravityArmorMaterial.load();
-		if (subpartNuclear)
-			antiRadiationArmorMaterial.load();
+	public Optional<ForgeConfigSpec> initServer(Builder serverBuilder) {
+		ConfigUtils.setCurrentPart(GrimDecor.partName);
+		serverBuilder.comment(name());
+
+		subpartBridges = serverBuilder.comment("Enable bridges subpart").worldRestart().define(CONFIG_PARTS_NAME + ".subpartBridges", true);
+		subpartChunkLoader = serverBuilder.comment("Enable chunk loaded subpart").worldRestart().define(CONFIG_PARTS_NAME + ".subpartChunkLoader", true);
+		subpartConveyor = serverBuilder.comment("Enable conveyor subpart").worldRestart().define(CONFIG_PARTS_NAME + ".subpartConveyor", true);
+		subpartDecoration = serverBuilder.comment("Enable decoration subpart").worldRestart().define(CONFIG_PARTS_NAME + ".subpartDecoration", true);
+		subpartDoors = serverBuilder.comment("Enable doors subpart").worldRestart().define(CONFIG_PARTS_NAME + ".subpartDoors", true);
+		subpartElementalBlocks = serverBuilder.comment("Enable elemental blocks subpart").worldRestart().define(CONFIG_PARTS_NAME + ".subpartElementalBlocks", true);
+		subpartExtruder = serverBuilder.comment("Enable extruder subpart").worldRestart().define(CONFIG_PARTS_NAME + ".subpartExtruder", true);
+		subpartIceMaker = serverBuilder.comment("Enable ice maker subpart").worldRestart().define(CONFIG_PARTS_NAME + ".subpartIceMaker", true);
+		subpartFans = serverBuilder.comment("Enable fans subpart").worldRestart().define(CONFIG_PARTS_NAME + ".subpartFans", true);
+		subpartGates = serverBuilder.comment("Enable gates subpart").worldRestart().define(CONFIG_PARTS_NAME + ".subpartGates", true);
+		subpartGravity = serverBuilder.comment("Enable gravity subpart").worldRestart().define(CONFIG_PARTS_NAME + ".subpartGravity", true);
+		subpartHLights = serverBuilder.comment("Enable hlights subpart").worldRestart().define(CONFIG_PARTS_NAME + ".subpartHLights", true);
+		subpartMachines = serverBuilder.comment("Enable machines subpart").worldRestart().define(CONFIG_PARTS_NAME + ".subpartMachines", true);
+		subpartMetalWorks = serverBuilder.comment("Enable metal works subpart").worldRestart().define(CONFIG_PARTS_NAME + ".subpartMetalWorks", true);
+		subpartNuclear = serverBuilder.comment("Enable nuclear subpart").worldRestart().define(CONFIG_PARTS_NAME + ".subpartNuclear", true);
+		subpartRWays = serverBuilder.comment("Enable rways subpart").worldRestart().define(CONFIG_PARTS_NAME + ".subpartRWays", true);
+		subpartSensors = serverBuilder.comment("Enable sensors subpart").worldRestart().define(CONFIG_PARTS_NAME + ".subpartSensors", true);
+		subpartShapedCharges = serverBuilder.comment("Enable shaped charges subpart").worldRestart().define(CONFIG_PARTS_NAME + ".subpartShapedCharges", false);
+		subpartSpikes = serverBuilder.comment("Enable spikes subpart").worldRestart().define(CONFIG_PARTS_NAME + ".subpartSpikes", true);
+		subpartSteel = serverBuilder.comment("Enable steel subpart").worldRestart().define(CONFIG_PARTS_NAME + ".subpartSteel", true);
+		subpartStorage = serverBuilder.comment("Enable storage subpart").worldRestart().define(CONFIG_PARTS_NAME + ".subpartStorage", true);
+		subpartTorches = serverBuilder.comment("Enable torches subpart").worldRestart().define(CONFIG_PARTS_NAME + ".subpartTorches", true);
+		subpartWorkbenchUpgrades = serverBuilder.comment("Enable workbench upgrades subpart").worldRestart().define(CONFIG_PARTS_NAME + ".subpartWorkbenchUpgrades", true);
+
+		useWorkbenchUpgrades = serverBuilder.comment("Do workbench upgrades double result").define(CONFIG_GENERAL_NAME + ".useWorkbenchUpgrades", false);
+		useWhitelist = serverBuilder.comment("Workbench whitelist else blacklist").define(CONFIG_GENERAL_NAME + ".useWhitelist", false);
+		returnDefaultIfListed = serverBuilder.comment("Return Default Recipe If Listed").define(CONFIG_GENERAL_NAME + ".returnDefaultIfListed", true);
+
+		bridgeMaxLength = serverBuilder.comment("Maximum Bridge Length").defineInRange(CONFIG_EXTRUDER_NAME + ".bridgeMaxLength", 128, 1, 256);
+		fuelPerMinedBlock = serverBuilder.comment("Fuel per mined block").defineInRange(CONFIG_EXTRUDER_NAME + ".fuelPerMinedBlock", 400, 0, 100000);
+		fuelPerExtrudedBlock = serverBuilder.comment("Fuel per extruded block").defineInRange(CONFIG_EXTRUDER_NAME + ".fuelPerExtrudedBlock", 200, 0, 100000);
+		moveSpeed = serverBuilder.comment("Extruder move speed").defineInRange(CONFIG_EXTRUDER_NAME + ".moveSpeed", 0.1D, 0, 10.0D);
+		fuelPerStick = serverBuilder.comment("Fuel per stick").defineInRange(CONFIG_EXTRUDER_NAME + ".fuelPerStick", 50, 0, 100000);
+		fuelPerCoal = serverBuilder.comment("Fuel per coal").defineInRange(CONFIG_EXTRUDER_NAME + ".fuelPerCoal", 1600, 0, 100000);
+		fuelPerRedstone = serverBuilder.comment("Fuel per redstone").defineInRange(CONFIG_EXTRUDER_NAME + ".fuelPerRedstone", 3200, 0, 100000);
+		fuelPerLava = serverBuilder.comment("Fuel per lava").defineInRange(CONFIG_EXTRUDER_NAME + ".fuelPerLava", 6400, 0, 100000);
+		fuelPerBlazerod = serverBuilder.comment("Fuel per blazerod").defineInRange(CONFIG_EXTRUDER_NAME + ".fuelPerBlazerod", 12800, 0, 100000);
+		fuelPerMagmaCream = serverBuilder.comment("Fuel per magma cream").defineInRange(CONFIG_EXTRUDER_NAME + ".fuelPerMagmaCream", 19200, 0, 100000);
+		speedModifierStick = serverBuilder.comment("Stick speed modifier").defineInRange(CONFIG_EXTRUDER_NAME + ".speedModifierStick", 0.3D, 0, 10.0D);
+		speedModifierCoal = serverBuilder.comment("Coal speed modifier").defineInRange(CONFIG_EXTRUDER_NAME + ".speedModifierCoal", 0.8D, 0, 10.0D);
+		speedModifierRedstone = serverBuilder.comment("Redstone speed modifier").defineInRange(CONFIG_EXTRUDER_NAME + ".speedModifierRedstone", 1.4D, 0, 10.0D);
+		speedModifierMagmaCream = serverBuilder.comment("Magmacream speed modifier").defineInRange(CONFIG_EXTRUDER_NAME + ".speedModifierMagmaCream", 2.2D, 0, 10.0D);
+
+		generateUranium = serverBuilder.comment("Generate Uranium").define(CONFIG_GENERAL_NAME + ".generateUranium", true);
+		uraniumDamage = serverBuilder.comment("Damage from Uranium Ore").defineInRange(CONFIG_GENERAL_NAME + ".uraniumDamage", 4, 0, 256);
+
+		generateOilOre = serverBuilder.comment("Generate Oil Ore").define(CONFIG_GENERAL_NAME + ".generateOilOre", true);
+		// String[] fuels = config.get(CONFIG_GENERAL_NAME,
+		// "grimpack.industry.cfg.modernfurnace_fuels", new String[] {
+		// "grimpack:fuel>25000", "grimpack:fuel_tank>225000" }).getStringList();
+		// MachineRecipes.INSTANCE.getModernFurnaceFuel().addAll(ConfigUtils.loadConfigurableFuel(fuels));
+
+		chunkLoaderSize = serverBuilder.comment("Chunk Loader Size", "Square chunks that are kept loaded. Should be odd!").defineInRange(CONFIG_GENERAL_NAME + ".chunkLoaderSize", 5, 1, 32);
+		chunkLoaderTimeout = serverBuilder.comment("Chunk Loader Timeout", "Turns off chunkloaders if the owner hasn't been active for this many hours. Zero and below disables this").defineInRange(CONFIG_GENERAL_NAME + ".uraniumDamage", 0, 1, 256);
+
+		return Optional.of(serverBuilder.build());
 	}
 
 	@Override
-	public void syncSubparts() {
-		subpartBridges = config.get(CONFIG_PARTS_NAME, "Enable SubPart bridges", true).setRequiresMcRestart(true).getBoolean();
-		subpartChunkLoader = config.get(CONFIG_PARTS_NAME, "Enable SubPart chunk loader", true).setRequiresMcRestart(true).getBoolean();
-		subpartConveyor = config.get(CONFIG_PARTS_NAME, "Enable SubPart conveyor", true).setRequiresMcRestart(true).getBoolean();
-		subpartDecoration = config.get(CONFIG_PARTS_NAME, "Enable SubPart decoration", true).setRequiresMcRestart(true).getBoolean();
-		subpartDoors = config.get(CONFIG_PARTS_NAME, "Enable SubPart doors", true).setRequiresMcRestart(true).getBoolean();
-		subpartElementalBlocks = config.get(CONFIG_PARTS_NAME, "Enable SubPart elemental blocks", true).setRequiresMcRestart(true).getBoolean();
-		subpartExtruder = config.get(CONFIG_PARTS_NAME, "Enable SubPart extruder", true).setRequiresMcRestart(true).getBoolean();
-		subpartIceMaker = config.get(CONFIG_PARTS_NAME, "Enable SubPart ice maker", true).setRequiresMcRestart(true).getBoolean();
-		subpartFans = config.get(CONFIG_PARTS_NAME, "Enable SubPart fans", true).setRequiresMcRestart(true).getBoolean();
-		subpartGates = config.get(CONFIG_PARTS_NAME, "Enable SubPart gates", true).setRequiresMcRestart(true).getBoolean();
-		subpartGravity = config.get(CONFIG_PARTS_NAME, "Enable SubPart gravity", true).setRequiresMcRestart(true).getBoolean();
-		subpartHLights = config.get(CONFIG_PARTS_NAME, "Enable SubPart hlights", true).setRequiresMcRestart(true).getBoolean();
-		subpartMachines = config.get(CONFIG_PARTS_NAME, "Enable SubPart machines", true).setRequiresMcRestart(true).getBoolean();
-		subpartMetalWorks = config.get(CONFIG_PARTS_NAME, "Enable SubPart metal works", true).setRequiresMcRestart(true).getBoolean();
-		subpartNuclear = config.get(CONFIG_PARTS_NAME, "Enable SubPart nuclear", true).setRequiresMcRestart(true).getBoolean();
-		subpartRWays = config.get(CONFIG_PARTS_NAME, "Enable SubPart rways", true).setRequiresMcRestart(true).getBoolean();
-		subpartSensors = config.get(CONFIG_PARTS_NAME, "Enable SubPart sensors", true).setRequiresMcRestart(true).getBoolean();
-		subpartShapedCharges = config.get(CONFIG_PARTS_NAME, "Enable SubPart shaped charges", false).setRequiresMcRestart(true).getBoolean();
-		subpartSpikes = config.get(CONFIG_PARTS_NAME, "Enable SubPart spikes", true).setRequiresMcRestart(true).getBoolean();
-		subpartSteel = config.get(CONFIG_PARTS_NAME, "Enable SubPart steel", true).setRequiresMcRestart(true).getBoolean();
-		subpartStorage = config.get(CONFIG_PARTS_NAME, "Enable SubPart storage", true).setRequiresMcRestart(true).getBoolean();
-		subpartTorches = config.get(CONFIG_PARTS_NAME, "Enable SubPart torches", true).setRequiresMcRestart(true).getBoolean();
-		subpartWorkbenchUpgrades = config.get(CONFIG_PARTS_NAME, "Enable SubPart workbench upgrades", true).setRequiresMcRestart(true).getBoolean();
-	}
+	public Optional<ForgeConfigSpec> initClient(Builder clientBuilder) {
+		showFanParticles = clientBuilder.comment("Show Fan Particles").define(CONFIG_GENERAL_NAME + ".showFanParticles", true);
 
-	@Override
-	public void syncConfig() {
-		syncSubparts();
-		syncFirst();
-
-		ConfigUtils.setCurrentPart(GrimIndustry.partName);
-
-		if (subpartWorkbenchUpgrades) {
-			useWorkbenchUpgrades = config.get(CONFIG_GENERAL_NAME, "Do workbench upgrades double result", false).getBoolean();
-			useWhitelist = config.get(CONFIG_GENERAL_NAME, "Workbench whitelist else blacklist", false).getBoolean();
-			workbenchList = config.get(CONFIG_GENERAL_NAME, "Workbench black or white list", new String[] { "oredict:blockDiamond", "oredict:gemDiamond", "oredict:blockIron", "oredict:ingotIron", "oredict:blockGold", "oredict:ingotGold", "oredict:blockLapis", "oredict:gemLapis", "oredict:blockRedstone", "oredict:dustRedstone", "oredict:blockEmerald", "oredict:gemEmerald", "oredict:blockQuartz", "oredict:gemQuartz", "oredict:blockCoal", "minecraft:coal", "oredict:blockBlackDiamond", "oredict:gemBlackDiamond", "oredict:blockSteel", "oredict:ingotSteel" }).getStringList();
-			returnDefaultIfListed = config.get(CONFIG_GENERAL_NAME, "Return Default Recipe If Listed", true).getBoolean();
-
-			ConfigUtils.loadItemsOntoList(workbenchList, IndustryConfig.workbenchUpgradeList);
-		}
-
-		if (subpartFans)
-			showFanParticles = config.get(CONFIG_GENERAL_NAME, "Show Fan Particles", true).getBoolean();
-
-		if (subpartBridges)
-			bridgeMaxLength = config.get(CONFIG_GENERAL_NAME, "Maximum Bridge Length", 128).getInt();
-
-		if (subpartExtruder) {
-			fuelPerMinedBlock = config.get(CONFIG_EXTRUDER_NAME, "Fuel per mined block", 400).getInt();
-			fuelPerExtrudedBlock = config.get(CONFIG_EXTRUDER_NAME, "Fuel per extruded block", 200).getInt();
-			moveSpeed = (float) config.get(CONFIG_EXTRUDER_NAME, "Extruder move speed", 0.1f).getDouble();
-			fuelPerStick = config.get(CONFIG_EXTRUDER_NAME, "Fuel per stick", 50).getInt();
-			fuelPerCoal = config.get(CONFIG_EXTRUDER_NAME, "Fuel per coal", 1600).getInt();
-			fuelPerRedstone = config.get(CONFIG_EXTRUDER_NAME, "Fuel per redstone", 3200).getInt();
-			fuelPerLava = config.get(CONFIG_EXTRUDER_NAME, "Fuel per lava", 6400).getInt();
-			fuelPerBlazerod = config.get(CONFIG_EXTRUDER_NAME, "Fuel per blazerod", 12800).getInt();
-			fuelPerMagmaCream = config.get(CONFIG_EXTRUDER_NAME, "Fuel per magma cream", 19200).getInt();
-			speedModifierStick = (float) config.get(CONFIG_EXTRUDER_NAME, "Stick speed modifier", 0.3F).getDouble();
-			speedModifierCoal = (float) config.get(CONFIG_EXTRUDER_NAME, "Coal speed modifier", 0.8F).getDouble();
-			speedModifierRedstone = (float) config.get(CONFIG_EXTRUDER_NAME, "Redstone speed modifier", 1.4F).getDouble();
-			speedModifierMagmaCream = (float) config.get(CONFIG_EXTRUDER_NAME, "Magmacream speed modifier", 2.2F).getDouble();
-		}
-
-		if (subpartNuclear) {
-			generateUranium = config.get(CONFIG_GENERAL_NAME, "Generate Uranium", true).getBoolean();
-			uraniumDamage = config.get(CONFIG_GENERAL_NAME, "Damage from Uranium Ore", 4).getInt();
-		}
-
-		if (subpartMachines) {
-			generateOilOre = config.get(CONFIG_GENERAL_NAME, "Generate Oil Ore", true).getBoolean();
-			String[] fuels = config.get(CONFIG_GENERAL_NAME, "grimpack.industry.cfg.modernfurnace_fuels", new String[] { "grimpack:fuel>25000", "grimpack:fuel_tank>225000" }).getStringList();
-			MachineRecipes.INSTANCE.getModernFurnaceFuel().addAll(ConfigUtils.loadConfigurableFuel(fuels));
-		}
-
-		if(subpartChunkLoader){
-			chunkLoaderSize = config.get(CONFIG_GENERAL_NAME, "Chunk Loader Size", 5, "Square chunks that are kept loaded. Should be odd!",  1, 32).getInt();
-			chunkLoaderTimeout = config.get(CONFIG_GENERAL_NAME, "Chunk Loader Timeout", 0, "Turns off chunkloaders if the owner hasn't been active for this many hours. Zero and below disables this").getInt();
-		}
-
-		super.syncConfig();
-	}
-
-	@Override
-	public List<IConfigElement> getConfigItems() {
-		List<IConfigElement> list = new ArrayList<IConfigElement>();
-		if (subpartWorkbenchUpgrades || subpartMachines || subpartFans || subpartNuclear || subpartBridges)
-			list.add(new DummyCategoryElement("industryGeneralCfg", "grimpack.industry.cfg.general", new ConfigElement(GrimIndustry.INSTANCE.getConfig().getCategory(CONFIG_GENERAL_NAME)).getChildElements()));
-		if (subpartExtruder)
-			list.add(new DummyCategoryElement("industryExtruderCfg", "grimpack.industry.cfg.extruder", new ConfigElement(GrimIndustry.INSTANCE.getConfig().getCategory(CONFIG_EXTRUDER_NAME)).getChildElements()));
-		list.add(new DummyCategoryElement("industrySubPartCfg", "grimpack.industry.cfg.subparts", new ConfigElement(GrimIndustry.INSTANCE.getConfig().getCategory(CONFIG_PARTS_NAME)).getChildElements()));
-		return list;
-	}
-
-	@Override
-	public void readFromServer(PacketBuffer buffer) {
-		subpartBridges = buffer.readBoolean();
-		subpartChunkLoader = buffer.readBoolean();
-		subpartConveyor = buffer.readBoolean();
-		subpartDecoration = buffer.readBoolean();
-		subpartDoors = buffer.readBoolean();
-		subpartElementalBlocks = buffer.readBoolean();
-		subpartExtruder = buffer.readBoolean();
-		subpartIceMaker = buffer.readBoolean();
-		subpartFans = buffer.readBoolean();
-		subpartGates = buffer.readBoolean();
-		subpartGravity = buffer.readBoolean();
-		subpartHLights = buffer.readBoolean();
-		subpartMachines = buffer.readBoolean();
-		subpartMetalWorks = buffer.readBoolean();
-		subpartNuclear = buffer.readBoolean();
-		subpartRWays = buffer.readBoolean();
-		subpartSensors = buffer.readBoolean();
-		subpartShapedCharges = buffer.readBoolean();
-		subpartSpikes = buffer.readBoolean();
-		subpartSteel = buffer.readBoolean();
-		subpartStorage = buffer.readBoolean();
-		subpartTorches = buffer.readBoolean();
-		subpartWorkbenchUpgrades = buffer.readBoolean();
-
-		if (subpartWorkbenchUpgrades)
-			useWorkbenchUpgrades = buffer.readBoolean();
-	}
-
-	@Override
-	public void writeToClient(PacketBuffer buffer) {
-		buffer.writeBoolean(subpartBridges);
-		buffer.writeBoolean(subpartChunkLoader);
-		buffer.writeBoolean(subpartConveyor);
-		buffer.writeBoolean(subpartDecoration);
-		buffer.writeBoolean(subpartDoors);
-		buffer.writeBoolean(subpartElementalBlocks);
-		buffer.writeBoolean(subpartExtruder);
-		buffer.writeBoolean(subpartIceMaker);
-		buffer.writeBoolean(subpartFans);
-		buffer.writeBoolean(subpartGates);
-		buffer.writeBoolean(subpartGravity);
-		buffer.writeBoolean(subpartHLights);
-		buffer.writeBoolean(subpartMachines);
-		buffer.writeBoolean(subpartMetalWorks);
-		buffer.writeBoolean(subpartNuclear);
-		buffer.writeBoolean(subpartRWays);
-		buffer.writeBoolean(subpartSensors);
-		buffer.writeBoolean(subpartShapedCharges);
-		buffer.writeBoolean(subpartSpikes);
-		buffer.writeBoolean(subpartSteel);
-		buffer.writeBoolean(subpartStorage);
-		buffer.writeBoolean(subpartTorches);
-		buffer.writeBoolean(subpartWorkbenchUpgrades);
-
-		if (subpartWorkbenchUpgrades)
-			buffer.writeBoolean(useWorkbenchUpgrades);
+		return Optional.of(clientBuilder.build());
 	}
 }

@@ -5,13 +5,13 @@ import com.grim3212.mc.pack.industry.client.model.ModelWoodCabinet;
 import com.grim3212.mc.pack.industry.tile.TileEntityWoodCabinet;
 
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
+import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-@OnlyIn(Dist.CLIENT)
-public class TileEntityWoodCabinetRenderer extends TileEntitySpecialRenderer<TileEntityWoodCabinet> {
+@SideOnly(Side.CLIENT)
+public class TileEntityWoodCabinetRenderer extends TileEntityRenderer<TileEntityWoodCabinet> {
 
 	private ModelWoodCabinet model;
 	private static final ResourceLocation RESOURCE_LOCATION = new ResourceLocation(GrimPack.modID, "textures/models/cabinet.png");

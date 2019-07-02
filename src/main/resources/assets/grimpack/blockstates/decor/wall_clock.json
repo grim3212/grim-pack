@@ -1,0 +1,964 @@
+{
+	"variants": {
+		"facing=north,time=0": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_1",
+			"y": 270
+		},
+		"facing=north,time=1": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_2",
+			"y": 270
+		},
+		"facing=north,time=2": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_3",
+			"y": 270
+		},
+		"facing=north,time=3": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_4",
+			"y": 270
+		},
+		"facing=north,time=4": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_5",
+			"y": 270
+		},
+		"facing=north,time=5": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_6",
+			"y": 270
+		},
+		"facing=north,time=6": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_7",
+			"y": 270
+		},
+		"facing=north,time=7": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_8",
+			"y": 270
+		},
+		"facing=north,time=8": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_9",
+			"y": 270
+		},
+		"facing=north,time=9": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_10",
+			"y": 270
+		},
+		"facing=north,time=10": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_11",
+			"y": 270
+		},
+		"facing=north,time=11": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_12",
+			"y": 270
+		},
+		"facing=north,time=12": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_13",
+			"y": 270
+		},
+		"facing=north,time=13": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_14",
+			"y": 270
+		},
+		"facing=north,time=14": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_15",
+			"y": 270
+		},
+		"facing=north,time=15": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_16",
+			"y": 270
+		},
+		"facing=north,time=16": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_17",
+			"y": 270
+		},
+		"facing=north,time=17": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_18",
+			"y": 270
+		},
+		"facing=north,time=18": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_19",
+			"y": 270
+		},
+		"facing=north,time=19": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_20",
+			"y": 270
+		},
+		"facing=north,time=20": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_21",
+			"y": 270
+		},
+		"facing=north,time=21": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_22",
+			"y": 270
+		},
+		"facing=north,time=22": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_23",
+			"y": 270
+		},
+		"facing=north,time=23": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_24",
+			"y": 270
+		},
+		"facing=north,time=24": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_25",
+			"y": 270
+		},
+		"facing=north,time=25": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_26",
+			"y": 270
+		},
+		"facing=north,time=26": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_27",
+			"y": 270
+		},
+		"facing=north,time=27": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_28",
+			"y": 270
+		},
+		"facing=north,time=28": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_29",
+			"y": 270
+		},
+		"facing=north,time=29": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_30",
+			"y": 270
+		},
+		"facing=north,time=30": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_31",
+			"y": 270
+		},
+		"facing=north,time=31": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_32",
+			"y": 270
+		},
+		"facing=north,time=32": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_33",
+			"y": 270
+		},
+		"facing=north,time=33": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_34",
+			"y": 270
+		},
+		"facing=north,time=34": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_35",
+			"y": 270
+		},
+		"facing=north,time=35": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_36",
+			"y": 270
+		},
+		"facing=north,time=36": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_37",
+			"y": 270
+		},
+		"facing=north,time=37": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_38",
+			"y": 270
+		},
+		"facing=north,time=38": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_39",
+			"y": 270
+		},
+		"facing=north,time=39": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_40",
+			"y": 270
+		},
+		"facing=north,time=40": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_41",
+			"y": 270
+		},
+		"facing=north,time=41": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_42",
+			"y": 270
+		},
+		"facing=north,time=42": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_43",
+			"y": 270
+		},
+		"facing=north,time=43": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_44",
+			"y": 270
+		},
+		"facing=north,time=44": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_45",
+			"y": 270
+		},
+		"facing=north,time=45": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_46",
+			"y": 270
+		},
+		"facing=north,time=46": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_47",
+			"y": 270
+		},
+		"facing=north,time=47": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_48",
+			"y": 270
+		},
+		"facing=north,time=48": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_49",
+			"y": 270
+		},
+		"facing=north,time=49": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_50",
+			"y": 270
+		},
+		"facing=north,time=50": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_51",
+			"y": 270
+		},
+		"facing=north,time=51": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_52",
+			"y": 270
+		},
+		"facing=north,time=52": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_53",
+			"y": 270
+		},
+		"facing=north,time=53": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_54",
+			"y": 270
+		},
+		"facing=north,time=54": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_55",
+			"y": 270
+		},
+		"facing=north,time=55": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_56",
+			"y": 270
+		},
+		"facing=north,time=56": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_57",
+			"y": 270
+		},
+		"facing=north,time=57": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_58",
+			"y": 270
+		},
+		"facing=north,time=58": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_59",
+			"y": 270
+		},
+		"facing=north,time=59": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_60",
+			"y": 270
+		},
+		"facing=north,time=60": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_61",
+			"y": 270
+		},
+		"facing=north,time=61": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_62",
+			"y": 270
+		},
+		"facing=north,time=62": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_63",
+			"y": 270
+		},
+		"facing=north,time=63": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_64",
+			"y": 270
+		},
+		"facing=south,time=0": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_1",
+			"y": 90
+		},
+		"facing=south,time=1": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_2",
+			"y": 90
+		},
+		"facing=south,time=2": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_3",
+			"y": 90
+		},
+		"facing=south,time=3": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_4",
+			"y": 90
+		},
+		"facing=south,time=4": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_5",
+			"y": 90
+		},
+		"facing=south,time=5": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_6",
+			"y": 90
+		},
+		"facing=south,time=6": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_7",
+			"y": 90
+		},
+		"facing=south,time=7": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_8",
+			"y": 90
+		},
+		"facing=south,time=8": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_9",
+			"y": 90
+		},
+		"facing=south,time=9": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_10",
+			"y": 90
+		},
+		"facing=south,time=10": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_11",
+			"y": 90
+		},
+		"facing=south,time=11": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_12",
+			"y": 90
+		},
+		"facing=south,time=12": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_13",
+			"y": 90
+		},
+		"facing=south,time=13": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_14",
+			"y": 90
+		},
+		"facing=south,time=14": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_15",
+			"y": 90
+		},
+		"facing=south,time=15": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_16",
+			"y": 90
+		},
+		"facing=south,time=16": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_17",
+			"y": 90
+		},
+		"facing=south,time=17": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_18",
+			"y": 90
+		},
+		"facing=south,time=18": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_19",
+			"y": 90
+		},
+		"facing=south,time=19": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_20",
+			"y": 90
+		},
+		"facing=south,time=20": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_21",
+			"y": 90
+		},
+		"facing=south,time=21": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_22",
+			"y": 90
+		},
+		"facing=south,time=22": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_23",
+			"y": 90
+		},
+		"facing=south,time=23": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_24",
+			"y": 90
+		},
+		"facing=south,time=24": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_25",
+			"y": 90
+		},
+		"facing=south,time=25": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_26",
+			"y": 90
+		},
+		"facing=south,time=26": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_27",
+			"y": 90
+		},
+		"facing=south,time=27": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_28",
+			"y": 90
+		},
+		"facing=south,time=28": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_29",
+			"y": 90
+		},
+		"facing=south,time=29": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_30",
+			"y": 90
+		},
+		"facing=south,time=30": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_31",
+			"y": 90
+		},
+		"facing=south,time=31": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_32",
+			"y": 90
+		},
+		"facing=south,time=32": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_33",
+			"y": 90
+		},
+		"facing=south,time=33": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_34",
+			"y": 90
+		},
+		"facing=south,time=34": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_35",
+			"y": 90
+		},
+		"facing=south,time=35": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_36",
+			"y": 90
+		},
+		"facing=south,time=36": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_37",
+			"y": 90
+		},
+		"facing=south,time=37": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_38",
+			"y": 90
+		},
+		"facing=south,time=38": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_39",
+			"y": 90
+		},
+		"facing=south,time=39": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_40",
+			"y": 90
+		},
+		"facing=south,time=40": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_41",
+			"y": 90
+		},
+		"facing=south,time=41": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_42",
+			"y": 90
+		},
+		"facing=south,time=42": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_43",
+			"y": 90
+		},
+		"facing=south,time=43": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_44",
+			"y": 90
+		},
+		"facing=south,time=44": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_45",
+			"y": 90
+		},
+		"facing=south,time=45": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_46",
+			"y": 90
+		},
+		"facing=south,time=46": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_47",
+			"y": 90
+		},
+		"facing=south,time=47": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_48",
+			"y": 90
+		},
+		"facing=south,time=48": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_49",
+			"y": 90
+		},
+		"facing=south,time=49": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_50",
+			"y": 90
+		},
+		"facing=south,time=50": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_51",
+			"y": 90
+		},
+		"facing=south,time=51": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_52",
+			"y": 90
+		},
+		"facing=south,time=52": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_53",
+			"y": 90
+		},
+		"facing=south,time=53": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_54",
+			"y": 90
+		},
+		"facing=south,time=54": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_55",
+			"y": 90
+		},
+		"facing=south,time=55": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_56",
+			"y": 90
+		},
+		"facing=south,time=56": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_57",
+			"y": 90
+		},
+		"facing=south,time=57": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_58",
+			"y": 90
+		},
+		"facing=south,time=58": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_59",
+			"y": 90
+		},
+		"facing=south,time=59": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_60",
+			"y": 90
+		},
+		"facing=south,time=60": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_61",
+			"y": 90
+		},
+		"facing=south,time=61": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_62",
+			"y": 90
+		},
+		"facing=south,time=62": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_63",
+			"y": 90
+		},
+		"facing=south,time=63": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_64",
+			"y": 90
+		},
+		"facing=west,time=0": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_1",
+			"y": 180
+		},
+		"facing=west,time=1": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_2",
+			"y": 180
+		},
+		"facing=west,time=2": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_3",
+			"y": 180
+		},
+		"facing=west,time=3": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_4",
+			"y": 180
+		},
+		"facing=west,time=4": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_5",
+			"y": 180
+		},
+		"facing=west,time=5": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_6",
+			"y": 180
+		},
+		"facing=west,time=6": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_7",
+			"y": 180
+		},
+		"facing=west,time=7": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_8",
+			"y": 180
+		},
+		"facing=west,time=8": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_9",
+			"y": 180
+		},
+		"facing=west,time=9": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_10",
+			"y": 180
+		},
+		"facing=west,time=10": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_11",
+			"y": 180
+		},
+		"facing=west,time=11": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_12",
+			"y": 180
+		},
+		"facing=west,time=12": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_13",
+			"y": 180
+		},
+		"facing=west,time=13": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_14",
+			"y": 180
+		},
+		"facing=west,time=14": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_15",
+			"y": 180
+		},
+		"facing=west,time=15": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_16",
+			"y": 180
+		},
+		"facing=west,time=16": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_17",
+			"y": 180
+		},
+		"facing=west,time=17": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_18",
+			"y": 180
+		},
+		"facing=west,time=18": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_19",
+			"y": 180
+		},
+		"facing=west,time=19": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_20",
+			"y": 180
+		},
+		"facing=west,time=20": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_21",
+			"y": 180
+		},
+		"facing=west,time=21": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_22",
+			"y": 180
+		},
+		"facing=west,time=22": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_23",
+			"y": 180
+		},
+		"facing=west,time=23": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_24",
+			"y": 180
+		},
+		"facing=west,time=24": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_25",
+			"y": 180
+		},
+		"facing=west,time=25": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_26",
+			"y": 180
+		},
+		"facing=west,time=26": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_27",
+			"y": 180
+		},
+		"facing=west,time=27": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_28",
+			"y": 180
+		},
+		"facing=west,time=28": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_29",
+			"y": 180
+		},
+		"facing=west,time=29": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_30",
+			"y": 180
+		},
+		"facing=west,time=30": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_31",
+			"y": 180
+		},
+		"facing=west,time=31": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_32",
+			"y": 180
+		},
+		"facing=west,time=32": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_33",
+			"y": 180
+		},
+		"facing=west,time=33": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_34",
+			"y": 180
+		},
+		"facing=west,time=34": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_35",
+			"y": 180
+		},
+		"facing=west,time=35": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_36",
+			"y": 180
+		},
+		"facing=west,time=36": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_37",
+			"y": 180
+		},
+		"facing=west,time=37": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_38",
+			"y": 180
+		},
+		"facing=west,time=38": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_39",
+			"y": 180
+		},
+		"facing=west,time=39": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_40",
+			"y": 180
+		},
+		"facing=west,time=40": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_41",
+			"y": 180
+		},
+		"facing=west,time=41": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_42",
+			"y": 180
+		},
+		"facing=west,time=42": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_43",
+			"y": 180
+		},
+		"facing=west,time=43": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_44",
+			"y": 180
+		},
+		"facing=west,time=44": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_45",
+			"y": 180
+		},
+		"facing=west,time=45": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_46",
+			"y": 180
+		},
+		"facing=west,time=46": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_47",
+			"y": 180
+		},
+		"facing=west,time=47": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_48",
+			"y": 180
+		},
+		"facing=west,time=48": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_49",
+			"y": 180
+		},
+		"facing=west,time=49": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_50",
+			"y": 180
+		},
+		"facing=west,time=50": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_51",
+			"y": 180
+		},
+		"facing=west,time=51": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_52",
+			"y": 180
+		},
+		"facing=west,time=52": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_53",
+			"y": 180
+		},
+		"facing=west,time=53": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_54",
+			"y": 180
+		},
+		"facing=west,time=54": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_55",
+			"y": 180
+		},
+		"facing=west,time=55": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_56",
+			"y": 180
+		},
+		"facing=west,time=56": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_57",
+			"y": 180
+		},
+		"facing=west,time=57": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_58",
+			"y": 180
+		},
+		"facing=west,time=58": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_59",
+			"y": 180
+		},
+		"facing=west,time=59": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_60",
+			"y": 180
+		},
+		"facing=west,time=60": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_61",
+			"y": 180
+		},
+		"facing=west,time=61": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_62",
+			"y": 180
+		},
+		"facing=west,time=62": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_63",
+			"y": 180
+		},
+		"facing=west,time=63": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_64",
+			"y": 180
+		},
+		"facing=east,time=0": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_1"
+		},
+		"facing=east,time=1": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_2"
+		},
+		"facing=east,time=2": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_3"
+		},
+		"facing=east,time=3": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_4"
+		},
+		"facing=east,time=4": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_5"
+		},
+		"facing=east,time=5": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_6"
+		},
+		"facing=east,time=6": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_7"
+		},
+		"facing=east,time=7": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_8"
+		},
+		"facing=east,time=8": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_9"
+		},
+		"facing=east,time=9": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_10"
+		},
+		"facing=east,time=10": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_11"
+		},
+		"facing=east,time=11": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_12"
+		},
+		"facing=east,time=12": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_13"
+		},
+		"facing=east,time=13": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_14"
+		},
+		"facing=east,time=14": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_15"
+		},
+		"facing=east,time=15": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_16"
+		},
+		"facing=east,time=16": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_17"
+		},
+		"facing=east,time=17": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_18"
+		},
+		"facing=east,time=18": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_19"
+		},
+		"facing=east,time=19": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_20"
+		},
+		"facing=east,time=20": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_21"
+		},
+		"facing=east,time=21": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_22"
+		},
+		"facing=east,time=22": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_23"
+		},
+		"facing=east,time=23": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_24"
+		},
+		"facing=east,time=24": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_25"
+		},
+		"facing=east,time=25": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_26"
+		},
+		"facing=east,time=26": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_27"
+		},
+		"facing=east,time=27": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_28"
+		},
+		"facing=east,time=28": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_29"
+		},
+		"facing=east,time=29": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_30"
+		},
+		"facing=east,time=30": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_31"
+		},
+		"facing=east,time=31": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_32"
+		},
+		"facing=east,time=32": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_33"
+		},
+		"facing=east,time=33": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_34"
+		},
+		"facing=east,time=34": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_35"
+		},
+		"facing=east,time=35": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_36"
+		},
+		"facing=east,time=36": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_37"
+		},
+		"facing=east,time=37": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_38"
+		},
+		"facing=east,time=38": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_39"
+		},
+		"facing=east,time=39": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_40"
+		},
+		"facing=east,time=40": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_41"
+		},
+		"facing=east,time=41": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_42"
+		},
+		"facing=east,time=42": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_43"
+		},
+		"facing=east,time=43": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_44"
+		},
+		"facing=east,time=44": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_45"
+		},
+		"facing=east,time=45": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_46"
+		},
+		"facing=east,time=46": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_47"
+		},
+		"facing=east,time=47": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_48"
+		},
+		"facing=east,time=48": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_49"
+		},
+		"facing=east,time=49": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_50"
+		},
+		"facing=east,time=50": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_51"
+		},
+		"facing=east,time=51": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_52"
+		},
+		"facing=east,time=52": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_53"
+		},
+		"facing=east,time=53": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_54"
+		},
+		"facing=east,time=54": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_55"
+		},
+		"facing=east,time=55": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_56"
+		},
+		"facing=east,time=56": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_57"
+		},
+		"facing=east,time=57": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_58"
+		},
+		"facing=east,time=58": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_59"
+		},
+		"facing=east,time=59": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_60"
+		},
+		"facing=east,time=60": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_61"
+		},
+		"facing=east,time=61": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_62"
+		},
+		"facing=east,time=62": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_63"
+		},
+		"facing=east,time=63": {
+			"model": "grimpack:block/decor/wallclock/wall_clock_64"
+		}
+	}
+}

@@ -1,16 +1,19 @@
 package com.grim3212.mc.pack.industry.inventory;
 
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.inventory.Container;
-import net.minecraft.inventory.Slot;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.inventory.container.Container;
+import net.minecraft.inventory.container.Slot;
+import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.ItemStack;
 
 public class ContainerExtruder extends Container {
 
 	private InventoryExtruder extruderInv;
 
-	public ContainerExtruder(InventoryPlayer playerInv, InventoryExtruder extruderInv) {
+	public ContainerExtruder(PlayerInventory playerInv, InventoryExtruder extruderInv) {
 		this.extruderInv = extruderInv;
 
 		// Extruder fuel slot
@@ -42,12 +45,12 @@ public class ContainerExtruder extends Container {
 	}
 
 	@Override
-	public boolean canInteractWith(EntityPlayer playerIn) {
+	public boolean canInteractWith(PlayerEntity playerIn) {
 		return extruderInv.isUsableByPlayer(playerIn);
 	}
 
 	@Override
-	public ItemStack transferStackInSlot(EntityPlayer player, int index) {
+	public ItemStack transferStackInSlot(PlayerEntity player, int index) {
 		ItemStack itemstack = ItemStack.EMPTY;
 		Slot slot = (Slot) inventorySlots.get(index);
 

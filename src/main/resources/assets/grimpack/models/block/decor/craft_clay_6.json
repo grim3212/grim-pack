@@ -1,0 +1,6 @@
+{
+	"parent": "block/cross",
+	"textures": {
+		"cross": "grimpack:block/decor/craft_clay_6"
+	}
+}

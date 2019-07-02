@@ -5,21 +5,24 @@ import com.grim3212.mc.pack.industry.config.IndustryConfig;
 
 import net.minecraft.util.SoundEvent;
 import net.minecraftforge.event.RegistryEvent;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.registries.IForgeRegistry;
+import net.minecraftforge.registries.ObjectHolder;
 
 public class IndustrySounds {
 
-	public static final SoundEvent spikeDeploySound = Utils.createSound("spikeDeploy");
-	public static final SoundEvent spikeCloseSound = Utils.createSound("spikeClose");
+	@ObjectHolder(IndustryNames.SOUND_SPIKE_DEPLOY)
+	public static SoundEvent spikeDeploySound;
+	@ObjectHolder(IndustryNames.SOUND_SPIKE_CLOSE)
+	public static SoundEvent spikeCloseSound;
 
 	@SubscribeEvent
 	public void registerSounds(RegistryEvent.Register<SoundEvent> evt) {
 		IForgeRegistry<SoundEvent> reg = evt.getRegistry();
 
-		if (IndustryConfig.subpartSpikes) {
-			reg.register(spikeDeploySound);
-			reg.register(spikeCloseSound);
+		if (IndustryConfig.subpartSpikes.get()) {
+			reg.register(Utils.createSound(IndustryNames.SOUND_SPIKE_DEPLOY));
+			reg.register(Utils.createSound(IndustryNames.SOUND_SPIKE_CLOSE));
 		}
 	}
 

@@ -4,6 +4,7 @@ import com.grim3212.mc.pack.core.config.CoreConfig;
 import com.grim3212.mc.pack.core.init.CoreInit;
 import com.grim3212.mc.pack.cuisine.item.CuisineItems;
 import com.grim3212.mc.pack.decor.block.DecorBlocks;
+import com.grim3212.mc.pack.industry.block.IndustryBlocks;
 
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
@@ -66,19 +67,24 @@ public class GrimItemGroups {
 					return new ItemStack(DecorBlocks.calendar);
 				}
 			};
+
+		if (CoreConfig.useIndustry.get())
+			GRIM_INDUSTRY = new ItemGroup("industry") {
+
+				@Override
+				@OnlyIn(Dist.CLIENT)
+				public String getTranslationKey() {
+					return "grimpack.creative." + this.getTabLabel();
+				}
+
+				@Override
+				@OnlyIn(Dist.CLIENT)
+				public ItemStack createIcon() {
+					return new ItemStack(IndustryBlocks.togglerack);
+				}
+			};
+
 		/*
-		 * if (CoreConfig.useIndustry) GRIM_INDUSTRY = new
-		 * CreativeTabs(CreativeTabs.getNextID(), "industry") {
-		 * 
-		 * @Override
-		 * 
-		 * @OnlyIn(Dist.CLIENT) public String getTranslatedTabLabel() { return
-		 * "grimpack.creative." + this.getTabLabel(); }
-		 * 
-		 * @Override
-		 * 
-		 * @OnlyIn(Dist.CLIENT) public ItemStack getTabIconItem() { return new
-		 * ItemStack(IndustryBlocks.togglerack); } };
 		 * 
 		 * if (CoreConfig.useTools) GRIM_TOOLS = new
 		 * CreativeTabs(CreativeTabs.getNextID(), "tools") {

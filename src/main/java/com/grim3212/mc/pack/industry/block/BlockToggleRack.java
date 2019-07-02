@@ -4,28 +4,25 @@ import java.util.Random;
 
 import com.grim3212.mc.pack.core.block.BlockManual;
 import com.grim3212.mc.pack.core.manual.pages.Page;
-import com.grim3212.mc.pack.core.part.GrimCreativeTabs;
 import com.grim3212.mc.pack.industry.client.ManualIndustry;
+import com.grim3212.mc.pack.industry.init.IndustryNames;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.init.Blocks;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public class BlockToggleRack extends BlockManual {
 
 	public BlockToggleRack() {
-		super("togglerack", Material.ROCK, SoundType.STONE);
-		this.setHardness(0.6F);
-		this.setResistance(1.0F);
-		setCreativeTab(GrimCreativeTabs.GRIM_INDUSTRY);
+		super(IndustryNames.TOGGLE_RACK, Block.Properties.create(Material.ROCK).sound(SoundType.STONE).hardnessAndResistance(0.6f, 1.0f));
 	}
 
 	@Override
-	public void onBlockAdded(World worldIn, BlockPos pos, IBlockState state) {
+	public void onBlockAdded(BlockState state, World worldIn, BlockPos pos, BlockState neighbor, boolean flag) {
 		if (!worldIn.isRemote) {
 			if (!worldIn.isBlockPowered(pos)) {
 				worldIn.setBlockState(pos, getDefaultState(), 2);
@@ -36,10 +33,10 @@ public class BlockToggleRack extends BlockManual {
 	}
 
 	@Override
-	public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block neighborBlock, BlockPos fromPos) {
+	public void neighborChanged(BlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos, boolean p_220069_6_) {
 		if (!worldIn.isRemote) {
 			if (!worldIn.isBlockPowered(pos)) {
-				worldIn.scheduleUpdate(pos, this, 4);
+				worldIn.getPendingBlockTicks().scheduleTick(pos, this, 4);
 			} else if (worldIn.isBlockPowered(pos) && worldIn.getBlockState(pos.add(0, 1, 0)).getBlock() == Blocks.AIR) {
 				worldIn.setBlockState(pos.add(0, 1, 0), Blocks.FIRE.getDefaultState(), 2);
 			}
@@ -47,16 +44,16 @@ public class BlockToggleRack extends BlockManual {
 	}
 
 	@Override
-	public void updateTick(World worldIn, BlockPos pos, IBlockState state, Random rand) {
+	public void tick(BlockState state, World worldIn, BlockPos pos, Random random) {
 		if (!worldIn.isRemote) {
 			if (!worldIn.isBlockPowered(pos) && worldIn.getBlockState(pos.add(0, 1, 0)).getBlock() == Blocks.FIRE) {
-				worldIn.setBlockToAir(pos.add(0, 1, 0));
+				worldIn.destroyBlock(pos.add(0, 1, 0), false);
 			}
 		}
 	}
 
 	@Override
-	public Page getPage(IBlockState state) {
+	public Page getPage(BlockState state) {
 		return ManualIndustry.togglerack_page;
 	}
 }

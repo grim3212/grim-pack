@@ -1,23 +1,32 @@
 package com.grim3212.mc.pack.decor.tile;
 
+import java.util.Optional;
+
 import com.grim3212.mc.pack.decor.inventory.ContainerCage;
 import com.grim3212.mc.pack.decor.util.CageSpawnerLogic;
-import com.grim3212.mc.pack.tools.items.ItemPokeball;
 
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityList;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.inventory.Container;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.inventory.container.Container;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.item.SnowballItem;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.NetworkManager;
-import net.minecraft.network.play.server.SPacketUpdateTileEntity;
-import net.minecraft.tileentity.TileEntityLockable;
-import net.minecraft.util.ITickable;
+import net.minecraft.network.play.server.SUpdateTileEntityPacket;
+import net.minecraft.tileentity.ITickableTileEntity;
+import net.minecraft.tileentity.LockableTileEntity;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.common.util.Constants;
 
-public class TileEntityCage extends TileEntityLockable implements ITickable {
+public class TileEntityCage extends LockableTileEntity implements ITickableTileEntity {
+
+	public TileEntityCage() {
+		super(DecorTileEntities.CAGE);
+	}
 
 	public ItemStack cageItem = ItemStack.EMPTY;
 	private String customName;
@@ -30,23 +39,18 @@ public class TileEntityCage extends TileEntityLockable implements ITickable {
 	}
 
 	@Override
-	public void update() {
+	public void tick() {
 		this.spawnerLogic.updateSpawner();
 	}
 
 	@Override
-	public Container createContainer(InventoryPlayer playerInventory, EntityPlayer playerIn) {
-		return new ContainerCage(this, playerInventory);
+	public ITextComponent getName() {
+		return this.hasCustomName() ? getCustomName() : new TranslationTextComponent("container.cage");
 	}
 
 	@Override
-	public String getGuiID() {
-		return "decor:cage";
-	}
-
-	@Override
-	public String getName() {
-		return this.hasCustomName() ? this.customName : "container.cage";
+	public ITextComponent getCustomName() {
+		return new StringTextComponent(customName);
 	}
 
 	@Override
@@ -75,7 +79,7 @@ public class TileEntityCage extends TileEntityLockable implements ITickable {
 				return stack;
 			}
 
-			ItemStack stack = this.cageItem.splitStack(count);
+			ItemStack stack = this.cageItem.split(count);
 
 			if (this.cageItem.getCount() == 0) {
 				this.cageItem = ItemStack.EMPTY;
@@ -111,35 +115,36 @@ public class TileEntityCage extends TileEntityLockable implements ITickable {
 	}
 
 	@Override
-	public boolean isUsableByPlayer(EntityPlayer player) {
+	public boolean isUsableByPlayer(PlayerEntity player) {
 		return this.world.getTileEntity(this.pos) != this ? false : player.getDistanceSq((double) this.pos.getX() + 0.5D, (double) this.pos.getY() + 0.5D, (double) this.pos.getZ() + 0.5D) <= 64.0D;
 	}
 
 	@Override
-	public void openInventory(EntityPlayer player) {
+	public void openInventory(PlayerEntity player) {
 	}
 
 	@Override
-	public void closeInventory(EntityPlayer player) {
+	public void closeInventory(PlayerEntity player) {
 	}
 
 	@Override
 	public boolean isItemValidForSlot(int index, ItemStack stack) {
-		return stack.getItem() instanceof ItemPokeball;
+		// TODO: Change to Pokeball
+		return stack.getItem() instanceof SnowballItem;
 	}
 
 	@Override
-	public int getField(int id) {
-		return 0;
+	protected ITextComponent getDefaultName() {
+		return new StringTextComponent("decor:cage");
 	}
 
 	@Override
-	public void setField(int id, int value) {
+	public Container createMenu(int id, PlayerInventory playerInventory, PlayerEntity playerIn) {
+		return this.canOpen(playerIn) ? this.createMenu(id, playerInventory) : null;
 	}
 
-	@Override
-	public int getFieldCount() {
-		return 0;
+	protected Container createMenu(int id, PlayerInventory playerInventory) {
+		return new ContainerCage(id, playerInventory, this);
 	}
 
 	@Override
@@ -149,63 +154,66 @@ public class TileEntityCage extends TileEntityLockable implements ITickable {
 	}
 
 	@Override
-	public NBTTagCompound getUpdateTag() {
-		return writeToNBT(new NBTTagCompound());
+	public CompoundNBT getUpdateTag() {
+		return write(new CompoundNBT());
 	}
 
 	@Override
-	public void handleUpdateTag(NBTTagCompound tag) {
-		readFromNBT(tag);
+	public void handleUpdateTag(CompoundNBT tag) {
+		read(tag);
 	}
 
 	@Override
-	public NBTTagCompound writeToNBT(NBTTagCompound compound) {
-		super.writeToNBT(compound);
+	public CompoundNBT write(CompoundNBT compound) {
+		super.write(compound);
 
 		if (!this.cageItem.isEmpty()) {
-			NBTTagCompound cageCompound = new NBTTagCompound();
-			this.cageItem.writeToNBT(cageCompound);
-			compound.setTag("CageItem", cageCompound);
+			CompoundNBT cageCompound = new CompoundNBT();
+			this.cageItem.write(cageCompound);
+			compound.put("CageItem", cageCompound);
 		}
 
 		if (this.hasCustomName()) {
-			compound.setString("CustomName", this.customName);
+			compound.putString("CustomName", this.customName);
 		}
 
 		return compound;
 	}
 
 	@Override
-	public void readFromNBT(NBTTagCompound compound) {
-		super.readFromNBT(compound);
+	public void read(CompoundNBT compound) {
+		super.read(compound);
 
-		if (compound.hasKey("CageItem", Constants.NBT.TAG_COMPOUND))
-			this.cageItem = new ItemStack(compound.getCompoundTag("CageItem"));
+		if (compound.contains("CageItem", Constants.NBT.TAG_COMPOUND))
+			this.cageItem = ItemStack.read(compound.getCompound("CageItem"));
 
-		if (compound.hasKey("CustomName", 8)) {
+		if (compound.contains("CustomName", 8)) {
 			this.customName = compound.getString("CustomName");
 		}
 	}
 
 	@Override
-	public SPacketUpdateTileEntity getUpdatePacket() {
-		NBTTagCompound nbtTagCompound = new NBTTagCompound();
-		writeToNBT(nbtTagCompound);
-		return new SPacketUpdateTileEntity(this.pos, 1, nbtTagCompound);
+	public SUpdateTileEntityPacket getUpdatePacket() {
+		CompoundNBT nbtTagCompound = new CompoundNBT();
+		write(nbtTagCompound);
+		return new SUpdateTileEntityPacket(this.pos, 1, nbtTagCompound);
 	}
 
 	@Override
-	public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity pkt) {
-		readFromNBT(pkt.getNbtCompound());
+	public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt) {
+		read(pkt.getNbtCompound());
 	}
 
 	public Entity getPokeballEntity() {
 		if (this.cachedEntity == null) {
 			if (!this.cageItem.isEmpty()) {
-				if (this.cageItem.hasTagCompound()) {
-					Entity e = EntityList.createEntityFromNBT(this.cageItem.getTagCompound(), this.world);
-					e.readFromNBT(this.cageItem.getTagCompound());
-					this.cachedEntity = e;
+				if (this.cageItem.hasTag()) {
+					Optional<Entity> e = EntityType.loadEntityUnchecked(this.cageItem.getTag(), this.world);
+					if (e.isPresent()) {
+						Entity ent = e.get();
+						ent.read(this.cageItem.getTag());
+						this.cachedEntity = ent;
+					}
 				}
 			}
 		}

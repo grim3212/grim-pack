@@ -2,6 +2,10 @@ package com.grim3212.mc.pack.industry.client.gui;
 
 import java.io.IOException;
 
+import net.minecraft.client.gui.widget.TextFieldWidget;
+import net.minecraft.client.gui.widget.button.Button;
+import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.inventory.container.Slot;
 import org.lwjgl.input.Keyboard;
 
 import com.grim3212.mc.pack.GrimPack;
@@ -23,15 +27,15 @@ import com.grim3212.mc.pack.industry.network.MessageSensorSetRender;
 import com.grim3212.mc.pack.industry.tile.TileEntitySpecificSensor;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiTextField;
+import net.minecraft.client.gui.widget.button.Button;
+import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
-import net.minecraft.client.renderer.RenderItem;
+import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.EntityList;
-import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.inventory.Slot;
+import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -39,35 +43,35 @@ import net.minecraft.util.math.BlockPos;
 
 public class GuiSpecificSensor extends GuiGrimContainer {
 
-	private GuiTextField entityName;
-	private GuiTextField playerName;
-	private GuiButton mode;
-	private GuiButton setItem;
-	private GuiButton setEntity;
-	private GuiButton setPlayer;
-	private GuiButton setPos;
-	private GuiButton setSize;
-	private GuiButton radiusAdd1;
-	private GuiButton radiusSub1;
+	private TextFieldWidget entityName;
+	private TextFieldWidget playerName;
+	private Button mode;
+	private Button setItem;
+	private Button setEntity;
+	private Button setPlayer;
+	private Button setPos;
+	private Button setSize;
+	private Button radiusAdd1;
+	private Button radiusSub1;
 	private GuiButtonIcon reset;
 	private GuiButtonSensorRender sensorRender;
 	private GuiButtonIcon moreOptions;
 
-	private GuiTextField minX;
-	private GuiTextField minY;
-	private GuiTextField minZ;
-	private GuiTextField maxX;
-	private GuiTextField maxY;
-	private GuiTextField maxZ;
+	private TextFieldWidget minX;
+	private TextFieldWidget minY;
+	private TextFieldWidget minZ;
+	private TextFieldWidget maxX;
+	private TextFieldWidget maxY;
+	private TextFieldWidget maxZ;
 
 	private boolean onMainPage = true;
 	private TileEntitySpecificSensor te;
 	private static final ResourceLocation GUI_LOCATION = new ResourceLocation(GrimPack.modID, "textures/gui/specific_sensor.png");
 	private boolean selectingItem = false;
 	private boolean settingPos = false;
-	private RenderItem renderItem = Minecraft.getMinecraft().getRenderItem();
+	private ItemRenderer renderItem = Minecraft.getMinecraft().getRenderItem();
 
-	public GuiSpecificSensor(InventoryPlayer playerInv, TileEntitySpecificSensor te, BlockPos pos) {
+	public GuiSpecificSensor(PlayerInventory playerInv, TileEntitySpecificSensor te, BlockPos pos) {
 		super(new ContainerSpecificSensor(pos, playerInv));
 		this.xSize = 256;
 		this.ySize = 220;
@@ -84,74 +88,74 @@ public class GuiSpecificSensor extends GuiGrimContainer {
 		Keyboard.enableRepeatEvents(true);
 
 		buttonList.clear();
-		buttonList.add(mode = new GuiButton(0, x + 171, y + 30, 75, 20, I18n.format("grimpack.industry.sensor." + te.getMode().name())));
-		buttonList.add(setItem = new GuiButton(1, x + 171, y + 50, 75, 20, I18n.format("grimpack.industry.sensor.setItem")));
-		buttonList.add(setEntity = new GuiButton(2, x + 171, y + 70, 75, 20, I18n.format("grimpack.industry.sensor.setEntity")));
-		buttonList.add(setPlayer = new GuiButton(3, x + 171, y + 90, 75, 20, I18n.format("grimpack.industry.sensor.setPlayer")));
-		buttonList.add(setPos = new GuiButton(4, x + 171, y + 110, 75, 20, I18n.format("grimpack.industry.sensor.setPos")));
+		buttonList.add(mode = new Button(0, x + 171, y + 30, 75, 20, I18n.format("grimpack.industry.sensor." + te.getMode().name())));
+		buttonList.add(setItem = new Button(1, x + 171, y + 50, 75, 20, I18n.format("grimpack.industry.sensor.setItem")));
+		buttonList.add(setEntity = new Button(2, x + 171, y + 70, 75, 20, I18n.format("grimpack.industry.sensor.setEntity")));
+		buttonList.add(setPlayer = new Button(3, x + 171, y + 90, 75, 20, I18n.format("grimpack.industry.sensor.setPlayer")));
+		buttonList.add(setPos = new Button(4, x + 171, y + 110, 75, 20, I18n.format("grimpack.industry.sensor.setPos")));
 		buttonList.add(sensorRender = new GuiButtonSensorRender(5, x + 205, y + 10, te.renderSensorPos()));
 		buttonList.add(moreOptions = new GuiButtonIcon(6, x + 225, y + 10, 48, 0, this.te.getBlockType() == IndustryBlocks.specific_sensor ? I18n.format("grimpack.industry.sensor.upgradeOptions") : I18n.format("grimpack.industry.sensor.moreOptions")));
 		if (this.te.getBlockType() == IndustryBlocks.specific_sensor) {
 			this.moreOptions.enabled = false;
 		}
-		buttonList.add(setSize = new GuiButton(7, x + 171, y + 70, 75, 20, I18n.format("grimpack.industry.sensor.setSize")));
+		buttonList.add(setSize = new Button(7, x + 171, y + 70, 75, 20, I18n.format("grimpack.industry.sensor.setSize")));
 		this.setSize.visible = false;
 		this.setSize.enabled = false;
-		buttonList.add(radiusAdd1 = new GuiButton(8, x + 171, y + 90, 75, 20, I18n.format("grimpack.industry.sensor.radiusAdd1")));
+		buttonList.add(radiusAdd1 = new Button(8, x + 171, y + 90, 75, 20, I18n.format("grimpack.industry.sensor.radiusAdd1")));
 		this.radiusAdd1.visible = false;
 		this.radiusAdd1.enabled = false;
-		buttonList.add(radiusSub1 = new GuiButton(9, x + 171, y + 110, 75, 20, I18n.format("grimpack.industry.sensor.radiusSub1")));
+		buttonList.add(radiusSub1 = new Button(9, x + 171, y + 110, 75, 20, I18n.format("grimpack.industry.sensor.radiusSub1")));
 		this.radiusSub1.visible = false;
 		this.radiusSub1.enabled = false;
 		buttonList.add(reset = new GuiButtonIcon(10, x + 205, y + 10, 64, 0, I18n.format("grimpack.industry.sensor.reset")));
 		this.reset.visible = false;
 		this.reset.enabled = false;
 
-		entityName = new GuiTextField(0, fontRenderer, x + 57, y + 73, 100, 15);
+		entityName = new TextFieldWidget(0, fontRenderer, x + 57, y + 73, 100, 15);
 		entityName.setFocused(false);
 		entityName.setMaxStringLength(64);
 		entityName.setText(te.getSpecific().getEntityName());
 
-		playerName = new GuiTextField(1, fontRenderer, x + 57, y + 93, 100, 15);
+		playerName = new TextFieldWidget(1, fontRenderer, x + 57, y + 93, 100, 15);
 		playerName.setFocused(false);
 		playerName.setText(te.getSpecific().getPlayerName());
 
-		minX = new GuiTextField(5, fontRenderer, x + 9 + 14, y + 75, 34, 15);
+		minX = new TextFieldWidget(5, fontRenderer, x + 9 + 14, y + 75, 34, 15);
 		minX.setFocused(false);
 		minX.setMaxStringLength(10);
 		minX.setText(String.valueOf(te.getSenseBox().minX));
 		minX.setVisible(false);
 		minX.setEnabled(false);
 
-		minY = new GuiTextField(5, fontRenderer, x + 59 + 14, y + 75, 34, 15);
+		minY = new TextFieldWidget(5, fontRenderer, x + 59 + 14, y + 75, 34, 15);
 		minY.setFocused(false);
 		minY.setMaxStringLength(10);
 		minY.setText(String.valueOf(te.getSenseBox().minY));
 		minY.setVisible(false);
 		minY.setEnabled(false);
 
-		minZ = new GuiTextField(5, fontRenderer, x + 109 + 14, y + 75, 34, 15);
+		minZ = new TextFieldWidget(5, fontRenderer, x + 109 + 14, y + 75, 34, 15);
 		minZ.setFocused(false);
 		minZ.setMaxStringLength(10);
 		minZ.setText(String.valueOf(te.getSenseBox().minZ));
 		minZ.setVisible(false);
 		minZ.setEnabled(false);
 
-		maxX = new GuiTextField(5, fontRenderer, x + 9 + 14, y + 113, 34, 15);
+		maxX = new TextFieldWidget(5, fontRenderer, x + 9 + 14, y + 113, 34, 15);
 		maxX.setFocused(false);
 		maxX.setMaxStringLength(10);
 		maxX.setText(String.valueOf(te.getSenseBox().maxX));
 		maxX.setVisible(false);
 		maxX.setEnabled(false);
 
-		maxY = new GuiTextField(5, fontRenderer, x + 59 + 14, y + 113, 34, 15);
+		maxY = new TextFieldWidget(5, fontRenderer, x + 59 + 14, y + 113, 34, 15);
 		maxY.setFocused(false);
 		maxY.setMaxStringLength(10);
 		maxY.setText(String.valueOf(te.getSenseBox().maxY));
 		maxY.setVisible(false);
 		maxY.setEnabled(false);
 
-		maxZ = new GuiTextField(5, fontRenderer, x + 109 + 14, y + 113, 34, 15);
+		maxZ = new TextFieldWidget(5, fontRenderer, x + 109 + 14, y + 113, 34, 15);
 		maxZ.setFocused(false);
 		maxZ.setMaxStringLength(10);
 		maxZ.setText(String.valueOf(te.getSenseBox().maxZ));
@@ -319,7 +323,7 @@ public class GuiSpecificSensor extends GuiGrimContainer {
 	}
 
 	@Override
-	protected void actionPerformed(GuiButton button) throws IOException {
+	protected void actionPerformed(Button button) throws IOException {
 		switch (button.id) {
 		case 0:
 			te.setMode(te.getMode().getNext());
@@ -576,7 +580,7 @@ public class GuiSpecificSensor extends GuiGrimContainer {
 		}
 
 		// Renders all tooltips if available
-		for (GuiButton b : this.buttonList) {
+		for (Button b : this.buttonList) {
 			if (b.isMouseOver()) {
 				b.drawButtonForegroundLayer(mouseX - this.guiLeft, mouseY - this.guiTop);
 			}

@@ -1,16 +1,16 @@
 package com.grim3212.mc.pack.industry.network;
 
 import java.io.IOException;
+import java.util.function.Supplier;
 
 import com.grim3212.mc.pack.core.network.AbstractMessage.AbstractServerMessage;
 import com.grim3212.mc.pack.industry.tile.TileEntitySpecificSensor;
 
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
-import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.network.NetworkEvent.Context;
 
 public class MessageSensorSetItem extends AbstractServerMessage<MessageSensorSetItem> {
 
@@ -26,23 +26,22 @@ public class MessageSensorSetItem extends AbstractServerMessage<MessageSensorSet
 	}
 
 	@Override
-	protected void read(PacketBuffer buffer) throws IOException {
-		this.pos = buffer.readBlockPos();
-		this.stack = buffer.readItemStack();
+	protected MessageSensorSetItem read(PacketBuffer buffer) throws IOException {
+		return new MessageSensorSetItem(buffer.readBlockPos(), buffer.readItemStack());
 	}
 
 	@Override
-	protected void write(PacketBuffer buffer) throws IOException {
-		buffer.writeBlockPos(pos);
-		buffer.writeItemStack(stack);
+	protected void write(MessageSensorSetItem msg, PacketBuffer buffer) throws IOException {
+		buffer.writeBlockPos(msg.pos);
+		buffer.writeItemStack(msg.stack);
 	}
 
 	@Override
-	public void process(EntityPlayer player, Side side) {
-		TileEntity te = player.world.getTileEntity(pos);
+	public void process(MessageSensorSetItem msg, Supplier<Context> ctx) {
+		TileEntity te = ctx.get().getSender().world.getTileEntity(msg.pos);
 
 		if (te instanceof TileEntitySpecificSensor) {
-			((TileEntitySpecificSensor) te).getSpecific().setItemStackSpecific(stack);
+			((TileEntitySpecificSensor) te).getSpecific().setItemStackSpecific(msg.stack);
 		}
 	}
 }

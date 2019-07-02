@@ -6,7 +6,7 @@ import com.grim3212.mc.pack.GrimPack;
 import com.grim3212.mc.pack.core.manual.gui.GuiManualPage;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.util.ResourceLocation;
 
 public class PageImageText extends Page {
@@ -42,7 +42,7 @@ public class PageImageText extends Page {
 		Minecraft.getInstance().textureManager.bindTexture(imageLocation);
 
 		GL11.glColor4f(1F, 1F, 1F, alpha);
-		((GuiScreen) gui).drawTexturedModalRect(gui.getX(), gui.getY(), 0, 0, gui.getManualWidth(), gui.getManualHeight());
+		((Screen) gui).blit(gui.getX(), gui.getY(), 0, 0, gui.getManualWidth(), gui.getManualHeight());
 
 		GL11.glColor4f(0F, 0F, 0F, 1F);
 

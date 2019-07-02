@@ -7,28 +7,29 @@ import com.grim3212.mc.pack.industry.inventory.InventoryExtruder;
 import com.grim3212.mc.pack.industry.item.IndustryItems;
 
 import io.netty.buffer.ByteBuf;
-import net.minecraft.block.Block;
-import net.minecraft.block.SoundType;
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.*;
+import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.MoverType;
-import net.minecraft.entity.item.EntityItem;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
+import net.minecraft.entity.item.ItemEntity;
+import net.minecraft.entity.item.ItemEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.block.Blocks;
+import net.minecraft.item.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
+import net.minecraft.item.Items;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.ListNBT;
+import net.minecraft.nbt.ListNBT;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.EnumActionResult;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumHand;
-import net.minecraft.util.NonNullList;
-import net.minecraft.util.SoundCategory;
+import net.minecraft.util.*;
+import net.minecraft.util.Direction;
+import net.minecraft.util.Hand;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
@@ -42,7 +43,7 @@ public class EntityExtruder extends Entity implements IEntityAdditionalSpawnData
 	/**
 	 * The direction the extruder is facing
 	 */
-	private EnumFacing facing;
+	private Direction facing;
 	/**
 	 * The speed modifier depending on the fuel inserted
 	 */
@@ -64,11 +65,11 @@ public class EntityExtruder extends Entity implements IEntityAdditionalSpawnData
 	public EntityExtruder(World worldIn) {
 		super(worldIn);
 		this.setSize(0.865F, 0.856F);
-		this.facing = EnumFacing.NORTH;
+		this.facing = Direction.NORTH;
 		this.extruderInv = new InventoryExtruder(this);
 	}
 
-	public EntityExtruder(World worldIn, EnumFacing facing, double x, double y, double z) {
+	public EntityExtruder(World worldIn, Direction facing, double x, double y, double z) {
 		this(worldIn);
 		this.setPosition(x, y - this.height / 2, z);
 		this.setFacing(facing);
@@ -77,15 +78,15 @@ public class EntityExtruder extends Entity implements IEntityAdditionalSpawnData
 		this.prevPosZ = z;
 	}
 
-	public void setFacing(EnumFacing facing) {
+	public void setFacing(Direction facing) {
 		this.facing = facing;
 
-		if (facing == EnumFacing.UP) {
+		if (facing == Direction.UP) {
 			setPositionAndRotation(posX, posY, posZ, 0.0F, -180F);
-		} else if (facing == EnumFacing.DOWN) {
+		} else if (facing == Direction.DOWN) {
 			setPositionAndRotation(posX, posY, posZ, 0.0F, 90F);
 		} else {
-			if (facing.getAxis() == EnumFacing.Axis.X)
+			if (facing.getAxis() == Direction.Axis.X)
 				setPositionAndRotation(posX, posY, posZ, (facing.getOpposite().getHorizontalIndex() * 90 - 90) % 360, 0.0F);
 			else
 				setPositionAndRotation(posX, posY, posZ, (facing.getHorizontalIndex() * 90 - 90) % 360, 0.0F);
@@ -111,7 +112,7 @@ public class EntityExtruder extends Entity implements IEntityAdditionalSpawnData
 		BlockPos pos = this.getPosition();
 		pos = pos.offset(getFacing());
 
-		IBlockState state = world.getBlockState(pos);
+		BlockState state = world.getBlockState(pos);
 
 		if (!(state.getBlock() == Blocks.OBSIDIAN || state.getBlock() == Blocks.BEDROCK)) {
 			if (this.getFuelAmount() <= 0) {
@@ -204,7 +205,7 @@ public class EntityExtruder extends Entity implements IEntityAdditionalSpawnData
 	}
 
 	@SuppressWarnings("deprecation")
-	public void extrudeBlock(BlockPos pos, EnumFacing facing) {
+	public void extrudeBlock(BlockPos pos, Direction facing) {
 		ItemStack itemstack = this.extruderInv.nextExtruderStack();
 
 		if (!itemstack.isEmpty()) {
@@ -213,10 +214,10 @@ public class EntityExtruder extends Entity implements IEntityAdditionalSpawnData
 				if (!this.world.isRemote) {
 					world.setBlockState(pos.offset(facing.getOpposite()), Block.getBlockFromItem(itemstack.getItem()).getStateFromMeta(itemstack.getMetadata()));
 					SoundType soundType = Block.getBlockFromItem(itemstack.getItem()).getSoundType();
-					world.playSound((EntityPlayer) null, pos.offset(facing.getOpposite()), soundType.getPlaceSound(), SoundCategory.BLOCKS, (soundType.getVolume() + 1.0F) / 2.0F, soundType.getPitch() * 0.8F);
+					world.playSound((PlayerEntity) null, pos.offset(facing.getOpposite()), soundType.getPlaceSound(), SoundCategory.BLOCKS, (soundType.getVolume() + 1.0F) / 2.0F, soundType.getPitch() * 0.8F);
 				}
 			} else {
-				EntityItem entityitem = new EntityItem(world, posX, posY, posZ, itemstack);
+				ItemEntity entityitem = new ItemEntity(world, posX, posY, posZ, itemstack);
 				if (!this.world.isRemote)
 					world.spawnEntity(entityitem);
 			}
@@ -280,7 +281,7 @@ public class EntityExtruder extends Entity implements IEntityAdditionalSpawnData
 		this.setTimeSinceHit(10);
 		this.setDamageTaken(this.getDamageTaken() + amount * 11.0F);
 		this.markVelocityChanged();
-		boolean flag = source.getTrueSource() instanceof EntityPlayer && ((EntityPlayer) source.getTrueSource()).capabilities.isCreativeMode;
+		boolean flag = source.getTrueSource() instanceof PlayerEntity && ((PlayerEntity) source.getTrueSource()).capabilities.isCreativeMode;
 
 		if (flag || this.getDamageTaken() > 40.0F) {
 			if (!flag && this.world.getGameRules().getBoolean("doEntityDrops")) {
@@ -304,7 +305,7 @@ public class EntityExtruder extends Entity implements IEntityAdditionalSpawnData
 	private void emptyItems() {
 		for (ItemStack stack : this.extruderInv.getExtruderContents()) {
 			if (!stack.isEmpty() && stack.getItem() != null) {
-				EntityItem entityitem = new EntityItem(world, (float) posX, (float) posY, (float) posZ, stack);
+				ItemEntity entityitem = new ItemEntity(world, (float) posX, (float) posY, (float) posZ, stack);
 				world.spawnEntity(entityitem);
 			}
 		}
@@ -322,11 +323,11 @@ public class EntityExtruder extends Entity implements IEntityAdditionalSpawnData
 	}
 
 	@Override
-	public EnumActionResult applyPlayerInteraction(EntityPlayer player, Vec3d vec, EnumHand hand) {
+	public ActionResultType applyPlayerInteraction(PlayerEntity player, Vec3d vec, Hand hand) {
 		if (!player.world.isRemote)
 			player.openGui(GrimPack.INSTANCE, PackGuiHandler.EXTRUDER_GUI_ID, player.world, this.getPosition().getX(), this.getPosition().getY(), this.getPosition().getZ());
 
-		return EnumActionResult.SUCCESS;
+		return ActionResultType.SUCCESS;
 	}
 
 	public InventoryExtruder getExtruderInv() {
@@ -341,7 +342,7 @@ public class EntityExtruder extends Entity implements IEntityAdditionalSpawnData
 		this.getDataManager().set(CUSTOM_NAME, customName);
 	}
 
-	public EnumFacing getFacing() {
+	public Direction getFacing() {
 		return facing;
 	}
 
@@ -433,8 +434,8 @@ public class EntityExtruder extends Entity implements IEntityAdditionalSpawnData
 	}
 
 	@Override
-	protected void readEntityFromNBT(NBTTagCompound compound) {
-		facing = EnumFacing.getFront(compound.getByte("facing"));
+	protected void readEntityFromNBT(CompoundNBT compound) {
+		facing = Direction.getFront(compound.getByte("facing"));
 		this.setFuelAmount(compound.getInteger("fuel"));
 		speedModifier = compound.getFloat("speedModifier");
 		this.setIsRunning(compound.getBoolean("running"));
@@ -444,12 +445,12 @@ public class EntityExtruder extends Entity implements IEntityAdditionalSpawnData
 			this.getDataManager().set(CUSTOM_NAME, compound.getString("CustomName"));
 		}
 
-		NBTTagList nbttaglist = compound.getTagList("Items", 10);
+		ListNBT nbttaglist = compound.getTagList("Items", 10);
 
 		this.extruderInv.setExtruderContents(NonNullList.withSize(37, ItemStack.EMPTY));
 
 		for (int i = 0; i < nbttaglist.tagCount(); ++i) {
-			NBTTagCompound nbttagcompound = nbttaglist.getCompoundTagAt(i);
+			CompoundNBT nbttagcompound = nbttaglist.getCompoundTagAt(i);
 			int j = nbttagcompound.getByte("Slot");
 
 			if (j >= 0 && j < this.extruderInv.getExtruderContents().size()) {
@@ -459,7 +460,7 @@ public class EntityExtruder extends Entity implements IEntityAdditionalSpawnData
 	}
 
 	@Override
-	protected void writeEntityToNBT(NBTTagCompound compound) {
+	protected void writeEntityToNBT(CompoundNBT compound) {
 		compound.setByte("facing", (byte) facing.getIndex());
 		compound.setInteger("fuel", this.getFuelAmount());
 		compound.setFloat("speedModifier", speedModifier);
@@ -470,11 +471,11 @@ public class EntityExtruder extends Entity implements IEntityAdditionalSpawnData
 			compound.setString("CustomName", this.getDataManager().get(CUSTOM_NAME));
 		}
 
-		NBTTagList nbttaglist = new NBTTagList();
+		ListNBT nbttaglist = new ListNBT();
 
 		for (int i = 0; i < this.extruderInv.getExtruderContents().size(); ++i) {
 			if (!this.extruderInv.getExtruderContents().get(i).isEmpty()) {
-				NBTTagCompound nbttagcompound = new NBTTagCompound();
+				CompoundNBT nbttagcompound = new CompoundNBT();
 				nbttagcompound.setByte("Slot", (byte) i);
 				this.extruderInv.getExtruderContents().get(i).writeToNBT(nbttagcompound);
 				nbttaglist.appendTag(nbttagcompound);
@@ -491,7 +492,7 @@ public class EntityExtruder extends Entity implements IEntityAdditionalSpawnData
 
 	@Override
 	public void readSpawnData(ByteBuf additionalData) {
-		this.facing = EnumFacing.getFront(additionalData.readByte());
+		this.facing = Direction.getFront(additionalData.readByte());
 	}
 
 }

@@ -1,44 +1,44 @@
 package com.grim3212.mc.pack.industry.client.model;
 
-import net.minecraft.client.model.ModelBase;
-import net.minecraft.client.model.ModelRenderer;
+import net.minecraft.client.renderer.entity.model.RendererModel;
+import net.minecraft.client.renderer.model.Model;
 import net.minecraft.entity.Entity;
 
-public class ModelWarehouseCrate extends ModelBase {
+public class ModelWarehouseCrate extends Model {
 	public boolean renderHandle = false;
 	public float doorAngle = 0.0F;
-	public ModelRenderer[] crateMain = new ModelRenderer[5];
-	public ModelRenderer[] crateBars = new ModelRenderer[13];
-	public ModelRenderer crateLid;
-	public ModelRenderer crateLock;
+	public RendererModel[] crateMain = new RendererModel[5];
+	public RendererModel[] crateBars = new RendererModel[13];
+	public RendererModel crateLid;
+	public RendererModel crateLock;
 
 	public ModelWarehouseCrate() {
 		init();
 	}
 
 	public void init() {
-		this.crateMain[0] = new ModelRenderer(this, 0, 0).setTextureSize(64, 128);
-		this.crateMain[1] = new ModelRenderer(this, 0, 0).setTextureSize(64, 128);
-		this.crateMain[2] = new ModelRenderer(this, 0, 28).setTextureSize(64, 128);
-		this.crateMain[3] = new ModelRenderer(this, 0, 28).setTextureSize(64, 128);
-		this.crateMain[4] = new ModelRenderer(this, 0, 43).setTextureSize(64, 128);
+		this.crateMain[0] = new RendererModel(this, 0, 0).setTextureSize(64, 128);
+		this.crateMain[1] = new RendererModel(this, 0, 0).setTextureSize(64, 128);
+		this.crateMain[2] = new RendererModel(this, 0, 28).setTextureSize(64, 128);
+		this.crateMain[3] = new RendererModel(this, 0, 28).setTextureSize(64, 128);
+		this.crateMain[4] = new RendererModel(this, 0, 43).setTextureSize(64, 128);
 
-		this.crateBars[0] = new ModelRenderer(this, 30, 0).setTextureSize(64, 128);
-		this.crateBars[1] = new ModelRenderer(this, 30, 0).setTextureSize(64, 128);
-		this.crateBars[2] = new ModelRenderer(this, 30, 0).setTextureSize(64, 128);
-		this.crateBars[3] = new ModelRenderer(this, 30, 0).setTextureSize(64, 128);
-		this.crateBars[4] = new ModelRenderer(this, 30, 17).setTextureSize(64, 128);
-		this.crateBars[5] = new ModelRenderer(this, 30, 17).setTextureSize(64, 128);
-		this.crateBars[6] = new ModelRenderer(this, 30, 21).setTextureSize(64, 128);
-		this.crateBars[7] = new ModelRenderer(this, 30, 21).setTextureSize(64, 128);
-		this.crateBars[8] = new ModelRenderer(this, 0, 56).setTextureSize(64, 128);
-		this.crateBars[9] = new ModelRenderer(this, 0, 56).setTextureSize(64, 128);
-		this.crateBars[10] = new ModelRenderer(this, 6, 56).setTextureSize(64, 128);
-		this.crateBars[11] = new ModelRenderer(this, 6, 56).setTextureSize(64, 128);
-		this.crateBars[12] = new ModelRenderer(this, 6, 56).setTextureSize(64, 128);
+		this.crateBars[0] = new RendererModel(this, 30, 0).setTextureSize(64, 128);
+		this.crateBars[1] = new RendererModel(this, 30, 0).setTextureSize(64, 128);
+		this.crateBars[2] = new RendererModel(this, 30, 0).setTextureSize(64, 128);
+		this.crateBars[3] = new RendererModel(this, 30, 0).setTextureSize(64, 128);
+		this.crateBars[4] = new RendererModel(this, 30, 17).setTextureSize(64, 128);
+		this.crateBars[5] = new RendererModel(this, 30, 17).setTextureSize(64, 128);
+		this.crateBars[6] = new RendererModel(this, 30, 21).setTextureSize(64, 128);
+		this.crateBars[7] = new RendererModel(this, 30, 21).setTextureSize(64, 128);
+		this.crateBars[8] = new RendererModel(this, 0, 56).setTextureSize(64, 128);
+		this.crateBars[9] = new RendererModel(this, 0, 56).setTextureSize(64, 128);
+		this.crateBars[10] = new RendererModel(this, 6, 56).setTextureSize(64, 128);
+		this.crateBars[11] = new RendererModel(this, 6, 56).setTextureSize(64, 128);
+		this.crateBars[12] = new RendererModel(this, 6, 56).setTextureSize(64, 128);
 
-		this.crateLid = new ModelRenderer(this, 0, 76).setTextureSize(64, 128);
-		this.crateLock = new ModelRenderer(this, 56, 0).setTextureSize(64, 128);
+		this.crateLid = new RendererModel(this, 0, 76).setTextureSize(64, 128);
+		this.crateLock = new RendererModel(this, 56, 0).setTextureSize(64, 128);
 
 		this.crateMain[0].addBox(1.0F, 1.0F, 1.0F, 1, 14, 14);
 		this.crateMain[1].addBox(14.0F, 1.0F, 1.0F, 1, 14, 14);
@@ -85,8 +85,8 @@ public class ModelWarehouseCrate extends ModelBase {
 	}
 
 	public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) {
-		super.render(entity, f, f1, f2, f3, f4, f5);
-		setRotationAngles(f, f1, f2, f3, f4, f5, entity);
+		// super.render(entity, f, f1, f2, f3, f4, f5);
+		// setRotationAngles(f, f1, f2, f3, f4, f5, entity);
 
 		callRender(f5);
 	}

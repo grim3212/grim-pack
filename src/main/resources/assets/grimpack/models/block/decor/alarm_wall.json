@@ -1,0 +1,22 @@
+{
+	"parent": "block/block",
+	"textures": {
+        "particle": "grimpack:block/decor/alarm_side",
+        "side": "grimpack:block/decor/alarm_side",
+        "top": "grimpack:block/decor/alarm_top"
+    },
+    "elements": [ 	 
+		{
+			"from": [ 3, 3, 12 ],
+			"to": [ 13, 13, 16 ],
+			"faces": {
+				"down": { "uv": [ 2, 11, 14, 16 ], "texture": "#side", "rotation": 180 },
+				"up": { "uv": [ 2, 11, 14, 16 ], "texture": "#side" },
+				"north": { "uv": [ 3, 3, 13, 13 ], "texture": "#top" },
+				"south": { "uv": [ 3, 3, 13, 13 ], "texture": "#top", "cullface": "south" },
+				"west": { "uv": [ 2, 11, 14, 16 ], "texture": "#side", "rotation": 270 },
+				"east": { "uv": [ 2, 11, 14, 16 ], "texture": "#side", "rotation": 90 }
+			}
+		}
+	]
+}

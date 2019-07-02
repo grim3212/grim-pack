@@ -1,0 +1,40 @@
+{
+	"parent": "block/block",
+	"textures": {
+			"side": "grimpack:block/decor/pot",
+			"top": "block/sand",
+			"particle": "grimpack:block/decor/pot"
+		},
+	"elements": [{
+		"from": [3, 0, 3],
+		"to": [13, 16, 13],
+		"faces": {
+			"down": {
+				"uv": [13, 13, 3, 3],
+				"texture": "#side",
+				"cullface": "down"
+			},
+			"up": {
+				"uv": [ 3, 3, 13, 13],
+				"texture": "#top",
+				"cullface": "up"
+			},
+			"north": {
+				"uv": [ 3, 0, 13, 16],
+				"texture": "#side"
+			},
+			"south": {
+				"uv": [ 3, 0, 13, 16],
+				"texture": "#side"
+			},
+			"west": {
+				"uv": [ 3, 0, 13, 16],
+				"texture": "#side"
+			},
+			"east": {
+				"uv": [ 3, 0, 13, 16],
+				"texture": "#side"
+			}
+		}
+	}]
+}

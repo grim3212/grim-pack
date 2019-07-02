@@ -20,7 +20,7 @@
       "item": "minecraft:flint"
     },
     "X": {
-      "constant": "grimpack:iron"
+      "tag": "forge:ingots/iron"
     }
   }
 }

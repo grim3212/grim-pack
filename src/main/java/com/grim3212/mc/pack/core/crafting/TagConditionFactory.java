@@ -8,7 +8,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 
 import net.minecraft.tags.ItemTags;
-import net.minecraft.util.JsonUtils;
+import net.minecraft.util.JSONUtils;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.crafting.IConditionSerializer;
 
@@ -16,7 +16,7 @@ public class TagConditionFactory implements IConditionSerializer {
 
 	@Override
 	public BooleanSupplier parse(JsonObject json) {
-		String value = JsonUtils.getString(json, "tagName", "");
+		String value = JSONUtils.getString(json, "tagName", "");
 
 		if (!Strings.isEmpty(value)) {
 			return () -> !ItemTags.getCollection().get(new ResourceLocation(value)).getAllElements().isEmpty();

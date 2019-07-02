@@ -1,87 +1,128 @@
 package com.grim3212.mc.pack.decor.block.colorizer;
 
-import javax.annotation.Nullable;
-
 import com.grim3212.mc.pack.core.manual.pages.Page;
 import com.grim3212.mc.pack.decor.client.ManualDecor;
+import com.grim3212.mc.pack.decor.init.DecorNames;
 import com.grim3212.mc.pack.decor.item.DecorItems;
 import com.grim3212.mc.pack.decor.tile.TileEntityColorizer;
 import com.grim3212.mc.pack.decor.util.BlockHelper;
-import com.grim3212.mc.pack.util.config.UtilConfig;
-import com.grim3212.mc.pack.util.event.DoubleFenceGate;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockFenceGate;
-import net.minecraft.block.properties.IProperty;
-import net.minecraft.block.state.BlockStateContainer;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
+import net.minecraft.block.FenceGateBlock;
+import net.minecraft.block.SoundType;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.ItemUseContext;
+import net.minecraft.pathfinding.PathType;
+import net.minecraft.state.StateContainer;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumHand;
+import net.minecraft.util.Direction;
+import net.minecraft.util.Hand;
 import net.minecraft.util.SoundCategory;
-import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockAccess;
+import net.minecraft.util.math.BlockRayTraceResult;
+import net.minecraft.util.math.shapes.ISelectionContext;
+import net.minecraft.util.math.shapes.VoxelShape;
+import net.minecraft.util.math.shapes.VoxelShapes;
+import net.minecraft.world.IBlockReader;
+import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
-import net.minecraftforge.common.property.ExtendedBlockState;
-import net.minecraftforge.common.property.IUnlistedProperty;
 
 public class BlockColorizerFenceGate extends BlockColorizerFurnitureRotate {
 
-	protected static final AxisAlignedBB AABB_COLLIDE_ZAXIS = new AxisAlignedBB(0.0D, 0.0D, 0.375D, 1.0D, 1.0D, 0.625D);
-	protected static final AxisAlignedBB AABB_COLLIDE_XAXIS = new AxisAlignedBB(0.375D, 0.0D, 0.0D, 0.625D, 1.0D, 1.0D);
-	protected static final AxisAlignedBB AABB_COLLIDE_ZAXIS_INWALL = new AxisAlignedBB(0.0D, 0.0D, 0.375D, 1.0D, 0.8125D, 0.625D);
-	protected static final AxisAlignedBB AABB_COLLIDE_XAXIS_INWALL = new AxisAlignedBB(0.375D, 0.0D, 0.0D, 0.625D, 0.8125D, 1.0D);
-	protected static final AxisAlignedBB AABB_CLOSED_SELECTED_ZAXIS = new AxisAlignedBB(0.0D, 0.0D, 0.375D, 1.0D, 1.5D, 0.625D);
-	protected static final AxisAlignedBB AABB_CLOSED_SELECTED_XAXIS = new AxisAlignedBB(0.375D, 0.0D, 0.0D, 0.625D, 1.5D, 1.0D);
+	protected static final VoxelShape AABB_HITBOX_ZAXIS = Block.makeCuboidShape(0.0D, 0.0D, 6.0D, 16.0D, 16.0D, 10.0D);
+	protected static final VoxelShape AABB_HITBOX_XAXIS = Block.makeCuboidShape(6.0D, 0.0D, 0.0D, 10.0D, 16.0D, 16.0D);
+	protected static final VoxelShape AABB_HITBOX_ZAXIS_INWALL = Block.makeCuboidShape(0.0D, 0.0D, 6.0D, 16.0D, 13.0D, 10.0D);
+	protected static final VoxelShape AABB_HITBOX_XAXIS_INWALL = Block.makeCuboidShape(6.0D, 0.0D, 0.0D, 10.0D, 13.0D, 16.0D);
+	protected static final VoxelShape field_208068_x = Block.makeCuboidShape(0.0D, 0.0D, 6.0D, 16.0D, 24.0D, 10.0D);
+	protected static final VoxelShape AABB_COLLISION_BOX_XAXIS = Block.makeCuboidShape(6.0D, 0.0D, 0.0D, 10.0D, 24.0D, 16.0D);
+	protected static final VoxelShape field_208069_z = VoxelShapes.or(Block.makeCuboidShape(0.0D, 5.0D, 7.0D, 2.0D, 16.0D, 9.0D), Block.makeCuboidShape(14.0D, 5.0D, 7.0D, 16.0D, 16.0D, 9.0D));
+	protected static final VoxelShape AABB_COLLISION_BOX_ZAXIS = VoxelShapes.or(Block.makeCuboidShape(7.0D, 5.0D, 0.0D, 9.0D, 16.0D, 2.0D), Block.makeCuboidShape(7.0D, 5.0D, 14.0D, 9.0D, 16.0D, 16.0D));
+	protected static final VoxelShape field_208066_B = VoxelShapes.or(Block.makeCuboidShape(0.0D, 2.0D, 7.0D, 2.0D, 13.0D, 9.0D), Block.makeCuboidShape(14.0D, 2.0D, 7.0D, 16.0D, 13.0D, 9.0D));
+	protected static final VoxelShape field_208067_C = VoxelShapes.or(Block.makeCuboidShape(7.0D, 2.0D, 0.0D, 9.0D, 13.0D, 2.0D), Block.makeCuboidShape(7.0D, 2.0D, 14.0D, 9.0D, 13.0D, 16.0D));
 
 	public BlockColorizerFenceGate() {
-		super("fence_gate");
+		super(DecorNames.FENCE_GATE);
 	}
 
 	@Override
-	protected IBlockState getState() {
-		return this.getDefaultState().withProperty(BlockFenceGate.OPEN, false).withProperty(BlockFenceGate.POWERED, false).withProperty(BlockFenceGate.IN_WALL, false);
+	protected BlockState getState() {
+		return this.getDefaultState().with(FenceGateBlock.OPEN, false).with(FenceGateBlock.POWERED, false).with(FenceGateBlock.IN_WALL, false);
 	}
 
 	@Override
-	public boolean canPlaceBlockAt(World worldIn, BlockPos pos) {
-		return worldIn.getBlockState(pos.down()).getMaterial().isSolid() ? super.canPlaceBlockAt(worldIn, pos) : false;
-	}
-
-	@Override
-	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
-		state = this.getActualState(state, source, pos);
-		return state.getValue(BlockFenceGate.IN_WALL) ? state.getValue(FACING).getAxis() == EnumFacing.Axis.X ? AABB_COLLIDE_XAXIS_INWALL : AABB_COLLIDE_ZAXIS_INWALL : state.getValue(FACING).getAxis() == EnumFacing.Axis.X ? AABB_COLLIDE_XAXIS : AABB_COLLIDE_ZAXIS;
-	}
-
-	@Override
-	public IBlockState getActualState(IBlockState state, IBlockAccess worldIn, BlockPos pos) {
-		EnumFacing.Axis enumfacing$axis = state.getValue(FACING).getAxis();
-
-		if (enumfacing$axis == EnumFacing.Axis.Z && (canFenceGateConnectTo(worldIn, pos, EnumFacing.WEST) || canFenceGateConnectTo(worldIn, pos, EnumFacing.EAST)) || enumfacing$axis == EnumFacing.Axis.X && (canFenceGateConnectTo(worldIn, pos, EnumFacing.NORTH) || canFenceGateConnectTo(worldIn, pos, EnumFacing.SOUTH))) {
-			state = state.withProperty(BlockFenceGate.IN_WALL, true);
+	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
+		if (state.get(FenceGateBlock.IN_WALL)) {
+			return state.get(HORIZONTAL_FACING).getAxis() == Direction.Axis.X ? AABB_HITBOX_XAXIS_INWALL : AABB_HITBOX_ZAXIS_INWALL;
+		} else {
+			return state.get(HORIZONTAL_FACING).getAxis() == Direction.Axis.X ? AABB_HITBOX_XAXIS : AABB_HITBOX_ZAXIS;
 		}
-
-		return state;
 	}
 
 	@Override
-	@Nullable
-	public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, IBlockAccess worldIn, BlockPos pos) {
-		return blockState.getValue(BlockFenceGate.OPEN) ? NULL_AABB : blockState.getValue(FACING).getAxis() == EnumFacing.Axis.Z ? AABB_CLOSED_SELECTED_ZAXIS : AABB_CLOSED_SELECTED_XAXIS;
-	}
-
-	@Override
-	public boolean isPassable(IBlockAccess worldIn, BlockPos pos) {
-		return worldIn.getBlockState(pos).getValue(BlockFenceGate.OPEN);
-	}
-
 	@SuppressWarnings("deprecation")
-	public boolean changeGates(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing side) {
+	public BlockState updatePostPlacement(BlockState stateIn, Direction facing, BlockState facingState, IWorld worldIn, BlockPos currentPos, BlockPos facingPos) {
+		Direction.Axis direction$axis = facing.getAxis();
+		if (stateIn.get(HORIZONTAL_FACING).rotateY().getAxis() != direction$axis) {
+			return super.updatePostPlacement(stateIn, facing, facingState, worldIn, currentPos, facingPos);
+		} else {
+			boolean flag = this.isWall(facingState) || this.isWall(worldIn.getBlockState(currentPos.offset(facing.getOpposite())));
+			return stateIn.with(FenceGateBlock.IN_WALL, flag);
+		}
+	}
+
+	@Override
+	public VoxelShape getCollisionShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
+		if (state.get(FenceGateBlock.OPEN)) {
+			return VoxelShapes.empty();
+		} else {
+			return state.get(HORIZONTAL_FACING).getAxis() == Direction.Axis.Z ? field_208068_x : AABB_COLLISION_BOX_XAXIS;
+		}
+	}
+
+	@Override
+	public VoxelShape getRenderShape(BlockState state, IBlockReader worldIn, BlockPos pos) {
+		if (state.get(FenceGateBlock.IN_WALL)) {
+			return state.get(HORIZONTAL_FACING).getAxis() == Direction.Axis.X ? field_208067_C : field_208066_B;
+		} else {
+			return state.get(HORIZONTAL_FACING).getAxis() == Direction.Axis.X ? AABB_COLLISION_BOX_ZAXIS : field_208069_z;
+		}
+	}
+
+	@Override
+	public boolean allowsMovement(BlockState state, IBlockReader worldIn, BlockPos pos, PathType type) {
+		switch (type) {
+		case LAND:
+			return state.get(FenceGateBlock.OPEN);
+		case WATER:
+			return false;
+		case AIR:
+			return state.get(FenceGateBlock.OPEN);
+		default:
+			return false;
+		}
+	}
+
+	@Override
+	public BlockState getStateForPlacement(BlockItemUseContext context) {
+		World world = context.getWorld();
+		BlockPos blockpos = context.getPos();
+		boolean flag = world.isBlockPowered(blockpos);
+		Direction direction = context.getPlacementHorizontalFacing();
+		Direction.Axis direction$axis = direction.getAxis();
+		boolean flag1 = direction$axis == Direction.Axis.Z && (this.isWall(world.getBlockState(blockpos.west())) || this.isWall(world.getBlockState(blockpos.east()))) || direction$axis == Direction.Axis.X && (this.isWall(world.getBlockState(blockpos.north())) || this.isWall(world.getBlockState(blockpos.south())));
+		return this.getDefaultState().with(HORIZONTAL_FACING, direction).with(FenceGateBlock.OPEN, flag).with(FenceGateBlock.POWERED, flag).with(FenceGateBlock.IN_WALL, flag1);
+	}
+
+	private boolean isWall(BlockState state) {
+		return state.getBlock().isIn(BlockTags.WALLS);
+	}
+
+	public boolean changeGates(World worldIn, BlockPos pos, BlockState state, PlayerEntity playerIn, Hand hand, BlockRayTraceResult hit) {
 		TileEntity tileentity = worldIn.getTileEntity(pos);
 		ItemStack heldItem = playerIn.getHeldItem(hand);
 
@@ -90,17 +131,18 @@ public class BlockColorizerFenceGate extends BlockColorizerFurnitureRotate {
 			Block block = Block.getBlockFromItem(heldItem.getItem());
 
 			if (block != null && !(block instanceof BlockColorizer)) {
-				if (BlockHelper.getUsableBlocks().contains(block)) {
+				if (BlockHelper.getUsableBlocks().contains(block.getDefaultState())) {
 					// Can only set blockstate if it contains nothing or if
 					// in creative mode
-					if (te.getBlockState() == Blocks.AIR.getDefaultState() || playerIn.capabilities.isCreativeMode) {
-
-						IBlockState toPlaceState = block.getStateFromMeta(heldItem.getMetadata());
+					if (te.getStoredBlockState() == Blocks.AIR.getDefaultState() || playerIn.abilities.isCreativeMode) {
+						BlockState toPlaceState = block.getStateForPlacement(new BlockItemUseContext(new ItemUseContext(playerIn, hand, hit)));
 						this.setColorizer(worldIn, pos, state, toPlaceState, playerIn, hand, true);
 
-						worldIn.playSound(playerIn, pos, block.getSoundType().getPlaceSound(), SoundCategory.BLOCKS, (block.getSoundType().getVolume() + 1.0F) / 2.0F, block.getSoundType().getPitch() * 0.8F);
+						SoundType placeSound = toPlaceState.getSoundType(worldIn, pos, playerIn);
+
+						worldIn.playSound(playerIn, pos, placeSound.getPlaceSound(), SoundCategory.BLOCKS, (placeSound.getVolume() + 1.0F) / 2.0F, placeSound.getPitch() * 0.8F);
 						return true;
-					} else if (te.getBlockState() != Blocks.AIR.getDefaultState()) {
+					} else if (te.getStoredBlockState() != Blocks.AIR.getDefaultState()) {
 						return false;
 					}
 				}
@@ -110,104 +152,62 @@ public class BlockColorizerFenceGate extends BlockColorizerFurnitureRotate {
 	}
 
 	@Override
-	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
-		ItemStack heldItem = playerIn.getHeldItem(hand);
+	public boolean onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
+		ItemStack heldItem = player.getHeldItem(handIn);
 
 		if (!heldItem.isEmpty()) {
 			if (heldItem.getItem() == DecorItems.brush) {
-				if (this.tryUseBrush(worldIn, playerIn, hand, pos)) {
+				if (this.tryUseBrush(worldIn, player, handIn, pos)) {
 					return true;
 				}
 			}
 
 			Block block = Block.getBlockFromItem(heldItem.getItem());
 			if (block != Blocks.AIR) {
-				if (changeGates(worldIn, pos, state, playerIn, hand, side)) {
+				if (changeGates(worldIn, pos, state, player, handIn, hit)) {
 					return true;
 				}
 			}
 		}
 
-		if (state.getValue(BlockFenceGate.OPEN)) {
-			state = state.withProperty(BlockFenceGate.OPEN, false);
+		if (state.get(FenceGateBlock.OPEN)) {
+			state = state.with(FenceGateBlock.OPEN, false);
 			worldIn.setBlockState(pos, state, 10);
 		} else {
-			EnumFacing enumfacing = EnumFacing.fromAngle((double) playerIn.rotationYaw);
-
-			if (state.getValue(FACING) == enumfacing.getOpposite()) {
-				state = state.withProperty(FACING, enumfacing);
+			Direction direction = player.getHorizontalFacing();
+			if (state.get(HORIZONTAL_FACING) == direction.getOpposite()) {
+				state = state.with(HORIZONTAL_FACING, direction);
 			}
 
-			state = state.withProperty(BlockFenceGate.OPEN, true);
+			state = state.with(FenceGateBlock.OPEN, true);
 			worldIn.setBlockState(pos, state, 10);
 		}
 
-		if (UtilConfig.subpartDoubleDoors) {
-			DoubleFenceGate.setFenceGate(worldIn, pos, state);
-		}
-
-		worldIn.playEvent(playerIn, state.getValue(BlockFenceGate.OPEN) ? 1008 : 1014, pos, 0);
+		worldIn.playEvent(player, state.get(FenceGateBlock.OPEN) ? 1008 : 1014, pos, 0);
 		return true;
 	}
 
 	@Override
-	public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos) {
+	public void neighborChanged(BlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos, boolean flg) {
 		if (!worldIn.isRemote) {
 			boolean flag = worldIn.isBlockPowered(pos);
-
-			if (flag || blockIn.getDefaultState().canProvidePower()) {
-				if (flag && !state.getValue(BlockFenceGate.OPEN) && !state.getValue(BlockFenceGate.POWERED)) {
-					worldIn.setBlockState(pos, state.withProperty(BlockFenceGate.OPEN, true).withProperty(BlockFenceGate.POWERED, true), 2);
-					worldIn.playEvent((EntityPlayer) null, 1008, pos, 0);
-				} else if (!flag && state.getValue(BlockFenceGate.OPEN) && state.getValue(BlockFenceGate.POWERED)) {
-					worldIn.setBlockState(pos, state.withProperty(BlockFenceGate.OPEN, false).withProperty(BlockFenceGate.POWERED, false), 2);
-					worldIn.playEvent((EntityPlayer) null, 1014, pos, 0);
-				} else if (flag != state.getValue(BlockFenceGate.POWERED)) {
-					worldIn.setBlockState(pos, state.withProperty(BlockFenceGate.POWERED, flag), 2);
+			if (state.get(FenceGateBlock.POWERED) != flag) {
+				worldIn.setBlockState(pos, state.with(FenceGateBlock.POWERED, flag).with(FenceGateBlock.OPEN, flag), 2);
+				if (state.get(FenceGateBlock.OPEN) != flag) {
+					worldIn.playEvent((PlayerEntity) null, flag ? 1008 : 1014, pos, 0);
 				}
 			}
+
 		}
 	}
 
 	@Override
-	public IBlockState getStateFromMeta(int meta) {
-		return this.getDefaultState().withProperty(BlockFenceGate.POWERED, (meta & 8) != 0).withProperty(FACING, EnumFacing.getHorizontal(meta)).withProperty(BlockFenceGate.OPEN, (meta & 4) != 0);
+	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
+		builder.add(HORIZONTAL_FACING, FenceGateBlock.OPEN, FenceGateBlock.POWERED, FenceGateBlock.IN_WALL);
 	}
 
 	@Override
-	public int getMetaFromState(IBlockState state) {
-		byte b0 = 0;
-		int i = b0 | state.getValue(FACING).getHorizontalIndex();
-
-		if (state.getValue(BlockFenceGate.POWERED)) {
-			i |= 8;
-		}
-
-		if (state.getValue(BlockFenceGate.OPEN)) {
-			i |= 4;
-		}
-
-		return i;
-	}
-
-	@Override
-	protected BlockStateContainer createBlockState() {
-		return new ExtendedBlockState(this, new IProperty[] { FACING, BlockFenceGate.OPEN, BlockFenceGate.POWERED, BlockFenceGate.IN_WALL }, new IUnlistedProperty[] { BLOCK_STATE });
-	}
-
-	@Override
-	public boolean canBeConnectedTo(IBlockAccess world, BlockPos pos, EnumFacing facing) {
-		Block connector = world.getBlockState(pos.offset(facing)).getBlock();
-		return connector instanceof BlockColorizerFence || connector instanceof BlockColorizerWall;
-	}
-
-	private boolean canFenceGateConnectTo(IBlockAccess world, BlockPos pos, EnumFacing facing) {
-		Block block = world.getBlockState(pos.offset(facing)).getBlock();
-		return block.canBeConnectedTo(world, pos.offset(facing), facing.getOpposite());
-	}
-
-	@Override
-	public Page getPage(IBlockState state) {
+	public Page getPage(BlockState state) {
 		return ManualDecor.fenceGate_page;
 	}
 }

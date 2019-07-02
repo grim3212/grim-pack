@@ -6,9 +6,9 @@ import java.util.function.Supplier;
 import com.grim3212.mc.pack.core.network.AbstractMessage.AbstractClientMessage;
 import com.grim3212.mc.pack.decor.tile.TileEntityColorizer;
 
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Particles;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.network.PacketBuffer;
+import net.minecraft.particles.ParticleTypes;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fml.network.NetworkEvent.Context;
@@ -30,19 +30,20 @@ public class MessageParticles extends AbstractClientMessage<MessageParticles> {
 	}
 
 	@Override
-	protected void write(PacketBuffer buffer) throws IOException {
-		buffer.writeBlockPos(pos);
+	protected void write(MessageParticles msg, PacketBuffer buffer) throws IOException {
+		buffer.writeBlockPos(msg.pos);
 	}
 
 	@Override
-	public void process(EntityPlayer player, Supplier<Context> ctx) {
-		TileEntity te = player.world.getTileEntity(pos);
+	public void process(MessageParticles msg, Supplier<Context> ctx) {
+		PlayerEntity player = ctx.get().getSender();
+		TileEntity te = player.world.getTileEntity(msg.pos);
 		if (te instanceof TileEntityColorizer) {
 			for (int i = 0; i < 3; i++) {
 				double xVar = (player.world.rand.nextDouble() - 0.5D) / 5.0D;
 				double yVar = (player.world.rand.nextDouble() - 0.5D) / 5.0D;
 				double zVar = (player.world.rand.nextDouble() - 0.5D) / 5.0D;
-				player.world.addParticle(Particles.LARGE_SMOKE, pos.getX() + 0.5D + xVar, pos.getY() + 0.3D + yVar, pos.getZ() + 0.5D + zVar, 0.0D, 0.0D, 0.0D);
+				player.world.addParticle(ParticleTypes.LARGE_SMOKE, msg.pos.getX() + 0.5D + xVar, msg.pos.getY() + 0.3D + yVar, msg.pos.getZ() + 0.5D + zVar, 0.0D, 0.0D, 0.0D);
 			}
 		}
 	}

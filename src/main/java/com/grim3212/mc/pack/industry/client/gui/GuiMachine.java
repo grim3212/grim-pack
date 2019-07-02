@@ -8,16 +8,17 @@ import com.grim3212.mc.pack.industry.tile.TileEntityMachine;
 import com.grim3212.mc.pack.industry.util.MachineRecipes.MachineType;
 
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.util.ResourceLocation;
 
 public abstract class GuiMachine extends GuiGrimContainer {
 
 	private TileEntityMachine machineInventory;
-	private final InventoryPlayer playerInventory;
+	private final PlayerInventory playerInventory;
 	private ResourceLocation gui;
 
-	public GuiMachine(InventoryPlayer playerInv, TileEntityMachine te, String location) {
+	public GuiMachine(PlayerInventory playerInv, TileEntityMachine te, String location) {
 		super(te.getMachineType() == MachineType.DERRICK ? new ContainerDerrick(playerInv, te) : new ContainerRefinery(playerInv, te));
 		this.machineInventory = te;
 		this.playerInventory = playerInv;

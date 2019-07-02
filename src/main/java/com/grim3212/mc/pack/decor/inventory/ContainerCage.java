@@ -1,21 +1,26 @@
 package com.grim3212.mc.pack.decor.inventory;
 
-import com.grim3212.mc.pack.decor.tile.TileEntityCage;
-
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.inventory.Container;
-import net.minecraft.inventory.Slot;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.Inventory;
+import net.minecraft.inventory.container.Container;
+import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.ItemStack;
 
 public class ContainerCage extends Container {
 
-	private TileEntityCage cage;
+	private IInventory cageInv;
 
-	public ContainerCage(TileEntityCage cage, InventoryPlayer playerInv) {
-		this.cage = cage;
+	public ContainerCage(int id, PlayerInventory playerInv) {
+		this(id, playerInv, new Inventory(1));
+	}
 
-		addSlot(new SlotCage(cage, 0, 75, 30));
+	public ContainerCage(int id, PlayerInventory playerInv, IInventory inv) {
+		super(DecorContainers.CAGE_TYPE, id);
+		this.cageInv = inv;
+
+		addSlot(new SlotCage(this.cageInv, 0, 75, 30));
 
 		for (int i = 0; i < 3; i++) {
 			for (int j = 0; j < 9; j++) {
@@ -29,12 +34,12 @@ public class ContainerCage extends Container {
 	}
 
 	@Override
-	public boolean canInteractWith(EntityPlayer playerIn) {
-		return this.cage.isUsableByPlayer(playerIn);
+	public boolean canInteractWith(PlayerEntity playerIn) {
+		return this.cageInv.isUsableByPlayer(playerIn);
 	}
 
 	@Override
-	public ItemStack transferStackInSlot(EntityPlayer playerIn, int index) {
+	public ItemStack transferStackInSlot(PlayerEntity playerIn, int index) {
 		ItemStack itemstack = ItemStack.EMPTY;
 		Slot slot = (Slot) inventorySlots.get(index);
 

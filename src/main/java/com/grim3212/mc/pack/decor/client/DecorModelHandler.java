@@ -29,4 +29,14 @@ public class DecorModelHandler {
 			}
 		}
 	}
+
+	/*@SubscribeEvent
+	public void bake(ModelBakeEvent evt) {
+		ModelLoader loader = evt.getModelLoader();
+
+		IUnbakedModel model = ModelLoaderRegistry.getModelOrMissing(new ResourceLocation(GrimPack.modID, "block/" + GrimDecor.partId + "/flat_item_frame_base"));
+		IBakedModel baked = model.bake(loader, ModelLoader.defaultTextureGetter(), new BasicState(model.getDefaultState(), false), DefaultVertexFormats.BLOCK);
+
+		evt.getModelRegistry().put(new ResourceLocation(GrimPack.modID, "block/" + GrimDecor.partId + "/flat_item_frame_base"), baked);
+	}*/
 }

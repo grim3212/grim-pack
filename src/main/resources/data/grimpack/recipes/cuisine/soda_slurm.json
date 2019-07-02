@@ -15,7 +15,7 @@
   "type": "minecraft:crafting_shaped",
   "key": {
     "X": {
-      "constant": "grimpack:slime"
+      "tag": "forge:slime_ball"
     },
     "Y": {
       "item": "grimpack:cuisine/soda_carbonated_water"

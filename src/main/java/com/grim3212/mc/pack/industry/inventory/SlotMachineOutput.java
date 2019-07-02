@@ -5,20 +5,21 @@ import javax.annotation.Nullable;
 import com.grim3212.mc.pack.industry.util.MachineRecipes;
 import com.grim3212.mc.pack.industry.util.MachineRecipes.MachineType;
 
-import net.minecraft.entity.item.EntityXPOrb;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.item.ExperienceOrbEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.Slot;
+import net.minecraft.inventory.container.Slot;
+import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.MathHelper;
 
 public class SlotMachineOutput extends Slot {
 
-	private final EntityPlayer thePlayer;
+	private final PlayerEntity thePlayer;
 	private int removeCount;
 	private MachineType type;
 
-	public SlotMachineOutput(EntityPlayer player, IInventory inventoryIn, int slotIndex, int xPosition, int yPosition, MachineType type) {
+	public SlotMachineOutput(PlayerEntity player, IInventory inventoryIn, int slotIndex, int xPosition, int yPosition, MachineType type) {
 		super(inventoryIn, slotIndex, xPosition, yPosition);
 		this.thePlayer = player;
 		this.type = type;
@@ -39,7 +40,7 @@ public class SlotMachineOutput extends Slot {
 	}
 
 	@Override
-	public ItemStack onTake(EntityPlayer playerIn, ItemStack stack) {
+	public ItemStack onTake(PlayerEntity playerIn, ItemStack stack) {
 		this.onCrafting(stack);
 		super.onTake(playerIn, stack);
 		return stack;
@@ -72,9 +73,9 @@ public class SlotMachineOutput extends Slot {
 			}
 
 			while (i > 0) {
-				int k = EntityXPOrb.getXPSplit(i);
+				int k = ExperienceOrbEntity.getXPSplit(i);
 				i -= k;
-				this.thePlayer.world.spawnEntity(new EntityXPOrb(this.thePlayer.world, this.thePlayer.posX, this.thePlayer.posY + 0.5D, this.thePlayer.posZ + 0.5D, k));
+				this.thePlayer.world.spawnEntity(new ExperienceOrbEntity(this.thePlayer.world, this.thePlayer.posX, this.thePlayer.posY + 0.5D, this.thePlayer.posZ + 0.5D, k));
 			}
 		}
 

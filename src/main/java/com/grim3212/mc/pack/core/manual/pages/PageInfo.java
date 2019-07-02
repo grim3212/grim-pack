@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.grim3212.mc.pack.core.manual.gui.GuiManualPage;
+import com.mojang.blaze3d.platform.GlStateManager;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.resources.I18n;
 
 public class PageInfo extends Page {
@@ -37,8 +37,9 @@ public class PageInfo extends Page {
 	 */
 	public static void drawText(int x, int y, String pageInfo) {
 		GlStateManager.pushMatrix();
-		GlStateManager.scalef(0.8f, 0.8f, 1.0f);
-		GlStateManager.translatef(34f, 14f, 0f);
+		GlStateManager.scalef(SCALE_FACTOR, SCALE_FACTOR, 1.0f);
+		x = (int) (x / SCALE_FACTOR);
+		y = (int) (y / SCALE_FACTOR);
 
 		int width = 210;
 

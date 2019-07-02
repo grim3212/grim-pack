@@ -2,8 +2,10 @@ package com.grim3212.mc.pack.industry.tile;
 
 import com.grim3212.mc.pack.industry.client.model.ModelItemTower;
 
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.init.Blocks;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
+import net.minecraft.block.Blocks;
 import net.minecraft.util.SoundEvent;
 
 public class TileEntityItemTower extends TileEntityStorage {
@@ -27,7 +29,7 @@ public class TileEntityItemTower extends TileEntityStorage {
 	}
 
 	@Override
-	public IBlockState getBreakTextureState() {
+	public BlockState getBreakTextureState() {
 		return Blocks.IRON_BLOCK.getDefaultState();
 	}
 

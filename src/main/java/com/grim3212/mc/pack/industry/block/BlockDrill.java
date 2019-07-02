@@ -7,19 +7,23 @@ import com.grim3212.mc.pack.core.manual.pages.Page;
 import com.grim3212.mc.pack.core.part.GrimCreativeTabs;
 import com.grim3212.mc.pack.industry.client.ManualIndustry;
 
+import net.minecraft.block.BlockState;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.state.BlockStateContainer;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.item.EntityItem;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.SoundEvents;
+import net.minecraft.block.BlockState;
+import net.minecraft.entity.item.ItemEntity;
+import net.minecraft.entity.item.ItemEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.util.Direction;
+import net.minecraft.util.SoundEvents;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumHand;
+import net.minecraft.util.Direction;
+import net.minecraft.util.Hand;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
@@ -41,30 +45,30 @@ public class BlockDrill extends BlockManual {
 	}
 
 	@Override
-	protected IBlockState getState() {
+	protected BlockState getState() {
 		return this.getBlockState().getBaseState().withProperty(POWERED, false);
 	}
 
 	@Override
-	public Page getPage(IBlockState state) {
+	public Page getPage(BlockState state) {
 		return ManualIndustry.drill_page;
 	}
 
 	@Override
-	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
+	public boolean onBlockActivated(World worldIn, BlockPos pos, BlockState state, PlayerEntity playerIn, Hand hand, Direction facing, float hitX, float hitY, float hitZ) {
 		worldIn.setBlockState(pos, state.cycleProperty(POWERED));
 		worldIn.scheduleUpdate(pos, this, 10);
-		worldIn.playSound((EntityPlayer) null, pos, state.getValue(POWERED) ? SoundEvents.BLOCK_STONE_BUTTON_CLICK_ON : SoundEvents.BLOCK_STONE_BUTTON_CLICK_OFF, SoundCategory.BLOCKS, 0.3F, 0.6F);
+		worldIn.playSound((PlayerEntity) null, pos, state.getValue(POWERED) ? SoundEvents.BLOCK_STONE_BUTTON_CLICK_ON : SoundEvents.BLOCK_STONE_BUTTON_CLICK_OFF, SoundCategory.BLOCKS, 0.3F, 0.6F);
 		return true;
 	}
 
 	@Override
-	public int getMetaFromState(IBlockState state) {
+	public int getMetaFromState(BlockState state) {
 		return state.getValue(POWERED) ? 1 : 0;
 	}
 
 	@Override
-	public IBlockState getStateFromMeta(int meta) {
+	public BlockState getStateFromMeta(int meta) {
 		return this.getDefaultState().withProperty(POWERED, meta == 1);
 	}
 
@@ -74,7 +78,7 @@ public class BlockDrill extends BlockManual {
 	}
 
 	@Override
-	public void onBlockDestroyedByPlayer(World worldIn, BlockPos pos, IBlockState state) {
+	public void onBlockDestroyedByPlayer(World worldIn, BlockPos pos, BlockState state) {
 		BlockPos headPos = new BlockPos(pos.getX(), 5, pos.getZ());
 		if (worldIn.getBlockState(headPos).getBlock() == IndustryBlocks.drill_head) {
 			worldIn.setBlockToAir(headPos);
@@ -82,7 +86,7 @@ public class BlockDrill extends BlockManual {
 	}
 
 	@Override
-	public void updateTick(World worldIn, BlockPos pos, IBlockState state, Random rand) {
+	public void updateTick(World worldIn, BlockPos pos, BlockState state, Random rand) {
 		if (state.getValue(POWERED)) {
 			if (rand.nextInt(8) == 0) {
 				for (int l = pos.getY() - 1; l >= 4; l--) {
@@ -142,8 +146,8 @@ public class BlockDrill extends BlockManual {
 		worldIn.getBlockState(pos).getBlock().getDrops(ret, worldIn, pos, worldIn.getBlockState(pos), 0);
 
 		TileEntity te = worldIn.getTileEntity(drillPos.up());
-		if (te != null && te.hasCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, EnumFacing.DOWN)) {
-			IItemHandler itemHandler = te.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, EnumFacing.DOWN);
+		if (te != null && te.hasCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, Direction.DOWN)) {
+			IItemHandler itemHandler = te.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, Direction.DOWN);
 
 			for (ItemStack foundStack : ret) {
 				ItemStack simulation = ItemHandlerHelper.insertItem(itemHandler, foundStack.copy(), true);
@@ -152,15 +156,15 @@ public class BlockDrill extends BlockManual {
 
 					ItemStack result = ItemHandlerHelper.insertItem(itemHandler, foundStack, false);
 					if (!result.isEmpty()) {
-						worldIn.spawnEntity(new EntityItem(worldIn, (double) drillPos.getX(), (double) drillPos.up(2).getY(), (double) drillPos.getZ(), result));
+						worldIn.spawnEntity(new ItemEntity(worldIn, (double) drillPos.getX(), (double) drillPos.up(2).getY(), (double) drillPos.getZ(), result));
 					}
 				} else {
-					worldIn.spawnEntity(new EntityItem(worldIn, (double) drillPos.getX(), (double) drillPos.up(2).getY(), (double) drillPos.getZ(), foundStack));
+					worldIn.spawnEntity(new ItemEntity(worldIn, (double) drillPos.getX(), (double) drillPos.up(2).getY(), (double) drillPos.getZ(), foundStack));
 				}
 			}
 		} else {
 			for (ItemStack foundStack : ret) {
-				worldIn.spawnEntity(new EntityItem(worldIn, (double) drillPos.getX(), (double) drillPos.up().getY(), (double) drillPos.getZ(), foundStack));
+				worldIn.spawnEntity(new ItemEntity(worldIn, (double) drillPos.getX(), (double) drillPos.up().getY(), (double) drillPos.getZ(), foundStack));
 			}
 		}
 	}

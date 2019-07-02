@@ -1,0 +1,26 @@
+{
+	"variants": {
+		"facing=north": {
+			"model": "grimpack:block/decor/illumination_tube_wall",
+			"y": 270
+		},
+		"facing=south": {
+			"model": "grimpack:block/decor/illumination_tube_wall",
+			"y": 90
+		},
+		"facing=west": {
+			"model": "grimpack:block/decor/illumination_tube_wall",
+			"y": 180
+		},
+		"facing=east": {
+			"model": "grimpack:block/decor/illumination_tube_wall"
+		},
+		"facing=up": {
+			"model": "grimpack:block/decor/illumination_tube"
+		},
+		"facing=down": {
+			"model": "grimpack:block/decor/illumination_tube",
+			"x": 180
+		}
+	}
+}

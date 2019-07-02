@@ -1,20 +1,20 @@
 package com.grim3212.mc.pack.core.manual.button;
 
 import com.grim3212.mc.pack.core.manual.gui.GuiManualIndex;
+import com.mojang.blaze3d.platform.GlStateManager;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.gui.widget.button.Button;
 
-public class GuiButtonHistory extends GuiButton {
+public class GuiButtonHistory extends Button {
 
 	/*
 	 * Is the arrow pointing backward
 	 */
 	private boolean back;
 
-	public GuiButtonHistory(int id, int j, int k, boolean back) {
-		super(id, j, k, 18, 11, "");
+	public GuiButtonHistory(int j, int k, boolean back, IPressable pressable) {
+		super(j, k, 18, 11, "", pressable);
 		this.back = back;
 	}
 
@@ -33,7 +33,7 @@ public class GuiButtonHistory extends GuiButton {
 				l += 11;
 			}
 
-			this.drawTexturedModalRect(this.x, this.y, k, l, 18, 11);
+			this.blit(this.x, this.y, k, l, 18, 11);
 		}
 	}
 

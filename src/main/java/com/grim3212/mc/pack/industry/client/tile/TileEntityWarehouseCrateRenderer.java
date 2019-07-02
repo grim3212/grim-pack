@@ -5,13 +5,13 @@ import com.grim3212.mc.pack.industry.client.model.ModelWarehouseCrate;
 import com.grim3212.mc.pack.industry.tile.TileEntityWarehouseCrate;
 
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
+import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-@OnlyIn(Dist.CLIENT)
-public class TileEntityWarehouseCrateRenderer extends TileEntitySpecialRenderer<TileEntityWarehouseCrate> {
+@SideOnly(Side.CLIENT)
+public class TileEntityWarehouseCrateRenderer extends TileEntityRenderer<TileEntityWarehouseCrate> {
 
 	private ModelWarehouseCrate model;
 	private static final ResourceLocation RESOURCE_LOCATION = new ResourceLocation(GrimPack.modID, "textures/models/warehouse_crate.png");

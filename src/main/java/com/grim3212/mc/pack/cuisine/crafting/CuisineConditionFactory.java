@@ -7,14 +7,14 @@ import com.google.gson.JsonParseException;
 import com.grim3212.mc.pack.core.config.CoreConfig;
 import com.grim3212.mc.pack.cuisine.config.CuisineConfig;
 
-import net.minecraft.util.JsonUtils;
+import net.minecraft.util.JSONUtils;
 import net.minecraftforge.common.crafting.IConditionSerializer;
 
 public class CuisineConditionFactory implements IConditionSerializer {
 
 	@Override
 	public BooleanSupplier parse(JsonObject json) {
-		String value = JsonUtils.getString(json, "subpart", "");
+		String value = JSONUtils.getString(json, "subpart", "");
 
 		if (CoreConfig.useCuisine.get()) {
 			switch (value) {

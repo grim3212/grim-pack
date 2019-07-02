@@ -1,10 +1,10 @@
 package com.grim3212.mc.pack.decor.inventory;
 
-import com.grim3212.mc.pack.decor.crafting.GrillRecipeFactory;
+import com.grim3212.mc.pack.decor.crafting.GrillRecipeSerializer;
 
-import net.minecraft.init.Items;
+import net.minecraft.inventory.container.Slot;
+import net.minecraft.item.Items;
 import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
 public class SlotGrill extends Slot {
@@ -28,6 +28,6 @@ public class SlotGrill extends Slot {
 		if (this.isFuel)
 			return (item.getItem() != null) && (item.getItem() == Items.COAL);
 
-		return GrillRecipeFactory.grillRecipesContain(item);
+		return GrillRecipeSerializer.grillRecipesContain(item);
 	}
 }

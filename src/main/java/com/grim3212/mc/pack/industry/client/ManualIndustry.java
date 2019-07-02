@@ -1,7 +1,8 @@
 package com.grim3212.mc.pack.industry.client;
 
-import com.grim3212.mc.pack.core.common.CommonItems;
+import com.google.common.collect.ImmutableList;
 import com.grim3212.mc.pack.core.config.CoreConfig;
+import com.grim3212.mc.pack.core.init.CoreNames;
 import com.grim3212.mc.pack.core.manual.IManualPart;
 import com.grim3212.mc.pack.core.manual.ManualPart;
 import com.grim3212.mc.pack.core.manual.ManualRegistry;
@@ -10,15 +11,13 @@ import com.grim3212.mc.pack.core.manual.pages.PageCrafting;
 import com.grim3212.mc.pack.core.manual.pages.PageFurnace;
 import com.grim3212.mc.pack.core.manual.pages.PageInfo;
 import com.grim3212.mc.pack.core.util.RecipeHelper;
-import com.grim3212.mc.pack.industry.block.IndustryBlocks;
+import com.grim3212.mc.pack.industry.GrimIndustry;
 import com.grim3212.mc.pack.industry.client.pages.PageMachine;
 import com.grim3212.mc.pack.industry.config.IndustryConfig;
-import com.grim3212.mc.pack.industry.init.IndustryRecipes;
-import com.grim3212.mc.pack.industry.item.IndustryItems;
+import com.grim3212.mc.pack.industry.init.IndustryNames;
 import com.grim3212.mc.pack.industry.util.MachineRecipes;
 import com.grim3212.mc.pack.industry.util.MachineRecipes.MachineType;
 
-import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
 
 public class ManualIndustry implements IManualPart {
@@ -111,157 +110,156 @@ public class ManualIndustry implements IManualPart {
 	public static Page bridgeTrick_page;
 	public static Page bridgeDeath_page;
 	public static Page gravLift_page;
-    public static Page chunkLoader_page;
+	public static Page chunkLoader_page;
 
 	@Override
 	public void initPages() {
-		if (IndustryConfig.subpartStorage) {
-			tank_page = new PageCrafting("tank", new ItemStack(IndustryBlocks.tank));
-			combination_page = new PageCrafting("combination", 25, new ItemStack(IndustryItems.locksmith_key), new ItemStack(IndustryItems.locksmith_lock));
-			locksmithWorkbench_page = new PageCrafting("locksmith_workbench", new ItemStack(IndustryBlocks.locksmith_workbench));
-			warehouseCrate_page = new PageCrafting("warehouse_crate", new ItemStack(IndustryBlocks.warehouse_crate));
-			cabinets_page = new PageCrafting("cabinets", 25, new ItemStack(IndustryBlocks.wood_cabinet), new ItemStack(IndustryBlocks.glass_cabinet));
-			safes_page = new PageCrafting("safes", 25, new ItemStack(IndustryBlocks.obsidian_safe), new ItemStack(IndustryBlocks.gold_safe));
-			locker_page = new PageCrafting("locker", new ItemStack(IndustryBlocks.locker));
-			itemTower_page = new PageCrafting("item_tower", new ItemStack(IndustryBlocks.item_tower));
+		if (IndustryConfig.subpartStorage.get()) {
+			tank_page = new PageCrafting("tank", RecipeHelper.getRecipePath(IndustryNames.TANK));
+			combination_page = new PageCrafting("combination", ImmutableList.of(RecipeHelper.getRecipePath(IndustryNames.LOCKSMITH_KEY), RecipeHelper.getRecipePath(IndustryNames.LOCKSMITH_LOCK)), 25);
+			locksmithWorkbench_page = new PageCrafting("locksmith_workbench", RecipeHelper.getRecipePath(IndustryNames.LOCKSMITH_WORKBENCH));
+			warehouseCrate_page = new PageCrafting("warehouse_crate", RecipeHelper.getRecipePath(IndustryNames.WAREHOUSE_CRATE));
+			cabinets_page = new PageCrafting("cabinets", ImmutableList.of(RecipeHelper.getRecipePath(IndustryNames.WOOD_CABINET), RecipeHelper.getRecipePath(IndustryNames.GLASS_CABINET)), 25);
+			safes_page = new PageCrafting("safes", ImmutableList.of(RecipeHelper.getRecipePath(IndustryNames.OBSIDIAN_SAFE), RecipeHelper.getRecipePath(IndustryNames.GOLD_SAFE)), 25);
+			locker_page = new PageCrafting("locker", RecipeHelper.getRecipePath(IndustryNames.LOCKER));
+			itemTower_page = new PageCrafting("item_tower", RecipeHelper.getRecipePath(IndustryNames.ITEM_TOWER));
 		}
 
-		if (IndustryConfig.subpartShapedCharges) {
+		if (IndustryConfig.subpartShapedCharges.get()) {
 			shapedChargeBase_page = new PageCrafting("shaped_charge", RecipeHelper.createPath("shaped_charge"));
 			shapedCharge_page = new PageCrafting("shaped_charge_radius", RecipeHelper.getAllPaths("shaped_charge_"), 20);
 		}
 
-		if (IndustryConfig.subpartSensors) {
+		if (IndustryConfig.subpartSensors.get()) {
 			specificSensorInfo_page = new PageInfo("specific_sensor_info");
 			specificSensorInfo2_page = new PageInfo("specific_sensor_info2");
-			positionFinder_page = new PageCrafting("position_finder", new ItemStack(IndustryItems.position_finder)).appendImageUrl("gps.png");
-			specificSensor_page = new PageCrafting("specific_sensor", new ItemStack(IndustryBlocks.specific_sensor)).appendImageUrl("specific_sensor.png");
-			upgradedSpecificSensor_page = new PageCrafting("upgraded_specific_sensor", new ItemStack(IndustryBlocks.upgraded_specific_sensor));
-			sensor_page = new PageCrafting("recipes", IndustryRecipes.sensors, 20);
-			arrowSensor_page = new PageCrafting("arrow_sensor", new ItemStack(IndustryBlocks.arrow_sensor));
-			fireSensor_page = new PageCrafting("fire_sensor", new ItemStack(IndustryBlocks.fire_sensor));
+			positionFinder_page = new PageCrafting("position_finder", RecipeHelper.getRecipePath(IndustryNames.POSITION_FINDER)).appendImageUrl("gps.png");
+			specificSensor_page = new PageCrafting("specific_sensor", RecipeHelper.getRecipePath(IndustryNames.SPECIFIC_SENSOR)).appendImageUrl("specific_sensor.png");
+			upgradedSpecificSensor_page = new PageCrafting("upgraded_specific_sensor", RecipeHelper.getRecipePath(IndustryNames.UPGRADED_SPECIFIC_SENSOR));
+			sensor_page = new PageCrafting("recipes", ImmutableList.of(RecipeHelper.getRecipePath(IndustryNames.WOODEN_SENSOR), RecipeHelper.getRecipePath(IndustryNames.STONE_SENSOR), RecipeHelper.getRecipePath(IndustryNames.IRON_SENSOR), RecipeHelper.getRecipePath(IndustryNames.NETHERRACK_SENSOR)), 20);
+			arrowSensor_page = new PageCrafting("arrow_sensor", RecipeHelper.getRecipePath(IndustryNames.ARROW_SENSOR));
+			fireSensor_page = new PageCrafting("fire_sensor", RecipeHelper.getRecipePath(IndustryNames.FIRE_SENSOR));
 		}
 
-		if (IndustryConfig.subpartFans)
-			fan_page = new PageCrafting("fan", new ItemStack(IndustryBlocks.fan));
+		if (IndustryConfig.subpartFans.get())
+			fan_page = new PageCrafting("fan", RecipeHelper.getRecipePath(IndustryNames.FAN));
 
-		if (IndustryConfig.subpartExtruder) {
-			extruder_page = new PageCrafting("extruder", new ItemStack(IndustryItems.extruder));
+		if (IndustryConfig.subpartExtruder.get()) {
+			extruder_page = new PageCrafting("extruder", RecipeHelper.getRecipePath(IndustryNames.EXTRUDER));
 			extruderInfo_page = new PageInfo("info");
 		}
 
-		if (IndustryConfig.subpartWorkbenchUpgrades) {
-			workbench_page = new PageCrafting("recipes", IndustryRecipes.workbenches, 25);
-			portableUpgrade_page = new PageCrafting("portable_upgrade", IndustryRecipes.portableUpgrades, 25);
+		if (IndustryConfig.subpartWorkbenchUpgrades.get()) {
+			workbench_page = new PageCrafting("recipes", ImmutableList.of(RecipeHelper.getRecipePath(IndustryNames.IRON_WORKBENCH), RecipeHelper.getRecipePath(IndustryNames.DIAMOND_WORKBENCH)), 25);
+			portableUpgrade_page = new PageCrafting("portable_upgrade", ImmutableList.of(RecipeHelper.getRecipePath(IndustryNames.PORTABLE_IRON_WORKBENCH), RecipeHelper.getRecipePath(IndustryNames.PORTABLE_DIAMOND_WORKBENCH)), 25);
 		}
 
-		if (IndustryConfig.subpartIceMaker)
-			iceMaker_page = new PageCrafting("recipes", new ItemStack(IndustryBlocks.ice_maker));
+		if (IndustryConfig.subpartIceMaker.get())
+			iceMaker_page = new PageCrafting("recipes", RecipeHelper.getRecipePath(IndustryNames.ICE_MAKER));
 
-		if (IndustryConfig.subpartElementalBlocks) {
-			togglerack_page = new PageCrafting("toggle", new ItemStack(IndustryBlocks.togglerack));
-			fireBlock_page = new PageCrafting("fire", new ItemStack(IndustryBlocks.fire_block));
-			waterBlock_page = new PageCrafting("water", new ItemStack(IndustryBlocks.water_block));
-			lavaBlock_page = new PageCrafting("lava", new ItemStack(IndustryBlocks.lava_block));
+		if (IndustryConfig.subpartElementalBlocks.get()) {
+			togglerack_page = new PageCrafting("toggle", RecipeHelper.getRecipePath(IndustryNames.TOGGLE_RACK));
+			fireBlock_page = new PageCrafting("fire", RecipeHelper.getRecipePath(IndustryNames.ELEMENTAL_FIRE));
+			waterBlock_page = new PageCrafting("water", RecipeHelper.getRecipePath(IndustryNames.ELEMENTAL_WATER));
+			lavaBlock_page = new PageCrafting("lava", RecipeHelper.getRecipePath(IndustryNames.ELEMENTAL_LAVA));
 		}
 
-		if (IndustryConfig.subpartSpikes)
-			spike_page = new PageCrafting("recipe", RecipeHelper.createPath("spike"));
+		if (IndustryConfig.subpartSpikes.get())
+			spike_page = new PageCrafting("recipe", RecipeHelper.getRecipePath(IndustryNames.SPIKE));
 
-		if (IndustryConfig.subpartGravity) {
-			gravityBoots_page = new PageCrafting("boots", new ItemStack(IndustryItems.gravity_boots));
-			controller_page = new PageCrafting("control", IndustryRecipes.control, 25);
-			attract_page = new PageCrafting("attract", IndustryRecipes.attracting, 25);
-			repulse_page = new PageCrafting("repulse", IndustryRecipes.repulsing, 25);
-			mob_repulsor_page = new PageCrafting("mob_repulsor", new ItemStack(IndustryItems.mob_repulsor));
-			gravitor_page = new PageCrafting("gravitor", IndustryRecipes.gravitoring, 25);
+		if (IndustryConfig.subpartGravity.get()) {
+			gravityBoots_page = new PageCrafting("boots", RecipeHelper.getRecipePath(IndustryNames.GRAVITY_BOOTS));
+			controller_page = new PageCrafting("control", ImmutableList.of(RecipeHelper.getRecipePath(IndustryNames.GRAVITY_CONTROLLER), RecipeHelper.getRecipePath(IndustryNames.LOW_GRAVITY_CONTROLLER)), 25);
+			attract_page = new PageCrafting("attract", ImmutableList.of(RecipeHelper.getRecipePath(IndustryNames.ATTRACTOR), RecipeHelper.getRecipePath(IndustryNames.DIRECTION_ATTRACTOR)), 25);
+			repulse_page = new PageCrafting("repulse", ImmutableList.of(RecipeHelper.getRecipePath(IndustryNames.REPULSOR), RecipeHelper.getRecipePath(IndustryNames.REPULSOR)), 25);
+			mob_repulsor_page = new PageCrafting("mob_repulsor", RecipeHelper.getRecipePath(IndustryNames.MOB_REPULSOR));
+			gravitor_page = new PageCrafting("gravitor", ImmutableList.of(RecipeHelper.getRecipePath(IndustryNames.GRAVITOR), RecipeHelper.getRecipePath(IndustryNames.DIRECTION_GRAVITOR)), 25);
 		}
 
-		if (IndustryConfig.subpartNuclear) {
-			uranium_page = new PageCrafting("uranium", new ItemStack(IndustryBlocks.uranium_ore));
-			radiationSuit_page = new PageCrafting("armor", IndustryRecipes.armor, 20);
-			uraniumSmelt_page = new PageFurnace("uranium_smelt", new ItemStack(IndustryBlocks.uranium_ore));
-			refinedUranium_page = new PageCrafting("refined_uranium", new ItemStack(IndustryItems.refined_uranium));
-			plutonium_page = new PageCrafting("plutonium", new ItemStack(IndustryItems.plutonium_ingot));
-			refinedPlutonium_page = new PageCrafting("refined_plutonium", new ItemStack(IndustryItems.refined_plutonium));
-			reactorCore_page = new PageCrafting("reactor_core", new ItemStack(IndustryItems.reactor_core));
-
-			reactorCase_page = new PageCrafting("reactor_case", new ItemStack(IndustryItems.reactor_core_case));
-			ironParts_page = new PageCrafting("iron_parts", new ItemStack(IndustryItems.iron_parts));
-			reactor_page = new PageCrafting("reactor", new ItemStack(IndustryBlocks.reactor));
-			bombShell_page = new PageCrafting("bomb_shell", new ItemStack(IndustryBlocks.bomb_shell));
-			c4_page = new PageCrafting("c4", new ItemStack(IndustryBlocks.c4));
-			nuclearBomb_page = new PageCrafting("nuclear_bomb", new ItemStack(IndustryBlocks.nuclear_bomb));
+		if (IndustryConfig.subpartNuclear.get()) {
+			uranium_page = new PageCrafting("uranium", RecipeHelper.getRecipePath(IndustryNames.URANIUM_ORE));
+			radiationSuit_page = new PageCrafting("armor", ImmutableList.of(RecipeHelper.getRecipePath(IndustryNames.ANTI_RADIATION_HELMET), RecipeHelper.getRecipePath(IndustryNames.ANTI_RADIATION_CHEST), RecipeHelper.getRecipePath(IndustryNames.ANTI_RADIATION_LEGS), RecipeHelper.getRecipePath(IndustryNames.ANTI_RADIATION_BOOTS)), 20);
+			uraniumSmelt_page = new PageFurnace("uranium_smelt", RecipeHelper.getRecipePath(IndustryNames.URANIUM_INGOT));
+			refinedUranium_page = new PageCrafting("refined_uranium", RecipeHelper.getRecipePath(IndustryNames.REFINED_URANIUM));
+			plutonium_page = new PageCrafting("plutonium", RecipeHelper.getRecipePath(IndustryNames.PLUTONIUM_INGOT));
+			refinedPlutonium_page = new PageCrafting("refined_plutonium", RecipeHelper.getRecipePath(IndustryNames.REFINED_PLUTONIUM));
+			reactorCore_page = new PageCrafting("reactor_core", RecipeHelper.getRecipePath(IndustryNames.REACTOR_CORE));
+			reactorCase_page = new PageCrafting("reactor_case", RecipeHelper.getRecipePath(IndustryNames.REACTOR_CORE_CASE));
+			ironParts_page = new PageCrafting("iron_parts", RecipeHelper.getRecipePath(IndustryNames.IRON_PARTS));
+			reactor_page = new PageCrafting("reactor", RecipeHelper.getRecipePath(IndustryNames.REACTOR));
+			bombShell_page = new PageCrafting("bomb_shell", RecipeHelper.getRecipePath(IndustryNames.BOMB_SHELL));
+			c4_page = new PageCrafting("c4", RecipeHelper.getRecipePath(IndustryNames.C4));
+			nuclearBomb_page = new PageCrafting("nuclear_bomb", RecipeHelper.getRecipePath(IndustryNames.NUCLEAR_BOMB));
 		}
 
-		if (IndustryConfig.subpartGates) {
-			gate_page = new PageCrafting("gate", IndustryRecipes.gates, 25);
-			gateTrumpet_page = new PageCrafting("trumpet", new ItemStack(IndustryItems.gate_trumpet));
-			garage_page = new PageCrafting("garage", IndustryRecipes.garages, 25);
-			garageRemote_page = new PageCrafting("remote", new ItemStack(IndustryItems.garage_remote));
+		if (IndustryConfig.subpartGates.get()) {
+			gate_page = new PageCrafting("gate", ImmutableList.of(RecipeHelper.getRecipePath(IndustryNames.GATE_GRATING), RecipeHelper.getRecipePath(IndustryNames.CASTLE_GATE)), 25);
+			gateTrumpet_page = new PageCrafting("trumpet", RecipeHelper.getRecipePath(IndustryNames.GATE_TRUMPET));
+			garage_page = new PageCrafting("garage", ImmutableList.of(RecipeHelper.getRecipePath(IndustryNames.GARAGE_PANEL), RecipeHelper.getRecipePath(IndustryNames.GARAGE)), 25);
+			garageRemote_page = new PageCrafting("remote", RecipeHelper.getRecipePath(IndustryNames.GARAGE_REMOTE));
 		}
 
-		if (IndustryConfig.subpartHLights) {
-			hLight_page = new PageCrafting("hlight", new ItemStack(IndustryBlocks.halogen_light));
-			hTorch_page = new PageCrafting("htorch", IndustryRecipes.htorches, 25);
+		if (IndustryConfig.subpartHLights.get()) {
+			hLight_page = new PageCrafting("hlight", RecipeHelper.getRecipePath(IndustryNames.HALOGEN_LIGHT));
+			hTorch_page = new PageCrafting("htorch", ImmutableList.of(RecipeHelper.getRecipePath(IndustryNames.HALOGEN_TORCH), RecipeHelper.getRecipePath(IndustryNames.HALOGEN_TORCH + "_alt")), 25);
 		}
 
-		if (IndustryConfig.subpartRWays) {
-			sidewalk_page = new PageCrafting("swalk", new ItemStack(IndustryBlocks.sidewalk));
-			tarball_page = new PageCrafting("tarball", new ItemStack(IndustryItems.tarball));
-			asphalt_page = new PageFurnace("asphalt", new ItemStack(IndustryItems.tarball));
-			rways_page = new PageCrafting("rways", IndustryRecipes.rways, 20).appendImageUrl("rway.png");
+		if (IndustryConfig.subpartRWays.get()) {
+			sidewalk_page = new PageCrafting("swalk", RecipeHelper.getRecipePath(IndustryNames.SIDEWALK));
+			tarball_page = new PageCrafting("tarball", RecipeHelper.getRecipePath(IndustryNames.TARBALL));
+			asphalt_page = new PageFurnace("asphalt", RecipeHelper.getRecipePath(IndustryNames.ASPHALT));
+			rways_page = new PageCrafting("rways", ImmutableList.of(RecipeHelper.getRecipePath(IndustryNames.RWAY), RecipeHelper.getRecipePath(IndustryNames.RWAY_LIGHT_OFF), RecipeHelper.getRecipePath(IndustryNames.RWAY_MANHOLE)), 20).appendImageUrl("rway.png");
 		}
 
-		if (IndustryConfig.subpartDoors)
-			doors_page = new PageCrafting("doors", IndustryRecipes.doors, 25);
+		if (IndustryConfig.subpartDoors.get())
+			doors_page = new PageCrafting("doors", ImmutableList.of(RecipeHelper.getRecipePath(IndustryNames.DOOR_CHAIN), RecipeHelper.getRecipePath(IndustryNames.DOOR_GLASS), RecipeHelper.getRecipePath(IndustryNames.DOOR_STEEL)), 25);
 
-		if (IndustryConfig.subpartDecoration) {
-			others_page = new PageCrafting("others", IndustryRecipes.others, 25);
-			decoration_page = new PageCrafting("decoration", IndustryRecipes.decoration, 25);
-			paint_page = new PageCrafting("paint", new ItemStack(IndustryItems.paint_roller));
-			paintTech_page = new PageCrafting("paint", IndustryRecipes.paint, 25);
+		if (IndustryConfig.subpartDecoration.get()) {
+			others_page = new PageCrafting("others", ImmutableList.of(RecipeHelper.getRecipePath(IndustryNames.CHAIN_FENCE), RecipeHelper.getRecipePath(IndustryNames.FOUNTAIN), RecipeHelper.getRecipePath(IndustryNames.CAMO_PLATE)), 25);
+			decoration_page = new PageCrafting("decoration", ImmutableList.of(RecipeHelper.getRecipePath(IndustryNames.CONCRETE), RecipeHelper.getRecipePath(IndustryNames.HORIZONTAL_SIDING), RecipeHelper.getRecipePath(IndustryNames.VERTICAL_SIDING)), 25);
+			paint_page = new PageCrafting("paint", RecipeHelper.getRecipePath(IndustryNames.PAINT_ROLLER));
+			paintTech_page = new PageCrafting("paint", ImmutableList.of(RecipeHelper.getRecipePath(IndustryNames.PAINT_ROLLER_WHITE), RecipeHelper.getRecipePath(IndustryNames.PAINT_ROLLER_RED), RecipeHelper.getRecipePath(IndustryNames.PAINT_ROLLER_GREEN), RecipeHelper.getRecipePath(IndustryNames.PAINT_ROLLER_BLUE)), 25);
 		}
 
-		if (IndustryConfig.subpartMetalWorks) {
-			metalMesh_page = new PageCrafting("metal_mesh", new ItemStack(IndustryBlocks.metal_mesh));
-			buckLadd_page = new PageCrafting("buckladd", IndustryRecipes.buckladd, 25);
+		if (IndustryConfig.subpartMetalWorks.get()) {
+			metalMesh_page = new PageCrafting("metal_mesh", RecipeHelper.getRecipePath(IndustryNames.METAL_MESH));
+			buckLadd_page = new PageCrafting("buckladd", ImmutableList.of(RecipeHelper.getRecipePath(IndustryNames.ALUMINUM_LADDER), RecipeHelper.getRecipePath(GrimIndustry.partId, "bucket")), 25);
 		}
 
-		if (IndustryConfig.subpartSteel) {
-			coalIron_page = new PageCrafting("coaliron", IndustryRecipes.coaliron, 25);
-			steelIngot_page = new PageFurnace("steelingot", new ItemStack(IndustryItems.coal_iron_ingot));
-			steelStuff_page = new PageCrafting("steelstuff", IndustryRecipes.steelstuff, 20);
-			steelTools_page = new PageCrafting("steeltools", IndustryRecipes.steeltools, 20);
+		if (IndustryConfig.subpartSteel.get()) {
+			coalIron_page = new PageCrafting("coaliron", ImmutableList.of(RecipeHelper.getRecipePath(CoreNames.COAL_DUST), RecipeHelper.getRecipePath(IndustryNames.COAL_IRON_INGOT)), 25);
+			steelIngot_page = new PageFurnace("steelingot", RecipeHelper.getRecipePath(IndustryNames.COAL_IRON_INGOT));
+			steelStuff_page = new PageCrafting("steelstuff", ImmutableList.of(RecipeHelper.getRecipePath(IndustryNames.STEEL_PIPE), RecipeHelper.getRecipePath(IndustryNames.STEEL_FRAME), RecipeHelper.getRecipePath(CoreNames.STEEL_BLOCK), RecipeHelper.getRecipePath(CoreNames.STEEL_INGOT), RecipeHelper.getRecipePath(CoreNames.STEEL_SHAFT)), 20);
+			steelTools_page = new PageCrafting("steeltools", ImmutableList.of(RecipeHelper.getRecipePath(IndustryNames.STEEL_SWORD), RecipeHelper.getRecipePath(IndustryNames.STEEL_PICKAXE), RecipeHelper.getRecipePath(IndustryNames.STEEL_SHOVEL), RecipeHelper.getRecipePath(IndustryNames.STEEL_AXE), RecipeHelper.getRecipePath(IndustryNames.STEEL_HOE)), 20);
 		}
 
-		if (IndustryConfig.subpartConveyor) {
-			conveyorBelt_page = new PageCrafting("conveyor_belt", new ItemStack(IndustryBlocks.conveyor_belt));
+		if (IndustryConfig.subpartConveyor.get()) {
+			conveyorBelt_page = new PageCrafting("conveyor_belt", RecipeHelper.getRecipePath(IndustryNames.CONVEYOR_BELT));
 		}
 
-		if (IndustryConfig.subpartMachines) {
-			drill_page = new PageCrafting("drill", 25, new ItemStack(IndustryBlocks.drill), new ItemStack(IndustryItems.drill_head_item));
-			fuel_page = new PageCrafting("fuel", IndustryRecipes.fuelstuff, 25);
+		if (IndustryConfig.subpartMachines.get()) {
+			drill_page = new PageCrafting("drill", ImmutableList.of(RecipeHelper.getRecipePath(IndustryNames.DRILL), RecipeHelper.getRecipePath(IndustryNames.DRILL_HEAD_ITEM)), 25);
+			fuel_page = new PageCrafting("fuel", ImmutableList.of(RecipeHelper.getRecipePath(IndustryNames.SUPER_CRUDE_OIL), RecipeHelper.getRecipePath(IndustryNames.FUEL), RecipeHelper.getRecipePath(IndustryNames.FUEL_TANK)), 25);
 			machineInfo_page = new PageInfo("info");
-			refinery_page = new PageCrafting("refinery", new ItemStack(IndustryBlocks.refinery));
+			refinery_page = new PageCrafting("refinery", RecipeHelper.getRecipePath(IndustryNames.REFINERY));
 			refineryRecipes_page = new PageMachine("refinery_recipes", MachineRecipes.INSTANCE.getInputs(MachineType.REFINERY), 35, MachineType.REFINERY);
 
-			if (CoreConfig.subpartAluminum)
-				derrick_page = new PageCrafting("derrick", 25, new ItemStack(IndustryBlocks.derrick), new ItemStack(CommonItems.aluminum_can));
+			if (CoreConfig.subpartAluminum.get())
+				derrick_page = new PageCrafting("derrick", ImmutableList.of(RecipeHelper.getRecipePath(IndustryNames.DERRICK), RecipeHelper.getRecipePath(CoreNames.ALUMINUM_CAN)), 25);
 
 			if (OreDictionary.doesOreNameExist("can"))
 				derrickRecipes_page = new PageMachine("derrick_recipes", "can", MachineType.DERRICK);
 
-			modernFurnace_page = new PageCrafting("mfurnace", new ItemStack(IndustryBlocks.modern_furnace));
+			modernFurnace_page = new PageCrafting("mfurnace", RecipeHelper.getRecipePath(IndustryNames.MODERN_FURNACE));
 			modernFurnaceRecipes_page = new PageMachine("mfurnace_recipes", MachineRecipes.INSTANCE.getInputs(MachineType.MODERN_FURNACE), 35, MachineType.MODERN_FURNACE);
 		}
 
-		if (IndustryConfig.subpartTorches) {
-			flipFlopTorch_page = new PageCrafting("flipflop", new ItemStack(IndustryBlocks.flip_flop_torch));
-			glowstoneTorch_page = new PageCrafting("glowstone", new ItemStack(IndustryBlocks.glowstone_torch));
+		if (IndustryConfig.subpartTorches.get()) {
+			flipFlopTorch_page = new PageCrafting("flipflop", RecipeHelper.getRecipePath(IndustryNames.FLIP_FLOP_TORCH));
+			glowstoneTorch_page = new PageCrafting("glowstone", RecipeHelper.getRecipePath(IndustryNames.GLOWSTONE_TORCH));
 		}
 
-		if (IndustryConfig.subpartBridges) {
+		if (IndustryConfig.subpartBridges.get()) {
 			bridgeLaser_page = new PageCrafting("laser", RecipeHelper.createPath("bridge_laser"));
 			bridgeAccel_page = new PageCrafting("accel", RecipeHelper.createPath("bridge_accel"));
 			bridgeTrick_page = new PageCrafting("trick", RecipeHelper.createPath("bridge_trick"));
@@ -269,75 +267,75 @@ public class ManualIndustry implements IManualPart {
 			gravLift_page = new PageCrafting("gravity", RecipeHelper.createPath("bridge_gravity"));
 		}
 
-		if(IndustryConfig.subpartChunkLoader){
-		    chunkLoader_page = new PageCrafting("chunk_loader", new ItemStack(IndustryBlocks.chunk_loader));
-        }
+		if (IndustryConfig.subpartChunkLoader.get()) {
+			chunkLoader_page = new PageCrafting("chunk_loader", RecipeHelper.getRecipePath(IndustryNames.CHUNK_LOADER));
+		}
 	}
 
 	@Override
 	public void registerChapters(ManualPart part) {
-		if (IndustryConfig.subpartWorkbenchUpgrades)
+		if (IndustryConfig.subpartWorkbenchUpgrades.get())
 			ManualRegistry.addChapter("benches", part).addPages(workbench_page, portableUpgrade_page);
 
-		if (IndustryConfig.subpartStorage)
+		if (IndustryConfig.subpartStorage.get())
 			ManualRegistry.addChapter("storage", part).addPages(warehouseCrate_page, cabinets_page, safes_page, locker_page, itemTower_page, combination_page, locksmithWorkbench_page, tank_page);
 
-		if (IndustryConfig.subpartElementalBlocks)
+		if (IndustryConfig.subpartElementalBlocks.get())
 			ManualRegistry.addChapter("elemental", part).addPages(togglerack_page, fireBlock_page, waterBlock_page, lavaBlock_page);
 
-		if (IndustryConfig.subpartSpikes)
+		if (IndustryConfig.subpartSpikes.get())
 			ManualRegistry.addChapter("spikes", part).addPages(spike_page);
 
-		if (IndustryConfig.subpartFans)
+		if (IndustryConfig.subpartFans.get())
 			ManualRegistry.addChapter("fan", part).addPages(fan_page).appendImageUrl("fans.png");
 
-		if (IndustryConfig.subpartExtruder)
+		if (IndustryConfig.subpartExtruder.get())
 			ManualRegistry.addChapter("extruders", part).addPages(extruder_page, extruderInfo_page).appendImageUrl("extruder.png");
 
-		if (IndustryConfig.subpartSensors)
+		if (IndustryConfig.subpartSensors.get())
 			ManualRegistry.addChapter("sensors", part).addPages(sensor_page, positionFinder_page, specificSensorInfo_page, specificSensorInfo2_page, specificSensor_page, upgradedSpecificSensor_page, arrowSensor_page, fireSensor_page);
 
-		if (IndustryConfig.subpartGravity)
+		if (IndustryConfig.subpartGravity.get())
 			ManualRegistry.addChapter("gravity", part).addPages(gravityBoots_page, controller_page, attract_page, gravitor_page, repulse_page, mob_repulsor_page);
 
-		if (IndustryConfig.subpartNuclear) {
+		if (IndustryConfig.subpartNuclear.get()) {
 			ManualRegistry.addChapter("refining", part).addPages(uranium_page, radiationSuit_page, uraniumSmelt_page, refinedUranium_page, plutonium_page, refinedPlutonium_page, reactorCore_page);
 			ManualRegistry.addChapter("reactor", part).addPages(reactorCase_page, ironParts_page, reactor_page);
 		}
 
-		if (IndustryConfig.subpartNuclear || IndustryConfig.subpartShapedCharges) {
+		if (IndustryConfig.subpartNuclear.get() || IndustryConfig.subpartShapedCharges.get()) {
 			ManualRegistry.addChapter("explosives", part).addPages(bombShell_page, c4_page, nuclearBomb_page, shapedChargeBase_page, shapedCharge_page);
 		}
 
-		if (IndustryConfig.subpartGates)
+		if (IndustryConfig.subpartGates.get())
 			ManualRegistry.addChapter("gates", part).addPages(gate_page, gateTrumpet_page, garage_page, garageRemote_page);
 
-		if (IndustryConfig.subpartHLights)
+		if (IndustryConfig.subpartHLights.get())
 			ManualRegistry.addChapter("hlights", part).addPages(hLight_page, hTorch_page);
 
-		if (IndustryConfig.subpartRWays)
+		if (IndustryConfig.subpartRWays.get())
 			ManualRegistry.addChapter("rways", part).addPages(sidewalk_page, tarball_page, asphalt_page, rways_page);
 
-		if (IndustryConfig.subpartDoors || IndustryConfig.subpartDecoration)
+		if (IndustryConfig.subpartDoors.get() || IndustryConfig.subpartDecoration.get())
 			ManualRegistry.addChapter("moderntech", part).addPages(doors_page, others_page, decoration_page, paint_page, paintTech_page);
 
-		if (IndustryConfig.subpartMetalWorks || IndustryConfig.subpartSteel)
+		if (IndustryConfig.subpartMetalWorks.get() || IndustryConfig.subpartSteel.get())
 			ManualRegistry.addChapter("metalworks", part).addPages(buckLadd_page, coalIron_page, steelIngot_page, steelStuff_page, steelTools_page, metalMesh_page);
 
-		if (IndustryConfig.subpartMachines || IndustryConfig.subpartConveyor)
+		if (IndustryConfig.subpartMachines.get() || IndustryConfig.subpartConveyor.get())
 			ManualRegistry.addChapter("machines", part).addPages(machineInfo_page, refinery_page, refineryRecipes_page, derrick_page, derrickRecipes_page, fuel_page, modernFurnace_page, modernFurnaceRecipes_page, drill_page, conveyorBelt_page);
 
-		if (IndustryConfig.subpartIceMaker)
+		if (IndustryConfig.subpartIceMaker.get())
 			ManualRegistry.addChapter("ice", part).addPages(iceMaker_page).appendImageUrl("icemaker.png");
 
-		if (IndustryConfig.subpartTorches)
+		if (IndustryConfig.subpartTorches.get())
 			ManualRegistry.addChapter("torches", part).addPages(flipFlopTorch_page, glowstoneTorch_page);
 
-		if (IndustryConfig.subpartBridges)
+		if (IndustryConfig.subpartBridges.get())
 			ManualRegistry.addChapter("bridges", part).addPages(bridgeLaser_page, bridgeAccel_page, bridgeTrick_page, bridgeDeath_page, gravLift_page);
 
-		if(IndustryConfig.subpartChunkLoader)
-		    ManualRegistry.addChapter("chunk_loader", part).addPages(chunkLoader_page);
+		if (IndustryConfig.subpartChunkLoader.get())
+			ManualRegistry.addChapter("chunk_loader", part).addPages(chunkLoader_page);
 	}
 
 }

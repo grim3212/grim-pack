@@ -7,10 +7,10 @@
       "item": "minecraft:book"
     },
     {
-      "constant": "grimpack:dye_black"
+      "tag": "forge:dyes/black"
     },
     {
-      "constant": "grimpack:dye_brown"
+      "tag": "forge:dyes/brown"
     }
   ],
   "type": "minecraft:crafting_shapeless"

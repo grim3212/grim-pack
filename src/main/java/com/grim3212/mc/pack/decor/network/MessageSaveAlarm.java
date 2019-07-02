@@ -6,7 +6,6 @@ import java.util.function.Supplier;
 import com.grim3212.mc.pack.core.network.AbstractMessage.AbstractServerMessage;
 import com.grim3212.mc.pack.decor.tile.TileEntityAlarm;
 
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
@@ -31,17 +30,17 @@ public class MessageSaveAlarm extends AbstractServerMessage<MessageSaveAlarm> {
 	}
 
 	@Override
-	protected void write(PacketBuffer buffer) throws IOException {
-		buffer.writeInt(alarmType);
-		buffer.writeBlockPos(alarmPos);
+	protected void write(MessageSaveAlarm msg, PacketBuffer buffer) throws IOException {
+		buffer.writeInt(msg.alarmType);
+		buffer.writeBlockPos(msg.alarmPos);
 	}
 
 	@Override
-	public void process(EntityPlayer player, Supplier<Context> ctx) {
-		TileEntity te = player.world.getTileEntity(alarmPos);
+	public void process(MessageSaveAlarm msg, Supplier<Context> ctx) {
+		TileEntity te = ctx.get().getSender().getEntityWorld().getTileEntity(msg.alarmPos);
 
 		if (te instanceof TileEntityAlarm) {
-			((TileEntityAlarm) te).alarmType = this.alarmType;
+			((TileEntityAlarm) te).alarmType = msg.alarmType;
 		}
 	}
 

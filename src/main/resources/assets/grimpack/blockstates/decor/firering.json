@@ -1,0 +1,21 @@
+{
+	"forge_marker": 1,
+    "defaults": {
+		"transform": "forge:default-block",
+        "model": "grimpack:decor_fireplace",
+		"custom": {
+			"models": ["grimpack:block/firering", "grimpack:block/firering_wood"]
+		}
+    },
+    "variants": {
+        "active": {
+			"true": {
+				"custom": {
+					"models": ["grimpack:block/firering", "grimpack:block/firering_wood", "grimpack:block/fire"]
+				}
+			},
+			"false": {}
+		},
+		"inventory": [{}]
+    }
+}

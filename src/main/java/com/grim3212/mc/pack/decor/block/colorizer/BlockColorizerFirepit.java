@@ -3,30 +3,31 @@ package com.grim3212.mc.pack.decor.block.colorizer;
 import com.grim3212.mc.pack.core.manual.pages.Page;
 import com.grim3212.mc.pack.decor.client.ManualDecor;
 import com.grim3212.mc.pack.decor.config.DecorConfig;
+import com.grim3212.mc.pack.decor.init.DecorNames;
 
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockAccess;
+import net.minecraft.util.math.shapes.ISelectionContext;
+import net.minecraft.util.math.shapes.VoxelShape;
+import net.minecraft.util.math.shapes.VoxelShapes;
+import net.minecraft.world.IBlockReader;
 
 public class BlockColorizerFirepit extends BlockColorizerFireplaceBase {
 
-	public static final AxisAlignedBB FIREPIT_AABB = new AxisAlignedBB(0.0F, 0.0F, 0.0F, 1.0F, 0.6F, 1.0F);
+	public static final VoxelShape FIREPIT = Block.makeCuboidShape(0.0F, 0.0F, 0.0F, 16.0F, 9.6F, 16.0F);
 
 	public BlockColorizerFirepit() {
-		super("firepit");
+		super(DecorNames.FIREPIT);
 	}
 
 	@Override
-	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
-		if (DecorConfig.enableFirepitNet)
-			return FULL_BLOCK_AABB;
-		else
-			return FIREPIT_AABB;
+	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
+		return DecorConfig.enableFirepitNet.get() ? VoxelShapes.fullCube() : FIREPIT;
 	}
 
 	@Override
-	public Page getPage(IBlockState state) {
+	public Page getPage(BlockState state) {
 		return ManualDecor.firepit_page;
 	}
 }

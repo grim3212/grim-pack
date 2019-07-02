@@ -9,10 +9,11 @@ import com.grim3212.mc.pack.core.network.AbstractMessage.AbstractClientMessage;
 import com.grim3212.mc.pack.core.util.BetterExplosion;
 
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.Explosion.Mode;
 import net.minecraftforge.fml.network.NetworkEvent.Context;
 
 public class MessageBetterExplosion extends AbstractClientMessage<MessageBetterExplosion> {
@@ -24,13 +25,13 @@ public class MessageBetterExplosion extends AbstractClientMessage<MessageBetterE
 	private double motionY;
 	private double motionZ;
 	private float size;
-	private boolean destroyBlocks;
+	private Mode destroyBlocks;
 	private List<BlockPos> affectedBlockPositions;
 
 	public MessageBetterExplosion() {
 	}
 
-	public MessageBetterExplosion(double x, double y, double z, float size, boolean destroyBlocks, List<BlockPos> affectedBlockPositionsIn, Vec3d motion) {
+	public MessageBetterExplosion(double x, double y, double z, float size, Mode destroyBlocks, List<BlockPos> affectedBlockPositionsIn, Vec3d motion) {
 		this.x = x;
 		this.y = y;
 		this.z = z;
@@ -56,7 +57,7 @@ public class MessageBetterExplosion extends AbstractClientMessage<MessageBetterE
 
 		float size = buffer.readFloat();
 
-		boolean destroyBlocks = buffer.readBoolean();
+		Mode destroyBlocks = buffer.readEnumValue(Mode.class);
 
 		int affectedBlocks = buffer.readInt();
 		List<BlockPos> affectedBlockPositions = Lists.<BlockPos>newArrayListWithCapacity(affectedBlocks);
@@ -71,22 +72,22 @@ public class MessageBetterExplosion extends AbstractClientMessage<MessageBetterE
 	}
 
 	@Override
-	protected void write(PacketBuffer buffer) throws IOException {
-		buffer.writeDouble(this.x);
-		buffer.writeDouble(this.y);
-		buffer.writeDouble(this.z);
-		buffer.writeDouble(this.motionX);
-		buffer.writeDouble(this.motionY);
-		buffer.writeDouble(this.motionZ);
+	protected void write(MessageBetterExplosion msg, PacketBuffer buffer) throws IOException {
+		buffer.writeDouble(msg.x);
+		buffer.writeDouble(msg.y);
+		buffer.writeDouble(msg.z);
+		buffer.writeDouble(msg.motionX);
+		buffer.writeDouble(msg.motionY);
+		buffer.writeDouble(msg.motionZ);
 
-		buffer.writeFloat(this.size);
-		buffer.writeBoolean(this.destroyBlocks);
+		buffer.writeFloat(msg.size);
+		buffer.writeEnumValue(msg.destroyBlocks);
 
-		buffer.writeInt(this.affectedBlockPositions.size());
-		for (BlockPos blockpos : this.affectedBlockPositions) {
-			int l = blockpos.getX() - (int) x;
-			int i1 = blockpos.getY() - (int) y;
-			int j1 = blockpos.getZ() - (int) z;
+		buffer.writeInt(msg.affectedBlockPositions.size());
+		for (BlockPos blockpos : msg.affectedBlockPositions) {
+			int l = blockpos.getX() - (int) msg.x;
+			int i1 = blockpos.getY() - (int) msg.y;
+			int j1 = blockpos.getZ() - (int) msg.z;
 			buffer.writeByte(l);
 			buffer.writeByte(i1);
 			buffer.writeByte(j1);
@@ -94,13 +95,12 @@ public class MessageBetterExplosion extends AbstractClientMessage<MessageBetterE
 	}
 
 	@Override
-	public void process(EntityPlayer player, Supplier<Context> ctx) {
-		BetterExplosion explosion = new BetterExplosion(player.world, (Entity) null, x, y, z, size, destroyBlocks, affectedBlockPositions);
+	public void process(MessageBetterExplosion msg, Supplier<Context> ctx) {
+		PlayerEntity player = ctx.get().getSender();
+		BetterExplosion explosion = new BetterExplosion(player.world, (Entity) null, msg.x, msg.y, msg.z, msg.size, msg.destroyBlocks, msg.affectedBlockPositions);
 		explosion.doExplosionB(true);
 
-		player.motionX += this.motionX;
-		player.motionY += this.motionY;
-		player.motionZ += this.motionZ;
+		player.setMotion(player.getMotion().add(msg.motionX, msg.motionY, msg.motionZ));
 	}
 
 }

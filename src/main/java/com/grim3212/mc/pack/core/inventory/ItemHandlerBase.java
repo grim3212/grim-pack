@@ -2,8 +2,8 @@ package com.grim3212.mc.pack.core.inventory;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TextComponentString;
-import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.items.wrapper.EmptyHandler;
@@ -74,7 +74,7 @@ public abstract class ItemHandlerBase implements IItemHandlerModifiable {
 	}
 
 	public ITextComponent getDisplayName() {
-		return this.hasCustomName() ? new TextComponentString(this.getName()) : new TextComponentTranslation(this.getName(), new Object[0]);
+		return this.hasCustomName() ? new StringTextComponent(this.getName()) : new TranslationTextComponent(this.getName(), new Object[0]);
 	}
 
 	@Override

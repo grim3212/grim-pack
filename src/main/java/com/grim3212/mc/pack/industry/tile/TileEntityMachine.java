@@ -6,26 +6,34 @@ import com.grim3212.mc.pack.industry.inventory.ContainerRefinery;
 import com.grim3212.mc.pack.industry.util.MachineRecipes;
 import com.grim3212.mc.pack.industry.util.MachineRecipes.MachineType;
 
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.init.Items;
-import net.minecraft.inventory.Container;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.BlockState;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.inventory.container.Container;
+import net.minecraft.item.Items;
+import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.inventory.ItemStackHelper;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.item.Items;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.NetworkManager;
-import net.minecraft.network.play.server.SPacketUpdateTileEntity;
-import net.minecraft.tileentity.TileEntityLockable;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.network.play.server.SUpdateTileEntityPacket;
+import net.minecraft.network.play.server.SUpdateTileEntityPacket;
+import net.minecraft.tileentity.LockableTileEntity;
+import net.minecraft.tileentity.LockableTileEntity;
+import net.minecraft.util.Direction;
+import net.minecraft.util.Direction;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class TileEntityMachine extends TileEntityLockable implements ISidedInventory, ITickable {
+public class TileEntityMachine extends LockableTileEntity implements ISidedInventory, ITickable {
 
 	private static final int[] slotsTop = new int[] { 0 };
 	private static final int[] slotsBottom = new int[] { 1 };
@@ -147,7 +155,7 @@ public class TileEntityMachine extends TileEntityLockable implements ISidedInven
 	}
 
 	@Override
-	public void readFromNBT(NBTTagCompound compound) {
+	public void readFromNBT(CompoundNBT compound) {
 		super.readFromNBT(compound);
 		ItemStackHelper.loadAllItems(compound, itemstacks);
 
@@ -161,7 +169,7 @@ public class TileEntityMachine extends TileEntityLockable implements ISidedInven
 	}
 
 	@Override
-	public NBTTagCompound writeToNBT(NBTTagCompound compound) {
+	public CompoundNBT writeToNBT(CompoundNBT compound) {
 		super.writeToNBT(compound);
 		compound.setInteger("RunTime", this.runTime);
 		compound.setInteger("RunTimeTotal", this.totalRunTime);
@@ -283,16 +291,16 @@ public class TileEntityMachine extends TileEntityLockable implements ISidedInven
 	 * with Container
 	 */
 	@Override
-	public boolean isUsableByPlayer(EntityPlayer player) {
+	public boolean isUsableByPlayer(PlayerEntity player) {
 		return this.world.getTileEntity(this.pos) != this ? false : player.getDistanceSq((double) this.pos.getX() + 0.5D, (double) this.pos.getY() + 0.5D, (double) this.pos.getZ() + 0.5D) <= 64.0D;
 	}
 
 	@Override
-	public void openInventory(EntityPlayer player) {
+	public void openInventory(PlayerEntity player) {
 	}
 
 	@Override
-	public void closeInventory(EntityPlayer player) {
+	public void closeInventory(PlayerEntity player) {
 	}
 
 	/**
@@ -305,8 +313,8 @@ public class TileEntityMachine extends TileEntityLockable implements ISidedInven
 	}
 
 	@Override
-	public int[] getSlotsForFace(EnumFacing side) {
-		return side == EnumFacing.DOWN ? slotsBottom : (side == EnumFacing.UP ? slotsTop : slotsSides);
+	public int[] getSlotsForFace(Direction side) {
+		return side == Direction.DOWN ? slotsBottom : (side == Direction.UP ? slotsTop : slotsSides);
 	}
 
 	/**
@@ -314,7 +322,7 @@ public class TileEntityMachine extends TileEntityLockable implements ISidedInven
 	 * from the given side. Args: slot, item, side
 	 */
 	@Override
-	public boolean canInsertItem(int index, ItemStack itemStackIn, EnumFacing direction) {
+	public boolean canInsertItem(int index, ItemStack itemStackIn, Direction direction) {
 		return this.isItemValidForSlot(index, itemStackIn);
 	}
 
@@ -323,8 +331,8 @@ public class TileEntityMachine extends TileEntityLockable implements ISidedInven
 	 * from the given side. Args: slot, item, side
 	 */
 	@Override
-	public boolean canExtractItem(int index, ItemStack stack, EnumFacing direction) {
-		if (direction == EnumFacing.DOWN && index == 1) {
+	public boolean canExtractItem(int index, ItemStack stack, Direction direction) {
+		if (direction == Direction.DOWN && index == 1) {
 			Item item = stack.getItem();
 
 			if (item != Items.WATER_BUCKET && item != Items.BUCKET) {
@@ -341,7 +349,7 @@ public class TileEntityMachine extends TileEntityLockable implements ISidedInven
 	}
 
 	@Override
-	public Container createContainer(InventoryPlayer playerInventory, EntityPlayer playerIn) {
+	public Container createContainer(PlayerInventory playerInventory, PlayerEntity playerIn) {
 		return getMachineType() == MachineType.DERRICK ? new ContainerDerrick(playerInventory, this) : new ContainerRefinery(playerInventory, this);
 	}
 
@@ -385,30 +393,30 @@ public class TileEntityMachine extends TileEntityLockable implements ISidedInven
 	}
 
 	@Override
-	public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newState) {
+	public boolean shouldRefresh(World world, BlockPos pos, BlockState oldState, BlockState newState) {
 		return getMachineType() == MachineType.REFINERY ? oldState.getBlock() != newState.getBlock() : super.shouldRefresh(world, pos, oldState, newState);
 	}
 
 	@Override
-	public SPacketUpdateTileEntity getUpdatePacket() {
-		NBTTagCompound nbtTagCompound = new NBTTagCompound();
+	public SUpdateTileEntityPacket getUpdatePacket() {
+		CompoundNBT nbtTagCompound = new CompoundNBT();
 		writeToNBT(nbtTagCompound);
 		int metadata = getBlockMetadata();
-		return new SPacketUpdateTileEntity(this.pos, metadata, nbtTagCompound);
+		return new SUpdateTileEntityPacket(this.pos, metadata, nbtTagCompound);
 	}
 
 	@Override
-	public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity pkt) {
+	public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt) {
 		readFromNBT(pkt.getNbtCompound());
 	}
 
 	@Override
-	public NBTTagCompound getUpdateTag() {
-		return writeToNBT(new NBTTagCompound());
+	public CompoundNBT getUpdateTag() {
+		return writeToNBT(new CompoundNBT());
 	}
 
 	@Override
-	public void handleUpdateTag(NBTTagCompound tag) {
+	public void handleUpdateTag(CompoundNBT tag) {
 		readFromNBT(tag);
 	}
 

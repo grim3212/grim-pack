@@ -1,5 +1,10 @@
 package com.grim3212.mc.pack.industry.inventory;
 
+import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.inventory.CraftResultInventory;
+import net.minecraft.inventory.Inventory;
+import net.minecraft.inventory.container.Container;
+import net.minecraft.inventory.container.Slot;
 import org.apache.commons.lang3.StringUtils;
 
 import com.grim3212.mc.pack.core.network.PacketDispatcher;
@@ -8,13 +13,13 @@ import com.grim3212.mc.pack.industry.block.IndustryBlocks;
 import com.grim3212.mc.pack.industry.item.ItemCombination;
 import com.grim3212.mc.pack.industry.network.MessageSetLock;
 
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.inventory.Container;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.InventoryBasic;
-import net.minecraft.inventory.InventoryCraftResult;
-import net.minecraft.inventory.Slot;
+import net.minecraft.inventory.Inventory;
+import net.minecraft.inventory.CraftResultInventory;
+import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -27,11 +32,11 @@ public class ContainerLocksmithWorkbench extends Container {
 	private World world;
 	private String lock = "";
 
-	public ContainerLocksmithWorkbench(InventoryPlayer inventory, World worldIn, BlockPos pos) {
+	public ContainerLocksmithWorkbench(PlayerInventory inventory, World worldIn, BlockPos pos) {
 		this.world = worldIn;
 		this.pos = pos;
-		this.outputSlot = new InventoryCraftResult();
-		this.inputSlot = new InventoryBasic("container.locksmith_workbench", false, 1) {
+		this.outputSlot = new CraftResultInventory();
+		this.inputSlot = new Inventory("container.locksmith_workbench", false, 1) {
 			/**
 			 * For tile entities, ensures the chunk containing the tile entity
 			 * is saved to disk later - the game won't think it hasn't changed
@@ -56,7 +61,7 @@ public class ContainerLocksmithWorkbench extends Container {
 			}
 
 			@Override
-			public ItemStack onTake(EntityPlayer thePlayer, ItemStack stack) {
+			public ItemStack onTake(PlayerEntity thePlayer, ItemStack stack) {
 
 				inputSlot.setInventorySlotContents(0, ItemStack.EMPTY);
 
@@ -104,7 +109,7 @@ public class ContainerLocksmithWorkbench extends Container {
 	}
 
 	@Override
-	public void onContainerClosed(EntityPlayer playerIn) {
+	public void onContainerClosed(PlayerEntity playerIn) {
 		super.onContainerClosed(playerIn);
 
 		if (!this.world.isRemote) {
@@ -119,12 +124,12 @@ public class ContainerLocksmithWorkbench extends Container {
 	}
 
 	@Override
-	public boolean canInteractWith(EntityPlayer playerIn) {
+	public boolean canInteractWith(PlayerEntity playerIn) {
 		return this.world.getBlockState(this.pos).getBlock() != IndustryBlocks.locksmith_workbench ? false : playerIn.getDistanceSq((double) this.pos.getX() + 0.5D, (double) this.pos.getY() + 0.5D, (double) this.pos.getZ() + 0.5D) <= 64.0D;
 	}
 
 	@Override
-	public ItemStack transferStackInSlot(EntityPlayer playerIn, int index) {
+	public ItemStack transferStackInSlot(PlayerEntity playerIn, int index) {
 		ItemStack itemstack = ItemStack.EMPTY;
 		Slot slot = (Slot) this.inventorySlots.get(index);
 

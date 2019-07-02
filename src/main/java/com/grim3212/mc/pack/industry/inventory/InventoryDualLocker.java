@@ -1,6 +1,7 @@
 package com.grim3212.mc.pack.industry.inventory;
 
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.ITextComponent;
@@ -57,17 +58,17 @@ public class InventoryDualLocker implements IInventory {
 	}
 
 	@Override
-	public boolean isUsableByPlayer(EntityPlayer entityplayer) {
+	public boolean isUsableByPlayer(PlayerEntity entityplayer) {
 		return (this.topLocker.isUsableByPlayer(entityplayer)) && (this.bottomLocker.isUsableByPlayer(entityplayer));
 	}
 
 	@Override
-	public void openInventory(EntityPlayer player) {
+	public void openInventory(PlayerEntity player) {
 		this.bottomLocker.openInventory(player);
 	}
 
 	@Override
-	public void closeInventory(EntityPlayer player) {
+	public void closeInventory(PlayerEntity player) {
 		this.bottomLocker.closeInventory(player);
 	}
 

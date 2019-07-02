@@ -10,15 +10,18 @@ import com.grim3212.mc.pack.industry.tile.TileEntityLocker;
 import com.grim3212.mc.pack.industry.tile.TileEntityStorage;
 import com.grim3212.mc.pack.industry.util.StorageUtil;
 
+import net.minecraft.block.BlockState;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.block.BlockState;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumHand;
+import net.minecraft.util.Direction;
+import net.minecraft.util.Hand;
+import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
@@ -39,12 +42,12 @@ public class BlockLocker extends BlockStorage {
 	}
 
 	@Override
-	public Page getPage(IBlockState state) {
+	public Page getPage(BlockState state) {
 		return ManualIndustry.locker_page;
 	}
 
 	@Override
-	public float getPlayerRelativeBlockHardness(IBlockState state, EntityPlayer player, World worldIn, BlockPos pos) {
+	public float getPlayerRelativeBlockHardness(BlockState state, PlayerEntity player, World worldIn, BlockPos pos) {
 		if ((isDualLocker(worldIn, pos)) && (isTopLocker(worldIn, pos))) {
 			return getPlayerRelativeBlockHardness(state, player, worldIn, pos.down());
 		}
@@ -53,7 +56,7 @@ public class BlockLocker extends BlockStorage {
 	}
 
 	@Override
-	public void onBlockPlacedBy(World worldIn, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack) {
+	public void onBlockPlacedBy(World worldIn, BlockPos pos, BlockState state, LivingEntity placer, ItemStack stack) {
 		if (((worldIn.getBlockState(pos.down()).getBlock() == IndustryBlocks.locker) && (worldIn.getBlockState(pos.down(2)).getBlock() == IndustryBlocks.locker)) || ((worldIn.getBlockState(pos.up()).getBlock() == IndustryBlocks.locker) && (worldIn.getBlockState(pos.up(2)).getBlock() == IndustryBlocks.locker))) {
 			return;
 		}
@@ -84,7 +87,7 @@ public class BlockLocker extends BlockStorage {
 	}
 
 	@Override
-	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
+	public boolean onBlockActivated(World worldIn, BlockPos pos, BlockState state, PlayerEntity playerIn, Hand hand, Direction facing, float hitX, float hitY, float hitZ) {
 		TileEntity te = worldIn.getTileEntity(pos);
 
 		if (te != null && te instanceof TileEntityStorage) {

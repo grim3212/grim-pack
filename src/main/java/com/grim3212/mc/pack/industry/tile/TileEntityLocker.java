@@ -2,11 +2,12 @@ package com.grim3212.mc.pack.industry.tile;
 
 import com.grim3212.mc.pack.industry.inventory.ContainerLocker;
 
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.init.Blocks;
-import net.minecraft.inventory.Container;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.block.Blocks;
+import net.minecraft.inventory.container.Container;
 import net.minecraft.util.math.AxisAlignedBB;
 
 public class TileEntityLocker extends TileEntityStorage {
@@ -17,12 +18,12 @@ public class TileEntityLocker extends TileEntityStorage {
 	}
 
 	@Override
-	public IBlockState getBreakTextureState() {
+	public BlockState getBreakTextureState() {
 		return Blocks.IRON_BLOCK.getDefaultState();
 	}
 
 	@Override
-	public Container createContainer(InventoryPlayer playerInventory, EntityPlayer playerIn) {
+	public Container createContainer(PlayerInventory playerInventory, PlayerEntity playerIn) {
 		return new ContainerLocker(playerIn, this);
 	}
 

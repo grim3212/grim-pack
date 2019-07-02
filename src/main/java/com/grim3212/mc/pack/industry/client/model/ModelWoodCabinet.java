@@ -1,20 +1,20 @@
 package com.grim3212.mc.pack.industry.client.model;
 
-import net.minecraft.client.model.ModelBase;
-import net.minecraft.client.model.ModelRenderer;
+import net.minecraft.client.renderer.entity.model.RendererModel;
+import net.minecraft.client.renderer.model.Model;
 import net.minecraft.entity.Entity;
 
-public class ModelWoodCabinet extends ModelBase {
+public class ModelWoodCabinet extends Model {
 	public boolean glassDoor = false;
 	public boolean renderHandle = false;
 	public float doorAngle = 0.0F;
-	public ModelRenderer cabinetMain;
-	public ModelRenderer[] cabinetInt = new ModelRenderer[5];
-	public ModelRenderer cabinetDoor1;
-	public ModelRenderer cabinetDoor2;
-	public ModelRenderer cabinetHandle1;
-	public ModelRenderer cabinetLock;
-	public ModelRenderer cabinetHandle2;
+	public RendererModel cabinetMain;
+	public RendererModel[] cabinetInt = new RendererModel[5];
+	public RendererModel cabinetDoor1;
+	public RendererModel cabinetDoor2;
+	public RendererModel cabinetHandle1;
+	public RendererModel cabinetLock;
+	public RendererModel cabinetHandle2;
 
 	public ModelWoodCabinet(boolean useGlass) {
 		this.glassDoor = useGlass;
@@ -26,17 +26,17 @@ public class ModelWoodCabinet extends ModelBase {
 	}
 
 	public void init() {
-		this.cabinetMain = new ModelRenderer(this, 0, 0).setTextureSize(64, 128);
-		this.cabinetInt[0] = new ModelRenderer(this, 0, 65).setTextureSize(64, 128);
-		this.cabinetInt[1] = new ModelRenderer(this, 0, 48).setTextureSize(64, 128);
-		this.cabinetInt[2] = new ModelRenderer(this, 31, 96).setTextureSize(64, 128);
-		this.cabinetInt[3] = new ModelRenderer(this, 2, 49).setTextureSize(64, 128);
-		this.cabinetInt[4] = new ModelRenderer(this, -14, 49).setTextureSize(64, 128);
-		this.cabinetDoor1 = new ModelRenderer(this, this.glassDoor ? 16 : 0, 32).setTextureSize(64, 128);
-		this.cabinetDoor2 = new ModelRenderer(this, this.glassDoor ? 16 : 0, 32).setTextureSize(64, 128);
-		this.cabinetHandle1 = new ModelRenderer(this, 0, 0).setTextureSize(64, 128);
-		this.cabinetLock = new ModelRenderer(this, 48, 0).setTextureSize(64, 128);
-		this.cabinetHandle2 = new ModelRenderer(this, 0, 0).setTextureSize(64, 128);
+		this.cabinetMain = new RendererModel(this, 0, 0).setTextureSize(64, 128);
+		this.cabinetInt[0] = new RendererModel(this, 0, 65).setTextureSize(64, 128);
+		this.cabinetInt[1] = new RendererModel(this, 0, 48).setTextureSize(64, 128);
+		this.cabinetInt[2] = new RendererModel(this, 31, 96).setTextureSize(64, 128);
+		this.cabinetInt[3] = new RendererModel(this, 2, 49).setTextureSize(64, 128);
+		this.cabinetInt[4] = new RendererModel(this, -14, 49).setTextureSize(64, 128);
+		this.cabinetDoor1 = new RendererModel(this, this.glassDoor ? 16 : 0, 32).setTextureSize(64, 128);
+		this.cabinetDoor2 = new RendererModel(this, this.glassDoor ? 16 : 0, 32).setTextureSize(64, 128);
+		this.cabinetHandle1 = new RendererModel(this, 0, 0).setTextureSize(64, 128);
+		this.cabinetLock = new RendererModel(this, 48, 0).setTextureSize(64, 128);
+		this.cabinetHandle2 = new RendererModel(this, 0, 0).setTextureSize(64, 128);
 
 		this.cabinetMain.addBox(0.0F, 0.0F, 0.0F, 16, 16, 16);
 
@@ -63,8 +63,8 @@ public class ModelWoodCabinet extends ModelBase {
 	}
 
 	public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) {
-		super.render(entity, f, f1, f2, f3, f4, f5);
-		setRotationAngles(f, f1, f2, f3, f4, f5, entity);
+		// super.render(entity, f, f1, f2, f3, f4, f5);
+		// setRotationAngles(f, f1, f2, f3, f4, f5, entity);
 
 		callRender(f5);
 	}

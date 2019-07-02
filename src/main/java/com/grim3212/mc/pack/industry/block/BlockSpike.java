@@ -7,22 +7,23 @@ import com.grim3212.mc.pack.industry.client.ManualIndustry;
 import com.grim3212.mc.pack.industry.init.IndustrySounds;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockStateContainer;
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.BlockRenderLayer;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumHand;
-import net.minecraft.util.SoundCategory;
+import net.minecraft.util.*;
+import net.minecraft.util.Direction;
+import net.minecraft.util.Hand;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
@@ -37,7 +38,7 @@ public class BlockSpike extends BlockManual {
 	private static final AxisAlignedBB WEST_AABB = new AxisAlignedBB(0.9375F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
 	private static final AxisAlignedBB EAST_AABB = new AxisAlignedBB(0.0F, 0.0F, 0.0F, 0.0625F, 1.0F, 1.0F);
 	public static final PropertyBool ACTIVE = PropertyBool.create("active");
-	public static final PropertyEnum<EnumFacing> FACING = PropertyEnum.create("facing", EnumFacing.class);
+	public static final PropertyEnum<Direction> FACING = PropertyEnum.create("facing", Direction.class);
 
 	protected BlockSpike() {
 		super("spike", Material.IRON, SoundType.METAL);
@@ -47,21 +48,21 @@ public class BlockSpike extends BlockManual {
 	}
 
 	@Override
-	protected IBlockState getState() {
-		return this.blockState.getBaseState().withProperty(ACTIVE, false).withProperty(FACING, EnumFacing.NORTH);
+	protected BlockState getState() {
+		return this.blockState.getBaseState().withProperty(ACTIVE, false).withProperty(FACING, Direction.NORTH);
 	}
 
-	public static EnumFacing getFacing(int meta) {
-		return EnumFacing.getFront(meta & 7);
+	public static Direction getFacing(int meta) {
+		return Direction.getFront(meta & 7);
 	}
 
 	@Override
-	public IBlockState getStateFromMeta(int meta) {
+	public BlockState getStateFromMeta(int meta) {
 		return this.getDefaultState().withProperty(FACING, getFacing(meta)).withProperty(ACTIVE, (meta & 8) > 0);
 	}
 
 	@Override
-	public int getMetaFromState(IBlockState state) {
+	public int getMetaFromState(BlockState state) {
 		byte b0 = 0;
 		int i = b0 | state.getValue(FACING).getIndex();
 
@@ -83,9 +84,9 @@ public class BlockSpike extends BlockManual {
 	}
 
 	@Override
-	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
+	public AxisAlignedBB getBoundingBox(BlockState state, IBlockAccess source, BlockPos pos) {
 		if (!state.getValue(ACTIVE)) {
-			EnumFacing enumfacing = state.getValue(FACING);
+			Direction enumfacing = state.getValue(FACING);
 
 			switch (enumfacing) {
 			case UP:
@@ -107,47 +108,47 @@ public class BlockSpike extends BlockManual {
 	}
 
 	@Override
-	public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, IBlockAccess blockAccess, BlockPos pos) {
+	public AxisAlignedBB getCollisionBoundingBox(BlockState blockState, IBlockAccess blockAccess, BlockPos pos) {
 		return NULL_AABB;
 	}
 
 	@Override
-	public boolean isOpaqueCube(IBlockState state) {
+	public boolean isOpaqueCube(BlockState state) {
 		return false;
 	}
 
 	@Override
-	public boolean isFullCube(IBlockState state) {
+	public boolean isFullCube(BlockState state) {
 		return false;
 	}
 
 	@Override
-	public boolean shouldSideBeRendered(IBlockState blockState, IBlockAccess blockAccess, BlockPos pos, EnumFacing side) {
+	public boolean shouldSideBeRendered(BlockState blockState, IBlockAccess blockAccess, BlockPos pos, Direction side) {
 		return true;
 	}
 
 	@Override
-	public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer, EnumHand hand) {
-		return world.isSideSolid(pos.offset(facing.getOpposite()), facing, true) ? this.getDefaultState().withProperty(FACING, facing).withProperty(ACTIVE, false) : this.getDefaultState().withProperty(FACING, EnumFacing.DOWN).withProperty(ACTIVE, false);
+	public BlockState getStateForPlacement(World world, BlockPos pos, Direction facing, float hitX, float hitY, float hitZ, int meta, LivingEntity placer, Hand hand) {
+		return world.isSideSolid(pos.offset(facing.getOpposite()), facing, true) ? this.getDefaultState().withProperty(FACING, facing).withProperty(ACTIVE, false) : this.getDefaultState().withProperty(FACING, Direction.DOWN).withProperty(ACTIVE, false);
 	}
 
 	@Override
-	public void onBlockPlacedBy(World worldIn, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack) {
+	public void onBlockPlacedBy(World worldIn, BlockPos pos, BlockState state, LivingEntity placer, ItemStack stack) {
 		this.neighborChanged(state, worldIn, pos, this, pos);
 	}
 
 	@Override
-	public boolean canPlaceBlockOnSide(World worldIn, BlockPos pos, EnumFacing side) {
+	public boolean canPlaceBlockOnSide(World worldIn, BlockPos pos, Direction side) {
 		return worldIn.isSideSolid(pos.offset(side.getOpposite()), side, true);
 	}
 
 	@Override
 	public boolean canPlaceBlockAt(World worldIn, BlockPos pos) {
-		EnumFacing[] aenumfacing = EnumFacing.values();
+		Direction[] aenumfacing = Direction.values();
 		int i = aenumfacing.length;
 
 		for (int j = 0; j < i; ++j) {
-			EnumFacing enumfacing = aenumfacing[j];
+			Direction enumfacing = aenumfacing[j];
 
 			if (worldIn.isSideSolid(pos.offset(enumfacing), enumfacing.getOpposite(), true)) {
 				return true;
@@ -158,14 +159,14 @@ public class BlockSpike extends BlockManual {
 	}
 
 	@Override
-	public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos) {
+	public void neighborChanged(BlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos) {
 		this.checkForDrop(worldIn, pos);
 
 		if (!state.getValue(ACTIVE) && worldIn.isBlockPowered(pos)) {
-			worldIn.playSound((EntityPlayer) null, pos, IndustrySounds.spikeDeploySound, SoundCategory.BLOCKS, 0.3F, 0.6F);
+			worldIn.playSound((PlayerEntity) null, pos, IndustrySounds.spikeDeploySound, SoundCategory.BLOCKS, 0.3F, 0.6F);
 			worldIn.setBlockState(pos, state.withProperty(ACTIVE, true));
 		} else if (state.getValue(ACTIVE) && !worldIn.isBlockPowered(pos)) {
-			worldIn.playSound((EntityPlayer) null, pos, IndustrySounds.spikeCloseSound, SoundCategory.BLOCKS, 0.3F, 0.6F);
+			worldIn.playSound((PlayerEntity) null, pos, IndustrySounds.spikeCloseSound, SoundCategory.BLOCKS, 0.3F, 0.6F);
 			worldIn.setBlockState(pos, state.withProperty(ACTIVE, false));
 		}
 	}
@@ -178,14 +179,14 @@ public class BlockSpike extends BlockManual {
 	}
 
 	@Override
-	public void onEntityCollidedWithBlock(World worldIn, BlockPos pos, IBlockState state, Entity entityIn) {
-		if (worldIn.getBlockState(pos).getValue(ACTIVE) && entityIn instanceof EntityLivingBase) {
+	public void onEntityCollidedWithBlock(World worldIn, BlockPos pos, BlockState state, Entity entityIn) {
+		if (worldIn.getBlockState(pos).getValue(ACTIVE) && entityIn instanceof LivingEntity) {
 			entityIn.attackEntityFrom(DamageSource.IN_WALL, 10);
 		}
 	}
 
 	@Override
-	public Page getPage(IBlockState state) {
+	public Page getPage(BlockState state) {
 		return ManualIndustry.spike_page;
 	}
 }

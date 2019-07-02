@@ -8,12 +8,12 @@ import com.grim3212.mc.pack.industry.block.IndustryBlocks;
 import com.grim3212.mc.pack.industry.client.ManualIndustry;
 
 import net.minecraft.block.Block;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.EnumActionResult;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumHand;
+import net.minecraft.util.*;
+import net.minecraft.util.ActionResultType;
+import net.minecraft.util.Direction;
+import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
@@ -39,7 +39,7 @@ public class ItemActivator extends ItemManual {
 
 	@Override
 	@SuppressWarnings("incomplete-switch")
-	public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand hand) {
+	public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity playerIn, Hand hand) {
 		int x = MathHelper.floor(playerIn.posX);
 		int y = MathHelper.floor(playerIn.posY);
 		int z = MathHelper.floor(playerIn.posZ);
@@ -59,10 +59,10 @@ public class ItemActivator extends ItemManual {
 					BlockPos pos = new BlockPos(x, var9, i);
 
 					if (worldIn.getBlockState(pos).getBlock() instanceof BlockGate && worldIn.getBlockState(pos).getBlock() == activationBlock) {
-						EnumFacing facing = (EnumFacing) worldIn.getBlockState(pos).getValue(BlockGate.FACING);
+						Direction facing = (Direction) worldIn.getBlockState(pos).getValue(BlockGate.FACING);
 						BlockGate gate = (BlockGate) worldIn.getBlockState(pos).getBlock();
 						gate.onBlockActivated(worldIn, pos, worldIn.getBlockState(pos), playerIn, hand, facing, 1, 1, 1);
-						return ActionResult.newResult(EnumActionResult.SUCCESS, itemStackIn);
+						return ActionResult.newResult(ActionResultType.SUCCESS, itemStackIn);
 					}
 				}
 			}
@@ -74,10 +74,10 @@ public class ItemActivator extends ItemManual {
 					BlockPos pos = new BlockPos(x, var9, i);
 
 					if (worldIn.getBlockState(pos).getBlock() instanceof BlockGate && worldIn.getBlockState(pos).getBlock() == activationBlock) {
-						EnumFacing facing = (EnumFacing) worldIn.getBlockState(pos).getValue(BlockGate.FACING);
+						Direction facing = (Direction) worldIn.getBlockState(pos).getValue(BlockGate.FACING);
 						BlockGate gate = (BlockGate) worldIn.getBlockState(pos).getBlock();
 						gate.onBlockActivated(worldIn, pos, worldIn.getBlockState(pos), playerIn, hand, facing, 1, 1, 1);
-						return ActionResult.newResult(EnumActionResult.SUCCESS, itemStackIn);
+						return ActionResult.newResult(ActionResultType.SUCCESS, itemStackIn);
 					}
 				}
 			}
@@ -89,10 +89,10 @@ public class ItemActivator extends ItemManual {
 					BlockPos pos = new BlockPos(i, var9, z);
 
 					if (worldIn.getBlockState(pos).getBlock() instanceof BlockGate && worldIn.getBlockState(pos).getBlock() == activationBlock) {
-						EnumFacing facing = (EnumFacing) worldIn.getBlockState(pos).getValue(BlockGate.FACING);
+						Direction facing = (Direction) worldIn.getBlockState(pos).getValue(BlockGate.FACING);
 						BlockGate gate = (BlockGate) worldIn.getBlockState(pos).getBlock();
 						gate.onBlockActivated(worldIn, pos, worldIn.getBlockState(pos), playerIn, hand, facing, 1, 1, 1);
-						return ActionResult.newResult(EnumActionResult.SUCCESS, itemStackIn);
+						return ActionResult.newResult(ActionResultType.SUCCESS, itemStackIn);
 					}
 				}
 			}
@@ -104,15 +104,15 @@ public class ItemActivator extends ItemManual {
 					BlockPos pos = new BlockPos(i, var9, z);
 
 					if (worldIn.getBlockState(pos).getBlock() instanceof BlockGate && worldIn.getBlockState(pos).getBlock() == activationBlock) {
-						EnumFacing facing = (EnumFacing) worldIn.getBlockState(pos).getValue(BlockGate.FACING);
+						Direction facing = (Direction) worldIn.getBlockState(pos).getValue(BlockGate.FACING);
 						BlockGate gate = (BlockGate) worldIn.getBlockState(pos).getBlock();
 						gate.onBlockActivated(worldIn, pos, worldIn.getBlockState(pos), playerIn, hand, facing, 1, 1, 1);
-						return ActionResult.newResult(EnumActionResult.SUCCESS, itemStackIn);
+						return ActionResult.newResult(ActionResultType.SUCCESS, itemStackIn);
 					}
 				}
 			}
 		}
-		return ActionResult.newResult(EnumActionResult.SUCCESS, itemStackIn);
+		return ActionResult.newResult(ActionResultType.SUCCESS, itemStackIn);
 	}
 
 	@Override

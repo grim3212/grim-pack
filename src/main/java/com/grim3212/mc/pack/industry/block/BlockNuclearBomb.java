@@ -2,45 +2,42 @@ package com.grim3212.mc.pack.industry.block;
 
 import com.grim3212.mc.pack.core.block.BlockManual;
 import com.grim3212.mc.pack.core.manual.pages.Page;
-import com.grim3212.mc.pack.core.part.GrimCreativeTabs;
 import com.grim3212.mc.pack.industry.client.ManualIndustry;
+import com.grim3212.mc.pack.industry.init.IndustryNames;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.Explosion;
+import net.minecraft.world.Explosion.Mode;
 import net.minecraft.world.World;
 
 public class BlockNuclearBomb extends BlockManual {
 
 	public BlockNuclearBomb() {
-		super("nuclear_bomb", Material.IRON, SoundType.METAL);
-		setHardness(1.0F);
-		setCreativeTab(GrimCreativeTabs.GRIM_INDUSTRY);
-		setLightLevel(0.8F);
-		setLightOpacity(10);
+		super(IndustryNames.NUCLEAR_BOMB, Block.Properties.create(Material.IRON).sound(SoundType.METAL).hardnessAndResistance(1.0f).lightValue(6));
 	}
 
 	@Override
-	public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos) {
+	public void neighborChanged(BlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos, boolean p_220069_6_) {
 		if (worldIn.isBlockPowered(pos)) {
-			worldIn.setBlockToAir(pos);
-			worldIn.createExplosion(null, pos.getX(), pos.getY(), pos.getZ(), 50, true);
+			worldIn.destroyBlock(pos, false);
+			worldIn.createExplosion(null, pos.getX(), pos.getY(), pos.getZ(), 50, true, Mode.BREAK);
 		}
 	}
 
 	@Override
-	public void onBlockDestroyedByExplosion(World worldIn, BlockPos pos, Explosion explosionIn) {
+	public void onExplosionDestroy(World worldIn, BlockPos pos, Explosion explosionIn) {
 		if (!worldIn.isRemote) {
-			worldIn.setBlockToAir(pos);
-			worldIn.createExplosion(null, pos.getX(), pos.getY(), pos.getZ(), 50, true);
+			worldIn.destroyBlock(pos, false);
+			worldIn.createExplosion(null, pos.getX(), pos.getY(), pos.getZ(), 50, true, Mode.BREAK);
 		}
 	}
 
 	@Override
-	public Page getPage(IBlockState state) {
+	public Page getPage(BlockState state) {
 		return ManualIndustry.nuclearBomb_page;
 	}
 }

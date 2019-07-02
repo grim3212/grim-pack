@@ -7,17 +7,17 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
 import com.grim3212.mc.pack.core.util.NBTHelper;
+import com.mojang.blaze3d.platform.GlStateManager;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TextFormatting;
 
 public class TooltipHelper {
@@ -28,15 +28,15 @@ public class TooltipHelper {
 		List<ITextComponent> list = itemstack.getTooltip(mc.player, mc.gameSettings.advancedItemTooltips ? ITooltipFlag.TooltipFlags.ADVANCED : ITooltipFlag.TooltipFlags.NORMAL);
 
 		if (NBTHelper.hasTag(itemstack, "customTooltip")) {
-			list.add(new TextComponentString(""));
-			list.add(new TextComponentString(NBTHelper.getString(itemstack, "customTooltip")));
+			list.add(new StringTextComponent(""));
+			list.add(new StringTextComponent(NBTHelper.getString(itemstack, "customTooltip")));
 		}
 
 		for (int k = 0; k < list.size(); ++k) {
 			if (k == 0) {
-				list.set(k, new TextComponentString(itemstack.getRarity().color + list.get(k).getFormattedText()));
+				list.set(k, new StringTextComponent(itemstack.getRarity().color + list.get(k).getFormattedText()));
 			} else {
-				list.set(k, new TextComponentString(TextFormatting.GRAY + list.get(k).getFormattedText()));
+				list.set(k, new StringTextComponent(TextFormatting.GRAY + list.get(k).getFormattedText()));
 			}
 		}
 
@@ -174,7 +174,7 @@ public class TooltipHelper {
 		float f5 = (float) (endColor >> 16 & 255) / 255.0F;
 		float f6 = (float) (endColor >> 8 & 255) / 255.0F;
 		float f7 = (float) (endColor & 255) / 255.0F;
-		GlStateManager.disableTexture2D();
+		GlStateManager.disableTexture();
 		GlStateManager.enableBlend();
 		GlStateManager.disableAlphaTest();
 		GlStateManager.blendFuncSeparate(770, 771, 1, 0);
@@ -189,6 +189,6 @@ public class TooltipHelper {
 		GlStateManager.shadeModel(7424);
 		GlStateManager.disableBlend();
 		GlStateManager.enableAlphaTest();
-		GlStateManager.enableTexture2D();
+		GlStateManager.enableTexture();
 	}
 }

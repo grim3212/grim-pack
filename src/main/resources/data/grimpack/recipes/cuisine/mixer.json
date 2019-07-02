@@ -16,7 +16,7 @@
   "type": "minecraft:crafting_shaped",
   "key": {
     "X": {
-      "constant": "grimpack:iron"
+      "tag": "forge:ingots/iron"
     }
   }
 }

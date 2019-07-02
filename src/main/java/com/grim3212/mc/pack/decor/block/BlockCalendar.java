@@ -1,58 +1,53 @@
 package com.grim3212.mc.pack.decor.block;
 
-import java.util.Iterator;
-
 import com.grim3212.mc.pack.core.block.BlockManual;
 import com.grim3212.mc.pack.core.manual.pages.Page;
-import com.grim3212.mc.pack.core.part.GrimCreativeTabs;
 import com.grim3212.mc.pack.decor.client.ManualDecor;
+import com.grim3212.mc.pack.decor.init.DecorNames;
 import com.grim3212.mc.pack.decor.tile.TileEntityCalendar;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.ITileEntityProvider;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.properties.PropertyDirection;
-import net.minecraft.block.state.BlockStateContainer;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.item.BlockItemUseContext;
+import net.minecraft.state.DirectionProperty;
+import net.minecraft.state.StateContainer.Builder;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockRenderLayer;
-import net.minecraft.util.EnumBlockRenderType;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumHand;
-import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockAccess;
+import net.minecraft.util.math.shapes.ISelectionContext;
+import net.minecraft.util.math.shapes.VoxelShape;
+import net.minecraft.world.IBlockReader;
+import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
 
-public class BlockCalendar extends BlockManual implements ITileEntityProvider {
+public class BlockCalendar extends BlockManual {
 
-	protected static final AxisAlignedBB CALENDAR_NORTH_AABB = new AxisAlignedBB(0.25D, 0.13D, 0.935D, 0.75D, 0.935D, 1.0D);
-	protected static final AxisAlignedBB CALENDAR_SOUTH_AABB = new AxisAlignedBB(0.25D, 0.13D, 0.0D, 0.75D, 0.935D, 0.065D);
-	protected static final AxisAlignedBB CALENDAR_WEST_AABB = new AxisAlignedBB(0.935D, 0.13D, 0.25D, 1.0D, 0.935D, 0.75D);
-	protected static final AxisAlignedBB CALENDAR_EAST_AABB = new AxisAlignedBB(0.0D, 0.13D, 0.25D, 0.065D, 0.935D, 0.75D);
-	public static final PropertyDirection FACING = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
+	protected static final VoxelShape CALENDAR_NORTH_AABB = Block.makeCuboidShape(4f, 2.08f, 14.96f, 12f, 14.96f, 16f);
+	protected static final VoxelShape CALENDAR_SOUTH_AABB = Block.makeCuboidShape(4f, 2.08f, 0f, 12f, 14.96f, 1.04f);
+	protected static final VoxelShape CALENDAR_WEST_AABB = Block.makeCuboidShape(14.96f, 2.08f, 4f, 16f, 14.96f, 12f);
+	protected static final VoxelShape CALENDAR_EAST_AABB = Block.makeCuboidShape(0f, 2.08f, 4f, 1.04f, 14.96f, 12f);
+	public static final DirectionProperty FACING = DirectionProperty.create("facing", Direction.Plane.HORIZONTAL);
 
 	protected BlockCalendar() {
-		super("calendar", Material.WOOD, SoundType.WOOD);
-		setHardness(1.0F);
-		setCreativeTab(GrimCreativeTabs.GRIM_DECOR);
+		super(DecorNames.CALENDAR, Block.Properties.create(Material.WOOD).sound(SoundType.WOOD).doesNotBlockMovement().hardnessAndResistance(1f));
 	}
 
 	@Override
-	protected IBlockState getState() {
-		return super.getState().withProperty(FACING, EnumFacing.NORTH);
+	protected BlockState getState() {
+		return super.getState().with(FACING, Direction.NORTH);
 	}
 
 	@Override
-	public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, IBlockAccess blockAccess, BlockPos pos) {
-		return NULL_AABB;
+	protected void fillStateContainer(Builder<Block, BlockState> builder) {
+		builder.add(FACING);
 	}
 
 	@Override
-	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
-		switch ((EnumFacing) state.getValue(FACING)) {
+	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
+		switch (state.get(FACING)) {
 		case EAST:
 			return CALENDAR_EAST_AABB;
 		case WEST:
@@ -67,97 +62,59 @@ public class BlockCalendar extends BlockManual implements ITileEntityProvider {
 	}
 
 	@Override
-	public EnumBlockRenderType getRenderType(IBlockState state) {
-		return EnumBlockRenderType.MODEL;
-	}
-
-	@Override
-	public boolean isOpaqueCube(IBlockState state) {
-		return false;
-	}
-
-	@Override
-	public boolean isFullCube(IBlockState state) {
-		return false;
-	}
-
-	@Override
-	public boolean isPassable(IBlockAccess worldIn, BlockPos pos) {
-		return true;
-	}
-
-	@Override
-	public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer, EnumHand hand) {
-		if (facing.getAxis().isHorizontal() && this.canBlockStay(world, pos, facing)) {
-			return this.getDefaultState().withProperty(FACING, facing);
-		} else {
-			Iterator<EnumFacing> iterator = EnumFacing.Plane.HORIZONTAL.iterator();
-			EnumFacing enumfacing1;
-
-			do {
-				if (!iterator.hasNext()) {
-					return this.getDefaultState();
-				}
-
-				enumfacing1 = (EnumFacing) iterator.next();
-			} while (!this.canBlockStay(world, pos, enumfacing1));
-
-			return this.getDefaultState().withProperty(FACING, enumfacing1);
-		}
-	}
-
-	@Override
-	public BlockRenderLayer getBlockLayer() {
+	public BlockRenderLayer getRenderLayer() {
 		return BlockRenderLayer.CUTOUT;
 	}
 
 	@Override
-	public boolean canPlaceBlockAt(World worldIn, BlockPos pos) {
-		return worldIn.isSideSolid(pos.west(), EnumFacing.EAST, true) || worldIn.isSideSolid(pos.east(), EnumFacing.WEST, true) || worldIn.isSideSolid(pos.north(), EnumFacing.SOUTH, true) || worldIn.isSideSolid(pos.south(), EnumFacing.NORTH, true);
+	public boolean hasTileEntity(BlockState state) {
+		return true;
 	}
 
 	@Override
-	public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos) {
-		EnumFacing enumfacing = state.getValue(FACING);
-
-		if (!this.canBlockStay(worldIn, pos, enumfacing)) {
-			this.dropBlockAsItem(worldIn, pos, state, 0);
-			worldIn.setBlockToAir(pos);
-		}
-	}
-
-	protected boolean canBlockStay(World worldIn, BlockPos pos, EnumFacing facing) {
-		return worldIn.isSideSolid(pos.offset(facing.getOpposite()), facing, true);
-	}
-
-	@Override
-	public TileEntity createNewTileEntity(World var1, int var2) {
+	public TileEntity createTileEntity(BlockState state, IBlockReader world) {
 		return new TileEntityCalendar();
 	}
 
 	@Override
-	protected BlockStateContainer createBlockState() {
-		return new BlockStateContainer(this, FACING);
-	}
-
-	@Override
-	public int getMetaFromState(IBlockState state) {
-		return state.getValue(FACING).getIndex();
-	}
-
-	@Override
-	public IBlockState getStateFromMeta(int meta) {
-		EnumFacing enumfacing = EnumFacing.getFront(meta);
-
-		if (enumfacing.getAxis() == EnumFacing.Axis.Y) {
-			enumfacing = EnumFacing.NORTH;
+	public BlockState getStateForPlacement(BlockItemUseContext context) {
+		for (Direction enumfacing : Direction.Plane.HORIZONTAL) {
+			if (this.canBlockStay(context.getWorld(), context.getPos(), enumfacing)) {
+				return this.getDefaultState().with(FACING, enumfacing);
+			}
 		}
 
-		return this.getDefaultState().withProperty(FACING, enumfacing);
+		return this.getDefaultState();
 	}
 
 	@Override
-	public Page getPage(IBlockState state) {
+	public boolean isValidPosition(BlockState state, IWorldReader worldIn, BlockPos pos) {
+		for (Direction enumfacing : FACING.getAllowedValues()) {
+			if (this.canBlockStay(worldIn, pos, enumfacing)) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	@Override
+	public void neighborChanged(BlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos, boolean flag) {
+		Direction enumfacing = state.get(FACING);
+
+		if (!this.canBlockStay(worldIn, pos, enumfacing)) {
+			worldIn.destroyBlock(pos, true);
+		}
+	}
+
+	protected boolean canBlockStay(IWorldReader worldIn, BlockPos pos, Direction facing) {
+		BlockPos blockpos = pos.offset(facing.getOpposite());
+		BlockState iblockstate = worldIn.getBlockState(blockpos);
+		return Block.hasSolidSide(iblockstate, worldIn, blockpos, facing);
+	}
+
+	@Override
+	public Page getPage(BlockState state) {
 		return ManualDecor.calendar_page;
 	}
 }

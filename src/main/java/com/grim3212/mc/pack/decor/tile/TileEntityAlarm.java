@@ -3,41 +3,36 @@ package com.grim3212.mc.pack.decor.tile;
 import com.grim3212.mc.pack.core.tile.TileEntityGrim;
 import com.grim3212.mc.pack.decor.init.DecorSounds;
 
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.SoundEvent;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
 
 public class TileEntityAlarm extends TileEntityGrim {
 
 	public int alarmType = 13;
 
 	public TileEntityAlarm() {
+		super(DecorTileEntities.ALARM);
 	}
 
 	public TileEntityAlarm(int alarmType) {
+		super(DecorTileEntities.ALARM);
+
 		this.alarmType = alarmType;
 	}
 
 	@Override
-	public void readFromNBT(NBTTagCompound compound) {
-		super.readFromNBT(compound);
-		alarmType = compound.getInteger("AlarmType");
+	public void read(CompoundNBT compound) {
+		super.read(compound);
+		alarmType = compound.getInt("AlarmType");
 	}
 
 	@Override
-	public NBTTagCompound writeToNBT(NBTTagCompound compound) {
-		super.writeToNBT(compound);
+	public CompoundNBT write(CompoundNBT compound) {
+		super.write(compound);
 
-		compound.setInteger("AlarmType", alarmType);
+		compound.putInt("AlarmType", alarmType);
 
 		return compound;
-	}
-
-	@Override
-	public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newSate) {
-		return oldState.getBlock() != newSate.getBlock();
 	}
 
 	public SoundEvent getSound() {

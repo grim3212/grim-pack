@@ -6,24 +6,24 @@ import org.lwjgl.opengl.GL11;
 
 import com.google.common.collect.Lists;
 
-import net.minecraft.client.model.ModelBase;
-import net.minecraft.client.model.ModelRenderer;
+import net.minecraft.client.renderer.entity.model.RendererModel;
+import net.minecraft.client.renderer.model.Model;
 import net.minecraft.entity.Entity;
 
-public class ModelItemTower extends ModelBase {
+public class ModelItemTower extends Model {
 	public boolean topBlock = false;
 	public boolean bottomBlock = false;
 	public double nextRender = 0.0D;
-	public ModelRenderer towerMain;
-	public ModelRenderer towerMainInt;
-	public ModelRenderer[] towerPost = new ModelRenderer[4];
-	public ModelRenderer[] towerCap = new ModelRenderer[2];
-	public ModelRenderer[] towerSideBar = new ModelRenderer[8];
-	public ModelRenderer[] towerMidBar = new ModelRenderer[5];
-	public ModelRenderer[] towerShelf1 = new ModelRenderer[5];
-	public ModelRenderer[] towerShelf2 = new ModelRenderer[5];
-	public ModelRenderer[] towerShelf3 = new ModelRenderer[5];
-	public ModelRenderer[] towerShelf4 = new ModelRenderer[5];
+	public RendererModel towerMain;
+	public RendererModel towerMainInt;
+	public RendererModel[] towerPost = new RendererModel[4];
+	public RendererModel[] towerCap = new RendererModel[2];
+	public RendererModel[] towerSideBar = new RendererModel[8];
+	public RendererModel[] towerMidBar = new RendererModel[5];
+	public RendererModel[] towerShelf1 = new RendererModel[5];
+	public RendererModel[] towerShelf2 = new RendererModel[5];
+	public RendererModel[] towerShelf3 = new RendererModel[5];
+	public RendererModel[] towerShelf4 = new RendererModel[5];
 
 	public int frame = 0;
 	public boolean framedir = false;
@@ -41,31 +41,31 @@ public class ModelItemTower extends ModelBase {
 	public float[] BottomSectionFramesZ = new float[100];
 
 	public ModelItemTower() {
-		this.towerMain = new ModelRenderer(this, 0, 0).setTextureSize(128, 128);
-		this.towerMainInt = new ModelRenderer(this, 0, 0).setTextureSize(128, 128);
+		this.towerMain = new RendererModel(this, 0, 0).setTextureSize(128, 128);
+		this.towerMainInt = new RendererModel(this, 0, 0).setTextureSize(128, 128);
 
-		this.towerPost[0] = new ModelRenderer(this, 0, 80).setTextureSize(128, 128);
-		this.towerPost[1] = new ModelRenderer(this, 12, 80).setTextureSize(128, 128);
-		this.towerPost[2] = new ModelRenderer(this, 0, 99).setTextureSize(128, 128);
-		this.towerPost[3] = new ModelRenderer(this, 12, 99).setTextureSize(128, 128);
+		this.towerPost[0] = new RendererModel(this, 0, 80).setTextureSize(128, 128);
+		this.towerPost[1] = new RendererModel(this, 12, 80).setTextureSize(128, 128);
+		this.towerPost[2] = new RendererModel(this, 0, 99).setTextureSize(128, 128);
+		this.towerPost[3] = new RendererModel(this, 12, 99).setTextureSize(128, 128);
 
-		this.towerCap[0] = new ModelRenderer(this, 64, 0).setTextureSize(128, 128);
-		this.towerCap[1] = new ModelRenderer(this, 64, 0).setTextureSize(128, 128);
+		this.towerCap[0] = new RendererModel(this, 64, 0).setTextureSize(128, 128);
+		this.towerCap[1] = new RendererModel(this, 64, 0).setTextureSize(128, 128);
 
-		this.towerSideBar[0] = new ModelRenderer(this, 0, 32).setTextureSize(128, 128);
-		this.towerSideBar[1] = new ModelRenderer(this, 0, 34).setTextureSize(128, 128);
-		this.towerSideBar[2] = new ModelRenderer(this, 0, 32).setTextureSize(128, 128);
-		this.towerSideBar[3] = new ModelRenderer(this, 0, 34).setTextureSize(128, 128);
-		this.towerSideBar[4] = new ModelRenderer(this, 0, 32).setTextureSize(128, 128);
-		this.towerSideBar[5] = new ModelRenderer(this, 0, 34).setTextureSize(128, 128);
-		this.towerSideBar[6] = new ModelRenderer(this, 0, 32).setTextureSize(128, 128);
-		this.towerSideBar[7] = new ModelRenderer(this, 0, 34).setTextureSize(128, 128);
+		this.towerSideBar[0] = new RendererModel(this, 0, 32).setTextureSize(128, 128);
+		this.towerSideBar[1] = new RendererModel(this, 0, 34).setTextureSize(128, 128);
+		this.towerSideBar[2] = new RendererModel(this, 0, 32).setTextureSize(128, 128);
+		this.towerSideBar[3] = new RendererModel(this, 0, 34).setTextureSize(128, 128);
+		this.towerSideBar[4] = new RendererModel(this, 0, 32).setTextureSize(128, 128);
+		this.towerSideBar[5] = new RendererModel(this, 0, 34).setTextureSize(128, 128);
+		this.towerSideBar[6] = new RendererModel(this, 0, 32).setTextureSize(128, 128);
+		this.towerSideBar[7] = new RendererModel(this, 0, 34).setTextureSize(128, 128);
 
-		this.towerMidBar[0] = new ModelRenderer(this, 0, 45).setTextureSize(128, 128);
-		this.towerMidBar[1] = new ModelRenderer(this, 48, 32).setTextureSize(128, 128);
-		this.towerMidBar[2] = new ModelRenderer(this, 48, 32).setTextureSize(128, 128);
-		this.towerMidBar[3] = new ModelRenderer(this, 48, 32).setTextureSize(128, 128);
-		this.towerMidBar[4] = new ModelRenderer(this, 48, 32).setTextureSize(128, 128);
+		this.towerMidBar[0] = new RendererModel(this, 0, 45).setTextureSize(128, 128);
+		this.towerMidBar[1] = new RendererModel(this, 48, 32).setTextureSize(128, 128);
+		this.towerMidBar[2] = new RendererModel(this, 48, 32).setTextureSize(128, 128);
+		this.towerMidBar[3] = new RendererModel(this, 48, 32).setTextureSize(128, 128);
+		this.towerMidBar[4] = new RendererModel(this, 48, 32).setTextureSize(128, 128);
 
 		this.towerMain.addBox(0.0F, 0.0F, 0.0F, 16, 16, 16);
 		this.towerMainInt.addBox(16.01F, 16.01F, 16.01F, -16, -16, -16);
@@ -180,12 +180,12 @@ public class ModelItemTower extends ModelBase {
 		}
 	}
 
-	public void makeShelf(ModelRenderer[] model) {
-		model[0] = new ModelRenderer(this, 0, 64).setTextureSize(128, 128);
-		model[1] = new ModelRenderer(this, 0, 68).setTextureSize(128, 128);
-		model[2] = new ModelRenderer(this, 0, 68).setTextureSize(128, 128);
-		model[3] = new ModelRenderer(this, 0, 72).setTextureSize(128, 128);
-		model[4] = new ModelRenderer(this, 0, 72).setTextureSize(128, 128);
+	public void makeShelf(RendererModel[] model) {
+		model[0] = new RendererModel(this, 0, 64).setTextureSize(128, 128);
+		model[1] = new RendererModel(this, 0, 68).setTextureSize(128, 128);
+		model[2] = new RendererModel(this, 0, 68).setTextureSize(128, 128);
+		model[3] = new RendererModel(this, 0, 72).setTextureSize(128, 128);
+		model[4] = new RendererModel(this, 0, 72).setTextureSize(128, 128);
 
 		model[0].addBox(1.0F, 0.0F, 0.0F, 14, 1, 3);
 		model[1].addBox(1.0F, 1.0F, 0.0F, 1, 1, 3);
@@ -195,8 +195,8 @@ public class ModelItemTower extends ModelBase {
 	}
 
 	public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) {
-		super.render(entity, f, f1, f2, f3, f4, f5);
-		setRotationAngles(f, f1, f2, f3, f4, f5, entity);
+		// super.render(entity, f, f1, f2, f3, f4, f5);
+		// setRotationAngles(f, f1, f2, f3, f4, f5, entity);
 
 		callRender(f5);
 	}
@@ -211,11 +211,11 @@ public class ModelItemTower extends ModelBase {
 		this.towerMidBar[0].render(f1);
 		this.towerMidBar[4].render(f1);
 
-		for (ModelRenderer model : this.towerPost) {
+		for (RendererModel model : this.towerPost) {
 			model.render(f1);
 		}
 
-		for (ModelRenderer model : this.towerCap) {
+		for (RendererModel model : this.towerCap) {
 			model.render(f1);
 		}
 	}
@@ -236,7 +236,7 @@ public class ModelItemTower extends ModelBase {
 		}
 
 		if ((this.bottomBlock) && (this.topBlock)) {
-			for (ModelRenderer model : this.towerSideBar) {
+			for (RendererModel model : this.towerSideBar) {
 				model.render(f1);
 			}
 
@@ -258,7 +258,7 @@ public class ModelItemTower extends ModelBase {
 			this.towerMidBar[3].render(f1);
 		}
 
-		for (ModelRenderer model : this.towerPost) {
+		for (RendererModel model : this.towerPost) {
 			model.render(f1);
 		}
 
@@ -301,7 +301,7 @@ public class ModelItemTower extends ModelBase {
 		this.nextRender = (System.currentTimeMillis() + 1.0D);
 	}
 
-	public void renderFramePosition(ModelRenderer[] model, int frame, int i, float f1) {
+	public void renderFramePosition(RendererModel[] model, int frame, int i, float f1) {
 		int i2 = frame;
 		i2 += i;
 		while (i2 > 100)
@@ -314,7 +314,7 @@ public class ModelItemTower extends ModelBase {
 		float z = getFrameZTable()[i2] / 16.0F;
 
 		GL11.glTranslatef(x, y, z);
-		for (ModelRenderer section : model) {
+		for (RendererModel section : model) {
 			section.render(f1);
 		}
 		GL11.glTranslatef(-x, -y, -z);

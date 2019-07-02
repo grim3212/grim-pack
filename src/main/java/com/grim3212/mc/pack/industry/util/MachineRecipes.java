@@ -16,7 +16,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.util.IStringSerializable;
-import net.minecraft.util.JsonUtils;
+import net.minecraft.util.JSONUtils;
 import net.minecraft.util.NonNullList;
 import net.minecraftforge.oredict.OreDictionary;
 
@@ -193,7 +193,7 @@ public class MachineRecipes {
 		}
 
 		public static MachineType fromJson(JsonObject json) {
-			String s = JsonUtils.getString(json, "machine");
+			String s = JSONUtils.getString(json, "machine");
 
 			switch (s) {
 			case "derrick":

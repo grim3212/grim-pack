@@ -26,4 +26,9 @@ public class PacketDispatcher {
     {
 		INSTANCE.send(target, message);
     }
+	
+	public static <MSG extends AbstractMessage<MSG>> void sendToServer(MSG message)
+    {
+		INSTANCE.sendToServer(message);
+    }
 }

@@ -1,35 +1,37 @@
 package com.grim3212.mc.pack.industry.tile;
 
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.util.Direction;
+import net.minecraft.util.Direction;
 
 public class TileEntityBridgeGravity extends TileEntityBridge {
 
-	private EnumFacing gravFacing;
+	private Direction gravFacing;
 
 	public TileEntityBridgeGravity() {
-		gravFacing = EnumFacing.NORTH;
+		gravFacing = Direction.NORTH;
 	}
 
-	public EnumFacing getGravFacing() {
+	public Direction getGravFacing() {
 		return gravFacing;
 	}
 
-	public void setGravFacing(EnumFacing gravFacing) {
+	public void setGravFacing(Direction gravFacing) {
 		this.gravFacing = gravFacing;
 	}
 
 	@Override
-	public NBTTagCompound writeToNBT(NBTTagCompound compound) {
-		NBTTagCompound comp = super.writeToNBT(compound);
+	public CompoundNBT writeToNBT(CompoundNBT compound) {
+		CompoundNBT comp = super.writeToNBT(compound);
 		comp.setInteger("GravFacing", gravFacing.getIndex());
 
 		return comp;
 	}
 
 	@Override
-	public void readFromNBT(NBTTagCompound compound) {
+	public void readFromNBT(CompoundNBT compound) {
 		super.readFromNBT(compound);
-		this.gravFacing = EnumFacing.getFront(compound.getInteger("GravFacing"));
+		this.gravFacing = Direction.getFront(compound.getInteger("GravFacing"));
 	}
 }

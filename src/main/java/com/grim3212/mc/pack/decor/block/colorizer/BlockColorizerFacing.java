@@ -4,82 +4,71 @@ import com.grim3212.mc.pack.core.manual.pages.Page;
 import com.grim3212.mc.pack.decor.block.DecorBlocks;
 import com.grim3212.mc.pack.decor.client.ManualDecor;
 
-import net.minecraft.block.properties.IProperty;
-import net.minecraft.block.properties.PropertyDirection;
-import net.minecraft.block.state.BlockStateContainer;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
+import net.minecraft.state.DirectionProperty;
+import net.minecraft.state.StateContainer.Builder;
+import net.minecraft.util.Direction;
 import net.minecraft.util.Mirror;
 import net.minecraft.util.Rotation;
-import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockAccess;
-import net.minecraftforge.common.property.ExtendedBlockState;
-import net.minecraftforge.common.property.IUnlistedProperty;
+import net.minecraft.util.math.shapes.ISelectionContext;
+import net.minecraft.util.math.shapes.VoxelShape;
+import net.minecraft.util.math.shapes.VoxelShapes;
+import net.minecraft.world.IBlockReader;
 
 public class BlockColorizerFacing extends BlockColorizer {
 
-	public static final PropertyDirection FACING = PropertyDirection.create("facing");
-	private static final AxisAlignedBB X_AABB = new AxisAlignedBB(0.0F, 0.25F, 0.25F, 1.0F, 0.75F, 0.75F);
-	private static final AxisAlignedBB Y_AABB = new AxisAlignedBB(0.25F, 0.0F, 0.25F, 0.75F, 1.0F, 0.75F);
-	private static final AxisAlignedBB Z_AABB = new AxisAlignedBB(0.25F, 0.25F, 0.0F, 0.75F, 0.75F, 1.0F);
+	public static final DirectionProperty FACING = DirectionProperty.create("facing", Direction.values());
+	private static final VoxelShape X = Block.makeCuboidShape(0.0F, 4F, 4F, 16F, 12F, 12F);
+	private static final VoxelShape Y = Block.makeCuboidShape(4F, 0.0F, 4F, 12F, 16F, 12F);
+	private static final VoxelShape Z = Block.makeCuboidShape(4F, 4F, 0.0F, 12F, 12F, 16F);
 
 	public BlockColorizerFacing(String name) {
 		super(name);
 	}
 
 	@Override
-	protected IBlockState getState() {
-		return this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH);
+	protected BlockState getState() {
+		return super.getDefaultState().with(FACING, Direction.NORTH);
 	}
 
 	@Override
-	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
+	protected void fillStateContainer(Builder<Block, BlockState> builder) {
+		builder.add(FACING);
+	}
+
+	@Override
+	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
 		if (state.getBlock() == DecorBlocks.pillar) {
-			switch (state.getValue(FACING)) {
+			switch (state.get(FACING)) {
 			case WEST:
 			case EAST:
-				return X_AABB;
+				return X;
 			case NORTH:
 			case SOUTH:
-				return Z_AABB;
+				return Z;
 			case UP:
 			case DOWN:
 			default:
-				return Y_AABB;
+				return Y;
 			}
 		}
-
-		return FULL_BLOCK_AABB;
+		return VoxelShapes.fullCube();
 	}
 
 	@Override
-	protected BlockStateContainer createBlockState() {
-		return new ExtendedBlockState(this, new IProperty[] { FACING }, new IUnlistedProperty[] { BLOCK_STATE });
+	public BlockState rotate(BlockState state, Rotation rot) {
+		return state.with(FACING, rot.rotate(state.get(FACING)));
 	}
 
 	@Override
-	public IBlockState getStateFromMeta(int meta) {
-		return this.getDefaultState().withProperty(FACING, EnumFacing.getFront(meta));
+	public BlockState mirror(BlockState state, Mirror mirrorIn) {
+		return state.rotate(mirrorIn.toRotation(state.get(FACING)));
 	}
 
 	@Override
-	public int getMetaFromState(IBlockState state) {
-		return state.getValue(FACING).getIndex();
-	}
-
-	@Override
-	public IBlockState withRotation(IBlockState state, Rotation rot) {
-		return state.withProperty(FACING, rot.rotate(state.getValue(FACING)));
-	}
-
-	@Override
-	public IBlockState withMirror(IBlockState state, Mirror mirrorIn) {
-		return state.withRotation(mirrorIn.toRotation(state.getValue(FACING)));
-	}
-
-	@Override
-	public Page getPage(IBlockState state) {
+	public Page getPage(BlockState state) {
 		if (state.getBlock() == DecorBlocks.pillar) {
 			return ManualDecor.pillar_page;
 		}

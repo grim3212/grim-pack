@@ -3,15 +3,16 @@ package com.grim3212.mc.pack.decor.tile;
 import com.grim3212.mc.pack.core.tile.TileEntityGrim;
 import com.grim3212.mc.pack.decor.block.BlockWallClock;
 
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.util.ITickable;
+import net.minecraft.block.BlockState;
+import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.util.math.MathHelper;
 
-public class TileEntityWallClock extends TileEntityGrim implements ITickable {
+public class TileEntityWallClock extends TileEntityGrim implements ITickableTileEntity {
 
 	private int time = 0;
 
 	public TileEntityWallClock() {
+		super(DecorTileEntities.WALL_CLOCK);
 	}
 
 	public int getTime() {
@@ -22,14 +23,14 @@ public class TileEntityWallClock extends TileEntityGrim implements ITickable {
 	private double field_94240_i;
 
 	@Override
-	public void update() {
+	public void tick() {
 		double d0 = 0.0D;
 
 		if (getWorld() != null) {
 			float f = getWorld().getCelestialAngle(1.0F);
 			d0 = (double) f;
 
-			if (!getWorld().provider.isSurfaceWorld()) {
+			if (!getWorld().getDimension().isSurfaceWorld()) {
 				d0 = Math.random();
 			}
 		}
@@ -56,8 +57,8 @@ public class TileEntityWallClock extends TileEntityGrim implements ITickable {
 		}
 		if (i != time) {
 			time = i;
-			IBlockState state = getWorld().getBlockState(getPos());
-			getWorld().notifyBlockUpdate(getPos(), state, state.withProperty(BlockWallClock.TIME, getTime()), 2);
+			BlockState state = this.getBlockState();
+			this.getWorld().setBlockState(getPos(), state.with(BlockWallClock.TIME, getTime()), 2);
 		}
 	}
 }

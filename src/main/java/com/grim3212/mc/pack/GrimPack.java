@@ -31,22 +31,19 @@ public class GrimPack {
 		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
 		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::clientSetup);
 		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::serverSetup);
-		
+
 		PartRegistry.registerPart(GrimCore.INSTANCE);
 		if (CoreConfig.useCuisine.get())
 			PartRegistry.registerPart(GrimCuisine.INSTANCE);
 		if (CoreConfig.useDecor.get())
 			PartRegistry.registerPart(GrimDecor.INSTANCE);
 		/*
-		if (CoreConfig.useIndustry)
-			PartRegistry.registerPart(GrimIndustry.INSTANCE);
-		if (CoreConfig.useTools)
-			PartRegistry.registerPart(GrimTools.INSTANCE);
-		if (CoreConfig.useUtil)
-			PartRegistry.registerPart(GrimUtil.INSTANCE);
-		if (CoreConfig.useWorld)
-			PartRegistry.registerPart(GrimWorld.INSTANCE);*/
-		
+		 * if (CoreConfig.useIndustry) PartRegistry.registerPart(GrimIndustry.INSTANCE);
+		 * if (CoreConfig.useTools) PartRegistry.registerPart(GrimTools.INSTANCE); if
+		 * (CoreConfig.useUtil) PartRegistry.registerPart(GrimUtil.INSTANCE); if
+		 * (CoreConfig.useWorld) PartRegistry.registerPart(GrimWorld.INSTANCE);
+		 */
+
 		// Init creative tabs that should be loaded
 		GrimItemGroups.initTabs();
 	}

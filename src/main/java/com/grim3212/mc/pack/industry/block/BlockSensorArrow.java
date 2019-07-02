@@ -9,17 +9,20 @@ import com.grim3212.mc.pack.core.manual.pages.Page;
 import com.grim3212.mc.pack.core.part.GrimCreativeTabs;
 import com.grim3212.mc.pack.industry.client.ManualIndustry;
 
+import net.minecraft.block.BlockState;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.state.BlockStateContainer;
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.item.EntityItem;
-import net.minecraft.entity.projectile.EntityArrow;
+import net.minecraft.entity.item.ItemEntity;
+import net.minecraft.entity.projectile.AbstractArrowEntity;
+import net.minecraft.entity.projectile.AbstractArrowEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.util.Direction;
+import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
@@ -39,7 +42,7 @@ public class BlockSensorArrow extends BlockManual {
 	}
 
 	@Override
-	protected IBlockState getState() {
+	protected BlockState getState() {
 		return this.getBlockState().getBaseState().withProperty(POWERED, false);
 	}
 
@@ -49,9 +52,9 @@ public class BlockSensorArrow extends BlockManual {
 	}
 
 	@Override
-	public void onEntityCollidedWithBlock(World worldIn, BlockPos pos, IBlockState state, Entity entityIn) {
-		if (!worldIn.isRemote && entityIn != null && entityIn instanceof EntityArrow) {
-			EntityArrow arrow = (EntityArrow) entityIn;
+	public void onEntityCollidedWithBlock(World worldIn, BlockPos pos, BlockState state, Entity entityIn) {
+		if (!worldIn.isRemote && entityIn != null && entityIn instanceof AbstractArrowEntity) {
+			AbstractArrowEntity arrow = (AbstractArrowEntity) entityIn;
 
 			// Make sure we aren't colliding with the same entity
 			// This is because this gets called twice
@@ -62,7 +65,7 @@ public class BlockSensorArrow extends BlockManual {
 
 			try {
 				// Get the ArrowStack using Reflection
-				Method getArrowStack = ReflectionHelper.findMethod(EntityArrow.class, "getArrowStack", "func_184550_j", (Class<?>[]) null);
+				Method getArrowStack = ReflectionHelper.findMethod(AbstractArrowEntity.class, "getArrowStack", "func_184550_j", (Class<?>[]) null);
 				getArrowStack.setAccessible(true);
 				Object o = getArrowStack.invoke(arrow, (Object[]) null);
 				// Kill the arrow entity
@@ -70,7 +73,7 @@ public class BlockSensorArrow extends BlockManual {
 
 				// Spawn in the new EntityItem and power the arrow sensor
 				if (o != null && o instanceof ItemStack) {
-					EntityItem entityitem = new EntityItem(worldIn, (float) entityIn.posX, (float) entityIn.posY, (float) entityIn.posZ, (ItemStack) o);
+					ItemEntity entityitem = new ItemEntity(worldIn, (float) entityIn.posX, (float) entityIn.posY, (float) entityIn.posZ, (ItemStack) o);
 					worldIn.spawnEntity(entityitem);
 					worldIn.scheduleUpdate(pos.toImmutable(), this, 20);
 					worldIn.setBlockState(pos, this.getDefaultState().withProperty(POWERED, true));
@@ -86,34 +89,34 @@ public class BlockSensorArrow extends BlockManual {
 	}
 
 	@Override
-	public void updateTick(World worldIn, BlockPos pos, IBlockState state, Random rand) {
+	public void updateTick(World worldIn, BlockPos pos, BlockState state, Random rand) {
 		if (state.getValue(POWERED)) {
 			worldIn.setBlockState(pos, state.withProperty(POWERED, false));
 		}
 	}
 
 	@Override
-	public int getWeakPower(IBlockState blockState, IBlockAccess blockAccess, BlockPos pos, EnumFacing side) {
+	public int getWeakPower(BlockState blockState, IBlockAccess blockAccess, BlockPos pos, Direction side) {
 		return blockState.getValue(POWERED) ? 15 : 0;
 	}
 
 	@Override
-	public int getStrongPower(IBlockState blockState, IBlockAccess blockAccess, BlockPos pos, EnumFacing side) {
+	public int getStrongPower(BlockState blockState, IBlockAccess blockAccess, BlockPos pos, Direction side) {
 		return blockState.getValue(POWERED) ? 15 : 0;
 	}
 
 	@Override
-	public boolean canProvidePower(IBlockState state) {
+	public boolean canProvidePower(BlockState state) {
 		return state.getValue(POWERED);
 	}
 
 	@Override
-	public int getMetaFromState(IBlockState state) {
+	public int getMetaFromState(BlockState state) {
 		return state.getValue(POWERED) ? 1 : 0;
 	}
 
 	@Override
-	public IBlockState getStateFromMeta(int meta) {
+	public BlockState getStateFromMeta(int meta) {
 		return this.getDefaultState().withProperty(POWERED, meta == 1);
 	}
 
@@ -123,7 +126,7 @@ public class BlockSensorArrow extends BlockManual {
 	}
 
 	@Override
-	public Page getPage(IBlockState state) {
+	public Page getPage(BlockState state) {
 		return ManualIndustry.arrowSensor_page;
 	}
 

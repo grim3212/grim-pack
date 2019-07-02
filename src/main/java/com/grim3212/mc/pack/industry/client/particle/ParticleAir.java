@@ -6,8 +6,9 @@ import com.grim3212.mc.pack.industry.tile.TileEntityFan;
 import com.grim3212.mc.pack.industry.tile.TileEntityFan.FanMode;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.particle.IParticleRenderType;
 import net.minecraft.client.particle.Particle;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
@@ -22,12 +23,12 @@ public class ParticleAir extends Particle {
 	private double ySpeed;
 	private double zSpeed;
 	private BlockPos moveToPos;
-	private EnumFacing facing;
+	private Direction facing;
 
 	public ParticleAir(World worldIn, double posXIn, double posYIn, double posZIn, double xSpeedIn, double ySpeedIn, double zSpeedIn, TileEntityFan fan) {
 		super(worldIn, posXIn, posYIn, posZIn, 0.0D, 0.0D, 0.0D);
 
-		this.setParticleTexture(Minecraft.getMinecraft().getTextureMapBlocks().getAtlasSprite(AIR_TEXTURE.toString()));
+		this.setParticleTexture(Minecraft.getInstance().getTextureMap().getAtlasSprite(AIR_TEXTURE.toString()));
 
 		this.xSpeed = xSpeedIn;
 		this.ySpeed = ySpeedIn;
@@ -53,8 +54,8 @@ public class ParticleAir extends Particle {
 	}
 
 	@Override
-	public void onUpdate() {
-		super.onUpdate();
+	public void tick() {
+		super.tick();
 
 		if (this.onGround) {
 			this.setExpired();
@@ -149,10 +150,5 @@ public class ParticleAir extends Particle {
 		this.motionX += x;
 		this.motionY += y;
 		this.motionZ += z;
-	}
-
-	@Override
-	public int getFXLayer() {
-		return 1;
 	}
 }

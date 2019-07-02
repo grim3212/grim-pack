@@ -1,6 +1,3 @@
 {
-	"parent": "grimpack:block/cuisine/pie_uneaten",
-	"textures": {
-		"top": "grimpack:block/cuisine/pork_pie_top"
-	}
+	"parent": "grimpack:block/cuisine/pork_pie_uneaten"
 }

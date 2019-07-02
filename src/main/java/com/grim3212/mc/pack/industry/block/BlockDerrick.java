@@ -12,18 +12,22 @@ import com.grim3212.mc.pack.industry.tile.TileEntityMachine;
 import com.grim3212.mc.pack.industry.util.MachineRecipes.MachineType;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.Container;
+import net.minecraft.block.BlockState;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.InventoryHelper;
+import net.minecraft.inventory.container.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumHand;
+import net.minecraft.util.Direction;
+import net.minecraft.util.Direction;
+import net.minecraft.util.Hand;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -45,7 +49,7 @@ public class BlockDerrick extends BlockManual implements ITileEntityProvider {
 	}
 
 	@Override
-	public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos) {
+	public void neighborChanged(BlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos) {
 		boolean flag = !this.canPlaceBlockAt(worldIn, pos);
 		if (flag) {
 			this.dropBlockAsItem(worldIn, pos, state, 0);
@@ -54,7 +58,7 @@ public class BlockDerrick extends BlockManual implements ITileEntityProvider {
 	}
 
 	@Override
-	public void onBlockPlacedBy(World worldIn, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack) {
+	public void onBlockPlacedBy(World worldIn, BlockPos pos, BlockState state, LivingEntity placer, ItemStack stack) {
 		if (stack.hasDisplayName()) {
 			TileEntity tileentity = worldIn.getTileEntity(pos);
 
@@ -65,7 +69,7 @@ public class BlockDerrick extends BlockManual implements ITileEntityProvider {
 	}
 
 	@Override
-	public void randomDisplayTick(IBlockState stateIn, World worldIn, BlockPos pos, Random rand) {
+	public void randomDisplayTick(BlockState stateIn, World worldIn, BlockPos pos, Random rand) {
 		TileEntity te = worldIn.getTileEntity(pos);
 		if (te instanceof TileEntityMachine) {
 			if (((TileEntityMachine) te).isWorking()) {
@@ -80,7 +84,7 @@ public class BlockDerrick extends BlockManual implements ITileEntityProvider {
 	}
 
 	@Override
-	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
+	public boolean onBlockActivated(World worldIn, BlockPos pos, BlockState state, PlayerEntity playerIn, Hand hand, Direction side, float hitX, float hitY, float hitZ) {
 		if (worldIn.isRemote)
 			return true;
 
@@ -93,7 +97,7 @@ public class BlockDerrick extends BlockManual implements ITileEntityProvider {
 	}
 
 	@Override
-	public void breakBlock(World worldIn, BlockPos pos, IBlockState state) {
+	public void breakBlock(World worldIn, BlockPos pos, BlockState state) {
 		TileEntity tileentity = worldIn.getTileEntity(pos);
 
 		if (tileentity instanceof TileEntityMachine) {
@@ -110,17 +114,17 @@ public class BlockDerrick extends BlockManual implements ITileEntityProvider {
 	}
 
 	@Override
-	public boolean hasComparatorInputOverride(IBlockState state) {
+	public boolean hasComparatorInputOverride(BlockState state) {
 		return true;
 	}
 
 	@Override
-	public int getComparatorInputOverride(IBlockState blockState, World worldIn, BlockPos pos) {
+	public int getComparatorInputOverride(BlockState blockState, World worldIn, BlockPos pos) {
 		return Container.calcRedstone(worldIn.getTileEntity(pos));
 	}
 
 	@Override
-	public Page getPage(IBlockState state) {
+	public Page getPage(BlockState state) {
 		return ManualIndustry.derrick_page;
 	}
 }

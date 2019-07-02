@@ -5,7 +5,7 @@ import com.grim3212.mc.pack.industry.inventory.ContainerIronWorkbench;
 
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.resources.I18n;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
@@ -13,13 +13,13 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-@OnlyIn(Dist.CLIENT)
+@SideOnly(Side.CLIENT)
 public class GuiCraftingIron extends GuiGrimContainer {
 
 	private static final ResourceLocation resourceLocation = new ResourceLocation("textures/gui/container/crafting_table.png");
 	private IInventory playerInv;
 
-	public GuiCraftingIron(EntityPlayer inventoryplayer, World world, BlockPos pos) {
+	public GuiCraftingIron(PlayerEntity inventoryplayer, World world, BlockPos pos) {
 		super(new ContainerIronWorkbench(inventoryplayer, world, pos, false));
 		this.playerInv = inventoryplayer.inventory;
 	}

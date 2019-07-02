@@ -4,12 +4,16 @@ import com.grim3212.mc.pack.industry.tile.TileEntityMFurnace;
 import com.grim3212.mc.pack.industry.util.MachineRecipes;
 import com.grim3212.mc.pack.industry.util.MachineRecipes.MachineType;
 
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.inventory.Container;
-import net.minecraft.inventory.IContainerListener;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.inventory.container.Container;
+import net.minecraft.inventory.container.IContainerListener;
 import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.Slot;
+import net.minecraft.inventory.container.Slot;
+import net.minecraft.inventory.container.IContainerListener;
+import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -22,7 +26,7 @@ public class ContainerMFurnace extends Container {
 	private int furnaceBurnTime;
 	private int currentItemBurnTime;
 
-	public ContainerMFurnace(InventoryPlayer playerInventory, IInventory furnaceInventory) {
+	public ContainerMFurnace(PlayerInventory playerInventory, IInventory furnaceInventory) {
 		this.tileFurnace = furnaceInventory;
 		this.addSlotToContainer(new Slot(furnaceInventory, 0, 56, 17));
 		this.addSlotToContainer(new SlotMFurnaceFuel(furnaceInventory, 1, 56, 53));
@@ -79,13 +83,13 @@ public class ContainerMFurnace extends Container {
 	}
 
 	@Override
-	@OnlyIn(Dist.CLIENT)
+	@SideOnly(Side.CLIENT)
 	public void updateProgressBar(int id, int data) {
 		this.tileFurnace.setField(id, data);
 	}
 
 	@Override
-	public boolean canInteractWith(EntityPlayer playerIn) {
+	public boolean canInteractWith(PlayerEntity playerIn) {
 		return this.tileFurnace.isUsableByPlayer(playerIn);
 	}
 
@@ -93,7 +97,7 @@ public class ContainerMFurnace extends Container {
 	 * Take a stack from the specified inventory slot.
 	 */
 	@Override
-	public ItemStack transferStackInSlot(EntityPlayer playerIn, int index) {
+	public ItemStack transferStackInSlot(PlayerEntity playerIn, int index) {
 		ItemStack itemstack = ItemStack.EMPTY;
 		Slot slot = (Slot) this.inventorySlots.get(index);
 

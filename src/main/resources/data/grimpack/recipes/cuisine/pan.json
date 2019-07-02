@@ -15,7 +15,7 @@
   "type": "minecraft:crafting_shaped",
   "key": {
     "X": {
-      "constant": "grimpack:stone"
+      "tag": "forge:stone"
     }
   }
 }

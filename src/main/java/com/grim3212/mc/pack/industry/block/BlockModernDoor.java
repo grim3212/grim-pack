@@ -8,18 +8,20 @@ import com.grim3212.mc.pack.core.manual.pages.Page;
 import com.grim3212.mc.pack.core.part.GrimCreativeTabs;
 import com.grim3212.mc.pack.industry.client.ManualIndustry;
 
-import net.minecraft.block.BlockDoor;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.DoorBlock;
+import net.minecraft.block.DoorBlock;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.init.Items;
+import net.minecraft.block.BlockState;
+import net.minecraft.item.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class BlockModernDoor extends BlockDoor implements IManualBlock {
+public class BlockModernDoor extends DoorBlock implements IManualBlock {
 
 	protected BlockModernDoor(Material material) {
 		super(material);
@@ -48,11 +50,11 @@ public class BlockModernDoor extends BlockDoor implements IManualBlock {
 		setCreativeTab(GrimCreativeTabs.GRIM_INDUSTRY);
 	}
 
-	public Item getItemDropped(IBlockState state, Random rand, int fortune) {
-		return state.getValue(HALF) == BlockDoor.EnumDoorHalf.UPPER ? Items.AIR : this.getItem();
+	public Item getItemDropped(BlockState state, Random rand, int fortune) {
+		return state.getValue(HALF) == DoorBlock.EnumDoorHalf.UPPER ? Items.AIR : this.getItem();
 	}
 
-	public ItemStack getItem(World worldIn, BlockPos pos, IBlockState state) {
+	public ItemStack getItem(World worldIn, BlockPos pos, BlockState state) {
 		return new ItemStack(this.getItem());
 	}
 
@@ -61,7 +63,7 @@ public class BlockModernDoor extends BlockDoor implements IManualBlock {
 	}
 
 	@Override
-	public Page getPage(IBlockState state) {
+	public Page getPage(BlockState state) {
 		return ManualIndustry.doors_page;
 	}
 }

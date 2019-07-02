@@ -8,7 +8,7 @@ import com.grim3212.mc.pack.cuisine.init.CuisineNames;
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.BlockState;
 
 public class BlockChocolateBlock extends BlockManual {
 
@@ -17,7 +17,7 @@ public class BlockChocolateBlock extends BlockManual {
 	}
 
 	@Override
-	public Page getPage(IBlockState state) {
+	public Page getPage(BlockState state) {
 		return ManualCuisine.chocolateBars_page;
 	}
 }

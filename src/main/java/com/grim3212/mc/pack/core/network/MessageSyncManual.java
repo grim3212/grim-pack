@@ -9,7 +9,6 @@ import com.grim3212.mc.pack.core.part.GrimPart;
 import com.grim3212.mc.pack.core.part.PartRegistry;
 import com.grim3212.mc.pack.core.util.GrimLog;
 
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.network.PacketBuffer;
 import net.minecraftforge.fml.LogicalSide;
 import net.minecraftforge.fml.network.NetworkEvent.Context;
@@ -25,11 +24,11 @@ public class MessageSyncManual extends AbstractClientMessage<MessageSyncManual> 
 	}
 
 	@Override
-	protected void write(PacketBuffer buffer) {
+	protected void write(MessageSyncManual msg, PacketBuffer buffer) {
 	}
 
 	@Override
-	public void process(EntityPlayer player, Supplier<Context> ctx) {
+	public void process(MessageSyncManual msg, Supplier<Context> ctx) {
 		if (ctx.get().getDirection().getReceptionSide() == LogicalSide.CLIENT) {
 			GrimLog.info(GrimPack.modName, "Updating manual pages...");
 			// Clear all manual pages currently registered on the client

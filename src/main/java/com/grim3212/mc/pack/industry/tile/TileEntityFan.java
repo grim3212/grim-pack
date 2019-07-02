@@ -9,16 +9,19 @@ import com.grim3212.mc.pack.industry.block.BlockFan;
 import com.grim3212.mc.pack.industry.config.IndustryConfig;
 import com.grim3212.mc.pack.tools.entity.EntityBlockPushPull;
 
+import net.minecraft.block.Blocks;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.item.EntityFallingBlock;
-import net.minecraft.init.Blocks;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.entity.item.FallingBlockEntity;
+import net.minecraft.block.Blocks;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.NetworkManager;
-import net.minecraft.network.play.server.SPacketUpdateTileEntity;
+import net.minecraft.network.play.server.SUpdateTileEntityPacket;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.util.Direction;
+import net.minecraft.util.Direction;
 import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.math.BlockPos;
@@ -39,11 +42,11 @@ public class TileEntityFan extends TileEntity implements ITickable {
 
 	@Override
 	public void update() {
-		IBlockState state = world.getBlockState(pos);
+		BlockState state = world.getBlockState(pos);
 
 		if (mode != FanMode.OFF) {
 
-			EnumFacing facing = state.getValue(BlockFan.FACING);
+			Direction facing = state.getValue(BlockFan.FACING);
 
 			int i1 = 0;
 			int j1 = 0;
@@ -157,7 +160,7 @@ public class TileEntityFan extends TileEntity implements ITickable {
 					break;
 				}
 				Entity entity = iterator.next();
-				if (!(entity instanceof EntityFallingBlock) && !(entity instanceof EntityBlockPushPull)) {
+				if (!(entity instanceof FallingBlockEntity) && !(entity instanceof EntityBlockPushPull)) {
 					double d = (entity.getDistance((double) pos.getX() + 0.5D, (double) pos.getY() + 0.5D, (double) pos.getZ() + 0.5D)) - 1;
 					d = 1 - (d / range);
 					double multiplier = range;
@@ -165,7 +168,7 @@ public class TileEntityFan extends TileEntity implements ITickable {
 					double power = 0.070000000000000007D * multiplier;
 					power = power * d;
 
-					if (facing == EnumFacing.UP && mode == FanMode.BLOW) {
+					if (facing == Direction.UP && mode == FanMode.BLOW) {
 						entity.fallDistance = 0F;
 					}
 					entity.addVelocity(power * io, power * jo, power * ko);
@@ -190,7 +193,7 @@ public class TileEntityFan extends TileEntity implements ITickable {
 		}
 	}
 
-	public boolean getIsPassable(IBlockState state) {
+	public boolean getIsPassable(BlockState state) {
 		if (state.getMaterial() == Material.GLASS || state.getMaterial() == Material.WATER || state.getMaterial() == Material.LAVA || state.getMaterial() == Material.ICE || state.getBlock() == Blocks.MOB_SPAWNER) {
 			return false;
 		}
@@ -201,17 +204,17 @@ public class TileEntityFan extends TileEntity implements ITickable {
 	}
 
 	@Override
-	public NBTTagCompound getUpdateTag() {
-		return writeToNBT(new NBTTagCompound());
+	public CompoundNBT getUpdateTag() {
+		return writeToNBT(new CompoundNBT());
 	}
 
 	@Override
-	public void handleUpdateTag(NBTTagCompound tag) {
+	public void handleUpdateTag(CompoundNBT tag) {
 		readFromNBT(tag);
 	}
 
 	@Override
-	public NBTTagCompound writeToNBT(NBTTagCompound compound) {
+	public CompoundNBT writeToNBT(CompoundNBT compound) {
 		super.writeToNBT(compound);
 		compound.setInteger("Range", range);
 		compound.setInteger("Mode", mode.ordinal());
@@ -220,7 +223,7 @@ public class TileEntityFan extends TileEntity implements ITickable {
 	}
 
 	@Override
-	public void readFromNBT(NBTTagCompound compound) {
+	public void readFromNBT(CompoundNBT compound) {
 		super.readFromNBT(compound);
 		this.range = compound.getInteger("Range");
 		this.mode = FanMode.VALUES[compound.getInteger("Mode")];
@@ -228,15 +231,15 @@ public class TileEntityFan extends TileEntity implements ITickable {
 	}
 
 	@Override
-	public SPacketUpdateTileEntity getUpdatePacket() {
-		NBTTagCompound nbtTagCompound = new NBTTagCompound();
+	public SUpdateTileEntityPacket getUpdatePacket() {
+		CompoundNBT nbtTagCompound = new CompoundNBT();
 		writeToNBT(nbtTagCompound);
 		int metadata = getBlockMetadata();
-		return new SPacketUpdateTileEntity(this.pos, metadata, nbtTagCompound);
+		return new SUpdateTileEntityPacket(this.pos, metadata, nbtTagCompound);
 	}
 
 	@Override
-	public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity pkt) {
+	public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt) {
 		readFromNBT(pkt.getNbtCompound());
 	}
 

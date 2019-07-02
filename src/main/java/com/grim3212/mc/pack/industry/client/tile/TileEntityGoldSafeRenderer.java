@@ -5,13 +5,13 @@ import com.grim3212.mc.pack.industry.client.model.ModelGenericSafe;
 import com.grim3212.mc.pack.industry.tile.TileEntityGoldSafe;
 
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
+import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-@OnlyIn(Dist.CLIENT)
-public class TileEntityGoldSafeRenderer extends TileEntitySpecialRenderer<TileEntityGoldSafe> {
+@SideOnly(Side.CLIENT)
+public class TileEntityGoldSafeRenderer extends TileEntityRenderer<TileEntityGoldSafe> {
 
 	private ModelGenericSafe model;
 	private static final ResourceLocation RESOURCE_LOCATION = new ResourceLocation(GrimPack.modID, "textures/models/goldsafe.png");

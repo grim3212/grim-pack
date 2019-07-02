@@ -1,78 +1,85 @@
 package com.grim3212.mc.pack.decor.block.colorizer;
 
-import java.util.List;
+import javax.annotation.Nullable;
 
-import com.google.common.collect.Lists;
 import com.grim3212.mc.pack.core.manual.pages.Page;
-import com.grim3212.mc.pack.core.util.NBTHelper;
 import com.grim3212.mc.pack.decor.client.ManualDecor;
 import com.grim3212.mc.pack.decor.config.DecorConfig;
+import com.grim3212.mc.pack.decor.init.DecorNames;
 import com.grim3212.mc.pack.decor.item.DecorItems;
 import com.grim3212.mc.pack.decor.tile.TileEntityColorizer;
 import com.grim3212.mc.pack.decor.util.BlockHelper;
-import com.grim3212.mc.pack.util.config.UtilConfig;
-import com.grim3212.mc.pack.util.event.DoubleDoor;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockDoor;
-import net.minecraft.block.BlockDoor.EnumDoorHalf;
-import net.minecraft.block.material.EnumPushReaction;
-import net.minecraft.block.material.Material;
-import net.minecraft.block.properties.IProperty;
-import net.minecraft.block.state.BlockStateContainer;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.item.EntityItem;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
+import net.minecraft.block.DoorBlock;
+import net.minecraft.block.SoundType;
+import net.minecraft.block.material.PushReaction;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.item.ItemEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.ItemUseContext;
+import net.minecraft.pathfinding.PathType;
+import net.minecraft.state.StateContainer;
+import net.minecraft.state.properties.DoorHingeSide;
+import net.minecraft.state.properties.DoubleBlockHalf;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockRenderLayer;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumHand;
+import net.minecraft.util.Direction;
+import net.minecraft.util.Hand;
 import net.minecraft.util.Mirror;
 import net.minecraft.util.Rotation;
 import net.minecraft.util.SoundCategory;
-import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.translation.I18n;
-import net.minecraft.world.IBlockAccess;
+import net.minecraft.util.math.BlockRayTraceResult;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.shapes.ISelectionContext;
+import net.minecraft.util.math.shapes.VoxelShape;
+import net.minecraft.world.IBlockReader;
+import net.minecraft.world.IWorld;
+import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
-import net.minecraftforge.common.property.ExtendedBlockState;
-import net.minecraftforge.common.property.IUnlistedProperty;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.util.FakePlayer;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SuppressWarnings("deprecation")
 public class BlockColorizerDoor extends BlockColorizer {
 
-	protected static final AxisAlignedBB SOUTH_AABB = new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 1.0D, 0.1875D);
-	protected static final AxisAlignedBB NORTH_AABB = new AxisAlignedBB(0.0D, 0.0D, 0.8125D, 1.0D, 1.0D, 1.0D);
-	protected static final AxisAlignedBB WEST_AABB = new AxisAlignedBB(0.8125D, 0.0D, 0.0D, 1.0D, 1.0D, 1.0D);
-	protected static final AxisAlignedBB EAST_AABB = new AxisAlignedBB(0.0D, 0.0D, 0.0D, 0.1875D, 1.0D, 1.0D);
+	protected static final VoxelShape SOUTH_AABB = Block.makeCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 16.0D, 3.0D);
+	protected static final VoxelShape NORTH_AABB = Block.makeCuboidShape(0.0D, 0.0D, 13.0D, 16.0D, 16.0D, 16.0D);
+	protected static final VoxelShape WEST_AABB = Block.makeCuboidShape(13.0D, 0.0D, 0.0D, 16.0D, 16.0D, 16.0D);
+	protected static final VoxelShape EAST_AABB = Block.makeCuboidShape(0.0D, 0.0D, 0.0D, 3.0D, 16.0D, 16.0D);
 
 	public BlockColorizerDoor() {
-		super("decor_door");
+		super(DecorNames.DOOR);
 	}
 
 	@Override
-	protected IBlockState getState() {
-		return this.blockState.getBaseState().withProperty(BlockDoor.FACING, EnumFacing.NORTH).withProperty(BlockDoor.OPEN, false).withProperty(BlockDoor.HINGE, BlockDoor.EnumHingePosition.LEFT).withProperty(BlockDoor.POWERED, false).withProperty(BlockDoor.HALF, BlockDoor.EnumDoorHalf.LOWER);
+	protected BlockState getState() {
+		return super.getState().with(DoorBlock.FACING, Direction.NORTH).with(DoorBlock.OPEN, false).with(DoorBlock.HINGE, DoorHingeSide.LEFT).with(DoorBlock.POWERED, false).with(DoorBlock.HALF, DoubleBlockHalf.LOWER);
 	}
 
 	@Override
-	public Page getPage(IBlockState state) {
+	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
+		builder.add(DoorBlock.HALF, DoorBlock.FACING, DoorBlock.OPEN, DoorBlock.HINGE, DoorBlock.POWERED);
+	}
+
+	@Override
+	public Page getPage(BlockState state) {
 		return ManualDecor.doors_page;
 	}
 
 	@Override
-	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
-		state = state.getActualState(source, pos);
-		EnumFacing enumfacing = state.getValue(BlockDoor.FACING);
-		boolean flag = !state.getValue(BlockDoor.OPEN);
-		boolean flag1 = state.getValue(BlockDoor.HINGE) == BlockDoor.EnumHingePosition.RIGHT;
-
-		switch (enumfacing) {
+	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
+		Direction direction = state.get(DoorBlock.FACING);
+		boolean flag = !state.get(DoorBlock.OPEN);
+		boolean flag1 = state.get(DoorBlock.HINGE) == DoorHingeSide.RIGHT;
+		switch (direction) {
 		case EAST:
 		default:
 			return flag ? EAST_AABB : (flag1 ? NORTH_AABB : SOUTH_AABB);
@@ -86,24 +93,207 @@ public class BlockColorizerDoor extends BlockColorizer {
 	}
 
 	@Override
-	public String getLocalizedName() {
-		return I18n.translateToLocal((this.getUnlocalizedName() + ".name").replaceAll("tile", "item"));
+	public BlockState updatePostPlacement(BlockState stateIn, Direction facing, BlockState facingState, IWorld worldIn, BlockPos currentPos, BlockPos facingPos) {
+		DoubleBlockHalf doubleblockhalf = stateIn.get(DoorBlock.HALF);
+		if (facing.getAxis() == Direction.Axis.Y && doubleblockhalf == DoubleBlockHalf.LOWER == (facing == Direction.UP)) {
+			return facingState.getBlock() == this && facingState.get(DoorBlock.HALF) != doubleblockhalf ? stateIn.with(DoorBlock.FACING, facingState.get(DoorBlock.FACING)).with(DoorBlock.OPEN, facingState.get(DoorBlock.OPEN)).with(DoorBlock.HINGE, facingState.get(DoorBlock.HINGE)).with(DoorBlock.POWERED, facingState.get(DoorBlock.POWERED)) : Blocks.AIR.getDefaultState();
+		} else {
+			return doubleblockhalf == DoubleBlockHalf.LOWER && facing == Direction.DOWN && !stateIn.isValidPosition(worldIn, currentPos) ? Blocks.AIR.getDefaultState() : super.updatePostPlacement(stateIn, facing, facingState, worldIn, currentPos, facingPos);
+		}
 	}
 
 	@Override
-	public boolean isPassable(IBlockAccess worldIn, BlockPos pos) {
-		return isOpen(BlockDoor.combineMetadata(worldIn, pos));
+	public void harvestBlock(World worldIn, PlayerEntity player, BlockPos pos, BlockState state, @Nullable TileEntity te, ItemStack stack) {
+		super.harvestBlock(worldIn, player, pos, Blocks.AIR.getDefaultState(), te, stack);
+	}
+
+	@Override
+	public void onBlockHarvested(World worldIn, BlockPos pos, BlockState state, PlayerEntity player) {
+		DoubleBlockHalf doubleblockhalf = state.get(DoorBlock.HALF);
+		BlockPos blockpos = doubleblockhalf == DoubleBlockHalf.LOWER ? pos.up() : pos.down();
+		BlockState blockstate = worldIn.getBlockState(blockpos);
+		if (blockstate.getBlock() == this && blockstate.get(DoorBlock.HALF) != doubleblockhalf) {
+			worldIn.setBlockState(blockpos, Blocks.AIR.getDefaultState(), 35);
+			worldIn.playEvent(player, 2001, blockpos, Block.getStateId(blockstate));
+			ItemStack itemstack = player.getHeldItemMainhand();
+			if (!worldIn.isRemote && !player.isCreative()) {
+				Block.spawnDrops(state, worldIn, pos, (TileEntity) null, player, itemstack);
+				Block.spawnDrops(blockstate, worldIn, blockpos, (TileEntity) null, player, itemstack);
+			}
+		}
+
+		super.onBlockHarvested(worldIn, pos, state, player);
+	}
+
+	@Override
+	public boolean allowsMovement(BlockState state, IBlockReader worldIn, BlockPos pos, PathType type) {
+		switch (type) {
+		case LAND:
+			return state.get(DoorBlock.OPEN);
+		case WATER:
+			return false;
+		case AIR:
+			return state.get(DoorBlock.OPEN);
+		default:
+			return false;
+		}
 	}
 
 	private int getCloseSound() {
-		return this.blockMaterial == Material.IRON ? 1011 : 1012;
+		return 1012;
 	}
 
 	private int getOpenSound() {
-		return this.blockMaterial == Material.IRON ? 1005 : 1006;
+		return 1006;
 	}
 
-	public boolean changeDoors(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing side) {
+	@Override
+	@Nullable
+	public BlockState getStateForPlacement(BlockItemUseContext context) {
+		BlockPos blockpos = context.getPos();
+		if (blockpos.getY() < 255 && context.getWorld().getBlockState(blockpos.up()).isReplaceable(context)) {
+			World world = context.getWorld();
+			boolean flag = world.isBlockPowered(blockpos) || world.isBlockPowered(blockpos.up());
+			return this.getDefaultState().with(DoorBlock.FACING, context.getPlacementHorizontalFacing()).with(DoorBlock.HINGE, this.getHingeSide(context)).with(DoorBlock.POWERED, flag).with(DoorBlock.OPEN, flag).with(DoorBlock.HALF, DoubleBlockHalf.LOWER);
+		} else {
+			return null;
+		}
+	}
+
+	@Override
+	public void onBlockPlacedBy(World worldIn, BlockPos pos, BlockState state, LivingEntity placer, ItemStack stack) {
+		worldIn.setBlockState(pos.up(), state.with(DoorBlock.HALF, DoubleBlockHalf.UPPER), 3);
+	}
+
+	private DoorHingeSide getHingeSide(BlockItemUseContext p_208073_1_) {
+		IBlockReader iblockreader = p_208073_1_.getWorld();
+		BlockPos blockpos = p_208073_1_.getPos();
+		Direction direction = p_208073_1_.getPlacementHorizontalFacing();
+		BlockPos blockpos1 = blockpos.up();
+		Direction direction1 = direction.rotateYCCW();
+		BlockPos blockpos2 = blockpos.offset(direction1);
+		BlockState blockstate = iblockreader.getBlockState(blockpos2);
+		BlockPos blockpos3 = blockpos1.offset(direction1);
+		BlockState blockstate1 = iblockreader.getBlockState(blockpos3);
+		Direction direction2 = direction.rotateY();
+		BlockPos blockpos4 = blockpos.offset(direction2);
+		BlockState blockstate2 = iblockreader.getBlockState(blockpos4);
+		BlockPos blockpos5 = blockpos1.offset(direction2);
+		BlockState blockstate3 = iblockreader.getBlockState(blockpos5);
+		int i = (isOpaque(blockstate.getCollisionShape(iblockreader, blockpos2)) ? -1 : 0) + (isOpaque(blockstate1.getCollisionShape(iblockreader, blockpos3)) ? -1 : 0) + (isOpaque(blockstate2.getCollisionShape(iblockreader, blockpos4)) ? 1 : 0) + (isOpaque(blockstate3.getCollisionShape(iblockreader, blockpos5)) ? 1 : 0);
+		boolean flag = blockstate.getBlock() == this && blockstate.get(DoorBlock.HALF) == DoubleBlockHalf.LOWER;
+		boolean flag1 = blockstate2.getBlock() == this && blockstate2.get(DoorBlock.HALF) == DoubleBlockHalf.LOWER;
+		if ((!flag || flag1) && i <= 0) {
+			if ((!flag1 || flag) && i >= 0) {
+				int j = direction.getXOffset();
+				int k = direction.getZOffset();
+				Vec3d vec3d = p_208073_1_.getHitVec();
+				double d0 = vec3d.x - (double) blockpos.getX();
+				double d1 = vec3d.z - (double) blockpos.getZ();
+				return (j >= 0 || !(d1 < 0.5D)) && (j <= 0 || !(d1 > 0.5D)) && (k >= 0 || !(d0 > 0.5D)) && (k <= 0 || !(d0 < 0.5D)) ? DoorHingeSide.LEFT : DoorHingeSide.RIGHT;
+			} else {
+				return DoorHingeSide.LEFT;
+			}
+		} else {
+			return DoorHingeSide.RIGHT;
+		}
+	}
+
+	@Override
+	public boolean onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
+		ItemStack heldItem = player.getHeldItem(handIn);
+
+		if (!heldItem.isEmpty()) {
+			if (heldItem.getItem() == DecorItems.brush) {
+				if (this.tryUseBrush(worldIn, player, handIn, pos)) {
+					return true;
+				}
+			}
+
+			Block block = Block.getBlockFromItem(heldItem.getItem());
+			if (block != Blocks.AIR) {
+				if (changeDoors(worldIn, pos, state, player, handIn, hit)) {
+					return true;
+				}
+			}
+		}
+
+		BlockPos blockpos = state.get(DoorBlock.HALF) == DoubleBlockHalf.LOWER ? pos : pos.down();
+		BlockState iblockstate = pos.equals(blockpos) ? state : worldIn.getBlockState(blockpos);
+
+		if (iblockstate.getBlock() != this) {
+			return false;
+		} else {
+			state = state.cycle(DoorBlock.OPEN);
+			worldIn.setBlockState(pos, state, 10);
+			worldIn.playEvent(player, state.get(DoorBlock.OPEN) ? this.getOpenSound() : this.getCloseSound(), pos, 0);
+			return true;
+		}
+	}
+
+	public void toggleDoor(World worldIn, BlockPos pos, boolean open) {
+		BlockState blockstate = worldIn.getBlockState(pos);
+		if (blockstate.getBlock() == this && blockstate.get(DoorBlock.OPEN) != open) {
+			worldIn.setBlockState(pos, blockstate.with(DoorBlock.OPEN, open), 10);
+			this.playSound(worldIn, pos, open);
+		}
+	}
+
+	@Override
+	public void neighborChanged(BlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos, boolean p_220069_6_) {
+		boolean flag = worldIn.isBlockPowered(pos) || worldIn.isBlockPowered(pos.offset(state.get(DoorBlock.HALF) == DoubleBlockHalf.LOWER ? Direction.UP : Direction.DOWN));
+		if (blockIn != this && flag != state.get(DoorBlock.POWERED)) {
+			if (flag != state.get(DoorBlock.OPEN)) {
+				this.playSound(worldIn, pos, flag);
+			}
+
+			worldIn.setBlockState(pos, state.with(DoorBlock.POWERED, flag).with(DoorBlock.OPEN, flag), 2);
+		}
+
+	}
+
+	@Override
+	public boolean isValidPosition(BlockState state, IWorldReader worldIn, BlockPos pos) {
+		BlockPos blockpos = pos.down();
+		BlockState blockstate = worldIn.getBlockState(blockpos);
+		if (state.get(DoorBlock.HALF) == DoubleBlockHalf.LOWER) {
+			return Block.hasSolidSide(blockstate, worldIn, blockpos, Direction.UP);
+		} else {
+			return blockstate.getBlock() == this;
+		}
+	}
+
+	private void playSound(World p_196426_1_, BlockPos p_196426_2_, boolean p_196426_3_) {
+		p_196426_1_.playEvent((PlayerEntity) null, p_196426_3_ ? this.getOpenSound() : this.getCloseSound(), p_196426_2_, 0);
+	}
+
+	@Override
+	public PushReaction getPushReaction(BlockState state) {
+		return PushReaction.DESTROY;
+	}
+
+	@Override
+	public BlockRenderLayer getRenderLayer() {
+		return BlockRenderLayer.CUTOUT;
+	}
+
+	@Override
+	public BlockState rotate(BlockState state, Rotation rot) {
+		return state.with(DoorBlock.FACING, rot.rotate(state.get(DoorBlock.FACING)));
+	}
+
+	@Override
+	public BlockState mirror(BlockState state, Mirror mirrorIn) {
+		return mirrorIn == Mirror.NONE ? state : state.rotate(mirrorIn.toRotation(state.get(DoorBlock.FACING))).cycle(DoorBlock.HINGE);
+	}
+
+	@Override
+	@OnlyIn(Dist.CLIENT)
+	public long getPositionRandom(BlockState state, BlockPos pos) {
+		return MathHelper.getCoordinateRandom(pos.getX(), pos.down(state.get(DoorBlock.HALF) == DoubleBlockHalf.LOWER ? 0 : 1).getY(), pos.getZ());
+	}
+
+	public boolean changeDoors(World worldIn, BlockPos pos, BlockState state, PlayerEntity playerIn, Hand hand, BlockRayTraceResult hit) {
 		TileEntity tileentity = worldIn.getTileEntity(pos);
 
 		ItemStack heldItem = playerIn.getHeldItem(hand);
@@ -113,15 +303,17 @@ public class BlockColorizerDoor extends BlockColorizer {
 			Block block = Block.getBlockFromItem(heldItem.getItem());
 
 			if (block != null && !(block instanceof BlockColorizer)) {
-				if (BlockHelper.getUsableBlocks().contains(block)) {
+				if (BlockHelper.getUsableBlocks().contains(block.getDefaultState())) {
 					// Can only set blockstate if it contains nothing or if
 					// in creative mode
-					if (te.getBlockState() == Blocks.AIR.getDefaultState() || playerIn.capabilities.isCreativeMode) {
+					if (te.getBlockState() == Blocks.AIR.getDefaultState() || playerIn.abilities.isCreativeMode) {
 
-						IBlockState toPlaceState = block.getStateFromMeta(heldItem.getMetadata());
+						BlockState toPlaceState = block.getStateForPlacement(new BlockItemUseContext(new ItemUseContext(playerIn, hand, hit)));
 						this.setColorizer(worldIn, pos, state, toPlaceState, playerIn, hand, true);
 
-						worldIn.playSound(playerIn, pos, block.getSoundType().getPlaceSound(), SoundCategory.BLOCKS, (block.getSoundType().getVolume() + 1.0F) / 2.0F, block.getSoundType().getPitch() * 0.8F);
+						SoundType placeSound = toPlaceState.getSoundType(worldIn, pos, playerIn);
+
+						worldIn.playSound(playerIn, pos, placeSound.getPlaceSound(), SoundCategory.BLOCKS, (placeSound.getVolume() + 1.0F) / 2.0F, placeSound.getPitch() * 0.8F);
 						return true;
 					} else if (te.getBlockState() != Blocks.AIR.getDefaultState()) {
 						return false;
@@ -133,211 +325,18 @@ public class BlockColorizerDoor extends BlockColorizer {
 	}
 
 	@Override
-	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
-		ItemStack heldItem = playerIn.getHeldItem(hand);
-
-		if (!heldItem.isEmpty()) {
-			if (heldItem.getItem() == DecorItems.brush) {
-				if (this.tryUseBrush(worldIn, playerIn, hand, pos)) {
-					return true;
-				}
-			}
-
-			Block block = Block.getBlockFromItem(heldItem.getItem());
-			if (block != Blocks.AIR) {
-				if (changeDoors(worldIn, pos, state, playerIn, hand, side)) {
-					return true;
-				}
-			}
-		}
-
-		BlockPos blockpos = state.getValue(BlockDoor.HALF) == BlockDoor.EnumDoorHalf.LOWER ? pos : pos.down();
-		IBlockState iblockstate = pos.equals(blockpos) ? state : worldIn.getBlockState(blockpos);
-
-		if (iblockstate.getBlock() != this) {
-			return false;
-		} else {
-			state = iblockstate.cycleProperty(BlockDoor.OPEN);
-			worldIn.setBlockState(blockpos, state, 10);
-			worldIn.markBlockRangeForRenderUpdate(blockpos, pos);
-			worldIn.playEvent(playerIn, state.getValue(BlockDoor.OPEN) ? this.getOpenSound() : this.getCloseSound(), pos, 0);
-
-			// Used to simplify double door logic that would need to be specific
-			// for this
-			if (UtilConfig.subpartDoubleDoors) {
-				int coordX = 0;
-				int coordZ = 0;
-				int coordOffset = DoubleDoor.isHingeLeft(BlockDoor.combineMetadata(worldIn, blockpos)) ? -1 : 1;
-
-				switch (state.getValue(BlockDoor.FACING)) {
-				case SOUTH:
-					coordX = blockpos.getX() - coordOffset;
-					coordZ = blockpos.getZ();
-					break;
-				case WEST:
-					coordX = blockpos.getX();
-					coordZ = blockpos.getZ() - coordOffset;
-					break;
-				case NORTH:
-					coordX = blockpos.getX() + coordOffset;
-					coordZ = blockpos.getZ();
-					break;
-				case EAST:
-					coordX = blockpos.getX();
-					coordZ = blockpos.getZ() + coordOffset;
-					break;
-				default:
-					break;
-				}
-
-				BlockPos neighborPos = new BlockPos(coordX, blockpos.getY(), coordZ);
-				IBlockState neighborState = worldIn.getBlockState(neighborPos);
-
-				// Make sure this is a valid door first and same state
-				if (!(neighborState.getBlock() instanceof BlockColorizerDoor) || state.getValue(BlockDoor.OPEN) == BlockDoor.isOpen(worldIn, neighborPos)) {
-					return true;
-				}
-
-				BlockPos neighborOtherPos = neighborState.getValue(BlockDoor.HALF) == BlockDoor.EnumDoorHalf.LOWER ? neighborPos : neighborPos.down();
-
-				// Open the neighbor state
-				neighborState = neighborState.cycleProperty(BlockDoor.OPEN);
-				worldIn.setBlockState(neighborPos, neighborState, 10);
-				worldIn.markBlockRangeForRenderUpdate(neighborOtherPos, neighborPos);
-				worldIn.playEvent(playerIn, state.getValue(BlockDoor.OPEN) ? this.getOpenSound() : this.getCloseSound(), neighborPos, 0);
-			}
-
-			return true;
-		}
-	}
-
-	@Override
-	public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos) {
-		if (state.getValue(BlockDoor.HALF) == BlockDoor.EnumDoorHalf.UPPER) {
-			BlockPos blockpos = pos.down();
-			IBlockState iblockstate = worldIn.getBlockState(blockpos);
-
-			if (blockIn != this) {
-				iblockstate.neighborChanged(worldIn, blockpos, blockIn, fromPos);
-			}
-		} else {
-			BlockPos blockpos1 = pos.up();
-			IBlockState iblockstate1 = worldIn.getBlockState(blockpos1);
-			boolean flag = worldIn.isBlockPowered(pos) || worldIn.isBlockPowered(blockpos1);
-
-			if (blockIn != this && (flag || blockIn.getDefaultState().canProvidePower()) && flag != iblockstate1.getValue(BlockDoor.POWERED)) {
-				worldIn.setBlockState(blockpos1, iblockstate1.withProperty(BlockDoor.POWERED, flag), 2);
-
-				if (flag != state.getValue(BlockDoor.OPEN)) {
-					worldIn.setBlockState(pos, state.withProperty(BlockDoor.OPEN, flag), 2);
-					worldIn.markBlockRangeForRenderUpdate(pos, pos);
-					worldIn.playEvent((EntityPlayer) null, flag ? this.getOpenSound() : this.getCloseSound(), pos, 0);
-				}
-			}
-		}
-	}
-
-	@Override
-	public boolean canPlaceBlockAt(World worldIn, BlockPos pos) {
-		return pos.getY() >= worldIn.getHeight() - 1 ? false : worldIn.getBlockState(pos.down()).isSideSolid(worldIn, pos.down(), EnumFacing.UP) && super.canPlaceBlockAt(worldIn, pos) && super.canPlaceBlockAt(worldIn, pos.up());
-	}
-
-	@Override
-	public EnumPushReaction getMobilityFlag(IBlockState state) {
-		return EnumPushReaction.DESTROY;
-	}
-
-	protected static boolean isOpen(int combinedMeta) {
-		return (combinedMeta & 4) != 0;
-	}
-
-	protected static boolean isTop(int meta) {
-		return (meta & 8) != 0;
-	}
-
-	@Override
-	protected BlockStateContainer createBlockState() {
-		return new ExtendedBlockState(this, new IProperty[] { BlockDoor.HALF, BlockDoor.FACING, BlockDoor.OPEN, BlockDoor.HINGE, BlockDoor.POWERED }, new IUnlistedProperty[] { BLOCK_STATE });
-	}
-
-	@Override
-	@SideOnly(Side.CLIENT)
-	public BlockRenderLayer getBlockLayer() {
-		return BlockRenderLayer.CUTOUT;
-	}
-
-	@Override
-	public IBlockState getActualState(IBlockState state, IBlockAccess worldIn, BlockPos pos) {
-		if (state.getValue(BlockDoor.HALF) == BlockDoor.EnumDoorHalf.LOWER) {
-			IBlockState iblockstate = worldIn.getBlockState(pos.up());
-
-			if (iblockstate.getBlock() == this) {
-				state = state.withProperty(BlockDoor.HINGE, iblockstate.getValue(BlockDoor.HINGE)).withProperty(BlockDoor.POWERED, iblockstate.getValue(BlockDoor.POWERED));
-			}
-		} else {
-			IBlockState iblockstate1 = worldIn.getBlockState(pos.down());
-
-			if (iblockstate1.getBlock() == this) {
-				state = state.withProperty(BlockDoor.FACING, iblockstate1.getValue(BlockDoor.FACING)).withProperty(BlockDoor.OPEN, iblockstate1.getValue(BlockDoor.OPEN));
-			}
-		}
-
-		return state;
-	}
-
-	@Override
-	public IBlockState withRotation(IBlockState state, Rotation rot) {
-		return state.getValue(BlockDoor.HALF) != BlockDoor.EnumDoorHalf.LOWER ? state : state.withProperty(BlockDoor.FACING, rot.rotate(state.getValue(BlockDoor.FACING)));
-	}
-
-	@Override
-	public IBlockState withMirror(IBlockState state, Mirror mirrorIn) {
-		return mirrorIn == Mirror.NONE ? state : state.withRotation(mirrorIn.toRotation(state.getValue(BlockDoor.FACING))).cycleProperty(BlockDoor.HINGE);
-	}
-
-	@Override
-	public IBlockState getStateFromMeta(int meta) {
-		return (meta & 8) > 0 ? this.getDefaultState().withProperty(BlockDoor.HALF, BlockDoor.EnumDoorHalf.UPPER).withProperty(BlockDoor.HINGE, (meta & 1) > 0 ? BlockDoor.EnumHingePosition.RIGHT : BlockDoor.EnumHingePosition.LEFT).withProperty(BlockDoor.POWERED, (meta & 2) > 0) : this.getDefaultState().withProperty(BlockDoor.HALF, BlockDoor.EnumDoorHalf.LOWER).withProperty(BlockDoor.FACING, EnumFacing.getHorizontal(meta & 3).rotateYCCW()).withProperty(BlockDoor.OPEN, (meta & 4) > 0);
-	}
-
-	@Override
-	public int getMetaFromState(IBlockState state) {
-		int i = 0;
-
-		if (state.getValue(BlockDoor.HALF) == BlockDoor.EnumDoorHalf.UPPER) {
-			i = i | 8;
-
-			if (state.getValue(BlockDoor.HINGE) == BlockDoor.EnumHingePosition.RIGHT) {
-				i |= 1;
-			}
-
-			if (state.getValue(BlockDoor.POWERED)) {
-				i |= 2;
-			}
-		} else {
-			i = i | (state.getValue(BlockDoor.FACING)).rotateY().getHorizontalIndex();
-
-			if (state.getValue(BlockDoor.OPEN)) {
-				i |= 4;
-			}
-		}
-
-		return i;
-	}
-
-	@Override
-	public boolean clearColorizer(World worldIn, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand) {
+	public boolean clearColorizer(World worldIn, BlockPos pos, BlockState state, PlayerEntity player, Hand hand) {
 		TileEntity te = worldIn.getTileEntity(pos);
 		if (te instanceof TileEntityColorizer) {
 			TileEntityColorizer tileColorizer = (TileEntityColorizer) te;
-			IBlockState storedState = tileColorizer.getBlockState();
+			BlockState storedState = tileColorizer.getStoredBlockState();
 
 			// Can only clear a filled colorizer
 			if (storedState != Blocks.AIR.getDefaultState()) {
-				if (DecorConfig.consumeBlock && !player.capabilities.isCreativeMode) {
-					EntityItem blockDropped = new EntityItem(worldIn, (double) pos.getX(), (double) pos.getY(), (double) pos.getZ(), new ItemStack(tileColorizer.getBlockState().getBlock(), 1, tileColorizer.getBlockState().getBlock().getMetaFromState(tileColorizer.getBlockState())));
+				if (DecorConfig.consumeBlock.get() && !player.abilities.isCreativeMode) {
+					ItemEntity blockDropped = new ItemEntity(worldIn, (double) pos.getX(), (double) pos.getY(), (double) pos.getZ(), new ItemStack(tileColorizer.getStoredBlockState().getBlock(), 1));
 					if (!worldIn.isRemote) {
-						worldIn.spawnEntity(blockDropped);
+						worldIn.addEntity(blockDropped);
 						if (!(player instanceof FakePlayer)) {
 							blockDropped.onCollideWithPlayer(player);
 						}
@@ -347,13 +346,14 @@ public class BlockColorizerDoor extends BlockColorizer {
 				// Clear self
 				if (super.setColorizer(worldIn, pos, state, null, player, hand, false)) {
 
-					// Sound if cleared
-					worldIn.playSound(player, pos, state.getBlock().getSoundType().getPlaceSound(), SoundCategory.BLOCKS, (state.getBlock().getSoundType().getVolume() + 1.0F) / 2.0F, state.getBlock().getSoundType().getPitch() * 0.8F);
+					SoundType placeSound = state.getSoundType(worldIn, pos, player);
+
+					worldIn.playSound(player, pos, placeSound.getPlaceSound(), SoundCategory.BLOCKS, (placeSound.getVolume() + 1.0F) / 2.0F, placeSound.getPitch() * 0.8F);
 
 					// Clear other half of door
-					if (state.getValue(BlockDoor.HALF) == EnumDoorHalf.LOWER) {
+					if (state.get(DoorBlock.HALF) == DoubleBlockHalf.LOWER) {
 						return super.setColorizer(worldIn, pos.up(), state, null, player, hand, false);
-					} else if (state.getValue(BlockDoor.HALF) == EnumDoorHalf.UPPER) {
+					} else if (state.get(DoorBlock.HALF) == DoubleBlockHalf.UPPER) {
 						return super.setColorizer(worldIn, pos.down(), state, null, player, hand, false);
 					}
 				}
@@ -364,34 +364,17 @@ public class BlockColorizerDoor extends BlockColorizer {
 	}
 
 	@Override
-	public boolean setColorizer(World worldIn, BlockPos pos, IBlockState state, IBlockState toSetState, EntityPlayer player, EnumHand hand, boolean consumeItem) {
+	public boolean setColorizer(World worldIn, BlockPos pos, BlockState state, BlockState toSetState, PlayerEntity player, Hand hand, boolean consumeItem) {
 		// Set self
 		if (super.setColorizer(worldIn, pos, state, toSetState, player, hand, consumeItem)) {
 
 			// Set other half of door and consume once
-			if (state.getValue(BlockDoor.HALF) == EnumDoorHalf.LOWER) {
+			if (state.get(DoorBlock.HALF) == DoubleBlockHalf.LOWER) {
 				return super.setColorizer(worldIn, pos.up(), state, toSetState, player, hand, false);
-			} else if (state.getValue(BlockDoor.HALF) == EnumDoorHalf.UPPER) {
+			} else if (state.get(DoorBlock.HALF) == DoubleBlockHalf.UPPER) {
 				return super.setColorizer(worldIn, pos.down(), state, toSetState, player, hand, false);
 			}
 		}
 		return false;
-	}
-
-	@Override
-	public List<ItemStack> getDrops(IBlockAccess world, BlockPos pos, IBlockState state, int fortune) {
-		ItemStack item = new ItemStack(this);
-		NBTHelper.setString(item, "registryName", Block.REGISTRY.getNameForObject(Blocks.AIR).toString());
-		NBTHelper.setInteger(item, "meta", 0);
-		return Lists.newArrayList(item);
-	}
-
-	@Override
-	public void onBlockDestroyedByPlayer(World worldIn, BlockPos pos, IBlockState state) {
-		if (state.getValue(BlockDoor.HALF) == BlockDoor.EnumDoorHalf.LOWER) {
-			worldIn.setBlockToAir(pos.up());
-		} else if (state.getValue(BlockDoor.HALF) == BlockDoor.EnumDoorHalf.UPPER) {
-			worldIn.setBlockToAir(pos.down());
-		}
 	}
 }

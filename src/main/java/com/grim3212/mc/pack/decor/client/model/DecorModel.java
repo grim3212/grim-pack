@@ -1,22 +1,25 @@
 package com.grim3212.mc.pack.decor.client.model;
 
 import java.util.Collection;
+import java.util.Set;
+import java.util.function.Function;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 
-import net.minecraft.client.renderer.block.model.IBakedModel;
+import net.minecraft.client.renderer.model.IBakedModel;
+import net.minecraft.client.renderer.model.IUnbakedModel;
+import net.minecraft.client.renderer.model.ModelBakery;
+import net.minecraft.client.renderer.texture.ISprite;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.vertex.VertexFormat;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.client.model.IModel;
 import net.minecraftforge.client.model.ModelLoaderRegistry;
-import net.minecraftforge.client.model.PerspectiveMapWrapper;
 import net.minecraftforge.common.model.IModelState;
 import net.minecraftforge.common.model.TRSRTransformation;
 
-public class DecorModel implements IModel {
+public class DecorModel implements IUnbakedModel {
 
 	public static final DecorModel MODEL = new DecorModel(ImmutableList.<ResourceLocation>of(), new ResourceLocation("grimpack:blocks/colorizer"), EnumDecorModelType.Unknown);
 
@@ -36,7 +39,7 @@ public class DecorModel implements IModel {
 	}
 
 	@Override
-	public Collection<ResourceLocation> getTextures() {
+	public Collection<ResourceLocation> getTextures(Function<ResourceLocation, IUnbakedModel> modelGetter, Set<String> missingTextureErrors) {
 		ImmutableSet.Builder<ResourceLocation> builder = ImmutableSet.builder();
 		if (textureLocation != null)
 			builder.add(textureLocation);
@@ -50,7 +53,7 @@ public class DecorModel implements IModel {
 	}
 
 	@Override
-	public IModel retexture(ImmutableMap<String, String> textures) {
+	public IUnbakedModel retexture(ImmutableMap<String, String> textures) {
 		ResourceLocation base = textureLocation;
 
 		if (textures.containsKey("texture"))
@@ -60,7 +63,7 @@ public class DecorModel implements IModel {
 	}
 
 	@Override
-	public IModel process(ImmutableMap<String, String> customData) {
+	public IUnbakedModel process(ImmutableMap<String, String> customData) {
 		ImmutableList.Builder<ResourceLocation> modelLocations = ImmutableList.builder();
 
 		if (!customData.containsKey("models"))
@@ -86,13 +89,13 @@ public class DecorModel implements IModel {
 	}
 
 	@Override
-	public IBakedModel bake(IModelState state, VertexFormat format, java.util.function.Function<ResourceLocation, TextureAtlasSprite> bakedTextureGetter) {
+	public IBakedModel bake(ModelBakery bakery, Function<ResourceLocation, TextureAtlasSprite> spriteGetter, ISprite sprite, VertexFormat format) {
 		if (this.modelType == EnumDecorModelType.Colorizer) {
-			return new BakedColorizerModel(state, modelLocation, textureLocation, format, PerspectiveMapWrapper.getTransforms(state));
+			return new BakedColorizerModel(bakery, sprite, modelLocation, textureLocation, format);
 		} else if (this.modelType == EnumDecorModelType.Fireplace) {
-			return new BakedFireplaceModel(state, modelLocation, textureLocation, format, PerspectiveMapWrapper.getTransforms(state));
+			return new BakedFireplaceModel(bakery, sprite, modelLocation, textureLocation, format);
 		}
 
-		return new BakedColorizerModel(state, modelLocation, textureLocation, format, PerspectiveMapWrapper.getTransforms(state));
+		return new BakedColorizerModel(bakery, sprite, modelLocation, textureLocation, format);
 	}
 }

@@ -8,10 +8,7 @@ package com.grim3212.mc.pack.core.network;
 import java.io.IOException;
 import java.util.function.Supplier;
 
-import com.grim3212.mc.pack.core.GrimCore;
-
 import io.netty.buffer.ByteBuf;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.network.PacketBuffer;
 import net.minecraftforge.fml.LogicalSide;
 import net.minecraftforge.fml.network.NetworkDirection;
@@ -30,14 +27,14 @@ public abstract class AbstractMessage<T extends AbstractMessage<T>> {
 	 * exception. if an IOException is expected but should not be fatal, handle it
 	 * within this method.
 	 */
-	protected abstract void write(PacketBuffer buffer) throws IOException;
+	protected abstract void write(T msg, PacketBuffer buffer) throws IOException;
 
 	/**
 	 * Called on whichever side the message is received; for bidirectional packets,
 	 * be sure to check side If {@link #requiresMainThread()} returns true, this
 	 * method is guaranteed to be called on the main Minecraft thread for this side.
 	 */
-	public abstract void process(EntityPlayer player, Supplier<NetworkEvent.Context> ctx);
+	public abstract void process(T msg, Supplier<NetworkEvent.Context> ctx);
 
 	/**
 	 * If message is sent to the wrong side, an exception will be thrown during
@@ -67,7 +64,7 @@ public abstract class AbstractMessage<T extends AbstractMessage<T>> {
 
 	public void toBytes(T msg, ByteBuf buffer) {
 		try {
-			write(new PacketBuffer(buffer));
+			write(msg, new PacketBuffer(buffer));
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
@@ -83,12 +80,12 @@ public abstract class AbstractMessage<T extends AbstractMessage<T>> {
 	 * 
 	 * in every single message class for the sole purpose of registration.
 	 */
-	public final void onMessage(AbstractMessage<T> msg, Supplier<NetworkEvent.Context> ctx) {
+	public final void onMessage(T msg, Supplier<NetworkEvent.Context> ctx) {
 		if (!isValidOnSide(ctx.get().getDirection())) {
 			throw new RuntimeException("Invalid side " + ctx.get().getDirection().name() + " for " + this.getClass().getSimpleName());
 		} else {
 			ctx.get().enqueueWork(() -> {
-				this.process(GrimCore.proxy.getPlayerEntity(ctx.get()), ctx);
+				this.process(msg, ctx);
 			});
 			ctx.get().setPacketHandled(true);
 		}

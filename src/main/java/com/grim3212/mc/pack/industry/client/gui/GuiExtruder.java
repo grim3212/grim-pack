@@ -10,22 +10,24 @@ import com.grim3212.mc.pack.industry.inventory.ContainerExtruder;
 import com.grim3212.mc.pack.industry.inventory.InventoryExtruder;
 import com.grim3212.mc.pack.industry.network.MessageExtruderDirection;
 
-import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.widget.button.Button;
+import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.resources.I18n;
-import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-@OnlyIn(Dist.CLIENT)
+@SideOnly(Side.CLIENT)
 public class GuiExtruder extends GuiGrimContainer {
 
-	private final InventoryPlayer playerInv;
+	private final PlayerInventory playerInv;
 	private final InventoryExtruder extruderInv;
 	private static final ResourceLocation GUI_LOCATION = new ResourceLocation(GrimPack.modID, "textures/gui/extruder.png");
 
-	public GuiExtruder(InventoryPlayer playerInv, InventoryExtruder extruderInv) {
+	public GuiExtruder(PlayerInventory playerInv, InventoryExtruder extruderInv) {
 		super(new ContainerExtruder(playerInv, extruderInv));
 		this.playerInv = playerInv;
 		this.extruderInv = extruderInv;
@@ -41,16 +43,16 @@ public class GuiExtruder extends GuiGrimContainer {
 		byte width = 40;
 		byte height = 20;
 		buttonList.clear();
-		buttonList.add(new GuiButton(0, x, y + yAdjustment * 0, width, height, I18n.format("container.extruder.down")));
-		buttonList.add(new GuiButton(1, x, y + yAdjustment * 1, width, height, I18n.format("container.extruder.up")));
-		buttonList.add(new GuiButton(2, x, y + yAdjustment * 2, width, height, I18n.format("container.extruder.north")));
-		buttonList.add(new GuiButton(3, x, y + yAdjustment * 3, width, height, I18n.format("container.extruder.south")));
-		buttonList.add(new GuiButton(4, x, y + yAdjustment * 4, width, height, I18n.format("container.extruder.west")));
-		buttonList.add(new GuiButton(5, x, y + yAdjustment * 5, width, height, I18n.format("container.extruder.east")));
+		buttonList.add(new Button(0, x, y + yAdjustment * 0, width, height, I18n.format("container.extruder.down")));
+		buttonList.add(new Button(1, x, y + yAdjustment * 1, width, height, I18n.format("container.extruder.up")));
+		buttonList.add(new Button(2, x, y + yAdjustment * 2, width, height, I18n.format("container.extruder.north")));
+		buttonList.add(new Button(3, x, y + yAdjustment * 3, width, height, I18n.format("container.extruder.south")));
+		buttonList.add(new Button(4, x, y + yAdjustment * 4, width, height, I18n.format("container.extruder.west")));
+		buttonList.add(new Button(5, x, y + yAdjustment * 5, width, height, I18n.format("container.extruder.east")));
 	}
 
 	@Override
-	protected void actionPerformed(GuiButton button) throws IOException {
+	protected void actionPerformed(Button button) throws IOException {
 		PacketDispatcher.sendToServer(new MessageExtruderDirection((byte) button.id, extruderInv.getExtruder().getEntityId()));
 	}
 

@@ -1,13 +1,7 @@
 package com.grim3212.mc.pack.decor.block.colorizer;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import com.grim3212.mc.pack.GrimPack;
-import com.grim3212.mc.pack.core.manual.IManualEntry.IManualBlock;
+import com.grim3212.mc.pack.core.block.BlockManual;
 import com.grim3212.mc.pack.core.manual.pages.Page;
-import com.grim3212.mc.pack.core.part.GrimCreativeTabs;
-import com.grim3212.mc.pack.core.property.UnlistedPropertyBlockState;
 import com.grim3212.mc.pack.core.util.NBTHelper;
 import com.grim3212.mc.pack.decor.block.IColorizer;
 import com.grim3212.mc.pack.decor.client.ManualDecor;
@@ -17,166 +11,107 @@ import com.grim3212.mc.pack.decor.tile.TileEntityColorizer;
 import com.grim3212.mc.pack.decor.util.BlockHelper;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockContainer;
+import net.minecraft.block.BlockRenderType;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.properties.IProperty;
-import net.minecraft.block.state.BlockStateContainer;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.particle.ParticleDigging;
-import net.minecraft.client.particle.ParticleDigging.Factory;
+import net.minecraft.client.particle.DiggingParticle;
+import net.minecraft.client.particle.DiggingParticle.Factory;
 import net.minecraft.client.particle.ParticleManager;
-import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.item.EntityItem;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.item.ItemEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.ItemStack;
-import net.minecraft.stats.StatList;
+import net.minecraft.item.ItemUseContext;
+import net.minecraft.nbt.NBTUtil;
+import net.minecraft.particles.BlockParticleData;
+import net.minecraft.particles.ParticleTypes;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockRenderLayer;
-import net.minecraft.util.EnumBlockRenderType;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumHand;
-import net.minecraft.util.EnumParticleTypes;
-import net.minecraft.util.NonNullList;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.Direction;
+import net.minecraft.util.Hand;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.util.text.TextComponentTranslation;
-import net.minecraft.world.IBlockAccess;
+import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.world.IBlockReader;
+import net.minecraft.world.IEnviromentBlockReader;
+import net.minecraft.world.ServerWorld;
 import net.minecraft.world.World;
-import net.minecraft.world.WorldServer;
-import net.minecraftforge.common.property.ExtendedBlockState;
-import net.minecraftforge.common.property.IExtendedBlockState;
-import net.minecraftforge.common.property.IUnlistedProperty;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.util.FakePlayer;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class BlockColorizer extends BlockContainer implements IManualBlock, IColorizer {
-
-	public static final UnlistedPropertyBlockState BLOCK_STATE = UnlistedPropertyBlockState.create("blockstate");
+public class BlockColorizer extends BlockManual implements IColorizer {
 
 	public BlockColorizer(String name) {
-		super(Material.ROCK);
-		this.setHardness(1.5F);
-		this.setResistance(12F);
-		this.setSoundType(SoundType.STONE);
-		setUnlocalizedName(name);
+		this(name, Block.Properties.create(Material.ROCK).sound(SoundType.STONE).hardnessAndResistance(1.5f, 12f));
+	}
+
+	public BlockColorizer(String name, Block.Properties props) {
+		super(name, props);
 		setDefaultState(getState());
-		setRegistryName(new ResourceLocation(GrimPack.modID, name));
-		this.setCreativeTab(GrimCreativeTabs.GRIM_DECOR);
 	}
 
-	protected IBlockState getState() {
-		return blockState.getBaseState();
+	protected BlockState getState() {
+		return stateContainer.getBaseState();
 	}
 
-	@Override
-	protected BlockStateContainer createBlockState() {
-		return new ExtendedBlockState(this, new IProperty[] {}, new IUnlistedProperty[] { BLOCK_STATE });
-	}
-
-	@Override
-	public IBlockState getExtendedState(IBlockState state, IBlockAccess world, BlockPos pos) {
-		TileEntity te = world.getTileEntity(pos);
-		if (te instanceof TileEntityColorizer && state instanceof IExtendedBlockState) {
-			TileEntityColorizer tef = (TileEntityColorizer) te;
-			return ((IExtendedBlockState) state).withProperty(BLOCK_STATE, tef.getBlockState());
-		}
-		return state;
-	}
-
-	@Override
-	public List<ItemStack> getDrops(IBlockAccess world, BlockPos pos, IBlockState state, int fortune) {
-		TileEntity te = world.getTileEntity(pos);
-
-		List<ItemStack> ret = new ArrayList<ItemStack>();
+	protected BlockState getStoredState(World worldIn, BlockPos pos) {
+		TileEntity te = worldIn.getTileEntity(pos);
 		if (te instanceof TileEntityColorizer) {
-			ItemStack item = new ItemStack(this);
-			NBTHelper.setString(item, "registryName", Block.REGISTRY.getNameForObject(Blocks.AIR).toString());
-			NBTHelper.setInteger(item, "meta", 0);
-			ret.add(item);
-		} else {
-			ret.add(new ItemStack(this));
+			return ((TileEntityColorizer) te).getStoredBlockState();
 		}
-		return ret;
+		return Blocks.AIR.getDefaultState();
 	}
 
 	@Override
-	public void harvestBlock(World worldIn, EntityPlayer player, BlockPos pos, IBlockState state, TileEntity te, ItemStack stack) {
-		if (te instanceof TileEntityColorizer) {
-			player.addStat(StatList.getBlockStats(this));
-			player.addExhaustion(0.025F);
-
-			harvesters.set(player);
-			ItemStack itemstack = new ItemStack(this);
-			NBTHelper.setString(itemstack, "registryName", Block.REGISTRY.getNameForObject(Blocks.AIR).toString());
-			NBTHelper.setInteger(itemstack, "meta", 0);
-			spawnAsEntity(worldIn, pos, itemstack);
-			harvesters.set(null);
-		} else {
-			super.harvestBlock(worldIn, player, pos, state, (TileEntity) null, stack);
-		}
-	}
-
-	@Override
-	public void onBlockHarvested(World worldIn, BlockPos pos, IBlockState state, EntityPlayer player) {
-		if (DecorConfig.consumeBlock) {
-			if (!player.capabilities.isCreativeMode) {
-				if (!(((IExtendedBlockState) this.getExtendedState(state, worldIn, pos)).getValue(BLOCK_STATE) == Blocks.AIR.getDefaultState())) {
-					IBlockState blockState = ((IExtendedBlockState) this.getExtendedState(state, worldIn, pos)).getValue(BLOCK_STATE);
-					spawnAsEntity(worldIn, pos, new ItemStack(blockState.getBlock(), 1, blockState.getBlock().getMetaFromState(blockState)));
+	public void onBlockHarvested(World worldIn, BlockPos pos, BlockState state, PlayerEntity player) {
+		if (DecorConfig.consumeBlock.get()) {
+			if (!player.abilities.isCreativeMode) {
+				if (this.getStoredState(worldIn, pos) != Blocks.AIR.getDefaultState()) {
+					BlockState blockState = this.getStoredState(worldIn, pos);
+					spawnAsEntity(worldIn, pos, new ItemStack(blockState.getBlock(), 1));
 				}
 			}
 		}
 	}
 
 	@Override
-	public ItemStack getPickBlock(IBlockState state, RayTraceResult target, World world, BlockPos pos, EntityPlayer player) {
+	public ItemStack getPickBlock(BlockState state, RayTraceResult target, IBlockReader world, BlockPos pos, PlayerEntity player) {
 		ItemStack itemstack = new ItemStack(this);
-		NBTHelper.setString(itemstack, "registryName", Block.REGISTRY.getNameForObject(Blocks.AIR).toString());
-		NBTHelper.setInteger(itemstack, "meta", 0);
+		NBTHelper.setTagCompound(itemstack, "stored_state", NBTUtil.writeBlockState(Blocks.AIR.getDefaultState()));
 		return itemstack;
 	}
 
 	@Override
-	public void getSubBlocks(CreativeTabs itemIn, NonNullList<ItemStack> items) {
-		ItemStack itemstack = new ItemStack(this);
-		NBTHelper.setString(itemstack, "registryName", Block.REGISTRY.getNameForObject(Blocks.AIR).toString());
-		NBTHelper.setInteger(itemstack, "meta", 0);
-		items.add(itemstack);
-	}
-
-	@Override
-	public EnumBlockRenderType getRenderType(IBlockState state) {
-		return EnumBlockRenderType.MODEL;
-	}
-
-	@Override
-	public BlockRenderLayer getBlockLayer() {
+	public BlockRenderLayer getRenderLayer() {
 		return BlockRenderLayer.CUTOUT;
 	}
 
 	@Override
-	public boolean shouldSideBeRendered(IBlockState blockState, IBlockAccess blockAccess, BlockPos pos, EnumFacing side) {
+	public boolean doesSideBlockRendering(BlockState state, IEnviromentBlockReader world, BlockPos pos, Direction face) {
+		TileEntity te = world.getTileEntity(pos);
+		if (te instanceof TileEntityColorizer) {
+			return ((TileEntityColorizer) te).getStoredBlockState().doesSideBlockRendering(world, pos, face);
+		}
 		return true;
 	}
 
 	@Override
-	@SuppressWarnings("deprecation")
-	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
+	public boolean onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult hit) {
 		TileEntity tileentity = worldIn.getTileEntity(pos);
 
-		ItemStack heldItem = playerIn.getHeldItem(hand);
+		ItemStack heldItem = player.getHeldItem(hand);
 
 		if (!heldItem.isEmpty() && tileentity instanceof TileEntityColorizer) {
 
 			if (heldItem.getItem() == DecorItems.brush) {
-				if (this.tryUseBrush(worldIn, playerIn, hand, pos)) {
+				if (this.tryUseBrush(worldIn, player, hand, pos)) {
 					return true;
 				}
 			}
@@ -185,17 +120,20 @@ public class BlockColorizer extends BlockContainer implements IManualBlock, ICol
 			Block block = Block.getBlockFromItem(heldItem.getItem());
 
 			if (block != null && !(block instanceof BlockColorizer)) {
-				if (BlockHelper.getUsableBlocks().contains(block)) {
+				if (BlockHelper.getUsableBlocks().contains(block.getDefaultState())) {
 					// Can only set blockstate if it contains nothing or if
 					// in creative mode
-					if (te.getBlockState() == Blocks.AIR.getDefaultState() || playerIn.capabilities.isCreativeMode) {
+					if (te.getStoredBlockState() == Blocks.AIR.getDefaultState() || player.abilities.isCreativeMode) {
+						BlockState placeState = block.getStateForPlacement(new BlockItemUseContext(new ItemUseContext(player, hand, hit)));
 
-						setColorizer(worldIn, pos, state, block.getStateFromMeta(heldItem.getMetadata()), playerIn, hand, true);
+						setColorizer(worldIn, pos, state, placeState, player, hand, true);
 
-						worldIn.playSound(playerIn, pos, block.getSoundType().getPlaceSound(), SoundCategory.BLOCKS, (block.getSoundType().getVolume() + 1.0F) / 2.0F, block.getSoundType().getPitch() * 0.8F);
+						SoundType placeSound = placeState.getSoundType(worldIn, pos, player);
+
+						worldIn.playSound(player, pos, placeSound.getPlaceSound(), SoundCategory.BLOCKS, (placeSound.getVolume() + 1.0F) / 2.0F, placeSound.getPitch() * 0.8F);
 
 						return true;
-					} else if (te.getBlockState() != Blocks.AIR.getDefaultState()) {
+					} else if (te.getStoredBlockState() != Blocks.AIR.getDefaultState()) {
 						return false;
 					}
 				} else {
@@ -210,70 +148,68 @@ public class BlockColorizer extends BlockContainer implements IManualBlock, ICol
 	}
 
 	@Override
-	public boolean isOpaqueCube(IBlockState state) {
-		return false;
+	public boolean hasTileEntity(BlockState state) {
+		return true;
 	}
 
 	@Override
-	public boolean isFullCube(IBlockState state) {
-		return false;
-	}
-
-	@Override
-	public TileEntity createNewTileEntity(World worldIn, int meta) {
+	public TileEntity createTileEntity(BlockState state, IBlockReader world) {
 		return new TileEntityColorizer();
 	}
 
 	@Override
-	@SideOnly(Side.CLIENT)
-	public boolean addHitEffects(IBlockState state, World worldObj, RayTraceResult target, ParticleManager manager) {
-		TileEntity te = worldObj.getTileEntity(target.getBlockPos());
+	@OnlyIn(Dist.CLIENT)
+	public boolean addHitEffects(BlockState state, World worldObj, RayTraceResult target, ParticleManager manager) {
+		if (target instanceof BlockRayTraceResult) {
+			BlockRayTraceResult hit = (BlockRayTraceResult) target;
 
-		if (te instanceof TileEntityColorizer) {
-			TileEntityColorizer tileentity = (TileEntityColorizer) te;
-			BlockPos pos = target.getBlockPos();
+			TileEntity te = worldObj.getTileEntity(hit.getPos());
 
-			if (tileentity.getBlockState().getRenderType() != EnumBlockRenderType.INVISIBLE) {
-				int i = pos.getX();
-				int j = pos.getY();
-				int k = pos.getZ();
-				float f = 0.1F;
-				AxisAlignedBB axisalignedbb = tileentity.getBlockState().getBoundingBox(worldObj, pos);
-				double d0 = (double) i + RANDOM.nextDouble() * (axisalignedbb.maxX - axisalignedbb.minX - (double) (f * 2.0F)) + (double) f + axisalignedbb.minX;
-				double d1 = (double) j + RANDOM.nextDouble() * (axisalignedbb.maxY - axisalignedbb.minY - (double) (f * 2.0F)) + (double) f + axisalignedbb.minY;
-				double d2 = (double) k + RANDOM.nextDouble() * (axisalignedbb.maxZ - axisalignedbb.minZ - (double) (f * 2.0F)) + (double) f + axisalignedbb.minZ;
+			if (te instanceof TileEntityColorizer) {
+				TileEntityColorizer tileentity = (TileEntityColorizer) te;
+				BlockPos pos = hit.getPos();
 
-				EnumFacing side = target.sideHit;
+				if (tileentity.getStoredBlockState().getRenderType() != BlockRenderType.INVISIBLE) {
+					int i = pos.getX();
+					int j = pos.getY();
+					int k = pos.getZ();
+					float f = 0.1F;
+					AxisAlignedBB axisalignedbb = tileentity.getStoredBlockState().getShape(worldObj, pos).getBoundingBox();
+					double d0 = (double) i + RANDOM.nextDouble() * (axisalignedbb.maxX - axisalignedbb.minX - (double) (f * 2.0F)) + (double) f + axisalignedbb.minX;
+					double d1 = (double) j + RANDOM.nextDouble() * (axisalignedbb.maxY - axisalignedbb.minY - (double) (f * 2.0F)) + (double) f + axisalignedbb.minY;
+					double d2 = (double) k + RANDOM.nextDouble() * (axisalignedbb.maxZ - axisalignedbb.minZ - (double) (f * 2.0F)) + (double) f + axisalignedbb.minZ;
 
-				if (side == EnumFacing.DOWN) {
-					d1 = (double) j + axisalignedbb.minY - (double) f;
+					Direction side = hit.getFace();
+
+					if (side == Direction.DOWN) {
+						d1 = (double) j + axisalignedbb.minY - (double) f;
+					}
+
+					if (side == Direction.UP) {
+						d1 = (double) j + axisalignedbb.maxY + (double) f;
+					}
+
+					if (side == Direction.NORTH) {
+						d2 = (double) k + axisalignedbb.minZ - (double) f;
+					}
+
+					if (side == Direction.SOUTH) {
+						d2 = (double) k + axisalignedbb.maxZ + (double) f;
+					}
+
+					if (side == Direction.WEST) {
+						d0 = (double) i + axisalignedbb.minX - (double) f;
+					}
+
+					if (side == Direction.EAST) {
+						d0 = (double) i + axisalignedbb.maxX + (double) f;
+					}
+					Factory particleFactory = new DiggingParticle.Factory();
+					DiggingParticle digging = (DiggingParticle) particleFactory.makeParticle(new BlockParticleData(ParticleTypes.BLOCK, tileentity.getStoredBlockState()), worldObj, d0, d1, d2, 0.0D, 0.0D, 0.0D);
+					digging.setBlockPos(hit.getPos()).multiplyVelocity(0.2f).multipleParticleScaleBy(0.6f);
+					manager.addEffect(digging);
+					return true;
 				}
-
-				if (side == EnumFacing.UP) {
-					d1 = (double) j + axisalignedbb.maxY + (double) f;
-				}
-
-				if (side == EnumFacing.NORTH) {
-					d2 = (double) k + axisalignedbb.minZ - (double) f;
-				}
-
-				if (side == EnumFacing.SOUTH) {
-					d2 = (double) k + axisalignedbb.maxZ + (double) f;
-				}
-
-				if (side == EnumFacing.WEST) {
-					d0 = (double) i + axisalignedbb.minX - (double) f;
-				}
-
-				if (side == EnumFacing.EAST) {
-					d0 = (double) i + axisalignedbb.maxX + (double) f;
-				}
-
-				Factory particleFactory = new ParticleDigging.Factory();
-				ParticleDigging digging = (ParticleDigging) particleFactory.createParticle(0, worldObj, d0, d1, d2, 0.0D, 0.0D, 0.0D, Block.getStateId(tileentity.getBlockState()));
-				digging.setBlockPos(target.getBlockPos()).multiplyVelocity(0.2f).multipleParticleScaleBy(0.6f);
-				manager.addEffect(digging);
-				return true;
 			}
 		}
 
@@ -281,16 +217,16 @@ public class BlockColorizer extends BlockContainer implements IManualBlock, ICol
 	}
 
 	@Override
-	@SideOnly(Side.CLIENT)
-	public boolean addDestroyEffects(World world, BlockPos pos, ParticleManager manager) {
+	@OnlyIn(Dist.CLIENT)
+	public boolean addDestroyEffects(BlockState state, World world, BlockPos pos, ParticleManager manager) {
 		TileEntity te = world.getTileEntity(pos);
 		if (te != null && te instanceof TileEntityColorizer) {
 			TileEntityColorizer tileentity = (TileEntityColorizer) te;
-			if (tileentity.getBlockState() == Blocks.AIR.getDefaultState()) {
-				return super.addDestroyEffects(world, pos, manager);
+			if (tileentity.getStoredBlockState() == Blocks.AIR.getDefaultState()) {
+				return super.addDestroyEffects(state, world, pos, manager);
 			} else {
 				manager.clearEffects(world);
-				manager.addBlockDestroyEffects(pos, tileentity.getBlockState());
+				manager.addBlockDestroyEffects(pos, tileentity.getStoredBlockState());
 			}
 		}
 
@@ -298,39 +234,38 @@ public class BlockColorizer extends BlockContainer implements IManualBlock, ICol
 	}
 
 	@Override
-	public boolean addLandingEffects(IBlockState state, WorldServer worldObj, BlockPos blockPosition, IBlockState iblockstate, EntityLivingBase entity, int numberOfParticles) {
+	public boolean addLandingEffects(BlockState state, ServerWorld worldObj, BlockPos blockPosition, BlockState iblockstate, LivingEntity entity, int numberOfParticles) {
 		TileEntity tileentity = (TileEntity) worldObj.getTileEntity(blockPosition);
 		if (tileentity instanceof TileEntityColorizer) {
 			TileEntityColorizer te = (TileEntityColorizer) tileentity;
-			if (te.getBlockState() == Blocks.AIR.getDefaultState()) {
+			if (te.getStoredBlockState() == Blocks.AIR.getDefaultState()) {
 				return super.addLandingEffects(state, worldObj, blockPosition, iblockstate, entity, numberOfParticles);
 			} else {
-				worldObj.spawnParticle(EnumParticleTypes.BLOCK_DUST, entity.posX, entity.posY, entity.posZ, numberOfParticles, 0.0D, 0.0D, 0.0D, 0.15000000596046448D, new int[] { Block.getStateId(te.getBlockState()) });
+				worldObj.spawnParticle(new BlockParticleData(ParticleTypes.BLOCK, te.getStoredBlockState()), entity.posX, entity.posY, entity.posZ, numberOfParticles, 0.0D, 0.0D, 0.0D, 0.15000000596046448D);
 			}
 		}
 		return true;
 	}
 
 	@Override
-	public Page getPage(IBlockState state) {
+	public Page getPage(BlockState state) {
 		return ManualDecor.colorizer_page;
 	}
 
 	@Override
-	@SuppressWarnings("deprecation")
-	public boolean clearColorizer(World worldIn, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand) {
+	public boolean clearColorizer(World worldIn, BlockPos pos, BlockState state, PlayerEntity player, Hand hand) {
 		TileEntity te = worldIn.getTileEntity(pos);
 		if (te instanceof TileEntityColorizer) {
 			TileEntityColorizer tileColorizer = (TileEntityColorizer) te;
-			IBlockState storedState = tileColorizer.getBlockState();
+			BlockState storedState = tileColorizer.getStoredBlockState();
 
 			// Can only clear a filled colorizer
 			if (storedState != Blocks.AIR.getDefaultState()) {
 
-				if (DecorConfig.consumeBlock && !player.capabilities.isCreativeMode) {
-					EntityItem blockDropped = new EntityItem(worldIn, (double) pos.getX(), (double) pos.getY(), (double) pos.getZ(), new ItemStack(tileColorizer.getBlockState().getBlock(), 1, tileColorizer.getBlockState().getBlock().getMetaFromState(tileColorizer.getBlockState())));
+				if (DecorConfig.consumeBlock.get() && !player.abilities.isCreativeMode) {
+					ItemEntity blockDropped = new ItemEntity(worldIn, (double) pos.getX(), (double) pos.getY(), (double) pos.getZ(), new ItemStack(tileColorizer.getStoredBlockState().getBlock(), 1));
 					if (!worldIn.isRemote) {
-						worldIn.spawnEntity(blockDropped);
+						worldIn.addEntity(blockDropped);
 						if (!(player instanceof FakePlayer)) {
 							blockDropped.onCollideWithPlayer(player);
 						}
@@ -339,7 +274,9 @@ public class BlockColorizer extends BlockContainer implements IManualBlock, ICol
 
 				// Clear Self
 				if (setColorizer(worldIn, pos, state, null, player, hand, false)) {
-					worldIn.playSound(player, pos, state.getBlock().getSoundType().getPlaceSound(), SoundCategory.BLOCKS, (state.getBlock().getSoundType().getVolume() + 1.0F) / 2.0F, state.getBlock().getSoundType().getPitch() * 0.8F);
+					SoundType placeSound = state.getSoundType(worldIn, pos, player);
+
+					worldIn.playSound(player, pos, placeSound.getPlaceSound(), SoundCategory.BLOCKS, (placeSound.getVolume() + 1.0F) / 2.0F, placeSound.getPitch() * 0.8F);
 					return true;
 				}
 			}
@@ -348,17 +285,16 @@ public class BlockColorizer extends BlockContainer implements IManualBlock, ICol
 	}
 
 	@Override
-	public boolean setColorizer(World worldIn, BlockPos pos, IBlockState state, IBlockState toSetState, EntityPlayer player, EnumHand hand, boolean consumeItem) {
+	public boolean setColorizer(World worldIn, BlockPos pos, BlockState state, BlockState toSetState, PlayerEntity player, Hand hand, boolean consumeItem) {
 		TileEntity tileentity = worldIn.getTileEntity(pos);
 		if (tileentity instanceof TileEntityColorizer) {
 			TileEntityColorizer te = (TileEntityColorizer) tileentity;
-			te.setBlockState(toSetState != null ? toSetState : Blocks.AIR.getDefaultState());
-			worldIn.setBlockState(pos, state.getBlock().getExtendedState(worldIn.getBlockState(pos), worldIn, pos));
+			te.setStoredBlockState(toSetState != null ? toSetState : Blocks.AIR.getDefaultState());
 
 			// Remove an item if config allows and we are not resetting
 			// colorizer
-			if (DecorConfig.consumeBlock && toSetState != null && consumeItem) {
-				if (!player.capabilities.isCreativeMode)
+			if (DecorConfig.consumeBlock.get() && toSetState != null && consumeItem) {
+				if (!player.abilities.isCreativeMode)
 					player.getHeldItem(hand).shrink(1);
 			}
 
@@ -367,25 +303,25 @@ public class BlockColorizer extends BlockContainer implements IManualBlock, ICol
 		return false;
 	}
 
-	public boolean tryUseBrush(World world, EntityPlayer player, EnumHand hand, BlockPos pos) {
+	public boolean tryUseBrush(World world, PlayerEntity player, Hand hand, BlockPos pos) {
 		if (player.isSneaking()) {
 			if (world.isRemote) {
 				TileEntity tileentity = world.getTileEntity(pos);
 
 				if (tileentity instanceof TileEntityColorizer) {
-					IBlockState storedState = ((TileEntityColorizer) tileentity).getBlockState();
+					BlockState storedState = ((TileEntityColorizer) tileentity).getStoredBlockState();
 
-					ItemStack storedstack = new ItemStack(storedState.getBlock(), 1, storedState.getBlock().getMetaFromState(storedState));
+					ItemStack storedstack = new ItemStack(storedState.getBlock(), 1);
 					if (storedstack.getItem() != null)
-						player.sendMessage(new TextComponentTranslation("grimpack.decor.brush.stored", storedstack.getDisplayName()));
+						player.sendMessage(new TranslationTextComponent("grimpack.decor.brush.stored", storedstack.getDisplayName()));
 					else
-						player.sendMessage(new TextComponentTranslation("grimpack.decor.brush.empty"));
+						player.sendMessage(new TranslationTextComponent("grimpack.decor.brush.empty"));
 				}
 				return true;
 			}
 		}
 
-		IBlockState targetBlockState = world.getBlockState(pos);
+		BlockState targetBlockState = world.getBlockState(pos);
 
 		if (targetBlockState.getBlock() instanceof IColorizer) {
 			if (((IColorizer) targetBlockState.getBlock()).clearColorizer(world, pos, targetBlockState, player, hand)) {

@@ -17,10 +17,10 @@ import com.grim3212.mc.pack.core.manual.gui.GuiManualPage;
 import com.grim3212.mc.pack.core.util.GrimLog;
 import com.grim3212.mc.pack.core.util.generator.Generator;
 import com.grim3212.mc.pack.core.util.generator.GeneratorUtil;
+import com.mojang.blaze3d.platform.GlStateManager;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.resources.I18n;
@@ -30,6 +30,8 @@ import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.util.text.ITextComponent;
 
 public abstract class Page {
+	
+	public static final float SCALE_FACTOR = 0.8f;
 
 	private String pageName;
 	private String title;
@@ -108,9 +110,9 @@ public abstract class Page {
 
 	public void drawScreen(GuiManualPage gui, int mouseX, int mouseY) {
 		this.drawTitle(gui);
-		
+
 		GlStateManager.pushMatrix();
-		GlStateManager.scalef(0.8f, 0.8f, 1.0f);
+		GlStateManager.scalef(SCALE_FACTOR, SCALE_FACTOR, 1.0f);
 		this.drawFooter(gui);
 		GlStateManager.popMatrix();
 	}
@@ -123,8 +125,9 @@ public abstract class Page {
 
 	public void drawFooter(GuiManualPage gui) {
 		FontRenderer renderer = Minecraft.getInstance().fontRenderer;
-		if (gui.getChapter().getPages().size() != 1)
-			renderer.drawString("(" + (gui.getPage() + 1) + "/" + gui.getChapter().getPages().size() + ")", gui.getX() + 230, gui.getY() + 272, 0);
+		if (gui.getChapter().getPages().size() != 1) {
+			renderer.drawString("(" + (gui.getPage() + 1) + "/" + gui.getChapter().getPages().size() + ")", (int) ((gui.getX() + 160) / SCALE_FACTOR), (int) ((gui.getY() + 218) / SCALE_FACTOR), 0);
+		}
 	}
 
 	public void renderItem(GuiManualPage gui, ItemStack item, int x, int y) {

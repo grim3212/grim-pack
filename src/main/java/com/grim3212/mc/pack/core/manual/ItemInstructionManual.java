@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.annotation.Nullable;
 
+import com.grim3212.mc.pack.core.GrimCore;
 import com.grim3212.mc.pack.core.client.ClientUtil;
 import com.grim3212.mc.pack.core.client.ManualCore;
 import com.grim3212.mc.pack.core.init.CoreNames;
@@ -12,22 +13,23 @@ import com.grim3212.mc.pack.core.manual.gui.GuiManualIndex;
 import com.grim3212.mc.pack.core.manual.pages.Page;
 import com.grim3212.mc.pack.core.part.GrimItemGroups;
 
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.Minecraft;
+import net.minecraft.block.BlockState;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.entity.item.EntityItem;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.item.ItemEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUseContext;
 import net.minecraft.util.ActionResult;
-import net.minecraft.util.EnumActionResult;
-import net.minecraft.util.EnumHand;
+import net.minecraft.util.ActionResultType;
+import net.minecraft.util.Hand;
+import net.minecraft.util.math.BlockRayTraceResult;
+import net.minecraft.util.math.EntityRayTraceResult;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.RayTraceResult.Type;
 import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -39,42 +41,51 @@ public class ItemInstructionManual extends ItemManual {
 	}
 
 	@Override
-	public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand hand) {
+	public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity playerIn, Hand hand) {
 		if (worldIn.isRemote) {
 			RayTraceResult raytrace = ClientUtil.getMouseOver();
-			if (raytrace.type == Type.ENTITY) {
-				if (raytrace.entity != null) {
-					if (raytrace.entity instanceof IManualEntity) {
-						updatePage(((IManualEntity) raytrace.entity).getPage(raytrace.entity));
-					} else if (raytrace.entity instanceof EntityItem) {
-						EntityItem item = (EntityItem) raytrace.entity;
-						if (item.getItem().getItem() instanceof IManualItem) {
-							updatePage(((IManualItem) item.getItem().getItem()).getPage(item.getItem()));
+			if (raytrace != null) {
+				if (raytrace.getType() == Type.ENTITY) {
+					EntityRayTraceResult entityResult = (EntityRayTraceResult) raytrace;
+
+					if (entityResult.getEntity() != null) {
+						if (entityResult.getEntity() instanceof IManualEntity) {
+							updatePage(((IManualEntity) entityResult.getEntity()).getPage(entityResult.getEntity()));
+						} else if (entityResult.getEntity() instanceof ItemEntity) {
+							ItemEntity item = (ItemEntity) entityResult.getEntity();
+							if (item.getItem().getItem() instanceof IManualItem) {
+								updatePage(((IManualItem) item.getItem().getItem()).getPage(item.getItem()));
+							}
 						}
+					}
+				} else if (raytrace.getType() == Type.BLOCK) {
+					BlockRayTraceResult blockResult = (BlockRayTraceResult) raytrace;
+					if (worldIn.getBlockState(blockResult.getPos()).getBlock() instanceof IManualBlock) {
+						updatePage(((IManualBlock) worldIn.getBlockState(blockResult.getPos()).getBlock()).getPage(worldIn.getBlockState(blockResult.getPos())));
 					}
 				}
 			}
 
-			Minecraft.getInstance().displayGuiScreen(GuiManualIndex.activeManualPage);
+			GrimCore.proxy.openManual();
 		}
 
-		return ActionResult.newResult(EnumActionResult.SUCCESS, playerIn.getHeldItem(hand));
+		return ActionResult.newResult(ActionResultType.SUCCESS, playerIn.getHeldItem(hand));
 	}
 
 	@Override
-	public EnumActionResult onItemUseFirst(ItemStack stack, ItemUseContext context) {
-		IBlockState state = context.getWorld().getBlockState(context.getPos());
+	public ActionResultType onItemUseFirst(ItemStack stack, ItemUseContext context) {
+		BlockState state = context.getWorld().getBlockState(context.getPos());
 		if (state.getBlock() instanceof IManualBlock) {
 			if (context.getWorld().isRemote) {
 				updatePage(((IManualBlock) state.getBlock()).getPage(context.getWorld(), context.getPos(), state));
 
-				Minecraft.getInstance().displayGuiScreen(GuiManualIndex.activeManualPage);
+				GrimCore.proxy.openManual();
 			}
 
-			return EnumActionResult.SUCCESS;
+			return ActionResultType.SUCCESS;
 		}
 
-		return EnumActionResult.PASS;
+		return ActionResultType.PASS;
 	}
 
 	@OnlyIn(Dist.CLIENT)
@@ -84,8 +95,9 @@ public class ItemInstructionManual extends ItemManual {
 	}
 
 	@Override
+	@OnlyIn(Dist.CLIENT)
 	public void addInformation(ItemStack stack, World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
-		tooltip.add(new TextComponentString(I18n.format("tooltip.manual.number") + ManualRegistry.getLoadedParts().size()));
+		tooltip.add(new StringTextComponent(I18n.format("tooltip.manual.number") + ManualRegistry.getLoadedParts().size()));
 	}
 
 	@Override

@@ -1,145 +1,188 @@
 package com.grim3212.mc.pack.decor.tile;
 
-import javax.annotation.Nonnull;
+import java.util.Map;
+import java.util.Map.Entry;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
+import com.google.common.collect.Maps;
 import com.grim3212.mc.pack.core.network.PacketDispatcher;
 import com.grim3212.mc.pack.decor.block.colorizer.BlockColorizerGrill;
 import com.grim3212.mc.pack.decor.config.DecorConfig;
-import com.grim3212.mc.pack.decor.crafting.GrillRecipeFactory;
+import com.grim3212.mc.pack.decor.crafting.GrillRecipeSerializer;
 import com.grim3212.mc.pack.decor.inventory.ContainerGrill;
 import com.grim3212.mc.pack.decor.network.MessageParticles;
 
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.resources.I18n;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
-import net.minecraft.init.SoundEvents;
-import net.minecraft.inventory.Container;
-import net.minecraft.inventory.IInventory;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.inventory.IRecipeHelperPopulator;
+import net.minecraft.inventory.IRecipeHolder;
+import net.minecraft.inventory.ISidedInventory;
+import net.minecraft.inventory.ItemStackHelper;
+import net.minecraft.inventory.container.Container;
+import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
-import net.minecraft.network.NetworkManager;
-import net.minecraft.network.play.server.SPacketUpdateTileEntity;
-import net.minecraft.util.ITickable;
+import net.minecraft.item.Items;
+import net.minecraft.item.crafting.IRecipe;
+import net.minecraft.item.crafting.RecipeItemHelper;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.tileentity.ITickableTileEntity;
+import net.minecraft.tileentity.LockableTileEntity;
+import net.minecraft.util.Direction;
+import net.minecraft.util.IIntArray;
+import net.minecraft.util.INameable;
 import net.minecraft.util.NonNullList;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.SoundEvents;
 import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TextComponentString;
-import net.minecraft.util.text.TextComponentTranslation;
-import net.minecraft.world.IInteractionObject;
-import net.minecraft.world.ILockableContainer;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.LockCode;
 import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.util.LazyOptional;
+import net.minecraftforge.fml.network.PacketDistributor;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
-import net.minecraftforge.items.wrapper.InvWrapper;
+import net.minecraftforge.items.wrapper.SidedInvWrapper;
 
-public class TileEntityGrill extends TileEntityColorizer implements ITickable, IInventory, IInteractionObject, ILockableContainer {
+public class TileEntityGrill extends TileEntityColorizer implements ISidedInventory, IRecipeHolder, IRecipeHelperPopulator, ITickableTileEntity, INamedContainerProvider, INameable {
+
+	private static final int[] SLOTS_TOP = new int[] { 0, 1, 2, 3 };
+	private static final int[] SLOTS = new int[] { 4 };
 
 	private LockCode code = LockCode.EMPTY_CODE;
 	public NonNullList<ItemStack> inventory = NonNullList.withSize(5, ItemStack.EMPTY);
 	public int[] cookTimes = new int[4];
 	public int grillCoal = 0;
-	private String customName;
+	private ITextComponent customName;
 	private int nextUpdate = 0;
+	private final Map<ResourceLocation, Integer> recipeUseCounts = Maps.newHashMap();
 
-	public TileEntityGrill() {
-	}
-
-	@Override
-	public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newSate) {
-		return oldState.getBlock() != newSate.getBlock();
-	}
-
-	@Override
-	public NBTTagCompound getUpdateTag() {
-		return writeToNBT(new NBTTagCompound());
-	}
-
-	@Override
-	public void handleUpdateTag(NBTTagCompound tag) {
-		readFromNBT(tag);
-	}
-
-	@Override
-	public NBTTagCompound writeToNBT(NBTTagCompound compound) {
-		super.writeToNBT(compound);
-		if (this.code != null) {
-			this.code.toNBT(compound);
-		}
-
-		compound.setInteger("GrillCoal", this.grillCoal);
-		compound.setInteger("CookTimes0", this.cookTimes[0]);
-		compound.setInteger("CookTimes1", this.cookTimes[1]);
-		compound.setInteger("CookTimes2", this.cookTimes[2]);
-		compound.setInteger("CookTimes3", this.cookTimes[3]);
-
-		NBTTagList tagList = new NBTTagList();
-
-		for (int i = 0; i < this.inventory.size(); i++) {
-			if (!this.inventory.get(i).isEmpty()) {
-				NBTTagCompound itemCompound = new NBTTagCompound();
-				itemCompound.setByte("Slot", (byte) i);
-				this.inventory.get(i).writeToNBT(itemCompound);
-				tagList.appendTag(itemCompound);
+	public final IIntArray progress = new IIntArray() {
+		public int get(int index) {
+			switch (index) {
+			case 0:
+				return TileEntityGrill.this.grillCoal;
+			case 1:
+				return TileEntityGrill.this.cookTimes[0];
+			case 2:
+				return TileEntityGrill.this.cookTimes[1];
+			case 3:
+				return TileEntityGrill.this.cookTimes[2];
+			case 4:
+				return TileEntityGrill.this.cookTimes[3];
+			case 5:
+				return TileEntityGrill.this.getTier();
+			default:
+				return 0;
 			}
 		}
 
-		compound.setTag("Items", tagList);
+		public void set(int index, int value) {
+			switch (index) {
+			case 0:
+				TileEntityGrill.this.grillCoal = value;
+				break;
+			case 1:
+				TileEntityGrill.this.cookTimes[0] = value;
+				break;
+			case 2:
+				TileEntityGrill.this.cookTimes[1] = value;
+				break;
+			case 3:
+				TileEntityGrill.this.cookTimes[2] = value;
+				break;
+			case 4:
+				TileEntityGrill.this.cookTimes[3] = value;
+				break;
+			case 5:
+				break;
+			}
+
+		}
+
+		public int size() {
+			return 5;
+		}
+	};
+
+	public TileEntityGrill() {
+		super(DecorTileEntities.GRILL);
+	}
+
+	@Override
+	public CompoundNBT write(CompoundNBT compound) {
+		super.write(compound);
+		if (this.code != null) {
+			this.code.write(compound);
+		}
+
+		compound.putInt("GrillCoal", this.grillCoal);
+		compound.putInt("CookTimes0", this.cookTimes[0]);
+		compound.putInt("CookTimes1", this.cookTimes[1]);
+		compound.putInt("CookTimes2", this.cookTimes[2]);
+		compound.putInt("CookTimes3", this.cookTimes[3]);
+		ItemStackHelper.saveAllItems(compound, this.inventory);
+		compound.putShort("RecipesUsedSize", (short) this.recipeUseCounts.size());
+
+		int i = 0;
+		for (Entry<ResourceLocation, Integer> entry : this.recipeUseCounts.entrySet()) {
+			compound.putString("RecipeLocation" + i, entry.getKey().toString());
+			compound.putInt("RecipeAmount" + i, entry.getValue());
+			++i;
+		}
 
 		if (this.hasCustomName()) {
-			compound.setString("CustomName", this.customName);
+			compound.putString("CustomName", ITextComponent.Serializer.toJson(this.customName));
 		}
 
 		return compound;
 	}
 
 	@Override
-	public void readFromNBT(NBTTagCompound compound) {
-		super.readFromNBT(compound);
-		this.code = LockCode.fromNBT(compound);
+	public void read(CompoundNBT compound) {
+		super.read(compound);
+		this.code = LockCode.read(compound);
+		ItemStackHelper.loadAllItems(compound, this.inventory);
 
-		this.grillCoal = compound.getInteger("GrillCoal");
-		this.cookTimes[0] = compound.getInteger("CookTimes0");
-		this.cookTimes[1] = compound.getInteger("CookTimes1");
-		this.cookTimes[2] = compound.getInteger("CookTimes2");
-		this.cookTimes[3] = compound.getInteger("CookTimes3");
+		this.grillCoal = compound.getInt("GrillCoal");
+		this.cookTimes[0] = compound.getInt("CookTimes0");
+		this.cookTimes[1] = compound.getInt("CookTimes1");
+		this.cookTimes[2] = compound.getInt("CookTimes2");
+		this.cookTimes[3] = compound.getInt("CookTimes3");
 
-		NBTTagList tagList = compound.getTagList("Items", 10);
-		this.inventory = NonNullList.withSize(getSizeInventory(), ItemStack.EMPTY);
+		int i = compound.getShort("RecipesUsedSize");
 
-		for (int i = 0; i < tagList.tagCount(); i++) {
-			NBTTagCompound itemCompound = (NBTTagCompound) tagList.getCompoundTagAt(i);
-			byte slot = itemCompound.getByte("Slot");
-
-			if ((slot >= 0) && (slot < this.inventory.size())) {
-				this.inventory.set(slot, new ItemStack(itemCompound));
-			}
+		for (int j = 0; j < i; ++j) {
+			ResourceLocation resourcelocation = new ResourceLocation(compound.getString("RecipeLocation" + j));
+			int k = compound.getInt("RecipeAmount" + j);
+			this.recipeUseCounts.put(resourcelocation, k);
 		}
 
-		if (compound.hasKey("CustomName", 8)) {
-			this.customName = compound.getString("CustomName");
+		if (compound.contains("CustomName", 8)) {
+			this.customName = ITextComponent.Serializer.fromJson(compound.getString("CustomName"));
 		}
 	}
 
 	@Override
-	public void update() {
+	public void tick() {
 		if (this.nextUpdate <= 0) {
 			this.nextUpdate = 50;
 		} else {
 			this.nextUpdate -= 1;
 		}
 
-		if (DecorConfig.infiniteGrillFuel)
+		if (DecorConfig.infiniteGrillFuel.get())
 			this.grillCoal = 4000;
 
-		if ((this.grillCoal <= 1) && (getWorld().getBlockState(getPos()).getValue(BlockColorizerGrill.ACTIVE))) {
+		if ((this.grillCoal <= 1) && (getWorld().getBlockState(getPos()).get(BlockColorizerGrill.ACTIVE))) {
 			if (!getStackInSlot(4).isEmpty() && (getStackInSlot(4).getItem() == Items.COAL)) {
 				this.grillCoal = 4001;
 
@@ -150,10 +193,10 @@ public class TileEntityGrill extends TileEntityColorizer implements ITickable, I
 			}
 		}
 
-		if ((this.grillCoal <= 0) && (getWorld().getBlockState(getPos()).getValue(BlockColorizerGrill.ACTIVE)) && this.nextUpdate == 50) {
+		if ((this.grillCoal <= 0) && (getWorld().getBlockState(getPos()).get(BlockColorizerGrill.ACTIVE)) && this.nextUpdate == 50) {
 			if (!world.isRemote) {
-				PacketDispatcher.sendToDimension(new MessageParticles(pos), world.provider.getDimension());
-				world.setBlockState(getPos(), getWorld().getBlockState(getPos()).withProperty(BlockColorizerGrill.ACTIVE, false));
+				PacketDispatcher.send(PacketDistributor.DIMENSION.with(() -> world.getDimension().getType()), new MessageParticles(pos));
+				world.setBlockState(getPos(), getWorld().getBlockState(getPos()).with(BlockColorizerGrill.ACTIVE, false));
 			}
 			world.playSound(pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D, SoundEvents.BLOCK_FIRE_EXTINGUISH, SoundCategory.BLOCKS, 1.0F, world.rand.nextFloat() * 0.4F + 0.8F, false);
 		}
@@ -161,14 +204,14 @@ public class TileEntityGrill extends TileEntityColorizer implements ITickable, I
 		if (isGrillBurning()) {
 			this.grillCoal -= 1;
 
-			int tiertime = (int) getTierTime();
+			int tiertime = (int) getTierTime(getTier());
 
 			for (int i = 0; i < 4; i++) {
-				if (!getStackInSlot(i).isEmpty() && (GrillRecipeFactory.grillRecipesContain(getStackInSlot(i)))) {
+				if (!getStackInSlot(i).isEmpty() && (GrillRecipeSerializer.grillRecipesContain(getStackInSlot(i)))) {
 					this.cookTimes[i] += 1;
 
 					if (this.cookTimes[i] > tiertime) {
-						this.inventory.set(i, GrillRecipeFactory.getOutput(this.inventory.get(i)));
+						this.inventory.set(i, GrillRecipeSerializer.getOutput(this.inventory.get(i)));
 						this.cookTimes[i] = 0;
 					} else {
 						this.cookTimes[i] += 1;
@@ -187,22 +230,27 @@ public class TileEntityGrill extends TileEntityColorizer implements ITickable, I
 	}
 
 	@Override
-	public String getName() {
+	public ITextComponent getName() {
 		if (this.hasCustomName()) {
-			return this.customName;
+			return this.getCustomName();
 		} else {
-			ItemStack toPlaceStack = new ItemStack(getBlockState().getBlock(), 1, getBlockState().getBlock().getMetaFromState(getBlockState()));
+			ItemStack toPlaceStack = new ItemStack(getStoredBlockState().getBlock(), 1);
 
-			return toPlaceStack.getDisplayName() + " " + I18n.format("container.grill");
+			return new TranslationTextComponent(toPlaceStack.getDisplayName() + " " + I18n.format("container.grill"));
 		}
 	}
 
 	@Override
-	public boolean hasCustomName() {
-		return this.customName != null && this.customName.length() > 0;
+	public ITextComponent getCustomName() {
+		return this.customName;
 	}
 
-	public void setCustomName(String customName) {
+	@Override
+	public boolean hasCustomName() {
+		return this.customName != null && this.customName.getString().length() > 0;
+	}
+
+	public void setCustomName(ITextComponent customName) {
 		this.customName = customName;
 	}
 
@@ -225,7 +273,7 @@ public class TileEntityGrill extends TileEntityColorizer implements ITickable, I
 				return stack;
 			}
 
-			ItemStack stack = this.inventory.get(index).splitStack(count);
+			ItemStack stack = this.inventory.get(index).split(count);
 
 			if (this.inventory.get(index).getCount() == 0) {
 				this.inventory.set(index, ItemStack.EMPTY);
@@ -248,28 +296,28 @@ public class TileEntityGrill extends TileEntityColorizer implements ITickable, I
 	}
 
 	@Override
-	public boolean isUsableByPlayer(EntityPlayer player) {
+	public boolean isUsableByPlayer(PlayerEntity player) {
 		return this.world.getTileEntity(this.pos) != this ? false : player.getDistanceSq((double) this.pos.getX() + 0.5D, (double) this.pos.getY() + 0.5D, (double) this.pos.getZ() + 0.5D) <= 64.0D;
 	}
 
 	@Override
-	public void openInventory(EntityPlayer player) {
+	public void openInventory(PlayerEntity player) {
 	}
 
 	@Override
-	public void closeInventory(EntityPlayer player) {
+	public void closeInventory(PlayerEntity player) {
 	}
 
 	public boolean isGrillBurning() {
-		if (getWorld().getBlockState(getPos()).getValue(BlockColorizerGrill.ACTIVE) && (this.grillCoal > 0))
+		if (getWorld().getBlockState(getPos()).get(BlockColorizerGrill.ACTIVE) && (this.grillCoal > 0))
 			return true;
 		return false;
 	}
 
 	public int getTier() {
-		IBlockState grillType = this.getBlockState();
+		BlockState grillType = this.getStoredBlockState();
 
-		if (DecorConfig.consumeBlock) {
+		if (DecorConfig.consumeBlock.get()) {
 			if (grillType.getBlock() == Blocks.DIAMOND_BLOCK || grillType.getBlock() == Blocks.EMERALD_BLOCK) {
 				return 6;
 			} else if (grillType.getMaterial() == Material.IRON) {
@@ -288,57 +336,13 @@ public class TileEntityGrill extends TileEntityColorizer implements ITickable, I
 		}
 	}
 
-	public float getTierTime() {
-		return 1000 + (6 - getTier()) * 500;
+	public static float getTierTime(int tier) {
+		return 1000 + (6 - tier) * 500;
 	}
 
 	@Override
 	public boolean isItemValidForSlot(int index, ItemStack stack) {
 		return false;
-	}
-
-	@Override
-	public int getField(int id) {
-		switch (id) {
-		case 0:
-			return this.grillCoal;
-		case 1:
-			return this.cookTimes[0];
-		case 2:
-			return this.cookTimes[1];
-		case 3:
-			return this.cookTimes[2];
-		case 4:
-			return this.cookTimes[3];
-		default:
-			return 0;
-		}
-	}
-
-	@Override
-	public void setField(int id, int value) {
-		switch (id) {
-		case 0:
-			this.grillCoal = value;
-			break;
-		case 1:
-			this.cookTimes[0] = value;
-			break;
-		case 2:
-			this.cookTimes[1] = value;
-			break;
-		case 3:
-			this.cookTimes[2] = value;
-			break;
-		case 4:
-			this.cookTimes[3] = value;
-			break;
-		}
-	}
-
-	@Override
-	public int getFieldCount() {
-		return 5;
 	}
 
 	@Override
@@ -349,25 +353,12 @@ public class TileEntityGrill extends TileEntityColorizer implements ITickable, I
 	}
 
 	@Override
-	public SPacketUpdateTileEntity getUpdatePacket() {
-		NBTTagCompound nbtTagCompound = new NBTTagCompound();
-		writeToNBT(nbtTagCompound);
-		return new SPacketUpdateTileEntity(this.pos, 1, nbtTagCompound);
+	public Container createMenu(int id, PlayerInventory playerInventory, PlayerEntity playerIn) {
+		return this.canOpen(playerIn) ? this.createMenu(id, playerInventory) : null;
 	}
 
-	@Override
-	public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity pkt) {
-		readFromNBT(pkt.getNbtCompound());
-	}
-
-	@Override
-	public Container createContainer(InventoryPlayer playerInventory, EntityPlayer playerIn) {
-		return new ContainerGrill(playerInventory, this);
-	}
-
-	@Override
-	public String getGuiID() {
-		return "fireplaces:grill";
+	protected Container createMenu(int id, PlayerInventory playerInventory) {
+		return new ContainerGrill(id, playerInventory, this, this.progress, this.getPos());
 	}
 
 	@Override
@@ -375,47 +366,32 @@ public class TileEntityGrill extends TileEntityColorizer implements ITickable, I
 		return null;
 	}
 
-	@Override
-	public boolean isLocked() {
-		return this.code != null && !this.code.isEmpty();
-	}
-
-	@Override
-	public LockCode getLockCode() {
-		return this.code;
-	}
-
-	@Override
-	public void setLockCode(LockCode code) {
-		this.code = code;
+	public boolean canOpen(PlayerEntity player) {
+		return LockableTileEntity.canUnlock(player, this.code, this.getDisplayName());
 	}
 
 	/**
-	 * Get the formatted ChatComponent that will be used for the sender's
-	 * username in chat
+	 * Get the formatted ChatComponent that will be used for the sender's username
+	 * in chat
 	 */
 	@Override
 	public ITextComponent getDisplayName() {
-		return (ITextComponent) (this.hasCustomName() ? new TextComponentString(this.getName()) : new TextComponentTranslation(this.getName(), new Object[0]));
+		return this.hasCustomName() ? this.getCustomName() : this.getName();
 	}
 
-	private IItemHandler itemHandler;
-
-	protected IItemHandler createUnSidedHandler() {
-		return new InvWrapper(this);
-	}
+	LazyOptional<? extends IItemHandler>[] handlers = SidedInvWrapper.create(this, Direction.UP, Direction.DOWN, Direction.NORTH);
 
 	@Override
-	@SuppressWarnings("unchecked")
-	public <T> T getCapability(Capability<T> capability, net.minecraft.util.EnumFacing facing) {
-		if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY)
-			return (T) (itemHandler == null ? (itemHandler = createUnSidedHandler()) : itemHandler);
+	public <T> LazyOptional<T> getCapability(Capability<T> capability, @Nullable Direction facing) {
+		if (!this.removed && facing != null && capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
+			if (facing == Direction.UP)
+				return handlers[0].cast();
+			else if (facing == Direction.DOWN)
+				return handlers[1].cast();
+			else
+				return handlers[2].cast();
+		}
 		return super.getCapability(capability, facing);
-	}
-
-	@Override
-	public boolean hasCapability(Capability<?> capability, net.minecraft.util.EnumFacing facing) {
-		return capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY || super.hasCapability(capability, facing);
 	}
 
 	@Override
@@ -426,6 +402,56 @@ public class TileEntityGrill extends TileEntityColorizer implements ITickable, I
 			}
 		}
 
+		return true;
+	}
+
+	@Override
+	public void fillStackedContents(RecipeItemHelper helper) {
+		for (ItemStack itemstack : this.inventory) {
+			helper.accountStack(itemstack);
+		}
+	}
+
+	@Override
+	public void setRecipeUsed(IRecipe<?> recipe) {
+		if (this.recipeUseCounts.containsKey(recipe.getId())) {
+			this.recipeUseCounts.put(recipe.getId(), this.recipeUseCounts.get(recipe.getId()) + 1);
+		} else {
+			this.recipeUseCounts.put(recipe.getId(), 1);
+		}
+	}
+
+	@Override
+	public IRecipe<?> getRecipeUsed() {
+		return null;
+	}
+
+	@Override
+	public boolean canUseRecipe(World worldIn, ServerPlayerEntity player, @Nullable IRecipe<?> recipe) {
+		if (recipe != null) {
+			this.setRecipeUsed(recipe);
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	@Override
+	public int[] getSlotsForFace(Direction side) {
+		if (side == Direction.UP) {
+			return SLOTS_TOP;
+		} else {
+			return SLOTS;
+		}
+	}
+
+	@Override
+	public boolean canInsertItem(int index, ItemStack itemStackIn, Direction direction) {
+		return this.isItemValidForSlot(index, itemStackIn);
+	}
+
+	@Override
+	public boolean canExtractItem(int index, ItemStack stack, Direction direction) {
 		return true;
 	}
 }

@@ -9,27 +9,30 @@ import com.grim3212.mc.pack.industry.item.IndustryItems;
 import com.grim3212.mc.pack.industry.tile.TileEntityStorage;
 import com.grim3212.mc.pack.industry.util.StorageUtil;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.ITileEntityProvider;
-import net.minecraft.block.SoundType;
+import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyDirection;
 import net.minecraft.block.state.BlockStateContainer;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.particle.ParticleDigging;
-import net.minecraft.client.particle.ParticleDigging.Factory;
+import net.minecraft.block.BlockState;
+import net.minecraft.client.particle.DiggingParticle;
+import net.minecraft.client.particle.DiggingParticle;
+import net.minecraft.client.particle.DiggingParticle.Factory;
 import net.minecraft.client.particle.ParticleManager;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
-import net.minecraft.inventory.Container;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.block.Blocks;
+import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.InventoryHelper;
+import net.minecraft.inventory.container.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumBlockRenderType;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumHand;
+import net.minecraft.block.BlockRenderType;
+import net.minecraft.util.Direction;
+import net.minecraft.util.Direction;
+import net.minecraft.util.Hand;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.Mirror;
 import net.minecraft.util.Rotation;
@@ -37,15 +40,16 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.ServerWorld;
 import net.minecraft.world.World;
-import net.minecraft.world.WorldServer;
+import net.minecraft.world.ServerWorld;
 import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 public abstract class BlockStorage extends BlockManual implements ITileEntityProvider {
 
-	public static final PropertyDirection FACING = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
+	public static final PropertyDirection FACING = PropertyDirection.create("facing", Direction.Plane.HORIZONTAL);
 	// public static final PropertyBool LOCKED = PropertyBool.create("locked");
 
 	public BlockStorage(String name, Material material, SoundType type) {
@@ -56,15 +60,15 @@ public abstract class BlockStorage extends BlockManual implements ITileEntityPro
 	}
 
 	@Override
-	protected IBlockState getState() {
-		return this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH);
+	protected BlockState getState() {
+		return this.blockState.getBaseState().withProperty(FACING, Direction.NORTH);
 	}
 
 	protected boolean isInvalidBlock(World world, BlockPos pos) {
 		return !world.isAirBlock(pos) && world.getBlockState(pos).isOpaqueCube();
 	}
 
-	public boolean isDoorBlocked(World world, BlockPos pos, IBlockState state) {
+	public boolean isDoorBlocked(World world, BlockPos pos, BlockState state) {
 		return isInvalidBlock(world, pos.offset(state.getValue(FACING)));
 	}
 
@@ -73,13 +77,13 @@ public abstract class BlockStorage extends BlockManual implements ITileEntityPro
 	}
 
 	@Override
-	@OnlyIn(Dist.CLIENT)
-	public boolean hasCustomBreakingProgress(IBlockState state) {
+	@SideOnly(Side.CLIENT)
+	public boolean hasCustomBreakingProgress(BlockState state) {
 		return true;
 	}
 
 	@Override
-	public float getPlayerRelativeBlockHardness(IBlockState state, EntityPlayer player, World worldIn, BlockPos pos) {
+	public float getPlayerRelativeBlockHardness(BlockState state, PlayerEntity player, World worldIn, BlockPos pos) {
 		TileEntity te = worldIn.getTileEntity(pos);
 
 		if (te instanceof TileEntityStorage) {
@@ -93,8 +97,8 @@ public abstract class BlockStorage extends BlockManual implements ITileEntityPro
 	}
 
 	@Override
-	public EnumBlockRenderType getRenderType(IBlockState state) {
-		return EnumBlockRenderType.ENTITYBLOCK_ANIMATED;
+	public BlockRenderType getRenderType(BlockState state) {
+		return BlockRenderType.ENTITYBLOCK_ANIMATED;
 	}
 
 	protected int getGuiId() {
@@ -102,7 +106,7 @@ public abstract class BlockStorage extends BlockManual implements ITileEntityPro
 	}
 
 	@Override
-	public void breakBlock(World worldIn, BlockPos pos, IBlockState state) {
+	public void breakBlock(World worldIn, BlockPos pos, BlockState state) {
 		TileEntity tileentity = worldIn.getTileEntity(pos);
 
 		if (tileentity instanceof TileEntityStorage) {
@@ -123,7 +127,7 @@ public abstract class BlockStorage extends BlockManual implements ITileEntityPro
 	}
 
 	@Override
-	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
+	public boolean onBlockActivated(World worldIn, BlockPos pos, BlockState state, PlayerEntity playerIn, Hand hand, Direction facing, float hitX, float hitY, float hitZ) {
 		TileEntity te = worldIn.getTileEntity(pos);
 
 		if (te != null && te instanceof TileEntityStorage) {
@@ -142,7 +146,7 @@ public abstract class BlockStorage extends BlockManual implements ITileEntityPro
 	}
 
 	@Override
-	public void onBlockPlacedBy(World worldIn, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack) {
+	public void onBlockPlacedBy(World worldIn, BlockPos pos, BlockState state, LivingEntity placer, ItemStack stack) {
 		if (stack.hasDisplayName()) {
 			TileEntity tileentity = worldIn.getTileEntity(pos);
 
@@ -153,52 +157,52 @@ public abstract class BlockStorage extends BlockManual implements ITileEntityPro
 	}
 
 	@Override
-	public boolean isOpaqueCube(IBlockState state) {
+	public boolean isOpaqueCube(BlockState state) {
 		return false;
 	}
 
 	@Override
-	public boolean isFullCube(IBlockState state) {
+	public boolean isFullCube(BlockState state) {
 		return false;
 	}
 
 	@Override
-	public boolean canPlaceTorchOnTop(IBlockState state, IBlockAccess world, BlockPos pos) {
+	public boolean canPlaceTorchOnTop(BlockState state, IBlockAccess world, BlockPos pos) {
 		return true;
 	}
 
 	@Override
-	public boolean hasComparatorInputOverride(IBlockState state) {
+	public boolean hasComparatorInputOverride(BlockState state) {
 		return true;
 	}
 
 	@Override
-	public int getComparatorInputOverride(IBlockState blockState, World worldIn, BlockPos pos) {
+	public int getComparatorInputOverride(BlockState blockState, World worldIn, BlockPos pos) {
 		return Container.calcRedstone(worldIn.getTileEntity(pos));
 	}
 
 	@Override
-	public IBlockState withRotation(IBlockState state, Rotation rot) {
+	public BlockState withRotation(BlockState state, Rotation rot) {
 		return state.withProperty(FACING, rot.rotate(state.getValue(FACING)));
 	}
 
 	@Override
-	public IBlockState withMirror(IBlockState state, Mirror mirrorIn) {
+	public BlockState withMirror(BlockState state, Mirror mirrorIn) {
 		return state.withRotation(mirrorIn.toRotation(state.getValue(FACING)));
 	}
 
 	@Override
-	public IBlockState getStateForPlacement(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer) {
+	public BlockState getStateForPlacement(World worldIn, BlockPos pos, Direction facing, float hitX, float hitY, float hitZ, int meta, LivingEntity placer) {
 		return this.getDefaultState().withProperty(FACING, placer.getHorizontalFacing().getOpposite());
 	}
 
 	@Override
-	public IBlockState getStateFromMeta(int meta) {
-		return this.getDefaultState().withProperty(FACING, EnumFacing.getHorizontal(meta));
+	public BlockState getStateFromMeta(int meta) {
+		return this.getDefaultState().withProperty(FACING, Direction.getHorizontal(meta));
 	}
 
 	@Override
-	public int getMetaFromState(IBlockState state) {
+	public int getMetaFromState(BlockState state) {
 		return state.getValue(FACING).getHorizontalIndex();
 	}
 
@@ -225,7 +229,7 @@ public abstract class BlockStorage extends BlockManual implements ITileEntityPro
 	}
 
 	@Override
-	@OnlyIn(Dist.CLIENT)
+	@SideOnly(Side.CLIENT)
 	public boolean addDestroyEffects(World world, BlockPos pos, ParticleManager manager) {
 		TileEntity te = world.getTileEntity(pos);
 		if (te != null && te instanceof TileEntityStorage) {
@@ -242,15 +246,15 @@ public abstract class BlockStorage extends BlockManual implements ITileEntityPro
 	}
 
 	@Override
-	@OnlyIn(Dist.CLIENT)
-	public boolean addHitEffects(IBlockState state, World worldObj, RayTraceResult target, ParticleManager manager) {
+	@SideOnly(Side.CLIENT)
+	public boolean addHitEffects(BlockState state, World worldObj, RayTraceResult target, ParticleManager manager) {
 		TileEntity te = worldObj.getTileEntity(target.getBlockPos());
 
 		if (te instanceof TileEntityStorage) {
 			TileEntityStorage tileentity = (TileEntityStorage) te;
 			BlockPos pos = target.getBlockPos();
 
-			if (tileentity.getBreakTextureState().getRenderType() != EnumBlockRenderType.INVISIBLE) {
+			if (tileentity.getBreakTextureState().getRenderType() != BlockRenderType.INVISIBLE) {
 				int i = pos.getX();
 				int j = pos.getY();
 				int k = pos.getZ();
@@ -260,34 +264,34 @@ public abstract class BlockStorage extends BlockManual implements ITileEntityPro
 				double d1 = (double) j + RANDOM.nextDouble() * (axisalignedbb.maxY - axisalignedbb.minY - (double) (f * 2.0F)) + (double) f + axisalignedbb.minY;
 				double d2 = (double) k + RANDOM.nextDouble() * (axisalignedbb.maxZ - axisalignedbb.minZ - (double) (f * 2.0F)) + (double) f + axisalignedbb.minZ;
 
-				EnumFacing side = target.sideHit;
+				Direction side = target.sideHit;
 
-				if (side == EnumFacing.DOWN) {
+				if (side == Direction.DOWN) {
 					d1 = (double) j + axisalignedbb.minY - (double) f;
 				}
 
-				if (side == EnumFacing.UP) {
+				if (side == Direction.UP) {
 					d1 = (double) j + axisalignedbb.maxY + (double) f;
 				}
 
-				if (side == EnumFacing.NORTH) {
+				if (side == Direction.NORTH) {
 					d2 = (double) k + axisalignedbb.minZ - (double) f;
 				}
 
-				if (side == EnumFacing.SOUTH) {
+				if (side == Direction.SOUTH) {
 					d2 = (double) k + axisalignedbb.maxZ + (double) f;
 				}
 
-				if (side == EnumFacing.WEST) {
+				if (side == Direction.WEST) {
 					d0 = (double) i + axisalignedbb.minX - (double) f;
 				}
 
-				if (side == EnumFacing.EAST) {
+				if (side == Direction.EAST) {
 					d0 = (double) i + axisalignedbb.maxX + (double) f;
 				}
 
-				Factory particleFactory = new ParticleDigging.Factory();
-				ParticleDigging digging = (ParticleDigging) particleFactory.createParticle(0, worldObj, d0, d1, d2, 0.0D, 0.0D, 0.0D, Block.getStateId(tileentity.getBreakTextureState()));
+				Factory particleFactory = new DiggingParticle.Factory();
+				DiggingParticle digging = (DiggingParticle) particleFactory.createParticle(0, worldObj, d0, d1, d2, 0.0D, 0.0D, 0.0D, Block.getStateId(tileentity.getBreakTextureState()));
 				digging.setBlockPos(target.getBlockPos()).multiplyVelocity(0.2f).multipleParticleScaleBy(0.6f);
 				manager.addEffect(digging);
 				return true;
@@ -298,7 +302,7 @@ public abstract class BlockStorage extends BlockManual implements ITileEntityPro
 	}
 
 	@Override
-	public boolean addLandingEffects(IBlockState state, WorldServer worldObj, BlockPos blockPosition, IBlockState iblockstate, EntityLivingBase entity, int numberOfParticles) {
+	public boolean addLandingEffects(BlockState state, ServerWorld worldObj, BlockPos blockPosition, BlockState iblockstate, LivingEntity entity, int numberOfParticles) {
 		TileEntity tileentity = (TileEntity) worldObj.getTileEntity(blockPosition);
 		if (tileentity instanceof TileEntityStorage) {
 			TileEntityStorage te = (TileEntityStorage) tileentity;

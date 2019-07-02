@@ -14,7 +14,7 @@
       "item": "minecraft:sugar"
     },
     {
-      "constant": "grimpack:paper"
+      "tag": "forge:paper"
     }
   ],
   "type": "minecraft:crafting_shapeless"

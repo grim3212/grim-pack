@@ -4,106 +4,61 @@ import javax.annotation.Nullable;
 
 import com.grim3212.mc.pack.core.manual.pages.Page;
 import com.grim3212.mc.pack.decor.client.ManualDecor;
+import com.grim3212.mc.pack.decor.init.DecorNames;
 import com.grim3212.mc.pack.decor.item.DecorItems;
 import com.grim3212.mc.pack.decor.tile.TileEntityColorizer;
 import com.grim3212.mc.pack.decor.util.BlockHelper;
-import com.grim3212.mc.pack.util.config.UtilConfig;
-import com.grim3212.mc.pack.util.event.DoubleTrapDoor;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockLadder;
-import net.minecraft.block.BlockTrapDoor;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
+import net.minecraft.block.IWaterLoggable;
+import net.minecraft.block.LadderBlock;
+import net.minecraft.block.SoundType;
+import net.minecraft.block.TrapDoorBlock;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.properties.IProperty;
-import net.minecraft.block.state.BlockStateContainer;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.fluid.Fluids;
+import net.minecraft.fluid.IFluidState;
+import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.ItemUseContext;
+import net.minecraft.pathfinding.PathType;
+import net.minecraft.state.StateContainer;
+import net.minecraft.state.properties.Half;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockRenderLayer;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumHand;
-import net.minecraft.util.Mirror;
-import net.minecraft.util.Rotation;
+import net.minecraft.util.Direction;
+import net.minecraft.util.Hand;
 import net.minecraft.util.SoundCategory;
-import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockAccess;
+import net.minecraft.util.math.BlockRayTraceResult;
+import net.minecraft.util.math.shapes.ISelectionContext;
+import net.minecraft.util.math.shapes.VoxelShape;
+import net.minecraft.world.IBlockReader;
+import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
-import net.minecraftforge.common.property.ExtendedBlockState;
-import net.minecraftforge.common.property.IUnlistedProperty;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class BlockColorizerTrapDoor extends BlockColorizer {
+public class BlockColorizerTrapDoor extends BlockColorizerFurnitureRotate implements IWaterLoggable {
 
-	protected static final AxisAlignedBB EAST_OPEN_AABB = new AxisAlignedBB(0.0D, 0.0D, 0.0D, 0.1875D, 1.0D, 1.0D);
-	protected static final AxisAlignedBB WEST_OPEN_AABB = new AxisAlignedBB(0.8125D, 0.0D, 0.0D, 1.0D, 1.0D, 1.0D);
-	protected static final AxisAlignedBB SOUTH_OPEN_AABB = new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 1.0D, 0.1875D);
-	protected static final AxisAlignedBB NORTH_OPEN_AABB = new AxisAlignedBB(0.0D, 0.0D, 0.8125D, 1.0D, 1.0D, 1.0D);
-	protected static final AxisAlignedBB BOTTOM_AABB = new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 0.1875D, 1.0D);
-	protected static final AxisAlignedBB TOP_AABB = new AxisAlignedBB(0.0D, 0.8125D, 0.0D, 1.0D, 1.0D, 1.0D);
+	protected static final VoxelShape EAST_OPEN_AABB = Block.makeCuboidShape(0.0D, 0.0D, 0.0D, 3.0D, 16.0D, 16.0D);
+	protected static final VoxelShape WEST_OPEN_AABB = Block.makeCuboidShape(13.0D, 0.0D, 0.0D, 16.0D, 16.0D, 16.0D);
+	protected static final VoxelShape SOUTH_OPEN_AABB = Block.makeCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 16.0D, 3.0D);
+	protected static final VoxelShape NORTH_OPEN_AABB = Block.makeCuboidShape(0.0D, 0.0D, 13.0D, 16.0D, 16.0D, 16.0D);
+	protected static final VoxelShape BOTTOM_AABB = Block.makeCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 3.0D, 16.0D);
+	protected static final VoxelShape TOP_AABB = Block.makeCuboidShape(0.0D, 13.0D, 0.0D, 16.0D, 16.0D, 16.0D);
 
 	public BlockColorizerTrapDoor() {
-		super("decor_trap_door");
+		super(DecorNames.TRAP_DOOR);
 	}
 
 	@Override
-	protected IBlockState getState() {
-		return this.blockState.getBaseState().withProperty(BlockTrapDoor.FACING, EnumFacing.NORTH).withProperty(BlockTrapDoor.OPEN, false).withProperty(BlockTrapDoor.HALF, BlockTrapDoor.DoorHalf.BOTTOM);
+	protected BlockState getState() {
+		return super.getState().with(HORIZONTAL_FACING, Direction.NORTH).with(TrapDoorBlock.OPEN, false).with(TrapDoorBlock.HALF, Half.BOTTOM).with(TrapDoorBlock.POWERED, false).with(TrapDoorBlock.WATERLOGGED, false);
 	}
 
-	@Override
-	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
-		AxisAlignedBB axisalignedbb;
-
-		if (state.getValue(BlockTrapDoor.OPEN)) {
-			switch (state.getValue(BlockTrapDoor.FACING)) {
-			case NORTH:
-			default:
-				axisalignedbb = NORTH_OPEN_AABB;
-				break;
-			case SOUTH:
-				axisalignedbb = SOUTH_OPEN_AABB;
-				break;
-			case WEST:
-				axisalignedbb = WEST_OPEN_AABB;
-				break;
-			case EAST:
-				axisalignedbb = EAST_OPEN_AABB;
-			}
-		} else if (state.getValue(BlockTrapDoor.HALF) == BlockTrapDoor.DoorHalf.TOP) {
-			axisalignedbb = TOP_AABB;
-		} else {
-			axisalignedbb = BOTTOM_AABB;
-		}
-
-		return axisalignedbb;
-	}
-
-	/**
-	 * Used to determine ambient occlusion and culling when rebuilding chunks
-	 * for render
-	 */
-	@Override
-	public boolean isOpaqueCube(IBlockState state) {
-		return false;
-	}
-
-	@Override
-	public boolean isFullCube(IBlockState state) {
-		return false;
-	}
-
-	@Override
-	public boolean isPassable(IBlockAccess worldIn, BlockPos pos) {
-		return !worldIn.getBlockState(pos).getValue(BlockTrapDoor.OPEN);
-	}
-
-	@SuppressWarnings("deprecation")
-	public boolean changeDoors(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing side) {
+	public boolean changeDoors(World worldIn, BlockPos pos, BlockState state, PlayerEntity playerIn, Hand hand, BlockRayTraceResult hit) {
 		TileEntity tileentity = worldIn.getTileEntity(pos);
 		ItemStack heldItem = playerIn.getHeldItem(hand);
 
@@ -112,15 +67,15 @@ public class BlockColorizerTrapDoor extends BlockColorizer {
 			Block block = Block.getBlockFromItem(heldItem.getItem());
 
 			if (block != null && !(block instanceof BlockColorizer)) {
-				if (BlockHelper.getUsableBlocks().contains(block)) {
+				if (BlockHelper.getUsableBlocks().contains(block.getDefaultState())) {
 					// Can only set blockstate if it contains nothing or if
 					// in creative mode
-					if (te.getBlockState() == Blocks.AIR.getDefaultState() || playerIn.capabilities.isCreativeMode) {
-
-						IBlockState toPlaceState = block.getStateFromMeta(heldItem.getMetadata());
+					if (te.getBlockState() == Blocks.AIR.getDefaultState() || playerIn.abilities.isCreativeMode) {
+						BlockState toPlaceState = block.getStateForPlacement(new BlockItemUseContext(new ItemUseContext(playerIn, hand, hit)));
 						this.setColorizer(worldIn, pos, state, toPlaceState, playerIn, hand, true);
 
-						worldIn.playSound(playerIn, pos, block.getSoundType().getPlaceSound(), SoundCategory.BLOCKS, (block.getSoundType().getVolume() + 1.0F) / 2.0F, block.getSoundType().getPitch() * 0.8F);
+						SoundType placeSound = toPlaceState.getSoundType(worldIn, pos, playerIn);
+						worldIn.playSound(playerIn, pos, placeSound.getPlaceSound(), SoundCategory.BLOCKS, (placeSound.getVolume() + 1.0F) / 2.0F, placeSound.getPitch() * 0.8F);
 						return true;
 					} else if (te.getBlockState() != Blocks.AIR.getDefaultState()) {
 						return false;
@@ -131,199 +86,154 @@ public class BlockColorizerTrapDoor extends BlockColorizer {
 		return false;
 	}
 
-	/**
-	 * Called when the block is right clicked by a player.
-	 */
 	@Override
-	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
-		ItemStack heldItem = playerIn.getHeldItem(hand);
+	public boolean onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
+		ItemStack heldItem = player.getHeldItem(handIn);
 
 		if (!heldItem.isEmpty()) {
 			if (heldItem.getItem() == DecorItems.brush) {
-				if (this.tryUseBrush(worldIn, playerIn, hand, pos)) {
+				if (this.tryUseBrush(worldIn, player, handIn, pos)) {
 					return true;
 				}
 			}
 
 			Block block = Block.getBlockFromItem(heldItem.getItem());
 			if (block != Blocks.AIR) {
-				if (changeDoors(worldIn, pos, state, playerIn, hand, facing)) {
+				if (changeDoors(worldIn, pos, state, player, handIn, hit)) {
 					return true;
 				}
 			}
 		}
 
-		state = state.cycleProperty(BlockTrapDoor.OPEN);
-
-		if (UtilConfig.subpartDoubleDoors) {
-			DoubleTrapDoor.setDoubleTrap(worldIn, pos, state, true);
+		state = state.cycle(TrapDoorBlock.OPEN);
+		worldIn.setBlockState(pos, state, 2);
+		if (state.get(TrapDoorBlock.WATERLOGGED)) {
+			worldIn.getPendingFluidTicks().scheduleTick(pos, Fluids.WATER, Fluids.WATER.getTickRate(worldIn));
 		}
 
-		// Set after check to make sure all neighbors are open
-		worldIn.setBlockState(pos, state, 2);
-
-		this.playSound(playerIn, worldIn, pos, state.getValue(BlockTrapDoor.OPEN));
+		this.playSound(player, worldIn, pos, state.get(TrapDoorBlock.OPEN));
 		return true;
 	}
 
-	protected void playSound(@Nullable EntityPlayer player, World worldIn, BlockPos pos, boolean open) {
-		if (open) {
-			int i = this.blockMaterial == Material.IRON ? 1037 : 1007;
-			worldIn.playEvent(player, i, pos, 0);
-		} else {
-			int j = this.blockMaterial == Material.IRON ? 1036 : 1013;
-			worldIn.playEvent(player, j, pos, 0);
-		}
+	@Override
+	public Page getPage(BlockState state) {
+		return ManualDecor.decorTrapDoor_page;
 	}
 
-	/**
-	 * Called when a neighboring block was changed and marks that this state
-	 * should perform any checks during a neighbor change. Cases may include
-	 * when redstone power is updated, cactus blocks popping off due to a
-	 * neighboring solid block, etc.
-	 */
 	@Override
-	public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos) {
-		if (!worldIn.isRemote) {
-			boolean flag = worldIn.isBlockPowered(pos);
-
-			if (flag || blockIn.getDefaultState().canProvidePower()) {
-				boolean flag1 = state.getValue(BlockTrapDoor.OPEN);
-
-				if (flag1 != flag) {
-					worldIn.setBlockState(pos, state.withProperty(BlockTrapDoor.OPEN, flag), 2);
-					this.playSound((EntityPlayer) null, worldIn, pos, flag);
-				}
+	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
+		if (!state.get(TrapDoorBlock.OPEN)) {
+			return state.get(TrapDoorBlock.HALF) == Half.TOP ? TOP_AABB : BOTTOM_AABB;
+		} else {
+			switch (state.get(HORIZONTAL_FACING)) {
+			case NORTH:
+			default:
+				return NORTH_OPEN_AABB;
+			case SOUTH:
+				return SOUTH_OPEN_AABB;
+			case WEST:
+				return WEST_OPEN_AABB;
+			case EAST:
+				return EAST_OPEN_AABB;
 			}
 		}
 	}
 
-	/**
-	 * Called by ItemBlocks just before a block is actually set in the world, to
-	 * allow for adjustments to the IBlockstate
-	 */
 	@Override
-	public IBlockState getStateForPlacement(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer) {
-		IBlockState iblockstate = this.getDefaultState();
+	public boolean allowsMovement(BlockState state, IBlockReader worldIn, BlockPos pos, PathType type) {
+		switch (type) {
+		case LAND:
+			return state.get(TrapDoorBlock.OPEN);
+		case WATER:
+			return state.get(TrapDoorBlock.WATERLOGGED);
+		case AIR:
+			return state.get(TrapDoorBlock.OPEN);
+		default:
+			return false;
+		}
+	}
 
-		if (facing.getAxis().isHorizontal()) {
-			iblockstate = iblockstate.withProperty(BlockTrapDoor.FACING, facing).withProperty(BlockTrapDoor.OPEN, false);
-			iblockstate = iblockstate.withProperty(BlockTrapDoor.HALF, hitY > 0.5F ? BlockTrapDoor.DoorHalf.TOP : BlockTrapDoor.DoorHalf.BOTTOM);
+	protected void playSound(@Nullable PlayerEntity player, World worldIn, BlockPos pos, boolean p_185731_4_) {
+		if (p_185731_4_) {
+			int i = this.material == Material.IRON ? 1037 : 1007;
+			worldIn.playEvent(player, i, pos, 0);
 		} else {
-			iblockstate = iblockstate.withProperty(BlockTrapDoor.FACING, placer.getHorizontalFacing().getOpposite()).withProperty(BlockTrapDoor.OPEN, false);
-			iblockstate = iblockstate.withProperty(BlockTrapDoor.HALF, facing == EnumFacing.UP ? BlockTrapDoor.DoorHalf.BOTTOM : BlockTrapDoor.DoorHalf.TOP);
+			int j = this.material == Material.IRON ? 1036 : 1013;
+			worldIn.playEvent(player, j, pos, 0);
 		}
 
-		if (worldIn.isBlockPowered(pos)) {
-			iblockstate = iblockstate.withProperty(BlockTrapDoor.OPEN, true);
-		}
-
-		return iblockstate;
-	}
-
-	/**
-	 * Check whether this Block can be placed on the given side
-	 */
-	@Override
-	public boolean canPlaceBlockOnSide(World worldIn, BlockPos pos, EnumFacing side) {
-		return true;
-	}
-
-	private EnumFacing getFacing(int meta) {
-		switch (meta & 3) {
-		case 0:
-			return EnumFacing.NORTH;
-		case 1:
-			return EnumFacing.SOUTH;
-		case 2:
-			return EnumFacing.WEST;
-		case 3:
-		default:
-			return EnumFacing.EAST;
-		}
-	}
-
-	private int getMetaForFacing(EnumFacing facing) {
-		switch (facing) {
-		case NORTH:
-			return 0;
-		case SOUTH:
-			return 1;
-		case WEST:
-			return 2;
-		case EAST:
-		default:
-			return 3;
-		}
-	}
-
-	/**
-	 * Convert the given metadata into a BlockState for this Block
-	 */
-	@Override
-	public IBlockState getStateFromMeta(int meta) {
-		return this.getDefaultState().withProperty(BlockTrapDoor.FACING, getFacing(meta)).withProperty(BlockTrapDoor.OPEN, (meta & 4) != 0).withProperty(BlockTrapDoor.HALF, (meta & 8) == 0 ? BlockTrapDoor.DoorHalf.BOTTOM : BlockTrapDoor.DoorHalf.TOP);
 	}
 
 	@Override
-	@SideOnly(Side.CLIENT)
-	public BlockRenderLayer getBlockLayer() {
+	public void neighborChanged(BlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos, boolean p_220069_6_) {
+		if (!worldIn.isRemote) {
+			boolean flag = worldIn.isBlockPowered(pos);
+			if (flag != state.get(TrapDoorBlock.POWERED)) {
+				if (state.get(TrapDoorBlock.OPEN) != flag) {
+					state = state.with(TrapDoorBlock.OPEN, flag);
+					this.playSound((PlayerEntity) null, worldIn, pos, flag);
+				}
+
+				worldIn.setBlockState(pos, state.with(TrapDoorBlock.POWERED, flag), 2);
+				if (state.get(TrapDoorBlock.WATERLOGGED)) {
+					worldIn.getPendingFluidTicks().scheduleTick(pos, Fluids.WATER, Fluids.WATER.getTickRate(worldIn));
+				}
+			}
+
+		}
+	}
+
+	@Override
+	public BlockState getStateForPlacement(BlockItemUseContext context) {
+		BlockState blockstate = this.getDefaultState();
+		IFluidState ifluidstate = context.getWorld().getFluidState(context.getPos());
+		Direction direction = context.getFace();
+		if (!context.replacingClickedOnBlock() && direction.getAxis().isHorizontal()) {
+			blockstate = blockstate.with(HORIZONTAL_FACING, direction).with(TrapDoorBlock.HALF, context.getHitVec().y - (double) context.getPos().getY() > 0.5D ? Half.TOP : Half.BOTTOM);
+		} else {
+			blockstate = blockstate.with(HORIZONTAL_FACING, context.getPlacementHorizontalFacing().getOpposite()).with(TrapDoorBlock.HALF, direction == Direction.UP ? Half.BOTTOM : Half.TOP);
+		}
+
+		if (context.getWorld().isBlockPowered(context.getPos())) {
+			blockstate = blockstate.with(TrapDoorBlock.OPEN, true).with(TrapDoorBlock.POWERED, true);
+		}
+
+		return blockstate.with(TrapDoorBlock.WATERLOGGED, ifluidstate.getFluid() == Fluids.WATER);
+	}
+
+	@Override
+	public BlockRenderLayer getRenderLayer() {
 		return BlockRenderLayer.CUTOUT;
 	}
 
-	/**
-	 * Convert the BlockState into the correct metadata value
-	 */
 	@Override
-	public int getMetaFromState(IBlockState state) {
-		int i = 0 | getMetaForFacing(state.getValue(BlockTrapDoor.FACING));
+	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
+		builder.add(HORIZONTAL_FACING, TrapDoorBlock.OPEN, TrapDoorBlock.HALF, TrapDoorBlock.POWERED, TrapDoorBlock.WATERLOGGED);
+	}
 
-		if (state.getValue(BlockTrapDoor.OPEN)) {
-			i |= 4;
+	@Override
+	@SuppressWarnings("deprecation")
+	public IFluidState getFluidState(BlockState state) {
+		return state.get(TrapDoorBlock.WATERLOGGED) ? Fluids.WATER.getStillFluidState(false) : super.getFluidState(state);
+	}
+
+	@Override
+	@SuppressWarnings("deprecation")
+	public BlockState updatePostPlacement(BlockState stateIn, Direction facing, BlockState facingState, IWorld worldIn, BlockPos currentPos, BlockPos facingPos) {
+		if (stateIn.get(TrapDoorBlock.WATERLOGGED)) {
+			worldIn.getPendingFluidTicks().scheduleTick(currentPos, Fluids.WATER, Fluids.WATER.getTickRate(worldIn));
 		}
 
-		if (state.getValue(BlockTrapDoor.HALF) == BlockTrapDoor.DoorHalf.TOP) {
-			i |= 8;
-		}
-
-		return i;
-	}
-
-	/**
-	 * Returns the blockstate with the given rotation from the passed
-	 * blockstate. If inapplicable, returns the passed blockstate.
-	 */
-	@Override
-	public IBlockState withRotation(IBlockState state, Rotation rot) {
-		return state.withProperty(BlockTrapDoor.FACING, rot.rotate(state.getValue(BlockTrapDoor.FACING)));
-	}
-
-	/**
-	 * Returns the blockstate with the given mirror of the passed blockstate. If
-	 * inapplicable, returns the passed blockstate.
-	 */
-	@Override
-	public IBlockState withMirror(IBlockState state, Mirror mirrorIn) {
-		return state.withRotation(mirrorIn.toRotation(state.getValue(BlockTrapDoor.FACING)));
+		return super.updatePostPlacement(stateIn, facing, facingState, worldIn, currentPos, facingPos);
 	}
 
 	@Override
-	protected BlockStateContainer createBlockState() {
-		return new ExtendedBlockState(this, new IProperty[] { BlockTrapDoor.FACING, BlockTrapDoor.OPEN, BlockTrapDoor.HALF }, new IUnlistedProperty[] { BLOCK_STATE });
-	}
-
-	@Override
-	public boolean isLadder(IBlockState state, IBlockAccess world, BlockPos pos, EntityLivingBase entity) {
-		if (state.getValue(BlockTrapDoor.OPEN)) {
-			IBlockState down = world.getBlockState(pos.down());
+	public boolean isLadder(BlockState state, net.minecraft.world.IWorldReader world, BlockPos pos, LivingEntity entity) {
+		if (state.get(TrapDoorBlock.OPEN)) {
+			BlockState down = world.getBlockState(pos.down());
 			if (down.getBlock() == Blocks.LADDER)
-				return down.getValue(BlockLadder.FACING) == state.getValue(BlockTrapDoor.FACING);
+				return down.get(LadderBlock.FACING) == state.get(HORIZONTAL_FACING);
 		}
 		return false;
-	}
-
-	@Override
-	public Page getPage(IBlockState state) {
-		return ManualDecor.decorTrapDoor_page;
 	}
 }

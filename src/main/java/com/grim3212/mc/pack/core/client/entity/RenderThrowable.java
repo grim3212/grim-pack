@@ -1,14 +1,15 @@
 package com.grim3212.mc.pack.core.client.entity;
 
+import com.mojang.blaze3d.platform.GlStateManager;
+
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.ItemRenderer;
-import net.minecraft.client.renderer.entity.Render;
-import net.minecraft.client.renderer.entity.RenderManager;
+import net.minecraft.client.renderer.entity.EntityRenderer;
+import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.model.ItemCameraTransforms.TransformType;
-import net.minecraft.client.renderer.texture.TextureMap;
+import net.minecraft.client.renderer.texture.AtlasTexture;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.projectile.EntityThrowable;
+import net.minecraft.entity.projectile.ThrowableEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
@@ -17,12 +18,12 @@ import net.minecraftforge.fml.client.registry.IRenderFactory;
 
 @OnlyIn(Dist.CLIENT)
 @SuppressWarnings("deprecation")
-public class RenderThrowable<T extends Entity> extends Render<T> {
+public class RenderThrowable<T extends Entity> extends EntityRenderer<T> {
 
 	protected final ItemStack item;
 	private final ItemRenderer itemRenderer;
 
-	public RenderThrowable(RenderManager renderManagerIn, ItemStack itemIn, ItemRenderer itemRendererIn) {
+	public RenderThrowable(EntityRendererManager renderManagerIn, ItemStack itemIn, ItemRenderer itemRendererIn) {
 		super(renderManagerIn);
 		this.item = itemIn;
 		this.itemRenderer = itemRendererIn;
@@ -33,20 +34,20 @@ public class RenderThrowable<T extends Entity> extends Render<T> {
 		GlStateManager.pushMatrix();
 		GlStateManager.translatef((float) x, (float) y, (float) z);
 		GlStateManager.enableRescaleNormal();
-		GlStateManager.rotatef(-this.renderManager.playerViewY, 0.0F, 1.0F, 0.0F);
-		GlStateManager.rotatef((float) (this.renderManager.options.thirdPersonView == 2 ? -1 : 1) * this.renderManager.playerViewX, 1.0F, 0.0F, 0.0F);
+		GlStateManager.rotatef(-this.getRenderManager().playerViewY, 0.0F, 1.0F, 0.0F);
+		GlStateManager.rotatef((float) (this.getRenderManager().options.thirdPersonView == 2 ? -1 : 1) * this.getRenderManager().playerViewX, 1.0F, 0.0F, 0.0F);
 		GlStateManager.rotatef(180.0F, 0.0F, 1.0F, 0.0F);
-		this.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
+		this.bindTexture(AtlasTexture.LOCATION_BLOCKS_TEXTURE);
 
 		if (this.renderOutlines) {
 			GlStateManager.enableColorMaterial();
-			GlStateManager.enableOutlineMode(this.getTeamColor(entity));
+			GlStateManager.setupSolidRenderingTextureCombine(this.getTeamColor(entity));
 		}
 
 		this.itemRenderer.renderItem(this.item, TransformType.GROUND);
 
 		if (this.renderOutlines) {
-			GlStateManager.disableOutlineMode();
+			GlStateManager.tearDownSolidRenderingTextureCombine();
 			GlStateManager.disableColorMaterial();
 		}
 
@@ -57,10 +58,10 @@ public class RenderThrowable<T extends Entity> extends Render<T> {
 
 	@Override
 	protected ResourceLocation getEntityTexture(T entity) {
-		return TextureMap.LOCATION_BLOCKS_TEXTURE;
+		return AtlasTexture.LOCATION_BLOCKS_TEXTURE;
 	}
 
-	public static class RenderThrowableFactory implements IRenderFactory<EntityThrowable> {
+	public static class RenderThrowableFactory implements IRenderFactory<ThrowableEntity> {
 
 		private final ItemStack item;
 
@@ -69,8 +70,8 @@ public class RenderThrowable<T extends Entity> extends Render<T> {
 		}
 
 		@Override
-		public Render<? super EntityThrowable> createRenderFor(RenderManager manager) {
-			return new RenderThrowable<EntityThrowable>(manager, item, Minecraft.getInstance().getItemRenderer());
+		public EntityRenderer<? super ThrowableEntity> createRenderFor(EntityRendererManager manager) {
+			return new RenderThrowable<ThrowableEntity>(manager, item, Minecraft.getInstance().getItemRenderer());
 		}
 	}
 }

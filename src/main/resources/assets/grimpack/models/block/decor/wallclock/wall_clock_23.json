@@ -1,0 +1,6 @@
+{
+	"parent": "grimpack:block/decor/wallclock/wall_clock_base",
+	"textures": {
+		"front": "grimpack:block/decor/wallclock/wall_clock_23"
+	}
+}

@@ -7,15 +7,14 @@ import com.grim3212.mc.pack.cuisine.client.ManualCuisine;
 import com.grim3212.mc.pack.cuisine.init.CuisineNames;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.state.BlockFaceShape;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.world.IBlockReader;
-import net.minecraft.world.IWorldReaderBase;
+import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
 
 @SuppressWarnings("deprecation")
@@ -28,38 +27,28 @@ public class BlockCheese extends BlockManual implements IManualBlock {
 	}
 
 	@Override
-	public VoxelShape getShape(IBlockState state, IBlockReader worldIn, BlockPos pos) {
+	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
 		return CHEESE_SHAPE;
 	}
 
 	@Override
-	public boolean isFullCube(IBlockState state) {
-		return false;
-	}
-
-	@Override
-	public BlockFaceShape getBlockFaceShape(IBlockReader worldIn, IBlockState state, BlockPos pos, EnumFacing face) {
-		return BlockFaceShape.UNDEFINED;
-	}
-
-	@Override
-	public boolean isValidPosition(IBlockState state, IWorldReaderBase worldIn, BlockPos pos) {
+	public boolean isValidPosition(BlockState state, IWorldReader worldIn, BlockPos pos) {
 		return super.isValidPosition(state, worldIn, pos) ? this.canBlockStay(worldIn, pos) : false;
 	}
 
 	@Override
-	public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos) {
+	public void neighborChanged(BlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos, boolean p_220069_6_) {
 		if (!this.canBlockStay(worldIn, pos)) {
 			worldIn.destroyBlock(pos, true);
 		}
 	}
 
-	private boolean canBlockStay(IWorldReaderBase worldIn, BlockPos pos) {
+	private boolean canBlockStay(IWorldReader worldIn, BlockPos pos) {
 		return worldIn.getBlockState(pos.down()).getMaterial().isSolid();
 	}
 
 	@Override
-	public Page getPage(IBlockState state) {
+	public Page getPage(BlockState state) {
 		return ManualCuisine.cheeseBlock_page;
 	}
 }

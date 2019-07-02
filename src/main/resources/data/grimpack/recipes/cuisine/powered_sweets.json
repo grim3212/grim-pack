@@ -14,7 +14,7 @@
       "item": "grimpack:cuisine/powered_sugar"
     },
     {
-      "constant": "grimpack:paper"
+      "tag": "forge:paper"
     }
   ],
   "type": "minecraft:crafting_shapeless"

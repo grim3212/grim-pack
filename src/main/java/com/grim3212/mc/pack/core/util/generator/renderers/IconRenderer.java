@@ -9,11 +9,10 @@ import org.lwjgl.opengl.GL11;
 
 import com.grim3212.mc.pack.core.util.GrimLog;
 import com.grim3212.mc.pack.core.util.generator.Generator;
+import com.mojang.blaze3d.platform.GlStateManager;
 
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GLAllocation;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.item.ItemStack;
@@ -61,7 +60,7 @@ public class IconRenderer {
 		}
 
 		GlStateManager.clearColor(COLOR_R, COLOR_G, COLOR_B, 1);
-		GlStateManager.clear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
+		GlStateManager.clearDepth(GL11.GL_DEPTH_BUFFER_BIT);
 		GlStateManager.enableRescaleNormal();
 		GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
 		drawItemStack(stack, 0, 0);
@@ -94,9 +93,9 @@ public class IconRenderer {
 
 	private static void drawItemStack(ItemStack stack, int x, int y) {
 		RenderHelper.enableGUIStandardItemLighting();
-		GlStateManager.lightfv(GL11.GL_LIGHT1, GL11.GL_AMBIENT, setColorBuffer(.1f, .1f, .1f, 1.0F));
-		GlStateManager.lightModelfv(GL11.GL_LIGHT_MODEL_AMBIENT, setColorBuffer(.5f, .5f, .5f, 1.0F));
-		OpenGlHelper.glMultiTexCoord2f(OpenGlHelper.GL_TEXTURE1, (float) 240 / 1.0F, (float) 240 / 1.0F);
+		GlStateManager.light(GL11.GL_LIGHT1, GL11.GL_AMBIENT, setColorBuffer(.1f, .1f, .1f, 1.0F));
+		GlStateManager.lightModel(GL11.GL_LIGHT_MODEL_AMBIENT, setColorBuffer(.5f, .5f, .5f, 1.0F));
+		GlStateManager.texCoord2f((float) 240 / 1.0F, (float) 240 / 1.0F);
 		GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
 		// Don't blend so that we forget alpha
 		RendererHelper.renderItemAndEffectIntoGUI(stack, x, y, false);

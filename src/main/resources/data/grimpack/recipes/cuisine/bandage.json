@@ -15,7 +15,7 @@
   "type": "minecraft:crafting_shaped",
   "key": {
     "P": {
-      "constant": "grimpack:paper"
+      "tag": "forge:paper"
     },
     "#": {
       "item": "minecraft:white_wool"

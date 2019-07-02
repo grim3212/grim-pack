@@ -9,16 +9,16 @@ import com.grim3212.mc.pack.cuisine.client.ManualCuisine;
 import com.grim3212.mc.pack.cuisine.init.CuisineNames;
 
 import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
+import net.minecraft.util.ActionResultType;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.EnumActionResult;
-import net.minecraft.util.EnumHand;
+import net.minecraft.util.Hand;
 import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 
 public class ItemSodaBottle extends ItemManual {
@@ -32,11 +32,11 @@ public class ItemSodaBottle extends ItemManual {
 
 	@Override
 	public void addInformation(ItemStack stack, World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
-		tooltip.add(new TextComponentTranslation("grimpack.cuisine.soda.tooltip." + type.getName()));
+		tooltip.add(new TranslationTextComponent("grimpack.cuisine.soda.tooltip." + type.getName()));
 	}
 
 	@Override
-	public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand hand) {
+	public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity playerIn, Hand hand) {
 		ItemStack itemStackIn = playerIn.getHeldItem(hand);
 
 		if (type.getHealAmount() >= 0) {
@@ -45,10 +45,11 @@ public class ItemSodaBottle extends ItemManual {
 				itemStackIn.shrink(1);
 			}
 		} else {
-			playerIn.attackEntityFrom(DamageSource.GENERIC, type.getHealAmount());
+			//Reverse negative to actually damage player
+			playerIn.attackEntityFrom(DamageSource.MAGIC, -type.getHealAmount());
 			itemStackIn.shrink(1);
 		}
-		return ActionResult.newResult(EnumActionResult.SUCCESS, itemStackIn);
+		return ActionResult.newResult(ActionResultType.SUCCESS, itemStackIn);
 	}
 
 	@Override

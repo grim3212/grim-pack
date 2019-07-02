@@ -5,16 +5,22 @@ import java.util.List;
 import com.grim3212.mc.pack.industry.block.BlockSensor;
 import com.grim3212.mc.pack.industry.block.IndustryBlocks;
 
+import net.minecraft.block.BlockState;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.monster.EntityMob;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.monster.MonsterEntity;
+import net.minecraft.entity.monster.MonsterEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.block.Blocks;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.NetworkManager;
-import net.minecraft.network.play.server.SPacketUpdateTileEntity;
+import net.minecraft.network.play.server.SUpdateTileEntityPacket;
+import net.minecraft.network.play.server.SUpdateTileEntityPacket;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ITickable;
 
@@ -31,17 +37,17 @@ public class TileEntitySensor extends TileEntity implements ITickable {
 
 	@Override
 	public void update() {
-		IBlockState state = this.getWorld().getBlockState(getPos());
+		BlockState state = this.getWorld().getBlockState(getPos());
 
 		Class<? extends Entity> triggerType = null;
 		if (type == 0) {
 			triggerType = Entity.class;
 		} else if (type == 1) {
-			triggerType = EntityLivingBase.class;
+			triggerType = LivingEntity.class;
 		} else if (type == 2) {
-			triggerType = EntityPlayer.class;
+			triggerType = PlayerEntity.class;
 		} else if (type == 3) {
-			triggerType = EntityMob.class;
+			triggerType = MonsterEntity.class;
 		}
 
 		if (state.getBlock() == IndustryBlocks.wooden_sensor || state.getBlock() == IndustryBlocks.iron_sensor || state.getBlock() == IndustryBlocks.stone_sensor || state.getBlock() == IndustryBlocks.netherrack_sensor) {
@@ -55,7 +61,7 @@ public class TileEntitySensor extends TileEntity implements ITickable {
 					if (j1 < -15) {
 						break;
 					}
-					IBlockState block = world.getBlockState(pos.up(j1));
+					BlockState block = world.getBlockState(pos.up(j1));
 					if (isTraversable(block)) {
 						j1++;
 						break;
@@ -68,7 +74,7 @@ public class TileEntitySensor extends TileEntity implements ITickable {
 					if (j1 > 15) {
 						break;
 					}
-					IBlockState block = world.getBlockState(pos.up(j1));
+					BlockState block = world.getBlockState(pos.up(j1));
 					if (isTraversable(block)) {
 						j1--;
 						break;
@@ -81,7 +87,7 @@ public class TileEntitySensor extends TileEntity implements ITickable {
 					if (k1 < -15) {
 						break;
 					}
-					IBlockState j2 = world.getBlockState(pos.south(k1));
+					BlockState j2 = world.getBlockState(pos.south(k1));
 					if (isTraversable(j2)) {
 						k1++;
 						break;
@@ -94,7 +100,7 @@ public class TileEntitySensor extends TileEntity implements ITickable {
 					if (k1 > 15) {
 						break;
 					}
-					IBlockState k2 = world.getBlockState(pos.south(k1));
+					BlockState k2 = world.getBlockState(pos.south(k1));
 					if (isTraversable(k2)) {
 						k1--;
 						break;
@@ -107,7 +113,7 @@ public class TileEntitySensor extends TileEntity implements ITickable {
 					if (i1 < -15) {
 						break;
 					}
-					IBlockState l2 = world.getBlockState(pos.east(i1));
+					BlockState l2 = world.getBlockState(pos.east(i1));
 					if (isTraversable(l2)) {
 						i1++;
 						break;
@@ -120,7 +126,7 @@ public class TileEntitySensor extends TileEntity implements ITickable {
 					if (i1 > 15) {
 						break;
 					}
-					IBlockState i3 = world.getBlockState(pos.east(i1));
+					BlockState i3 = world.getBlockState(pos.east(i1));
 					if (isTraversable(i3)) {
 						i1--;
 						break;
@@ -139,7 +145,7 @@ public class TileEntitySensor extends TileEntity implements ITickable {
 		}
 	}
 
-	public boolean isTraversable(IBlockState block) {
+	public boolean isTraversable(BlockState block) {
 		if (block.getBlock() == Blocks.LAVA || block.getBlock() == Blocks.FLOWING_LAVA || block.getBlock() == Blocks.MOB_SPAWNER || (block.getBlock() != null && block.getBlock() == this.getBlockType())) {
 			return true;
 		}
@@ -150,38 +156,38 @@ public class TileEntitySensor extends TileEntity implements ITickable {
 	}
 
 	@Override
-	public NBTTagCompound getUpdateTag() {
-		return writeToNBT(new NBTTagCompound());
+	public CompoundNBT getUpdateTag() {
+		return writeToNBT(new CompoundNBT());
 	}
 
 	@Override
-	public void handleUpdateTag(NBTTagCompound tag) {
+	public void handleUpdateTag(CompoundNBT tag) {
 		readFromNBT(tag);
 	}
 
 	@Override
-	public NBTTagCompound writeToNBT(NBTTagCompound compound) {
+	public CompoundNBT writeToNBT(CompoundNBT compound) {
 		super.writeToNBT(compound);
 		compound.setInteger("type", type);
 		return compound;
 	}
 
 	@Override
-	public void readFromNBT(NBTTagCompound compound) {
+	public void readFromNBT(CompoundNBT compound) {
 		super.readFromNBT(compound);
 		this.type = compound.getInteger("type");
 	}
 
 	@Override
-	public SPacketUpdateTileEntity getUpdatePacket() {
-		NBTTagCompound nbtTagCompound = new NBTTagCompound();
+	public SUpdateTileEntityPacket getUpdatePacket() {
+		CompoundNBT nbtTagCompound = new CompoundNBT();
 		writeToNBT(nbtTagCompound);
 		int metadata = getBlockMetadata();
-		return new SPacketUpdateTileEntity(this.pos, metadata, nbtTagCompound);
+		return new SUpdateTileEntityPacket(this.pos, metadata, nbtTagCompound);
 	}
 
 	@Override
-	public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity pkt) {
+	public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt) {
 		readFromNBT(pkt.getNbtCompound());
 	}
 }

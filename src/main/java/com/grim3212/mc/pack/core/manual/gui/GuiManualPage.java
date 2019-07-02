@@ -8,6 +8,11 @@ import com.grim3212.mc.pack.core.manual.pages.Page;
 import com.grim3212.mc.pack.core.manual.pages.PageCrafting;
 import com.grim3212.mc.pack.core.manual.pages.PageFurnace;
 
+import net.minecraft.client.gui.screen.Screen;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+
+@OnlyIn(Dist.CLIENT)
 public class GuiManualPage extends GuiManualIndex {
 
 	private int page = 0;
@@ -60,8 +65,8 @@ public class GuiManualPage extends GuiManualIndex {
 	}
 
 	@Override
-	public void initGui() {
-		super.initGui();
+	public void init() {
+		super.init();
 		this.setX((width - manualWidth) / 2);
 		this.setY((height - manualHeight) / 2);
 
@@ -71,73 +76,53 @@ public class GuiManualPage extends GuiManualIndex {
 	public void updateButtons() {
 		this.buttons.clear();
 		this.children.clear();
-		
+
 		if (chapter.getPages().size() > page + 1) {
-			this.addButton(changeForward = new GuiButtonChangePage(0, x + manualWidth - 20, y + manualHeight - 12, true) {
-				@Override
-				public void onClick(double mouseX, double mouseY) {
-					super.onClick(mouseX, mouseY);
-
-					page++;
-					GuiManualPage.this.updateButtons();
-					isPaused = false;
-					pauseButton.setIsPaused(false);
-				}
-			});
+			this.addButton(changeForward = new GuiButtonChangePage(x + manualWidth - 20, y + manualHeight - 12, true, b -> {
+				page++;
+				GuiManualPage.this.updateButtons();
+				isPaused = false;
+				pauseButton.setIsPaused(false);
+			}));
 		}
-		this.addButton(changeBack = new GuiButtonChangePage(1, x + 2, y + manualHeight - 12, false) {
-			@Override
-			public void onClick(double mouseX, double mouseY) {
-				super.onClick(mouseX, mouseY);
-
-				if (page == 0) {
-					mc.displayGuiScreen(chapterGui);
-				} else {
-					page--;
-					GuiManualPage.this.updateButtons();
-					isPaused = false;
-					pauseButton.setIsPaused(false);
-				}
+		this.addButton(changeBack = new GuiButtonChangePage(x + 2, y + manualHeight - 12, false, b -> {
+			if (page == 0) {
+				minecraft.displayGuiScreen(chapterGui);
+			} else {
+				page--;
+				GuiManualPage.this.updateButtons();
+				isPaused = false;
+				pauseButton.setIsPaused(false);
 			}
-		});
-		this.addButton(goHome = new GuiButtonHome(2, width / 2 - 9 / 2, y + manualHeight - 11) {
-			@Override
-			public void onClick(double mouseX, double mouseY) {
-				super.onClick(mouseX, mouseY);
-
-				mc.displayGuiScreen(new GuiManualIndex(0));
+		}));
+		this.addButton(goHome = new GuiButtonHome(width / 2 - 9 / 2, y + manualHeight - 11, b -> {
+			minecraft.displayGuiScreen(new GuiManualIndex(0));
+		}));
+		this.addButton(pauseButton = new GuiButtonPause(0, 0, b -> {
+			if (!isPaused) {
+				isPaused = true;
+				pauseButton.setIsPaused(true);
+			} else {
+				isPaused = false;
+				pauseButton.setIsPaused(false);
 			}
-		});
-		this.addButton(pauseButton = new GuiButtonPause(3, 0, 0) {
-			@Override
-			public void onClick(double mouseX, double mouseY) {
-				super.onClick(mouseX, mouseY);
-
-				if (!isPaused) {
-					isPaused = true;
-					pauseButton.setIsPaused(true);
-				} else {
-					isPaused = false;
-					pauseButton.setIsPaused(false);
-				}
-			}
-		});
+		}));
 
 		pauseButton.visible = false;
-		pauseButton.enabled = false;
+		pauseButton.active = false;
 
 		if (chapter.getPages().get(this.page) instanceof PageCrafting) {
 			pauseButton.x = this.getX() + 112;
 			pauseButton.y = this.getY() + 165;
 			PageCrafting page = (PageCrafting) chapter.getPages().get(this.page);
 			pauseButton.visible = page.isArray();
-			pauseButton.enabled = page.isArray();
+			pauseButton.active = page.isArray();
 		} else if (chapter.getPages().get(this.page) instanceof PageFurnace) {
 			pauseButton.x = this.getX() + 85;
 			pauseButton.y = this.getY() + 154;
 			PageFurnace page = (PageFurnace) chapter.getPages().get(this.page);
 			pauseButton.visible = page.isArray();
-			pauseButton.enabled = page.isArray();
+			pauseButton.active = page.isArray();
 		}
 
 		chapter.getPages().get(this.page).addButtons(this);
@@ -192,8 +177,9 @@ public class GuiManualPage extends GuiManualIndex {
 	}
 
 	@Override
-	public void onGuiClosed() {
+	public void onClose() {
 		activeManualPage = this;
+		this.minecraft.displayGuiScreen((Screen) null);
 	}
 
 	@Override

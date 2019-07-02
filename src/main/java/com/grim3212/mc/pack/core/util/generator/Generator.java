@@ -57,7 +57,7 @@ public class Generator {
 	 * @param saveLocation Folder where all of the files generated will be created
 	 */
 	public static boolean document(String saveLocation) {
-		File file = new File(saveLocation, GrimPack.modName + "-" + Minecraft.getInstance().getVersion() + "-" + GRIMPACK_VERSION + "-" + Minecraft.getInstance().getLanguageManager().getCurrentLanguage().getLanguageCode() + ".json");
+		File file = new File(saveLocation, GrimPack.modName + "-" + Minecraft.getInstance().getVersion() + "-" + GRIMPACK_VERSION + "-" + Minecraft.getInstance().getLanguageManager().getCurrentLanguage().getCode() + ".json");
 
 		GrimLog.info(GENERATOR_NAME, "Starting documentation generation at " + file);
 
@@ -87,7 +87,7 @@ public class Generator {
 	}
 
 	public static void images(String saveLocation) {
-		Minecraft.getInstance().addScheduledTask(new Runnable() {
+		Minecraft.getInstance().deferTask(new Runnable() {
 
 			@Override
 			public void run() {
@@ -119,7 +119,7 @@ public class Generator {
 		json.addProperty("version", GRIMPACK_VERSION);
 		json.addProperty("jeiversion", JEI_VERSION);
 		json.addProperty("jerversion", JER_VERSION);
-		json.addProperty("lang", mc.getLanguageManager().getCurrentLanguage().getLanguageCode());
+		json.addProperty("lang", mc.getLanguageManager().getCurrentLanguage().getCode());
 		json.addProperty("generated", System.currentTimeMillis());
 
 		JsonArray parts = new JsonArray();
@@ -229,7 +229,11 @@ public class Generator {
 
 		ManualPart info = new ManualPart("Information", "info").setExtra();
 		ManualRegistry.addChapter("intro", info).addPages(new PageInfo("info"), new PageInfo("download"), new PageInfo("wip"));
-		//ManualRegistry.addChapter("recipes", info).addPages(new PageCrafting("crafting", 10, new ItemStack(CoreItems.instruction_manual), new ItemStack(CuisineItems.chocolate_bowl)), new PageFurnace("furnace", new ItemStack(CommonItems.aluminum_ore)), new PageMachine("other", new ItemStack(Items.ROTTEN_FLESH), MachineType.REFINERY));
+		// ManualRegistry.addChapter("recipes", info).addPages(new
+		// PageCrafting("crafting", 10, new ItemStack(CoreItems.instruction_manual), new
+		// ItemStack(CuisineItems.chocolate_bowl)), new PageFurnace("furnace", new
+		// ItemStack(CommonItems.aluminum_ore)), new PageMachine("other", new
+		// ItemStack(Items.ROTTEN_FLESH), MachineType.REFINERY));
 		ManualRegistry.addChapter("configuration", info).addPages(new PageInfo("parts"), new PageInfo("lists"), new PageInfo("tools"), new PageInfo("armor"), new PageInfo("other")).setExtraInfo("grimpack.manual.info.subsection.configuration.info");
 		ManualRegistry.addChapter("resourcepacks", info).addPages(new PageInfo("looks"), new PageInfo("recipes")).setExtraInfo("grimpack.manual.info.subsection.resourcepacks.info");
 		ManualRegistry.addChapter("faq", info).addPages(new PageInfo("about")).setExtraInfo("grimpack.manual.info.subsection.faq.info");

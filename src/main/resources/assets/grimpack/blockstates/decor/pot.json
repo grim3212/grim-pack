@@ -1,0 +1,53 @@
+{
+	"variants": {
+			"down=false,top=0": {
+				"model": "grimpack:block/decor/pot_0"
+			},
+			"down=false,top=1": {
+				"model": "grimpack:block/decor/pot_1"
+			},
+			"down=false,top=2": {
+				"model": "grimpack:block/decor/pot_2"
+			},
+			"down=false,top=3": {
+				"model": "grimpack:block/decor/pot_3"
+			},
+			"down=false,top=4": {
+				"model": "grimpack:block/decor/pot_4"
+			},
+			"down=false,top=5": {
+				"model": "grimpack:block/decor/pot_5"
+			},
+			"down=false,top=6": {
+				"model": "grimpack:block/decor/pot_6"
+			},
+			"down=true,top=0": {
+				"model": "grimpack:block/decor/pot_down_0",
+				"uvlock": true
+			},
+			"down=true,top=1": {
+				"model": "grimpack:block/decor/pot_down_1",
+				"uvlock": true
+			},
+			"down=true,top=2": {
+				"model": "grimpack:block/decor/pot_down_2",
+				"uvlock": true
+			},
+			"down=true,top=3": {
+				"model": "grimpack:block/decor/pot_down_3",
+				"uvlock": true
+			},
+			"down=true,top=4": {
+				"model": "grimpack:block/decor/pot_down_4",
+				"uvlock": true
+			},
+			"down=true,top=5": {
+				"model": "grimpack:block/decor/pot_down_5",
+				"uvlock": true
+			},
+			"down=true,top=6": {
+				"model": "grimpack:block/decor/pot_down_6",
+				"uvlock": true
+			}
+	}
+}

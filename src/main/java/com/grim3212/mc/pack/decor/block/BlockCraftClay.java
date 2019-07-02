@@ -2,88 +2,65 @@ package com.grim3212.mc.pack.decor.block;
 
 import com.grim3212.mc.pack.core.block.BlockManual;
 import com.grim3212.mc.pack.core.manual.pages.Page;
-import com.grim3212.mc.pack.core.part.GrimCreativeTabs;
 import com.grim3212.mc.pack.decor.client.ManualDecor;
+import com.grim3212.mc.pack.decor.init.DecorNames;
 
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.properties.IProperty;
-import net.minecraft.block.properties.PropertyInteger;
-import net.minecraft.block.state.BlockStateContainer;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.state.IntegerProperty;
+import net.minecraft.state.StateContainer.Builder;
 import net.minecraft.util.BlockRenderLayer;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumHand;
-import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockAccess;
+import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.world.World;
 
 public class BlockCraftClay extends BlockManual {
 
 	private static final int numCycles = 7;
-	public static final PropertyInteger CYCLE = PropertyInteger.create("cycle", 0, numCycles);
+	public static final IntegerProperty CYCLE = IntegerProperty.create("cycle", 0, numCycles);
 
 	protected BlockCraftClay() {
-		super("craft_clay", Material.CIRCUITS, SoundType.GROUND);
-		setCreativeTab(GrimCreativeTabs.GRIM_DECOR);
+		super(DecorNames.CRAFT_CLAY, Block.Properties.create(Material.MISCELLANEOUS).sound(SoundType.GROUND).doesNotBlockMovement());
 	}
 
 	@Override
-	protected IBlockState getState() {
-		return super.getState().withProperty(CYCLE, 0);
+	protected BlockState getState() {
+		return super.getState().with(CYCLE, 0);
 	}
 
 	@Override
-	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
-		int meta = worldIn.getBlockState(pos).getBlock().getMetaFromState(state);
-		if (meta == numCycles) {
-			meta = 0;
+	protected void fillStateContainer(Builder<Block, BlockState> builder) {
+		builder.add(CYCLE);
+	}
+
+	@Override
+	public boolean onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult hit) {
+		int cycle = worldIn.getBlockState(pos).get(CYCLE);
+		if (cycle == numCycles) {
+			cycle = 0;
 		} else {
-			meta++;
+			cycle++;
 		}
-		worldIn.setBlockState(pos, this.getDefaultState().withProperty(CYCLE, meta), 2);
+		worldIn.setBlockState(pos, this.getDefaultState().with(CYCLE, cycle), 2);
 		return true;
 	}
 
 	@Override
-	public BlockRenderLayer getBlockLayer() {
+	public BlockRenderLayer getRenderLayer() {
 		return BlockRenderLayer.CUTOUT;
 	}
 
 	@Override
-	public int getMetaFromState(IBlockState state) {
-		return state.getValue(CYCLE);
-	}
-
-	@Override
-	public IBlockState getStateFromMeta(int meta) {
-		return this.getDefaultState().withProperty(CYCLE, meta);
-	}
-
-	@Override
-	protected BlockStateContainer createBlockState() {
-		return new BlockStateContainer(this, new IProperty[] { CYCLE });
-	}
-
-	@Override
-	public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, IBlockAccess blockAccess, BlockPos pos) {
-		return NULL_AABB;
-	}
-
-	@Override
-	public boolean isNormalCube(IBlockState blockState) {
+	public boolean isSolid(BlockState state) {
 		return false;
 	}
 
 	@Override
-	public boolean isOpaqueCube(IBlockState blockState) {
-		return false;
-	}
-
-	@Override
-	public Page getPage(IBlockState state) {
+	public Page getPage(BlockState state) {
 		return ManualDecor.firing_page;
 	}
 }

@@ -2,6 +2,9 @@ package com.grim3212.mc.pack.industry.client.gui;
 
 import java.io.IOException;
 
+import net.minecraft.client.gui.widget.TextFieldWidget;
+import net.minecraft.inventory.container.Container;
+import net.minecraft.inventory.container.IContainerListener;
 import org.apache.commons.lang3.StringUtils;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
@@ -13,12 +16,12 @@ import com.grim3212.mc.pack.core.util.NBTHelper;
 import com.grim3212.mc.pack.industry.inventory.ContainerLocksmithWorkbench;
 import com.grim3212.mc.pack.industry.network.MessageSetLock;
 
-import net.minecraft.client.gui.GuiTextField;
+import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.resources.I18n;
-import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.inventory.Container;
-import net.minecraft.inventory.IContainerListener;
+import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.inventory.container.Container;
+import net.minecraft.inventory.container.IContainerListener;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
@@ -28,14 +31,14 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-@OnlyIn(Dist.CLIENT)
+@SideOnly(Side.CLIENT)
 public class GuiLocksmithWorkbench extends GuiGrimContainer implements IContainerListener {
 
-	private GuiTextField lockField;
+	private TextFieldWidget lockField;
 	private final ContainerLocksmithWorkbench locksmith;
 	private static final ResourceLocation GUILocksmith = new ResourceLocation(GrimPack.modID, "textures/gui/gui_locksmith.png");
 
-	public GuiLocksmithWorkbench(InventoryPlayer inventory, World world, BlockPos pos) {
+	public GuiLocksmithWorkbench(PlayerInventory inventory, World world, BlockPos pos) {
 		super(new ContainerLocksmithWorkbench(inventory, world, pos));
 		this.locksmith = (ContainerLocksmithWorkbench) this.inventorySlots;
 	}
@@ -46,7 +49,7 @@ public class GuiLocksmithWorkbench extends GuiGrimContainer implements IContaine
 		int i = (this.width - this.xSize) / 2;
 		int j = (this.height - this.ySize) / 2;
 		Keyboard.enableRepeatEvents(true);
-		this.lockField = new GuiTextField(0, this.fontRenderer, i + 67, j + 39, 42, 12);
+		this.lockField = new TextFieldWidget(0, this.fontRenderer, i + 67, j + 39, 42, 12);
 		this.lockField.setTextColor(-1);
 		this.lockField.setDisabledTextColour(-1);
 		this.lockField.setEnableBackgroundDrawing(false);

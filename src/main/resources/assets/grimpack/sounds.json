@@ -1,163 +1,100 @@
 {
-	"raysh": {
-		"category": "players",
-		"subtitle": "grimpack.subtitle.raygun",
-		"sounds": [
-			"grimpack:raysh"
-		]
-	},
-	"fusrodah": {
-		"category": "players",
-		"subtitle": "grimpack.subtitle.fusrodah",
-		"sounds": [
-			"grimpack:fusrodah"
-		]
-	},
-	"fusrodah-old": {
-		"category": "players",
-		"subtitle": "grimpack.subtitle.fusrodah",
-		"sounds": [
-			"grimpack:fusrodah-old"
-		]
-	},
-	"spikeDeploy": {
-		"category": "block",
-		"subtitle": "grimpack.subtitle.spikeDeploy",
-		"sounds": [
-			"grimpack:spike_deploy"
-		]
-	},
-	"spikeClose": {
-		"category": "block",
-		"subtitle": "grimpack.subtitle.spikeClose",
-		"sounds": [
-			"grimpack:spike_close"
-		]
-	},
-	"bobomb_living": {
-		"category": "neutral",
-		"subtitle": "grimpack.subtitle.bobomb_living",
-		"sounds": [
-			"grimpack:bobomb_living"
-		]
-	},
-	"parabuzzy_living": {
-		"category": "neutral",
-		"subtitle": "grimpack.subtitle.parabuzzy_living",
-		"sounds": [
-			"grimpack:parabuzzy_living"
-		]
-	},
-	"parabuzzy_dead": {
-		"category": "neutral",
-		"subtitle": "grimpack.subtitle.parabuzzy_dead",
-		"sounds": [
-			"grimpack:parabuzzy_dead"
-		]
-	},
-	"parabuzzy_hurt": {
-		"category": "neutral",
-		"subtitle": "grimpack.subtitle.parabuzzy_hurt",
-		"sounds": [
-			"grimpack:parabuzzy_hurt"
-		]
-	},
-	"carlock": {
+	"decor/carlock": {
 		"category": "block",
 		"subtitle": "grimpack.subtitle.carlock",
 		"sounds": [
-			"grimpack:carlock"
+			"grimpack:decor/carlock"
 		]
 	},
-	"alarm_a": {
+	"decor/alarm_a": {
 		"category": "block",
 		"subtitle": "grimpack.subtitle.alarm",
 		"sounds": [
-			"grimpack:alarm_a"
+			"grimpack:decor/alarm_a"
 		]
 	},
-	"alarm_b": {
+	"decor/alarm_b": {
 		"category": "block",
 		"subtitle": "grimpack.subtitle.alarm",
 		"sounds": [
-			"grimpack:alarm_b"
+			"grimpack:decor/alarm_b"
 		]
 	},
-	"alarm_c": {
+	"decor/alarm_c": {
 		"category": "block",
 		"subtitle": "grimpack.subtitle.alarm",
 		"sounds": [
-			"grimpack:alarm_c"
+			"grimpack:decor/alarm_c"
 		]
 	},
-	"alarm_d": {
+	"decor/alarm_d": {
 		"category": "block",
 		"subtitle": "grimpack.subtitle.alarm",
 		"sounds": [
-			"grimpack:alarm_d"
+			"grimpack:decor/alarm_d"
 		]
 	},
-	"alarm_e": {
+	"decor/alarm_e": {
 		"category": "block",
 		"subtitle": "grimpack.subtitle.alarm",
 		"sounds": [
-			"grimpack:alarm_e"
+			"grimpack:decor/alarm_e"
 		]
 	},
-	"alarm_f": {
+	"decor/alarm_f": {
 		"category": "block",
 		"subtitle": "grimpack.subtitle.alarm",
 		"sounds": [
-			"grimpack:alarm_f"
+			"grimpack:decor/alarm_f"
 		]
 	},
-	"alarm_g": {
+	"decor/alarm_g": {
 		"category": "block",
 		"subtitle": "grimpack.subtitle.alarm",
 		"sounds": [
-			"grimpack:alarm_g"
+			"grimpack:decor/alarm_g"
 		]
 	},
-	"alarm_h": {
+	"decor/alarm_h": {
 		"category": "block",
 		"subtitle": "grimpack.subtitle.alarm",
 		"sounds": [
-			"grimpack:alarm_h"
+			"grimpack:decor/alarm_h"
 		]
 	},
-	"alarm_i": {
+	"decor/alarm_i": {
 		"category": "block",
 		"subtitle": "grimpack.subtitle.alarm",
 		"sounds": [
-			"grimpack:alarm_i"
+			"grimpack:decor/alarm_i"
 		]
 	},
-	"alarm_j": {
+	"decor/alarm_j": {
 		"category": "block",
 		"subtitle": "grimpack.subtitle.alarm",
 		"sounds": [
-			"grimpack:alarm_j"
+			"grimpack:decor/alarm_j"
 		]
 	},
-	"alarm_k": {
+	"decor/alarm_k": {
 		"category": "block",
 		"subtitle": "grimpack.subtitle.alarm",
 		"sounds": [
-			"grimpack:alarm_k"
+			"grimpack:decor/alarm_k"
 		]
 	},
-	"alarm_l": {
+	"decor/alarm_l": {
 		"category": "block",
 		"subtitle": "grimpack.subtitle.alarm",
 		"sounds": [
-			"grimpack:alarm_l"
+			"grimpack:decor/alarm_l"
 		]
 	},
-	"alarm_m": {
+	"decor/alarm_m": {
 		"category": "block",
 		"subtitle": "grimpack.subtitle.alarm",
 		"sounds": [
-			"grimpack:alarm_m"
+			"grimpack:decor/alarm_m"
 		]
 	}
 }
