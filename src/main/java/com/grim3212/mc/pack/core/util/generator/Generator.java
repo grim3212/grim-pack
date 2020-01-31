@@ -175,9 +175,10 @@ public class Generator {
 			}
 
 			// Add in config chapter for each part
-			if (!part.isExtra())
-				chapters.add(PartRegistry.getPart(part.getPartId()).getGrimConfig().deconstruct());
-
+			if (!part.isExtra()) {
+				//chapters.add(PartRegistry.getPart(part.getPartId()).getGrimConfig().deconstruct());
+			}
+				
 			// Add chapters
 			partObj.add("chapters", chapters);
 

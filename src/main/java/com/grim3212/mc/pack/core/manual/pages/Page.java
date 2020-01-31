@@ -17,7 +17,7 @@ import com.grim3212.mc.pack.core.manual.gui.GuiManualPage;
 import com.grim3212.mc.pack.core.util.GrimLog;
 import com.grim3212.mc.pack.core.util.generator.Generator;
 import com.grim3212.mc.pack.core.util.generator.GeneratorUtil;
-import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
@@ -30,7 +30,7 @@ import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.util.text.ITextComponent;
 
 public abstract class Page {
-	
+
 	public static final float SCALE_FACTOR = 0.8f;
 
 	private String pageName;
@@ -111,10 +111,10 @@ public abstract class Page {
 	public void drawScreen(GuiManualPage gui, int mouseX, int mouseY) {
 		this.drawTitle(gui);
 
-		GlStateManager.pushMatrix();
-		GlStateManager.scalef(SCALE_FACTOR, SCALE_FACTOR, 1.0f);
+		RenderSystem.pushMatrix();
+		RenderSystem.scalef(SCALE_FACTOR, SCALE_FACTOR, 1.0f);
 		this.drawFooter(gui);
-		GlStateManager.popMatrix();
+		RenderSystem.popMatrix();
 	}
 
 	public void drawTitle(GuiManualPage gui) {
@@ -133,26 +133,26 @@ public abstract class Page {
 	public void renderItem(GuiManualPage gui, ItemStack item, int x, int y) {
 		ItemRenderer render = Minecraft.getInstance().getItemRenderer();
 
-		GlStateManager.pushMatrix();
-		GlStateManager.enableBlend();
-		GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-		RenderHelper.enableGUIStandardItemLighting();
+		RenderSystem.pushMatrix();
+		RenderSystem.enableBlend();
+		RenderSystem.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+		RenderHelper.enableStandardItemLighting();
 
-		GlStateManager.scalef(1F, 1F, 0.75F);
+		RenderSystem.scalef(1F, 1F, 0.75F);
 
-		GlStateManager.enableRescaleNormal();
-		GlStateManager.enableDepthTest();
+		RenderSystem.enableRescaleNormal();
+		RenderSystem.enableDepthTest();
 
 		render.renderItemAndEffectIntoGUI(item, x, y);
 		render.renderItemOverlayIntoGUI(Minecraft.getInstance().fontRenderer, item, x, y, (String) null);
 		RenderHelper.disableStandardItemLighting();
-		GlStateManager.popMatrix();
+		RenderSystem.popMatrix();
 
 		if (relativeMouseX >= x && relativeMouseY >= y && relativeMouseX <= x + 16 && relativeMouseY <= y + 16) {
 			this.tooltipItem = item;
 		}
 
-		GlStateManager.disableLighting();
+		RenderSystem.disableLighting();
 	}
 
 	public void renderItemCutWild(GuiManualPage gui, ItemStack item, int x, int y) {

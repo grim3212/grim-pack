@@ -69,7 +69,7 @@ public class ItemInstructionManual extends ItemManual {
 			GrimCore.proxy.openManual();
 		}
 
-		return ActionResult.newResult(ActionResultType.SUCCESS, playerIn.getHeldItem(hand));
+		return ActionResult.func_226248_a_(playerIn.getHeldItem(hand));
 	}
 
 	@Override

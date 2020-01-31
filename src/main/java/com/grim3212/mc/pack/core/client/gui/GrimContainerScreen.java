@@ -1,13 +1,15 @@
 package com.grim3212.mc.pack.core.client.gui;
 
+import java.util.Set;
+
+import com.google.common.collect.Sets;
 import com.grim3212.mc.pack.core.inventory.SlotGrim;
-import com.mojang.blaze3d.platform.GLX;
-import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.datafixers.util.Pair;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
-import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.util.InputMappings;
 import net.minecraft.entity.player.PlayerInventory;
@@ -15,12 +17,23 @@ import net.minecraft.inventory.container.ClickType;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Util;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextFormatting;
 
 public abstract class GrimContainerScreen<T extends Container> extends ContainerScreen<T> {
+
+	public static final ResourceLocation INVENTORY_BACKGROUND = new ResourceLocation("textures/gui/container/inventory.png");
+	protected int xSize = 176;
+	protected int ySize = 166;
+	protected final T container;
+	protected final PlayerInventory playerInventory;
+	protected int guiLeft;
+	protected int guiTop;
+	/** Holds the slot currently hovered */
+	protected Slot hoveredSlot;
 	/** Used when touchscreen is enabled */
 	private Slot clickedSlot;
 	private boolean isRightMouseClick;
@@ -32,6 +45,8 @@ public abstract class GrimContainerScreen<T extends Container> extends Container
 	private ItemStack returningStack = ItemStack.EMPTY;
 	private Slot currentDragTargetSlot;
 	private long dragItemDropDelay;
+	protected final Set<Slot> dragSplittingSlots = Sets.newHashSet();
+	protected boolean dragSplitting;
 	private int dragSplittingLimit;
 	private int dragSplittingButton;
 	private boolean ignoreMouseUp;
@@ -42,8 +57,10 @@ public abstract class GrimContainerScreen<T extends Container> extends Container
 	private boolean doubleClick;
 	private ItemStack shiftClickedSlot = ItemStack.EMPTY;
 
-	public GrimContainerScreen(T p_i51105_1_, PlayerInventory p_i51105_2_, ITextComponent p_i51105_3_) {
-		super(p_i51105_1_, p_i51105_2_, p_i51105_3_);
+	public GrimContainerScreen(T screenContainer, PlayerInventory inv, ITextComponent titleIn) {
+		super(screenContainer, inv, titleIn);
+		this.container = screenContainer;
+		this.playerInventory = inv;
 		this.ignoreMouseUp = true;
 	}
 
@@ -58,19 +75,16 @@ public abstract class GrimContainerScreen<T extends Container> extends Container
 		int j = this.guiTop;
 		this.drawGuiContainerBackgroundLayer(p_render_3_, p_render_1_, p_render_2_);
 		net.minecraftforge.common.MinecraftForge.EVENT_BUS.post(new net.minecraftforge.client.event.GuiContainerEvent.DrawBackground(this, p_render_1_, p_render_2_));
-		GlStateManager.disableRescaleNormal();
-		RenderHelper.disableStandardItemLighting();
-		GlStateManager.disableLighting();
-		GlStateManager.disableDepthTest();
+		RenderSystem.disableRescaleNormal();
+		RenderSystem.disableDepthTest();
 		super.render(p_render_1_, p_render_2_, p_render_3_);
-		RenderHelper.enableGUIStandardItemLighting();
-		GlStateManager.pushMatrix();
-		GlStateManager.translatef((float) i, (float) j, 0.0F);
-		GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
-		GlStateManager.enableRescaleNormal();
+		RenderSystem.pushMatrix();
+		RenderSystem.translatef((float) i, (float) j, 0.0F);
+		RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
+		RenderSystem.enableRescaleNormal();
 		this.hoveredSlot = null;
-		GLX.glMultiTexCoord2f(GLX.GL_TEXTURE1, 240.0F, 240.0F);
-		GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
+		RenderSystem.glMultiTexCoord2f(33986, 240.0F, 240.0F);
+		RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
 
 		for (int i1 = 0; i1 < this.container.inventorySlots.size(); ++i1) {
 			Slot slot = this.container.inventorySlots.get(i1);
@@ -80,26 +94,22 @@ public abstract class GrimContainerScreen<T extends Container> extends Container
 
 			if (this.isSlotSelected(slot, (double) p_render_1_, (double) p_render_2_) && slot.isEnabled()) {
 				this.hoveredSlot = slot;
-				GlStateManager.disableLighting();
-				GlStateManager.disableDepthTest();
+				RenderSystem.disableDepthTest();
 				int j1 = slot.xPos;
 				int k1 = slot.yPos;
-				GlStateManager.colorMask(true, true, true, false);
+				RenderSystem.colorMask(true, true, true, false);
 				int slotColor = this.getSlotColor(i1);
 				if (slot instanceof SlotGrim) {
 					this.fillGradient(j1, k1, j1 + ((SlotGrim) slot).xSize, k1 + ((SlotGrim) slot).ySize, slotColor, slotColor);
 				} else {
 					this.fillGradient(j1, k1, j1 + 16, k1 + 16, slotColor, slotColor);
 				}
-				GlStateManager.colorMask(true, true, true, true);
-				GlStateManager.enableLighting();
-				GlStateManager.enableDepthTest();
+				RenderSystem.colorMask(true, true, true, true);
+				RenderSystem.enableDepthTest();
 			}
 		}
 
-		RenderHelper.disableStandardItemLighting();
 		this.drawGuiContainerForegroundLayer(p_render_1_, p_render_2_);
-		RenderHelper.enableGUIStandardItemLighting();
 		net.minecraftforge.common.MinecraftForge.EVENT_BUS.post(new net.minecraftforge.client.event.GuiContainerEvent.DrawForeground(this, p_render_1_, p_render_2_));
 		PlayerInventory playerinventory = this.minecraft.player.inventory;
 		ItemStack itemstack = this.draggedStack.isEmpty() ? playerinventory.getItemStack() : this.draggedStack;
@@ -134,15 +144,13 @@ public abstract class GrimContainerScreen<T extends Container> extends Container
 			this.drawItemStack(this.returningStack, l1, i2, (String) null);
 		}
 
-		GlStateManager.popMatrix();
-		GlStateManager.enableLighting();
-		GlStateManager.enableDepthTest();
-		RenderHelper.enableStandardItemLighting();
+		RenderSystem.popMatrix();
+		RenderSystem.enableDepthTest();
 	}
 
-	protected void renderHoveredToolTip(int p_191948_1_, int p_191948_2_) {
+	protected void renderHoveredToolTip(int mouseX, int mouseY) {
 		if (this.minecraft.player.inventory.getItemStack().isEmpty() && this.hoveredSlot != null && this.hoveredSlot.getHasStack()) {
-			this.renderTooltip(this.hoveredSlot.getStack(), p_191948_1_, p_191948_2_);
+			this.renderTooltip(this.hoveredSlot.getStack(), mouseX, mouseY);
 		}
 
 	}
@@ -154,15 +162,15 @@ public abstract class GrimContainerScreen<T extends Container> extends Container
 	 * is then rendered at z=200.
 	 */
 	private void drawItemStack(ItemStack stack, int x, int y, String altText) {
-		GlStateManager.translatef(0.0F, 0.0F, 32.0F);
-		this.blitOffset = 200;
+		RenderSystem.translatef(0.0F, 0.0F, 32.0F);
+		this.setBlitOffset(200);
 		this.itemRenderer.zLevel = 200.0F;
 		net.minecraft.client.gui.FontRenderer font = stack.getItem().getFontRenderer(stack);
 		if (font == null)
 			font = this.font;
 		this.itemRenderer.renderItemAndEffectIntoGUI(stack, x, y);
 		this.itemRenderer.renderItemOverlayIntoGUI(font, stack, x, y - (this.draggedStack.isEmpty() ? 0 : 8), altText);
-		this.blitOffset = 0;
+		this.setBlitOffset(0);
 		this.itemRenderer.zLevel = 0.0F;
 	}
 
@@ -213,15 +221,14 @@ public abstract class GrimContainerScreen<T extends Container> extends Container
 			}
 		}
 
-		this.blitOffset = 100;
+		this.setBlitOffset(100);
 		this.itemRenderer.zLevel = 100.0F;
 		if (itemstack.isEmpty() && slotIn.isEnabled()) {
-			TextureAtlasSprite textureatlassprite = slotIn.getBackgroundSprite();
-			if (textureatlassprite != null) {
-				GlStateManager.disableLighting();
-				this.minecraft.getTextureManager().bindTexture(slotIn.getBackgroundLocation());
-				blit(i, j, this.blitOffset, 16, 16, textureatlassprite);
-				GlStateManager.enableLighting();
+			Pair<ResourceLocation, ResourceLocation> pair = slotIn.func_225517_c_();
+			if (pair != null) {
+				TextureAtlasSprite textureatlassprite = this.minecraft.getTextureGetter(pair.getFirst()).apply(pair.getSecond());
+				this.minecraft.getTextureManager().bindTexture(textureatlassprite.getAtlasTexture().getBasePath());
+				blit(i, j, this.getBlitOffset(), 16, 16, textureatlassprite);
 				flag1 = true;
 			}
 		}
@@ -231,13 +238,13 @@ public abstract class GrimContainerScreen<T extends Container> extends Container
 				fill(i, j, i + 16, j + 16, -2130706433);
 			}
 
-			GlStateManager.enableDepthTest();
+			RenderSystem.enableDepthTest();
 			this.itemRenderer.renderItemAndEffectIntoGUI(this.minecraft.player, itemstack, i, j);
 			this.itemRenderer.renderItemOverlayIntoGUI(this.font, itemstack, i, j, s);
 		}
 
 		this.itemRenderer.zLevel = 0.0F;
-		this.blitOffset = 0;
+		this.setBlitOffset(0);
 	}
 
 	private void updateDragSplitting() {
@@ -265,10 +272,10 @@ public abstract class GrimContainerScreen<T extends Container> extends Container
 		}
 	}
 
-	private Slot getSelectedSlot(double p_195360_1_, double p_195360_3_) {
+	private Slot getSelectedSlot(double mouseX, double mouseY) {
 		for (int i = 0; i < this.container.inventorySlots.size(); ++i) {
 			Slot slot = this.container.inventorySlots.get(i);
-			if (this.isSlotSelected(slot, p_195360_1_, p_195360_3_) && slot.isEnabled()) {
+			if (this.isSlotSelected(slot, mouseX, mouseY) && slot.isEnabled()) {
 				return slot;
 			}
 		}
@@ -320,7 +327,7 @@ public abstract class GrimContainerScreen<T extends Container> extends Container
 							if (this.minecraft.gameSettings.keyBindPickBlock.isActiveAndMatches(mouseKey)) {
 								this.handleMouseClick(slot, l, p_mouseClicked_5_, ClickType.CLONE);
 							} else {
-								boolean flag2 = l != -999 && (InputMappings.isKeyDown(Minecraft.getInstance().mainWindow.getHandle(), 340) || InputMappings.isKeyDown(Minecraft.getInstance().mainWindow.getHandle(), 344));
+								boolean flag2 = l != -999 && (InputMappings.isKeyDown(Minecraft.getInstance().getMainWindow().getHandle(), 340) || InputMappings.isKeyDown(Minecraft.getInstance().getMainWindow().getHandle(), 344));
 								ClickType clicktype = ClickType.PICKUP;
 								if (flag2) {
 									this.shiftClickedSlot = slot != null && slot.getHasStack() ? slot.getStack().copy() : ItemStack.EMPTY;
@@ -356,8 +363,8 @@ public abstract class GrimContainerScreen<T extends Container> extends Container
 		}
 	}
 
-	protected boolean hasClickedOutside(double p_195361_1_, double p_195361_3_, int p_195361_5_, int p_195361_6_, int p_195361_7_) {
-		return p_195361_1_ < (double) p_195361_5_ || p_195361_3_ < (double) p_195361_6_ || p_195361_1_ >= (double) (p_195361_5_ + this.xSize) || p_195361_3_ >= (double) (p_195361_6_ + this.ySize);
+	protected boolean hasClickedOutside(double mouseX, double mouseY, int guiLeftIn, int guiTopIn, int mouseButton) {
+		return mouseX < (double) guiLeftIn || mouseY < (double) guiTopIn || mouseX >= (double) (guiLeftIn + this.xSize) || mouseY >= (double) (guiTopIn + this.ySize);
 	}
 
 	public boolean mouseDragged(double p_mouseDragged_1_, double p_mouseDragged_3_, int p_mouseDragged_5_, double p_mouseDragged_6_, double p_mouseDragged_8_) {
@@ -482,7 +489,7 @@ public abstract class GrimContainerScreen<T extends Container> extends Container
 				if (this.minecraft.gameSettings.keyBindPickBlock.isActiveAndMatches(mouseKey)) {
 					this.handleMouseClick(slot, k, p_mouseReleased_5_, ClickType.CLONE);
 				} else {
-					boolean flag1 = k != -999 && (InputMappings.isKeyDown(Minecraft.getInstance().mainWindow.getHandle(), 340) || InputMappings.isKeyDown(Minecraft.getInstance().mainWindow.getHandle(), 344));
+					boolean flag1 = k != -999 && (InputMappings.isKeyDown(Minecraft.getInstance().getMainWindow().getHandle(), 340) || InputMappings.isKeyDown(Minecraft.getInstance().getMainWindow().getHandle(), 344));
 					if (flag1) {
 						this.shiftClickedSlot = slot != null && slot.getHasStack() ? slot.getStack().copy() : ItemStack.EMPTY;
 					}
@@ -500,20 +507,19 @@ public abstract class GrimContainerScreen<T extends Container> extends Container
 		return true;
 	}
 
-	private boolean isSlotSelected(Slot p_195362_1_, double p_195362_2_, double p_195362_4_) {
-		if (p_195362_1_ instanceof SlotGrim) {
-			return this.isPointInRegion(p_195362_1_.xPos, p_195362_1_.yPos, ((SlotGrim) p_195362_1_).xSize, ((SlotGrim) p_195362_1_).ySize, p_195362_2_, p_195362_4_);
+	private boolean isSlotSelected(Slot slotIn, double mouseX, double mouseY) {
+		if (slotIn instanceof SlotGrim) {
+			return this.isPointInRegion(slotIn.xPos, slotIn.yPos, ((SlotGrim) slotIn).xSize, ((SlotGrim) slotIn).ySize, mouseX, mouseY);
 		}
-
-		return this.isPointInRegion(p_195362_1_.xPos, p_195362_1_.yPos, 16, 16, p_195362_2_, p_195362_4_);
+		return this.isPointInRegion(slotIn.xPos, slotIn.yPos, 16, 16, mouseX, mouseY);
 	}
 
-	protected boolean isPointInRegion(int p_195359_1_, int p_195359_2_, int p_195359_3_, int p_195359_4_, double p_195359_5_, double p_195359_7_) {
+	protected boolean isPointInRegion(int x, int y, int width, int height, double mouseX, double mouseY) {
 		int i = this.guiLeft;
 		int j = this.guiTop;
-		p_195359_5_ = p_195359_5_ - (double) i;
-		p_195359_7_ = p_195359_7_ - (double) j;
-		return p_195359_5_ >= (double) (p_195359_1_ - 1) && p_195359_5_ < (double) (p_195359_1_ + p_195359_3_ + 1) && p_195359_7_ >= (double) (p_195359_2_ - 1) && p_195359_7_ < (double) (p_195359_2_ + p_195359_4_ + 1);
+		mouseX = mouseX - (double) i;
+		mouseY = mouseY - (double) j;
+		return mouseX >= (double) (x - 1) && mouseX < (double) (x + width + 1) && mouseY >= (double) (y - 1) && mouseY < (double) (y + height + 1);
 	}
 
 	/**
@@ -551,16 +557,19 @@ public abstract class GrimContainerScreen<T extends Container> extends Container
 					this.handleMouseClick(this.hoveredSlot, this.hoveredSlot.slotNumber, hasControlDown() ? 1 : 0, ClickType.THROW);
 					return true; // Forge MC-146650: Needs to return true when the key is handled.
 				}
+			} else if (this.minecraft.gameSettings.keyBindDrop.isActiveAndMatches(mouseKey)) {
+				return true; // Forge MC-146650: Emulate MC bug, so we don't drop from hotbar when pressing
+								// drop without hovering over a item.
 			}
 
 			return false; // Forge MC-146650: Needs to return false when the key is not handled.
 		}
 	}
 
-	protected boolean func_195363_d(int p_195363_1_, int p_195363_2_) {
+	protected boolean func_195363_d(int keyCode, int scanCode) {
 		if (this.minecraft.player.inventory.getItemStack().isEmpty() && this.hoveredSlot != null) {
 			for (int i = 0; i < 9; ++i) {
-				if (this.minecraft.gameSettings.keyBindsHotbar[i].isActiveAndMatches(InputMappings.getInputByCode(p_195363_1_, p_195363_2_))) {
+				if (this.minecraft.gameSettings.keyBindsHotbar[i].isActiveAndMatches(InputMappings.getInputByCode(keyCode, scanCode))) {
 					this.handleMouseClick(this.hoveredSlot, this.hoveredSlot.slotNumber, i, ClickType.SWAP);
 					return true;
 				}
@@ -580,10 +589,9 @@ public abstract class GrimContainerScreen<T extends Container> extends Container
 		return false;
 	}
 
-	@SuppressWarnings("deprecation")
 	public void tick() {
 		super.tick();
-		if (!this.minecraft.player.isAlive() || this.minecraft.player.removed) {
+		if (!this.minecraft.player.isAlive()) {
 			this.minecraft.player.closeScreen();
 		}
 

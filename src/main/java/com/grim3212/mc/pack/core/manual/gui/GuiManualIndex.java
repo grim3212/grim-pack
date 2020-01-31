@@ -8,7 +8,7 @@ import com.grim3212.mc.pack.core.manual.button.GuiButtonHistory;
 import com.grim3212.mc.pack.core.manual.button.GuiButtonHome;
 import com.grim3212.mc.pack.core.manual.button.GuiButtonModSection;
 import com.grim3212.mc.pack.core.manual.pages.Page;
-import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.resources.I18n;
@@ -65,18 +65,18 @@ public class GuiManualIndex extends Screen {
 	@Override
 	public void render(int mouseX, int mouseY, float partialTicks) {
 		this.renderBackground();
-		GlStateManager.color4f(1F, 1F, 1F, 1F);
+		RenderSystem.color4f(1F, 1F, 1F, 1F);
 		minecraft.textureManager.bindTexture(texture);
 		blit(x, y, 0, 0, manualWidth, manualHeight);
 
 		this.drawTitle();
 
-		GlStateManager.pushMatrix();
-		GlStateManager.scalef(Page.SCALE_FACTOR, Page.SCALE_FACTOR, 1.0f);
+		RenderSystem.pushMatrix();
+		RenderSystem.scalef(Page.SCALE_FACTOR, Page.SCALE_FACTOR, 1.0f);
 		this.drawInfo();
 		this.drawImage();
 		this.drawFooter();
-		GlStateManager.popMatrix();
+		RenderSystem.popMatrix();
 
 		super.render(mouseX, mouseY, partialTicks);
 	}

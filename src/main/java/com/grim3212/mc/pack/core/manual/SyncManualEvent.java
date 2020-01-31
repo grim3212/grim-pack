@@ -6,8 +6,8 @@ import com.grim3212.mc.pack.core.network.PacketDispatcher;
 import com.grim3212.mc.pack.core.util.GrimLog;
 
 import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
 import net.minecraftforge.fml.network.PacketDistributor;
 
 public class SyncManualEvent {
@@ -16,7 +16,7 @@ public class SyncManualEvent {
 	}
 
 	@SubscribeEvent
-	public void syncConfig(PlayerLoggedInEvent event) {
+	public void syncConfig(PlayerEvent.PlayerLoggedInEvent event) {
 		if (!event.getPlayer().world.isRemote) {
 			PacketDispatcher.send(PacketDistributor.PLAYER.with(() -> (ServerPlayerEntity) event.getPlayer()), new MessageSyncManual());
 		}

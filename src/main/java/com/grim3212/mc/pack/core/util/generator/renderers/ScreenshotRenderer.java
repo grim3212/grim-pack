@@ -36,7 +36,7 @@ public class ScreenshotRenderer {
 	@SuppressWarnings("deprecation")
 	public static void saveTrimmedScreenshot(File target, int x, int y, int width, int height, Color transparencyColor) {
 		Minecraft mc = Minecraft.getInstance();
-		NativeImage screenshot = ScreenShotHelper.createScreenshot(mc.mainWindow.getWidth(), mc.mainWindow.getHeight(), mc.getFramebuffer());
+		NativeImage screenshot = ScreenShotHelper.createScreenshot(mc.getMainWindow().getWidth(), mc.getMainWindow().getHeight(), mc.getFramebuffer());
 		NativeImage copy = new NativeImage(width, height, false);
 		screenshot.resizeSubRectTo(x, y, width, height, copy);
 

@@ -2,17 +2,15 @@ package com.grim3212.mc.pack.core.util.generator.renderers;
 
 import java.awt.Color;
 import java.io.File;
-import java.nio.FloatBuffer;
 import java.util.Collection;
 
 import org.lwjgl.opengl.GL11;
 
 import com.grim3212.mc.pack.core.util.GrimLog;
 import com.grim3212.mc.pack.core.util.generator.Generator;
-import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.renderer.BufferBuilder;
-import net.minecraft.client.renderer.GLAllocation;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.item.ItemStack;
@@ -23,13 +21,13 @@ public class IconRenderer {
 	private static final int[] SCALES = { 2, 4, 8, 10, 16 };
 
 	public static void renderItems(Collection<ItemStack> items) {
-		GlStateManager.pushMatrix();
+		RenderSystem.pushMatrix();
 
 		for (int scale : SCALES) {
 			GrimLog.info(Generator.GENERATOR_NAME, "Starting image scale at " + 16 * scale);
 
-			GlStateManager.pushMatrix();
-			GlStateManager.scalef(scale, scale, 1);
+			RenderSystem.pushMatrix();
+			RenderSystem.scalef(scale, scale, 1);
 
 			for (ItemStack item : items) {
 				// Don't regenerate already done items
@@ -42,10 +40,10 @@ public class IconRenderer {
 					}
 				}
 			}
-			GlStateManager.popMatrix();
+			RenderSystem.popMatrix();
 		}
 
-		GlStateManager.popMatrix();
+		RenderSystem.popMatrix();
 	}
 
 	private static final float COLOR_R = 1f / 255;
@@ -59,10 +57,10 @@ public class IconRenderer {
 			Tessellator.getInstance().draw();
 		}
 
-		GlStateManager.clearColor(COLOR_R, COLOR_G, COLOR_B, 1);
-		GlStateManager.clearDepth(GL11.GL_DEPTH_BUFFER_BIT);
-		GlStateManager.enableRescaleNormal();
-		GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
+		RenderSystem.clearColor(COLOR_R, COLOR_G, COLOR_B, 1);
+		RenderSystem.clearDepth(GL11.GL_DEPTH_BUFFER_BIT);
+		RenderSystem.enableRescaleNormal();
+		RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
 		drawItemStack(stack, 0, 0);
 
 		// Dir path in the form of
@@ -82,21 +80,10 @@ public class IconRenderer {
 
 	}
 
-	private static FloatBuffer colorBuffer = GLAllocation.createDirectFloatBuffer(16);
-
-	private static FloatBuffer setColorBuffer(float r, float g, float b, float a) {
-		colorBuffer.clear();
-		colorBuffer.put(r).put(g).put(b).put(a);
-		colorBuffer.flip();
-		return colorBuffer;
-	}
-
 	private static void drawItemStack(ItemStack stack, int x, int y) {
-		RenderHelper.enableGUIStandardItemLighting();
-		GlStateManager.light(GL11.GL_LIGHT1, GL11.GL_AMBIENT, setColorBuffer(.1f, .1f, .1f, 1.0F));
-		GlStateManager.lightModel(GL11.GL_LIGHT_MODEL_AMBIENT, setColorBuffer(.5f, .5f, .5f, 1.0F));
-		GlStateManager.texCoord2f((float) 240 / 1.0F, (float) 240 / 1.0F);
-		GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
+		RenderHelper.enableStandardItemLighting();
+		RenderSystem.setupGui3DDiffuseLighting();
+		RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
 		// Don't blend so that we forget alpha
 		RendererHelper.renderItemAndEffectIntoGUI(stack, x, y, false);
 		RenderHelper.disableStandardItemLighting();

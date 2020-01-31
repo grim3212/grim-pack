@@ -28,7 +28,7 @@ public class WorldHelper {
 
 		BlockMaterialMatcher blockmaterialmatcher = BlockMaterialMatcher.forMaterial(material);
 
-		try (BlockPos.PooledMutableBlockPos pos = BlockPos.PooledMutableBlockPos.retain()) {
+		try (BlockPos.PooledMutable pos = BlockPos.PooledMutable.retain()) {
 			for (int k1 = i; k1 < j; ++k1) {
 				for (int l1 = k; l1 < l; ++l1) {
 					for (int i2 = i1; i2 < j1; ++i2) {

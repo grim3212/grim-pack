@@ -5,8 +5,6 @@ import com.grim3212.mc.pack.core.config.GrimConfig;
 import com.grim3212.mc.pack.core.part.GrimPart;
 import com.grim3212.mc.pack.core.part.PartRegistry;
 
-import net.minecraftforge.fml.client.config.ConfigGuiType;
-import net.minecraftforge.fml.client.config.IConfigElement;
 import net.minecraftforge.fml.common.ICrashCallable;
 
 public class CrashHandler implements ICrashCallable {
@@ -21,7 +19,7 @@ public class CrashHandler implements ICrashCallable {
 
 			GrimConfig partConfig = part.getGrimConfig();
 
-			for (IConfigElement ele : partConfig.getConfigItems()) {
+			/*for (IConfigElement ele : partConfig.getConfigItems()) {
 				if (!ele.isProperty()) {
 
 					if (ele.getQualifiedName().contains("SubPart")) {
@@ -36,7 +34,7 @@ public class CrashHandler implements ICrashCallable {
 						}
 					}
 				}
-			}
+			}*/
 		}
 
 		return out;

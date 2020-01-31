@@ -3,13 +3,12 @@ package com.grim3212.mc.pack.core;
 import java.util.List;
 
 import com.google.common.collect.Lists;
-import com.grim3212.mc.pack.GrimPack;
 import com.grim3212.mc.pack.core.client.CoreClientProxy;
 import com.grim3212.mc.pack.core.client.ManualCore;
 import com.grim3212.mc.pack.core.config.CoreConfig;
-import com.grim3212.mc.pack.core.crafting.CoreConditionFactory;
-import com.grim3212.mc.pack.core.crafting.PartConditionFactory;
-import com.grim3212.mc.pack.core.crafting.TagConditionFactory;
+import com.grim3212.mc.pack.core.crafting.CoreCondition;
+import com.grim3212.mc.pack.core.crafting.PartCondition;
+import com.grim3212.mc.pack.core.crafting.TagCondition;
 import com.grim3212.mc.pack.core.event.InitEvent;
 import com.grim3212.mc.pack.core.init.CoreInit;
 import com.grim3212.mc.pack.core.manual.IManualPart;
@@ -23,7 +22,6 @@ import com.grim3212.mc.pack.core.proxy.ServerProxy;
 import com.grim3212.mc.pack.core.util.CrashHandler;
 import com.grim3212.mc.pack.core.worldgen.CoreWorldGen;
 
-import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.MinecraftForge;
@@ -60,9 +58,9 @@ public class GrimCore extends GrimPart {
 		CoreWorldGen.initWorldGen();
 
 		// Register crafting helpers
-		CraftingHelper.register(new ResourceLocation(GrimPack.modID, "part_enabled"), new PartConditionFactory());
-		CraftingHelper.register(new ResourceLocation(GrimPack.modID, "core_subpart_enabled"), new CoreConditionFactory());
-		CraftingHelper.register(new ResourceLocation(GrimPack.modID, "tag_exists"), new TagConditionFactory());
+		CraftingHelper.register(PartCondition.Serializer.INSTANCE);
+		CraftingHelper.register(CoreCondition.Serializer.INSTANCE);
+		CraftingHelper.register(TagCondition.Serializer.INSTANCE);
 
 		// Register config syncing
 		PacketDispatcher.registerMessage(MessageSyncManual.class);

@@ -2,7 +2,7 @@ package com.grim3212.mc.pack.core.client;
 
 import org.lwjgl.opengl.GL11;
 
-import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.client.Minecraft;
@@ -11,6 +11,7 @@ import net.minecraft.client.renderer.texture.AtlasTexture;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.projectile.ProjectileHelper;
+import net.minecraft.inventory.container.PlayerContainer;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
@@ -46,7 +47,7 @@ public class ClientUtil {
 		if (entity != null) {
 			if (world != null) {
 				double d0 = (double) mc.playerController.getBlockReachDistance();
-				RayTraceResult objectMouseOver = entity.func_213324_a(d0, partialTicks, false);
+				RayTraceResult objectMouseOver = entity.pick(d0, partialTicks, false);
 				Vec3d vec3d = entity.getEyePosition(partialTicks);
 				boolean flag = false;
 				double d1 = d0;
@@ -67,7 +68,7 @@ public class ClientUtil {
 				Vec3d vec3d1 = entity.getLook(1.0F);
 				Vec3d vec3d2 = vec3d.add(vec3d1.x * d0, vec3d1.y * d0, vec3d1.z * d0);
 				AxisAlignedBB axisalignedbb = entity.getBoundingBox().expand(vec3d1.scale(d0)).grow(1.0D, 1.0D, 1.0D);
-				EntityRayTraceResult entityraytraceresult = ProjectileHelper.func_221273_a(entity, vec3d, vec3d2, axisalignedbb, (p_215312_0_) -> {
+				EntityRayTraceResult entityraytraceresult = ProjectileHelper.rayTraceEntities(entity, vec3d, vec3d2, axisalignedbb, (p_215312_0_) -> {
 					return !p_215312_0_.isSpectator();
 				}, d1);
 				if (entityraytraceresult != null) {
@@ -87,23 +88,23 @@ public class ClientUtil {
 
 	public static void renderBlock(BlockState block, float x, float y, float z, float rotate, float scale) {
 		Minecraft mc = Minecraft.getInstance();
-		GlStateManager.enableRescaleNormal();
-		GlStateManager.pushMatrix();
-		GlStateManager.rotatef(-30.0F, 0.0F, 1.0F, 0.0F);
+		RenderSystem.enableRescaleNormal();
+		RenderSystem.pushMatrix();
+		RenderSystem.rotatef(-30.0F, 0.0F, 1.0F, 0.0F);
 		net.minecraft.client.renderer.RenderHelper.enableStandardItemLighting();
-		GlStateManager.popMatrix();
-		GlStateManager.pushMatrix();
-		GlStateManager.translatef(x, y, 50.0F + z);
-		GlStateManager.rotatef(20.0F, 1.0F, 0.0F, 0.0F);
+		RenderSystem.popMatrix();
+		RenderSystem.pushMatrix();
+		RenderSystem.translatef(x, y, 50.0F + z);
+		RenderSystem.rotatef(20.0F, 1.0F, 0.0F, 0.0F);
 		scale *= 50;
-		GlStateManager.scalef(scale, -scale, -scale);
-		GlStateManager.translatef(0.5F, 0.5F, 0.5F);
-		GlStateManager.rotatef(rotate, 0.0F, 1.0F, 0.0F);
-		GlStateManager.translatef(-0.5F, -0.5F, -0.5F);
-		mc.getTextureManager().bindTexture(AtlasTexture.LOCATION_BLOCKS_TEXTURE);
-		mc.getBlockRendererDispatcher().renderBlockBrightness(block, 1.0F);
-		GlStateManager.popMatrix();
+		RenderSystem.scalef(scale, -scale, -scale);
+		RenderSystem.translatef(0.5F, 0.5F, 0.5F);
+		RenderSystem.rotatef(rotate, 0.0F, 1.0F, 0.0F);
+		RenderSystem.translatef(-0.5F, -0.5F, -0.5F);
+		mc.getTextureManager().bindTexture(PlayerContainer.LOCATION_BLOCKS_TEXTURE);
+		//mc.getBlockRendererDispatcher().renderBlockBrightness(block, 1.0F);
+		RenderSystem.popMatrix();
 		net.minecraft.client.renderer.RenderHelper.disableStandardItemLighting();
-		GlStateManager.disableRescaleNormal();
+		RenderSystem.disableRescaleNormal();
 	}
 }

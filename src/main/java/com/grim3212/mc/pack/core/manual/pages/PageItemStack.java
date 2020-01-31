@@ -11,7 +11,7 @@ import com.google.gson.JsonObject;
 import com.grim3212.mc.pack.GrimPack;
 import com.grim3212.mc.pack.core.client.TooltipHelper;
 import com.grim3212.mc.pack.core.manual.gui.GuiManualPage;
-import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
@@ -61,7 +61,7 @@ public class PageItemStack extends Page {
 		TextureManager render = Minecraft.getInstance().getTextureManager();
 		render.bindTexture(stackOverlay);
 
-		GL11.glColor4f(1F, 1F, 1F, 1F);
+		RenderSystem.color4f(1f, 1f, 1f, 1f);
 		((Screen) gui).blit(gui.getX() + 21, gui.getY() + 120, 21, 120, 147, 85);
 
 		tooltipItem = ItemStack.EMPTY;
@@ -84,27 +84,27 @@ public class PageItemStack extends Page {
 	public void renderItem(GuiManualPage gui, ItemStack item, int x, int y) {
 		ItemRenderer render = Minecraft.getInstance().getItemRenderer();
 
-		GlStateManager.pushMatrix();
-		GlStateManager.enableBlend();
-		GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-		RenderHelper.enableGUIStandardItemLighting();
+		RenderSystem.pushMatrix();
+		RenderSystem.enableBlend();
+		RenderSystem.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+		RenderHelper.enableStandardItemLighting();
 
-		GlStateManager.translatef(-x * 2f, -y * 2f, 0);
-		GlStateManager.scalef(3F, 3F, 0.75F);
+		RenderSystem.translatef(-x * 2f, -y * 2f, 0);
+		RenderSystem.scalef(3F, 3F, 0.75F);
 
-		GlStateManager.enableRescaleNormal();
-		GlStateManager.enableDepthTest();
+		RenderSystem.enableRescaleNormal();
+		RenderSystem.enableDepthTest();
 
 		render.renderItemAndEffectIntoGUI(item, x, y);
 		render.renderItemOverlayIntoGUI(Minecraft.getInstance().fontRenderer, item, x, y, (String) null);
 		RenderHelper.disableStandardItemLighting();
-		GlStateManager.popMatrix();
+		RenderSystem.popMatrix();
 
 		if (relativeMouseX >= x && relativeMouseY >= y && relativeMouseX <= x + (16 * 3) && relativeMouseY <= y + (16 * 3)) {
 			this.tooltipItem = item;
 		}
 
-		GlStateManager.disableLighting();
+		RenderSystem.disableLighting();
 	}
 
 	@Override

@@ -4,8 +4,6 @@ import java.awt.Color;
 import java.util.List;
 import java.util.Optional;
 
-import org.lwjgl.opengl.GL11;
-
 import com.google.common.collect.ImmutableList;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -16,7 +14,7 @@ import com.grim3212.mc.pack.core.util.GrimLog;
 import com.grim3212.mc.pack.core.util.NBTHelper;
 import com.grim3212.mc.pack.core.util.RecipeHelper;
 import com.grim3212.mc.pack.core.util.generator.Generator;
-import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
@@ -71,7 +69,7 @@ public class PageFurnace extends Page {
 		TextureManager render = mc.getTextureManager();
 		render.bindTexture(furnaceOverlay);
 
-		GL11.glColor4f(1F, 1F, 1F, 1F);
+		RenderSystem.color4f(1f, 1f, 1f, 1f);
 		((Screen) gui).blit(gui.getX() + 21, gui.getY() + 120, 21, 120, 147, 85);
 
 		tooltipItem = ItemStack.EMPTY;
@@ -93,14 +91,14 @@ public class PageFurnace extends Page {
 
 			// Check if Ingredient has a tag if so mark it
 			RecipeHelper.getTag(input).<Runnable>map(tag -> () -> {
-				GlStateManager.pushMatrix();
-				GlStateManager.enableBlend();
+				RenderSystem.pushMatrix();
+				RenderSystem.enableBlend();
 				TextureManager render = Minecraft.getInstance().getTextureManager();
 				render.bindTexture(furnaceOverlay);
 
 				((Screen) gui).blit(gui.getX() + 44, gui.getY() + 139, 0, 0, 26, 26);
-				GlStateManager.disableBlend();
-				GlStateManager.popMatrix();
+				RenderSystem.disableBlend();
+				RenderSystem.popMatrix();
 				this.renderItemCutWild(gui, NBTHelper.setStringItemStack(input.getMatchingStacks()[0], "customTooltip", I18n.format("grimpack.manual.tags") + " : " + tag), gui.getX() + 49, gui.getY() + 145);
 			}).orElse(() -> this.renderItemCutWild(gui, input.getMatchingStacks()[0], gui.getX() + 49, gui.getY() + 145)).run();
 

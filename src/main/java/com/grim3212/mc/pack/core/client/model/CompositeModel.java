@@ -3,13 +3,10 @@ package com.grim3212.mc.pack.core.client.model;
 import java.util.List;
 import java.util.Random;
 
-import javax.vecmath.Matrix4f;
+import com.google.common.collect.ImmutableList;
+import com.mojang.blaze3d.matrix.MatrixStack;
 
 import net.minecraft.block.BlockState;
-import org.apache.commons.lang3.tuple.Pair;
-
-import com.google.common.collect.ImmutableList;
-
 import net.minecraft.client.renderer.model.BakedQuad;
 import net.minecraft.client.renderer.model.IBakedModel;
 import net.minecraft.client.renderer.model.ItemCameraTransforms;
@@ -17,7 +14,6 @@ import net.minecraft.client.renderer.model.ItemCameraTransforms.TransformType;
 import net.minecraft.client.renderer.model.ItemOverrideList;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.util.Direction;
-import net.minecraftforge.common.model.TRSRTransformation;
 
 @SuppressWarnings("deprecation")
 public class CompositeModel implements IBakedModel {
@@ -70,11 +66,13 @@ public class CompositeModel implements IBakedModel {
 	}
 
 	@Override
-	public Pair<? extends IBakedModel, Matrix4f> handlePerspective(TransformType cameraTransformType) {
-		Pair<? extends IBakedModel, Matrix4f> pair = models.get(0).handlePerspective(cameraTransformType);
-		if (pair != null && pair.getRight() != null)
-			return Pair.of(this, pair.getRight());
-		return Pair.of(this, TRSRTransformation.identity().getMatrixVec());
+	public IBakedModel handlePerspective(TransformType cameraTransformType, MatrixStack mat) {
+		return models.get(0).handlePerspective(cameraTransformType, mat);
+	}
+
+	@Override
+	public boolean func_230044_c_() {
+		return models.get(0).func_230044_c_();
 	}
 
 }

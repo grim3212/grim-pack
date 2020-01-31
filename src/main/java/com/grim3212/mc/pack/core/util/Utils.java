@@ -11,18 +11,18 @@ import com.grim3212.mc.pack.GrimPack;
 import com.grim3212.mc.pack.core.network.MessageBetterExplosion;
 import com.grim3212.mc.pack.core.network.PacketDispatcher;
 
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.FlowingFluidBlock;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.fluid.Fluid;
 import net.minecraft.item.BucketItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
@@ -30,14 +30,11 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.Explosion.Mode;
 import net.minecraft.world.World;
-import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidUtil;
-import net.minecraftforge.fluids.IFluidBlock;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.wrappers.BlockWrapper;
-import net.minecraftforge.fluids.capability.wrappers.FluidBlockWrapper;
 import net.minecraftforge.fml.network.PacketDistributor;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
@@ -307,14 +304,14 @@ public class Utils {
 	 *         placement was successful, null otherwise
 	 */
 	@Nonnull
-	public static void tryPlaceFluid(@Nullable PlayerEntity player, World world, BlockPos pos, IFluidHandler fluidHandler, FluidStack resource) {
+	public static boolean tryPlaceFluid(@Nullable PlayerEntity player, World world, BlockPos pos, IFluidHandler fluidHandler, FluidStack resource) {
 		if (world == null || resource == null || pos == null) {
-			return;
+			return false;
 		}
 
 		Fluid fluid = resource.getFluid();
-		if (fluid == null || !fluid.canBePlacedInWorld()) {
-			return;
+		if (fluid == null || !fluid.getAttributes().canBePlacedInWorld(world, pos, resource)) {
+			return false;
 		}
 
 		// check that we can place the fluid at the destination
@@ -323,13 +320,18 @@ public class Utils {
 		boolean isDestNonSolid = !destMaterial.isSolid();
 		boolean isDestReplaceable = destMaterial.isReplaceable();
 		if (!world.isAirBlock(pos) && !isDestNonSolid && !isDestReplaceable) {
-			return; // Non-air, solid, unreplacable block. We can't put fluid
+			return false; // Non-air, solid, unreplacable block. We can't put fluid
 			// here.
 		}
 
-		if (world.getDimension().doesWaterVaporize() && fluid.doesVaporize(resource)) {
-			fluid.vaporize(player, world, pos, resource);
+		if (world.getDimension().doesWaterVaporize() && fluid.getAttributes().doesVaporize(world, pos, resource)) {
+			FluidStack result = fluidHandler.drain(resource, IFluidHandler.FluidAction.EXECUTE);
+			if (!result.isEmpty()) {
+				result.getFluid().getAttributes().vaporize(player, world, pos, result);
+				return true;
+			}
 		} else {
+
 			if (!world.isRemote && (isDestNonSolid || isDestReplaceable) && !destMaterial.isLiquid()) {
 				world.destroyBlock(pos, true);
 			}
@@ -337,22 +339,17 @@ public class Utils {
 			// Defer the placement to the fluid block
 			// Instead of actually "filling", the fluid handler method replaces
 			// the block
-			Block block = fluid.getBlock();
+			BlockState state = fluid.getAttributes().getBlock(world, pos, fluid.getDefaultState());
+			IFluidHandler handler = new BlockWrapper(state, world, pos);
 
-			IFluidHandler handler;
-			if (block instanceof IFluidBlock) {
-				handler = new FluidBlockWrapper((IFluidBlock) block, world, pos);
-			} else if (block instanceof FlowingFluidBlock) {
-				// handler = new BlockLiquidWrapper((BlockLiquid) block, world,
-				// pos);
-				world.setBlockState(pos, block.getDefaultState(), 11);
-				return;
-			} else {
-				handler = new BlockWrapper(block, world, pos);
+			FluidStack result = FluidUtil.tryFluidTransfer(handler, fluidHandler, Integer.MAX_VALUE, true);
+			if (!result.isEmpty()) {
+				SoundEvent soundevent = resource.getFluid().getAttributes().getEmptySound(resource);
+				world.playSound(player, pos, soundevent, SoundCategory.BLOCKS, 1.0F, 1.0F);
+				return true;
 			}
-
-			FluidUtil.tryFluidTransfer(handler, fluidHandler, Integer.MAX_VALUE, true);
 		}
+		return false;
 	}
 
 	public static class UtilTimer {

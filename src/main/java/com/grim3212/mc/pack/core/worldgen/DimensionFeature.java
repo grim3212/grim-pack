@@ -8,19 +8,15 @@ import net.minecraft.world.dimension.DimensionType;
 import net.minecraft.world.gen.ChunkGenerator;
 import net.minecraft.world.gen.GenerationSettings;
 import net.minecraft.world.gen.feature.ConfiguredFeature;
-import net.minecraft.world.gen.feature.DecoratedFeatureConfig;
 import net.minecraft.world.gen.feature.Feature;
-import net.minecraft.world.gen.feature.FlowersFeature;
 import net.minecraft.world.gen.feature.IFeatureConfig;
-import net.minecraft.world.gen.placement.IPlacementConfig;
-import net.minecraft.world.gen.placement.Placement;
 
-public class DimensionFeature<F extends IFeatureConfig, D extends IPlacementConfig> extends ConfiguredFeature<F> {
+public class DimensionFeature<FC extends IFeatureConfig, F extends Feature<FC>> extends ConfiguredFeature<FC, F> {
 
 	private final DimensionType dim;
 
-	public DimensionFeature(Feature<F> featureIn, F configIn, DimensionType type) {
-		super(featureIn, configIn);
+	public DimensionFeature(ConfiguredFeature<FC, F> parent, DimensionType type) {
+		super(parent.feature, parent.config);
 		this.dim = type;
 	}
 
@@ -30,10 +26,5 @@ public class DimensionFeature<F extends IFeatureConfig, D extends IPlacementConf
 			return super.place(worldIn, generator, rand, pos);
 		}
 		return false;
-	}
-
-	public static <F extends IFeatureConfig, D extends IPlacementConfig> ConfiguredFeature<?> createDimensionFeature(Feature<F> featureIn, F config, Placement<D> placementIn, D placementConfig, DimensionType type) {
-		Feature<DecoratedFeatureConfig> feature = featureIn instanceof FlowersFeature ? Feature.DECORATED_FLOWER : Feature.DECORATED;
-		return new DimensionFeature<>(feature, new DecoratedFeatureConfig(featureIn, config, placementIn, placementConfig), type);
 	}
 }

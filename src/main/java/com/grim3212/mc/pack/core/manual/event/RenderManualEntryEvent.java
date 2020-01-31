@@ -7,7 +7,7 @@ import com.grim3212.mc.pack.core.init.CoreInit;
 import com.grim3212.mc.pack.core.manual.IManualEntry.IManualBlock;
 import com.grim3212.mc.pack.core.manual.IManualEntry.IManualEntity;
 import com.grim3212.mc.pack.core.manual.IManualEntry.IManualItem;
-import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.client.MainWindow;
@@ -20,9 +20,9 @@ import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.EntityRayTraceResult;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
+import net.minecraftforge.event.TickEvent;
+import net.minecraftforge.event.TickEvent.Phase;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
-import net.minecraftforge.fml.common.gameevent.TickEvent.RenderTickEvent;
 
 public class RenderManualEntryEvent {
 
@@ -30,7 +30,7 @@ public class RenderManualEntryEvent {
 	private Minecraft mc = Minecraft.getInstance();
 
 	@SubscribeEvent
-	public void onEvent(RenderTickEvent event) {
+	public void onEvent(TickEvent.RenderTickEvent event) {
 		if (event.phase == Phase.END && CoreConfig.showCheckmark.get()) {
 			if (mc.player != null && mc.world != null && !mc.isGamePaused()) {
 
@@ -71,9 +71,9 @@ public class RenderManualEntryEvent {
 				}
 
 				if (flag && mc.currentScreen == null) {
-					MainWindow scaled = mc.mainWindow;
+					MainWindow scaled = mc.getMainWindow();
 					mc.getTextureManager().bindTexture(ICONS_LOCATION);
-					GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
+					RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
 					AbstractGui.blit((scaled.getScaledWidth() / 2) + 8, (scaled.getScaledHeight() / 2) - 4, 8, 8, 256, 256, 8, 8, 128, 128);
 				}
 			}

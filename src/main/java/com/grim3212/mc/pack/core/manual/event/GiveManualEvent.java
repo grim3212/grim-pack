@@ -7,8 +7,8 @@ import com.grim3212.mc.pack.core.util.NBTHelper;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
 import net.minecraftforge.items.ItemHandlerHelper;
 
 public class GiveManualEvent {
@@ -16,9 +16,9 @@ public class GiveManualEvent {
 	public static final String GAVE_MANUAL = "grimpack.gaveManual";
 
 	@SubscribeEvent
-	public void onPlayerLogin(PlayerLoggedInEvent event) {
+	public void onPlayerLogin(PlayerEvent.PlayerLoggedInEvent event) {
 		if (CoreConfig.giveManualOnJoin.get()) {
-			CompoundNBT tag = event.getPlayer().getEntityData();
+			CompoundNBT tag = event.getPlayer().getPersistentData();
 			CompoundNBT data = NBTHelper.getTagCompound(tag, PlayerEntity.PERSISTED_NBT_TAG);
 
 			if (!data.getBoolean(GAVE_MANUAL)) {

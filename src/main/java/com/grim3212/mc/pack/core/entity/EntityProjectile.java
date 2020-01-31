@@ -32,8 +32,8 @@ import net.minecraft.util.math.RayTraceContext;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.shapes.VoxelShape;
-import net.minecraft.world.ServerWorld;
 import net.minecraft.world.World;
+import net.minecraft.world.server.ServerMultiWorld;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -65,7 +65,7 @@ public abstract class EntityProjectile extends Entity implements IProjectile {
 	}
 
 	protected EntityProjectile(EntityType<?> type, LivingEntity entity, World world) {
-		this(type, entity.posX, entity.posY + (double) entity.getEyeHeight() - (double) 0.1F, entity.posZ, world);
+		this(type, entity.getPosX(), entity.getPosY() + (double) entity.getEyeHeight() - (double) 0.1F, entity.getPosZ(), world);
 		this.func_212361_a(entity);
 		if (entity instanceof PlayerEntity) {
 			this.pickupStatus = AbstractArrowEntity.PickupStatus.ALLOWED;
@@ -144,7 +144,7 @@ public abstract class EntityProjectile extends Entity implements IProjectile {
 			this.prevRotationPitch = this.rotationPitch = (float) (MathHelper.atan2(y, (double) f) * (180D / Math.PI));
 			this.prevRotationPitch = this.rotationPitch;
 			this.prevRotationYaw = this.rotationYaw;
-			this.setLocationAndAngles(this.posX, this.posY, this.posZ, this.rotationYaw, this.rotationPitch);
+			this.setLocationAndAngles(this.getPosX(), this.getPosY(), this.getPosZ(), this.rotationYaw, this.rotationPitch);
 			this.ticksInGround = 0;
 		}
 	}
@@ -165,13 +165,13 @@ public abstract class EntityProjectile extends Entity implements IProjectile {
 			this.prevRotationPitch = this.rotationPitch;
 		}
 
-		BlockPos blockpos = new BlockPos(this.posX, this.posY, this.posZ);
+		BlockPos blockpos = new BlockPos(this.getPosX(), this.getPosY(), this.getPosZ());
 		BlockState iblockstate = this.world.getBlockState(blockpos);
 		if (!iblockstate.isAir(this.world, blockpos)) {
 			VoxelShape voxelshape = iblockstate.getCollisionShape(this.world, blockpos);
 			if (!voxelshape.isEmpty()) {
 				for (AxisAlignedBB axisalignedbb : voxelshape.toBoundingBoxList()) {
-					if (axisalignedbb.offset(blockpos).contains(new Vec3d(this.posX, this.posY, this.posZ))) {
+					if (axisalignedbb.offset(blockpos).contains(new Vec3d(this.getPosX(), this.getPosY(), this.getPosZ()))) {
 						this.inGround = true;
 						break;
 					}
@@ -184,7 +184,7 @@ public abstract class EntityProjectile extends Entity implements IProjectile {
 		}
 
 		if (this.inGround) {
-			if (this.inBlockState != iblockstate && this.world.isCollisionBoxesEmpty((Entity) null, this.getBoundingBox().grow(0.05D))) {
+			if (this.inBlockState != iblockstate && this.world.func_226664_a_(this.getBoundingBox().grow(0.05D))) {
 				this.inGround = false;
 				this.setMotion(vec3d.mul((double) (this.rand.nextFloat() * 0.2F), (double) (this.rand.nextFloat() * 0.2F), (double) (this.rand.nextFloat() * 0.2F)));
 				this.ticksInGround = 0;
@@ -197,7 +197,7 @@ public abstract class EntityProjectile extends Entity implements IProjectile {
 		} else {
 			this.timeInGround = 0;
 			++this.ticksInAir;
-			Vec3d vec3d1 = new Vec3d(this.posX, this.posY, this.posZ);
+			Vec3d vec3d1 = new Vec3d(this.getPosX(), this.getPosY(), this.getPosZ());
 			Vec3d vec3d2 = vec3d1.add(vec3d);
 			RayTraceResult raytraceresult = this.world.rayTraceBlocks(new RayTraceContext(vec3d1, vec3d2, RayTraceContext.BlockMode.COLLIDER, RayTraceContext.FluidMode.NONE, this));
 			if (raytraceresult.getType() != RayTraceResult.Type.MISS) {
@@ -236,9 +236,8 @@ public abstract class EntityProjectile extends Entity implements IProjectile {
 			double d2 = vec3d.y;
 			double d0 = vec3d.z;
 
-			this.posX += d1;
-			this.posY += d2;
-			this.posZ += d0;
+			this.setPosition(this.getPosX() + d1, this.getPosY() + d2, this.getPosZ() + d0);
+
 			float f4 = MathHelper.sqrt(getDistanceSq(vec3d));
 			this.rotationYaw = (float) (MathHelper.atan2(d1, d0) * (double) (180F / (float) Math.PI));
 
@@ -265,7 +264,7 @@ public abstract class EntityProjectile extends Entity implements IProjectile {
 			if (this.isInWater()) {
 				for (int j = 0; j < 4; ++j) {
 					float f3 = 0.25F;
-					this.world.addParticle(ParticleTypes.BUBBLE, this.posX - d1 * f3, this.posY - d2 * f3, this.posZ - d0 * f3, d1, d2, d0);
+					this.world.addParticle(ParticleTypes.BUBBLE, this.getPosX() - d1 * f3, this.getPosY() - d2 * f3, this.getPosZ() - d0 * f3, d1, d2, d0);
 				}
 
 				f1 = this.getWaterDrag();
@@ -277,7 +276,7 @@ public abstract class EntityProjectile extends Entity implements IProjectile {
 				this.setMotion(vec3d3.x, vec3d3.y - (double) f2, vec3d3.z);
 			}
 
-			this.setPosition(this.posX, this.posY, this.posZ);
+			this.setPosition(this.getPosX(), this.getPosY(), this.getPosZ());
 			this.doBlockCollisions();
 		}
 	}
@@ -351,12 +350,10 @@ public abstract class EntityProjectile extends Entity implements IProjectile {
 			BlockRayTraceResult blockraytraceresult = (BlockRayTraceResult) raytraceResultIn;
 			BlockState blockstate = this.world.getBlockState(blockraytraceresult.getPos());
 			this.inBlockState = blockstate;
-			Vec3d vec3d = blockraytraceresult.getHitVec().subtract(this.posX, this.posY, this.posZ);
+			Vec3d vec3d = blockraytraceresult.getHitVec().subtract(this.getPosX(), this.getPosY(), this.getPosZ());
 			this.setMotion(vec3d);
 			Vec3d vec3d1 = vec3d.normalize().scale((double) 0.05F);
-			this.posX -= vec3d1.x;
-			this.posY -= vec3d1.y;
-			this.posZ -= vec3d1.z;
+			this.setPosition(this.getPosX() - vec3d1.x, this.getPosY() - vec3d1.y, this.getPosZ() - vec3d1.z);
 			this.projectileLand(raytraceResultIn, blockstate);
 			this.projectileShake = 7;
 			blockstate.onProjectileCollision(this.world, blockstate, blockraytraceresult, this);
@@ -378,7 +375,7 @@ public abstract class EntityProjectile extends Entity implements IProjectile {
 
 	@Nullable
 	protected EntityRayTraceResult func_213866_a(Vec3d p_213866_1_, Vec3d p_213866_2_) {
-		return ProjectileHelper.func_221271_a(this.world, this, p_213866_1_, p_213866_2_, this.getBoundingBox().expand(this.getMotion()).grow(1.0D), (p_213871_1_) -> {
+		return ProjectileHelper.rayTraceEntities(this.world, this, p_213866_1_, p_213866_2_, this.getBoundingBox().expand(this.getMotion()).grow(1.0D), (p_213871_1_) -> {
 			return !p_213871_1_.isSpectator() && p_213871_1_.isAlive() && p_213871_1_.canBeCollidedWith() && (p_213871_1_ != this.getOwner() || this.ticksInAir >= 5);
 		});
 	}
@@ -457,11 +454,6 @@ public abstract class EntityProjectile extends Entity implements IProjectile {
 		return false;
 	}
 
-	@Override
-	public int getBrightnessForRender() {
-		return 15728880;
-	}
-
 	public void setDamage(double damageIn) {
 		this.damage = damageIn;
 	}
@@ -496,7 +488,7 @@ public abstract class EntityProjectile extends Entity implements IProjectile {
 
 	@Nullable
 	public Entity getOwner() {
-		return this.shootingEntity != null && this.world instanceof ServerWorld ? ((ServerWorld) this.world).getEntityByUuid(this.shootingEntity) : null;
+		return this.shootingEntity != null && this.world instanceof ServerMultiWorld ? ((ServerMultiWorld) this.world).getEntityByUuid(this.shootingEntity) : null;
 	}
 
 	public boolean canStickInGround() {

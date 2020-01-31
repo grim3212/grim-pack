@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.grim3212.mc.pack.core.manual.gui.GuiManualPage;
-import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
@@ -36,8 +36,8 @@ public class PageInfo extends Page {
 	 *                 https://github.com/Vazkii/Botania/blob/master/src/main/java/vazkii/botania/common/lexicon/page/PageText.java
 	 */
 	public static void drawText(int x, int y, String pageInfo) {
-		GlStateManager.pushMatrix();
-		GlStateManager.scalef(SCALE_FACTOR, SCALE_FACTOR, 1.0f);
+		RenderSystem.pushMatrix();
+		RenderSystem.scalef(SCALE_FACTOR, SCALE_FACTOR, 1.0f);
 		x = (int) (x / SCALE_FACTOR);
 		y = (int) (y / SCALE_FACTOR);
 
@@ -86,7 +86,7 @@ public class PageInfo extends Page {
 			y += 10;
 		}
 
-		GlStateManager.popMatrix();
+		RenderSystem.popMatrix();
 	}
 
 	private static String getControlCodes(String s) {

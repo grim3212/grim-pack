@@ -1,7 +1,7 @@
 package com.grim3212.mc.pack.core.manual.button;
 
 import com.grim3212.mc.pack.core.manual.gui.GuiManualIndex;
-import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.widget.button.Button;
@@ -24,7 +24,7 @@ public class GuiButtonHistory extends Button {
 
 		if (this.visible) {
 			boolean flag = mouseX >= this.x && mouseY >= this.y && mouseX < this.x + this.width && mouseY < this.y + this.height;
-			GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
+			RenderSystem.color4f(1f, 1f, 1f, 1f);
 			Minecraft.getInstance().textureManager.bindTexture(GuiManualIndex.texture);
 			int k = back ? 211 : 229;
 			int l = 20;

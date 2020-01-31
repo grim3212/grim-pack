@@ -6,8 +6,6 @@ import java.util.Optional;
 
 import javax.annotation.Nullable;
 
-import org.lwjgl.opengl.GL11;
-
 import com.google.common.collect.ImmutableList;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -18,7 +16,7 @@ import com.grim3212.mc.pack.core.util.GrimLog;
 import com.grim3212.mc.pack.core.util.NBTHelper;
 import com.grim3212.mc.pack.core.util.RecipeHelper;
 import com.grim3212.mc.pack.core.util.generator.Generator;
-import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
@@ -77,7 +75,7 @@ public class PageCrafting extends Page {
 		TextureManager render = Minecraft.getInstance().getTextureManager();
 		render.bindTexture(craftingOverlay);
 
-		GL11.glColor4f(1F, 1F, 1F, 1F);
+		RenderSystem.color4f(1f, 1f, 1f, 1f);
 		((Screen) gui).blit(gui.getX() + 21, gui.getY() + 120, 21, 120, 147, 85);
 
 		tooltipItem = ItemStack.EMPTY;
@@ -101,14 +99,14 @@ public class PageCrafting extends Page {
 				this.drawIngredientList(gui, recipe.get());
 
 				if (isShapeless) {
-					GlStateManager.pushMatrix();
-					GlStateManager.enableBlend();
+					RenderSystem.pushMatrix();
+					RenderSystem.enableBlend();
 					TextureManager render = Minecraft.getInstance().getTextureManager();
 					render.bindTexture(craftingOverlay);
 
 					((Screen) gui).blit(gui.getX() + 133, gui.getY() + 144, 0, 27, 36, 36);
-					GlStateManager.disableBlend();
-					GlStateManager.popMatrix();
+					RenderSystem.disableBlend();
+					RenderSystem.popMatrix();
 				}
 
 				if (isShapeless)
@@ -139,14 +137,14 @@ public class PageCrafting extends Page {
 		if (stacks.length > 0) {
 			// Check if Ingredient has a tag if so mark it
 			RecipeHelper.getTag(item).<Runnable>map(loc -> () -> {
-				GlStateManager.pushMatrix();
-				GlStateManager.enableBlend();
+				RenderSystem.pushMatrix();
+				RenderSystem.enableBlend();
 				TextureManager render = Minecraft.getInstance().getTextureManager();
 				render.bindTexture(craftingOverlay);
 
 				((Screen) gui).blit(x - 6, y - 6, 0, 0, 26, 26);
-				GlStateManager.disableBlend();
-				GlStateManager.popMatrix();
+				RenderSystem.disableBlend();
+				RenderSystem.popMatrix();
 				this.renderItemCutWild(gui, NBTHelper.setStringItemStack(stacks[0], "customTooltip", I18n.format("grimpack.manual.tags") + " : " + loc), x - 1, y - 1);
 			}).orElse(() -> this.renderItemCutWild(gui, stacks[0], x - 1, y - 1)).run();
 

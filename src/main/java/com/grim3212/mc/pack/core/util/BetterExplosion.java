@@ -8,7 +8,9 @@ import java.util.Set;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
+import com.mojang.datafixers.util.Pair;
 
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -16,6 +18,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.enchantment.ProtectionEnchantment;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.item.TNTEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.fluid.IFluidState;
@@ -30,8 +33,8 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.Explosion;
-import net.minecraft.world.ServerWorld;
 import net.minecraft.world.World;
+import net.minecraft.world.server.ServerMultiWorld;
 import net.minecraft.world.storage.loot.LootContext;
 import net.minecraft.world.storage.loot.LootParameters;
 import net.minecraftforge.api.distmarker.Dist;
@@ -149,16 +152,16 @@ public class BetterExplosion extends Explosion {
 					double d12 = (double) (MathHelper.sqrt(entity.getDistanceSq(new Vec3d(this.explosionX, this.explosionY, this.explosionZ))) / f3);
 
 					if (d12 <= 1.0D) {
-						double d5 = entity.posX - this.explosionX;
-						double d7 = entity.posY + (double) entity.getEyeHeight() - this.explosionY;
-						double d9 = entity.posZ - this.explosionZ;
+						double d5 = entity.getPosX() - this.explosionX;
+						double d7 = entity.getPosY() + (double) entity.getEyeHeight() - this.explosionY;
+						double d9 = entity.getPosZ() - this.explosionZ;
 						double d13 = (double) MathHelper.sqrt(d5 * d5 + d7 * d7 + d9 * d9);
 
 						if (d13 != 0.0D) {
 							d5 = d5 / d13;
 							d7 = d7 / d13;
 							d9 = d9 / d13;
-							double d14 = (double) func_222259_a(vec3d, entity);
+							double d14 = (double) getBlockDensity(vec3d, entity);
 							double d10 = (1.0D - d12) * d14;
 							entity.attackEntityFrom(DamageSource.causeExplosionDamage(this), (float) ((int) ((d10 * d10 + d10) / 2.0D * 7.0D * (double) f3 + 1.0D)));
 							double d11 = 1.0D;
@@ -195,6 +198,8 @@ public class BetterExplosion extends Explosion {
 		}
 
 		if (flag) {
+			ObjectArrayList<Pair<ItemStack, BlockPos>> objectarraylist = new ObjectArrayList<>();
+
 			for (BlockPos blockpos : this.affectedBlockPositions) {
 				BlockState iblockstate = this.worldObj.getBlockState(blockpos);
 				Block block = iblockstate.getBlock();
@@ -220,19 +225,25 @@ public class BetterExplosion extends Explosion {
 				}
 
 				if (!iblockstate.isAir(this.worldObj, blockpos)) {
-					if (this.worldObj instanceof ServerWorld && iblockstate.canDropFromExplosion(this.worldObj, blockpos, this)) {
+					if (this.worldObj instanceof ServerMultiWorld && iblockstate.canDropFromExplosion(this.worldObj, blockpos, this)) {
 						TileEntity tileentity = iblockstate.hasTileEntity() ? this.worldObj.getTileEntity(blockpos) : null;
-						LootContext.Builder lootcontext$builder = (new LootContext.Builder((ServerWorld) this.worldObj)).withRandom(this.worldObj.rand).withParameter(LootParameters.POSITION, blockpos).withParameter(LootParameters.TOOL, ItemStack.EMPTY).withNullableParameter(LootParameters.BLOCK_ENTITY, tileentity);
+						LootContext.Builder lootcontext$builder = (new LootContext.Builder((ServerMultiWorld) this.worldObj)).withRandom(this.worldObj.rand).withParameter(LootParameters.POSITION, blockpos).withParameter(LootParameters.TOOL, ItemStack.EMPTY).withNullableParameter(LootParameters.BLOCK_ENTITY, tileentity);
 						if (this.destroyBlocks == Explosion.Mode.DESTROY) {
 							lootcontext$builder.withParameter(LootParameters.EXPLOSION_RADIUS, this.explosionSize);
 						}
 
-						Block.spawnDrops(iblockstate, lootcontext$builder);
+						iblockstate.getDrops(lootcontext$builder).forEach((p_229977_2_) -> {
+							func_229976_a_(objectarraylist, p_229977_2_, blockpos);
+						});
 					}
 
 					this.worldObj.setBlockState(blockpos, Blocks.AIR.getDefaultState(), 3);
 					block.onExplosionDestroy(this.worldObj, blockpos, this);
 				}
+			}
+
+			for (Pair<ItemStack, BlockPos> pair : objectarraylist) {
+				Block.spawnAsEntity(this.worldObj, pair.getSecond(), pair.getFirst());
 			}
 		}
 
@@ -243,6 +254,24 @@ public class BetterExplosion extends Explosion {
 				}
 			}
 		}
+	}
+
+	private static void func_229976_a_(ObjectArrayList<Pair<ItemStack, BlockPos>> p_229976_0_, ItemStack p_229976_1_, BlockPos p_229976_2_) {
+		int i = p_229976_0_.size();
+
+		for (int j = 0; j < i; ++j) {
+			Pair<ItemStack, BlockPos> pair = p_229976_0_.get(j);
+			ItemStack itemstack = pair.getFirst();
+			if (ItemEntity.func_226532_a_(itemstack, p_229976_1_)) {
+				ItemStack itemstack1 = ItemEntity.func_226533_a_(itemstack, p_229976_1_, 16);
+				p_229976_0_.set(j, Pair.of(itemstack1, pair.getSecond()));
+				if (p_229976_1_.isEmpty()) {
+					return;
+				}
+			}
+		}
+
+		p_229976_0_.add(Pair.of(p_229976_1_, p_229976_2_));
 	}
 
 	@Override

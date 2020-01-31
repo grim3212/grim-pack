@@ -3,12 +3,9 @@ package com.grim3212.mc.pack;
 import java.io.File;
 
 import com.grim3212.mc.pack.core.GrimCore;
-import com.grim3212.mc.pack.core.config.CoreConfig;
 import com.grim3212.mc.pack.core.part.GrimItemGroups;
 import com.grim3212.mc.pack.core.part.PartRegistry;
 import com.grim3212.mc.pack.core.util.GrimLog.LogTimer;
-import com.grim3212.mc.pack.cuisine.GrimCuisine;
-import com.grim3212.mc.pack.decor.GrimDecor;
 
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
@@ -33,10 +30,10 @@ public class GrimPack {
 		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::serverSetup);
 
 		PartRegistry.registerPart(GrimCore.INSTANCE);
-		if (CoreConfig.useCuisine.get())
-			PartRegistry.registerPart(GrimCuisine.INSTANCE);
-		if (CoreConfig.useDecor.get())
-			PartRegistry.registerPart(GrimDecor.INSTANCE);
+		// if (CoreConfig.useCuisine.get())
+		// PartRegistry.registerPart(GrimCuisine.INSTANCE);
+		// if (CoreConfig.useDecor.get())
+		// PartRegistry.registerPart(GrimDecor.INSTANCE);
 		/*
 		 * if (CoreConfig.useIndustry) PartRegistry.registerPart(GrimIndustry.INSTANCE);
 		 * if (CoreConfig.useTools) PartRegistry.registerPart(GrimTools.INSTANCE); if

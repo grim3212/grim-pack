@@ -3,6 +3,7 @@ package com.grim3212.mc.pack.core.util.generator.renderers;
 import javax.annotation.Nullable;
 
 import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.MainWindow;
 import net.minecraft.client.Minecraft;
@@ -31,22 +32,22 @@ public class RendererHelper {
 		Tessellator tessellator = Tessellator.getInstance();
 		BufferBuilder bufferbuilder = tessellator.getBuffer();
 		bufferbuilder.begin(7, DefaultVertexFormats.POSITION_TEX);
-		bufferbuilder.pos((double) (x + 0), (double) (y + height), zLevel).tex((double) ((float) (textureX + 0) * f), (double) ((float) (textureY + height) * f)).endVertex();
-		bufferbuilder.pos((double) (x + width), (double) (y + height), zLevel).tex((double) ((float) (textureX + width) * f), (double) ((float) (textureY + height) * f)).endVertex();
-		bufferbuilder.pos((double) (x + width), (double) (y + 0), zLevel).tex((double) ((float) (textureX + width) * f), (double) ((float) (textureY + 0) * f)).endVertex();
-		bufferbuilder.pos((double) (x + 0), (double) (y + 0), zLevel).tex((double) ((float) (textureX + 0) * f), (double) ((float) (textureY + 0) * f)).endVertex();
+		bufferbuilder.pos((double) (x + 0), (double) (y + height), zLevel).tex(((float) (textureX + 0) * f), ((float) (textureY + height) * f)).endVertex();
+		bufferbuilder.pos((double) (x + width), (double) (y + height), zLevel).tex(((float) (textureX + width) * f), ((float) (textureY + height) * f)).endVertex();
+		bufferbuilder.pos((double) (x + width), (double) (y + 0), zLevel).tex(((float) (textureX + width) * f), ((float) (textureY + 0) * f)).endVertex();
+		bufferbuilder.pos((double) (x + 0), (double) (y + 0), zLevel).tex(((float) (textureX + 0) * f), ((float) (textureY + 0) * f)).endVertex();
 		tessellator.draw();
 	}
 
 	public static void resizeWindow(int width, int height, boolean force) {
 		Minecraft mc = Minecraft.getInstance();
 
-		if (force || mc.mainWindow.getWidth() != width || mc.mainWindow.getHeight() != height) {
+		if (force || mc.getMainWindow().getWidth() != width || mc.getMainWindow().getHeight() != height) {
 			try {
-				mc.mainWindow.toggleFullscreen();
-				ObfuscationReflectionHelper.setPrivateValue(MainWindow.class, mc.mainWindow, width, "tempDisplayWidth");
-				ObfuscationReflectionHelper.setPrivateValue(MainWindow.class, mc.mainWindow, height, "tempDisplayHeight");
-				mc.mainWindow.toggleFullscreen();
+				mc.getMainWindow().toggleFullscreen();
+				ObfuscationReflectionHelper.setPrivateValue(MainWindow.class, mc.getMainWindow(), width, "tempDisplayWidth");
+				ObfuscationReflectionHelper.setPrivateValue(MainWindow.class, mc.getMainWindow(), height, "tempDisplayHeight");
+				mc.getMainWindow().toggleFullscreen();
 			} catch (Exception e) {
 				System.err.println(e);
 			}
@@ -56,39 +57,39 @@ public class RendererHelper {
 	public static void renderItemModel(ItemStack stack, int x, int y, IBakedModel bakedmodel, boolean blend) {
 		Minecraft mc = Minecraft.getInstance();
 
-		GlStateManager.pushMatrix();
+		RenderSystem.pushMatrix();
 		mc.getTextureManager().bindTexture(AtlasTexture.LOCATION_BLOCKS_TEXTURE);
-		mc.getTextureManager().getTexture(AtlasTexture.LOCATION_BLOCKS_TEXTURE).setBlurMipmap(false, false);
-		GlStateManager.enableRescaleNormal();
-		GlStateManager.enableAlphaTest();
-		GlStateManager.alphaFunc(516, 0.1F);
+		mc.getTextureManager().getTexture(AtlasTexture.LOCATION_BLOCKS_TEXTURE).setBlurMipmapDirect(false, false);
+		RenderSystem.enableRescaleNormal();
+		RenderSystem.enableAlphaTest();
+		RenderSystem.alphaFunc(516, 0.1F);
 		if (blend || stack.hasEffect())
-			GlStateManager.enableBlend();
+			RenderSystem.enableBlend();
 		else
-			GlStateManager.disableBlend();
-		GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
-		GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
+			RenderSystem.disableBlend();
+		RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
+		RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
 		setupGuiTransform(x, y, bakedmodel.isGui3d(), mc.getItemRenderer().zLevel);
-		bakedmodel = ForgeHooksClient.handleCameraTransforms(bakedmodel, ItemCameraTransforms.TransformType.GUI, false);
-		mc.getItemRenderer().renderItem(stack, bakedmodel);
-		GlStateManager.disableAlphaTest();
-		GlStateManager.disableRescaleNormal();
-		GlStateManager.disableLighting();
-		GlStateManager.popMatrix();
+		//bakedmodel = ForgeHooksClient.handleCameraTransforms(bakedmodel, ItemCameraTransforms.TransformType.GUI, false);
+		//mc.getItemRenderer().renderItem(stack, bakedmodel);
+		RenderSystem.disableAlphaTest();
+		RenderSystem.disableRescaleNormal();
+		RenderSystem.disableLighting();
+		RenderSystem.popMatrix();
 		mc.getTextureManager().bindTexture(AtlasTexture.LOCATION_BLOCKS_TEXTURE);
 		mc.getTextureManager().getTexture(AtlasTexture.LOCATION_BLOCKS_TEXTURE).restoreLastBlurMipmap();
 	}
 
 	private static void setupGuiTransform(int xPosition, int yPosition, boolean isGui3d, float zLevel) {
-		GlStateManager.translatef((float) xPosition, (float) yPosition, 100.0F + zLevel);
-		GlStateManager.translatef(8.0F, 8.0F, 0.0F);
-		GlStateManager.scalef(1.0F, -1.0F, 1.0F);
-		GlStateManager.scalef(16.0F, 16.0F, 16.0F);
+		RenderSystem.translatef((float) xPosition, (float) yPosition, 100.0F + zLevel);
+		RenderSystem.translatef(8.0F, 8.0F, 0.0F);
+		RenderSystem.scalef(1.0F, -1.0F, 1.0F);
+		RenderSystem.scalef(16.0F, 16.0F, 16.0F);
 
 		if (isGui3d) {
-			GlStateManager.enableLighting();
+			RenderSystem.enableLighting();
 		} else {
-			GlStateManager.disableLighting();
+			RenderSystem.disableLighting();
 		}
 	}
 

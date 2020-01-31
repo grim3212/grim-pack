@@ -1,10 +1,6 @@
 package com.grim3212.mc.pack.core.part;
 
-import com.grim3212.mc.pack.core.config.CoreConfig;
 import com.grim3212.mc.pack.core.init.CoreInit;
-import com.grim3212.mc.pack.cuisine.item.CuisineItems;
-import com.grim3212.mc.pack.decor.block.DecorBlocks;
-import com.grim3212.mc.pack.industry.block.IndustryBlocks;
 
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
@@ -36,7 +32,7 @@ public class GrimItemGroups {
 			}
 		};
 
-		if (CoreConfig.useCuisine.get())
+		/*if (CoreConfig.useCuisine.get())
 			GRIM_CUISINE = new ItemGroup("cuisine") {
 
 				@Override
@@ -83,8 +79,6 @@ public class GrimItemGroups {
 					return new ItemStack(IndustryBlocks.togglerack);
 				}
 			};
-
-		/*
 		 * 
 		 * if (CoreConfig.useTools) GRIM_TOOLS = new
 		 * CreativeTabs(CreativeTabs.getNextID(), "tools") {
