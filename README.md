@@ -44,5 +44,5 @@ This can be a fixed bug or even new features.
 In the case of new features a brief description of what you added should do would be nice.
 
 ## Versioning
-For the most part I am using the versioning conventions found at [http://mcforge.readthedocs.io/en/latest/conventions/versioning/](http://mcforge.readthedocs.io/en/latest/conventions/versioning/).
+For the most part I am using the versioning conventions found at [https://docs.minecraftforge.net/en/1.12.x/conventions/versioning/](https://docs.minecraftforge.net/en/1.12.x/conventions/versioning/).
 But instead of resetting all lesser values to 0 I will only do that when updating to a new version. Or, using that page, when incrementing MAJORMOD.
