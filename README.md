@@ -1,6 +1,7 @@
-[![](http://cf.way2muchnoise.eu/full_grim-pack_downloads.svg)](http://minecraft.curseforge.com/projects/grim-pack) [![](http://cf.way2muchnoise.eu/versions/Minecraft_grim-pack_all.svg)](http://minecraft.curseforge.com/projects/grim-pack)
-#[Grim Pack](http://minecraft.curseforge.com/projects/grim-pack)
+# [Grim Pack](http://curseforge.com/minecraft/mc-mods/grim-pack)
 ### Master is at Minecraft 1.12.2
+
+Get Assorted mods (the new Grim Pack) here: [https://assortedmods.com/](https://assortedmods.com/) <- also supports newer Minecraft versions
 
 This is the combined mods previously known as Grims Mods.
 
