@@ -1,6 +1,7 @@
-[![](http://cf.way2muchnoise.eu/full_grim-pack_downloads.svg)](http://minecraft.curseforge.com/projects/grim-pack) [![](http://cf.way2muchnoise.eu/versions/Minecraft_grim-pack_all.svg)](http://minecraft.curseforge.com/projects/grim-pack)
-#[Grim Pack](http://minecraft.curseforge.com/projects/grim-pack)
+# [Grim Pack](http://curseforge.com/minecraft/mc-mods/grim-pack)
 ### Master is at Minecraft 1.12.2
+
+Get Assorted mods (the new Grim Pack) here: [https://assortedmods.com/](https://assortedmods.com/) <- also supports newer Minecraft versions
 
 This is the combined mods previously known as Grims Mods.
 
@@ -43,5 +44,5 @@ This can be a fixed bug or even new features.
 In the case of new features a brief description of what you added should do would be nice.
 
 ## Versioning
-For the most part I am using the versioning conventions found at [http://mcforge.readthedocs.io/en/latest/conventions/versioning/](http://mcforge.readthedocs.io/en/latest/conventions/versioning/).
+For the most part I am using the versioning conventions found at [https://docs.minecraftforge.net/en/1.12.x/conventions/versioning/](https://docs.minecraftforge.net/en/1.12.x/conventions/versioning/).
 But instead of resetting all lesser values to 0 I will only do that when updating to a new version. Or, using that page, when incrementing MAJORMOD.
