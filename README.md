@@ -1,7 +1,15 @@
 # [Grim Pack](http://curseforge.com/minecraft/mc-mods/grim-pack)
-### Master is at Minecraft 1.12.2
+### Grim Pack is No Longer Maintained!
 
-Get Assorted mods (the new Grim Pack) here: [https://assortedmods.com/](https://assortedmods.com/) <- also supports newer Minecraft versions
+---
+
+For parts of Grim Pack on newer Minecraft versions look in the _**AssortedMods**_ [https://assortedmods.com/](https://assortedmods.com/).
+
+Assorted Mods are broken up into different similar pieces that GrimPack had and should be more modernized and better maintained then GrimPack ever was.
+
+The latest versions of Assorted Mods also support both **Forge** and **Fabric**.
+
+---
 
 This is the combined mods previously known as Grims Mods.
 
